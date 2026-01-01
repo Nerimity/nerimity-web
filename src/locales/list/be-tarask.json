@@ -301,7 +301,7 @@
                 "permissions": "Дазволы",
                 "permissionsDescription": "Кіраваньне дазволамі гэтага канала.",
                 "deleteThisChannel": "Выдаліць гэты канал",
-                "deleteThisChannelDescription": "Гэтае дзеяньне нельга адрабіць!",
+                "deleteThisChannelDescription": "Гэта нельга адрабіць!",
                 "deleteChannelButton": "Выдаліць канал",
                 "removeNoticeButton": "Выдаліць папярэджаньне"
             },
@@ -1107,6 +1107,8 @@
             "banner": "Банар",
             "supportedFileTypes": "Падтрымліваюцца: {{extensions}}, макс. {{size}}",
             "browse": "Абраць"
-        }
+        },
+        "undoButton": "Адрабіць",
+        "cannotBeUndone": "Гэта нельга адрабіць!"
     }
 }

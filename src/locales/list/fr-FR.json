@@ -30,7 +30,7 @@
         "password": "Mot de passe",
         "login": "Connexion",
         "createAccountInstead": "Créez un compte",
-        "loggingIn": "Connexion en cours...",
+        "loggingIn": "Connexion en cours…",
         "loginButton": "Se connecter"
     },
     "registerPage": {
@@ -40,7 +40,7 @@
         "password": "Mot de passe",
         "confirmPassword": "Confirmer le mot de passe",
         "registerButton": "S'inscrire",
-        "registering": "Inscription en cours...",
+        "registering": "Inscription en cours…",
         "loginInstead": "Se connecter",
         "header": "Enregistrer",
         "agreement": "En créant votre compte, vous acceptez les Conditions et la Politique de Confientialité.",
@@ -133,7 +133,7 @@
                 "verify": "Vérifier",
                 "role": "Rôle",
                 "channel": "Salon",
-                "emojis": "Émojis",
+                "emojis": "Émoji",
                 "notifications": "Notifications",
                 "audit-logs": "Journaux d'audit",
                 "welcome-screen": "Écran de bienvenue",
@@ -164,7 +164,7 @@
             },
             "role": {
                 "saveChangesButton": "Enregistrer les modifications",
-                "saving": "Enregistrement...",
+                "saving": "Enregistrement…",
                 "roleName": "Nom du rôle",
                 "roleColor": "Couleur du rôle",
                 "hideRole": "Masquer le rôle",
@@ -183,7 +183,7 @@
                 "createNewDescription": "Créer un nouveau salon ou catégorie"
             },
             "channel": {
-                "saving": "Enregistrement...",
+                "saving": "Enregistrement…",
                 "saveChangesButton": "Enregistrer les modifications",
                 "channelName": "Nom du salon",
                 "permissions": "Autorisations",
@@ -481,7 +481,7 @@
                 "title": "Connexions tierces",
                 "connectionCount": "{{count}} connexion(s)",
                 "unauthorizeButton": "Annuler l'autorisation",
-                "unauthorizing": "Désautorisation..."
+                "unauthorizing": "Désautorisation…"
             },
             "googleDescription": "Lier votre compte Google vous permettra de télécharger des fichiers dans Nerimity. Ces fichiers seront stockés sur votre Google Drive.",
             "linkButton": "Lien",
@@ -585,7 +585,7 @@
     "kickServerMemberModal": {
         "title": "Exclure {{username}}",
         "kickButton": "Exclure",
-        "kicking": "Exclusion...",
+        "kicking": "Exclusion…",
         "backButton": "Retour",
         "message": "Êtes-vous sûr de vouloir exclure <1>{{username}}</1>?"
     },
@@ -597,7 +597,7 @@
         "message": "Êtes-vous sûr de vouloir bannir <1>{{username}}</1>?",
         "deletePastMessagesCheckbox": "Supprimer les messages envoyés au cours des 7 dernières heures.",
         "banButton": "Bannir",
-        "banning": "Bannissement...",
+        "banning": "Bannissement…",
         "reasonLabel": "Raison (facultatif)",
         "reasonPlaceholder": "Entrez une raison…"
     },
@@ -644,7 +644,16 @@
         "blocked": "Vous avez été bloqué",
         "blockedDescription": "Cet utilisateur vous a bloqué.",
         "privateList": "Vous seul pouvez voir cette liste.",
-        "followsYou": "Vous suit"
+        "followsYou": "Vous suit",
+        "followerCount": "{{count}} abonnés",
+        "followingCount": "{{count}} abonnement",
+        "fullProfile": "Profil complet",
+        "latestPost": "Publication la plus récente",
+        "personal": {
+            "editProfile": "Modifier le profil",
+            "presence": "Présence",
+            "customStatus": "Statut personnalisé"
+        }
     },
     "posts": {
         "deletePostModal": {
@@ -656,8 +665,8 @@
         "someoneLikedYourPost": "<1>{{username}}</1> a aimé votre publication!",
         "someoneFollowedYou": "<1>{{username}}</1> vous suit!",
         "someoneRepliedToPost": "<1>{{username}}</1> a répondu à votre publication!",
-        "createAPostInputPlaceholder": "Créer une publication...",
-        "replyInputPlaceholder": "Répondre...",
+        "createAPostInputPlaceholder": "Créer une publication…",
+        "replyInputPlaceholder": "Répondre…",
         "replyButton": "Répondre",
         "createButton": "Créer",
         "someoneRepostedYourPost": "<1>{{username}}</1> a republié votre message !",
@@ -734,7 +743,7 @@
     },
     "messageArea": {
         "channelNotice": {
-            "title": "Avant d'envoyer un message...",
+            "title": "Avant d'envoyer un message…",
             "understoodButton": "compris"
         },
         "messageBoxPlaceholder": "Message {{username}}",
@@ -785,10 +794,10 @@
         "passwordsDoNotMatch": "la confirmation du mot de passe ne correspond pas.",
         "passwordTooLong": "le mot de passe doit comporter moins de 72 caractères.",
         "resetPasswordButton": "réinitialiser mot de passe",
-        "resetting": "réinitialisation...",
+        "resetting": "réinitialisation…",
         "email": "e-mail",
         "sendEmailButton": "envoyer e-mail",
-        "sending": "envoi de l'e-mail..."
+        "sending": "envoi de l'e-mail…"
     },
     "updateModal": {
         "title": "Mise à Jour Disponible",
@@ -854,7 +863,7 @@
     "addFriendModal": {
         "title": "Ajouter Un Ami",
         "sendRequest": "Envoyer Une Demande",
-        "sending": "En Cours...",
+        "sending": "Envoie…",
         "closeButton": "Fermer",
         "requestSent": "Demande envoyée!",
         "description": "Saisissez le nom d'utilisateur et le nom d'utilisateur de votre ami pour l'ajouter.",
@@ -935,7 +944,7 @@
     },
     "createServerModal": {
         "createServerButton": "Créer Un Serveur",
-        "creating": "Création en cours...",
+        "creating": "Création en cours…",
         "tabLabel": "Créer",
         "title": "Créer un serveur",
         "notice": "Le contenu NSFW n'est pas autorisé.",
@@ -955,10 +964,10 @@
     "invite": {
         "member": "membre",
         "members": "membres",
-        "loading": "Chargement de l'invitation...",
+        "loading": "Chargement de l'invitation…",
         "invalid": "Code d'invitation invalide",
         "joinButton": "Rejoindre",
-        "joiningButton": "en train de rejoindre...",
+        "joiningButton": "en train de rejoindre…",
         "visitButton": "Visiter"
     },
     "fileEmbed": {
@@ -973,7 +982,7 @@
         "placeholder": "Nom du dossier",
         "cancelButton": "Ne sauvegardez pas",
         "save": "sauvegarder",
-        "saving": "Sauvegarde...",
+        "saving": "Sauvegarde…",
         "errors": {
             "emptyName": "Veuillez entrer un nom de dossier."
         }
@@ -1028,7 +1037,7 @@
         "admin": "Administrateur"
     },
     "googleAccountLink": {
-        "linking": "Association de votre compte à Google...",
+        "linking": "Association de votre compte à Google…",
         "success": "Compte lié ! Vous pouvez maintenant fermer cette fenêtre."
     },
     "videoEmbed": {
@@ -1073,6 +1082,33 @@
     "removeFriendModal": {
         "title": "Supprimer {{username}} de mes amis",
         "body": "Êtes-vous sûr de vouloir supprimer cet utilisateur de vos amis ?",
-        "removing": "Suppression..."
+        "removing": "Suppression…"
+    },
+    "general": {
+        "nothingSelected": "Rien de sélectionné",
+        "selectItem": "Sélectionner un article",
+        "searchPlaceholder": "Rechercher",
+        "backButton": "Retour",
+        "cancelButton": "Annuler",
+        "deleteButton": "Supprimer",
+        "cannotBeUndone": "C'est irréversible !",
+        "confirmButton": "Confirmer",
+        "doneButton": "Fait",
+        "saveButton": "Sauvegarder",
+        "saveChangesButton": "Enregistrer les modifications",
+        "saving": "Sauvegarde…",
+        "copyLink": "Copier le lien",
+        "copyID": "Copier l'ID",
+        "accountData": {
+            "email": "Email",
+            "username": "Nom d'utilisateur",
+            "password": "Mot de passe"
+        },
+        "avatarAndBanner": {
+            "avatar": "Avatar",
+            "banner": "Bannière",
+            "supportedFileTypes": "Prise en charge : {{extensions}}, Taille maximale : {{size}}",
+            "browse": "Parcourir"
+        }
     }
 }

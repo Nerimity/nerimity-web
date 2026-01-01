@@ -677,7 +677,12 @@
         "followerCount": "{{count}} подписчиков",
         "followingCount": "{{count}} подписок",
         "fullProfile": "Полный профиль",
-        "latestPost": "Последний пост"
+        "latestPost": "Последний пост",
+        "personal": {
+            "editProfile": "Редактировать профиль",
+            "presence": "Статус",
+            "customStatus": "Пользовательский статус"
+        }
     },
     "posts": {
         "deletePostModal": {
@@ -1072,6 +1077,33 @@
         "credit": {
             "avatarBorder": "Рамка аватара {{author}} на {{platform}}",
             "avatarBorderEdited": "Рамка аватара {{author}} на {{platform}}, отредактировано {{editor}}"
+        }
+    },
+    "general": {
+        "nothingSelected": "Ничего не выбрано",
+        "selectItem": "Выбор",
+        "searchPlaceholder": "Поиск",
+        "backButton": "Назад",
+        "cancelButton": "Отмена",
+        "deleteButton": "Удалить",
+        "cannotBeUndone": "Это действие необратимо!",
+        "confirmButton": "Подтвердить",
+        "doneButton": "Готово",
+        "saveButton": "Сохранить",
+        "saveChangesButton": "Сохранить изменения",
+        "saving": "Сохранение…",
+        "copyLink": "Скопировать ссылку",
+        "copyID": "Скопировать ID",
+        "accountData": {
+            "email": "Электронный адрес",
+            "username": "Имя пользователя",
+            "password": "Пароль"
+        },
+        "avatarAndBanner": {
+            "avatar": "Аватар",
+            "banner": "Баннер",
+            "supportedFileTypes": "Поддерживаются: {{extensions}}, макс. {{size}}",
+            "browse": "Выбрать"
         }
     }
 }

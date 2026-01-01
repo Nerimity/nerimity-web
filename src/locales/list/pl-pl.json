@@ -172,7 +172,13 @@
                 "permissions": "Uprawnienia",
                 "permissionsDescription": "Zarządzaj uprawnieniami dla tej roli.",
                 "deleteRoleButton": "Usuń tę rolę",
-                "deleteRoleButtonDescription": "Ta akcja jest nieodwracalna!"
+                "deleteRoleButtonDescription": "Ta akcja jest nieodwracalna!",
+                "clear": "Wyczyść",
+                "roleIcon": "Ikona Roli",
+                "managedByBot": "Ta rola jest zarządzana przez {{botName}}. Nie można jej usunąć lub nadać jej członkom. Wyrzuć tego bota, by usunąć tą rolę.",
+                "applyOnJoin": "Nadaj po Dołączeniu",
+                "applyOnJoinDescription": "Nadaje tę rolę członkom, gdy dołączą do serwera.",
+                "deleteRoleTitle": "Usuń {{roleName}}"
             },
             "header": {
                 "editServer": "Edytuj Serwer",
@@ -1089,7 +1095,7 @@
     },
     "general": {
         "nothingSelected": "Nic nie wybrano",
-        "selectItem": "Wybierz Przedmiot",
+        "selectItem": "Wybierz Element",
         "searchPlaceholder": "Wyszukaj",
         "backButton": "Wstecz",
         "cancelButton": "Anuluj",
@@ -1111,6 +1117,8 @@
             "banner": "Baner",
             "supportedFileTypes": "Wspierane: {{extensions}}, maks. {{size}}",
             "browse": "Przeglądaj"
-        }
+        },
+        "cannotBeUndone": "Tego działania nie można cofnąć!",
+        "undoButton": "Cofnij"
     }
 }

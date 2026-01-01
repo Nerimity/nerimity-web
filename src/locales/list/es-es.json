@@ -284,7 +284,13 @@
                 "permissions": "Permisos",
                 "permissionsDescription": "Gestiona los permisos de este rol.",
                 "deleteRoleButton": "Eliminar este rol",
-                "deleteRoleButtonDescription": "¡Esta acción no se puede deshacer!"
+                "deleteRoleButtonDescription": "¡Esta acción no se puede deshacer!",
+                "clear": "Limpiar",
+                "roleIcon": "Icono del rol",
+                "managedByBot": "Este rol esta controlado por {{botName}}. No puedes eliminar o añadir miembros a este rol. Expulsa a este bot para quitar este rol.",
+                "applyOnJoin": "Aplicar al unirse",
+                "applyOnJoinDescription": "Aplica este rol a cualquier miembro cuando se una al servidor.",
+                "deleteRoleTitle": "Eliminar {{roleName}}"
             },
             "header": {
                 "editServer": "Editar servidor",
@@ -479,8 +485,8 @@
             "deletionNotice": "Nos entristece verte marchar :( Si algo no te gustó, por favor, háznoslo saber en el servidor oficial de Nerimity.",
             "deletedInfo": {
                 "title": "Que se eliminara",
-                "email": "Correo",
-                "username": "Usuario",
+                "email": "• Correo",
+                "username": "• Usuario",
                 "ip": "Dirección IP",
                 "bio": "Biografía",
                 "messages": "Tus mensajes",
@@ -793,7 +799,7 @@
         "blockedDescription": "Este usuario te ha bloqueado.",
         "privateList": "Solo tú puedes ver esta lista.",
         "followerCount": "{{count}} Seguidores",
-        "followingCount": "{{Count}} siguiendo",
+        "followingCount": "{{count}} siguiendo",
         "fullProfile": "Ver perfil completo",
         "latestPost": "Última publicación",
         "personal": {
@@ -1082,5 +1088,33 @@
         "title": "Eliminar a {{username}} de tu lista de amigos",
         "body": "¿Estás seguro de que quieres desagregar a este usuario?",
         "removing": "Desagregando…"
+    },
+    "general": {
+        "nothingSelected": "Nada seleccionado",
+        "selectItem": "Seleccionar elemento",
+        "searchPlaceholder": "Buscar",
+        "backButton": "Atrás",
+        "cancelButton": "Cancelar",
+        "deleteButton": "Eliminar",
+        "cannotBeUndone": "¡Esto no se puede deshacer!",
+        "confirmButton": "Confirmar",
+        "doneButton": "Hecho",
+        "saveButton": "Guardar",
+        "saveChangesButton": "Guardar cambios",
+        "saving": "Guardando…",
+        "copyLink": "Copiar enlace",
+        "copyID": "Copiar ID",
+        "accountData": {
+            "email": "Correo",
+            "username": "Usuario",
+            "password": "Contraseña"
+        },
+        "avatarAndBanner": {
+            "avatar": "Avatar",
+            "banner": "Banner",
+            "supportedFileTypes": "Compatible: {{extensions}}, Max {{size}}",
+            "browse": "Navegar"
+        },
+        "undoButton": "Deshacer"
     }
 }
