@@ -172,7 +172,13 @@
                 "permissions": "Autorisations",
                 "permissionsDescription": "Gérer les autorisations pour ce rôle.",
                 "deleteRoleButton": "Supprimer ce rôle",
-                "deleteRoleButtonDescription": "C'est irréversible!"
+                "deleteRoleButtonDescription": "C'est irréversible!",
+                "clear": "Effacer",
+                "roleIcon": "Icône de rôle",
+                "managedByBot": "Ce rôle est géré par {{botName}}. Vous ne pouvez ni ajouter ni supprimer de membres à ce rôle. Pour le supprimer, expulsez ce bot.",
+                "applyOnJoin": "Postuler lors de l'adhésion",
+                "applyOnJoinDescription": "Attribuez ce rôle aux membres lorsqu'ils rejoignent le serveur.",
+                "deleteRoleTitle": "Supprimer {{roleName}}"
             },
             "header": {
                 "editServer": "Modifier le serveur",
@@ -1109,6 +1115,7 @@
             "banner": "Bannière",
             "supportedFileTypes": "Prise en charge : {{extensions}}, Taille maximale : {{size}}",
             "browse": "Parcourir"
-        }
+        },
+        "undoButton": "Défaire"
     }
 }
