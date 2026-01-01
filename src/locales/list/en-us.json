@@ -30,7 +30,7 @@
     "connections": {
       "thirdParty": {
         "unauthorizeButton": "Unauthorize",
-        "unauthorizing": "Un-authorizing…"
+        "unauthorizing": "Unauthorizing…"
       }
     },
     "interface": {
