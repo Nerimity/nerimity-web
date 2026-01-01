@@ -64,7 +64,7 @@ export function ThemesBlock() {
   return (
     <SettingsBlock
       icon="style"
-      label={t("settings.interface.themes")}
+      label={t("explore.drawer.themes")}
       description={t("settings.interface.themesDescription")}
       class={style.themeSettingsBlock}
     >
@@ -139,7 +139,7 @@ export function ThemesBlock() {
               "text-align": "center",
             }}
           >
-            {t("explore.drawer.themes")}
+            {t("explore.drawer.title")}
           </div>
           <div
             style={{
