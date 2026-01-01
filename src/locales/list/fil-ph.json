@@ -2,11 +2,27 @@
     "header": {
         "openAppButton": "Buksan ang aplikasyon",
         "loginButton": "Login",
-        "joinNowButton": "Magparehistro na!"
+        "joinNowButton": "Magparehistro na!",
+        "logoutButton": "Mag-log out"
     },
     "homePage": {
         "slogan": "Isang moderno at matikas na chat app.",
-        "viewGitHubButton": "Tingnan ang GitHub"
+        "viewGitHubButton": "Tingnan ang GitHub",
+        "subslogan": "Nag-aalok ang Nerimity ng isang eleganteng karanasan na puno ng mga tampok na nagpapaiba dito.",
+        "getStarted": "Magsimula",
+        "availableOn": "Available sa",
+        "browser": "Browser",
+        "featureList": {
+            "feature1": "Libreng animated na avatar at emojis",
+            "feature2": "Makinis na disenyo",
+            "feature3": "Palitan ang iyong tag nang libre",
+            "feature4": "Gumawa ng mga post sa iyong profile",
+            "feature5": "Gumawa ng iyong sariling komunidad",
+            "feature6": "Maghanap ng mga bagong komunidad",
+            "feature7": "Pinapatakbo mula sa mga donasyon",
+            "feature8": "Buong source code sa GitHub",
+            "feature9": "Ipakita ang iyong sarili gamit ang mga border"
+        }
     },
     "loginPage": {
         "title": "Mag-login upang magpatuloy",
@@ -14,7 +30,7 @@
         "password": "Password",
         "login": "Mag-login",
         "createAccountInstead": "Gumawa na lang ng account",
-        "loggingIn": "Nagla-log in...",
+        "loggingIn": "Nagla-log in…",
         "loginButton": "Mag-login"
     },
     "registerPage": {
@@ -24,8 +40,16 @@
         "password": "Password",
         "confirmPassword": "Kumpirmahin ang password",
         "registerButton": "Magparehistro",
-        "registering": "Nagpaparehistro...",
-        "loginInstead": "Mag-login na lang"
+        "registering": "Nagpaparehistro…",
+        "loginInstead": "Mag-login na lang",
+        "header": "Magrehistro",
+        "notices": {
+            "title": "Mga Paalala",
+            "toxic": "Huwag maging toxic.",
+            "nsfw": "Walang NSFW na nilalaman.",
+            "age": "Dapat ay 14 taong gulang o mas matanda ka."
+        },
+        "agreement": "Sa paggawa ng account, sumasang-ayon ka sa Mga Tuntunin at Kundisyon at sa Patakaran sa Privacy."
     },
     "inbox": {
         "drawer": {
@@ -248,5 +272,109 @@
         "replyInputPlaceholder": "Mag-reply...",
         "replyButton": "Mag-reply",
         "createButton": "Gumawa"
+    },
+    "general": {
+        "nothingSelected": "Walang napili",
+        "selectItem": "Piliin ang Item",
+        "searchPlaceholder": "Maghanap",
+        "backButton": "Bumalik",
+        "cancelButton": "Kanselahin",
+        "deleteButton": "Tanggalin",
+        "cannotBeUndone": "Hindi na ito maibabalik!",
+        "confirmButton": "Kumpirmahin",
+        "doneButton": "Tapos na",
+        "saveButton": "I-save",
+        "saveChangesButton": "I-save ang mga pagbabago",
+        "saving": "Ini-save…",
+        "copyLink": "Kopyahin ang Link",
+        "copyID": "Kopyahin ang ID",
+        "accountData": {
+            "email": "Email",
+            "username": "Username",
+            "password": "Password"
+        },
+        "avatarAndBanner": {
+            "avatar": "Abatar",
+            "banner": "Bandera",
+            "supportedFileTypes": "Sinusuportahan: {{extensions}}, Pinakamalaki: {{size}}",
+            "browse": "Mag-browse"
+        }
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<User/><2> ay idinagdag sa server.</2>",
+            "user": "<User/><2> ay sumali sa server.</2>"
+        },
+        "leaveServer": "<User/><2> ay umalis sa server.</2>",
+        "kickUser": "<User/><2> ay na-kick.</2>",
+        "banUser": "<User/><2> ay na-ban.</2>",
+        "callStarted": "<User/><2> ay nagsimula ng tawag.</2>",
+        "bumpServer": "<User/><2> ay nag-bump ng server.</2>",
+        "pinnedMessage": "<User/><2> ay nag-pin ng mensahe.</2>",
+        "unsupported": "<User/><2> Hindi suportadong mensahe.</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "Error sa Pag-authenticate",
+        "connecting": "Kumokonekta…",
+        "reconnecting": "Mulit-kokonekta…",
+        "inQueue": "Nasa Pila: {{count}} User(s) ang Nauuna Sa Iyo",
+        "authenticating": "Ina-authenticate…",
+        "connected": "Nakakonekta na!"
+    },
+    "dangerousLinkModal": {
+        "title": "Pasadyang Link",
+        "message": "Dadalahin ka ng link na ito sa",
+        "cancelButton": "Huwag Bisitahin",
+        "visitButton": "Bisitahin"
+    },
+    "connectionErrorModal": {
+        "title": "Error sa Koneksyon",
+        "ok": "OK",
+        "noToken": "Walang ibinigay na token.",
+        "suspended": "Ikaw ay na-suspend.",
+        "reason": "Dahilan",
+        "defaultReason": "Paglabag sa TOS",
+        "until": "Hanggang",
+        "never": "Hindi kailanman",
+        "by": "Sa pamamagitan ng",
+        "deletionNotice": "Ang iyong account at data ay tatanggalin sa loob ng 15 araw",
+        "ipBanned": "Ang iyong IP ay na-ban.",
+        "ipBanNotice": "Mayroong isang taong may parehong IP na na-suspend sa Nerimity. Ang iyong account ay hindi naapektuhan."
+    },
+    "resetPassword": {
+        "title": "I-reset ang Password",
+        "resetSuccessful": "Matagumpay na na-reset ang password.",
+        "passwordsDoNotMatch": "Hindi magkatugma ang kumpirmasyon ng password.",
+        "passwordTooLong": "Ang password ay dapat mas mababa sa 72 karakter.",
+        "resetPasswordButton": "I-reset ang Password",
+        "resetting": "Nire-reset…",
+        "email": "Email",
+        "sendEmailButton": "Magpadala ng Email",
+        "sending": "Pinapadala ang Email…"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "activeUsers": "Mga Aktibong User",
+        "noActiveUsers": "Walang Mga Aktibong User",
+        "servers": "Servers",
+        "posts": "Mga Post",
+        "feed": "Feed",
+        "discover": "Tuklasin",
+        "notifications": "Mga Abiso"
+    },
+    "status": {
+        "online": "Onlayn",
+        "ltp": "Naghahanap ng Kalaro",
+        "afk": "Wala sa Keyboard (AFK)",
+        "dnd": "Huwag Iistorbohin",
+        "offline": "Offline",
+        "appearAsOffline": "Magpanggap na Offline"
+    },
+    "sidePane": {
+        "home": "Home",
+        "homeShort": "Home",
+        "moderation": "Panel ng Moderasyon",
+        "moderationShort": "Mod",
+        "addServer": "Magdagdag ng Server"
     }
 }
