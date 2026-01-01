@@ -46,7 +46,6 @@ export default function InterfaceSettings() {
       <ThemesBlock />
       <TimeFormatSetting />
       <BlurEffect />
-      <AdvancedMarkup />
       <ChatBar />
       <CustomizeColors />
       <SettingsBlock
@@ -65,7 +64,7 @@ export function ThemesBlock() {
   return (
     <SettingsBlock
       icon="style"
-      label={t("settings.interface.themes")}
+      label={t("explore.drawer.themes")}
       description={t("settings.interface.themesDescription")}
       class={style.themeSettingsBlock}
     >
@@ -140,7 +139,7 @@ export function ThemesBlock() {
               "text-align": "center",
             }}
           >
-            {t("settings.account.browse")}
+            {t("explore.drawer.title")}
           </div>
           <div
             style={{
@@ -196,6 +195,10 @@ function TimeFormatSetting() {
 function ChatBar() {
   const { isMobileAgent } = useWindowProperties();
   const [chatBarOptions, setChatBarOptions] = useChatBarOptions();
+  const [enabled, setEnabled] = useLocalStorage(
+    StorageKeys.DISABLED_ADVANCED_MARKUP,
+    false
+  );
   const options = [
     {
       id: "vm",
@@ -259,6 +262,14 @@ function ChatBar() {
           </SettingsBlock>
         )}
       </For>
+      <SettingsBlock
+      icon="mobile_dots"
+      label={t("settings.interface.disableAdvancedMarkupBar")}
+      description={t("settings.interface.disableAdvancedMarkupBarDescription")}
+      borderTopRadius={false}
+    >
+      <Checkbox onChange={setEnabled} checked={enabled()} />
+    </SettingsBlock>
     </FlexColumn>
   );
 }
@@ -287,27 +298,11 @@ function BlurEffect() {
 
   return (
     <SettingsBlock
-      icon="dvr"
+      icon="blur_on"
       label={t("settings.interface.blurEffect")}
       description={t("settings.interface.blurEffectDescription")}
     >
       <Checkbox onChange={toggleBlurEffect} checked={blurEffectEnabled()} />
-    </SettingsBlock>
-  );
-}
-function AdvancedMarkup() {
-  const [enabled, setEnabled] = useLocalStorage(
-    StorageKeys.DISABLED_ADVANCED_MARKUP,
-    false
-  );
-
-  return (
-    <SettingsBlock
-      icon="dvr"
-      label={t("settings.interface.disableAdvancedMarkupBar")}
-      description={t("settings.interface.disableAdvancedMarkupBarDescription")}
-    >
-      <Checkbox onChange={setEnabled} checked={enabled()} />
     </SettingsBlock>
   );
 }
