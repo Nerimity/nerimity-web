@@ -5,6 +5,7 @@
     "searchPlaceholder": "Search",
     "backButton": "Back",
     "cancelButton": "Cancel",
+    "closeButton": "Close",
     "editButton": "Edit",
     "undoButton": "Undo",
     "deleteButton": "Delete",
@@ -483,12 +484,9 @@
     },
     "language": {
       "reloadNotice": "You must reload the app to fully apply the new language.",
-      "searchNotice": "Translations are maintained by the community. Please report any translations that are incorrect or inappropriate to Nerimity.",
       "reloadButton": "Reload",
-      "contributors": "Contributors",
-      "translateModal": {
-        "title": "Translate"
-      }
+      "searchNotice": "Translations are maintained by the community. Please report any translations that are incorrect or inappropriate to Nerimity.",
+      "contributors": "Contributors"
     },
     "header": {
       "servers": "servers",
@@ -596,9 +594,7 @@
       "mute": "Mute",
       "inAppPreviewModes": {
         "off": "Off",
-        "mentionsOnly": "Mentions Only",
-        "inheritFromPingSettings": "Inherit from Ping Settings",
-        "all": "All"
+        "inheritFromPingSettings": "Inherit from Ping Settings"
       }
     },
     "call": {
@@ -713,7 +709,6 @@
     "notice": "NSFW content is not allowed.",
     "serverName": "Server Name",
     "placeholder": "My Awesome Server",
-    "closeButton": "Close",
     "createServerButton": "Create Server",
     "creating": "Creating…",
     "tabLabel": "Create"
@@ -729,12 +724,14 @@
   },
   "serverContextMenu": {
     "markAsRead": "Mark as Read",
-    "invites": "Invites",
-    "notifications": "Notifications",
-    "settings": "Settings",
-    "copyId": "Copy ID",
     "leave": "Leave",
+    "channelSettings": "Channel Settings",
     "notificationOptions": {
+      "sections": {
+        "ping": "Ping",
+        "sound": "Sound"
+      },
+      "initial": "Initial",
       "everything": "Everything",
       "mentionsOnly": "Mentions Only",
       "mute": "Mute"
@@ -761,19 +758,30 @@
   "userContextMenu": {
     "viewProfile": "View Profile",
     "sendMessage": "Send Message",
-    "copyId": "Copy ID",
     "editRoles": "Edit Roles",
-    "kick": "Kick",
-    "ban": "Ban",
     "changeNickname": "Change Nickname",
     "transferOwnership": "Transfer Ownership",
     "callVolume": "Call Volume"
+  },
+  "nicknameChangeModal": {
+    "title": "Update Server Profile",
+    "description": "Everyone in this server will see your nickname.",
+    "placeholder": "Nickname"
+  },
+  "transferOwnershipModal": {
+    "title": "Transfer Ownership",
+    "description": "This will transfer ownership to a new owner.",
+    "ifVerified": "This server will be unverified.",
+    "server": "Server:",
+    "newOwner": "New Owner:",
+    "cancelButton": "Don't Transfer",
+    "transferButton": "Transfer",
+    "transferring": "Transferring…"
   },
   "kickServerMemberModal": {
     "title": "Kick {{username}}",
     "kickButton": "Kick",
     "kicking": "Kicking…",
-    "backButton": "Back",
     "message": "Are you sure you want to kick <1>{{username}}</1>?"
   },
   "editServerRolesModal": {
@@ -899,6 +907,7 @@
         "descending": "Descending"
       }
     },
+    "addChannel": "Add Channel",
     "inVoice": "In voice"
   },
   "inVoiceActions": {
@@ -909,9 +918,10 @@
     "files": "Files",
     "searchBarPlaceholder": "Search {{username}}",
     "searchBarChannelPlaceholder": "Search in {{channelName}}",
+    "sortLatest": "Latest",
+    "sortOldest": "Oldest",
     "channelNotice": "Channel Notice",
     "attachments": "Attachments",
-    "attachmentsBack": "Back",
     "members": "Members",
     "creator": "Creator",
     "admin": "Admin"

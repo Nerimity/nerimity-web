@@ -358,7 +358,7 @@ function CategoryItem(props: {
 
           <div class={styles.categoryButtons}>
             <Show when={hasModeratorPermission()}>
-              <Tooltip tooltip="Add Channel">
+              <Tooltip tooltip={t("channelDrawer.addChannel")}>
                 <Button
                   class={styles.addChannelButton}
                   padding={4}

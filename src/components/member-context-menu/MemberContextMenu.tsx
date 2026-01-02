@@ -72,13 +72,13 @@ export default function MemberContextMenu(props: Props) {
     };
     const separator = { separator: true };
     const kick = {
-      label: t("userContextMenu.kick"),
+      label: t("kickServerMemberModal.kickButton"),
       alert: true,
       icon: "exit_to_app",
       onClick: onKickClick,
     };
     const ban = {
-      label: t("userContextMenu.ban"),
+      label: t("banModal.banButton"),
       alert: true,
       icon: "block",
       onClick: onBanClick,
@@ -209,7 +209,7 @@ export default function MemberContextMenu(props: Props) {
             : []),
           {
             icon: "content_copy",
-            label: t("userContextMenu.copyId"),
+            label: t("general.copyID"),
             onClick: () => copyToClipboard(props.userId),
           },
         ]}
@@ -294,7 +294,7 @@ function KickModal(props: { member: ServerMember; close: () => void }) {
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button
-        label={t("kickServerMemberModal.backButton")}
+        label={t("general.backButton")}
         iconName="arrow_back"
         onClick={props.close}
       />
@@ -362,12 +362,12 @@ function ServerNicknameModal(props: {
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button
-        label={t("kickServerMemberModal.backButton")}
+        label={t("general.backButton")}
         iconName="arrow_back"
         onClick={props.close}
       />
       <Button
-        label={requestSent() ? "Saving..." : "Save Changes"}
+        label={requestSent() ? t("general.saving") : t("general.saveChangesButton")}
         iconName="save"
         primary
         onClick={onUpdate}
@@ -378,16 +378,16 @@ function ServerNicknameModal(props: {
   return (
     <LegacyModal
       close={props.close}
-      title={"Update Server Profile"}
+      title={t("nicknameChangeModal.title")}
       actionButtons={ActionButtons}
     >
       <div class={styles.kickModal} style={{ margin: "10px" }}>
         <Notice
           style={{ "margin-bottom": "10px" }}
           type="info"
-          description="Everyone in the server will see this nickname."
+          description={t("nicknameChangeModal.description")}
         />
-        <Input label="Nickname" value={nickname()} onText={setNickname} />
+        <Input label={t("nicknameChangeModal.placeholder")} value={nickname()} onText={setNickname} />
         <Show when={error()}>
           <Text color="var(--alert-color)">{error()}</Text>
         </Show>
@@ -427,23 +427,23 @@ function TransferOwnershipModal(props: {
 
   return (
     <Modal.Root close={props.close} doNotCloseOnBackgroundClick>
-      <Modal.Header title="Transfer Ownership" icon="next_week" alert />
+      <Modal.Header title={t("transferOwnershipModal.title")} icon="next_week" alert />
       <Modal.Body>
         <Notice
           style={{ "margin-bottom": "10px" }}
           type="caution"
           description={[
-            "This will transfer ownership to the new owner.",
-            ...(server()?.verified ? ["This server will be unverified."] : []),
+            t("transferOwnershipModal.description"),
+            ...(server()?.verified ? [t("transferOwnershipModal.ifVerified")] : []),
           ]}
         />
 
-        <div>Server:</div>
+        <div>{t("transferOwnershipModal.server")}</div>
         <TransferOwnershipOwnerBox server={server()} />
-        <div>New Owner:</div>
+        <div>{t("transferOwnershipModal.newOwner")}</div>
         <TransferOwnershipOwnerBox user={props.member.user()} />
         <Input
-          label="Confirm Password"
+          label={t("registerPage.confirmPassword")}
           type="password"
           value={password()}
           onText={setPassword}
@@ -455,12 +455,12 @@ function TransferOwnershipModal(props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={"Don't Transfer"}
+          label={t("transferOwnershipModal.cancelButton")}
           iconName="arrow_back"
           onClick={props.close}
         />
         <Modal.Button
-          label={requestSent() ? "Transferring..." : "Transfer"}
+          label={requestSent() ? t("transferOwnershipModal.transferring") : t("transferOwnershipModal.transferButton")}
           alert
           iconName="next_week"
           primary
@@ -511,7 +511,7 @@ function BanModal(props: {
 
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button label="Back" iconName="arrow_back" onClick={props.close} />
+      <Button label={t("general.backButton")} iconName="arrow_back" onClick={props.close} />
       <Button
         label={requestSent() ? t("banModal.banning") : t("banModal.banButton")}
         iconName="block"
@@ -587,7 +587,7 @@ export function ServerMemberRoleModal(props: Props & { close: () => void }) {
       maxWidth={350}
       class={styles.roleModal}
       close={props.close}
-      title="Edit Roles"
+      title={t("editServerRolesModal.title")}
     >
       <div class={styles.roleModalContainer}>
         <For each={rolesThatCanBeApplied()}>
