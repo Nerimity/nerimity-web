@@ -373,6 +373,13 @@
                 "hidden": "Excluído",
                 "friendsOnly": "Somente amigos",
                 "friendsAndServers": "Amigos e servidores"
+            },
+            "options": {
+                "anybody": "Todos",
+                "nobody": "Ninguém",
+                "friendsOnly": "Somente amigos",
+                "serversOnly": "Somente servidores",
+                "friendsAndServers": "Amigos e servidores"
             }
         },
         "header": {
@@ -499,8 +506,8 @@
             "volumeDescription": "Mudar o volume dos sons de notificação.",
             "changeSoundsDescription": "Mudar o som das notificações com estes sons isentos de compensação.",
             "soundsDescription": "Se os sons de notificação forem irritantes demais, você pode os desativá-los.",
-            "desktopNotifications": "Notificações externas",
-            "desktopNotificationsDescription": "Mostrar notificações externas mesmo se o aplicativo estiver minimizado.",
+            "desktopNotifications": "Notificações do sistema",
+            "desktopNotificationsDescription": "Mostrar notificações do sistema mesmo se o aplicativo estiver minimizado.",
             "sounds": "Sons",
             "message": "Mensagem",
             "mention": "Menção",
@@ -509,7 +516,7 @@
             "mute": "Silenciada",
             "testNotification": {
                 "title": "Funcionou!",
-                "body": "Notificações externas ativadas."
+                "body": "Notificações do sistema ativadas."
             }
         },
         "language": {
@@ -1113,6 +1120,7 @@
         "copyID": "Copiar ID",
         "copyLink": "Copiar link",
         "selectItem": "Selecionar item",
-        "undoButton": "Desfazer"
+        "undoButton": "Desfazer",
+        "editButton": "Editar"
     }
 }

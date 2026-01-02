@@ -284,7 +284,13 @@
                 "permissions": "Дазволы",
                 "permissionsDescription": "Кіраваньне дазволамі гэтае ролі.",
                 "deleteRoleButton": "Выдаліць гэту ролю",
-                "deleteRoleButtonDescription": "Гэта дзеяньне нельга адмяніць!"
+                "deleteRoleButtonDescription": "Гэта дзеяньне нельга адмяніць!",
+                "clear": "Скінуць",
+                "roleIcon": "Значок ролі",
+                "managedByBot": "Гэтая роля кіруецца {{botName}}. Вы ня можаце выдаліць яе альбо дадаць удзельнікаў. Каб прыбраць ролю, выганіце бота.",
+                "applyOnJoin": "Прымяняць пры далучэньні",
+                "applyOnJoinDescription": "Даваць гэтую ролю ўдзельнікам, калі яны толькі далучыліся да сэрвэра.",
+                "deleteRoleTitle": "Выдаліць {{roleName}}"
             },
             "header": {
                 "editServer": "Рэдагаваць сэрвэр",
@@ -517,11 +523,18 @@
                 "hideFollowersDescription": "Прыбраць людзей, якія падпісаныя на вас, з вашага профілю.",
                 "hideFollowing": "Прыбраць падпіскі",
                 "hideFollowingDescription": "Прыбраць карыстачоў, на якіх вы падпісаныя, з вашага профілю."
+            },
+            "options": {
+                "anybody": "Усе",
+                "friendsOnly": "Толькі сябры",
+                "serversOnly": "Толькі ўдзельнікі агульных са мной сэрвэраў",
+                "friendsAndServers": "Сябры й удзельнікі агульных са мной сэрвэраў",
+                "nobody": "Ніхто"
             }
         },
         "notifications": {
-            "desktopNotifications": "Абвесткі на працоўным стале",
-            "desktopNotificationsDescription": "Паказваць абвесткі на працоўным стале, нават калі аплікацыя згорнутая.",
+            "desktopNotifications": "Сыстэмныя абвесткі",
+            "desktopNotificationsDescription": "Паказваць абвесткі ў сыстэме, нават калі аплікацыя згорнутая.",
             "sounds": "Гукі",
             "soundsDescription": "Калі гукі абвестак надта вам дакучаюць, вы можаце йх адключыць.",
             "volume": "Гучнасьць",
@@ -544,7 +557,7 @@
             },
             "testNotification": {
                 "title": "Яно працуе!",
-                "body": "Абвесткі на працоўным стале ўключаныя."
+                "body": "Абвесткі ў сыстэме ўключаныя."
             }
         },
         "call": {
@@ -1109,6 +1122,7 @@
             "browse": "Абраць"
         },
         "undoButton": "Адрабіць",
-        "cannotBeUndone": "Гэта нельга адрабіць!"
+        "cannotBeUndone": "Гэта нельга адрабіць!",
+        "editButton": "Рэдагаваць"
     }
 }
