@@ -85,7 +85,7 @@ export default function ServerSettingsChannel() {
           title={server()?.name}
         />
         <BreadcrumbItem
-          href="../"
+          href={RouterEndpoints.SERVER_SETTINGS_CHANNELS(params.serverId)}
           title={t("servers.settings.drawer.channels")}
         />
         <BreadcrumbItem title={channel()?.name} />
