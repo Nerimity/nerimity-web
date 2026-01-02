@@ -158,9 +158,9 @@ export default function Pane() {
       <div class={style.pane}>
         <div class={style.actionBar}>
           <div class={style.searchContainer}>
-            <span class={style.filterLabel}>{t("explore.search")}</span>
+            <span class={style.filterLabel}>{t("general.searchPlaceholder")}</span>
             <Input
-              placeholder={t("explore.search")}
+              placeholder={t("general.searchPlaceholder")}
               class={style.search}
               onText={setSearch}
               value={search()}

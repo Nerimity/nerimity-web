@@ -230,7 +230,7 @@ const Header = (props: {
           props.selectedPage === "search" && selectedHeaderButtonStyle
         )}
         iconName="search"
-        label={t("explore.search")}
+        label={t("general.searchPlaceholder")}
         type="hover_border"
         onClick={() => props.onChange("search")}
         margin={0}
@@ -691,14 +691,14 @@ const SearchDrawer = () => {
           selected={order() === "desc"}
           handlePosition="bottom"
         >
-          <Item.Label>Latest</Item.Label>
+          <Item.Label>{t("informationDrawer.sortLatest")}</Item.Label>
         </Item.Root>
         <Item.Root
           onClick={() => setOrder("asc")}
           selected={order() === "asc"}
           handlePosition="bottom"
         >
-          <Item.Label>Oldest</Item.Label>
+          <Item.Label>{t("informationDrawer.sortOldest")}</Item.Label>
         </Item.Root>
       </FlexRow>
       <div class={styles.searchResults}>
