@@ -244,7 +244,7 @@ export default function ContextMenuServer(props: Props) {
         { separator: true },
         {
           icon: "mail",
-          label: t("serverContextMenu.invites"),
+          label: t("servers.settings.drawer.invites"),
           onClick: () =>
             navigate(RouterEndpoints.SERVER_SETTINGS_INVITES(props.serverId!)),
         },
@@ -256,7 +256,7 @@ export default function ContextMenuServer(props: Props) {
         },
         {
           icon: "notifications",
-          label: t("serverContextMenu.notifications"),
+          label: t("servers.settings.drawer.notifications"),
           sub: notificationItems(),
           onClick: () =>
             navigate(
@@ -267,7 +267,7 @@ export default function ContextMenuServer(props: Props) {
           ? [
               {
                 icon: "settings",
-                label: t("serverContextMenu.settings"),
+                label: t("settings.drawer.title"),
                 onClick: () =>
                   navigate(
                     RouterEndpoints.SERVER_SETTINGS_GENERAL(props.serverId!)
@@ -287,7 +287,7 @@ export default function ContextMenuServer(props: Props) {
           : {},
         {
           icon: "content_copy",
-          label: t("serverContextMenu.copyId"),
+          label: t("general.copyID"),
           onClick: () => copyToClipboard(props.serverId!),
         },
         { separator: true, show: !isServerCreator() },
