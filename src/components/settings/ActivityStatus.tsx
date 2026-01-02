@@ -173,7 +173,7 @@ export default function WindowSettings() {
           <CustomLink
             target="_blank"
             rel="noopener noreferrer"
-            href="https://addons.mozilla.org/en-GB/firefox/addon/nerimity-rpc"
+            href="https://addons.mozilla.org/firefox/addon/nerimity-rpc"
           >
             <Button
               margin={[10, 0, 0, 0]}
@@ -349,12 +349,12 @@ function ProgramOptions() {
                 <Button
                   iconName="delete"
                   onClick={() => removeProgram(item)}
-                  label={t("settings.activity.deleteButton")}
+                  label={t("general.deleteButton")}
                   color="var(--alert-color)"
                 />
                 <Button
                   iconName="edit"
-                  label={t("settings.activity.editButton")}
+                  label={t("general.editButton")}
                   onClick={() => showEditModal(i(), item)}
                 />
               </FlexRow>
@@ -440,13 +440,13 @@ const EditActivityStatusModal = (props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={t("settings.activity.activityStatusModal.backButton")}
+          label={t("general.backButton")}
           onClick={props.close}
           iconName="close"
           alert
         />
         <Modal.Button
-          label={t("settings.activity.activityStatusModal.saveButton")}
+          label={t("general.saveButton")}
           onClick={() => {
             props.onEdit(newValues());
             props.close();
@@ -534,7 +534,7 @@ const DiscordServerJoinedConfirmModal = (props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={t("settings.activity.serverModal.cancelButton")}
+          label={t("general.cancelButton")}
           alert
           onClick={props.close}
           iconName="close"
