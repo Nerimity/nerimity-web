@@ -195,6 +195,7 @@ function CustomInvite(props: { invites: any[]; onUpdate: () => void }) {
             <Button
               onClick={() => copyToClipboard(fullUrl())}
               iconName="content_copy"
+              style={{ "align-self": "stretch", "height": "auto" }}
             />
           </Show>
         </FlexRow>
