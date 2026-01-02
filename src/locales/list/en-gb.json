@@ -729,6 +729,10 @@
     "leave": "Leave",
     "channelSettings": "Channel Settings",
     "notificationOptions": {
+      "sections": {
+        "ping": "Ping",
+        "sound": "Sound"
+      },
       "initial": "Initial",
       "everything": "Everything",
       "mentionsOnly": "Mentions Only",

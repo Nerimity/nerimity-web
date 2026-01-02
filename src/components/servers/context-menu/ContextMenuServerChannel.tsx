@@ -89,7 +89,7 @@ export default function ContextMenuServerChannel (props: Props) {
   const notificationItems = () => {
     const items: ContextMenuItem[] = [];
     items.push(
-      {title: "Ping"},
+      {title: t("serverContextMenu.notificationOptions.sections.ping")},
       notificationItem({type: "PING", label: t("serverContextMenu.notificationOptions.initial"), value: null}),
       notificationItem({type: "PING", label: t("serverContextMenu.notificationOptions.everything"), value: ServerNotificationPingMode.ALL}),
       notificationItem({type: "PING", label: t("serverContextMenu.notificationOptions.mentionsOnly"), value: ServerNotificationPingMode.MENTIONS_ONLY}),      
@@ -98,7 +98,7 @@ export default function ContextMenuServerChannel (props: Props) {
 
     items.push(
         
-      {title: "Sound"},
+      {title: t("serverContextMenu.notificationOptions.sections.sound")},
       notificationItem({type: "SOUND", label: t("serverContextMenu.notificationOptions.initial"), value: null}),
       notificationItem({type: "SOUND", label: t("serverContextMenu.notificationOptions.everything"), value: ServerNotificationSoundMode.ALL}),
       notificationItem({type: "SOUND", label: t("serverContextMenu.notificationOptions.mentionsOnly"), value: ServerNotificationSoundMode.MENTIONS_ONLY}),      
