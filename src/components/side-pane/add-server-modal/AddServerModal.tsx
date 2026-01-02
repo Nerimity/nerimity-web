@@ -70,7 +70,7 @@ const CreateServerModal = (props: { close: () => void }) => {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={t("createServerModal.closeButton")}
+          label={t("general.closeButton")}
           alert
           iconName="close"
           onClick={props.close}
@@ -128,7 +128,7 @@ const JoinServerModal = (props: { close: () => void }) => {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={t("createServerModal.closeButton")}
+          label={t("general.closeButton")}
           alert
           iconName="close"
           onClick={props.close}
