@@ -135,6 +135,7 @@ function CustomInvite(props: { invites: any[]; onUpdate: () => void }) {
     setCustomCode(customInvite()?.code || "");
   });
 
+  const fullUrl = () => prefixUrl + customCode();
   const showCustomCodeSaveButton = () => {
     if (!customInvite() && !customCode().trim().length) return false;
     if (!customInvite() && customCode().trim().length) return true;
@@ -184,11 +185,20 @@ function CustomInvite(props: { invites: any[]; onUpdate: () => void }) {
         <Show when={!server()?.verified}>
           <div style={{ position: "absolute", inset: 0, "z-index": 1111 }} />
         </Show>
-        <Input
-          prefix={prefixUrl}
-          onText={(t) => setCustomCode(t)}
-          value={customCode()}
-        />
+        <FlexRow gap={8} style={{ "align-items": "center" }}>
+          <Input
+            prefix={prefixUrl}
+            onText={(t) => setCustomCode(t)}
+            value={customCode()}
+          />
+          <Show when={customInvite()}>
+            <Button
+              onClick={() => copyToClipboard(fullUrl())}
+              iconName="content_copy"
+              style={{ "align-self": "stretch", "height": "auto" }}
+            />
+          </Show>
+        </FlexRow>
       </SettingsBlock>
       <Show when={error()}>
         <Text
