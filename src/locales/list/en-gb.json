@@ -594,9 +594,7 @@
       "mute": "Mute",
       "inAppPreviewModes": {
         "off": "Off",
-        "mentionsOnly": "Mentions Only",
-        "inheritFromPingSettings": "Inherit from Ping Settings",
-        "all": "All"
+        "inheritFromPingSettings": "Inherit from Ping Settings"
       }
     },
     "call": {

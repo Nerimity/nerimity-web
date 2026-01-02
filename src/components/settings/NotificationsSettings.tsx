@@ -246,15 +246,13 @@ function InAppNotificationBlock() {
     { id: "OFF", label: t("settings.notifications.inAppPreviewModes.off") },
     {
       id: "MENTIONS_ONLY",
-      label: t("settings.notifications.inAppPreviewModes.mentionsOnly"),
+      label: t("serverContextMenu.notificationOptions.mentionsOnly"),
     },
     {
       id: "INHERIT",
-      label: t(
-        "settings.notifications.inAppPreviewModes.inheritFromPingSettings"
-      ),
+      label: t("settings.notifications.inAppPreviewModes.inheritFromPingSettings"),
     },
-    { id: "ALL", label: t("settings.notifications.inAppPreviewModes.all") },
+    { id: "ALL", label: t("serverContextMenu.notificationOptions.everything") },
   ];
 
   return (
