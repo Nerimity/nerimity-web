@@ -424,11 +424,18 @@
                 "hideFollowersDescription": "Ukryj swoich obserwujących z profilu.",
                 "hideFollowing": "Ukryj obserwowanych",
                 "hideFollowingDescription": "Ukrywa z profilu użytkowników, których Ty obserwujesz."
+            },
+            "options": {
+                "anybody": "Ktokolwiek",
+                "friendsOnly": "Tylko znajomi",
+                "serversOnly": "Tylko serwery",
+                "friendsAndServers": "Znajomi i serwery",
+                "nobody": "Nikt"
             }
         },
         "notifications": {
-            "desktopNotifications": "Powiadomienia na pulpicie",
-            "desktopNotificationsDescription": "Wyświetla powiadomienia na pulpicie, nawet kiedy aplikacja jest zminimalizowana.",
+            "desktopNotifications": "Powiadomienia Systemowe",
+            "desktopNotificationsDescription": "Wyświetla powiadomienia systemowe, nawet kiedy aplikacja jest zminimalizowana.",
             "sounds": "Dźwięki",
             "soundsDescription": "Jeśli dźwięki powiadomień są zbyt irytujące, można je wyłączyć.",
             "volume": "Głośność",
@@ -451,7 +458,7 @@
             "mute": "Wyciszone",
             "testNotification": {
                 "title": "To działa!",
-                "body": "Włączono powiadomienia na pulpicie."
+                "body": "Włączono powiadomienia systemowe."
             }
         },
         "call": {
@@ -1119,6 +1126,7 @@
             "browse": "Przeglądaj"
         },
         "cannotBeUndone": "Tego działania nie można cofnąć!",
-        "undoButton": "Cofnij"
+        "undoButton": "Cofnij",
+        "editButton": "Edytuj"
     }
 }
