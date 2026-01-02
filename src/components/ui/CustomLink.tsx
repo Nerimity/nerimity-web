@@ -29,6 +29,7 @@ const decoration = css`
 const POST_LINK_REGEX = /^https?:\/\/nerimity\.com\/p\/(\d+)$/i;
 const PROFILE_LINK_REGEX = /^https?:\/\/nerimity\.com\/app\/profile\/(\d+)$/i;
 const BOT_INVITE_REGEX = /nerimity\.com\/bot\/(\d+)(?:\?perms=(\d+))?/i;
+const MSG_LINKS = /^https?:\/\/nerimity\.com(\/app\/servers\/\d+\/\d+.*)$/i;
 
 export function CustomLink(props: CustomLinkProps) {
   const { createPortal } = useCustomPortal();
@@ -60,6 +61,14 @@ export function CustomLink(props: CustomLinkProps) {
       const appId = botMatch[1];
       const perms = botMatch[2] ? parseInt(botMatch[2]) : undefined;
       openInviteBotModal(createPortal, appId, perms);
+      return;
+    }
+
+    // Message Links
+    const serverMatch = href.match(MSG_LINKS);
+    if (serverMatch) {
+      e.preventDefault();
+      navigate(serverMatch[1]);
       return;
     }
 
