@@ -5,6 +5,7 @@
     "searchPlaceholder": "Search",
     "backButton": "Back",
     "cancelButton": "Cancel",
+    "editButton": "Edit",
     "undoButton": "Undo",
     "deleteButton": "Delete",
     "cannotBeUndone": "This cannot be undone!",
@@ -547,23 +548,21 @@
     "privacy": {
       "lastOnline": {
         "title": "Last Online Time",
-        "description": "Set who can see your last online time.",
-        "hidden": "Hidden",
-        "friendsOnly": "Friends only",
-        "friendsAndServers": "Friends and servers"
+        "description": "Set who can see your last online time."
       },
       "directMessage": {
         "title": "Direct Message",
-        "description": "Set who can send you direct messages.",
-        "anyone": "Anyone",
-        "friendsAndServersOnly": "Friends & Servers only",
-        "friendsOnly": "Friends only"
+        "description": "Set who can send you direct messages."
       },
       "friendRequest": {
         "title": "Friend Request",
-        "description": "Set who can send you friend requests.",
-        "anyone": "Anyone",
+        "description": "Set who can send you friend requests."
+      },
+      "options": {
+        "anybody": "Anybody",
+        "friendsOnly": "Friends only",
         "serversOnly": "Servers only",
+        "friendsAndServers": "Friends and servers",
         "nobody": "Nobody"
       },
       "profileOptions": {
