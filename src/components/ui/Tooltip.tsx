@@ -40,6 +40,7 @@ export const Tooltip = (props: {
   );
 
   const onMouseEnter = (e: MouseEvent) => {
+    if (!props.tooltip) return;
     if (props.disable) return;
     if (isMobileAgent()) return;
     const target = e.currentTarget as HTMLElement;
