@@ -30,7 +30,7 @@ export default function ServerSettingsBans() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("serverContextMenu.settings") + " - " + t("servers.settings.drawer.verify"),
+      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.verify"),
       serverId: params.serverId!,
       iconName: "settings",
     });

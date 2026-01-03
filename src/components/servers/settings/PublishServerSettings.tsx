@@ -50,7 +50,7 @@ export default function PublishServerSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("serverContextMenu.settings") + " - " + t("servers.settings.drawer.publishServer"),
+      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.publishServer"),
       serverId: params.serverId!,
       iconName: "settings",
     });
