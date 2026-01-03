@@ -448,7 +448,11 @@ const DesktopProfileFlyout = (props: {
                     iconSize={16}
                     color={colors().primary}
                     class={styles.button}
-                    label={isMe() ? t("inbox.drawer.notes") : t("profile.messageButton")}
+                    label={
+                      isMe()
+                        ? t("inbox.drawer.notes")
+                        : t("profile.messageButton")
+                    }
                     onClick={onMessageClicked}
                     iconName={isMe() ? "note_alt" : "mail"}
                     margin={0}
@@ -494,7 +498,7 @@ const DesktopProfileFlyout = (props: {
                 {(role) => (
                   <div class={styles.roleContainer}>
                     <Show when={role?.icon}>
-                      <Emoji size={16} resize={16} icon={role?.icon} hovered />
+                      <Emoji size={16} resize={26} icon={role?.icon} hovered />
                     </Show>
                     <Text
                       class={styles.roleName}
@@ -803,13 +807,22 @@ function SelfArea(props: { bg: string }) {
           label={t("settings.account.profile")}
           icon="person"
         />
-        <SelfAreaButton label={t("inbox.drawer.notes")} icon="note_alt" onClick={goToNotes} />
+        <SelfAreaButton
+          label={t("inbox.drawer.notes")}
+          icon="note_alt"
+          onClick={goToNotes}
+        />
         <SelfAreaButton
           label={t("profile.personal.editProfile")}
           icon="settings"
           onClick={navigateToEditProfile}
         />
-        <SelfAreaButton label={t("header.logoutButton")} icon="logout" alert onClick={logout} />
+        <SelfAreaButton
+          label={t("header.logoutButton")}
+          icon="logout"
+          alert
+          onClick={logout}
+        />
       </div>
     </>
   );

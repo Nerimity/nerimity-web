@@ -269,7 +269,7 @@ const Details = (props: DetailsProps) => {
             size={16}
             icon={role().icon}
             hovered={props.hovered}
-            resize={16}
+            resize={26}
           />
         )}
       </Show>

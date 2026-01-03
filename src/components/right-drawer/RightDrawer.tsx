@@ -594,7 +594,7 @@ function RoleItem(props: {
             <Emoji
               hovered={hovered()}
               size={16}
-              resize={16}
+              resize={26}
               icon={props.roleIcon}
             />
           </Show>{" "}
