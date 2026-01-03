@@ -137,7 +137,8 @@
                 "emojis": "Emoji",
                 "notifications": "Powiadomienia",
                 "audit-logs": "Dziennik Zdarzeń",
-                "external-embed": "Zewnętrzne Osadzenie"
+                "external-embed": "Zewnętrzne Osadzenie",
+                "permissions": "Uprawnienia"
             },
             "general": {
                 "serverRenameNotice": "Jeśli zmienisz nazwę serwera, stracisz jego weryfikację oraz wszystkie korzyści, które z niej płyną.",
@@ -197,7 +198,10 @@
                 "deleteThisChannel": "Usuń ten kanał",
                 "deleteThisChannelDescription": "Ta akcja jest nieodwracalna!",
                 "deleteChannelButton": "Usuń kanał",
-                "removeNoticeButton": "Usuń notkę"
+                "removeNoticeButton": "Usuń notkę",
+                "channelIcon": "Ikona Kanału",
+                "slowModeDescription": "Określ, jak długo użytkownik musi czekać, zanim będzie mógł wysłać wiadomość.",
+                "deleteChannelTitle": "Usuń {{channelName}}"
             },
             "invites": {
                 "createInviteButton": "Stwórz zaproszenie",
@@ -223,8 +227,8 @@
                 "bumpCooldown": "Musisz odczekać {{hours}} godzin(-y), {{minutes}} minut(-y) i {{seconds}} sekund(-y), aby podbić ten serwer."
             },
             "webhook": {
-                "title": "Ustawienia Webhooka",
-                "name": "Nazwa",
+                "title": "Webhooki",
+                "name": "Nazwa Webhooka",
                 "link": "URL Webhooka",
                 "linkDescription": "Wykonuj akcje z użyciem tego linka",
                 "delete": "Usuń Webhooka"
@@ -752,8 +756,14 @@
         "notificationOptions": {
             "everything": "Wszystkie",
             "mentionsOnly": "Tylko wzmianki",
-            "mute": "Wycisz"
-        }
+            "mute": "Wycisz",
+            "sections": {
+                "ping": "Ping",
+                "sound": "Dźwięk"
+            },
+            "initial": "Początkowe"
+        },
+        "channelSettings": "Ustawienia Kanału"
     },
     "informationDrawer": {
         "title": "Informacje",
@@ -766,7 +776,9 @@
         "info": "Informacje",
         "files": "Pliki",
         "searchBarPlaceholder": "Wyszukaj {{username}}",
-        "searchBarChannelPlaceholder": "Wyszukaj w {{channelName}}"
+        "searchBarChannelPlaceholder": "Wyszukaj w {{channelName}}",
+        "sortLatest": "Najnowsze",
+        "sortOldest": "Najstarsze"
     },
     "botInvite": {
         "serverSelect": "Wybierz serwer!",
@@ -1085,7 +1097,8 @@
                 "descending": "Malejąco"
             }
         },
-        "inVoice": "Rozmowa Głosowa"
+        "inVoice": "Rozmowa Głosowa",
+        "addChannel": "Dodaj Kanał"
     },
     "inVoiceActions": {
         "connectedFor": "Czas połączenia"
@@ -1129,5 +1142,20 @@
         "undoButton": "Cofnij",
         "editButton": "Edytuj",
         "closeButton": "Zamknij"
+    },
+    "nicknameChangeModal": {
+        "title": "Zaktualizuj Profil Serwerowy",
+        "description": "Wszyscy użytkownicy tego serwera będą widzieć Twój pseudonim.",
+        "placeholder": "Pseudonim"
+    },
+    "transferOwnershipModal": {
+        "title": "Przenieś Własność",
+        "description": "To działanie przeniesie własność serwera na inne konto.",
+        "ifVerified": "Po działaniu serwer straci weryfikację.",
+        "server": "Serwer:",
+        "newOwner": "Nowy Właściciel:",
+        "cancelButton": "Nie przenoś",
+        "transferButton": "Przenieś",
+        "transferring": "Trwa przenoszenie…"
     }
 }

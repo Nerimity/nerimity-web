@@ -229,7 +229,8 @@
                 "channel": "Canal",
                 "emojis": "Emoji",
                 "notifications": "Notificaciones",
-                "external-embed": "Incrustación externa"
+                "external-embed": "Incrustación externa",
+                "permissions": "Permisos"
             },
             "bans": {
                 "sort": {
@@ -245,8 +246,8 @@
                 "unbanning": "Unbaneando"
             },
             "webhook": {
-                "title": "Configuración de webhook",
-                "name": "Nombre",
+                "title": "Webhooks",
+                "name": "Nombre de Webhook",
                 "link": "Enlace de Webhook",
                 "linkDescription": "Ejecuta acciones usando este link",
                 "delete": "Elimina webhook"
@@ -309,7 +310,10 @@
                 "deleteThisChannel": "Eliminar este canal",
                 "deleteThisChannelDescription": "Esta acción no se puede deshacer!",
                 "deleteChannelButton": "Eliminar canal",
-                "removeNoticeButton": "Eliminar aviso"
+                "removeNoticeButton": "Eliminar aviso",
+                "channelIcon": "Icono del canal",
+                "slowModeDescription": "Especifica cuánto tiempo debe esperar el usuario antes de que pueda enviar un mensaje.",
+                "deleteChannelTitle": "Eliminar {{channelName}}"
             },
             "invites": {
                 "createInviteButton": "Crear invitación",
@@ -402,7 +406,8 @@
             "sendMessage": "Enviar mensajes",
             "sendMessageDescription": "Permite enviar mensajes en el canal. Los administradores del servidor aún pueden enviar mensajes.",
             "joinVoice": "Unirse a canal de voz",
-            "joinVoiceDescription": "Permite unirse a los canales de voz en este canal. Los administradores del servidor aún pueden unirse a los canales de voz."
+            "joinVoiceDescription": "Permite unirse a los canales de voz en este canal. Los administradores del servidor aún pueden unirse a los canales de voz.",
+            "hiddenChannel": "Canal oculto"
         }
     },
     "settings": {

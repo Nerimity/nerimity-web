@@ -147,7 +147,8 @@
                 "emojis": "Emoji",
                 "notifications": "Notificações",
                 "external-embed": "Integração externa",
-                "audit-logs": "Registros de Auditoria"
+                "audit-logs": "Registros de Auditoria",
+                "permissions": "Permissões"
             },
             "general": {
                 "serverRenameNotice": "Se você renomear seu servidor, você perderá todos os benefícios de verificação.",
@@ -207,7 +208,8 @@
                 "deleteThisChannel": "Excluir este canal",
                 "deleteThisChannelDescription": "Isso não pode ser desfeito!",
                 "deleteChannelButton": "Excluir canal",
-                "removeNoticeButton": "Remover nota"
+                "removeNoticeButton": "Remover nota",
+                "channelIcon": "Ícone do canal"
             },
             "invites": {
                 "createInviteButton": "Criar Convite",
@@ -233,8 +235,8 @@
                 "bumpCooldown": "Você deve esperar {{hours}} horas, {{minutes}} minutos, e {{seconds}} segundos para impulsionar este servidor."
             },
             "webhook": {
-                "title": "Configurações do gancho web",
-                "name": "Nome",
+                "title": "Ganchos web",
+                "name": "Nome do gancho web",
                 "link": "URL do gancho web",
                 "linkDescription": "Executar ações usando este link",
                 "delete": "Excluir gancho web"
@@ -706,7 +708,9 @@
         "info": "Informações",
         "files": "Arquivos",
         "searchBarPlaceholder": "Pesquisar {{username}}",
-        "searchBarChannelPlaceholder": "Pesquisar em {{channelName}}"
+        "searchBarChannelPlaceholder": "Pesquisar em {{channelName}}",
+        "sortLatest": "Mais recente",
+        "sortOldest": "Mais velho"
     },
     "resetPassword": {
         "title": "Redefinir senha",
@@ -815,14 +819,20 @@
         "notificationOptions": {
             "mute": "Silenciado",
             "mentionsOnly": "Somente menções",
-            "everything": "Tudo"
+            "everything": "Tudo",
+            "sections": {
+                "ping": "Mencionar",
+                "sound": "Som"
+            },
+            "initial": "Inicial"
         },
         "leave": "Sair",
         "copyId": "Copiar ID",
         "settings": "Configurações",
         "notifications": "Notificações",
         "invites": "Convites",
-        "markAsRead": "Marcar como lido"
+        "markAsRead": "Marcar como lido",
+        "channelSettings": "Configurações do canal"
     },
     "createServerModal": {
         "closeButton": "Fechar",
@@ -1079,7 +1089,8 @@
             "subtitle": "Complete estas perguntas:",
             "title": "Customizar"
         },
-        "inVoice": "Em chamada"
+        "inVoice": "Em chamada",
+        "addChannel": "Adicionar canal"
     },
     "inVoiceActions": {
         "connectedFor": "Conectado(a) por"
@@ -1121,6 +1132,18 @@
         "copyLink": "Copiar link",
         "selectItem": "Selecionar item",
         "undoButton": "Desfazer",
-        "editButton": "Editar"
+        "editButton": "Editar",
+        "closeButton": "Fechar"
+    },
+    "nicknameChangeModal": {
+        "placeholder": "Apelido"
+    },
+    "transferOwnershipModal": {
+        "server": "Servidor:",
+        "transferButton": "Transferir",
+        "transferring": "Transferindo…",
+        "title": "Transferir propriedade",
+        "newOwner": "Novo(a) dono(a):",
+        "cancelButton": "Não transferir"
     }
 }
