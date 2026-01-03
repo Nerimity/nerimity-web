@@ -406,7 +406,8 @@
             "sendMessage": "Enviar mensajes",
             "sendMessageDescription": "Permite enviar mensajes en el canal. Los administradores del servidor aún pueden enviar mensajes.",
             "joinVoice": "Unirse a canal de voz",
-            "joinVoiceDescription": "Permite unirse a los canales de voz en este canal. Los administradores del servidor aún pueden unirse a los canales de voz."
+            "joinVoiceDescription": "Permite unirse a los canales de voz en este canal. Los administradores del servidor aún pueden unirse a los canales de voz.",
+            "hiddenChannel": "Canal oculto"
         }
     },
     "settings": {
