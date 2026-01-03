@@ -452,6 +452,7 @@
       "confirmButton": "Leave"
     },
     "channelPermissions": {
+      "hiddenChannel": "Hidden Channel",
       "publicChannel": "Public Channel",
       "publicChannelDescription": "Enable access to the channel. Server admins can access any channel.",
       "sendMessage": "Send Message",
