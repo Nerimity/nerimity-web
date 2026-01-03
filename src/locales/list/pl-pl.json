@@ -1127,6 +1127,7 @@
         },
         "cannotBeUndone": "Tego działania nie można cofnąć!",
         "undoButton": "Cofnij",
-        "editButton": "Edytuj"
+        "editButton": "Edytuj",
+        "closeButton": "Zamknij"
     }
 }
