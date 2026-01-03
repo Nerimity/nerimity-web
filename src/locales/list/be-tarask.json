@@ -229,7 +229,8 @@
                 "channel": "Канал",
                 "emojis": "Эмодзі",
                 "notifications": "Абвесткі",
-                "external-embed": "Вонкавы эмбэд"
+                "external-embed": "Вонкавы эмбэд",
+                "permissions": "Дазволы"
             },
             "bans": {
                 "sort": {
@@ -245,8 +246,8 @@
                 "unbanning": "Разблякоўваем"
             },
             "webhook": {
-                "title": "Налады вэбхука",
-                "name": "Назва",
+                "title": "Вэбхукі",
+                "name": "Назва вэбхука",
                 "link": "URL-адрас вэбхука",
                 "linkDescription": "Выконваць дзеяньні праз гэтую спасылку",
                 "delete": "Выдаліць вэбхук"
@@ -309,7 +310,10 @@
                 "deleteThisChannel": "Выдаліць гэты канал",
                 "deleteThisChannelDescription": "Гэта нельга адрабіць!",
                 "deleteChannelButton": "Выдаліць канал",
-                "removeNoticeButton": "Выдаліць папярэджаньне"
+                "removeNoticeButton": "Выдаліць папярэджаньне",
+                "channelIcon": "Значок канала",
+                "slowModeDescription": "Укажыце, колькі павінны пачакаць карыстач перад тым, каб напісаць паведамленьне.",
+                "deleteChannelTitle": "Выдаліць {{channelName}}"
             },
             "invites": {
                 "createInviteButton": "Стварыць запрашэньне",
@@ -319,7 +323,8 @@
                 "customLink": "Карыстальніцкая спасылка",
                 "saveButton": "Захаваць",
                 "deleteButton": "Выдаліць",
-                "copyLinkButton": "Скапіяваць спасылку"
+                "copyLinkButton": "Скапіяваць спасылку",
+                "uses": "{{count}} выкарыстаньня(ў)"
             },
             "publishServer": {
                 "publishNotice": "Пасьля публікацыйі, сэрвэр зьявіцца ва ўкладцы <1>«Дасьледаваць»</1>.",
@@ -402,7 +407,8 @@
             "sendMessage": "Дасылаць паведамленьні",
             "sendMessageDescription": "Дазваляе дасылаць паведамленьні ў гэтым канале. Адміны могуць дасылаць паведамленьні незалежна ад гэтага дазволу.",
             "joinVoice": "Далучацца да выкліку",
-            "joinVoiceDescription": "Дазваляе далучацца да выклікаў у гэтым канале. Адміны могуць далучацца незалежна ад гэтага дазволу."
+            "joinVoiceDescription": "Дазваляе далучацца да выклікаў у гэтым канале. Адміны могуць далучацца незалежна ад гэтага дазволу.",
+            "hiddenChannel": "Схаваны канал"
         }
     },
     "settings": {
@@ -533,8 +539,8 @@
             }
         },
         "notifications": {
-            "desktopNotifications": "Сыстэмныя абвесткі",
-            "desktopNotificationsDescription": "Паказваць абвесткі ў сыстэме, нават калі аплікацыя згорнутая.",
+            "desktopNotifications": "Абвесткі на стальніцы",
+            "desktopNotificationsDescription": "Паказваць абвесткі на стальніцы, нават калі аплікацыя згорнутая.",
             "sounds": "Гукі",
             "soundsDescription": "Калі гукі абвестак надта вам дакучаюць, вы можаце йх адключыць.",
             "volume": "Гучнасьць",
@@ -557,7 +563,7 @@
             },
             "testNotification": {
                 "title": "Яно працуе!",
-                "body": "Абвесткі ў сыстэме ўключаныя."
+                "body": "Абвесткі на стальніцы ўключаныя."
             }
         },
         "call": {
@@ -710,8 +716,14 @@
         "notificationOptions": {
             "everything": "Усё",
             "mentionsOnly": "Толькі згадваньні",
-            "mute": "Заглушаныя"
-        }
+            "mute": "Заглушаныя",
+            "sections": {
+                "ping": "Пазнака",
+                "sound": "Гук"
+            },
+            "initial": "Узяць з наладаў сэрвэра"
+        },
+        "channelSettings": "Налады канала"
     },
     "messageView": {
         "noMessages": "Няма паведамленьняў",
@@ -844,7 +856,9 @@
         "info": "Зьвесткі",
         "files": "Файлы",
         "searchBarPlaceholder": "Шукаць {{username}}",
-        "searchBarChannelPlaceholder": "Шукаць у {{channelName}}"
+        "searchBarChannelPlaceholder": "Шукаць у {{channelName}}",
+        "sortLatest": "Апошнія",
+        "sortOldest": "Старэйшыя"
     },
     "botInvite": {
         "serverSelect": "Калі ласка, абярыце сэрвэр!",
@@ -1081,7 +1095,8 @@
                 "descending": "Па ўбываньні"
             }
         },
-        "inVoice": "У выкліку"
+        "inVoice": "У выкліку",
+        "addChannel": "Дадаць канал"
     },
     "inVoiceActions": {
         "connectedFor": "Выклік ідзе"
@@ -1123,6 +1138,22 @@
         },
         "undoButton": "Адрабіць",
         "cannotBeUndone": "Гэта нельга адрабіць!",
-        "editButton": "Рэдагаваць"
+        "editButton": "Рэдагаваць",
+        "closeButton": "Закрыць"
+    },
+    "nicknameChangeModal": {
+        "title": "Рэдагаваньне профілю сэрвэра",
+        "description": "Усе на гэтым сэрвэры пабачаць ваш псэўданім.",
+        "inputLabel": "Псэўданім"
+    },
+    "transferOwnershipModal": {
+        "title": "Перадаць уласнасьць",
+        "description": "Гэта перадасьць дазволы ўладара йншаму удзельніку.",
+        "ifVerified": "Сэрвэр страціць статус вэрыфікацыйі.",
+        "server": "Сэрвэр:",
+        "newOwner": "Новы ўладар:",
+        "cancelButton": "Не перадаваць",
+        "transferButton": "Перадаць",
+        "transferring": "Перадаем…"
     }
 }
