@@ -53,8 +53,12 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { FlexRow } from "../ui/Flexbox";
 import { Item } from "../ui/Item";
+import { VirtualList } from "../ui/VirtualList";
 
-const MemberItem = (props: { member: ServerMember }) => {
+const MemberItem = (props: {
+  member: ServerMember;
+  style: JSX.CSSProperties;
+}) => {
   const params = useParams<{ serverId: string }>();
   const user = () => props.member.user();
   let elementRef: undefined | HTMLDivElement;
@@ -101,6 +105,7 @@ const MemberItem = (props: { member: ServerMember }) => {
 
   return (
     <div
+      style={props.style}
       class="trigger-profile-flyout"
       onMouseEnter={() => {
         userDetailsPreloader.preload(user().id);
@@ -573,7 +578,7 @@ function RoleItem(props: {
   members: ServerMember[];
   roleIcon?: string;
 }) {
-  const [expanded, setExpanded] = createSignal(props.members.length <= 20);
+  const [expanded, setExpanded] = createSignal(true);
   const [hovered, setHovered] = createSignal(false);
 
   return (
@@ -606,9 +611,16 @@ function RoleItem(props: {
         />
       </div>
       <Show when={expanded()}>
-        <For each={props.members}>
-          {(member) => <MemberItem member={member!} />}
-        </For>
+        <VirtualList
+          scrollContainer={
+            document.querySelector("._rightPane_177w9_66 .go1493520435")!
+          }
+          items={props.members.map((m) => ({
+            id: m.userId,
+            height: 40,
+            element: (style) => <MemberItem member={m} style={style} />,
+          }))}
+        />
       </Show>
     </div>
   );
