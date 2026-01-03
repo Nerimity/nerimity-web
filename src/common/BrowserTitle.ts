@@ -4,7 +4,6 @@ let alert: boolean | null = null;
 let count = 0;
 
 export const updateTitleAlert = (newAlert: boolean, newCount?: number) => {
-  if (newAlert === alert && newCount === count) return;
   alert = newAlert;
   if (newCount !== undefined) count = newCount;
   update();
@@ -19,3 +18,8 @@ const update = () => {
   }
   electronWindowAPI()?.setNotification(alert || false, count);
 };
+
+
+window.addEventListener("focus", () => {
+  update();
+});
