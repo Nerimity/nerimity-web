@@ -523,6 +523,13 @@
                 "hideFollowersDescription": "Oculta a la gente que te sigue de tu perfil.",
                 "hideFollowing": "Ocultar seguidos",
                 "hideFollowingDescription": "Oculta a los usuarios que sigues de tu perfil."
+            },
+            "options": {
+                "anybody": "Cualquiera",
+                "friendsOnly": "Solo amigos",
+                "serversOnly": "Solo servidores",
+                "friendsAndServers": "Servidores y amigos",
+                "nobody": "Nadie"
             }
         },
         "notifications": {
@@ -703,8 +710,14 @@
         "notificationOptions": {
             "everything": "Todo",
             "mentionsOnly": "Solo menciones",
-            "mute": "Silenciar"
-        }
+            "mute": "Silenciar",
+            "sections": {
+                "ping": "Mención",
+                "sound": "Sonido"
+            },
+            "initial": "Inicial"
+        },
+        "channelSettings": "Ajustes del canal"
     },
     "messageView": {
         "noMessages": "Sin mensajes",
@@ -828,7 +841,7 @@
     },
     "informationDrawer": {
         "title": "Información",
-        "channelNotice": "Aviso",
+        "channelNotice": "Información",
         "attachments": "Archivos adjuntos",
         "attachmentsBack": "Atrás",
         "members": "Miembros",
@@ -837,7 +850,9 @@
         "info": "Información",
         "files": "Archivos",
         "searchBarPlaceholder": "Buscar {{username}}",
-        "searchBarChannelPlaceholder": "Buscar en {{channelName}}"
+        "searchBarChannelPlaceholder": "Buscar en {{channelName}}",
+        "sortLatest": "Más reciente",
+        "sortOldest": "Más antiguo"
     },
     "botInvite": {
         "serverSelect": "Por favor, selecciona un servidor!",
@@ -999,7 +1014,7 @@
         "afk": "Ausente",
         "dnd": "No molestar",
         "offline": "Fuera de línea",
-        "appearAsOffline": "Aparecer Fuera de línea"
+        "appearAsOffline": "Aparecer fuera de línea"
     },
     "connectionErrorModal": {
         "title": "Error de conexión",
@@ -1074,7 +1089,8 @@
                 "descending": "Descendiente"
             }
         },
-        "inVoice": "En voz"
+        "inVoice": "En voz",
+        "addChannel": "Añadir canal"
     },
     "inVoiceActions": {
         "connectedFor": "Conectado por"
@@ -1115,6 +1131,23 @@
             "supportedFileTypes": "Compatible: {{extensions}}, Max {{size}}",
             "browse": "Navegar"
         },
-        "undoButton": "Deshacer"
+        "undoButton": "Deshacer",
+        "editButton": "Editar",
+        "closeButton": "Cerrar"
+    },
+    "nicknameChangeModal": {
+        "title": "Editar perfil del servidor",
+        "description": "Todos en este servidor podrán ver tu apodo.",
+        "placeholder": "Apodo"
+    },
+    "transferOwnershipModal": {
+        "title": "Transferir titularidad",
+        "description": "Se transferirá la titularidad de este servidor a un nuevo propietario.",
+        "ifVerified": "Este servidor será desverificado.",
+        "server": "Servidor:",
+        "newOwner": "Nuevo propietario:",
+        "cancelButton": "No transferir",
+        "transferButton": "Transferir",
+        "transferring": "Transferiendo…"
     }
 }
