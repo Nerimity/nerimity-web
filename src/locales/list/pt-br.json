@@ -209,7 +209,9 @@
                 "deleteThisChannelDescription": "Isso não pode ser desfeito!",
                 "deleteChannelButton": "Excluir canal",
                 "removeNoticeButton": "Remover nota",
-                "channelIcon": "Ícone do canal"
+                "channelIcon": "Ícone do canal",
+                "deleteChannelTitle": "Excluir {{channelName}}",
+                "slowModeDescription": "Especifique quanto tempo um usuário deve esperar antes de poder enviar uma mensagem."
             },
             "invites": {
                 "createInviteButton": "Criar Convite",
@@ -313,7 +315,8 @@
             "joinVoice": "Entrar em canal de voz",
             "joinVoiceDescription": "Habilita entrar em canais de voz no canal. Administradores do servidor ainda podem entrar em canais de voz.",
             "publicChannel": "Canal público",
-            "publicChannelDescription": "Ativar acesso a este canal. Administradores do servidor podem acessar qualquer canal."
+            "publicChannelDescription": "Ativar acesso a este canal. Administradores do servidor podem acessar qualquer canal.",
+            "hiddenChannel": "Canal escondido"
         },
         "leaveModal": {
             "title": "Sair do servidor?",
@@ -1136,7 +1139,9 @@
         "closeButton": "Fechar"
     },
     "nicknameChangeModal": {
-        "placeholder": "Apelido"
+        "placeholder": "Apelido",
+        "title": "Atualizar perfil do servidor",
+        "description": "Todos neste servidor verão seu apelido."
     },
     "transferOwnershipModal": {
         "server": "Servidor:",
@@ -1144,6 +1149,8 @@
         "transferring": "Transferindo…",
         "title": "Transferir propriedade",
         "newOwner": "Novo(a) dono(a):",
-        "cancelButton": "Não transferir"
+        "cancelButton": "Não transferir",
+        "ifVerified": "Este servidor ficará não verificado.",
+        "description": "Isto irá transferir propriedade para um(a) novo(a) dono(a)."
     }
 }
