@@ -935,7 +935,7 @@ function CustomStatus() {
         />
         <Show when={changes()}>
           <Button
-            label={t("settings.account.saveButton")}
+            label={t("general.saveButton")}
             onClick={save}
             iconName="save"
             iconSize={16}
