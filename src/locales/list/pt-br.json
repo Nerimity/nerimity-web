@@ -221,7 +221,8 @@
                 "customLink": "Link personalizado",
                 "saveButton": "Salvar",
                 "deleteButton": "Excluir",
-                "copyLinkButton": "Copiar link"
+                "copyLinkButton": "Copiar link",
+                "uses": "{{count}} uso(s)"
             },
             "publishServer": {
                 "publishNotice": "Publicar seu servidor o tornará disponível na página de <1>exploração</1>.",
@@ -1028,7 +1029,8 @@
         "flaggedServer": {
             "description": "Este servidor não compre com nossos Termos de Serviço e será excluído em breve.",
             "deleteButton": "Excluir agora",
-            "leaveButton": "Sair do servidor"
+            "leaveButton": "Sair do servidor",
+            "title": "Exclusão agendada"
         },
         "noMessages": "Nenhuma mensagem",
         "newMessages": "Novas mensagens",
