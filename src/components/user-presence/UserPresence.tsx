@@ -21,6 +21,7 @@ const UserPresence = (props: {
   hideActivity?: boolean;
   hideAction?: boolean;
   useTitle?: boolean;
+  class?: string;
 }) => {
   const { users } = useStore();
   const user = () => users.get(props.userId);
@@ -112,7 +113,8 @@ const UserPresence = (props: {
       <div
         class={classNames(
           styles.userPresence,
-          conditionalClass(props.showFull, styles.full)
+          conditionalClass(props.showFull, styles.full),
+          props.class
         )}
       >
         <Show when={user()?.presence()?.status}>

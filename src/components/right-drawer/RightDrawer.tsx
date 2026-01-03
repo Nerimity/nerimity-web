@@ -143,6 +143,7 @@ const MemberItem = (props: {
             {props.member.nickname || user().username}
           </div>
           <UserPresence
+            class={styles.userPresence}
             tooltipAnchor="left"
             animate={hovering() || !!isProfileFlyoutOpened()}
             userId={user().id}
@@ -617,7 +618,7 @@ function RoleItem(props: {
           }
           items={props.members.map((m) => ({
             id: m.userId,
-            height: 40,
+            height: 50,
             element: (style) => <MemberItem member={m} style={style} />,
           }))}
         />
