@@ -576,7 +576,7 @@
             "noticeTitle": "Doações",
             "price": "Emblemas por {{price}}",
             "supportMethods": "Métodos de apoio",
-            "palestineDescription": "Pode ser obtida indo para {[account}} -> {{profile}}",
+            "palestineDescription": "Pode ser obtida indo para {{account}} -> {{profile}}",
             "notice": "Apoiar este projeto doando dinheiro."
         },
         "experiments": {
