@@ -115,7 +115,9 @@
             "unlockDescription": "I-click upang tuklasin ang lahat ng tema ng komunidad"
         },
         "sort": "I-sort",
-        "filter": "Salain"
+        "filter": "Salain",
+        "by": "Ayon sa",
+        "bumped": "Na-bump"
     },
     "servers": {
         "settings": {
@@ -130,8 +132,11 @@
                 "role": "Role",
                 "welcome-screen": "Welcome Screen",
                 "channel": "Channel",
-                "emojis": "Mga emojis",
-                "notifications": "Mga abiso"
+                "emojis": "Mga emoji",
+                "notifications": "Mga abiso",
+                "audit-logs": "Mga Tala ng Audit",
+                "permissions": "Mga Pahintulot",
+                "external-embed": "Panlabas na Embed"
             },
             "general": {
                 "serverRenameNotice": "Mawawala ang lahat ng mga benepisyo ng pagiging beripikado ng iyong server kapag iniba mo ang pangalan nito.",
@@ -144,7 +149,8 @@
                 "deleteThisServerDescription": "Hindi na ito maaaring bawiin!",
                 "deleteServerButton": "Burahin ang Server",
                 "saveChangesButton": "I-save ang mga pagbabago",
-                "saving": "Saving..."
+                "saving": "Saving...",
+                "none": "Wala"
             },
             "roles": {
                 "addNewRole": "Magdagdag ng bagong role",
@@ -160,7 +166,13 @@
                 "permissions": "Mga Pahintulot",
                 "permissionsDescription": "Pamahalaan ang mga pahintulot para sa tungkuling ito.",
                 "deleteRoleButton": "Tanggalin ang role na ito",
-                "deleteRoleButtonDescription": "Hindi na ito maaaring bawiin!"
+                "deleteRoleButtonDescription": "Hindi na ito maaaring bawiin!",
+                "clear": "I-clear",
+                "roleIcon": "Icon ng Role",
+                "managedByBot": "Ang role na ito ay pinamamahalaan ng {{botName}}. Hindi mo maaaring tanggalin o magdagdag ng miyembro sa role na ito. I-kick ang bot na ito upang alisin ang role na ito.",
+                "applyOnJoin": "I-apply sa Pag-join",
+                "applyOnJoinDescription": "I-apply ang role na ito sa mga miyembro kapag sumali sila sa server.",
+                "deleteRoleTitle": "Tanggalin ang {{roleName}}"
             },
             "header": {
                 "editServer": "I-edit ang server",
@@ -178,7 +190,11 @@
                 "permissionsDescription": "Baguhin ang mga pahintulot para sa channel na ito.",
                 "deleteThisChannel": "Burahin ang channel na ito",
                 "deleteThisChannelDescription": "Hindi na ito maaaring bawiin!",
-                "deleteChannelButton": "Burahin ang channel"
+                "deleteChannelButton": "Burahin ang channel",
+                "channelIcon": "Icon ng Channel",
+                "slowModeDescription": "Tukuyin kung gaano katagal dapat maghintay ang isang user bago makapagsend ng mensahe.",
+                "deleteChannelTitle": "Tanggalin ang {{channelName}}",
+                "removeNoticeButton": "Alisin ang Paalala"
             },
             "invites": {
                 "createInviteButton": "Gumawa ng invite",
@@ -197,7 +213,36 @@
                 "bumpServer": "I-bump ang server",
                 "bumpServerDescription": "I-bump ang server na ito upang mabalik ito sa itaas.",
                 "publishServerButton": "I-publush ang server",
-                "unpublishServerButton": "I-unpublish ang server"
+                "unpublishServerButton": "I-unpublish ang server",
+                "bumpButton": "Bump ({{count}})",
+                "descriptionLabel": "Deskripsyon ng Server ({{current}}/{{max}})",
+                "bumpCooldown": "Kailangang maghintay ng {{hours}} oras, {{minutes}} minuto, at {{seconds}} segundo bago i-bump ang server na ito."
+            },
+            "bans": {
+                "sort": {
+                    "title": "Ayusin Ayon sa",
+                    "unsorted": "Hindi Naayos"
+                },
+                "noResults": "Walang Natagpuang Resulta.",
+                "reason": "Dahilan",
+                "noReason": "Walang Ibinigay na Dahilan",
+                "bannedAt": "Na-ban noong",
+                "unknown": "Hindi Alam",
+                "unban": "I-unban",
+                "unbanning": "Ina-alis ang ban"
+            },
+            "webhook": {
+                "title": "Webhooks",
+                "name": "Pangalan ng Webhook",
+                "link": "URL ng Webhook",
+                "linkDescription": "Isagawa ang mga aksyon gamit ang link na ito",
+                "delete": "Tanggalin ang Webhook"
+            },
+            "verify": {
+                "alreadyVerified": "Ang iyong server ay beripikado na!",
+                "insufficientMembers": "Kailangan mo pa ng {{count}} na miyembro upang makapag-apply para sa beripikasyon.",
+                "verifiable": "Handa nang beripikahin",
+                "verifiableDescription": "May sapat ka nang miyembro upang beripikahin ang iyong server!"
             }
         },
         "rolePermissions": {
@@ -334,7 +379,9 @@
             "supportedFileTypes": "Sinusuportahan: {{extensions}}, Pinakamalaki: {{size}}",
             "browse": "Mag-browse"
         },
-        "undoButton": "I-undo"
+        "undoButton": "I-undo",
+        "closeButton": "Isara",
+        "editButton": "I-edit"
     },
     "systemMessages": {
         "joinServer": {
@@ -463,6 +510,13 @@
             "relative": "Relatibo",
             "offset": "Offset",
             "doneButton": "Tapos na"
+        }
+    },
+    "editFolderModal": {
+        "title": "I-edit ang Folder",
+        "placeholder": "Pangalan ng Folder",
+        "errors": {
+            "emptyName": "Pakilagay ang pangalan ng folder."
         }
     }
 }
