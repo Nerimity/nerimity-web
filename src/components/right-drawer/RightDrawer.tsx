@@ -37,6 +37,7 @@ import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { emitScrollToMessage } from "@/common/GlobalEvents";
 import { Skeleton } from "../ui/skeleton/Skeleton";
+import { useExperiment } from "@/common/experiments";
 
 const ProfileFlyout = lazy(() => import("../floating-profile/FloatingProfile"));
 import { Delay } from "@/common/Delay";
@@ -573,7 +574,17 @@ function RoleItem(props: {
   members: ServerMember[];
   roleIcon?: string;
 }) {
-  const [expanded, setExpanded] = createSignal(props.members.length <= 20);
+  const { experiment: alwaysExpand } = useExperiment(() => "ALWAYS_EXPAND_ROLES");
+  
+  const shouldAutoExpand = () => {
+    const isOfflineRole = props.roleName === t("status.offline");
+    if (alwaysExpand() && !isOfflineRole) {
+      return true;
+    }
+    return props.members.length <= 20;
+  };
+
+  const [expanded, setExpanded] = createSignal(shouldAutoExpand());
   const [hovered, setHovered] = createSignal(false);
 
   return (
