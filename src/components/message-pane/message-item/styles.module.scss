@@ -65,7 +65,7 @@
 }
 .username {
   overflow: hidden;
-  line-height: 1;
+  line-height: 1.2;
   background: var(--gradient, var(--color, var(--primary-color)));
   -webkit-background-clip: text;
   background-clip: text;
@@ -248,8 +248,7 @@
         overflow: hidden;
         flex-shrink: 0;
         max-width: 200px;
-        line-height: 1;
-        opacity: 0.6;
+        line-height: 1.2;
         background: var(--gradient, var(--color, var(--primary-color)));
         -webkit-background-clip: text;
         background-clip: text;
