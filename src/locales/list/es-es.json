@@ -817,7 +817,7 @@
         "blockedDescription": "Este usuario te ha bloqueado.",
         "privateList": "Solo tú puedes ver esta lista.",
         "followerCount": "{{count}} Seguidores",
-        "followingCount": "{{count}} siguiendo",
+        "followingCount": "{{count}} Siguiendo",
         "fullProfile": "Ver perfil completo",
         "latestPost": "Última publicación",
         "personal": {
