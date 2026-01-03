@@ -18,6 +18,11 @@ export const Experiments = [
   //   description:
   //     "Enable experimental OAuth2 settings for developer applications.",
   // },
+  {
+    id: "ALWAYS_EXPAND_ROLES",
+    name: "Disable Role Collapse",
+    description: " (May Reduce Performance) Prevents the member sidebar from collapsing roles If more than 20 members",
+  }
 ] as const;
 
 export type ExperimentIds = (typeof Experiments)[number]["id"];
