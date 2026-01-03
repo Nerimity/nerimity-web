@@ -211,7 +211,8 @@
                 "customLink": "Własny Link",
                 "saveButton": "Zapisz",
                 "deleteButton": "Usuń",
-                "copyLinkButton": "Skopiuj link"
+                "copyLinkButton": "Skopiuj link",
+                "uses": "{{count}} użyć"
             },
             "publishServer": {
                 "publishNotice": "Opublikowanie serwera sprawi, że będzie on widoczny w <1>wyszukiwarce serwerów</1>.",
@@ -306,7 +307,8 @@
             "joinVoice": "Dołącz do rozmowy głosowej",
             "joinVoiceDescription": "Umożliw dołączanie do kanałów głosowych na kanale. Administratorzy dalej będą mogli dołączać do kanałów głosowych.",
             "publicChannel": "Kanał publiczny",
-            "publicChannelDescription": "Umożliw dostęp do kanału. Administratorzy serwera mają dostęp do każdego kanału."
+            "publicChannelDescription": "Umożliw dostęp do kanału. Administratorzy serwera mają dostęp do każdego kanału.",
+            "hiddenChannel": "Ukryty Kanał"
         },
         "leaveModal": {
             "title": "Wyjść z serwera?",
@@ -1146,7 +1148,8 @@
     "nicknameChangeModal": {
         "title": "Zaktualizuj Profil Serwerowy",
         "description": "Wszyscy użytkownicy tego serwera będą widzieć Twój pseudonim.",
-        "placeholder": "Pseudonim"
+        "placeholder": "Pseudonim",
+        "inputLabel": "Pseudonim"
     },
     "transferOwnershipModal": {
         "title": "Przenieś Własność",
