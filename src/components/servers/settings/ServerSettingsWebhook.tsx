@@ -167,7 +167,7 @@ export default function ServerSettingsWebhook() {
         icon="link"
       >
         <Button
-          label={t("servers.settings.invites.copyLinkButton")}
+          label={t("general.copyLink")}
           iconName="content_copy"
           onClick={handleCopyUrl}
         />
@@ -182,8 +182,8 @@ export default function ServerSettingsWebhook() {
           onClick={handleSaveClick}
           label={
             requestSent()
-              ? t("servers.settings.general.saving")
-              : t("servers.settings.general.saveChangesButton")
+              ? t("general.saving")
+              : t("general.saveChangesButton")
           }
           iconName="save"
           primary
@@ -193,10 +193,10 @@ export default function ServerSettingsWebhook() {
       <SettingsBlock
         label={t("servers.settings.webhook.delete")}
         icon="delete"
-        description={t("servers.settings.general.deleteThisServerDescription")}
+        description={t("general.cannotBeUndone")}
       >
         <Button
-          label={t("servers.settings.invites.deleteButton")}
+          label={t("general.deleteButton")}
           onClick={handleDelete}
           primary
           alert
