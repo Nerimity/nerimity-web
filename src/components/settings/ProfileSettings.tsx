@@ -142,7 +142,7 @@ export function EditProfilePage(props: {
     })
   );
 
-  const requestStatus = () => (requestSent() ? t("settings.account.saving") : t("settings.account.saveChangesButton"));
+  const requestStatus = () => (requestSent() ? t("general.saving") : t("general.saveChangesButton"));
 
   const onSaveButtonClicked = async () => {
     if (requestSent()) return;
