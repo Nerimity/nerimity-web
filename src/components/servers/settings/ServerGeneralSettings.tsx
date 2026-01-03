@@ -100,7 +100,7 @@ export default function ServerGeneralSettings() {
   createEffect(() => {
     header.updateHeader({
       title:
-        t("serverContextMenu.settings") +
+        t("settings.drawer.title") +
         " - " +
         t("servers.settings.drawer.general"),
       serverId: params.serverId!,
