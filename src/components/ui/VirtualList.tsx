@@ -36,7 +36,7 @@ export const VirtualList = (props: VirtualListProps) => {
     const result = new Array(len);
     for (let i = 0; i < len; i++) {
       result[i] = current;
-      current += items[i].height;
+      current += items[i]!.height;
     }
     return result;
   });
@@ -85,7 +85,7 @@ export const VirtualList = (props: VirtualListProps) => {
     while (low <= high) {
       const mid = (low + high) >>> 1;
       const itemTop = _offsets[mid];
-      const itemHeight = items[mid].height;
+      const itemHeight = items[mid]!.height;
 
       if (itemTop + itemHeight <= relativeScrollTop) {
         low = mid + 1;
