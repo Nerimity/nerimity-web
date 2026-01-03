@@ -306,7 +306,7 @@ export default function ServerSettingsRole() {
       <div class={styles.permissions}>
         <SettingsBlock
           icon="security"
-          label={t("servers.settings.role.permissions")}
+          label={t("servers.settings.drawer.permissions")}
           description={t("servers.settings.role.permissionsDescription")}
           header={true}
         />

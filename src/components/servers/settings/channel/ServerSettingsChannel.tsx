@@ -130,7 +130,7 @@ function Tabs() {
   return (
     <div class={styles.tabs}>
       <TabItem
-        label="General"
+        label={t("servers.settings.drawer.general")}
         selected={params.tab !== "permissions"}
         icon="settings"
         href="../"
@@ -138,7 +138,7 @@ function Tabs() {
 
       <Show when={!isCategory()}>
         <TabItem
-          label="Permissions"
+          label={t("servers.settings.drawer.permissions")}
           selected={params.tab === "permissions"}
           icon="lock"
           href="./permissions"
@@ -214,7 +214,7 @@ function PermissionsTab() {
   createEffect(
     on(channel, () => {
       store.header.updateHeader({
-        title: "Settings - " + channel()?.name,
+        title: t("settings.drawer.title") + " - " + channel()?.name,
         serverId: params.serverId!,
         iconName: "settings",
       });
@@ -238,14 +238,14 @@ function PermissionsTab() {
 
   const saveRequestStatus = () =>
     saveRequestSent()
-      ? t("servers.settings.channel.saving")
-      : t("servers.settings.channel.saveChangesButton");
+      ? t("general.saving")
+      : t("general.saveChangesButton");
 
   return (
     <div class={styles.channelPane}>
       <SettingsBlock
         icon="security"
-        label={t("servers.settings.channel.permissions")}
+        label={t("servers.settings.drawer.permissions")}
         description={t("servers.settings.channel.permissionsDescription")}
         header={true}
         class={css`
@@ -318,7 +318,7 @@ function GeneralTab() {
   createEffect(
     on(channel, () => {
       header.updateHeader({
-        title: "Settings - " + channel()?.name,
+        title: t("settings.drawer.title") + " - " + channel()?.name,
         serverId: params.serverId!,
         iconName: "settings",
       });
@@ -337,8 +337,8 @@ function GeneralTab() {
 
   const saveRequestStatus = () =>
     saveRequestSent()
-      ? t("servers.settings.channel.saving")
-      : t("servers.settings.channel.saveChangesButton");
+      ? t("general.saving")
+      : t("general.saveChangesButton");
 
   const openChannelIconPicker = (event: MouseEvent) => {
     setEmojiPickerPosition({
@@ -372,7 +372,7 @@ function GeneralTab() {
         />
       </SettingsBlock>
       {/* Channel Icon */}
-      <SettingsBlock icon="face" label="Channel Icon">
+      <SettingsBlock icon="face" label={t("servers.settings.channel.channelIcon")}>
         <Show when={inputValues().icon}>
           <Button
             iconName="delete"
@@ -407,8 +407,8 @@ function GeneralTab() {
       <Show when={!isCategory()}>
         <SettingsBlock
           icon="speed"
-          label="Slow mode"
-          description="Specify how long a user must wait before they can send a message."
+          label={t("messageView.slowMode")}
+          description={t("servers.settings.channel.slowModeDescription")}
         >
           <Input
             class={styles.slowdownInput}
@@ -430,7 +430,7 @@ function GeneralTab() {
       <SettingsBlock
         icon="delete"
         label={t("servers.settings.channel.deleteThisChannel")}
-        description={t("servers.settings.channel.deleteThisChannelDescription")}
+        description={t("general.cannotBeUndone")}
       >
         <Button
           label={t("servers.settings.channel.deleteChannelButton")}
@@ -604,7 +604,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
             />
           </Show>
           <Show when={updatedInputValues().content}>
-            <Button label="Save" iconName="save" onClick={save} />
+            <Button label={t("general.saveButton")} iconName="save" onClick={save} />
           </Show>
         </div>
       </SettingsBlock>
@@ -639,7 +639,7 @@ function ChannelDeleteConfirmModal(props: {
 
   return (
     <DeleteConfirmModal
-      title={`Delete ${props.channel?.name}`}
+      title={t("servers.settings.channel.deleteChannelTitle", { channelName: `${props.channel?.name}`})}
       close={props.close}
       errorMessage={error()}
       confirmText={props.channel?.name}

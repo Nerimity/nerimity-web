@@ -294,6 +294,7 @@
         "role": "Role",
         "welcome-screen": "Welcome Screen",
         "channel": "Channel",
+        "permissions": "Permissions",
         "emojis": "Emoji",
         "notifications": "Notifications",
         "external-embed": "External Embed"
@@ -312,8 +313,8 @@
         "unbanning": "Unbanning"
       },
       "webhook": {
-        "title": "Webhook Settings",
-        "name": "Name",
+        "title": "Webhooks",
+        "name": "Webhook Name",
         "link": "Webhook URL",
         "linkDescription": "Execute actions using this link",
         "delete": "Delete Webhook"
@@ -343,7 +344,6 @@
         "hideRoleDescription": "Display members with this role along with all the default members",
         "applyOnJoin": "Apply on Join",
         "applyOnJoinDescription": "Apply this role to members when they join the server.",
-        "permissions": "Permissions",
         "permissionsDescription": "Manage permissions for this role.",
         "deleteRoleTitle": "Delete {{roleName}}",
         "deleteRoleButton": "Delete this role"
@@ -357,13 +357,12 @@
         "createNewDescription": "Create a new channel or category"
       },
       "channel": {
-        "saving": "Saving…",
-        "saveChangesButton": "Save Changes",
         "channelName": "Channel Name",
-        "permissions": "Permissions",
+        "channelIcon": "Channel Icon",
         "permissionsDescription": "Manage permissions for this channel.",
+        "slowModeDescription": "Specify how long a user must wait before they can send a message.",
         "deleteThisChannel": "Delete this channel",
-        "deleteThisChannelDescription": "This cannot be undone!",
+        "deleteChannelTitle": "Delete {{channelName}}",
         "deleteChannelButton": "Delete Channel",
         "removeNoticeButton": "Remove Notice"
       },
