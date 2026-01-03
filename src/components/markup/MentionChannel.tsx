@@ -8,7 +8,7 @@ import { t } from "@nerimity/i18lite";
 
 export function MentionChannel(props: {channel: Channel}) {
   const canView = () => 
-    props.channel && props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
+    props.channel && props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL);
 
   return (
     <Show 
