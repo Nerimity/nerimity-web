@@ -137,7 +137,8 @@
                 "notifications": "Notifications",
                 "audit-logs": "Journaux d'audit",
                 "welcome-screen": "Écran de bienvenue",
-                "external-embed": "Intégration externe"
+                "external-embed": "Intégration externe",
+                "permissions": "Autorisations"
             },
             "general": {
                 "serverRenameNotice": "Vous perdrez tous les avantages de faire vérifier votre serveur si vous le renommez.",
@@ -197,7 +198,10 @@
                 "deleteThisChannel": "Supprimer ce salon",
                 "deleteThisChannelDescription": "C'est irréversible!",
                 "deleteChannelButton": "Supprimer",
-                "removeNoticeButton": "Supprimer l'avis"
+                "removeNoticeButton": "Supprimer l'avis",
+                "channelIcon": "Icône de chaîne",
+                "slowModeDescription": "Indiquez la durée d'attente obligatoire avant de pouvoir envoyer un message.",
+                "deleteChannelTitle": "Supprimer {{channelName}}"
             },
             "invites": {
                 "createInviteButton": "Créer une Invitation",
@@ -235,8 +239,8 @@
                 "unbanning": "Annulation du bannissement"
             },
             "webhook": {
-                "name": "Nom",
-                "title": "Paramètres du webhook",
+                "name": "Nom du webhook",
+                "title": "webhooks",
                 "link": "URL du webhook",
                 "linkDescription": "Exécutez les actions en utilisant ce lien",
                 "delete": "Supprimer le webhook"
@@ -301,7 +305,8 @@
             "publicChannel": "Chaîne publique",
             "publicChannelDescription": "Autoriser l'accès au canal. Les administrateurs du serveur peuvent accéder à n'importe quel canal.",
             "joinVoice": "Rejoindre l'appel",
-            "joinVoiceDescription": "Activez la possibilité de rejoindre les salons vocaux dans le canal. Les administrateurs du serveur peuvent toujours rejoindre les salons vocaux."
+            "joinVoiceDescription": "Activez la possibilité de rejoindre les salons vocaux dans le canal. Les administrateurs du serveur peuvent toujours rejoindre les salons vocaux.",
+            "hiddenChannel": "Canal caché"
         },
         "leaveModal": {
             "title": "Quitter le serveur ?",
@@ -466,6 +471,13 @@
                 "hideFollowersDescription": "Masquez vos abonnés sur votre profil.",
                 "hideFollowing": "Masquer les abonnements",
                 "hideFollowingDescription": "Masquez les utilisateurs que vous suivez depuis votre profil."
+            },
+            "options": {
+                "anybody": "Personne",
+                "friendsOnly": "Amis seulement",
+                "serversOnly": "Serveurs uniquement",
+                "friendsAndServers": "Amis et serveurs",
+                "nobody": "Personne"
             }
         },
         "call": {
@@ -907,7 +919,8 @@
                 "descending": "Descendant"
             }
         },
-        "inVoice": "En appel vocal"
+        "inVoice": "En appel vocal",
+        "addChannel": "Ajouter une chaîne"
     },
     "message": {
         "twitterEmbed": {
@@ -1008,8 +1021,14 @@
         "notificationOptions": {
             "everything": "Tout",
             "mentionsOnly": "Mentions seulement",
-            "mute": "Muet"
-        }
+            "mute": "Muet",
+            "sections": {
+                "ping": "Ping",
+                "sound": "Son"
+            },
+            "initial": "Initial"
+        },
+        "channelSettings": "Paramètres des chaînes"
     },
     "mainPaneHeader": {
         "mentions": {
@@ -1040,7 +1059,9 @@
         "attachmentsBack": "Retour",
         "members": "Membres",
         "creator": "Créateur",
-        "admin": "Administrateur"
+        "admin": "Administrateur",
+        "sortLatest": "Dernier",
+        "sortOldest": "Le plus ancien"
     },
     "googleAccountLink": {
         "linking": "Association de votre compte à Google…",
@@ -1116,6 +1137,23 @@
             "supportedFileTypes": "Prise en charge : {{extensions}}, Taille maximale : {{size}}",
             "browse": "Parcourir"
         },
-        "undoButton": "Défaire"
+        "undoButton": "Défaire",
+        "closeButton": "Fermer",
+        "editButton": "Modifier"
+    },
+    "nicknameChangeModal": {
+        "title": "Mettre à jour le profil du serveur",
+        "description": "Tous les membres de ce serveur verront votre pseudo.",
+        "placeholder": "Surnom"
+    },
+    "transferOwnershipModal": {
+        "title": "Transférer la propriété",
+        "description": "Cela transférera la propriété à un nouveau propriétaire.",
+        "ifVerified": "Ce serveur ne sera pas vérifié.",
+        "server": "Serveur :",
+        "newOwner": "Nouveau propriétaire :",
+        "cancelButton": "Ne pas transférer",
+        "transferButton": "Transfert",
+        "transferring": "Transfert…"
     }
 }
