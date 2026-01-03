@@ -252,7 +252,7 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
             <Icon name="person" size={14} class={styles.icon} />
             {props.invite.createdBy.username}
             <Icon name="whatshot" size={14} class={styles.icon} />
-            {props.invite.uses} uses
+            {t("servers.settings.invites.uses", { count: props.invite.uses })}
             <Icon name="today" size={14} class={styles.icon} />
             {formatTimestamp(props.invite.createdAt)}
           </div>
