@@ -68,7 +68,7 @@ export default function ContextMenu(props: ContextMenuProps) {
     if (url || imageSrc) {
       if (!tempItems[0]?.separator) tempItems.unshift({ separator: true });
       tempItems.unshift({
-        label: t("servers.settings.invites.copyLinkButton"),
+        label: t("general.copyLink"),
         icon: "content_copy",
         onClick: () => {
           navigator.clipboard.writeText(imageSrc || url || "");
