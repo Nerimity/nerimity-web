@@ -143,7 +143,8 @@
                 "emojis": "Эмодзи",
                 "notifications": "Уведомления",
                 "audit-logs": "Журнал аудита",
-                "external-embed": "Внешний эмбед"
+                "external-embed": "Внешний эмбед",
+                "permissions": "Разрешения"
             },
             "general": {
                 "serverRenameNotice": "Вы потеряете все преимущества верификации сервера, если переименуете его.",
@@ -178,7 +179,13 @@
                 "permissions": "Права",
                 "permissionsDescription": "Управление правами доступа для этой роли.",
                 "deleteRoleButton": "Удалить эту роль",
-                "deleteRoleButtonDescription": "Это действие не может быть отменено!"
+                "deleteRoleButtonDescription": "Это действие не может быть отменено!",
+                "clear": "Очистить",
+                "roleIcon": "Иконка роли",
+                "managedByBot": "Эта роль управляется {{botName}}. Вы не можете удалить её или призначить её участникам. Выгоните бота, чтобы удалить роль.",
+                "applyOnJoin": "Применить при присоединении",
+                "applyOnJoinDescription": "Призначить роль участникам, как только они заходят на сервер.",
+                "deleteRoleTitle": "Удалить {{roleName}}"
             },
             "header": {
                 "editServer": "Редактировать сервер",
@@ -197,7 +204,10 @@
                 "deleteThisChannel": "Удалить этот канал",
                 "deleteThisChannelDescription": "Это действие не может быть отменено!",
                 "deleteChannelButton": "Удалить канал",
-                "removeNoticeButton": "Удалить примечание"
+                "removeNoticeButton": "Удалить примечание",
+                "channelIcon": "Иконка канала",
+                "slowModeDescription": "Укажите, сколько участник должен подождать, чтобы отправить сообщение.",
+                "deleteChannelTitle": "Удалить {{channelName}}"
             },
             "invites": {
                 "createInviteButton": "Создать приглашение",
@@ -207,7 +217,8 @@
                 "customLink": "Пользовательская ссылка",
                 "saveButton": "Сохранить",
                 "deleteButton": "Удалить",
-                "copyLinkButton": "Скопировать ссылку"
+                "copyLinkButton": "Скопировать ссылку",
+                "uses": "{{count}} использование(ий)"
             },
             "publishServer": {
                 "publishNotice": "Публикация вашего сервера сделает его доступным на странице <1>«Исследовать»</1>.",
@@ -235,8 +246,8 @@
                 "unbanning": "Разбан"
             },
             "webhook": {
-                "title": "Настройки вебхука",
-                "name": "Название",
+                "title": "Вебхуки",
+                "name": "Название вебхука",
                 "link": "URL вэбхука",
                 "linkDescription": "Выполнять действия через эту ссылку",
                 "delete": "Удалить вебхук"
@@ -292,8 +303,8 @@
             "banDescription": "Разрешение на блокировку пользователей.",
             "mentionEveryone": "Упомянать всех",
             "mentionEveryoneDescription": "Разрешение упоминать @everyone. Администраторы сервера могут упоминать всех.",
-            "nicknameMember": "Менять свое имя",
-            "nicknameMemberDescription": "Разрешить пользователям менять свой ник на сервере."
+            "nicknameMember": "Менять псевдонимы",
+            "nicknameMemberDescription": "Разрешить пользователям менять псевдонимы на сервере."
         },
         "channelPermissions": {
             "sendMessage": "Отправлять сообщения",
@@ -301,7 +312,8 @@
             "joinVoice": "Присоединяться к голосовому каналу",
             "joinVoiceDescription": "Разрешение на присоединение к голосовым каналам. Администраторы сервера могут присоединяться к голосовым каналам.",
             "publicChannel": "Публичный канал",
-            "publicChannelDescription": "Разрешение включает доступ к каналу. Администраторы имеют доступ ко всем каналам."
+            "publicChannelDescription": "Разрешение включает доступ к каналу. Администраторы имеют доступ ко всем каналам.",
+            "hiddenChannel": "Канал спрятан"
         },
         "leaveModal": {
             "title": "Выйти с сервера?",
@@ -423,6 +435,13 @@
                 "hideFollowersDescription": "Скрыть ваших подписчиков в профиле.",
                 "hideFollowing": "Скрыть подписки",
                 "hideFollowingDescription": "Скрыть пользователей, на которых вы подписаны из вашего профиля."
+            },
+            "options": {
+                "anybody": "Все",
+                "friendsOnly": "Только друзья",
+                "serversOnly": "Только участники общих серверов",
+                "friendsAndServers": "Друзья и участники общих серверов",
+                "nobody": "Никто"
             }
         },
         "language": {
@@ -597,8 +616,14 @@
         "notificationOptions": {
             "everything": "Всё",
             "mentionsOnly": "Только упоминания",
-            "mute": "Ничего"
-        }
+            "mute": "Ничего",
+            "sections": {
+                "ping": "Отметка",
+                "sound": "Звук"
+            },
+            "initial": "Как у сервера"
+        },
+        "channelSettings": "Настройки канала"
     },
     "userContextMenu": {
         "viewProfile": "Просмотреть профиль",
@@ -713,7 +738,9 @@
         "searchBarPlaceholder": "Поиск {{username}}",
         "searchBarChannelPlaceholder": "Поиск в {{channelName}}",
         "creator": "Создатель",
-        "admin": "Администратор"
+        "admin": "Администратор",
+        "sortLatest": "Последние",
+        "sortOldest": "Старые"
     },
     "systemMessages": {
         "joinServer": {
@@ -915,7 +942,8 @@
                 "descending": "По убыванию"
             }
         },
-        "inVoice": "В звонке"
+        "inVoice": "В звонке",
+        "addChannel": "Добавить канал"
     },
     "inVoiceActions": {
         "connectedFor": "Звонок идёт"
@@ -1104,6 +1132,23 @@
             "banner": "Баннер",
             "supportedFileTypes": "Поддерживаются: {{extensions}}, макс. {{size}}",
             "browse": "Выбрать"
-        }
+        },
+        "closeButton": "Закрыть",
+        "editButton": "Редактировать",
+        "undoButton": "Вернуть"
+    },
+    "nicknameChangeModal": {
+        "title": "Обновление серверного профиля",
+        "description": "Все на этом сервере увидят ваш псевдоним."
+    },
+    "transferOwnershipModal": {
+        "title": "Передача прав владения",
+        "description": "Это передаст права на управление сервером другому участнику.",
+        "ifVerified": "Сервер лишится статуса верификации.",
+        "server": "Сервер:",
+        "newOwner": "Новый владелец:",
+        "cancelButton": "Не передавать",
+        "transferButton": "Передать",
+        "transferring": "Передача…"
     }
 }
