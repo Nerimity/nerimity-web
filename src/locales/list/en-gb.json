@@ -372,9 +372,7 @@
         "serverInvitesDescription": "Invite your friends to this server.",
         "customInviteVerifiedOnlyNotice": "Custom invite links are only available for verified servers.",
         "customLink": "Custom Link",
-        "saveButton": "Save",
-        "deleteButton": "Delete",
-        "copyLinkButton": "Copy Link"
+        "uses": "{{count}} use(s)"
       },
       "publishServer": {
         "publishNotice": "Publishing your server will make it be available in the <1>explore</1> page.",

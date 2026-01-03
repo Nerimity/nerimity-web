@@ -459,7 +459,7 @@ const Actions = (props: {
                 icon: "content_copy",
               },
               {
-                label: t("servers.settings.invites.copyLinkButton"),
+                label: t("general.copyLink"),
                 onClick: () => {
                   navigator.clipboard.writeText(
                     env.APP_URL + "/p/" + props.post.id
@@ -468,7 +468,7 @@ const Actions = (props: {
                 icon: "content_copy",
               },
               {
-                label: t("userContextMenu.copyId"),
+                label: t("general.copyID"),
                 icon: "content_copy",
                 onClick: () => {
                   navigator.clipboard.writeText(props.post.id);

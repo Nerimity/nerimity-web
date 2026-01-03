@@ -56,7 +56,7 @@ export default function ServerSettingsInvite() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Invites",
+      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.invites"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -216,7 +216,7 @@ function CustomInvite(props: { invites: any[]; onUpdate: () => void }) {
             align-self: self-end;
             margin-bottom: -8px;
           `}
-          label={t("servers.settings.invites.saveButton")}
+          label={t("general.saveButton")}
           iconName="save"
         />
       </Show>
@@ -252,7 +252,7 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
             <Icon name="person" size={14} class={styles.icon} />
             {props.invite.createdBy.username}
             <Icon name="whatshot" size={14} class={styles.icon} />
-            {props.invite.uses} uses
+            {t("servers.settings.invites.uses", { count: props.invite.uses })}
             <Icon name="today" size={14} class={styles.icon} />
             {formatTimestamp(props.invite.createdAt)}
           </div>
@@ -261,13 +261,13 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
           <Button
             onClick={() => copyToClipboard(url)}
             class={classNames(styles.copyButton, styles.button)}
-            label={t("servers.settings.invites.copyLinkButton")}
+            label={t("general.copyLink")}
             iconName="content_copy"
           />
           <Button
             onClick={onDeleteClick}
             class={classNames(styles.deleteButton, styles.button)}
-            label={t("servers.settings.invites.deleteButton")}
+            label={t("general.deleteButton")}
             iconName="delete"
             color="var(--alert-color)"
           />
