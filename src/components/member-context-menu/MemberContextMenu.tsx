@@ -387,7 +387,7 @@ function ServerNicknameModal(props: {
           type="info"
           description={t("nicknameChangeModal.description")}
         />
-        <Input label={t("nicknameChangeModal.placeholder")} value={nickname()} onText={setNickname} />
+        <Input label={t("nicknameChangeModal.inputLabel")} value={nickname()} onText={setNickname} />
         <Show when={error()}>
           <Text color="var(--alert-color)">{error()}</Text>
         </Show>

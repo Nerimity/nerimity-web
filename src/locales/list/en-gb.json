@@ -766,7 +766,7 @@
   "nicknameChangeModal": {
     "title": "Update Server Profile",
     "description": "Everyone in this server will see your nickname.",
-    "placeholder": "Nickname"
+    "inputLabel": "Nickname"
   },
   "transferOwnershipModal": {
     "title": "Transfer Ownership",
