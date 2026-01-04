@@ -2,7 +2,7 @@ import { useParams } from "solid-navigator";
 import { Show, createEffect } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { styled } from "solid-styled-components";
-import { useTransContext } from "@nerimity/solid-i18lite";
+import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import RouterEndpoints from "@/common/RouterEndpoints";
 
@@ -15,7 +15,6 @@ const Container = styled("div")`
 `;
 
 export default function ServerNotificationSettings() {
-  const [t] = useTransContext();
   const params = useParams<{ serverId: string; channelId?: string }>();
   const { header, servers, channels } = useStore();
   const server = () => servers.get(params.serverId);
@@ -24,7 +23,7 @@ export default function ServerNotificationSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Audit Logs",
+      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.audit-logs"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -54,7 +53,7 @@ export default function ServerNotificationSettings() {
         serverId={params.serverId}
         hideSearchBar
         noMargin
-        title="Audit Logs"
+        title={t("servers.settings.drawer.audit-logs")}
       />
     </Container>
   );

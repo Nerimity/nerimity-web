@@ -35,7 +35,7 @@ export default function ServerSettingsBans() {
   >("alphabetical");
 
   const sortOptions: DropDownItem[] = [
-    { id: "alphabetical", label: t("settings.call.default") },
+    { id: "alphabetical", label: t("servers.settings.bans.sort.alphabetical") },
     { id: "unsorted", label: t("servers.settings.bans.sort.unsorted") },
   ]; // TODO: Add a sort by "Recent" :P
 
@@ -84,7 +84,7 @@ export default function ServerSettingsBans() {
 
       <FlexRow gap={10}>
         <Input
-          label={t("inbox.drawer.searchBarPlaceholder")}
+          label={t("general.searchPlaceholder")}
           value={query()}
           onText={setQuery}
           class={css`
@@ -94,7 +94,7 @@ export default function ServerSettingsBans() {
           `}
         />
         <DropDown
-          title={t("servers.settings.bans.sort.title")}
+          title={t("explore.sort")}
           items={sortOptions}
           selectedId={sortOption()}
           onChange={(item) =>

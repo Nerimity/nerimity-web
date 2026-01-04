@@ -295,13 +295,13 @@
         "welcome-screen": "Welcome Screen",
         "channel": "Channel",
         "permissions": "Permissions",
-        "emojis": "Emoji",
+        "emoji": "Emoji",
         "notifications": "Notifications",
         "external-embed": "External Embed"
       },
       "bans": {
         "sort": {
-          "title": "Sort",
+          "alphabetical": "Alphabetical",
           "unsorted": "Unsorted"
         },
         "noResults": "No results found.",
@@ -310,7 +310,7 @@
         "bannedAt": "Banned at",
         "unknown": "Unknown",
         "unban": "Unban",
-        "unbanning": "Unbanning"
+        "unbanning": "Unbanning…"
       },
       "webhook": {
         "title": "Webhooks",
@@ -365,6 +365,11 @@
         "deleteChannelTitle": "Delete {{channelName}}",
         "deleteChannelButton": "Delete Channel",
         "removeNoticeButton": "Remove Notice"
+      },
+      "emoji": {
+        "title": "Custom Emoji",
+        "description": "Add your own emoji.",
+        "addButton": "Add emoji"
       },
       "invites": {
         "createInviteButton": "Create Invite",

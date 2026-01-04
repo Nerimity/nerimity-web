@@ -133,7 +133,7 @@ const serverSettings: ServerSetting[] = [
   {
     path: "emojis",
     routePath: "/emojis",
-    name: () => t("servers.settings.drawer.emojis"),
+    name: () => t("servers.settings.drawer.emoji"),
     icon: "face",
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(
