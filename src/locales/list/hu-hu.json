@@ -13,8 +13,7 @@
         "password": "Jelszó",
         "login": "Bejelentkezés",
         "createAccountInstead": "Fiók készítése inkább",
-        "loggingIn": "Bejelentkezés folyamatban...",
-        "loginButton": "Bejelentkezés"
+        "loggingIn": "Bejelentkezés folyamatban..."
     },
     "registerPage": {
         "title": "Üdvözlünk {{appName}}-n",
@@ -28,11 +27,7 @@
     },
     "inbox": {
         "drawer": {
-            "requests": "Kérelmek",
-            "online": "Online",
-            "offline": "Offline",
             "addFriendButton": "Barát Hozzáadása",
-            "inboxButton": "Postaláda",
             "friendsButton": "Barátok"
         }
     },
@@ -78,39 +73,28 @@
                 "systemMessages": "Rendszer Üzenetek",
                 "systemMessagesDescription": "Itt jelennek meg a rendszer üzenetek.",
                 "deleteThisServer": "Szerver törlése",
-                "deleteThisServerDescription": "Ezt nem tudod visszafordítani!",
-                "deleteServerButton": "Szerver törlése",
-                "saveChangesButton": "Cserék mentése",
-                "saving": "Mentés..."
+                "deleteServerButton": "Szerver törlése"
             },
             "roles": {
                 "addNewRole": "Új rang hozzáadása",
                 "addRoleButton": "Rang Hozzáadása"
             },
             "role": {
-                "saveChangesButton": "Cserék mentése",
-                "saving": "Mentés...",
                 "roleName": "Rang Név",
                 "roleColor": "Rang Szín",
                 "hideRole": "Rang Elrejtése",
                 "hideRoleDescription": "Ezzel a ranggal rendelkező felhasználokat az alapértelmezett tagokkal eggyütt való megjenítése",
-                "permissions": "Engedélyek",
                 "permissionsDescription": "Eme rang engedélyeinek kezelése.",
-                "deleteRoleButton": "Rang törlése",
-                "deleteRoleButtonDescription": "Ezt nem tudod visszafordítani!"
+                "deleteRoleButton": "Rang törlése"
             },
             "header": {
                 "editServer": "Szerver Szerkesztése",
                 "serverMemberCount": "{{count}} tag"
             },
             "channel": {
-                "saving": "Mentés...",
-                "saveChangesButton": "Cserék mentése",
                 "channelName": "Csatorna Neve",
-                "permissions": "Engedélyek",
                 "permissionsDescription": "Eme csatorna engedélyeinek kezelése.",
                 "deleteThisChannel": "Csatorna törlése",
-                "deleteThisChannelDescription": "Ezt nem tudod visszafordítani!",
                 "deleteChannelButton": "Csatorna Törlése"
             },
             "invites": {
@@ -118,10 +102,7 @@
                 "serverInvites": "Szerver Meghívok",
                 "serverInvitesDescription": "Hívd meg a barátaid eme szerverbe.",
                 "customInviteVerifiedOnlyNotice": "Sajátosított linkek csak ellenőrzött szervereknek elérhető.",
-                "customLink": "Sajátosított Link",
-                "saveButton": "Mentés",
-                "deleteButton": "Törlés",
-                "copyLinkButton": "Link Másolása"
+                "customLink": "Sajátosított Link"
             },
             "publishServer": {
                 "publishNotice": "Eme szervert ha közzéteszed elérhető lesz a <1>felfedezés</1> lapon.",
@@ -158,7 +139,6 @@
             "account": "Fiók",
             "language": "Nyelv",
             "notifications": "Értesítések",
-            "logout": "Kilépés",
             "viewSource": "Forráskód Megtekintése",
             "changelog": "Csere Napló"
         }

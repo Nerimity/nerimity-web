@@ -30,8 +30,7 @@
         "password": "Пароль",
         "login": "Войти",
         "createAccountInstead": "Вместо этого создать аккаунт",
-        "loggingIn": "Вход…",
-        "loginButton": "Войти"
+        "loggingIn": "Вход…"
     },
     "registerPage": {
         "title": "Добро пожаловать в {{appName}}",
@@ -120,10 +119,8 @@
             "fetchThemesError": "Не удалось загрузить темы. Попробуйте ещё раз.",
             "unlockDescription": "Нажмите, чтобы увидеть все темы сообщества"
         },
-        "search": "Поиск",
         "sort": "Сортировка",
         "filter": "Фильтр",
-        "backButton": "Назад",
         "by": "От",
         "bumped": "Продвинут"
     },
@@ -140,7 +137,6 @@
                 "role": "Роль",
                 "welcome-screen": "Экран приветствия",
                 "channel": "Канал",
-                "emojis": "Эмодзи",
                 "notifications": "Уведомления",
                 "audit-logs": "Журнал аудита",
                 "external-embed": "Внешний эмбед",
@@ -154,15 +150,7 @@
                 "systemMessages": "Системные сообщения",
                 "systemMessagesDescription": "Где должны отображаться системные сообщения.",
                 "deleteThisServer": "Удалить этот сервер",
-                "deleteThisServerDescription": "Это действие не может быть отменено!",
                 "deleteServerButton": "Удалить сервер",
-                "saveChangesButton": "Сохранить изменения",
-                "saving": "Сохранение…",
-                "avatar": "Аватар",
-                "avatarDescription": "Поддерживаются: JPG, PNG, GIF, WEBP, макс. 12 MB",
-                "banner": "Баннер",
-                "bannerDescription": "Поддерживаются: JPG, PNG, GIF, WEBP, макс. 12 MB",
-                "browseButton": "Выбрать",
                 "none": "Нет"
             },
             "roles": {
@@ -170,16 +158,12 @@
                 "addRoleButton": "Добавить роль"
             },
             "role": {
-                "saveChangesButton": "Сохранить изменения",
-                "saving": "Сохранение…",
                 "roleName": "Название роли",
                 "roleColor": "Цвет роли",
                 "hideRole": "Скрыть роль",
                 "hideRoleDescription": "Отображать участников с этой ролью вместе со всеми участниками",
-                "permissions": "Права",
                 "permissionsDescription": "Управление правами доступа для этой роли.",
                 "deleteRoleButton": "Удалить эту роль",
-                "deleteRoleButtonDescription": "Это действие не может быть отменено!",
                 "clear": "Очистить",
                 "roleIcon": "Иконка роли",
                 "managedByBot": "Эта роль управляется {{botName}}. Вы не можете удалить её или призначить её участникам. Выгоните бота, чтобы удалить роль.",
@@ -196,13 +180,9 @@
                 "createNewDescription": "Создать новый канал или категорию"
             },
             "channel": {
-                "saving": "Сохранение…",
-                "saveChangesButton": "Сохранить изменения",
                 "channelName": "Название канала",
-                "permissions": "Права",
                 "permissionsDescription": "Управление разрешениями для этого канала.",
                 "deleteThisChannel": "Удалить этот канал",
-                "deleteThisChannelDescription": "Это действие не может быть отменено!",
                 "deleteChannelButton": "Удалить канал",
                 "removeNoticeButton": "Удалить примечание",
                 "channelIcon": "Иконка канала",
@@ -215,9 +195,6 @@
                 "serverInvitesDescription": "Пригласите своих друзей на этот сервер.",
                 "customInviteVerifiedOnlyNotice": "Пользовательские ссылки на приглашения доступны только для проверенных серверов.",
                 "customLink": "Пользовательская ссылка",
-                "saveButton": "Сохранить",
-                "deleteButton": "Удалить",
-                "copyLinkButton": "Скопировать ссылку",
                 "uses": "{{count}} использование(ий)"
             },
             "publishServer": {
@@ -234,7 +211,6 @@
             },
             "bans": {
                 "sort": {
-                    "title": "Сортировка",
                     "unsorted": "Без сортировки"
                 },
                 "noResults": "Нет результатов.",
@@ -332,7 +308,6 @@
             "interface": "Интерфейс",
             "language": "Язык",
             "notifications": "Уведомления",
-            "logout": "Выйти",
             "developer": "Для разработчиков",
             "applications": "Приложения",
             "experiments": "Эксперименты",
@@ -353,14 +328,7 @@
             "manageAccount": "Управление аккаунтом"
         },
         "account": {
-            "title": "Настройки - Аккаунт",
-            "email": "Электронный адрес",
-            "username": "Имя пользователя",
             "tag": "Тег",
-            "avatar": "Аватар",
-            "banner": "Баннер",
-            "supported": "Поддерживаются",
-            "browse": "Выбрать",
             "profile": "Профиль",
             "profileDescription": "Изменить описание профиля или цвета",
             "changePassword": "Изменить пароль",
@@ -372,9 +340,6 @@
             "confirmCurrentPassword": "Введите текущий пароль",
             "channelNotice": "Примечание в ЛС",
             "channelNoticeDescription": "Отображается, когда пользователь собирается написать вам в первый раз. Изменения вступят в силу после перезагрузки.",
-            "saving": "Сохранение…",
-            "saveButton": "Сохранить",
-            "saveChangesButton": "Сохранить изменения",
             "deleteAccount": "Удалить мой аккаунт",
             "deleteAccountDescription": "Это действие нельзя отменить!",
             "deleteAccountNotice": "Вы должны покинуть / удалить все серверы, прежде чем сможете удалить свою учетную запись.",
@@ -391,8 +356,6 @@
             "enterCode": "Введите пятизначный код из электронного письма:",
             "sendCodeButton": "Отправить код",
             "resendIn": "Отправить ещё раз через {{time}}",
-            "confirmButton": "Подтвердить",
-            "cancelButton": "Отмена",
             "channelNoticeTooLong": "Примечание не может быть больше 300 символов.",
             "deletionNotice": "Нам жаль, что вы уходите :( Если вам что-то не понравилось, дайте нам знать на официальном сервере Nerimity.",
             "deletedInfo": {
@@ -410,24 +373,15 @@
         "privacy": {
             "lastOnline": {
                 "title": "Последнее время онлайн",
-                "description": "Настроить, кто может видеть ваше последнее время онлайн.",
-                "hidden": "Скрыто",
-                "friendsOnly": "Только друзья",
-                "friendsAndServers": "Друзья и участники серверов"
+                "description": "Настроить, кто может видеть ваше последнее время онлайн."
             },
             "directMessage": {
                 "title": "Личное сообщение",
-                "description": "Настроить, кто может отправлять вам личные сообщения.",
-                "anyone": "Все пользователи",
-                "friendsAndServersOnly": "Только друзья и участники серверов",
-                "friendsOnly": "Только друзья"
+                "description": "Настроить, кто может отправлять вам личные сообщения."
             },
             "friendRequest": {
                 "title": "Запрос на добавление в друзья",
-                "description": "Настроить, кто может отправлять вам запросы на добавление в друзья.",
-                "anyone": "Все пользователи",
-                "serversOnly": "Только участники серверов",
-                "nobody": "Никто"
+                "description": "Настроить, кто может отправлять вам запросы на добавление в друзья."
             },
             "profileOptions": {
                 "title": "Настройки профиля",
@@ -448,10 +402,7 @@
             "reloadNotice": "Вы должны перезагрузить приложение, чтобы новый язык применился полностью.",
             "searchNotice": "Переводы делаются сообществом. Сообщите Nerimity о любых некорректных или непристойных переводах.",
             "reloadButton": "Перезагрузить",
-            "contributors": "Авторы",
-            "translateModal": {
-                "title": "Перевод"
-            }
+            "contributors": "Авторы"
         },
         "badges": {
             "noticeTitle": "Пожертвования",
@@ -483,9 +434,7 @@
             "mute": "Ничего",
             "inAppPreviewModes": {
                 "off": "Выключено",
-                "mentionsOnly": "Только упоминания",
-                "inheritFromPingSettings": "Взять с настроек уведомлений",
-                "all": "Все"
+                "inheritFromPingSettings": "Взять с настроек уведомлений"
             }
         },
         "call": {
@@ -517,7 +466,6 @@
             "customCSS": "Пользовательский CSS",
             "customCSSWarning": "Не вставляйте код от людей, которым не доверяете.",
             "saveAndApply": "Сохранить и применить",
-            "themes": "Темы",
             "themesDescription": "Выберите готовую тему или сбросте до первоначальной.",
             "maintainers": "Авторы",
             "apply": "Применить",
@@ -555,23 +503,18 @@
             "visitButton": "Посетить {{store}}",
             "activityStatus": "Статус активности",
             "activityStatusDescription": "Поделитесь, чем вы занимаетесь, со всеми",
-            "deleteButton": "Удалить",
-            "editButton": "Редактировать",
             "activityStatusModal": {
                 "title": "Редактирование статуса активности",
                 "executable": "Исполняемый файл",
                 "action": "Действие",
                 "name": "Название",
-                "emoji": "Эмодзи",
-                "backButton": "Назад",
-                "saveButton": "Сохранить"
+                "emoji": "Эмодзи"
             },
             "discordActivity": "Активность Discord",
             "discordActivityDescription": "Поделитесь вашей активностью Discord с пользователями Nerimity",
             "idPlaceholder": "ID пользователя Discord",
             "serverModal": {
                 "text": "Присоединитесь к нашему серверу Discord, чтобы включить показ активности.",
-                "cancelButton": "Отмена",
                 "doneButton": "Я присоединился"
             }
         },
@@ -603,15 +546,10 @@
         "placeholder": "Мой замечательный сервер",
         "creating": "Создание…",
         "createServerButton": "Создать",
-        "closeButton": "Закрыть",
         "tabLabel": "Создание"
     },
     "serverContextMenu": {
         "markAsRead": "Отметить прочитанным",
-        "invites": "Приглашения",
-        "notifications": "Уведомления",
-        "settings": "Настройки",
-        "copyId": "Скопировать ID сервера",
         "leave": "Выйти",
         "notificationOptions": {
             "everything": "Всё",
@@ -628,10 +566,7 @@
     "userContextMenu": {
         "viewProfile": "Просмотреть профиль",
         "sendMessage": "Отправить сообщение",
-        "copyId": "Скопировать ID пользователя",
         "editRoles": "Редактировать роли",
-        "kick": "Выгнать",
-        "ban": "Забанить",
         "changeNickname": "Изменить имя",
         "callVolume": "Громкость звука",
         "transferOwnership": "Передать права владения"
@@ -640,7 +575,6 @@
         "title": "Выгнать {{username}}",
         "kickButton": "Выгнать",
         "kicking": "Выгоняем…",
-        "backButton": "Назад",
         "message": "Вы уверены, что хотите выгнать <1>{{username}}</1>?"
     },
     "editServerRolesModal": {
@@ -728,10 +662,8 @@
         "someoneRepostedYourPost": "<1>{{username}}</1> репостнул ваш пост!"
     },
     "informationDrawer": {
-        "title": "Информация",
         "channelNotice": "Примечание канала",
         "attachments": "Вложения",
-        "attachmentsBack": "Назад",
         "members": "Участники",
         "info": "Инфо",
         "files": "Файлы",
@@ -864,9 +796,6 @@
     "editFolderModal": {
         "title": "Изменение папки",
         "placeholder": "Название папки",
-        "cancelButton": "Не сохранять",
-        "save": "Сохранить",
-        "saving": "Сохранение…",
         "errors": {
             "emptyName": "Введите имя папки."
         }

@@ -57,5 +57,8 @@
         "featureList": {
             "feature7": "Runs on donations"
         }
+    },
+    "general": {
+        "nothingSelected": ""
     }
 }

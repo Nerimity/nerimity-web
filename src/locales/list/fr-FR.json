@@ -30,8 +30,7 @@
         "password": "Mot de passe",
         "login": "Connexion",
         "createAccountInstead": "Créez un compte",
-        "loggingIn": "Connexion en cours…",
-        "loginButton": "Se connecter"
+        "loggingIn": "Connexion en cours…"
     },
     "registerPage": {
         "title": "Bienvenu sûr {{appName}}",
@@ -53,11 +52,7 @@
     },
     "inbox": {
         "drawer": {
-            "requests": "Demande",
-            "online": "En ligne",
-            "offline": "Hors ligne",
             "addFriendButton": "Ajouter un ami",
-            "inboxButton": "Messages",
             "friendsButton": "Amis",
             "searchBarPlaceholder": "Cherche",
             "onlineFriends": "{{count}} Amis En Ligne",
@@ -114,12 +109,10 @@
             "fetchThemesError": "Impossible de récupérer les thèmes. Veuillez réessayer plus tard.",
             "unlockDescription": "Cliquez pour explorer tous les thèmes de la communauté"
         },
-        "search": "Chercher",
         "by": "Par",
         "bumped": "Heurter",
         "sort": "Trier",
-        "filter": "Filtre",
-        "backButton": "Retour"
+        "filter": "Filtre"
     },
     "servers": {
         "settings": {
@@ -133,7 +126,6 @@
                 "verify": "Vérifier",
                 "role": "Rôle",
                 "channel": "Salon",
-                "emojis": "Émoji",
                 "notifications": "Notifications",
                 "audit-logs": "Journaux d'audit",
                 "welcome-screen": "Écran de bienvenue",
@@ -148,15 +140,7 @@
                 "systemMessages": "Messages système",
                 "systemMessagesDescription": "Où les messages système doivent apparaître.",
                 "deleteThisServer": "Supprimer ce serveur",
-                "deleteThisServerDescription": "C'est irréversible!",
                 "deleteServerButton": "Supprimer",
-                "saveChangesButton": "Enregistrer les modifications",
-                "saving": "Enregistrement...",
-                "avatar": "Avatar",
-                "avatarDescription": "Formats pris en charge : JPG, PNG, GIF, WEBP, 12 Mo maximum",
-                "banner": "Bannière",
-                "bannerDescription": "Formats pris en charge : JPG, PNG, GIF, WEBP, 12 Mo maximum",
-                "browseButton": "Parcourir",
                 "none": "Aucun"
             },
             "roles": {
@@ -164,16 +148,12 @@
                 "addRoleButton": "Ajouter"
             },
             "role": {
-                "saveChangesButton": "Enregistrer les modifications",
-                "saving": "Enregistrement…",
                 "roleName": "Nom du rôle",
                 "roleColor": "Couleur du rôle",
                 "hideRole": "Masquer le rôle",
                 "hideRoleDescription": "Afficher les membres avec ce rôle avec tous les autres membres par défaut.",
-                "permissions": "Autorisations",
                 "permissionsDescription": "Gérer les autorisations pour ce rôle.",
                 "deleteRoleButton": "Supprimer ce rôle",
-                "deleteRoleButtonDescription": "C'est irréversible!",
                 "clear": "Effacer",
                 "roleIcon": "Icône de rôle",
                 "managedByBot": "Ce rôle est géré par {{botName}}. Vous ne pouvez ni ajouter ni supprimer de membres à ce rôle. Pour le supprimer, expulsez ce bot.",
@@ -190,13 +170,9 @@
                 "createNewDescription": "Créer un nouveau salon ou catégorie"
             },
             "channel": {
-                "saving": "Enregistrement…",
-                "saveChangesButton": "Enregistrer les modifications",
                 "channelName": "Nom du salon",
-                "permissions": "Autorisations",
                 "permissionsDescription": "Gérer les autorisations pour ce salon.",
                 "deleteThisChannel": "Supprimer ce salon",
-                "deleteThisChannelDescription": "C'est irréversible!",
                 "deleteChannelButton": "Supprimer",
                 "removeNoticeButton": "Supprimer l'avis",
                 "channelIcon": "Icône de chaîne",
@@ -208,10 +184,7 @@
                 "serverInvites": "Invitations",
                 "serverInvitesDescription": "Invitez vos amis sur ce serveur.",
                 "customInviteVerifiedOnlyNotice": "Les liens d'invitation personnalisés ne sont disponibles que pour les serveurs vérifiés.",
-                "customLink": "Lien d'invitation personnalisé",
-                "saveButton": "Enregistrer",
-                "deleteButton": "Supprimer",
-                "copyLinkButton": "Copier"
+                "customLink": "Lien d'invitation personnalisé"
             },
             "publishServer": {
                 "publishNotice": "Publier votre serveur le rendra accessible depuis le menu <1>explore</1>.",
@@ -228,7 +201,6 @@
             "bans": {
                 "reason": "Raison",
                 "sort": {
-                    "title": "Trier",
                     "unsorted": "Non trié"
                 },
                 "noResults": "Aucun résultat trouvé.",
@@ -324,7 +296,6 @@
             "account": "Compte",
             "language": "Langue",
             "notifications": "Notifications",
-            "logout": "Se Déconnecter",
             "viewSource": "Voir le Code Source",
             "changelog": "Journal des Mise à Jour",
             "window-settings": "Paramètres Windows",
@@ -346,26 +317,16 @@
             "manageAccount": "Gérer le compte"
         },
         "language": {
-            "translateModal": {
-                "title": "Traduire"
-            },
             "reloadNotice": "Vous devez recharger l'application pour que la nouvelle langue soit pleinement prise en compte.",
             "searchNotice": "Les traductions sont mises à jour par la communauté. Veuillez signaler à Nerimity toute traduction incorrecte ou inappropriée.",
             "reloadButton": "Recharger",
             "contributors": "Contributeurs"
         },
         "account": {
-            "banner": "Bannière",
             "primaryColor": "Couleur Primaire",
-            "confirmButton": "Confirmer",
             "deleteAccount": "Supprimer Mon Compte",
-            "email": "E-mail",
-            "username": "Nom d'utilisateur",
             "tag": "Balise",
             "botID": "ID du robot",
-            "avatar": "Avatar",
-            "supported": "Soutenu",
-            "browse": "Parcourir",
             "profile": "Profil",
             "profileDescription": "Modifiez votre bio ou vos couleurs",
             "palestineBorder": "Ajoutez la bordure palestinienne à votre avatar.",
@@ -385,13 +346,9 @@
             "enterCode": "Saisissez le code à 5 chiffres envoyé à votre adresse e-mail :",
             "sendCodeButton": "Envoyer le code",
             "resendIn": "Renvoyer dans {{time}}",
-            "cancelButton": "Annuler",
             "channelNotice": "Avis de chaîne",
             "channelNoticeDescription": "Indique quand l'utilisateur s'apprête à entamer une conversation. Les modifications sont prises en compte après le rechargement de la page.",
             "channelNoticeTooLong": "Le message diffusé sur le canal ne peut pas dépasser 300 caractères.",
-            "saving": "Sauvegarde...",
-            "saveButton": "Sauvegarder",
-            "saveChangesButton": "Enregistrer les modifications",
             "deleteAccountDescription": "C'est irréversible !",
             "deleteAccountNotice": "Vous devez quitter/supprimer tous les serveurs avant de pouvoir supprimer votre compte.",
             "understoodButton": "Compris",
@@ -411,9 +368,7 @@
         "notifications": {
             "sounds": "Sons",
             "inAppPreviewModes": {
-                "all": "Tout",
                 "off": "Désactivé",
-                "mentionsOnly": "Mentions seulement",
                 "inheritFromPingSettings": "Hériter des paramètres de ping"
             },
             "desktopNotifications": "Notifications sur le bureau",
@@ -446,24 +401,15 @@
         "privacy": {
             "lastOnline": {
                 "title": "Dernière heure de connexion",
-                "description": "Définissez qui peut voir votre dernière heure de connexion.",
-                "hidden": "Caché",
-                "friendsOnly": "Amis seulement",
-                "friendsAndServers": "Amis et serveurs"
+                "description": "Définissez qui peut voir votre dernière heure de connexion."
             },
             "directMessage": {
                 "title": "Message direct",
-                "description": "Définissez qui peut vous envoyer des messages directs.",
-                "anyone": "N'importe qui",
-                "friendsAndServersOnly": "Amis et serveurs uniquement",
-                "friendsOnly": "Amis seulement"
+                "description": "Définissez qui peut vous envoyer des messages directs."
             },
             "friendRequest": {
                 "title": "Demande d'ami",
-                "description": "Choisissez qui peut vous envoyer des demandes d'amis.",
-                "anyone": "N'importe qui",
-                "serversOnly": "Serveurs uniquement",
-                "nobody": "Personne"
+                "description": "Choisissez qui peut vous envoyer des demandes d'amis."
             },
             "profileOptions": {
                 "title": "Options de profil",
@@ -509,7 +455,6 @@
             "customCSS": "CSS personnalisé",
             "customCSSWarning": "Ne copiez pas de code provenant de personnes en qui vous n'avez pas confiance.",
             "saveAndApply": "Enregistrer et appliquer",
-            "themes": "Thèmes",
             "themesDescription": "Choisissez un thème prédéfini ou rétablissez les paramètres par défaut.",
             "maintainers": "Contributeurs",
             "apply": "Appliquer",
@@ -532,7 +477,6 @@
             "24HourFormatDescription": "Afficher l'heure au format 24 heures."
         },
         "window": {
-            "title": "Paramètres - Paramètres Windows",
             "downloadAppNotice": "Pour modifier ces paramètres, vous devez télécharger l'application de bureau Nerimity.",
             "startupOptions": "Options de démarrage",
             "openOnStartup": "Ouvrir Nerimity au démarrage",
@@ -548,23 +492,18 @@
             "visitButton": "Visitez {{store}}",
             "activityStatus": "Statut d'activité",
             "activityStatusDescription": "Partagez vos activités avec tout le monde",
-            "deleteButton": "Supprimer",
-            "editButton": "Modifier",
             "activityStatusModal": {
                 "title": "Modifier le statut de l'activité",
                 "executable": "Exécutable",
                 "action": "Action",
                 "name": "Nom",
-                "emoji": "Emoji",
-                "backButton": "Retour",
-                "saveButton": "Sauvegarder"
+                "emoji": "Emoji"
             },
             "discordActivity": "Activité de discord",
             "discordActivityDescription": "Partagez votre activité Discord avec les utilisateurs de Nerimity",
             "idPlaceholder": "ID utilisateur Discord",
             "serverModal": {
                 "text": "Veuillez rejoindre le serveur Discord pour activer le partage d'activité.",
-                "cancelButton": "Annuler",
                 "doneButton": "j'ai rejoint"
             }
         },
@@ -592,10 +531,7 @@
     "userContextMenu": {
         "viewProfile": "Voir le Profil",
         "sendMessage": "Envoyer un Message",
-        "copyId": "Copier l'ID",
         "editRoles": "Modifier les Rôles",
-        "kick": "Exclure",
-        "ban": "Bannir",
         "changeNickname": "Changer de pseudo",
         "transferOwnership": "Transférer la propriété",
         "callVolume": "Volume d'appel"
@@ -604,7 +540,6 @@
         "title": "Exclure {{username}}",
         "kickButton": "Exclure",
         "kicking": "Exclusion…",
-        "backButton": "Retour",
         "message": "Êtes-vous sûr de vouloir exclure <1>{{username}}</1>?"
     },
     "editServerRolesModal": {
@@ -721,8 +656,6 @@
     "connectionErrorModal": {
         "title": "Erreur de connexion",
         "ok": "OK",
-        "logout": "Déconnexion",
-        "login": "Connexion",
         "noToken": "Aucun jeton fourni.",
         "suspended": "Vous êtes suspendu.",
         "reason": "Raison",
@@ -968,8 +901,7 @@
         "title": "Créer un serveur",
         "notice": "Le contenu NSFW n'est pas autorisé.",
         "serverName": "Nom du serveur",
-        "placeholder": "Mon serveur génial",
-        "closeButton": "Fermer"
+        "placeholder": "Mon serveur génial"
     },
     "joinServerModal": {
         "title": "Rejoindre Un Serveur",
@@ -999,9 +931,6 @@
     "editFolderModal": {
         "title": "Modifier le Dossier",
         "placeholder": "Nom du dossier",
-        "cancelButton": "Ne sauvegardez pas",
-        "save": "sauvegarder",
-        "saving": "Sauvegarde…",
         "errors": {
             "emptyName": "Veuillez entrer un nom de dossier."
         }
@@ -1013,10 +942,6 @@
     },
     "serverContextMenu": {
         "markAsRead": "Marquer comme lu",
-        "invites": "Invitations",
-        "notifications": "Notifications",
-        "settings": "Paramètres",
-        "copyId": "Copier l'identifiant",
         "leave": "Partir",
         "notificationOptions": {
             "everything": "Tout",
@@ -1056,7 +981,6 @@
         "searchBarChannelPlaceholder": "Rechercher dans {{channelName}}",
         "channelNotice": "Avis de chaîne",
         "attachments": "Pièces jointes",
-        "attachmentsBack": "Retour",
         "members": "Membres",
         "creator": "Créateur",
         "admin": "Administrateur",
@@ -1143,8 +1067,7 @@
     },
     "nicknameChangeModal": {
         "title": "Mettre à jour le profil du serveur",
-        "description": "Tous les membres de ce serveur verront votre pseudo.",
-        "placeholder": "Surnom"
+        "description": "Tous les membres de ce serveur verront votre pseudo."
     },
     "transferOwnershipModal": {
         "title": "Transférer la propriété",

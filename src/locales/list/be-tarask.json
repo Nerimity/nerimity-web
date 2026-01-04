@@ -57,8 +57,7 @@
         "password": "Пароль",
         "login": "Увайсьці",
         "createAccountInstead": "Замест гэтага стварыць уліковы запіс",
-        "loggingIn": "Уваходзім…",
-        "loginButton": "Увайсьці"
+        "loggingIn": "Уваходзім…"
     },
     "registerPage": {
         "header": "Рэгістрацыя",
@@ -149,9 +148,7 @@
             "blockedUsersButton": "Блякаваньні",
             "inboxTitle": "Уваходныя",
             "friendsButton": "Сябры",
-            "viewAll": "Праглядзець усіх",
-            "inboxButton": "Уваходныя",
-            "offline": "Ня ў сетцы"
+            "viewAll": "Праглядзець усіх"
         }
     },
     "explore": {
@@ -196,19 +193,14 @@
             "joinServerButton": "Далучыцца",
             "bumpButton": "Усхваліць ({{count}})"
         },
-        "search": "Пошук",
         "sort": "Сатрыроўка",
         "filter": "Фільтр",
-        "backButton": "Назад",
         "by": "Ад",
         "bumped": "Усхвалены"
     },
     "editFolderModal": {
         "title": "Рэдагаваньне тэчкі",
         "placeholder": "Назва тэчкі",
-        "cancelButton": "Не захоўваць",
-        "save": "Захаваць",
-        "saving": "Захоўваем…",
         "errors": {
             "emptyName": "Увядзіце назву тэчкі."
         }
@@ -227,15 +219,15 @@
                 "role": "Роля",
                 "welcome-screen": "Экран запрашэньня",
                 "channel": "Канал",
-                "emojis": "Эмодзі",
                 "notifications": "Абвесткі",
                 "external-embed": "Вонкавы эмбэд",
-                "permissions": "Дазволы"
+                "permissions": "Дазволы",
+                "emoji": "Эмодзі"
             },
             "bans": {
                 "sort": {
-                    "title": "Сартаваньне",
-                    "unsorted": "Не сартаваць"
+                    "unsorted": "Не сартаваць",
+                    "alphabetical": "Альфабэтнае"
                 },
                 "noResults": "Рэзультатаў ня знойдзена.",
                 "reason": "Прычына",
@@ -243,7 +235,7 @@
                 "bannedAt": "Забанены а",
                 "unknown": "Невядома",
                 "unban": "Разбаніць",
-                "unbanning": "Разблякоўваем"
+                "unbanning": "Разбаніваем…"
             },
             "webhook": {
                 "title": "Вэбхукі",
@@ -259,16 +251,8 @@
                 "defaultChannelDescription": "Новыя ўдзельнікі будуць накіраваныя ў гэты канал.",
                 "systemMessages": "Сыстэмныя паведамленьні",
                 "systemMessagesDescription": "Тут павінны зьяўляцца сыстэмныя паведамленьні.",
-                "avatar": "Аватар",
-                "avatarDescription": "Падтрымліваюцца: JPG, PNG, GIF, WEBP, макс. 12 MB",
-                "banner": "Банар",
-                "bannerDescription": "Падтрымліваюцца: JPG, PNG, GIF, WEBP, макс. 12 MB",
-                "browseButton": "Абраць",
                 "deleteThisServer": "Выдаліць гэты сэрвэр",
-                "deleteThisServerDescription": "Гэтае дзеяньне нельга адрабіць!",
                 "deleteServerButton": "Выдаліць сэрвэр",
-                "saveChangesButton": "Захаваць зьмены",
-                "saving": "Захоўваем…",
                 "none": "Няма"
             },
             "roles": {
@@ -276,16 +260,12 @@
                 "addRoleButton": "Стварыць ролю"
             },
             "role": {
-                "saveChangesButton": "Захаваць зьмены",
-                "saving": "Захоўваем…",
                 "roleName": "Назва ролі",
                 "roleColor": "Колер ролі",
                 "hideRole": "Схаваць ролю",
                 "hideRoleDescription": "Паказваць гэтую ролю ў сьпісе ўдзельнікаў",
-                "permissions": "Дазволы",
                 "permissionsDescription": "Кіраваньне дазволамі гэтае ролі.",
                 "deleteRoleButton": "Выдаліць гэту ролю",
-                "deleteRoleButtonDescription": "Гэта дзеяньне нельга адмяніць!",
                 "clear": "Скінуць",
                 "roleIcon": "Значок ролі",
                 "managedByBot": "Гэтая роля кіруецца {{botName}}. Вы ня можаце выдаліць яе альбо дадаць удзельнікаў. Каб прыбраць ролю, выганіце бота.",
@@ -302,13 +282,9 @@
                 "createNewDescription": "Стварыць новы канал ці катэгорыю"
             },
             "channel": {
-                "saving": "Захоўваем…",
-                "saveChangesButton": "Захаваць зьмены",
                 "channelName": "Назва каналу",
-                "permissions": "Дазволы",
                 "permissionsDescription": "Кіраваньне дазволамі гэтага канала.",
                 "deleteThisChannel": "Выдаліць гэты канал",
-                "deleteThisChannelDescription": "Гэта нельга адрабіць!",
                 "deleteChannelButton": "Выдаліць канал",
                 "removeNoticeButton": "Выдаліць папярэджаньне",
                 "channelIcon": "Значок канала",
@@ -321,9 +297,6 @@
                 "serverInvitesDescription": "Запрасіце свайіх сяброў на гэты сэрвэр.",
                 "customInviteVerifiedOnlyNotice": "Карыстальніцкія запрашэньні даступныя толькі на вэрыфікаваных сэрвэрах.",
                 "customLink": "Карыстальніцкая спасылка",
-                "saveButton": "Захаваць",
-                "deleteButton": "Выдаліць",
-                "copyLinkButton": "Скапіяваць спасылку",
                 "uses": "{{count}} выкарыстаньня(ў)"
             },
             "publishServer": {
@@ -372,6 +345,11 @@
                     "hdScreenshare": "Абагульненьне экрана ў 1080p/60fps",
                     "hdScreenshareDescription": "Абагульвайце свой экран у 1080p, 60fps."
                 }
+            },
+            "emoji": {
+                "title": "Уласны эмодзі",
+                "description": "Дадайце свае эмодзі.",
+                "addButton": "Дадаць эмодзі"
             }
         },
         "rolePermissions": {
@@ -418,7 +396,6 @@
             "interface": "Інтэрфэйс",
             "language": "Мова",
             "notifications": "Абвесткі",
-            "logout": "Выйсьці",
             "developer": "Для распрацоўшчыкаў",
             "applications": "Аплікацыйі",
             "experiments": "Экспэрымэнты",
@@ -437,9 +414,6 @@
             "reloadNotice": "Вы мусіце перазагрузіць аплікацыю каб поўнасьцю ўжыць новую мову.",
             "reloadButton": "Перазагрузіць",
             "contributors": "Удзельнікі",
-            "translateModal": {
-                "title": "Пераклад"
-            },
             "searchNotice": "Пераклады кіруюцца супольнасьцю. Калі якія-небудзь пераклады няправільныя ці непрыстойныя, паведаміце аб іх Nerimity."
         },
         "header": {
@@ -448,14 +422,8 @@
             "manageAccount": "Кіраваньне ўліковым запісам"
         },
         "account": {
-            "email": "Электроная пошта",
-            "username": "Імя карыстача",
             "tag": "Тэґ",
             "botID": "ID бота",
-            "avatar": "Аватар",
-            "banner": "Банар",
-            "supported": "Падтрымліваюцца",
-            "browse": "Абраць",
             "profile": "Профіль",
             "profileDescription": "Адрэдагуйце вашае апісаньне й колеры",
             "palestineBorder": "Дадаць палестынскую аблямоўку да вашага аватару.",
@@ -476,14 +444,9 @@
             "enterCode": "Увядзіце 5 лічбаў, што мы адправілі на вашу эл. пошту:",
             "sendCodeButton": "Адаслаць код",
             "resendIn": "Перадаслаць праз {{time}}",
-            "confirmButton": "Сьцьвердзіць",
-            "cancelButton": "Скасаваць",
             "channelNotice": "Папярэджаньне карыстача",
             "channelNoticeDescription": "Паказваецца, калі карыстач піша вам упершыню. Зьмены ўжываюцца пасьля перазагрузкі.",
             "channelNoticeTooLong": "Папярэджаньне канала не можа быць больш за 300 сымбаляў.",
-            "saving": "Захоўваем…",
-            "saveButton": "Захаваць",
-            "saveChangesButton": "Захаваць зьмены",
             "deleteAccount": "Выдаліць мой уліковы запіс",
             "deleteAccountDescription": "Гэта нельга адрабіць!",
             "deleteAccountNotice": "Вы мусіце выйсьці зь усіх сэрвэраў, альбо выдаліць іх перад выдаленьнем вашага ўліковага запісу.",
@@ -504,24 +467,15 @@
         "privacy": {
             "lastOnline": {
                 "title": "Апошняе зьяўленьне ў сетцы",
-                "description": "Абярыце, хто можа бачыць, калі вы апошні раз былі ў сетцы.",
-                "hidden": "Схаванае",
-                "friendsOnly": "Толькі сябры",
-                "friendsAndServers": "Сябры й удзельнікі агульных са мной сэрвэраў"
+                "description": "Абярыце, хто можа бачыць, калі вы апошні раз былі ў сетцы."
             },
             "directMessage": {
                 "title": "Асабістыя паведамленьні",
-                "description": "Хто можа гутарыць са мной у асабістых паведамленьнях.",
-                "anyone": "Усе",
-                "friendsAndServersOnly": "Толькі сябры й удзельнікі агульных са мной сэрвэраў",
-                "friendsOnly": "Толькі сябры"
+                "description": "Хто можа гутарыць са мной у асабістых паведамленьнях."
             },
             "friendRequest": {
                 "title": "Запыты сяброўства",
-                "description": "Хто можа адпраўляць мяне запыты сяброўства.",
-                "anyone": "Усе",
-                "serversOnly": "Толькі ўдзельнікі агульных са мной сэрвэраў",
-                "nobody": "Аніхто"
+                "description": "Хто можа адпраўляць мяне запыты сяброўства."
             },
             "profileOptions": {
                 "title": "Налады профілю",
@@ -557,9 +511,7 @@
             "inAppPreviewDescription": "Паказваць усплываючыя апавяшчэньні ў аплікацыйі.",
             "inAppPreviewModes": {
                 "off": "Выключана",
-                "mentionsOnly": "Толькі згадваньні",
-                "inheritFromPingSettings": "Узяць з наладаў згадваньня",
-                "all": "Усе"
+                "inheritFromPingSettings": "Узяць з наладаў згадваньня"
             },
             "testNotification": {
                 "title": "Яно працуе!",
@@ -584,7 +536,6 @@
             "customCSS": "Уласны CSS",
             "customCSSWarning": "Не ўстаўляйце код ад людзей, якім не давяраеце.",
             "saveAndApply": "Захаваць і прымяніць",
-            "themes": "Тэмы",
             "themesDescription": "Абярыце гатовую тэму альбо вярніцеся да зыходнае.",
             "maintainers": "Удзельнікі",
             "apply": "Прымяніць",
@@ -607,7 +558,6 @@
             "sendButton": "Дасыланьне паведамленьня"
         },
         "window": {
-            "title": "Налады - Налады акна",
             "downloadAppNotice": "Каб змяніць гэтыя налады, вы мусіце спампаваць аплікацыю Nerimity для ПК.",
             "startupOptions": "Налады запуску",
             "openOnStartup": "Адкрываць Nerimity пры ўключэньні",
@@ -623,23 +573,18 @@
             "visitButton": "Наведаць {{store}}",
             "activityStatus": "Статус актыўнасьці",
             "activityStatusDescription": "Абагульце, чым вы займайцеся, са ўсімі",
-            "deleteButton": "Выдаліць",
-            "editButton": "Адрэдагаваць",
             "activityStatusModal": {
                 "title": "Рэдагаваньне статусу актыўнасьці",
                 "executable": "Працэс",
                 "action": "Дзеяньне",
                 "name": "Назва",
-                "emoji": "Эмодзі",
-                "backButton": "Назад",
-                "saveButton": "Захаваць"
+                "emoji": "Эмодзі"
             },
             "discordActivity": "Актыўнасьць Discord",
             "discordActivityDescription": "Абагульце вашу актыўнасьць з Discord з карыстачамі Nerimity",
             "idPlaceholder": "ID карыстача Discord",
             "serverModal": {
                 "text": "Далучыцеся да сэрвэра Discord, каб актываваць абагульненьне актыўнасьці.",
-                "cancelButton": "Скасаваць",
                 "doneButton": "Я ўжо там"
             }
         },
@@ -694,7 +639,6 @@
         "placeholder": "Мой цудоўны сэрвэр",
         "creating": "Ствараем…",
         "createServerButton": "Стварыць сэрвэр",
-        "closeButton": "Закрыць",
         "tabLabel": "Стварыць"
     },
     "joinServerModal": {
@@ -708,10 +652,6 @@
     },
     "serverContextMenu": {
         "markAsRead": "Адзначыць як прачытанае",
-        "invites": "Запрашэньні",
-        "notifications": "Абвесткі",
-        "settings": "Налады",
-        "copyId": "Скапіяваць ID",
         "leave": "Выйсьці",
         "notificationOptions": {
             "everything": "Усё",
@@ -746,10 +686,7 @@
     "userContextMenu": {
         "viewProfile": "Праглядзець профіль",
         "sendMessage": "Адправіць паведамленьне",
-        "copyId": "Скапіяваць ID",
         "editRoles": "Рэдагаваць ролі",
-        "kick": "Выгнаць",
-        "ban": "Забаніць",
         "changeNickname": "Зьмяніць нікнэйм",
         "transferOwnership": "Перадаць уладу",
         "callVolume": "Гучнасьць у выкліку"
@@ -758,7 +695,6 @@
         "title": "Выгнаць {{username}}",
         "kickButton": "Выгнаць",
         "kicking": "Выганяем…",
-        "backButton": "Назад",
         "message": "Вы ўпэўненыя, што хочаце выгнаць <1>{{username}}</1>?"
     },
     "editServerRolesModal": {
@@ -846,10 +782,8 @@
         "optionNumberPlaceholder": "Вырыянт {{number}}"
     },
     "informationDrawer": {
-        "title": "Інфармацыя",
         "channelNotice": "Папярэджаньне каналу",
         "attachments": "Далучаныя файлы",
-        "attachmentsBack": "Назад",
         "members": "Удзельнікі",
         "creator": "Стваральнік",
         "admin": "Адміністратар",
@@ -1043,8 +977,6 @@
     "connectionErrorModal": {
         "title": "Памылка пры падлучэньні",
         "ok": "Ок",
-        "logout": "Выйсьці",
-        "login": "Увайсьці",
         "noToken": "Токэну не пазначана.",
         "suspended": "Вы заблякаваныя.",
         "reason": "Прычына",

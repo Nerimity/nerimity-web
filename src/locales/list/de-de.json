@@ -57,8 +57,7 @@
         "password": "Passwort",
         "login": "Anmelden",
         "createAccountInstead": "Stattdessen ein Konto erstellen",
-        "loggingIn": "Anmelden...",
-        "loginButton": "Anmelden"
+        "loggingIn": "Anmelden..."
     },
     "registerPage": {
         "header": "Registrieren",
@@ -147,9 +146,7 @@
             "blockedUsersButton": "Blockiert",
             "inboxTitle": "Posteingang",
             "friendsButton": "Freunde",
-            "viewAll": "Alle anzeigen",
-            "inboxButton": "Posteingang",
-            "offline": "Offline"
+            "viewAll": "Alle anzeigen"
         }
     },
     "explore": {
@@ -194,19 +191,14 @@
             "joinServerButton": "Beitreten",
             "bumpButton": "Bump ({{count}})"
         },
-        "search": "Suchen",
         "sort": "Sortieren",
         "filter": "Filtern",
-        "backButton": "Zurück",
         "by": "Von",
         "bumped": "Gebumpt"
     },
     "editFolderModal": {
         "title": "Ordner bearbeiten",
         "placeholder": "Ordnername",
-        "cancelButton": "Nicht speichern",
-        "save": "Speichern",
-        "saving": "Wird gespeichert...",
         "errors": {
             "emptyName": "Bitte gib einen Ordnernamen ein."
         }
@@ -225,13 +217,11 @@
                 "role": "Rolle",
                 "welcome-screen": "Willkommensbildschirm",
                 "channel": "Kanal",
-                "emojis": "Emojis",
                 "notifications": "Benachrichtigungen",
                 "external-embed": "Externe Einbettung"
             },
             "bans": {
                 "sort": {
-                    "title": "Sortieren",
                     "unsorted": "Unsortiert"
                 },
                 "noResults": "Keine Ergebnisse gefunden.",
@@ -256,16 +246,8 @@
                 "defaultChannelDescription": "Neue Mitglieder werden zu diesem Kanal weitergeleitet.",
                 "systemMessages": "Systemnachrichten",
                 "systemMessagesDescription": "Wo Systemnachrichten erscheinen sollen.",
-                "avatar": "Avatar",
-                "avatarDescription": "Unterstützt: JPG, PNG, GIF, WEBP, max. 12 MB",
-                "banner": "Banner",
-                "bannerDescription": "Unterstützt: JPG, PNG, GIF, WEBP, max. 12 MB",
-                "browseButton": "Durchsuchen",
                 "deleteThisServer": "Diesen Server löschen",
-                "deleteThisServerDescription": "Das kann nicht rückgängig gemacht werden!",
                 "deleteServerButton": "Server löschen",
-                "saveChangesButton": "Änderungen speichern",
-                "saving": "Wird gespeichert...",
                 "none": "Keine"
             },
             "roles": {
@@ -273,16 +255,12 @@
                 "addRoleButton": "Rolle hinzufügen"
             },
             "role": {
-                "saveChangesButton": "Änderungen speichern",
-                "saving": "Wird gespeichert...",
                 "roleName": "Rollenname",
                 "roleColor": "Rollenfarbe",
                 "hideRole": "Rolle ausblenden",
                 "hideRoleDescription": "Mitglieder mit dieser Rolle zusammen mit allen Standardmitgliedern anzeigen",
-                "permissions": "Berechtigungen",
                 "permissionsDescription": "Berechtigungen für diese Rolle verwalten.",
-                "deleteRoleButton": "Diese Rolle löschen",
-                "deleteRoleButtonDescription": "Das kann nicht rückgängig gemacht werden!"
+                "deleteRoleButton": "Diese Rolle löschen"
             },
             "header": {
                 "editServer": "Server bearbeiten",
@@ -293,13 +271,9 @@
                 "createNewDescription": "Neuen Kanal oder neue Kategorie erstellen"
             },
             "channel": {
-                "saving": "Wird gespeichert...",
-                "saveChangesButton": "Änderungen speichern",
                 "channelName": "Kanalname",
-                "permissions": "Berechtigungen",
                 "permissionsDescription": "Berechtigungen für diesen Kanal verwalten.",
                 "deleteThisChannel": "Diesen Kanal löschen",
-                "deleteThisChannelDescription": "Das kann nicht rückgängig gemacht werden!",
                 "deleteChannelButton": "Kanal löschen",
                 "removeNoticeButton": "Hinweis entfernen"
             },
@@ -308,10 +282,7 @@
                 "serverInvites": "Server-Einladungen",
                 "serverInvitesDescription": "Lade deine Freunde auf diesen Server ein.",
                 "customInviteVerifiedOnlyNotice": "Benutzerdefinierte Einladungslinks sind nur für verifizierte Server verfügbar.",
-                "customLink": "Benutzerdefinierter Link",
-                "saveButton": "Speichern",
-                "deleteButton": "Löschen",
-                "copyLinkButton": "Link kopieren"
+                "customLink": "Benutzerdefinierter Link"
             },
             "publishServer": {
                 "publishNotice": "Wenn du deinen Server veröffentlichst, wird er auf der <1>Erkunden</1>-Seite verfügbar.",
@@ -404,7 +375,6 @@
             "interface": "Oberfläche",
             "language": "Sprache",
             "notifications": "Benachrichtigungen",
-            "logout": "Abmelden",
             "developer": "Entwickler",
             "applications": "Anwendungen",
             "experiments": "Experimente",
@@ -422,10 +392,7 @@
         "language": {
             "reloadNotice": "Du musst die App neu laden, damit die neue Sprache vollständig angewendet wird.",
             "reloadButton": "Neu laden",
-            "contributors": "Mitwirkende",
-            "translateModal": {
-                "title": "Übersetzen"
-            }
+            "contributors": "Mitwirkende"
         },
         "header": {
             "servers": "Server",
@@ -433,14 +400,8 @@
             "manageAccount": "Konto verwalten"
         },
         "account": {
-            "email": "E-Mail",
-            "username": "Benutzername",
             "tag": "Tag",
             "botID": "Bot-ID",
-            "avatar": "Avatar",
-            "banner": "Banner",
-            "supported": "Unterstützt",
-            "browse": "Durchsuchen",
             "profile": "Profil",
             "profileDescription": "Bio oder Farben bearbeiten",
             "palestineBorder": "Palästina-Rahmen zu deinem Avatar hinzufügen.",
@@ -461,14 +422,9 @@
             "enterCode": "Gib den 5-stelligen Code ein, der an deine E-Mail gesendet wurde:",
             "sendCodeButton": "Code senden",
             "resendIn": "Erneut senden in {{time}}",
-            "confirmButton": "Bestätigen",
-            "cancelButton": "Abbrechen",
             "channelNotice": "Kanalhinweis",
             "channelNoticeDescription": "Wird angezeigt, bevor der Nutzer zum ersten Mal chattet. Änderungen gelten nach dem Neuladen.",
             "channelNoticeTooLong": "Der Kanalhinweis darf nicht länger als 300 Zeichen sein.",
-            "saving": "Wird gespeichert...",
-            "saveButton": "Speichern",
-            "saveChangesButton": "Änderungen speichern",
             "deleteAccount": "Mein Konto löschen",
             "deleteAccountDescription": "Das kann nicht rückgängig gemacht werden!",
             "deleteAccountNotice": "Du musst alle Server verlassen oder löschen, bevor du dein Konto löschen kannst.",
@@ -489,24 +445,15 @@
         "privacy": {
             "lastOnline": {
                 "title": "Zuletzt-online-Zeit",
-                "description": "Lege fest, wer deine Zuletzt-online-Zeit sehen kann.",
-                "hidden": "Ausgeblendet",
-                "friendsOnly": "Nur Freunde",
-                "friendsAndServers": "Freunde und Server"
+                "description": "Lege fest, wer deine Zuletzt-online-Zeit sehen kann."
             },
             "directMessage": {
                 "title": "Direktnachrichten",
-                "description": "Lege fest, wer dir Direktnachrichten senden kann.",
-                "anyone": "Jeder",
-                "friendsAndServersOnly": "Nur Freunde & Server",
-                "friendsOnly": "Nur Freunde"
+                "description": "Lege fest, wer dir Direktnachrichten senden kann."
             },
             "friendRequest": {
                 "title": "Freundschaftsanfragen",
-                "description": "Lege fest, wer dir Freundschaftsanfragen senden kann.",
-                "anyone": "Jeder",
-                "serversOnly": "Nur Server",
-                "nobody": "Niemand"
+                "description": "Lege fest, wer dir Freundschaftsanfragen senden kann."
             },
             "profileOptions": {
                 "title": "Profiloptionen",
@@ -535,9 +482,7 @@
             "mute": "Stumm",
             "inAppPreviewModes": {
                 "off": "Aus",
-                "mentionsOnly": "Nur Erwähnungen",
-                "inheritFromPingSettings": "Von Ping-Einstellungen übernehmen",
-                "all": "Alle"
+                "inheritFromPingSettings": "Von Ping-Einstellungen übernehmen"
             }
         },
         "call": {
@@ -557,7 +502,6 @@
             "customCSS": "Benutzerdefiniertes CSS",
             "customCSSWarning": "Füge keinen Code von Personen ein, denen du nicht vertraust.",
             "saveAndApply": "Speichern & anwenden",
-            "themes": "Designs",
             "themesDescription": "Wähle ein Preset-Design oder setze auf Standard zurück.",
             "maintainers": "Mitwirkende",
             "apply": "Anwenden",
@@ -573,7 +517,6 @@
             "chatBarOptions": "Chatleisten-Optionen"
         },
         "window": {
-            "title": "Einstellungen – Fenster-Einstellungen",
             "downloadAppNotice": "Um diese Einstellungen zu ändern, musst du die Nerimity-Desktop-App herunterladen.",
             "startupOptions": "Startoptionen",
             "openOnStartup": "Nerimity beim Systemstart öffnen",
@@ -589,23 +532,18 @@
             "visitButton": "{{store}} besuchen",
             "activityStatus": "Aktivitätsstatus",
             "activityStatusDescription": "Teile, was du gerade machst, mit allen",
-            "deleteButton": "Löschen",
-            "editButton": "Bearbeiten",
             "activityStatusModal": {
                 "title": "Aktivitätsstatus bearbeiten",
                 "executable": "Ausführbare Datei",
                 "action": "Aktion",
                 "name": "Name",
-                "emoji": "Emoji",
-                "backButton": "Zurück",
-                "saveButton": "Speichern"
+                "emoji": "Emoji"
             },
             "discordActivity": "Discord-Aktivität",
             "discordActivityDescription": "Teile deine Discord-Aktivität mit Nutzern auf Nerimity",
             "idPlaceholder": "Discord-Nutzer-ID",
             "serverModal": {
                 "text": "Bitte tritt dem Discord-Server bei, um Aktivitätsfreigabe zu aktivieren.",
-                "cancelButton": "Abbrechen",
                 "doneButton": "Ich bin beigetreten"
             }
         },
@@ -631,7 +569,6 @@
         "notice": "NSFW-Inhalte sind nicht erlaubt.",
         "serverName": "Servername",
         "placeholder": "Mein fantastischer Server",
-        "closeButton": "Schließen",
         "createServerButton": "Server erstellen",
         "creating": "Wird erstellt...",
         "tabLabel": "Erstellen"
@@ -647,10 +584,6 @@
     },
     "serverContextMenu": {
         "markAsRead": "Als gelesen markieren",
-        "invites": "Einladungen",
-        "notifications": "Benachrichtigungen",
-        "settings": "Einstellungen",
-        "copyId": "ID kopieren",
         "leave": "Verlassen",
         "notificationOptions": {
             "everything": "Alles",
@@ -679,10 +612,7 @@
     "userContextMenu": {
         "viewProfile": "Profil ansehen",
         "sendMessage": "Nachricht senden",
-        "copyId": "ID kopieren",
         "editRoles": "Rollen bearbeiten",
-        "kick": "Kicken",
-        "ban": "Bannen",
         "changeNickname": "Spitznamen ändern",
         "transferOwnership": "Besitz übertragen",
         "callVolume": "Anruflautstärke"
@@ -691,7 +621,6 @@
         "title": "{{username}} kicken",
         "kickButton": "Kicken",
         "kicking": "Wird gekickt...",
-        "backButton": "Zurück",
         "message": "Möchtest du <1>{{username}}</1> wirklich kicken?"
     },
     "editServerRolesModal": {
@@ -755,10 +684,8 @@
         "optionNumberPlaceholder": "Option {{number}}"
     },
     "informationDrawer": {
-        "title": "Informationen",
         "channelNotice": "Kanalhinweis",
         "attachments": "Anhänge",
-        "attachmentsBack": "Zurück",
         "members": "Mitglieder"
     },
     "botInvite": {
@@ -870,8 +797,6 @@
     "connectionErrorModal": {
         "title": "Verbindungsfehler",
         "ok": "Ok",
-        "logout": "Abmelden",
-        "login": "Anmelden",
         "noToken": "Kein Token angegeben.",
         "suspended": "Ihr Konto wurde gesperrt.",
         "reason": "Grund",

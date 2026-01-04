@@ -15,8 +15,7 @@
         "password": "Parola",
         "login": "Conectare",
         "createAccountInstead": "Creați un cont în schimb",
-        "loggingIn": "Conectarea...",
-        "loginButton": "Autentificare"
+        "loggingIn": "Conectarea..."
     },
     "registerPage": {
         "title": "Bine ați venit la {{appName}}",
@@ -40,11 +39,7 @@
     },
     "inbox": {
         "drawer": {
-            "requests": "Cereri",
-            "online": "Online",
-            "offline": "Offline",
             "addFriendButton": "Adaugare prieten",
-            "inboxButton": "Cutia poștală",
             "friendsButton": "Prieteni"
         }
     },
@@ -82,7 +77,6 @@
                 "role": "Roluri",
                 "welcome-screen": "Ecran de bun venir",
                 "channel": "Canel",
-                "emojis": "Emoticoane",
                 "notifications": "notificări"
             },
             "general": {
@@ -93,26 +87,19 @@
                 "systemMessages": "Mesaje de sistem",
                 "systemMessagesDescription": "Unde ar trebui să apară mesajele de sistem.",
                 "deleteThisServer": "Sterge acest server",
-                "deleteThisServerDescription": "Acest lucru nu poate fi anulat!",
-                "deleteServerButton": "STERGE server-ul",
-                "saveChangesButton": "Salvați modificările",
-                "saving": "Salvare..."
+                "deleteServerButton": "STERGE server-ul"
             },
             "roles": {
                 "addNewRole": "Adaugare rol nou",
                 "addRoleButton": "Adaugare rol"
             },
             "role": {
-                "saveChangesButton": "Salvați modificările",
-                "saving": "Salvare...",
                 "roleName": "Numele rolului",
                 "roleColor": "Culoare rolului",
                 "hideRole": "Ascunde rolul",
                 "hideRoleDescription": "Afișați membrii cu acest rol împreună cu toți membrii implicițis",
-                "permissions": "Permisiuni",
                 "permissionsDescription": "Gestionați permisiunile pentru acest rol.",
-                "deleteRoleButton": "Sterge aces rol",
-                "deleteRoleButtonDescription": "Acest lucru nu poate fi anulat!"
+                "deleteRoleButton": "Sterge aces rol"
             },
             "header": {
                 "editServer": "Editează server-ul",
@@ -123,13 +110,9 @@
                 "createNewDescription": "Creați un canal sau o categorie nouă"
             },
             "channel": {
-                "saving": "Salvare...",
-                "saveChangesButton": "Salvați modificările",
                 "channelName": "Numele canalului",
-                "permissions": "Permisiuni",
                 "permissionsDescription": "Gestionați permisiunile pentru acest canal.",
                 "deleteThisChannel": "Sterge acest canal",
-                "deleteThisChannelDescription": "Acest lucru nu poate fi anulat!",
                 "deleteChannelButton": "STERGE canal"
             },
             "invites": {
@@ -137,10 +120,7 @@
                 "serverInvites": "Invitațiile serverului",
                 "serverInvitesDescription": "Invitați-vă prietenii la acest server.",
                 "customInviteVerifiedOnlyNotice": "Link-urile de invitație personalizate sunt disponibile numai pentru serverele verificate.",
-                "customLink": "Link de invitație personalizat",
-                "saveButton": "Salvează",
-                "deleteButton": "Sterge",
-                "copyLinkButton": "Copiați link-ul"
+                "customLink": "Link de invitație personalizat"
             },
             "publishServer": {
                 "publishNotice": "Publicarea serverului va face ca acesta să fie disponibil în pagina <1>explore</1>.",
@@ -184,7 +164,6 @@
             "interface": "Interfață",
             "language": "Limbă",
             "notifications": "Notificări",
-            "logout": "Deconectare",
             "developer": "Setări Dezvoltator",
             "applications": "Aplicații",
             "experiments": "Experimente",
@@ -200,10 +179,7 @@
         "privacy": {
             "directMessage": {
                 "title": "Mesaje directe",
-                "description": "Setați cine vă poate trimite mesaje directe.",
-                "anyone": "Toate lumea",
-                "friendsAndServersOnly": "Doar de la Prieteni si membri din serverele mele",
-                "friendsOnly": "Doar de la Prieteni"
+                "description": "Setați cine vă poate trimite mesaje directe."
             },
             "profileOptions": {
                 "title": "Setări de profil",
@@ -214,10 +190,7 @@
             },
             "friendRequest": {
                 "title": "Cerere de prietenie",
-                "description": "Setați cine vă poate trimite cereri de prietenie.",
-                "anyone": "Toate lumea",
-                "serversOnly": "Doar din servere",
-                "nobody": "Nimeni"
+                "description": "Setați cine vă poate trimite cereri de prietenie."
             },
             "lastOnline": {
                 "description": "Setați cine poate vedea ultima dvs. oră online.",
@@ -231,17 +204,13 @@
     "userContextMenu": {
         "viewProfile": "Vezi profil-ul",
         "sendMessage": "Trimite mesaj",
-        "copyId": "Copiaza ID",
         "editRoles": "Editează Rolurile",
-        "kick": "Explusare",
-        "ban": "Ban",
         "changeNickname": "Schimbati Porecla"
     },
     "kickServerMemberModal": {
         "title": "Explusare {{username}}",
         "kickButton": "Expulseaza",
         "kicking": "Explusare...",
-        "backButton": "Înapoi",
         "message": "Ești sigur că vrei să expulsezi pe <1>{{username}}</1>?"
     },
     "editServerRolesModal": {
@@ -294,10 +263,8 @@
         "optionNumberPlaceholder": "Opțiuni : {{number}}"
     },
     "informationDrawer": {
-        "title": "Informații",
         "channelNotice": "Anunț de canal",
         "attachments": "Atașamente",
-        "attachmentsBack": "Înapoi",
         "members": "Membri"
     }
 }
