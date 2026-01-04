@@ -1,7 +1,7 @@
 {
     "header": {
         "logoutButton": "Sair",
-        "openAppButton": "Abrir Aplicativo",
+        "openAppButton": "Abrir aplicativo",
         "loginButton": "Entrar",
         "joinNowButton": "Junte-se Agora"
     },
@@ -37,7 +37,7 @@
         "email": "Email",
         "username": "Nome de usuário",
         "password": "Senha",
-        "confirmPassword": "Confirmar Senha",
+        "confirmPassword": "Confirmar senha",
         "registerButton": "Registrar-se",
         "registering": "Registrando…",
         "loginInstead": "Em vez disso, entrar",
@@ -62,11 +62,11 @@
     },
     "inbox": {
         "drawer": {
-            "addFriendButton": "Adicionar amigo",
-            "friendsButton": "Amigos",
+            "addFriendButton": "Adicionar amigo(a)",
+            "friendsButton": "Amigos(as)",
             "friendRequests": "{{count}} solicitações de amizade",
-            "onlineFriends": "{{count}} amigos ativos",
-            "offlineFriends": "{{count}} amigos inativos",
+            "onlineFriends": "{{count}} amigos(as) ativos(as)",
+            "offlineFriends": "{{count}} amigos(as) inativos(as)",
             "inboxTitle": "Caixa de entrada",
             "searchBarPlaceholder": "Pesquisar",
             "notes": "Notas",
@@ -140,13 +140,14 @@
                 "notifications": "Notificações",
                 "external-embed": "Integração externa",
                 "audit-logs": "Registros de Auditoria",
-                "permissions": "Permissões"
+                "permissions": "Permissões",
+                "emoji": "Emoji"
             },
             "general": {
                 "serverRenameNotice": "Se você renomear seu servidor, você perderá todos os benefícios de verificação.",
                 "serverName": "Nome do servidor",
                 "defaultChannel": "Canal padrão",
-                "defaultChannelDescription": "Membros novos serão direcionados a esse canal.",
+                "defaultChannelDescription": "Membros novos serão direcionados a este canal.",
                 "systemMessages": "Mensagens do sistema",
                 "systemMessagesDescription": "Onde mensagens do sistema deverão aparecer.",
                 "deleteThisServer": "Excluir este servidor",
@@ -162,8 +163,8 @@
                 "roleColor": "Cor do cargo",
                 "hideRole": "Ocultar cargo",
                 "hideRoleDescription": "Mostrar membros com este cargo junto dos membros padrão",
-                "permissionsDescription": "Gerencie as permissões desse cargo.",
-                "deleteRoleButton": "Excluir cargo",
+                "permissionsDescription": "Gerencie as permissões deste cargo.",
+                "deleteRoleButton": "Excluir este cargo",
                 "clear": "Limpar",
                 "roleIcon": "Ícone do cargo",
                 "deleteRoleTitle": "Excluir {{roleName}}",
@@ -181,7 +182,7 @@
             },
             "channel": {
                 "channelName": "Nome do canal",
-                "permissionsDescription": "Gerencie as permissões desse canal.",
+                "permissionsDescription": "Gerencie as permissões deste canal.",
                 "deleteThisChannel": "Excluir este canal",
                 "deleteChannelButton": "Excluir canal",
                 "removeNoticeButton": "Remover nota",
@@ -190,9 +191,9 @@
                 "slowModeDescription": "Especifique quanto tempo um usuário deve esperar antes de poder enviar uma mensagem."
             },
             "invites": {
-                "createInviteButton": "Criar Convite",
-                "serverInvites": "Convites do Servidor",
-                "serverInvitesDescription": "Convide seus amigos a este servidor.",
+                "createInviteButton": "Criar convite",
+                "serverInvites": "Convites do servidor",
+                "serverInvitesDescription": "Convide seus(uas) amigos(as) a este servidor.",
                 "customInviteVerifiedOnlyNotice": "Links de convite personalizados só estão disponíveis para servidores verificados.",
                 "customLink": "Link personalizado",
                 "uses": "{{count}} uso(s)"
@@ -221,17 +222,18 @@
                 "noResults": "Nenhum resultado encontrado.",
                 "noReason": "Nenhum motivo fornecido",
                 "sort": {
-                    "unsorted": "Não classificado"
+                    "unsorted": "Não classificado",
+                    "alphabetical": "Alfabética"
                 },
                 "unban": "Desbanir",
-                "unbanning": "Desbanindo",
+                "unbanning": "Desbanindo…",
                 "bannedAt": "Banido(a) em"
             },
             "verify": {
                 "requirements": {
                     "title": "Requisitos",
                     "avatarAndBannerDescription": "Servidor deve ter um avatar e um banner.",
-                    "oneMonthOrSupporterDescription": "Seu servidor deve ter pelo menos 1 mês OU o(a) dono(a) do servidor deve ter o emblema de apoiador.",
+                    "oneMonthOrSupporterDescription": "Seu servidor deve ter pelo menos 1 mês OU o(a) dono(a) do servidor deve ter o emblema de apoiador(a).",
                     "englishOnlyDescription": "Servidores que não são em inglês são mais difíceis de moderar.",
                     "rules": "Regras do servidor",
                     "profanityFree": "Livre de profanidade",
@@ -240,7 +242,7 @@
                     "avatarAndBanner": "Avatar e banner",
                     "members": "{{count}} ou mais membros",
                     "membersDescription": "Seu servidor deve ter pelo menos {{count}} membros.",
-                    "oneMonthOrSupporter": "Pelo menos 1 mês OU emblema de apoiador",
+                    "oneMonthOrSupporter": "Pelo menos 1 mês OU emblema de apoiador(a)",
                     "rulesDescription": "Servidor deve ter um canal de regras."
                 },
                 "perks": {
@@ -261,22 +263,27 @@
                 "alreadyVerified": "Seu servidor já está verificado!",
                 "verifyButton": "Verificar",
                 "verifiableDescription": "Você tem membros suficientes para verificar seu servidor!"
+            },
+            "emoji": {
+                "title": "Emoji customizado",
+                "addButton": "Adicionar emoji",
+                "description": "Adicione seu próprio emoji."
             }
         },
         "rolePermissions": {
-            "admin": "Administrador",
+            "admin": "Administrador(a)",
             "adminDescription": "Ativa todas permissões.",
             "sendMessage": "Enviar mensagens",
             "sendMessageDescription": "Permitir enviar mensagens neste servidor. Administradores do servidor ainda poderão enviar mensagens.",
             "manageRoles": "Gerenciar cargos",
             "manageRolesDescription": "Permissão para alterar ou excluir cargos.",
             "manageChannels": "Gerenciar canais",
-            "manageChannelsDescription": "Permitssão para alterar ou excluir canais.",
+            "manageChannelsDescription": "Permissão para alterar ou excluir canais.",
             "kick": "Expulsar",
             "kickDescription": "Permissão para expulsar usuários.",
             "ban": "Banir",
             "banDescription": "Permissão para banir usuários.",
-            "mentionEveryone": "Mencionar todos",
+            "mentionEveryone": "Mencionar todos(as)",
             "mentionEveryoneDescription": "Habilita mencionar @everyone. Administradores do servidor ainda podem mencionar todos.",
             "nicknameMember": "Apelidar membro",
             "nicknameMemberDescription": "Permite que usuários alterem seus apelidos no servidor."
@@ -314,7 +321,7 @@
             "changelog": "Novidades",
             "window-settings": "Configurações de Janela",
             "call-settings": "Configurações de Chamada",
-            "activity-status": "Estatus de Atividade",
+            "activity-status": "Status de Atividade",
             "tickets": "Bilhetes",
             "privacy": "Privacidade",
             "connections": "Conexões",
@@ -342,16 +349,16 @@
                 "title": "Último horário ativo"
             },
             "options": {
-                "anybody": "Todos",
+                "anybody": "Todos(as)",
                 "nobody": "Ninguém",
-                "friendsOnly": "Somente amigos",
+                "friendsOnly": "Somente amigos(as)",
                 "serversOnly": "Somente servidores",
-                "friendsAndServers": "Amigos e servidores"
+                "friendsAndServers": "Amigos(as) e servidores"
             }
         },
         "header": {
             "servers": "servidores",
-            "friends": "amigos",
+            "friends": "amigos(as)",
             "manageAccount": "Gerenciar conta"
         },
         "account": {
@@ -367,9 +374,9 @@
             "newPasswordDescription": "Mudar sua senha irá lhe desconectar de suas outras sessões.",
             "enterCode": "Inserir o código de 5 dígitos enviados ao seu email:",
             "sendCodeButton": "Enviar código",
-            "resendIn": "Reenviar",
+            "resendIn": "Reenviar em {{time}}",
             "deleteAccount": "Excluir minha conta",
-            "deleteAccountDescription": "Isso não pode ser desfeito!",
+            "deleteAccountDescription": "Isto não pode ser desfeito!",
             "understoodButton": "Entendido",
             "deleteAccountNotice": "Você deve sair/excluir todos servidores antes de excluir sua conta.",
             "deletedInfo": {
@@ -520,7 +527,7 @@
             "noticeTitle": "Doações",
             "price": "Emblemas por {{price}}",
             "supportMethods": "Métodos de apoio",
-            "palestineDescription": "Pode ser obtida indo para {{account}} -> {{profile}}",
+            "palestineDescription": "Pode ser obtido indo para {{account}} -> {{profile}}",
             "notice": "Apoiar este projeto doando dinheiro."
         },
         "experiments": {
@@ -535,7 +542,7 @@
     },
     "supportBlock": {
         "support": "Apoie-me",
-        "supportDescription": "Doe para ganhar um emblema de apoiador!"
+        "supportDescription": "Doe para ganhar um emblema de apoiador(a)!"
     },
     "userContextMenu": {
         "viewProfile": "Ver perfil",
@@ -581,14 +588,14 @@
     "profile": {
         "followButton": "Seguir",
         "unfollowButton": "Parar de seguir",
-        "removeFriendButton": "Remover amigo",
-        "addFriendButton": "Adicionar amigo",
+        "removeFriendButton": "Desfazer amizade",
+        "addFriendButton": "Adicionar amigo(a)",
         "pendingRequest": "Pedido pendente",
         "acceptRequestButton": "Aceitar pedido",
         "messageButton": "Enviar mensagem",
-        "mutualFriends": "Amigos em comum ({{count}})",
+        "mutualFriends": "Amizades em comum ({{count}})",
         "mutualServers": "Servidores em comum ({{count}})",
-        "postsTab": "Posts",
+        "postsTab": "Postagens",
         "followersTab": "Seguidores",
         "followingTab": "Seguindo",
         "postsAndRepliesTab": "Postagens e respostas ({{count}})",
@@ -711,7 +718,7 @@
     "videoEmbed": {
         "expires": "Expira",
         "expired": "Expirou",
-        "modifiedOrDeleted": "Este vídeo foi modificado ou excluído pelo criador em seu Google Drive.",
+        "modifiedOrDeleted": "Este vídeo foi modificado ou excluído pelo(a) criador(a) em seu Google Drive.",
         "videoExpired": "Vídeo expirado.",
         "videoModified": "Vídeo foi modificado.",
         "couldNotGetVideo": "Não foi possível obter vídeo.",
@@ -721,7 +728,7 @@
         "download": "Baixar",
         "viewImage": "Ver imagem",
         "expired": "Expirado",
-        "modifiedOrDeleted": "Este arquivo foi modificado ou excluído pelo criador em seu Google Drive.",
+        "modifiedOrDeleted": "Este arquivo foi modificado ou excluído pelo(a) criador(a) em seu Google Drive.",
         "expires": "Expira"
     },
     "invite": {
@@ -806,8 +813,8 @@
         "tabLabel": "Entrar"
     },
     "addFriendModal": {
-        "title": "Adicionar amigo",
-        "description": "Insira o nome de usuário e tag de seu amigo para o(a) adicionar.",
+        "title": "Adicionar amigo(a)",
+        "description": "Insira o nome de usuário e tag de seu(ua) amigo(a) para o(a) adicionar.",
         "placeholder": "Nome de usuário:ABC1",
         "requestSent": "Pedido enviado!",
         "closeButton": "Fechar",
@@ -853,8 +860,8 @@
         "undo": "Desfazer (Ctrl + Z)",
         "erase": "Excluir",
         "brush": "Pincel",
-        "strokeWidth": "Largura do traço",
-        "mobileNotice": "Pinçar para ampliar",
+        "strokeWidth": "Largura do traço: {{width}}",
+        "mobileNotice": "Pinçar para arrastar/ampliar",
         "desktopMove": "Espaço + arrastar para mover",
         "desktopZoom": "Rodar para ampliar"
     },
@@ -1064,7 +1071,8 @@
     },
     "nicknameChangeModal": {
         "title": "Atualizar perfil do servidor",
-        "description": "Todos neste servidor verão seu apelido."
+        "description": "Todos neste servidor verão seu apelido.",
+        "inputLabel": "Apelido"
     },
     "transferOwnershipModal": {
         "server": "Servidor:",
