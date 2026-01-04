@@ -14,7 +14,7 @@ export const languages: Record<string, Language> = {
     emoji: "🇬🇧",
     contributors: [
       "https://github.com/SupertigerDev",
-      "https://github.com/Asraye",
+      "Asraye",
       "https://github.com/1enify"
     ],
   },
@@ -35,12 +35,12 @@ export const languages: Record<string, Language> = {
     name: "Arabic",
     nativeName: "العربية",
     emoji: "🇵🇸",
-    contributors: ["https://github.com/TrueLuna"],
+    contributors: ["TrueLuna"],
     rtl: true, // not really used since I manually implemented it in the code. But might be useful in the future.
   },
   "be-tarask": {
     name: "Belarusian (Traditional)",
-    nativeName: "Беларуская (традыцыйная)",
+    nativeName: "Беларуская (тарашкевіца)",
     emoji: "🇧🇾",
     contributors: ["https://github.com/Dzi-Mieha", "https://github.com/1enify"],
   },
@@ -112,7 +112,7 @@ export const languages: Record<string, Language> = {
     nativeName: "Русский",
     emoji: "🇷🇺",
     contributors: [
-      "https://github.com/FAYSi223",
+      "FAYSi223",
       "https://github.com/eshkq",
       "https://github.com/Effently",
     ],
@@ -127,7 +127,7 @@ export const languages: Record<string, Language> = {
     name: "Thai",
     nativeName: "ไทย",
     emoji: "🇹🇭",
-    contributors: ["ccsleep"],
+    contributors: ["https://github.com/CCSleep"],
   },
   "tr-tr": {
     name: "Turkish",
@@ -144,8 +144,8 @@ export const languages: Record<string, Language> = {
     name: "UwU",
     emoji: "🐱",
     contributors: [
-      "https://github.com/spookehneko123",
-      "https://github.com/Asraye",
+      "Berry",
+      "Asraye",
     ],
   },
 };
