@@ -52,5 +52,107 @@
     },
     "oauth2": {
         "AuthorizeButton": "Authorize"
+    },
+    "general": {
+        "nothingSelected": "Nothing Selected",
+        "selectItem": "Select Item",
+        "searchPlaceholder": "Search",
+        "backButton": "Back",
+        "cancelButton": "Cancel",
+        "closeButton": "Close",
+        "editButton": "Edit",
+        "undoButton": "Undo",
+        "deleteButton": "Delete",
+        "cannotBeUndone": "This cannot be undone!",
+        "confirmButton": "Confirm",
+        "doneButton": "Done",
+        "saveButton": "Save",
+        "saveChangesButton": "Save Changes",
+        "saving": "Saving…",
+        "copyLink": "Copy Link",
+        "copyID": "Copy ID",
+        "accountData": {
+            "email": "Email",
+            "username": "Username",
+            "password": "Password"
+        },
+        "avatarAndBanner": {
+            "avatar": "Avatar",
+            "banner": "Banner",
+            "supportedFileTypes": "Supported: {{extensions}}, Max {{size}}",
+            "browse": "Browse"
+        }
+    },
+    "header": {
+        "logoutButton": "Logout",
+        "openAppButton": "Open App",
+        "loginButton": "Login",
+        "joinNowButton": "Join Now"
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<User/><2> was added to the server.</2>",
+            "user": "<User/><2> has joined the server.</2>"
+        },
+        "leaveServer": "<User/><2> has left the server.</2>",
+        "kickUser": "<User/><2> has been kicked.</2>",
+        "banUser": "<User/><2> has been banned.</2>",
+        "callStarted": "<User/><2> started a call.</2>",
+        "bumpServer": "<User/><2> bumped the server.</2>",
+        "pinnedMessage": "<User/><2> pinned a message.</2>",
+        "unsupported": "<User/><2> Unsupported message.</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "Authentication error",
+        "connecting": "Connecting…",
+        "reconnecting": "Reconnecting…",
+        "inQueue": "In Queue: {{count}} User(s) Ahead Of You",
+        "authenticating": "Authenticating…",
+        "connected": "Connected!"
+    },
+    "dangerousLinkModal": {
+        "title": "Custom Link",
+        "message": "This link will take you to",
+        "cancelButton": "Don't Visit",
+        "visitButton": "Visit"
+    },
+    "connectionErrorModal": {
+        "title": "Connection Error",
+        "ok": "OK",
+        "noToken": "No token provided.",
+        "suspended": "You are suspended.",
+        "reason": "Reason",
+        "defaultReason": "Violating the TOS",
+        "until": "Until",
+        "never": "Never",
+        "by": "By",
+        "deletionNotice": "Your account and data will be deleted in 15 days",
+        "ipBanned": "Your IP is banned.",
+        "ipBanNotice": "Someone with the same IP has been suspended from Nerimity. Your account is not affected."
+    },
+    "homePage": {
+        "slogan": "A modern and sleek chat app.",
+        "subslogan": "Nerimity offers an elegant and feature-rich experience that sets it apart.",
+        "viewGitHubButton": "View on GitHub",
+        "getStarted": "Get Started",
+        "availableOn": "Available on",
+        "browser": "Browser",
+        "featureList": {
+            "feature1": "Free animated avatars & emojis",
+            "feature2": "Sleek design",
+            "feature3": "Change your tag for free",
+            "feature4": "Create posts on your profile",
+            "feature5": "Create your own community",
+            "feature6": "Find new communities",
+            "feature7": "Runs on donations",
+            "feature8": "Full source code on GitHub",
+            "feature9": "Express yourself with borders"
+        }
+    },
+    "loginPage": {
+        "title": "Login to continue",
+        "emailOrUsernameAndTag": "Email / username:tag",
+        "password": "Password",
+        "login": "Login"
     }
 }

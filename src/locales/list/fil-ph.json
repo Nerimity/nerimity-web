@@ -204,7 +204,8 @@
                 "customLink": "Custom na link",
                 "saveButton": "I-save",
                 "deleteButton": "I-delete",
-                "copyLinkButton": "Kopyahin ang link"
+                "copyLinkButton": "Kopyahin ang link",
+                "uses": "{{count}} natitirang paggamit"
             },
             "publishServer": {
                 "publishNotice": "Kapag na-publish ang iyong server, magiging available ito sa pahina ng <1>explore</1>.",
@@ -242,7 +243,36 @@
                 "alreadyVerified": "Ang iyong server ay beripikado na!",
                 "insufficientMembers": "Kailangan mo pa ng {{count}} na miyembro upang makapag-apply para sa beripikasyon.",
                 "verifiable": "Handa nang beripikahin",
-                "verifiableDescription": "May sapat ka nang miyembro upang beripikahin ang iyong server!"
+                "verifiableDescription": "May sapat ka nang miyembro upang beripikahin ang iyong server!",
+                "verifyButton": "Beripikahin",
+                "requirements": {
+                    "title": "Mga Kinakailangan",
+                    "englishOnly": "Ingles lamang",
+                    "englishOnlyDescription": "Mas mahirap i-moderate ang mga server na hindi gumagamit ng Ingles.",
+                    "oneMonthOrSupporter": "Hindi bababa sa 1 buwan o may supporter badge",
+                    "oneMonthOrSupporterDescription": "Ang iyong server ay dapat hindi bababa sa 1 buwan ang tanda o ang may-ari ng server ay dapat may supporter badge.",
+                    "members": "{{count}} o higit pang mga miyembro",
+                    "membersDescription": "Ang iyong server ay dapat may hindi bababa sa {{count}} na mga miyembro.",
+                    "profanityFree": "Walang Kabastusan",
+                    "profanityFreeDescription": "Ang pangalan ng server, avatar, at banner ay dapat walang kabastusan.",
+                    "avatarAndBanner": "Avatar at Banner",
+                    "avatarAndBannerDescription": "Ang server ay dapat may avatar at banner.",
+                    "rules": "Mga Patakaran ng Server",
+                    "rulesDescription": "Ang server ay dapat may channel para sa mga patakaran."
+                },
+                "perks": {
+                    "title": "Mga Benepisyo",
+                    "badge": "Beripikadong Badge",
+                    "badgeDescription": "Isang badge na nagpapakita na ang iyong server ay espesyal.",
+                    "explore": "I-highlight sa Explore",
+                    "exploreDescription": "Ang iyong server ay ipapakita sa hiwalay na seksyon sa explore page.",
+                    "customInvite": "Pasadyang link ng imbitasyon",
+                    "customInviteDescription": "Gumawa ng sarili mong link ng imbitasyon mula sa invites page.",
+                    "emojiSlots": "Higit pang slot para sa emoji",
+                    "emojiSlotsDescription": "200 na slot para sa emoji ng iyong server.",
+                    "hdScreenshare": "1080p@60fps na screenshare",
+                    "hdScreenshareDescription": "Mag-screenshare sa 1080p at 60fps."
+                }
             }
         },
         "rolePermissions": {
@@ -259,13 +289,27 @@
             "ban": "Puwedeng mag ban",
             "banDescription": "Pahintulot na i-ban ang mga user.",
             "mentionEveryone": "Mention Everyone",
-            "mentionEveryoneDescription": "Paganahin ang pagbanggit sa @everyone. Maaari pa ring banggitin ng mga admin ng server ang @everyone."
+            "mentionEveryoneDescription": "Paganahin ang pagbanggit sa @everyone. Maaari pa ring banggitin ng mga admin ng server ang @everyone.",
+            "nicknameMember": "Palayaw ng Miyembro",
+            "nicknameMemberDescription": "Pahintulutan ang mga user na baguhin ang kanilang palayaw sa server."
         },
         "channelPermissions": {
             "sendMessage": "Mag-send ng mga mensahe",
             "sendMessageDescription": "Paganahin ang pagpapadala ng mga mensahe sa channel. Maaari pa ring magpadala ng mga mensahe ang mga admin ng server.",
             "joinVoice": "Pagsasali sa voice",
-            "joinVoiceDescription": "Paganahin ang pagsali sa mga voice channel. Maaari pa ring sumali ang mga admin ng server sa mga voice channel."
+            "joinVoiceDescription": "Paganahin ang pagsali sa mga voice channel. Maaari pa ring sumali ang mga admin ng server sa mga voice channel.",
+            "hiddenChannel": "Nakatagong Channel",
+            "publicChannel": "Pampublikong Channel",
+            "publicChannelDescription": "I-restore ang access sa channel. Maaaring ma-access ng mga admin ng server ang anumang channel."
+        },
+        "leaveModal": {
+            "title": "Umalis sa Server?",
+            "body": {
+                "part1": "Sigurado ka bang gusto mong umalis sa <1>{{serverName}}</1>?",
+                "part2": "Maaari kang bumalik anumang oras!"
+            },
+            "cancelButton": "Huwag Umalis",
+            "confirmButton": "Umalis"
         }
     },
     "settings": {
@@ -285,7 +329,62 @@
             "activity-status": "Activity Status",
             "tickets": "Mga tiket",
             "privacy": "Pagkapribado",
-            "connections": "Mga koneksyon"
+            "connections": "Mga koneksyon",
+            "badges": "Mga Badge",
+            "call-settings": "Mga Setting ng Tawag",
+            "profile": "Profile"
+        },
+        "language": {
+            "reloadNotice": "Kailangan mong i-reload ang app upang ganap na maipakita ang bagong wika.",
+            "reloadButton": "I-reload",
+            "searchNotice": "Ang mga salin ay pinamamahalaan ng komunidad. Mangyaring i-report ang anumang maling o hindi angkop na salin kay Nerimity.",
+            "contributors": "Mga Nag-ambag"
+        },
+        "header": {
+            "servers": "Mga server",
+            "friends": "Mga Kaibigan",
+            "manageAccount": "Pamahalaan ang Account"
+        },
+        "account": {
+            "tag": "Tag",
+            "botID": "Bot ID",
+            "profile": "Profile",
+            "profileDescription": "I-edit ang iyong bio o mga kulay",
+            "palestineBorder": "Idagdag ang border ng Palestine sa iyong avatar.",
+            "bio": "Bio",
+            "bioDescription": "Suporta sa multiline at markup",
+            "gradientColor1": "Kulay ng Gradient 1",
+            "gradientColor2": "Kulay ng Gradient 2",
+            "primaryColor": "Pangunahing Kulay",
+            "preview": "I-preview",
+            "changePassword": "Palitan ang Password",
+            "forgotPassword": "Nakalimutan ang Password",
+            "newPassword": "Bagong Password",
+            "newPasswordDescription": "Ang pagpapalit ng iyong password ay maglo-log out sa iyo sa lahat ng ibang lugar.",
+            "confirmNewPassword": "Kumpirmahin ang Bagong Password",
+            "confirmNewPasswordDescription": "Kumpirmahin ang iyong bagong password",
+            "confirmCurrentPassword": "Kumpirmahin ang iyong bagong password",
+            "confirmEmail": "Kumpirmahin ang iyong email",
+            "enterCode": "Ilagay ang 5-digit na code na ipinadala sa iyong email:",
+            "sendCodeButton": "Ipadala ang Code",
+            "resendIn": "Muling ipadala sa {{time}}",
+            "channelNotice": "Pabatid ng Channel",
+            "channelNoticeDescription": "Ipinapakita kapag ang user ay makikipag-chat sa unang pagkakataon. Mag-aaplay ang mga pagbabago pagkatapos i-reload.",
+            "channelNoticeTooLong": "Ang pabatid ng channel ay hindi maaaring hihigit sa 300 karakter.",
+            "deleteAccount": "I-delete ang aking Account",
+            "deleteAccountDescription": "Hindi na ito maibabalik!",
+            "deleteAccountNotice": "Kailangan mong iwanan o tanggalin ang lahat ng server bago mo ma-delete ang iyong account.",
+            "understoodButton": "Naiintindihan",
+            "deletionNotice": "Nalulungkot kami na aalis ka :( Kung may hindi ka nagustuhan, pakisabi sa opisyal na Nerimity server.",
+            "deletedInfo": {
+                "title": "Ano ang matatanggal",
+                "email": "• Email",
+                "username": "• Username",
+                "ip": "• IP Address",
+                "bio": "• Bio",
+                "messages": "• Ang Iyong Mga Mensahe",
+                "posts": "• Ang Iyong Mga Post"
+            }
         }
     },
     "supportBlock": {

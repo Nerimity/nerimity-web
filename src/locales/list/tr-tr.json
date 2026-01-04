@@ -30,7 +30,7 @@
         "password": "Şifre",
         "login": "Giriş Yap",
         "createAccountInstead": "Ya da hesap oluştur",
-        "loggingIn": "Giriş Yapılıyor...",
+        "loggingIn": "Giriş Yapılıyor…",
         "loginButton": "Giriş Yap"
     },
     "registerPage": {
@@ -40,11 +40,11 @@
         "password": "Şifre",
         "confirmPassword": "Şifreyi Doğrula",
         "registerButton": "Kayıt Ol",
-        "registering": "Kayıt Olunuyor...",
+        "registering": "Kayıt Olunuyor…",
         "loginInstead": "Ya da giriş yap",
         "header": "Kayıt Ol",
         "notices": {
-            "age": "14 yaş ve üzeri olmalısınız.",
+            "age": "14 yaşında veya daha büyük olmalısınız.",
             "nsfw": "NSFW içeriği yasaktır.",
             "toxic": "Kötü niyetli olmayın.",
             "title": "Uyarılar"
@@ -69,7 +69,7 @@
         "dropFile": "Dosya Bırak",
         "uploadTo": "Şuraya Yükle",
         "channelNotice": {
-            "title": "Sohbete başlamadan önce...",
+            "title": "Sohbete başlamadan önce…",
             "understoodButton": "Anlaşıldı"
         },
         "specialMentions": {
@@ -166,9 +166,10 @@
                 "role": "Rol",
                 "welcome-screen": "Karşılama Ekranı",
                 "channel": "Kanal",
-                "emojis": "Emojiler",
+                "emojis": "Emoji",
                 "notifications": "Bildirimler",
-                "external-embed": "Harici Gömme"
+                "external-embed": "Harici Gömme",
+                "permissions": "İzinler"
             },
             "general": {
                 "serverRenameNotice": "Sunucunuzu yeniden adlandırmanız doğrulama avantajlarını kaybetmenize neden olur.",
@@ -203,7 +204,11 @@
                 "permissions": "İzinler",
                 "permissionsDescription": "Bu rolün izinlerini yönet.",
                 "deleteRoleButton": "Bu Rolü Sil",
-                "deleteRoleButtonDescription": "Bu işlem geri alınamaz!"
+                "deleteRoleButtonDescription": "Bu işlem geri alınamaz!",
+                "clear": "Temizle",
+                "roleIcon": "Rol Simgesi",
+                "applyOnJoinDescription": "Üyeler sunucuya katıldığı zaman bu rolü ver.",
+                "deleteRoleTitle": "{{roleName}} rolünü sil"
             },
             "header": {
                 "editServer": "Sunucuyu Düzenle",
@@ -222,7 +227,9 @@
                 "deleteThisChannel": "Bu kanalı sil",
                 "deleteThisChannelDescription": "Bu geri alınamaz!",
                 "deleteChannelButton": "Kanalı Sil",
-                "removeNoticeButton": "Hatırlatmayı Sil"
+                "removeNoticeButton": "Hatırlatmayı Sil",
+                "channelIcon": "Kanal Simgesi",
+                "deleteChannelTitle": "{{channelName}} kanalını sil"
             },
             "invites": {
                 "createInviteButton": "Davet Oluştur",
@@ -260,8 +267,8 @@
                 "unbanning": "Yasak Kaldırma"
             },
             "webhook": {
-                "title": "Webhook Ayarları",
-                "name": "İsim",
+                "title": "Web Kancaları",
+                "name": "Web Kancası İsmi",
                 "link": "Webhook URL'si",
                 "linkDescription": "Bu bağlantıyı kullanarak eylemleri gerçekleştir",
                 "delete": "Webhook'u Sil"
@@ -375,7 +382,7 @@
             "supported": "Desteklenen",
             "browse": "Seç",
             "profile": "Profil",
-            "profileDescription": "Hakkımdanızı ve renklerinizi ayarlayın",
+            "profileDescription": "Hakkımda kısmını veya renklerinizi düzenleyin",
             "changePassword": "Şifreyi Değiştir",
             "forgotPassword": "Şifremi Unuttum",
             "newPassword": "Yeni Şifre",
@@ -448,6 +455,11 @@
                 "hideFollowersDescription": "Takipçilerinizi profilinizden gizleyin.",
                 "hideFollowing": "Takip Edilenleri Gizle",
                 "hideFollowingDescription": "Takip ettiğiniz kişileri profilinizden gizleyin."
+            },
+            "options": {
+                "anybody": "Herkes",
+                "friendsOnly": "Sadece arkadaşlar",
+                "nobody": "Hiç kimse"
             }
         },
         "notifications": {
@@ -515,8 +527,8 @@
             "emojiPicker": "Emoji Seçici",
             "sendButton": "Mesaj Gönder",
             "timeTitle": "Saat Biçimini Değiştir",
-            "12HourFormatDescription": "Zamanları AM/PM ile 12 saat biçiminde görüntüle.",
-            "24HourFormatDescription": "Zamanları 24 saat biçiminde görüntüle."
+            "12HourFormatDescription": "Zamanı AM/PM ile 12 saat biçiminde görüntüle.",
+            "24HourFormatDescription": "Zamanı 24 saat biçiminde görüntüle."
         },
         "window": {
             "openOnStartup": "Başlangıçta Nerimity'i aç",
@@ -550,7 +562,7 @@
                 "title": "Üçüncü Taraf Bağlantıları",
                 "connectionCount": "{{count}} bağlantı",
                 "unauthorizeButton": "Yetkiyi Kaldır",
-                "unauthorizing": "Yetki Kaldırılıyor..."
+                "unauthorizing": "Yetki Kaldırılıyor…"
             },
             "googleDescription": "Google hesabınızı bağlamak, Nerimity'ye dosya yüklemenize olanak tanır. Dosyalar Google Drive'ınızda saklanacaktır.",
             "linkButton": "Link",
@@ -608,7 +620,7 @@
         "notice": "NSFW içerik yasaktır.",
         "serverName": "Sunucu İsmi",
         "placeholder": "Benim Harika Sunucum",
-        "creating": "Oluşturuluyor...",
+        "creating": "Oluşturuluyor…",
         "createServerButton": "Sunucu Oluştur",
         "closeButton": "Kapat",
         "tabLabel": "Oluştur"
@@ -624,7 +636,8 @@
             "everything": "Herşey",
             "mentionsOnly": "Sadece Bahsetmeler",
             "mute": "Sustur"
-        }
+        },
+        "channelSettings": "Kanal Ayarları"
     },
     "userContextMenu": {
         "viewProfile": "Profili Görüntüle",
@@ -640,7 +653,7 @@
     "kickServerMemberModal": {
         "title": "{{username}} Kullanıcısını At",
         "kickButton": "At",
-        "kicking": "Atılıyor...",
+        "kicking": "Atılıyor…",
         "backButton": "Geri",
         "message": "<1>{{username}}</1> kullanıcısını sunucudan atmak istediğinden emin misin?"
     },
@@ -652,7 +665,7 @@
         "message": "<1>{{username}}</1> kullanıcısını sunucudan yasaklamak istediğinden emin misin?",
         "deletePastMessagesCheckbox": "Son 7 saat içinde gönderilen mesajları sil.",
         "banButton": "Yasakla",
-        "banning": "Yasaklanıyor...",
+        "banning": "Yasaklanıyor…",
         "reasonLabel": "Sebep (isteğe bağlı)",
         "reasonPlaceholder": "Bir sebep girin…"
     },
@@ -685,7 +698,22 @@
         "followersTab": "Takipçiler",
         "followingTab": "Takip Edilenler",
         "postsAndRepliesTab": "Gönderiler Ve Cevaplar ({{count}})",
-        "likedPostsTab": "Beğenilen Gönderiler ({{count}})"
+        "likedPostsTab": "Beğenilen Gönderiler ({{count}})",
+        "followerCount": "{{count}} Takipçiler",
+        "followingCount": "{{count}} Takip Ediliyor",
+        "followsYou": "Seni Takip Ediyor",
+        "blockButton": "Engelle",
+        "unblockButton": "Engeli Kaldır",
+        "reportButton": "Bildir",
+        "copyLinkButton": "Profil URL'sini kopyala",
+        "suspended": "Bu kullanıcı askıya alındı",
+        "blockedDescription": "Bu kullanıcı seni engelledi.",
+        "blocked": "Engellendiniz",
+        "privateList": "Bu listeyi sadece sen görebilirsin.",
+        "personal": {
+            "editProfile": "Profili Düzenle",
+            "customStatus": "Durum"
+        }
     },
     "posts": {
         "deletePostModal": {
@@ -698,8 +726,8 @@
         "someoneRepostedYourPost": "<1>{{username}}</1> gönderini tekrar paylaştı!",
         "someoneFollowedYou": "<1>{{username}}</1> seni takip etti!",
         "someoneRepliedToPost": "<1>{{username}}</1> gönderine yanıt verdi!",
-        "createAPostInputPlaceholder": "Bir gönderi oluştur...",
-        "replyInputPlaceholder": "Yanıtla...",
+        "createAPostInputPlaceholder": "Bir gönderi oluştur…",
+        "replyInputPlaceholder": "Yanıtla…",
         "replyButton": "Yanıtla",
         "createButton": "Oluştur",
         "pollOptions": "Anket Seçenekleri",
@@ -715,17 +743,20 @@
         "admin": "Yönetici",
         "info": "Bilgi",
         "files": "Dosyalar",
-        "searchBarChannelPlaceholder": "{{channelName}} kanalında ara"
+        "searchBarChannelPlaceholder": "{{channelName}} kanalında ara",
+        "searchBarPlaceholder": "{{username}} ara",
+        "sortLatest": "En Son",
+        "sortOldest": "En Eski"
     },
     "resetPassword": {
         "title": "Şifreyı Sıfırla",
         "resetSuccessful": "Şifre sıfırlama başarılı.",
         "passwordTooLong": "Şifre 72 karakterden az olmalıdır.",
         "resetPasswordButton": "Şifreyi Sıfırla",
-        "resetting": "Sıfırlanıyor...",
+        "resetting": "Sıfırlanıyor…",
         "email": "E-posta",
         "sendEmailButton": "E-posta Gönder",
-        "sending": "E-posta Gönderiliyor...",
+        "sending": "E-posta Gönderiliyor…",
         "passwordsDoNotMatch": "Tekrarlanan şifre eşleşmiyor."
     },
     "typing": {
@@ -744,15 +775,15 @@
     },
     "googleAccountLink": {
         "success": "Hesabın Google ile bağlandı! Bu pencereyi artık kapatabilirsin.",
-        "linking": "Google Hesabın bağlanıyor..."
+        "linking": "Google Hesabın bağlanıyor…"
     },
     "invite": {
         "joinButton": "Katıl",
-        "joiningButton": "Katılınıyor...",
+        "joiningButton": "Katılınıyor…",
         "member": "üye",
         "members": "üyeler",
         "visitButton": "Ziyaret Et",
-        "loading": "Davet Yükleniyor...",
+        "loading": "Davet Yükleniyor…",
         "invalid": "Geçersiz Davet Kodu"
     },
     "fileEmbed": {
@@ -801,10 +832,10 @@
     "statusHeader": {
         "connected": "Bağlandı!",
         "authenticationError": "Kimlik doğrulama hatası",
-        "connecting": "Bağlanılıyor...",
-        "reconnecting": "Yeniden bağlanılıyor...",
+        "connecting": "Bağlanılıyor…",
+        "reconnecting": "Yeniden bağlanılıyor…",
         "inQueue": "Sırada: {{count}} Kullanıcı(lar) Önünüzde",
-        "authenticating": "Doğrulama..."
+        "authenticating": "Doğrulanıyor…"
     },
     "dangerousLinkModal": {
         "title": "Özel Bağlantı",
@@ -910,7 +941,7 @@
         "requestSent": "İstek gönderildi!",
         "closeButton": "Kapat",
         "sendRequest": "İstek Gönder",
-        "sending": "Gönderiliyor...",
+        "sending": "Gönderiliyor…",
         "errors": {
             "missingTag": "Lütfen bir kullanıcı adı:etiket girin.",
             "colonInUsername": "Kullanıcı adı iki nokta üst üste (:) içermemelidir."
@@ -1022,16 +1053,61 @@
     },
     "channelDrawer": {
         "customize": {
-            "title": "Kişiselleştir"
+            "title": "Kişiselleştir",
+            "subtitle": "Bu soruları tamamla:"
         },
         "members": {
             "filter": {
                 "24hours": "24 Saat"
             },
             "sort": {
-                "member": "Üye"
+                "member": "Üye",
+                "joined": "Katıldı",
+                "joinedNerimity": "Nerimity'e Katıldı"
             }
         },
         "inVoice": "Sesli aramada"
+    },
+    "general": {
+        "searchPlaceholder": "Ara",
+        "backButton": "Geri",
+        "cancelButton": "İptal Et",
+        "closeButton": "Kapat",
+        "editButton": "Düzenle",
+        "undoButton": "Geri Al",
+        "deleteButton": "Sil",
+        "cannotBeUndone": "Bu geri alınamaz!",
+        "confirmButton": "Onayla",
+        "doneButton": "Bitti",
+        "saveButton": "Kaydet",
+        "saveChangesButton": "Değişiklikleri Kaydet",
+        "saving": "Kaydediliyor…",
+        "copyLink": "Bağlantıyı Kopyala",
+        "copyID": "ID'yi kopyala",
+        "accountData": {
+            "email": "E-posta",
+            "username": "Kullanıcı Adı",
+            "password": "Şifre"
+        },
+        "avatarAndBanner": {
+            "avatar": "Avatar",
+            "banner": "Afiş",
+            "browse": ""
+        }
+    },
+    "nicknameChangeModal": {
+        "title": "Sunucu Profilini Güncelle"
+    },
+    "transferOwnershipModal": {
+        "title": "Sahipliği Aktar",
+        "description": "",
+        "ifVerified": "Bu sunucu doğrulanmamış olucak.",
+        "server": "Sunucu:",
+        "transferring": "Transfer ediliyor…"
+    },
+    "removeFriendModal": {
+        "title": "{{username}} kullanıcısını arkadaşlıktan çıkar",
+        "body": "Bu kullanıcıyı arkadaşlıktan çıkarmak istediğine emin misin?",
+        "removing": "Kaldırılıyor…"
     }
 }
