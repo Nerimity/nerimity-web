@@ -230,12 +230,14 @@
                 "emojis": "Эмодзі",
                 "notifications": "Абвесткі",
                 "external-embed": "Вонкавы эмбэд",
-                "permissions": "Дазволы"
+                "permissions": "Дазволы",
+                "emoji": "Эмодзі"
             },
             "bans": {
                 "sort": {
                     "title": "Сартаваньне",
-                    "unsorted": "Не сартаваць"
+                    "unsorted": "Не сартаваць",
+                    "alphabetical": "Альфабэтнае"
                 },
                 "noResults": "Рэзультатаў ня знойдзена.",
                 "reason": "Прычына",
@@ -243,7 +245,7 @@
                 "bannedAt": "Забанены а",
                 "unknown": "Невядома",
                 "unban": "Разбаніць",
-                "unbanning": "Разблякоўваем"
+                "unbanning": "Разбаніваем…"
             },
             "webhook": {
                 "title": "Вэбхукі",
@@ -372,6 +374,11 @@
                     "hdScreenshare": "Абагульненьне экрана ў 1080p/60fps",
                     "hdScreenshareDescription": "Абагульвайце свой экран у 1080p, 60fps."
                 }
+            },
+            "emoji": {
+                "title": "Уласны эмодзі",
+                "description": "Дадайце свае эмодзі.",
+                "addButton": "Дадаць эмодзі"
             }
         },
         "rolePermissions": {
