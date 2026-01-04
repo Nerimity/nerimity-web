@@ -2,7 +2,7 @@ import { useParams } from "solid-navigator";
 import { Show, createEffect } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { styled } from "solid-styled-components";
-import { t } from "@nerimity/i18lite"
+import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import RouterEndpoints from "@/common/RouterEndpoints";
 
