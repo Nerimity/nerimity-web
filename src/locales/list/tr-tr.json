@@ -30,8 +30,7 @@
         "password": "Şifre",
         "login": "Giriş Yap",
         "createAccountInstead": "Ya da hesap oluştur",
-        "loggingIn": "Giriş Yapılıyor…",
-        "loginButton": "Giriş Yap"
+        "loggingIn": "Giriş Yapılıyor…"
     },
     "registerPage": {
         "title": "{{appName}}'ye Hoşgeldin!",
@@ -98,9 +97,7 @@
             "blockedUsersButton": "Engellenmiş Kullanıcılar",
             "inboxTitle": "Gelen Kutusu",
             "friendsButton": "Arkadaşlar",
-            "viewAll": "Hepsini Görüntüle",
-            "inboxButton": "Gelen Kutusu",
-            "offline": "Çevrimdışı"
+            "viewAll": "Hepsini Görüntüle"
         }
     },
     "explore": {
@@ -145,10 +142,8 @@
             "fetchThemesError": "Temalar alınamadı. Lütfen daha sonra tekrar deneyin.",
             "unlockDescription": "Tüm topluluk temalarını keşfetmek için tıklayın."
         },
-        "search": "Ara",
         "sort": "Sırala",
         "filter": "Filtrele",
-        "backButton": "Geri",
         "by": "Tarafından",
         "bumped": "Öne Çıkarıldı"
     },
@@ -166,7 +161,6 @@
                 "role": "Rol",
                 "welcome-screen": "Karşılama Ekranı",
                 "channel": "Kanal",
-                "emojis": "Emoji",
                 "notifications": "Bildirimler",
                 "external-embed": "Harici Gömme",
                 "permissions": "İzinler"
@@ -179,15 +173,7 @@
                 "systemMessages": "Sistem Mesajları",
                 "systemMessagesDescription": "Sistem mesajlarının görüneceği yer.",
                 "deleteThisServer": "Bu sunucuyu sil",
-                "deleteThisServerDescription": "Bu işlem geri alınamaz!",
                 "deleteServerButton": "Sunucuyu Sil",
-                "saveChangesButton": "Değişiklikleri Kaydet",
-                "saving": "Kaydediliyor...",
-                "avatar": "Avatar",
-                "avatarDescription": "Desteklenenler: JPG, PNG, GIF, WEBP, Maksimum 12 MB",
-                "banner": "Banner",
-                "bannerDescription": "Desteklenenler: JPG, PNG, GIF, WEBP, Maksimum 12 MB",
-                "browseButton": "Göz At",
                 "none": "Hiçbiri"
             },
             "roles": {
@@ -195,16 +181,12 @@
                 "addRoleButton": "Rol Ekle"
             },
             "role": {
-                "saveChangesButton": "Değişiklikleri Kaydet",
-                "saving": "Kaydediliyor...",
                 "roleName": "Rol İsmi",
                 "roleColor": "Rol Rengi",
                 "hideRole": "Rolü Gizle",
                 "hideRoleDescription": "Tüm varsayılan üyelerle birlikte bu role sahip üyeleri görüntüleyin",
-                "permissions": "İzinler",
                 "permissionsDescription": "Bu rolün izinlerini yönet.",
                 "deleteRoleButton": "Bu Rolü Sil",
-                "deleteRoleButtonDescription": "Bu işlem geri alınamaz!",
                 "clear": "Temizle",
                 "roleIcon": "Rol Simgesi",
                 "applyOnJoinDescription": "Üyeler sunucuya katıldığı zaman bu rolü ver.",
@@ -219,13 +201,9 @@
                 "createNewDescription": "Yeni bir kanal veya bir kategori oluştur"
             },
             "channel": {
-                "saving": "Kaydediliyor...",
-                "saveChangesButton": "Değişiklikleri Kaydet",
                 "channelName": "Kanal İsmi",
-                "permissions": "İzinler",
                 "permissionsDescription": "Bu kanalın izinlerini yönet.",
                 "deleteThisChannel": "Bu kanalı sil",
-                "deleteThisChannelDescription": "Bu geri alınamaz!",
                 "deleteChannelButton": "Kanalı Sil",
                 "removeNoticeButton": "Hatırlatmayı Sil",
                 "channelIcon": "Kanal Simgesi",
@@ -236,10 +214,7 @@
                 "serverInvites": "Sunucu Davetleri",
                 "serverInvitesDescription": "Arkadaşlarını bu sunucuya davet et.",
                 "customInviteVerifiedOnlyNotice": "Özel davet bağlantıları sadece doğrulanmış sunucular için geçerlidir.",
-                "customLink": "Özel Bağlantı",
-                "saveButton": "Kaydet",
-                "deleteButton": "Sil",
-                "copyLinkButton": "Bağlantıyı Kopyala"
+                "customLink": "Özel Bağlantı"
             },
             "publishServer": {
                 "publishNotice": "Sunucunuzu yayınlamak, <1>Keşfet</1> sayfasında görünür olmasını sağlayacaktır.",
@@ -255,7 +230,6 @@
             },
             "bans": {
                 "sort": {
-                    "title": "Sırala",
                     "unsorted": "Sıralanmamış"
                 },
                 "noResults": "Sonuç bulunamadı.",
@@ -352,7 +326,6 @@
             "interface": "Arayüz",
             "language": "Dil",
             "notifications": "Bildirimler",
-            "logout": "Çıkış Yap",
             "developer": "Geliştirici",
             "applications": "Uygulamalar",
             "experiments": "Deneysel Özellikler",
@@ -373,14 +346,7 @@
             "manageAccount": "Hesabı Yönet"
         },
         "account": {
-            "title": "Ayarlar - Hesap",
-            "email": "E-Posta",
-            "username": "Kullanıcı Adı",
             "tag": "Etiket",
-            "avatar": "Avatar",
-            "banner": "Afiş",
-            "supported": "Desteklenen",
-            "browse": "Seç",
             "profile": "Profil",
             "profileDescription": "Hakkımda kısmını veya renklerinizi düzenleyin",
             "changePassword": "Şifreyi Değiştir",
@@ -392,9 +358,6 @@
             "confirmCurrentPassword": "Şuanki Şifrenizi Onaylayın",
             "channelNotice": "Kanal Hatırlatması",
             "channelNoticeDescription": "Kullanıcılar sizinle ilk defa sohbet ettiğinde görünür. Değişiklikler sayfayı yeniledikten sonra uygulanır.",
-            "saving": "Kaydediliyor...",
-            "saveButton": "Kaydet",
-            "saveChangesButton": "Değişiklikleri Kaydet",
             "deleteAccount": "Hesabımı Sil",
             "deleteAccountDescription": "Bu geri alınamaz!",
             "deleteAccountNotice": "Hesabınızı silmeden önce bulunduğunuz bütün sunucuları silmeli yada ayrılmalısınız.",
@@ -414,8 +377,6 @@
             },
             "postsAndMessagesNotice": "Gönderilerin ve mesajlarının silinmesi haftalar alabilir.",
             "deleteCheckbox": "Gönderilerimi ve mesajlarımı sil",
-            "confirmButton": "Onayla",
-            "cancelButton": "İptal Et",
             "deletionNotice": "Gittiğine çok üzgünüz :( Eğer ki bir şeyi beğenmediyseniz, lütfen bize Nerimity'nin resmî sunucusu üzerinden bildirin.",
             "botID": "Bot ID",
             "palestineBorder": "Avatarına Filistin çerçevesi ekle.",
@@ -430,24 +391,15 @@
         "privacy": {
             "lastOnline": {
                 "title": "Son Görülme Zamanı",
-                "description": "Son görülme zamanınızı kimin görebileceğini ayarlayın.",
-                "hidden": "Gizli",
-                "friendsOnly": "Sadece Arkadaşlar",
-                "friendsAndServers": "Arkadaşlar ve Sunucu Üyeleri"
+                "description": "Son görülme zamanınızı kimin görebileceğini ayarlayın."
             },
             "directMessage": {
                 "title": "Direkt Mesaj",
-                "description": "Sana kimin mesaj gönderebileceğini ayarla.",
-                "anyone": "Herkes",
-                "friendsAndServersOnly": "Sadece Arkadaşlar ve Sunucu Üyeleri",
-                "friendsOnly": "Sadece Arkadaşlar"
+                "description": "Sana kimin mesaj gönderebileceğini ayarla."
             },
             "friendRequest": {
                 "title": "Arkadaşlık İstekleri",
-                "description": "Sana kimin arkadaşlık isteği gönderebileceğini ayarla.",
-                "anyone": "Herkes",
-                "serversOnly": "Sunucu Üyeleri",
-                "nobody": "Hiç Kimse"
+                "description": "Sana kimin arkadaşlık isteği gönderebileceğini ayarla."
             },
             "profileOptions": {
                 "title": "Profil Seçenekleri",
@@ -478,9 +430,7 @@
             "inAppPreviewDescription": "Uygulama içerisinde bildirim aldığınızda bir önizleme görün.",
             "inAppPreviewModes": {
                 "off": "Kapalı",
-                "mentionsOnly": "Sadece Bahsetmelerde",
-                "inheritFromPingSettings": "Bildirim Ayarlarıyla Aynı",
-                "all": "Bütün Mesajlar"
+                "inheritFromPingSettings": "Bildirim Ayarlarıyla Aynı"
             },
             "mute": "Sustur",
             "reminder": "Hatırlatıcı",
@@ -512,7 +462,6 @@
             "customizeColors": "Renkleri Kişiselleştir",
             "customizeColorsDescription": "Arayüz renklerini isteğinize göre kişiselleştirin.",
             "saveAndApply": "Kaydet & Uygula",
-            "themes": "Temalar",
             "apply": "Uygula",
             "customCSSWarning": "Güvenmediğiniz kişilerin kodlarını yapıştırmayın.",
             "maintainers": "Katkıda bulunanlar",
@@ -538,17 +487,13 @@
             "reopenAppNotice": "Bu ayarların geçerli olması için uygulamayı yeniden başlatmanız gerekmektedir.",
             "startMinimizedDescription": "Nerimity'i sistem tepsisine otomatik olarak küçült.",
             "disableHardwareAcceleration": "Donanım İvmesi'ni kapat",
-            "title": "Ayarlar - Pencere Ayarları",
             "disableCustomTitlebar": "Özel Başlık Çubuğunu Devre Dışı Bırak"
         },
         "language": {
             "reloadNotice": "Yeni dili tamamen uygulamak için uygulamayı yeniden başlatmalısınız.",
             "searchNotice": "Çeviriler topluluk tarafından sağlanır. Hatalı veya uygunsuz herhangi bir çeviriyi lütfen Nerimity'ye bildirin.",
             "reloadButton": "Yeniden yükle",
-            "contributors": "Katkıda Bulunanlar",
-            "translateModal": {
-                "title": "Çeviri"
-            }
+            "contributors": "Katkıda Bulunanlar"
         },
         "badges": {
             "noticeTitle": "Bağışlar",
@@ -574,23 +519,18 @@
             "visitButton": "{{store}}'u Ziyaret Et",
             "activityStatus": "Etkinlik Durumu",
             "activityStatusDescription": "Ne yaptığını herkesle paylaş",
-            "deleteButton": "Sil",
-            "editButton": "Düzenle",
             "activityStatusModal": {
                 "title": "Etkinlik Durumunu Düzenle",
                 "executable": "Çalıştırılabilir",
                 "action": "Eylem",
                 "name": "İsim",
-                "emoji": "Emoji",
-                "backButton": "Geri",
-                "saveButton": "Kaydet"
+                "emoji": "Emoji"
             },
             "discordActivity": "Discord Aktiviteleri",
             "discordActivityDescription": "Discord etkinliğini Nerimity'deki kullanıcılarla paylaş",
             "idPlaceholder": "Discord Kulanıcı ID'si",
             "serverModal": {
                 "text": "Etkinlik Paylaşımını etkinleştirmek için lütfen Discord sunucusuna katılın.",
-                "cancelButton": "İptal",
                 "doneButton": "Katıldım"
             }
         },
@@ -622,15 +562,10 @@
         "placeholder": "Benim Harika Sunucum",
         "creating": "Oluşturuluyor…",
         "createServerButton": "Sunucu Oluştur",
-        "closeButton": "Kapat",
         "tabLabel": "Oluştur"
     },
     "serverContextMenu": {
         "markAsRead": "Okunmuş Olarak İşaretle",
-        "invites": "Davetler",
-        "notifications": "Bildirimler",
-        "settings": "Ayarlar",
-        "copyId": "ID'yi Kopyala",
         "leave": "Ayrıl",
         "notificationOptions": {
             "everything": "Herşey",
@@ -642,10 +577,7 @@
     "userContextMenu": {
         "viewProfile": "Profili Görüntüle",
         "sendMessage": "Mesaj Gönder",
-        "copyId": "ID'yi Kopyala",
         "editRoles": "Rolleri Yönet",
-        "kick": "At",
-        "ban": "Yasakla",
         "changeNickname": "İsim Değiştir",
         "callVolume": "Arama Sesi",
         "transferOwnership": "Sunucu sahipliğini aktar"
@@ -654,7 +586,6 @@
         "title": "{{username}} Kullanıcısını At",
         "kickButton": "At",
         "kicking": "Atılıyor…",
-        "backButton": "Geri",
         "message": "<1>{{username}}</1> kullanıcısını sunucudan atmak istediğinden emin misin?"
     },
     "editServerRolesModal": {
@@ -734,10 +665,8 @@
         "optionNumberPlaceholder": "Seçenek {{number}}"
     },
     "informationDrawer": {
-        "title": "Bilgilendirme",
         "channelNotice": "Kanal Hatırlatması",
         "attachments": "Ekler",
-        "attachmentsBack": "Geri",
         "members": "Üyeler",
         "creator": "Oluşturan",
         "admin": "Yönetici",
@@ -846,8 +775,6 @@
     "connectionErrorModal": {
         "title": "Bağlantı Hatası",
         "ok": "Tamam",
-        "logout": "Çıkış Yap",
-        "login": "Giriş Yap",
         "noToken": "Token sağlanmadı.",
         "suspended": "Hesabınız askıya alındı.",
         "reason": "Sebep",
@@ -901,9 +828,6 @@
     "editFolderModal": {
         "title": "Klasörü Düzenle",
         "placeholder": "Klasör Adı",
-        "cancelButton": "Kaydetme",
-        "save": "Kaydet",
-        "saving": "Kaydediliyor...",
         "errors": {
             "emptyName": "Lütfen bir klasör adı girin."
         }

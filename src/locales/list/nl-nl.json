@@ -14,8 +14,7 @@
         "password": "Wachtwoord",
         "login": "Log in",
         "createAccountInstead": "Maak in plaats daarvan een account aan",
-        "loggingIn": "Inloggen...",
-        "loginButton": "Log in"
+        "loggingIn": "Inloggen..."
     },
     "registerPage": {
         "title": "Welkom bij {{appName}}",
@@ -29,11 +28,7 @@
     },
     "inbox": {
         "drawer": {
-            "requests": "Verzoeken",
-            "online": "Online",
-            "offline": "Offline",
             "addFriendButton": "Vriend Toevoegen",
-            "inboxButton": "Inbox",
             "friendsButton": "Vrienden"
         }
     },
@@ -70,7 +65,6 @@
                 "verify": "Verifiëren",
                 "role": "Rol",
                 "channel": "Kanaal",
-                "emojis": "Emojis",
                 "notifications": "Meldingen"
             },
             "general": {
@@ -81,26 +75,19 @@
                 "systemMessages": "Systeem berichten",
                 "systemMessagesDescription": "Waar systeemberichten moeten verschijnen.",
                 "deleteThisServer": "Verwijder deze server",
-                "deleteThisServerDescription": "Dit kan niet ongedaan gemaakt worden!",
-                "deleteServerButton": "Verwijder deze server",
-                "saveChangesButton": "Wijzigingen opslaan",
-                "saving": "Opslaan..."
+                "deleteServerButton": "Verwijder deze server"
             },
             "roles": {
                 "addNewRole": "Voeg een nieuwe rol toe",
                 "addRoleButton": "Rol toevoegen"
             },
             "role": {
-                "saveChangesButton": "Wijzigingen opslaan",
-                "saving": "Opslaan...",
                 "roleName": "Rol Naam",
                 "roleColor": "Role Kleur",
                 "hideRole": "Rol verbergen",
                 "hideRoleDescription": "Toon leden met deze rol samen met alle standaardleden.",
-                "permissions": "Rechten",
                 "permissionsDescription": "Beheer machtigingen voor deze rol.",
-                "deleteRoleButton": "Verwijder deze rol",
-                "deleteRoleButtonDescription": "Dit kan niet ongedaan gemaakt worden!"
+                "deleteRoleButton": "Verwijder deze rol"
             },
             "header": {
                 "editServer": "Server bewerken",
@@ -111,13 +98,9 @@
                 "createNewDescription": "Maak een nieuw kanaal of categorie aan"
             },
             "channel": {
-                "saving": "Opslaan...",
-                "saveChangesButton": "Wijzigingen opslaan",
                 "channelName": "Kanaal Naam",
-                "permissions": "Rechten",
                 "permissionsDescription": "Beheer machtigingen voor dit Kanaal",
                 "deleteThisChannel": "Verwijder dit kanaal",
-                "deleteThisChannelDescription": "Dit kan niet ongedaan gemaakt worden!",
                 "deleteChannelButton": "Kanaal verwijderen"
             },
             "invites": {
@@ -125,10 +108,7 @@
                 "serverInvites": "Serveruitnodigingen",
                 "serverInvitesDescription": "Nodig je vrienden uit voor deze server.",
                 "customInviteVerifiedOnlyNotice": "Aangepaste uitnodigingslinks zijn alleen beschikbaar voor geverifieerde servers.",
-                "customLink": "Aangepaste link",
-                "saveButton": "Opslaan",
-                "deleteButton": "Verwijder",
-                "copyLinkButton": "Kopieer link"
+                "customLink": "Aangepaste link"
             },
             "publishServer": {
                 "publishNotice": "Als u uw server publiceert, wordt deze beschikbaar op de pagina <1>explore</1>.",
@@ -165,7 +145,6 @@
             "account": "Account",
             "language": "Taal",
             "notifications": "Meldingen",
-            "logout": "Uitloggen",
             "viewSource": "View Source",
             "changelog": "Wijzigingenlijst"
         }
@@ -176,16 +155,12 @@
     "userContextMenu": {
         "viewProfile": "Profiel bekijken",
         "sendMessage": "Bericht versturen",
-        "copyId": "Kopieer ID",
-        "editRoles": "Rollen bewerken",
-        "kick": "Kick",
-        "ban": "Ban"
+        "editRoles": "Rollen bewerken"
     },
     "kickServerMemberModal": {
         "title": "Kick {{username}}",
         "kickButton": "Kick",
         "kicking": "Kicking...",
-        "backButton": "Terug",
         "message": "Weet je zeker dat je <1>{{username}}</1> wilt kicken?"
     },
     "editServerRolesModal": {

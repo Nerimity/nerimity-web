@@ -30,8 +30,7 @@
         "password": "Password",
         "login": "Mag-login",
         "createAccountInstead": "Gumawa na lang ng account",
-        "loggingIn": "Nagla-log in…",
-        "loginButton": "Mag-login"
+        "loggingIn": "Nagla-log in…"
     },
     "registerPage": {
         "title": "Maligayang pagdating sa {{appName}}",
@@ -53,11 +52,7 @@
     },
     "inbox": {
         "drawer": {
-            "requests": "Requests",
-            "online": "Online",
-            "offline": "Offline",
             "addFriendButton": "Magdagdag ng kaibigan",
-            "inboxButton": "Inbox",
             "friendsButton": "Mga Kaibigan",
             "searchBarPlaceholder": "Maghanap",
             "friendRequests": "{{count}} Mga Kahilingan sa Kaibigan",
@@ -132,7 +127,6 @@
                 "role": "Role",
                 "welcome-screen": "Welcome Screen",
                 "channel": "Channel",
-                "emojis": "Mga emoji",
                 "notifications": "Mga abiso",
                 "audit-logs": "Mga Tala ng Audit",
                 "permissions": "Mga Pahintulot",
@@ -146,10 +140,7 @@
                 "systemMessages": "Mga Mensahe ng System",
                 "systemMessagesDescription": "Kung saan dapat lumabas ang mga mensahe ng system.",
                 "deleteThisServer": "Tanggalin ang server na ito",
-                "deleteThisServerDescription": "Hindi na ito maaaring bawiin!",
                 "deleteServerButton": "Burahin ang Server",
-                "saveChangesButton": "I-save ang mga pagbabago",
-                "saving": "Saving...",
                 "none": "Wala"
             },
             "roles": {
@@ -157,16 +148,12 @@
                 "addRoleButton": "Magdagdag ng role"
             },
             "role": {
-                "saveChangesButton": "I-save ang mga pagbabago",
-                "saving": "Saving...",
                 "roleName": "Pangalan ng role",
                 "roleColor": "Kulay ng role",
                 "hideRole": "Itago ang role",
                 "hideRoleDescription": "Ipakita ang mga miyembro na may ganitong role kasama ang lahat ng default na miyembro",
-                "permissions": "Mga Pahintulot",
                 "permissionsDescription": "Pamahalaan ang mga pahintulot para sa tungkuling ito.",
                 "deleteRoleButton": "Tanggalin ang role na ito",
-                "deleteRoleButtonDescription": "Hindi na ito maaaring bawiin!",
                 "clear": "I-clear",
                 "roleIcon": "Icon ng Role",
                 "managedByBot": "Ang role na ito ay pinamamahalaan ng {{botName}}. Hindi mo maaaring tanggalin o magdagdag ng miyembro sa role na ito. I-kick ang bot na ito upang alisin ang role na ito.",
@@ -183,13 +170,9 @@
                 "createNewDescription": "Gumawa ng panibagong channel o kategorya"
             },
             "channel": {
-                "saving": "Nagsa-save...",
-                "saveChangesButton": "I-save ang mga pagbabago",
                 "channelName": "Pangalan ng channel",
-                "permissions": "Mga Pahintulot",
                 "permissionsDescription": "Baguhin ang mga pahintulot para sa channel na ito.",
                 "deleteThisChannel": "Burahin ang channel na ito",
-                "deleteThisChannelDescription": "Hindi na ito maaaring bawiin!",
                 "deleteChannelButton": "Burahin ang channel",
                 "channelIcon": "Icon ng Channel",
                 "slowModeDescription": "Tukuyin kung gaano katagal dapat maghintay ang isang user bago makapagsend ng mensahe.",
@@ -202,9 +185,6 @@
                 "serverInvitesDescription": "Imbitahan ang mga kaibigan mo sa server na ito.",
                 "customInviteVerifiedOnlyNotice": "Available lang ang mga custom na link ng imbitasyon para sa mga na-verify na server.",
                 "customLink": "Custom na link",
-                "saveButton": "I-save",
-                "deleteButton": "I-delete",
-                "copyLinkButton": "Kopyahin ang link",
                 "uses": "{{count}} natitirang paggamit"
             },
             "publishServer": {
@@ -221,7 +201,6 @@
             },
             "bans": {
                 "sort": {
-                    "title": "Ayusin Ayon sa",
                     "unsorted": "Hindi Naayos"
                 },
                 "noResults": "Walang Natagpuang Resulta.",
@@ -319,7 +298,6 @@
             "interface": "Interface",
             "language": "Wika",
             "notifications": "Mga abiso",
-            "logout": "Mag-logout",
             "developer": "Developer",
             "applications": "Mga aplikasyon",
             "experiments": "Mga eksperimento",
@@ -393,16 +371,12 @@
     "userContextMenu": {
         "viewProfile": "Tingnan ang Profile",
         "sendMessage": "Magpadala ng mensahe",
-        "copyId": "Kopyahin ang ID",
-        "editRoles": "I-edit ang mga roles",
-        "kick": "I-kick",
-        "ban": "I-ban"
+        "editRoles": "I-edit ang mga roles"
     },
     "kickServerMemberModal": {
         "title": "I-kick {{username}}",
         "kickButton": "I-kick",
         "kicking": "Tinatangal...",
-        "backButton": "Bumalik",
         "message": "Sigurado ka bang gusto mong tanggalin si <1>{{username}}</1>?"
     },
     "editServerRolesModal": {

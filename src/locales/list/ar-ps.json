@@ -30,8 +30,7 @@
         "password": "كلمة المرور",
         "login": "تسجيل الدخول",
         "createAccountInstead": "إنشاء حساب بدلاً من ذلك",
-        "loggingIn": "جارٍ تسجيل الدخول...",
-        "loginButton": "تسجيل الدخول"
+        "loggingIn": "جارٍ تسجيل الدخول..."
     },
     "registerPage": {
         "header": "التسجيل",
@@ -90,9 +89,7 @@
             "blockedUsersButton": "محظور",
             "inboxTitle": "صندوق الوارد",
             "friendsButton": "الأصدقاء",
-            "viewAll": "عرض الكل",
-            "inboxButton": "صندوق الوارد",
-            "offline": "غير متصل"
+            "viewAll": "عرض الكل"
         }
     },
     "explore": {
@@ -135,7 +132,6 @@
                 "role": "الدور",
                 "welcome-screen": "شاشة الترحيب",
                 "channel": "القناة",
-                "emojis": "الإيموجي",
                 "notifications": "الإشعارات",
                 "external-embed": "التضمين الخارجي"
             },
@@ -147,26 +143,19 @@
                 "systemMessages": "رسائل النظام",
                 "systemMessagesDescription": "أين يجب أن تظهر رسائل النظام.",
                 "deleteThisServer": "حذف هذا السيرفر",
-                "deleteThisServerDescription": "لا يمكن التراجع عن هذا!",
-                "deleteServerButton": "حذف السيرفر",
-                "saveChangesButton": "حفظ التغييرات",
-                "saving": "جارٍ الحفظ..."
+                "deleteServerButton": "حذف السيرفر"
             },
             "roles": {
                 "addNewRole": "إضافة دور جديد",
                 "addRoleButton": "إضافة دور"
             },
             "role": {
-                "saveChangesButton": "حفظ التغييرات",
-                "saving": "جارٍ الحفظ...",
                 "roleName": "اسم الدور",
                 "roleColor": "لون الدور",
                 "hideRole": "إخفاء الدور",
                 "hideRoleDescription": "عرض الأعضاء بهذا الدور مع جميع الأعضاء الافتراضيين",
-                "permissions": "الصلاحيات",
                 "permissionsDescription": "إدارة صلاحيات هذا الدور.",
-                "deleteRoleButton": "حذف هذا الدور",
-                "deleteRoleButtonDescription": "لا يمكن التراجع عن هذا!"
+                "deleteRoleButton": "حذف هذا الدور"
             },
             "header": {
                 "editServer": "تعديل السيرفر",
@@ -177,13 +166,9 @@
                 "createNewDescription": "إنشاء قناة أو فئة جديدة"
             },
             "channel": {
-                "saving": "جارٍ الحفظ...",
-                "saveChangesButton": "حفظ التغييرات",
                 "channelName": "اسم القناة",
-                "permissions": "الصلاحيات",
                 "permissionsDescription": "إدارة صلاحيات هذه القناة.",
                 "deleteThisChannel": "حذف هذه القناة",
-                "deleteThisChannelDescription": "لا يمكن التراجع عن هذا!",
                 "deleteChannelButton": "حذف القناة",
                 "removeNoticeButton": "إزالة الإشعار"
             },
@@ -192,10 +177,7 @@
                 "serverInvites": "دعوات السيرفر",
                 "serverInvitesDescription": "ادعُ أصدقائك إلى هذا السيرفر.",
                 "customInviteVerifiedOnlyNotice": "روابط الدعوة المخصصة متاحة فقط للسيرفرات الموثّقة.",
-                "customLink": "رابط مخصص",
-                "saveButton": "حفظ",
-                "deleteButton": "حذف",
-                "copyLinkButton": "نسخ الرابط"
+                "customLink": "رابط مخصص"
             },
             "publishServer": {
                 "publishNotice": "نشر السيرفر سيجعله متاحاً في صفحة <1>الاستكشاف</1>.",
@@ -241,7 +223,6 @@
             "interface": "الواجهة",
             "language": "اللغة",
             "notifications": "الإشعارات",
-            "logout": "تسجيل الخروج",
             "developer": "المطور",
             "applications": "التطبيقات",
             "experiments": "التجارب",
@@ -262,14 +243,8 @@
             "manageAccount": "إدارة الحساب"
         },
         "account": {
-            "email": "البريد الإلكتروني",
-            "username": "اسم المستخدم",
             "tag": "الوسم",
             "botID": "معرف البوت",
-            "avatar": "الصورة الرمزية",
-            "banner": "الغلاف",
-            "supported": "مدعوم",
-            "browse": "تصفح",
             "profile": "الملف الشخصي",
             "profileDescription": "عدّل نبذتك أو ألوانك",
             "palestineBorder": "أضف إطار فلسطين لصورتك الشخصية.",
@@ -290,14 +265,9 @@
             "enterCode": "أدخل الرمز المكون من 5 أرقام المرسل إلى بريدك:",
             "sendCodeButton": "إرسال الرمز",
             "resendIn": "إعادة الإرسال في {{time}}",
-            "confirmButton": "تأكيد",
-            "cancelButton": "إلغاء",
             "channelNotice": "إشعار القناة",
             "channelNoticeDescription": "يظهر عندما يكون المستخدم على وشك المحادثة لأول مرة. التغييرات تطبّق بعد إعادة التحميل.",
             "channelNoticeTooLong": "إشعار القناة لا يمكن أن يكون أطول من 300 حرف.",
-            "saving": "جارٍ الحفظ...",
-            "saveButton": "حفظ",
-            "saveChangesButton": "حفظ التغييرات",
             "deleteAccount": "حذف حسابي",
             "deleteAccountDescription": "لا يمكن التراجع عن هذا!",
             "deleteAccountNotice": "يجب أن تغادر/تحذف جميع السيرفرات قبل أن تتمكن من حذف حسابك.",
@@ -318,24 +288,15 @@
         "privacy": {
             "lastOnline": {
                 "title": "آخر ظهور",
-                "description": "حدد من يمكنه رؤية آخر ظهور لك.",
-                "hidden": "مخفي",
-                "friendsOnly": "الأصدقاء فقط",
-                "friendsAndServers": "الأصدقاء والسيرفرات"
+                "description": "حدد من يمكنه رؤية آخر ظهور لك."
             },
             "directMessage": {
                 "title": "الرسائل المباشرة",
-                "description": "حدد من يمكنه إرسال رسائل مباشرة لك.",
-                "anyone": "أي شخص",
-                "friendsAndServersOnly": "الأصدقاء والسيرفرات فقط",
-                "friendsOnly": "الأصدقاء فقط"
+                "description": "حدد من يمكنه إرسال رسائل مباشرة لك."
             },
             "friendRequest": {
                 "title": "طلبات الصداقة",
-                "description": "حدد من يمكنه إرسال طلبات صداقة لك.",
-                "anyone": "أي شخص",
-                "serversOnly": "السيرفرات فقط",
-                "nobody": "لا أحد"
+                "description": "حدد من يمكنه إرسال طلبات صداقة لك."
             },
             "profileOptions": {
                 "title": "خيارات الملف الشخصي",
@@ -364,9 +325,7 @@
             "mute": "كتم",
             "inAppPreviewModes": {
                 "off": "إيقاف",
-                "mentionsOnly": "الإشارات فقط",
-                "inheritFromPingSettings": "الوراثة من إعدادات الإشعارات",
-                "all": "الكل"
+                "inheritFromPingSettings": "الوراثة من إعدادات الإشعارات"
             }
         },
         "call": {
@@ -386,7 +345,6 @@
             "customCSS": "‫CSS مخصص‬",
             "customCSSWarning": "لا تنسخ الكود من أشخاص لا تثق بهم.",
             "saveAndApply": "حفظ وتطبيق",
-            "themes": "السمات",
             "themesDescription": "اختر سمة محددة مسبقاً أو أعد التعيين للافتراضي.",
             "maintainers": "المساهمون",
             "apply": "تطبيق",
@@ -401,7 +359,6 @@
             "customizeColorsDescription": "تعديل ألوان السمة الحالية."
         },
         "window": {
-            "title": "الإعدادات - إعدادات النافذة",
             "downloadAppNotice": "‫لتعديل هذه الإعدادات، يجب عليك تحميل تطبيق Nerimity لسطح المكتب.‬",
             "startupOptions": "خيارات بدء التشغيل",
             "openOnStartup": "‫فتح Nerimity عند بدء التشغيل‬",
@@ -422,15 +379,10 @@
         "serverName": "اسم السيرفر",
         "placeholder": "سيرفري الرائع",
         "creating": "جارٍ الإنشاء...",
-        "createServerButton": "إنشاء سيرفر",
-        "closeButton": "إغلاق"
+        "createServerButton": "إنشاء سيرفر"
     },
     "serverContextMenu": {
         "markAsRead": "وضع علامة كمقروء",
-        "invites": "الدعوات",
-        "notifications": "الإشعارات",
-        "settings": "الإعدادات",
-        "copyId": "نسخ المعرّف",
         "leave": "مغادرة",
         "notificationOptions": {
             "everything": "كل شيء",
@@ -447,10 +399,7 @@
     "userContextMenu": {
         "viewProfile": "عرض الملف الشخصي",
         "sendMessage": "إرسال رسالة",
-        "copyId": "نسخ المعرّف",
         "editRoles": "تعديل الأدوار",
-        "kick": "طرد",
-        "ban": "حظر",
         "changeNickname": "تغيير اللقب",
         "transferOwnership": "نقل الملكية",
         "callVolume": "مستوى صوت المكالمة"
@@ -459,7 +408,6 @@
         "title": "‫طرد {{username}}‬",
         "kickButton": "طرد",
         "kicking": "جارٍ الطرد...",
-        "backButton": "رجوع",
         "message": "‫هل أنت متأكد أنك تريد طرد <1>{{username}}</1>؟‬"
     },
     "editServerRolesModal": {
@@ -521,10 +469,8 @@
         "optionNumberPlaceholder": "الخيار {{number}}"
     },
     "informationDrawer": {
-        "title": "معلومات",
         "channelNotice": "إشعار القناة",
         "attachments": "المرفقات",
-        "attachmentsBack": "رجوع",
         "members": "الأعضاء"
     },
     "botInvite": {

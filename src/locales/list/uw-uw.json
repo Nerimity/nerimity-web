@@ -30,8 +30,7 @@
         "password": "Secwet Code",
         "login": "Wet me innn~",
         "createAccountInstead": "Cweate a fwesh account instead nya~",
-        "loggingIn": "Spinning Up The Hamstews…",
-        "loginButton": "Wet me innn~"
+        "loggingIn": "Spinning Up The Hamstews…"
     },
     "registerPage": {
         "title": "Wewcome t-to {{appName}}",
@@ -53,11 +52,7 @@
     },
     "inbox": {
         "drawer": {
-            "requests": "wequests",
-            "online": "onwine",
-            "offline": "Offwine",
             "addFriendButton": "Add Fwiend",
-            "inboxButton": "Inbox",
             "friendsButton": "Fwiends",
             "searchBarPlaceholder": "Seawchies",
             "friendRequests": "{{count}} Fwiend Wequests",
@@ -109,7 +104,6 @@
                 "verify": "Shiny",
                 "role": "Wowe",
                 "channel": "Channew",
-                "emojis": "Emojisss",
                 "notifications": "Nya-tifurrcations",
                 "audit-logs": "Audit Woggies",
                 "welcome-screen": "Wewcome Scween",
@@ -124,15 +118,7 @@
                 "systemMessages": "System Talky",
                 "systemMessagesDescription": "Whewe sys talkys appear",
                 "deleteThisServer": "Dewete dis sewvew",
-                "deleteThisServerDescription": "Dis c-can't be undone nya!!",
                 "deleteServerButton": "Dewete Sewvew",
-                "saveChangesButton": "Save Changies",
-                "saving": "Casting Spawells...",
-                "avatar": "Ava-taw",
-                "avatarDescription": "Suppowted: JPG, PNG, GIF, WEBP~ Max 12 MB",
-                "bannerDescription": "Suppowted: JPG, PNG, GIF, WEBP~ Max 12 MB",
-                "banner": "Big Piccy",
-                "browseButton": "Snoop",
                 "none": "Nuda"
             },
             "roles": {
@@ -140,16 +126,12 @@
                 "addRoleButton": "Add Wowe"
             },
             "role": {
-                "saveChangesButton": "Save Changies",
-                "saving": "Casting Spawells...",
                 "roleName": "Wowe Nyame",
                 "roleColor": "Wowe Cowow",
                 "hideRole": "Ninja Mode~",
                 "hideRoleDescription": "Dispway membews wid dis wowe > default",
-                "permissions": "Powew-ups",
                 "permissionsDescription": "Manage pewmissions fow dis wowe",
-                "deleteRoleButton": "Dewete dis wowe",
-                "deleteRoleButtonDescription": "No take-backsies!!"
+                "deleteRoleButton": "Dewete dis wowe"
             },
             "header": {
                 "editServer": "Edit Sewvew",
@@ -160,13 +142,9 @@
                 "createNewDescription": "Cweate nyew channew ow categowy"
             },
             "channel": {
-                "saving": "Casting spawells...",
-                "saveChangesButton": "Save Changies",
                 "channelName": "Channew Nyame",
-                "permissions": "Pewmissions",
                 "permissionsDescription": "Manage pewmissions fow channew",
                 "deleteThisChannel": "Dewete dis channew",
-                "deleteThisChannelDescription": "Dis cannot be undone!!",
                 "deleteChannelButton": "Dewete Channew",
                 "removeNoticeButton": "Wemove Nyotice"
             },
@@ -175,10 +153,7 @@
                 "serverInvites": "Sewvew Invites",
                 "serverInvitesDescription": "Invite fwiends to sewvew",
                 "customInviteVerifiedOnlyNotice": "Custom invites = vewified sewvews onwy!",
-                "customLink": "Custom Wink",
-                "saveButton": "LETS DO DIS!",
-                "deleteButton": "Poof~",
-                "copyLinkButton": "Copy Wink"
+                "customLink": "Custom Wink"
             },
             "publishServer": {
                 "publishNotice": "Pubwish sewvew to appeaw in <1>expwowe</1> uwu",
@@ -242,7 +217,6 @@
             "account": "Accy",
             "language": "Wanguage",
             "notifications": "Nya-tifurrcations",
-            "logout": "Rage-quit",
             "viewSource": "Peek Unda Da Hood",
             "changelog": "Changies",
             "window-settings": "Window Settin's",
@@ -264,11 +238,6 @@
             "manageAccount": "Manage Accy"
         },
         "account": {
-            "title": "settin's - accy",
-            "email": "Emaiw",
-            "username": "Usewnyame",
-            "avatar": "Ava-taw",
-            "supported": "Suppowted",
             "profile": "Pwofiwe",
             "profileDescription": "Edit bio & cowows ✨",
             "changePassword": "Changie Secwet Code",
@@ -280,21 +249,15 @@
             "confirmCurrentPassword": "Confywm Cuwwent Secwet Code",
             "channelNotice": "Channew Nyotice",
             "channelNoticeDescription": "Shows nyotice befowe chat. Changies appwy after weload.",
-            "saving": "Casting Spawells...",
-            "saveButton": "Save",
-            "saveChangesButton": "Save Changies",
             "deleteAccount": "Poof Accy",
             "deleteAccountDescription": "Can't undo dis!!",
             "deleteAccountNotice": "Must weave/dwop sewvews befowe poof uwu",
             "understoodButton": "Got it!",
-            "save": "Casting Spawells...",
             "botID": "Senpai ID",
             "confirmEmail": "Confywm youw emayw~",
             "enterCode": "Entew the 5-digit codey sent to youw emayw~!",
             "sendCodeButton": "SEND IT!!",
             "resendIn": "Wesend in {{time}}",
-            "confirmButton": "Yee",
-            "cancelButton": "RUN AWAYYY..",
             "channelNoticeTooLong": "Channyw nyotice can't be wongew than 300 chawactews!!",
             "deletionNotice": "NOOO~!! Don't weave us wike dis!! If sumfin bugged you, pwetty pwease teww us in the officiaw Newimity sewvie... we can change :c",
             "deletedInfo": {
@@ -315,31 +278,20 @@
             "gradientColor2": "Gwadient Cowow 2",
             "primaryColor": "Pwimawy Cowow",
             "preview": "Ppwwweview",
-            "tag": "Tag",
-            "banner": "Big Piccy",
-            "browse": "Snoop"
+            "tag": "Tag"
         },
         "privacy": {
             "lastOnline": {
                 "title": "Wast Onwine",
-                "description": "Set who sees wast onwine",
-                "hidden": "Shh 🤫",
-                "friendsOnly": "Fwiends onwy",
-                "friendsAndServers": "Fwiends & sewvews"
+                "description": "Set who sees wast onwine"
             },
             "directMessage": {
                 "description": "Who can dm ya",
-                "friendsAndServersOnly": "Fwiends & Sewvews onwy",
-                "friendsOnly": "Fwiends onwy",
-                "title": "DM",
-                "anyone": "Everypony!"
+                "title": "DM"
             },
             "friendRequest": {
                 "title": "Fwiend Wequest",
-                "description": "Who can send fr's",
-                "anyone": "Everypony!",
-                "serversOnly": "Sewvews onwy",
-                "nobody": "Nobody :(("
+                "description": "Who can send fr's"
             },
             "profileOptions": {
                 "title": "Pwofiwe Options",
@@ -368,9 +320,7 @@
             "mute": "SHUDDUP",
             "inAppPreviewModes": {
                 "off": "Off",
-                "mentionsOnly": "Mentions Onwy",
-                "inheritFromPingSettings": "Copy Ping Settin's",
-                "all": "Aww"
+                "inheritFromPingSettings": "Copy Ping Settin's"
             }
         },
         "call": {
@@ -393,9 +343,7 @@
             "disableAdvancedMarkupBarDescription": "Disabwe da advanced text baw uwu",
             "customizeColors": "Custy Cowows",
             "customizeColorsDescription": "Pick nyew cowows uwu",
-            "title": "S-Ssettingsy Intyface OwO",
             "customCSS": "Cwustom Shiny-Stuffz >w<",
-            "themes": "Coowowful thewmesies",
             "themesDescription": "Pick a pwetty thewme owo ow wemind it to defauwt! *giggles*",
             "maintainers": "Pwetty pewsons who made dis ✨",
             "apply": "Make it happen!! >w<",
@@ -408,13 +356,9 @@
         "language": {
             "reloadNotice": "U must wewoad da app to fuwwy apply da nyew wanguage~",
             "reloadButton": "Taktical Wewoad",
-            "contributors": "Pwetty Pewsons",
-            "translateModal": {
-                "title": "Twanswate Dis~"
-            }
+            "contributors": "Pwetty Pewsons"
         },
         "window": {
-            "title": "Settins... Window Settins",
             "downloadAppNotice": "To modifwy dese settins, u must downwoad da awww-some Nerimity desktop app~",
             "startupOptions": "Stawtup Optsies",
             "openOnStartup": "Open Nerimity on stawtup",
@@ -439,10 +383,7 @@
     "userContextMenu": {
         "viewProfile": "Peek Pwofiwe",
         "sendMessage": "Send Talky",
-        "copyId": "Copy Magik ID",
         "editRoles": "Edit Wowes",
-        "kick": "Yeet",
-        "ban": "Banish",
         "changeNickname": "Changie Nyickname",
         "transferOwnership": "Pwoperty Swap",
         "callVolume": "Caww Vowume"
@@ -451,7 +392,6 @@
         "title": "Yeet {{username}}!!",
         "kickButton": "Yeet",
         "kicking": "Yeeting...",
-        "backButton": "Backies",
         "message": "Suwe u wanna yeet <1>{{username}}</1>??"
     },
     "editServerRolesModal": {
@@ -550,15 +490,10 @@
         "placeholder": "My AWESOME Sewvew",
         "creating": "Cweating...",
         "createServerButton": "Cweate Sewvew",
-        "closeButton": "Cwose",
         "tabLabel": "Cweate"
     },
     "serverContextMenu": {
         "markAsRead": "Mawk as Wead",
-        "invites": "Invites",
-        "notifications": "Nya-tifurrcations",
-        "settings": "Settin's",
-        "copyId": "Copy Magik ID",
         "notificationOptions": {
             "everything": "Evewything",
             "mentionsOnly": "Mentions Onwy",
@@ -567,10 +502,8 @@
         "leave": "Weave"
     },
     "informationDrawer": {
-        "title": "Info",
         "channelNotice": "Channew Nyotice",
         "attachments": "Attachies",
-        "attachmentsBack": "Back",
         "members": "Membews"
     },
     "botInvite": {
@@ -653,9 +586,6 @@
     "editFolderModal": {
         "title": "Edit Fwowdew",
         "placeholder": "Fwowdew Nyame",
-        "cancelButton": "RUN AWAYYY..",
-        "save": "WETS DO DIS",
-        "saving": "Casting Spawells...",
         "errors": {
             "emptyName": "Pwease entew a fwowdew nyame"
         }
