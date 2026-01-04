@@ -130,7 +130,8 @@
                 "notifications": "Mga abiso",
                 "audit-logs": "Mga Tala ng Audit",
                 "permissions": "Mga Pahintulot",
-                "external-embed": "Panlabas na Embed"
+                "external-embed": "Panlabas na Embed",
+                "emoji": "Mga Emoji"
             },
             "general": {
                 "serverRenameNotice": "Mawawala ang lahat ng mga benepisyo ng pagiging beripikado ng iyong server kapag iniba mo ang pangalan nito.",
@@ -201,7 +202,8 @@
             },
             "bans": {
                 "sort": {
-                    "unsorted": "Hindi Naayos"
+                    "unsorted": "Hindi Naayos",
+                    "alphabetical": "Alpabetikal"
                 },
                 "noResults": "Walang Natagpuang Resulta.",
                 "reason": "Dahilan",
@@ -209,7 +211,7 @@
                 "bannedAt": "Na-ban noong",
                 "unknown": "Hindi Alam",
                 "unban": "I-unban",
-                "unbanning": "Ina-alis ang ban"
+                "unbanning": "Ina-alis ang ban…"
             },
             "webhook": {
                 "title": "Webhooks",
@@ -252,6 +254,11 @@
                     "hdScreenshare": "1080p@60fps na screenshare",
                     "hdScreenshareDescription": "Mag-screenshare sa 1080p at 60fps."
                 }
+            },
+            "emoji": {
+                "title": "Custom na Emoji",
+                "description": "Magdagdag ng sarili mong emoji.",
+                "addButton": "Magdagdag ng emoji"
             }
         },
         "rolePermissions": {
@@ -362,6 +369,50 @@
                 "bio": "• Bio",
                 "messages": "• Ang Iyong Mga Mensahe",
                 "posts": "• Ang Iyong Mga Post"
+            },
+            "postsAndMessagesNotice": "Maaaring tumagal ng ilang linggo bago matanggal ang iyong mga post at mensahe.",
+            "deleteCheckbox": "Tanggalin ang aking mga post at mensahe"
+        },
+        "badges": {
+            "noticeTitle": "Mga donasyon",
+            "notice": "Suportahan ang proyektong ito sa pamamagitan ng pag-donate ng pera.",
+            "palestineDescription": "Maaaring makuha sa pamamagitan ng pagpunta sa {{account}} -> {{profile}}",
+            "price": "{{price}} Mga Badge",
+            "supportMethods": "Mga Paraan ng Pagbigay ng Suporta"
+        },
+        "privacy": {
+            "lastOnline": {
+                "title": "Huling Oras ng Pag-online",
+                "description": "Itakda kung sino ang makakakita ng huling oras ng pag-online mo."
+            },
+            "directMessage": {
+                "title": "Direktang Mensahe",
+                "description": "Itakda kung sino ang maaaring magpadala sa iyo ng direktang mensahe."
+            },
+            "friendRequest": {
+                "title": "Hiling ng Pagkakaibigan",
+                "description": "Itakda kung sino ang maaaring magpadala sa iyo ng hiling ng pagkakaibigan."
+            },
+            "options": {
+                "anybody": "Kahit sino",
+                "friendsOnly": "Kaibigan lamang",
+                "serversOnly": "Mga server lamang",
+                "friendsAndServers": "Mga kaibigan at mga server",
+                "nobody": "Walang sino man"
+            },
+            "profileOptions": {
+                "title": "Mga Opsyon sa Profile",
+                "hideFollowers": "Itago ang Mga Followers",
+                "hideFollowersDescription": "Itago ang iyong mga followers mula sa iyong profile.",
+                "hideFollowing": "Itago ang mga sinusundan na tao",
+                "hideFollowingDescription": "Itago ang mga user na sinusundan mo mula sa iyong profile."
+            }
+        },
+        "notifications": {
+            "desktopNotifications": "Mga Abiso sa Desktop",
+            "testNotification": {
+                "title": "Gumana ito!",
+                "body": "Na-enable ang mga abiso sa desktop."
             }
         }
     },
