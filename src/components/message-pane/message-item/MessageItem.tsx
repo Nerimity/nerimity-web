@@ -1,14 +1,6 @@
 import styles from "./styles.module.scss";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
-import {
-  formatTimestamp,
-  fullDate,
-  fullDateTime,
-  millisecondsToHhMmSs,
-  timeElapsed,
-  timeSince,
-  timeSinceMentions,
-} from "@/common/date";
+import { formatTimestamp, fullDate, timeSinceMentions } from "@/common/date";
 import Avatar from "@/components/ui/Avatar";
 import Icon from "@/components/ui/icon/Icon";
 import {
@@ -82,23 +74,16 @@ import { emitScrollToMessage } from "@/common/GlobalEvents";
 import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { electronWindowAPI } from "@/common/Electron";
-import { reactNativeAPI, useReactNativeEvent } from "@/common/ReactNative";
-import { stat } from "fs";
-import {
-  AudioEmbed,
-  GoogleDriveAudioEmbed,
-  LocalAudioEmbed,
-} from "./AudioEmbed";
+import { reactNativeAPI } from "@/common/ReactNative";
+import { GoogleDriveAudioEmbed, LocalAudioEmbed } from "./AudioEmbed";
 import { ButtonsEmbed } from "./ButtonsEmbed";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { getSystemMessage } from "@/common/SystemMessage";
 import { useJoinServer } from "@/chat-api/useJoinServer";
 import { Modal } from "@/components/ui/modal";
 import Text from "@/components/ui/Text";
-import { render } from "solid-js/web";
 import Checkbox from "@/components/ui/Checkbox";
-import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import { css } from "solid-styled-components";
+import { FlexColumn } from "@/components/ui/Flexbox";
 import { StorageKeys, useLocalStorage } from "@/common/localStorage";
 import {
   inviteLinkRegex,
@@ -109,7 +94,6 @@ import { RawYoutubeEmbed } from "./RawYoutubeEmbed";
 import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
 import { userDetailsPreloader } from "@/common/createPreloader";
 import { Trans, useTransContext } from "@nerimity/solid-i18lite";
-import { t } from "@nerimity/i18lite";
 import markupStyle from "@/components/Markup.scss?inline";
 import avatarStyle from "@/components/ui/Avatar.module.css?inline";
 import avatarBorderStyle from "@/components/avatar-borders/FounderAdminSupporterBorder.module.css?inline";

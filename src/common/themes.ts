@@ -15,6 +15,8 @@ export const DefaultTheme = {
   "chat-markup-bar-background-color": "rgba(0, 0, 0, 0.86)",
   "chat-markup-bar-background-color-blur-disabled": "black",
 
+  "message-hover-background-color": "rgba(255, 255, 255, 0.03)",
+
   // Primary
   "primary-color": "#4c93ff",
   "primary-color-dark": "#2d3746",
@@ -101,6 +103,7 @@ export const themePresets: Record<string, ThemePreset> = {
       "markup-mention-background-color": "rgba(255, 255, 255, 0.1)",
       "markup-mention-background-color-hover": "rgba(255, 255, 255, 0.12)",
       "markup-codeblock-background-color": "rgba(255, 255, 255, 0.1)",
+      "message-hover-background-color": "rgba(255, 255, 255, 0.1)",
 
       "markup-spoiler-background-color": "#1d1f20ff",
       "markup-spoiler-background-color-hover": "#2b2e30ff",
