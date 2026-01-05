@@ -6,7 +6,7 @@ import {
   onMount,
   Show,
 } from "solid-js";
-
+console.log("uwu");
 import { getCurrentLanguage, getLanguage } from "./locales/languages";
 import { useTransContext } from "@nerimity/solid-i18lite";
 import { electronWindowAPI, spellcheckSuggestions } from "./common/Electron";
@@ -55,11 +55,11 @@ export default function App() {
   const setLanguage = async () => {
     const key = getCurrentLanguage();
     if (!key) return;
-    
+
     // Set language attribute without changing layout direction
     const langKey = key.replace("_", "-");
     document.documentElement.setAttribute("lang", langKey || "en");
-    
+
     if (key === "en_gb") return;
     const language = await getLanguage(key);
     if (!language) return;
