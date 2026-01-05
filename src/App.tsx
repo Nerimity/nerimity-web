@@ -17,7 +17,7 @@ import { registerFCM } from "./chat-api/services/UserService";
 import { useCustomPortal } from "./components/ui/custom-portal/CustomPortal";
 import ContextMenu, {
   ContextMenuItem,
-} from "./components/ui/context-menu/ContextMenu";
+} from "./components/ui/context-menu/ContelxtMenu";
 import { Delay } from "./common/Delay";
 
 const ConnectingStatusHeader = lazy(
