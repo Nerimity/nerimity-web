@@ -221,7 +221,7 @@ export default function ServerSettingsChannel() {
 
   onMount(() => {
     header.updateHeader({
-      title: "Settings - Channels",
+      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.channels"),
       serverId: serverId!,
       iconName: "settings",
     });
@@ -285,12 +285,13 @@ export default function ServerSettingsChannel() {
 }
 
 function ContextMenuCreate(props: Omit<ContextMenuProps, "items">) {
+  const [t] = useTransContext();
   return (
     <ContextMenu
       {...props}
       items={[
-        { icon: "tag", label: "Text Channel", id: ChannelType.SERVER_TEXT },
-        { icon: "segment", label: "Category", id: ChannelType.CATEGORY },
+        { icon: "tag", label: t("servers.settings.channels.textChannel"), id: ChannelType.SERVER_TEXT },
+        { icon: "segment", label: t("servers.settings.channels.category"), id: ChannelType.CATEGORY },
       ]}
     />
   );

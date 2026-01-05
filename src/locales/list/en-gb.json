@@ -352,9 +352,31 @@
         "editServer": "Edit Server",
         "serverMemberCount": "{{count}} members"
       },
+      "welcomeScreen": {
+        "title": "Questions",
+        "description": "Set up questions. Let users assign roles.",
+        "questions": {
+          "addButton": "Add question",
+          "question": "Question",
+          "questionPlaceholder": "Cats or dogs?",
+          "multiselect": "Multiselect"
+        },
+        "answers": {
+          "title": "Answers",
+          "addButton": "Add answer",
+          "editModal": {
+            "title": "Edit Answer",
+            "answer": "Answer",
+            "placeholder": "Cats",
+            "selectRoles": "Select roles"
+          }
+        }
+      },
       "channels": {
         "createButton": "Create",
-        "createNewDescription": "Create a new channel or category"
+        "createNewDescription": "Create a new channel or category",
+        "textChannel": "Text Channel",
+        "category": "Category"
       },
       "channel": {
         "channelName": "Channel Name",

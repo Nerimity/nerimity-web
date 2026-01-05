@@ -21,7 +21,7 @@ import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { useTransContext } from "@nerimity/solid-i18lite";
+import { t } from "@nerimity/i18lite";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/input/Input";
@@ -33,8 +33,6 @@ import Text from "@/components/ui/Text";
 import { ServerRole } from "@/chat-api/store/useServerRoles";
 
 export default function SettingsPage() {
-  const [t] = useTransContext();
-
   const params = useParams<{ serverId: string; questionId: string }>();
   const { header, servers, serverRoles } = useStore();
   const { createPortal } = useCustomPortal();
@@ -76,7 +74,7 @@ export default function SettingsPage() {
 
   onMount(async () => {
     header.updateHeader({
-      title: "Settings - Self Assign Roles",
+      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.welcome-screen"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -164,17 +162,17 @@ export default function SettingsPage() {
           title={t("servers.settings.drawer.welcome-screen")}
           href="../"
         />
-        <BreadcrumbItem title={question() ? question()?.title : "Loading..."} />
+        <BreadcrumbItem title={question() ? question()?.title : t("servers.settings.welcomeScreen.questions.question")} />
       </Breadcrumb>
-      <SettingsBlock label="Question" icon="edit">
+      <SettingsBlock label={t("servers.settings.welcomeScreen.questions.question")} icon="edit">
         <Input
-          placeholder="Cats or dogs?"
+          placeholder={t("servers.settings.welcomeScreen.questions.questionPlaceholder")}
           value={question()?.title}
           onText={(text) => setQuestion({ ...question()!, title: text })}
         />
       </SettingsBlock>
 
-      <SettingsBlock label="Multiselect" icon="library_add_check">
+      <SettingsBlock label={t("servers.settings.welcomeScreen.questions.multiselect")} icon="library_add_check">
         <Checkbox
           checked={!!question()?.multiselect}
           onChange={(checked) =>
@@ -184,12 +182,12 @@ export default function SettingsPage() {
       </SettingsBlock>
 
       <SettingsBlock
-        label="Answers"
+        label={t("servers.settings.welcomeScreen.answers.title")}
         header={!!question()?.answers.length}
         icon="forum"
       >
         <Button
-          label="Add Answer"
+          label={t("servers.settings.welcomeScreen.answers.addButton")}
           iconName="add"
           iconSize={16}
           margin={0}
@@ -206,7 +204,7 @@ export default function SettingsPage() {
             borderBottomRadius={i() === question()!.answers.length - 1}
           >
             <Button
-              label="Delete"
+              label={t("general.deleteButton")}
               iconName="delete"
               iconSize={16}
               margin={[0, 4]}
@@ -214,7 +212,7 @@ export default function SettingsPage() {
               onClick={() => onDeleteClick(i())}
             />
             <Button
-              label="Edit"
+              label={t("general.editButton")}
               iconName="edit"
               iconSize={16}
               margin={0}
@@ -228,7 +226,7 @@ export default function SettingsPage() {
         <Text color="var(--alert-color)">{error()}</Text>
       </Show>
       <Show when={showSaveButton()}>
-        <Button label="Save Changes" onClick={onSaveClick} iconName="save" />
+        <Button label={t("general.saveChangesButton")} onClick={onSaveClick} iconName="save" />
       </Show>
     </div>
   );
@@ -258,13 +256,13 @@ const EditAnswerModal = (props: {
 
   return (
     <LegacyModal
-      title="Edit Answer"
+      title={t("servers.settings.welcomeScreen.answers.editModal.title")}
       close={props.close}
       ignoreBackgroundClick
       actionButtonsArr={[
         {
-          iconName: "edit",
-          label: "Edit Answer",
+          iconName: "check",
+          label: t("general.doneButton"),
           onClick: onEditQuestionClick,
           primary: true,
         },
@@ -311,8 +309,8 @@ const AnswerForEditModal = (props: {
     <div class={styles.answerForEditModalContainer}>
       <Input
         class={styles.answerInput}
-        label="Answer"
-        placeholder="Cats"
+        label={t("servers.settings.welcomeScreen.answers.editModal.answer")}
+        placeholder={t("servers.settings.welcomeScreen.answers.editModal.placeholder")}
         value={props.title}
         onText={(t) => props.onTitleChange(t)}
       />
@@ -322,7 +320,7 @@ const AnswerForEditModal = (props: {
         onChange={(items) =>
           props.onRoleIdsChange(items.map((item) => item.id))
         }
-        title="Select Roles"
+        title={t("servers.settings.welcomeScreen.answers.editModal.selectRoles")}
       />
     </div>
   );
