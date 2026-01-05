@@ -51,10 +51,10 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: dist/
-          dest: latest-chat-client.zip
+          dest: dangerous-chat-client.zip
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: chat-client-build
-          path: latest-chat-client.zip
+          path: dangerous-chat-client.zip
           retention-days: 5
