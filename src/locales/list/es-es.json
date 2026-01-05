@@ -221,11 +221,13 @@
                 "channel": "Canal",
                 "notifications": "Notificaciones",
                 "external-embed": "Incrustación externa",
-                "permissions": "Permisos"
+                "permissions": "Permisos",
+                "emoji": "Emoji"
             },
             "bans": {
                 "sort": {
-                    "unsorted": "Sin ordenar"
+                    "unsorted": "Sin ordenar",
+                    "alphabetical": "Alfabéticamente"
                 },
                 "noResults": "No se encontraron resultados.",
                 "reason": "Razón",
@@ -233,7 +235,7 @@
                 "bannedAt": "Baneado el",
                 "unknown": "Desconocido",
                 "unban": "Desbanear",
-                "unbanning": "Unbaneando"
+                "unbanning": "Unbaneando…"
             },
             "webhook": {
                 "title": "Webhooks",
@@ -294,7 +296,8 @@
                 "serverInvites": "Invitaciones del servidor",
                 "serverInvitesDescription": "Invita a tus amigos a este servidor.",
                 "customInviteVerifiedOnlyNotice": "Los enlaces de invitación personalizados solo están disponibles para servidores verificados.",
-                "customLink": "Enlace personalizado"
+                "customLink": "Enlace personalizado",
+                "uses": "{{count}} uso(s)"
             },
             "publishServer": {
                 "publishNotice": "Publicar este servidor lo hará disponible en la página <1>explore</1>.",
@@ -342,6 +345,11 @@
                     "hdScreenshare": "Compartir pantalla en 1080p@60fps",
                     "hdScreenshareDescription": "Comparte pantalla en 1080p a 60 fps."
                 }
+            },
+            "emoji": {
+                "title": "Emoji customizado",
+                "description": "Añade tu propio emoji.",
+                "addButton": "Añadir emoji"
             }
         },
         "rolePermissions": {
@@ -1067,7 +1075,8 @@
     },
     "nicknameChangeModal": {
         "title": "Editar perfil del servidor",
-        "description": "Todos en este servidor podrán ver tu apodo."
+        "description": "Todos en este servidor podrán ver tu apodo.",
+        "inputLabel": "Apodo"
     },
     "transferOwnershipModal": {
         "title": "Transferir titularidad",
