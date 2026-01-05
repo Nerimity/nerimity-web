@@ -11,7 +11,7 @@ import {
   deleteWelcomeQuestion,
   getWelcomeQuestions,
 } from "@/chat-api/services/ServerService";
-import { useTransContext } from "@nerimity/solid-i18lite";
+import { t } from "@nerimity/i18lite";
 
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
@@ -19,7 +19,6 @@ import { RawServerWelcomeQuestion } from "@/chat-api/RawData";
 import { CustomLink } from "@/components/ui/CustomLink";
 
 export default function SettingsPage() {
-  const [t] = useTransContext();
   const params = useParams<{ serverId: string }>();
   const { header, servers } = useStore();
   const [questions, setQuestions] = createSignal<RawServerWelcomeQuestion[]>(
@@ -29,7 +28,7 @@ export default function SettingsPage() {
 
   onMount(() => {
     header.updateHeader({
-      title: "Settings - Self Assign Roles",
+      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.welcome-screen"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -79,12 +78,12 @@ export default function SettingsPage() {
         <BreadcrumbItem title={t("servers.settings.drawer.welcome-screen")} />
       </Breadcrumb>
       <SettingsBlock
-        label="Questions"
+        label={t("servers.settings.welcomeScreen.title")}
         header={!!questions().length}
-        description="Setup questions. Let users assign roles."
+        description={t("servers.settings.welcomeScreen.description")}
         icon="task_alt"
       >
-        <Button label="Add Question" onClick={onAddQuestionClick} />
+        <Button label={t("servers.settings.welcomeScreen.questions.addButton")} onClick={onAddQuestionClick} />
       </SettingsBlock>
       <QuestionList
         questions={questions()}
@@ -141,7 +140,7 @@ const QuestionItem = (props: {
       label={props.question.title}
     >
       <Button
-        label="Delete"
+        label={t("general.deleteButton")}
         iconName="delete"
         margin={[0, 4]}
         iconSize={16}
@@ -149,7 +148,7 @@ const QuestionItem = (props: {
         onClick={onDeleteClick}
       />
       <CustomLink href={`./${props.question.id}`}>
-        <Button label="Edit" iconName="edit" iconSize={16} margin={0} />
+        <Button label={t("general.editButton")} iconName="edit" iconSize={16} margin={0} />
       </CustomLink>
     </SettingsBlock>
   );
