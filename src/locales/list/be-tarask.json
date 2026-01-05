@@ -279,7 +279,9 @@
             },
             "channels": {
                 "createButton": "Стварыць",
-                "createNewDescription": "Стварыць новы канал ці катэгорыю"
+                "createNewDescription": "Стварыць новы канал ці катэгорыю",
+                "textChannel": "Тэкставы канал",
+                "category": "Катэґорыя"
             },
             "channel": {
                 "channelName": "Назва каналу",
@@ -350,6 +352,26 @@
                 "title": "Уласны эмодзі",
                 "description": "Дадайце свае эмодзі.",
                 "addButton": "Дадаць эмодзі"
+            },
+            "welcomeScreen": {
+                "title": "Пытаньні",
+                "description": "Наладзьце пытаньні. Дайце карыстачам абіраць сабе ролі.",
+                "questions": {
+                    "addButton": "Дадаць пытаньне",
+                    "question": "Пытаньне",
+                    "questionPlaceholder": "Кошкі ці сабакі?",
+                    "multiselect": "Множны выбар"
+                },
+                "answers": {
+                    "title": "Адказы",
+                    "addButton": "Дадаць адказ",
+                    "editModal": {
+                        "title": "Рэдагаваньне адказу",
+                        "answer": "Адказ",
+                        "placeholder": "Кошкі",
+                        "selectRoles": "Абраць ролі"
+                    }
+                }
             }
         },
         "rolePermissions": {
@@ -1045,7 +1067,7 @@
     },
     "general": {
         "nothingSelected": "Нічога ня выбрана",
-        "selectItem": "Абраць элемент",
+        "selectItem": "Абраць элемэнт",
         "searchPlaceholder": "Пошук",
         "backButton": "Назад",
         "cancelButton": "Скасаваць",
