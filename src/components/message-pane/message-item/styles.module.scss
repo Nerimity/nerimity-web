@@ -1,12 +1,3 @@
-:global body.disableBlur {
-  :local {
-    .floatOptions {
-      background-color: rgb(40, 40, 40);
-      backdrop-filter: none;
-    }
-  }
-}
-
 .newDayMarker {
   position: relative;
   display: flex;
@@ -87,8 +78,7 @@
   padding: 2px;
   border: solid 1px rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  background-color: rgba(40, 40, 40, 0.86);
-  backdrop-filter: blur(34px);
+  background-color: var(--message-floating-options-background-color);
   .floatDate {
     padding-right: 5px;
     margin-right: 5px;
