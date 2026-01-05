@@ -1,0 +1,60 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: pull-request-check
+
+# This workflow can be used for pushing to the production server and will only be ran when code is pushed to the main branch
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  # github.workflow: name of the workflow
+  # github.event.pull_request.number || github.ref: pull request number or branch name if not a pull request
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+  # Cancel in-progress runs when a new workflow with the same group name is triggered
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: node:20
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node.js dependencies
+        run: |
+          npm i -g pnpm
+          pnpm i
+
+      - name: Get short SHA
+        id: slug
+        run: |
+          git config --global --add safe.directory /__w/nerimity-web/nerimity-web  
+          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Build App
+        run: pnpm run build
+        env:
+          VITE_SERVER_URL: "https://nerimity.com"
+          VITE_APP_URL: "https://latest.nerimity.com"
+          VITE_MOBILE_WIDTH: 850
+          VITE_TURNSTILE_SITEKEY: "0x4AAAAAAABO1ilip_YaVHJk"
+          VITE_APP_VERSION: ${{ steps.slug.outputs.sha_short }}
+          VITE_EMOJI_URL: "https://nerimity.com/twemojis/"
+          VITE_NERIMITY_CDN: "https://cdn.nerimity.com/"
+          VITE_GOOGLE_CLIENT_ID: "833085928210-2ksk1asgbmqvsg6jb3es4asnmug2a4iu.apps.googleusercontent.com"
+          VITE_GOOGLE_API_KEY: "AIzaSyAPeozJV7itoZk9Fk1VYbFCDMMXB-gU38M"
+
+      - name: Zip The Build
+        uses: vimtor/action-zip@v1
+        with:
+          files: dist/
+          dest: latest-chat-client.zip
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chat-client-build
+          path: latest-chat-client.zip
+          retention-days: 5
