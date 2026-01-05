@@ -202,6 +202,7 @@ interface MessageItemProps {
   quoteClick?: () => void;
   translateMessage?: boolean;
   showNewDayMarker?: boolean;
+  isEditing?: boolean;
   containerWidth?: number;
 }
 
@@ -465,6 +466,7 @@ const MessageItem = (props: MessageItemProps) => {
           styles.messageItem,
           conditionalClass(isCompact(), styles.compact),
           conditionalClass(isMentioned(), styles.mentioned),
+          conditionalClass(props.isEditing, styles.isEditing),
           conditionalClass(isSomeoneMentioned(), styles.someoneMentioned),
           props.class,
           "messageItem"

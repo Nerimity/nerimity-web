@@ -692,6 +692,7 @@ export const MessageLogArea = (props: {
             </Show>
             <MessageItem
               showNewDayMarker
+              isEditing={message.id === properties()?.editMessageId}
               translateMessage={translateMessageIds().includes(message.id!)}
               reactionPickerClick={(event) =>
                 reactionPickerClick(event, message)

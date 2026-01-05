@@ -281,6 +281,7 @@
       display: flex;
     }
   }
+  &.isEditing,
   &.mentioned {
     background-color: rgba(255, 149, 149, 0.1);
     &:before {
@@ -292,6 +293,13 @@
       border-radius: 8px;
       background-color: var(--alert-color);
       content: "";
+    }
+  }
+
+  &.isEditing {
+    background-color: rgba(76, 148, 255, 0.2);
+    &:before {
+      background-color: var(--primary-color);
     }
   }
   &.someoneMentioned {
