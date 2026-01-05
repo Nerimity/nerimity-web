@@ -390,6 +390,7 @@ export const MessageLogArea = (props: {
         if (searchParams.messageId) {
           setTimeout(() => {
             emitScrollToMessage({ messageId: searchParams.messageId! });
+            setSearchParams({ messageId: undefined }, { replace: true });
           }, 100);
           return;
         }
