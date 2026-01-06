@@ -29,7 +29,7 @@
         },
         "connections": {
             "thirdParty": {
-                "unauthorizeButton": "不正アクセス",
+                "unauthorizeButton": "認証解除",
                 "unauthorizing": "認証解除中…"
             }
         },
