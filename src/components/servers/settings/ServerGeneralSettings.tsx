@@ -125,7 +125,13 @@ export default function ServerGeneralSettings() {
       const res = await uploadAvatar(server()?.id!, {
         file: avatar,
         points: avatarPoints!,
+      }).catch((err) => {
+        setError("Failed to update avatar. " + (err.message || err.error));
       });
+      if (!res) {
+        setRequestSent(false);
+        return;
+      }
       avatarId = res.fileId;
     }
 
@@ -133,7 +139,13 @@ export default function ServerGeneralSettings() {
       const res = await uploadBanner(server()?.id!, {
         file: banner,
         points: bannerPoints!,
+      }).catch((err) => {
+        setError("Failed to update banner. " + (err.message || err.error));
       });
+      if (!res) {
+        setRequestSent(false);
+        return;
+      }
       bannerId = res.fileId;
     }
 
@@ -150,9 +162,7 @@ export default function ServerGeneralSettings() {
   };
 
   const requestStatus = () =>
-    requestSent()
-      ? t("general.saving")
-      : t("general.saveChangesButton");
+    requestSent() ? t("general.saving") : t("general.saveChangesButton");
 
   const showDeleteConfirm = () => {
     createPortal?.((close) => (
@@ -261,7 +271,10 @@ export default function ServerGeneralSettings() {
       <SettingsBlock
         icon="wallpaper"
         label={t("general.avatarAndBanner.avatar")}
-        description={t("general.avatarAndBanner.supportedFileTypes", {extensions: "JPG, PNG, GIF, WEBP", size: "12MB"})}
+        description={t("general.avatarAndBanner.supportedFileTypes", {
+          extensions: "JPG, PNG, GIF, WEBP",
+          size: "12MB",
+        })}
       >
         <FileBrowser
           accept="images"
@@ -296,7 +309,10 @@ export default function ServerGeneralSettings() {
       <SettingsBlock
         icon="panorama"
         label={t("general.avatarAndBanner.banner")}
-        description={t("general.avatarAndBanner.supportedFileTypes", {extensions: "JPG, PNG, GIF, WEBP", size: "12MB"})}
+        description={t("general.avatarAndBanner.supportedFileTypes", {
+          extensions: "JPG, PNG, GIF, WEBP",
+          size: "12MB",
+        })}
       >
         <FileBrowser
           accept="images"

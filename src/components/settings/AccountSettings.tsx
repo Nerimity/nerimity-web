@@ -173,11 +173,13 @@ export function EditAccountPage(props: {
         file: avatar,
         points: avatarPoints!,
       }).catch((err) => {
-        setError(err.message);
+        setError("Failed to update avatar. " + (err.message || err.error));
       });
-      if (res) {
-        avatarId = res.fileId;
+      if (!res) {
+        setRequestSent(false);
+        return;
       }
+      avatarId = res.fileId;
     }
 
     if (banner) {
@@ -185,11 +187,13 @@ export function EditAccountPage(props: {
         file: banner,
         points: bannerPoints!,
       }).catch((err) => {
-        setError(err.message);
+        setError("Failed to update banner. " + (err.message || err.error));
       });
-      if (res) {
-        bannerId = res.fileId;
+      if (!res) {
+        setRequestSent(false);
+        return;
       }
+      bannerId = res.fileId;
     }
 
     await updateUser({ ...values, bannerId, avatarId }, props.botToken)
@@ -221,13 +225,14 @@ export function EditAccountPage(props: {
   };
 
   const requestStatus = () =>
-    requestSent()
-      ? t("general.saving")
-      : t("general.saveChangesButton");
+    requestSent() ? t("general.saving") : t("general.saveChangesButton");
 
   const { createPortal } = useCustomPortal();
 
-  const onCropped = (points: number[], type: "avatar" | "banner" = "avatar") => {
+  const onCropped = (
+    points: number[],
+    type: "avatar" | "banner" = "avatar"
+  ) => {
     const pointsKey = type === "banner" ? "bannerPoints" : "avatarPoints";
 
     setInputValue(pointsKey, points);
@@ -237,7 +242,11 @@ export function EditAccountPage(props: {
   const onAvatarPick = (files: string[], rawFiles: FileList) => {
     if (files[0]) {
       createPortal((close) => (
-        <ImageCropModal close={close} image={files[0]} onCropped={(p) => onCropped(p, "avatar")} />
+        <ImageCropModal
+          close={close}
+          image={files[0]}
+          onCropped={(p) => onCropped(p, "avatar")}
+        />
       ));
       setInputValue("avatar", rawFiles[0]);
       setSettingsHeaderPreview({ avatar: files[0] });
@@ -247,7 +256,12 @@ export function EditAccountPage(props: {
   const onBannerPick = (files: string[], rawFiles: FileList) => {
     if (files[0]) {
       createPortal((close) => (
-        <ImageCropModal type="banner" close={close} image={files[0]} onCropped={(p) => onCropped(p, "banner")} />
+        <ImageCropModal
+          type="banner"
+          close={close}
+          image={files[0]}
+          onCropped={(p) => onCropped(p, "banner")}
+        />
       ));
       setInputValue("banner", rawFiles[0]);
       setSettingsHeaderPreview({ banner: files[0] });
@@ -369,7 +383,10 @@ export function EditAccountPage(props: {
       <SettingsBlock
         icon="wallpaper"
         label={t("general.avatarAndBanner.avatar")}
-        description={t("general.avatarAndBanner.supportedFileTypes", {extensions: "JPG, PNG, GIF, WEBP", size: "12MB"})}
+        description={t("general.avatarAndBanner.supportedFileTypes", {
+          extensions: "JPG, PNG, GIF, WEBP",
+          size: "12MB",
+        })}
       >
         <FileBrowser
           accept="images"
@@ -404,7 +421,10 @@ export function EditAccountPage(props: {
       <SettingsBlock
         icon="panorama"
         label={t("general.avatarAndBanner.banner")}
-        description={t("general.avatarAndBanner.supportedFileTypes", {extensions: "JPG, PNG, GIF, WEBP", size: "12MB"})}
+        description={t("general.avatarAndBanner.supportedFileTypes", {
+          extensions: "JPG, PNG, GIF, WEBP",
+          size: "12MB",
+        })}
       >
         <FileBrowser
           accept="images"
