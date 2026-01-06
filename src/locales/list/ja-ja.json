@@ -1,0 +1,64 @@
+{
+    "markup": {
+        "color": "色"
+    },
+    "explore": {
+        "themes": {
+            "themesHeaderDescription": "カスタムテーマを使って、Nerimityを自分好みにカスタマイズしましょう。"
+        }
+    },
+    "servers": {
+        "settings": {
+            "role": {
+                "roleColor": "役割の色"
+            }
+        }
+    },
+    "settings": {
+        "account": {
+            "profileDescription": "プロフィールや色を編集する",
+            "gradientColor1": "グラデーションカラー1",
+            "gradientColor2": "グラデーションカラー2",
+            "primaryColor": "原色"
+        },
+        "notifications": {
+            "desktopNotificationsDescription": "アプリが最小化されている場合でも、デスクトップ通知を表示する。",
+            "changeSoundsDescription": "これらの著作権フリーのサウンドを使って、通知音を変更してください。",
+            "inAppPreview": "アプリプレビュー",
+            "inAppPreviewDescription": "このアプリは、アプリ内通知のポップアップを表示します。"
+        },
+        "connections": {
+            "thirdParty": {
+                "unauthorizeButton": "不正アクセス",
+                "unauthorizing": "認証解除中…"
+            }
+        },
+        "interface": {
+            "customizeColors": "色のカスタマイズ",
+            "customizeColorsDescription": "現在のテーマの色を編集します。"
+        },
+        "window": {
+            "startMinimized": "最小化して起動する",
+            "startMinimizedDescription": "Nerimityは自動的にシステムトレイに最小化されます。"
+        }
+    },
+    "channelDrawer": {
+        "customize": {
+            "title": "カスタマイズ"
+        }
+    },
+    "colorPickerModal": {
+        "title": "カラーピッカー"
+    },
+    "oauth2": {
+        "AuthorizeButton": "承認する"
+    },
+    "homePage": {
+        "featureList": {
+            "feature7": "寄付によって運営されています"
+        }
+    },
+    "general": {
+        "nothingSelected": ""
+    }
+}
