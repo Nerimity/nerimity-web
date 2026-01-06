@@ -204,7 +204,9 @@ export default function ServerSettingsRole() {
               textSize={12}
               padding={2}
               alert
-              onClick={() => setInputValue("hexColor", role()?.hexColor)}
+              onClick={() =>
+                setInputValue("hexColor", defaultInput()?.hexColor)
+              }
             />
           </Match>
           <Match when={inputValues().hexColor}>
