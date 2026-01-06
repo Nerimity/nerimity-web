@@ -7,6 +7,7 @@ import {
   createEffect,
   on,
   JSX,
+  children,
 } from "solid-js";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { useResizeObserver } from "@/common/useResizeObserver";
@@ -22,6 +23,7 @@ export const Tooltip = (props: {
   class?: string;
   style?: JSX.CSSProperties;
 }) => {
+  const toolTip = children(() => props.tooltip);
   const { isMobileAgent } = useWindowProperties();
   const { createPortal, closePortalById } = useCustomPortal();
   const id = createUniqueId();
@@ -40,7 +42,7 @@ export const Tooltip = (props: {
   );
 
   const onMouseEnter = (e: MouseEvent) => {
-    if (!props.tooltip) return;
+    if (!toolTip()) return;
     if (props.disable) return;
     if (isMobileAgent()) return;
     const target = e.currentTarget as HTMLElement;
@@ -52,11 +54,7 @@ export const Tooltip = (props: {
 
     createPortal(
       () => (
-        <TooltipItem
-          rect={rect}
-          children={props.tooltip}
-          anchor={props.anchor}
-        />
+        <TooltipItem rect={rect} children={toolTip()} anchor={props.anchor} />
       ),
       portalId
     );
