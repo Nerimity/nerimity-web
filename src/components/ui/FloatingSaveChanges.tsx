@@ -1,7 +1,7 @@
+import style from "./FloatingSaveChanges.module.css";
 import { Show } from "solid-js";
 import { cn } from "@/common/classNames";
 import Button from "./Button";
-import style from "./FloatingSaveChanges.module.css";
 import { t } from "@nerimity/i18lite";
 
 export const FloatingSaveChanges = (props: {
