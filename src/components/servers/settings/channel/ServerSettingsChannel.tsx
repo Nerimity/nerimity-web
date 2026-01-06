@@ -31,7 +31,10 @@ import {
   removeBit,
 } from "@/chat-api/Bitwise";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
-import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal,
+} from "@/components/ui/custom-portal/CustomPortal";
 import { useTransContext } from "@nerimity/solid-i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
@@ -58,6 +61,7 @@ import {
   getWebhookToken,
 } from "@/chat-api/services/WebhookService";
 import { copyToClipboard } from "@/common/clipboard";
+import { FloatingSaveChanges } from "@/components/ui/FloatingSaveChanges";
 
 type ChannelParams = {
   serverId: string;
@@ -148,8 +152,6 @@ function Tabs() {
   );
 }
 
-
-
 function PermissionsTab() {
   const [t] = useTransContext();
   const params = useParams<ChannelParams>();
@@ -236,11 +238,6 @@ function PermissionsTab() {
       .finally(() => setSaveRequestSent(false));
   };
 
-  const saveRequestStatus = () =>
-    saveRequestSent()
-      ? t("general.saving")
-      : t("general.saveChangesButton");
-
   return (
     <div class={styles.channelPane}>
       <SettingsBlock
@@ -273,18 +270,16 @@ function PermissionsTab() {
           setPermissions={setPermissions}
         />
       </Show>
-      {/* Errors & buttons */}
-      <Show when={error()}>
-        <div class={styles.error}>{error()}</div>
-      </Show>
-      <Show when={hasUpdated()}>
-        <Button
-          iconName="save"
-          label={saveRequestStatus()}
-          class={styles.saveButton}
-          onClick={onSaveButtonClicked}
-        />
-      </Show>
+
+      <FloatingSaveChanges
+        error={error()}
+        hasChanges={hasUpdated()}
+        isSaving={saveRequestSent()}
+        onSave={onSaveButtonClicked}
+        onUndo={() => {
+          setPermissions(roleChannelPermissions()?.permissions || 0);
+        }}
+      />
     </div>
   );
 }
@@ -312,7 +307,7 @@ function GeneralTab() {
     slowModeSeconds: channel()?.slowModeSeconds || 0,
   });
 
-  const [inputValues, updatedInputValues, setInputValue] =
+  const [inputValues, updatedInputValues, setInputValue, undoUpdatedValues] =
     createUpdatedSignal(defaultInput);
 
   createEffect(
@@ -336,9 +331,7 @@ function GeneralTab() {
   };
 
   const saveRequestStatus = () =>
-    saveRequestSent()
-      ? t("general.saving")
-      : t("general.saveChangesButton");
+    saveRequestSent() ? t("general.saving") : t("general.saveChangesButton");
 
   const openChannelIconPicker = (event: MouseEvent) => {
     setEmojiPickerPosition({
@@ -372,7 +365,10 @@ function GeneralTab() {
         />
       </SettingsBlock>
       {/* Channel Icon */}
-      <SettingsBlock icon="face" label={t("servers.settings.channel.channelIcon")}>
+      <SettingsBlock
+        icon="face"
+        label={t("servers.settings.channel.channelIcon")}
+      >
         <Show when={inputValues().icon}>
           <Button
             iconName="delete"
@@ -420,7 +416,10 @@ function GeneralTab() {
             }
           />
         </SettingsBlock>
-        <WebhooksBlock channelId={params.channelId} serverId={params.serverId} />
+        <WebhooksBlock
+          channelId={params.channelId}
+          serverId={params.serverId}
+        />
         <ChannelNoticeBlock
           channelId={params.channelId}
           serverId={params.serverId}
@@ -438,22 +437,17 @@ function GeneralTab() {
           onClick={showDeleteConfirmModal}
         />
       </SettingsBlock>
-      {/* Errors & buttons */}
-      <Show when={error()}>
-        <div class={styles.error}>{error()}</div>
-      </Show>
-      <Show when={Object.keys(updatedInputValues()).length}>
-        <Button
-          iconName="save"
-          label={saveRequestStatus()}
-          class={styles.saveButton}
-          onClick={onSaveButtonClicked}
-        />
-      </Show>
+
+      <FloatingSaveChanges
+        hasChanges={Object.keys(updatedInputValues()).length}
+        isSaving={saveRequestSent()}
+        onSave={onSaveButtonClicked}
+        error={error()}
+        onUndo={() => undoUpdatedValues()}
+      />
     </div>
   );
 }
-
 
 const ChannelPermissionsBlock = (props: {
   permissions: number;
@@ -604,7 +598,11 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
             />
           </Show>
           <Show when={updatedInputValues().content}>
-            <Button label={t("general.saveButton")} iconName="save" onClick={save} />
+            <Button
+              label={t("general.saveButton")}
+              iconName="save"
+              onClick={save}
+            />
           </Show>
         </div>
       </SettingsBlock>
@@ -639,7 +637,9 @@ function ChannelDeleteConfirmModal(props: {
 
   return (
     <DeleteConfirmModal
-      title={t("servers.settings.channel.deleteChannelTitle", { channelName: `${props.channel?.name}`})}
+      title={t("servers.settings.channel.deleteChannelTitle", {
+        channelName: `${props.channel?.name}`,
+      })}
       close={props.close}
       errorMessage={error()}
       confirmText={props.channel?.name}

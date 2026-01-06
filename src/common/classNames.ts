@@ -1,5 +1,5 @@
 export function classNames(
-  ...args: Array<string | undefined | null | false>
+  ...args: Array<string | undefined | null | number | false>
 ): string {
   return args.filter(Boolean).join(" ");
 }

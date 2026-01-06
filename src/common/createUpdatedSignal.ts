@@ -4,7 +4,8 @@ import { createStore, reconcile } from "solid-js/store";
 export type CreatedUpdateSignal<T> = [
   () => T,
   () => Partial<T>,
-  <K extends keyof T>(key: keyof T, value: T[K]) => void
+  <K extends keyof T>(key: keyof T, value: T[K]) => void,
+  () => void
 ];
 
 export function createUpdatedSignal<T>(
@@ -34,5 +35,6 @@ export function createUpdatedSignal<T>(
     }
     return updatedValues;
   };
-  return [() => values, updatedValues, updateValue];
+  const undo = () => setValues(reconcile({ ...defaultValues() }));
+  return [() => values, updatedValues, updateValue, undo];
 }

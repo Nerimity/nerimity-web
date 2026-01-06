@@ -39,6 +39,7 @@ import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import { emojiShortcodeToUnicode } from "@/emoji";
 import { Emoji } from "@/components/ui/Emoji";
 import { ColorPickerModal } from "@/components/ui/color-picker/ColorPicker";
+import { FloatingSaveChanges } from "@/components/ui/FloatingSaveChanges";
 
 type RoleParams = {
   serverId: string;
@@ -72,8 +73,12 @@ export default function ServerSettingsRole() {
     applyOnJoin: role()?.applyOnJoin || false,
   });
 
-  const [inputValues, updatedInputValues, setInputValue] =
-    createUpdatedSignal(defaultInput);
+  const [
+    inputValues,
+    updatedInputValues,
+    setInputValue,
+    undoUpdatedInputValues,
+  ] = createUpdatedSignal(defaultInput);
   const permissions = () =>
     getAllPermissions(ROLE_PERMISSIONS, inputValues().permissions);
 
@@ -96,11 +101,6 @@ export default function ServerSettingsRole() {
       .catch((err) => setError(err.message))
       .finally(() => setSaveRequestSent(false));
   };
-
-  const saveRequestStatus = () =>
-    saveRequestSent()
-      ? t("general.saving")
-      : t("general.saveChangesButton");
 
   const onPermissionChanged = (checked: boolean, bit: number) => {
     let newPermission = inputValues().permissions;
@@ -179,7 +179,9 @@ export default function ServerSettingsRole() {
             margin-bottom: 8px;
           `}
           type="warn"
-          description={t("servers.settings.role.managedByBot", { botName: `${bot()?.username}`})}
+          description={t("servers.settings.role.managedByBot", {
+            botName: `${bot()?.username}`,
+          })}
         />
       </Show>
       {/* Role Name */}
@@ -278,11 +280,9 @@ export default function ServerSettingsRole() {
         icon="adjust"
         label={t("servers.settings.role.hideRole")}
         description={t("servers.settings.role.hideRoleDescription")}
+        onClick={() => setInputValue("hideRole", !inputValues().hideRole)}
       >
-        <Checkbox
-          checked={inputValues().hideRole}
-          onChange={(checked) => setInputValue("hideRole", checked)}
-        />
+        <Checkbox checked={inputValues().hideRole} />
       </SettingsBlock>
       {/* Apply On Join */}
       <SettingsBlock
@@ -296,10 +296,10 @@ export default function ServerSettingsRole() {
         icon="adjust"
         label={t("servers.settings.role.applyOnJoin")}
         description={t("servers.settings.role.applyOnJoinDescription")}
+        onClick={() => setInputValue("applyOnJoin", !inputValues().applyOnJoin)}
       >
         <Checkbox
           checked={isDefaultRole() ? true : inputValues().applyOnJoin}
-          onChange={(checked) => setInputValue("applyOnJoin", checked)}
         />
       </SettingsBlock>
 
@@ -317,13 +317,11 @@ export default function ServerSettingsRole() {
               label={permission.name()}
               description={permission.description?.()}
               class={styles.permissionItem}
+              onClick={() =>
+                onPermissionChanged(!permission.hasPerm, permission.bit)
+              }
             >
-              <Checkbox
-                checked={permission.hasPerm}
-                onChange={(checked) =>
-                  onPermissionChanged(checked, permission.bit)
-                }
-              />
+              <Checkbox checked={permission.hasPerm} />
             </SettingsBlock>
           )}
         </For>
@@ -341,18 +339,16 @@ export default function ServerSettingsRole() {
           onClick={showDeleteConfirm}
         />
       </SettingsBlock>
-      {/* Errors & buttons */}
-      <Show when={error()}>
-        <div class={styles.error}>{error()}</div>
-      </Show>
-      <Show when={Object.keys(updatedInputValues()).length}>
-        <Button
-          iconName="save"
-          label={saveRequestStatus()}
-          class={styles.saveButton}
-          onClick={onSaveButtonClicked}
-        />
-      </Show>
+
+      <FloatingSaveChanges
+        hasChanges={Object.keys(updatedInputValues()).length}
+        isSaving={saveRequestSent()}
+        onSave={onSaveButtonClicked}
+        error={error()}
+        onUndo={() => {
+          undoUpdatedInputValues();
+        }}
+      />
     </div>
   );
 }
@@ -390,7 +386,9 @@ function RoleDeleteConfirmModal(props: {
   return (
     <DeleteConfirmModal
       close={props.close}
-      title={t("servers.settings.role.deleteRoleTitle", { roleName: `${props.role?.name}`})}
+      title={t("servers.settings.role.deleteRoleTitle", {
+        roleName: `${props.role?.name}`,
+      })}
       errorMessage={error()}
       confirmText={props.role?.name}
       onDeleteClick={onDeleteClick}

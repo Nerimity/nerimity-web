@@ -1,0 +1,38 @@
+.container {
+  position: sticky;
+  right: 0;
+  bottom: 10px;
+  display: flex;
+
+  align-self: end;
+  flex-direction: column;
+  padding: 8px;
+  margin: 8px;
+  margin-bottom: 16px;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+
+  opacity: 0;
+  background-color: var(--pane-color);
+  transition: 0.2s ease;
+  transform: translateY(20px);
+  pointer-events: none;
+  gap: 8px;
+
+  &.show {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-self: end;
+  gap: 8px;
+}
+
+.error {
+  color: var(--alert-color);
+  font-size: 12px;
+}

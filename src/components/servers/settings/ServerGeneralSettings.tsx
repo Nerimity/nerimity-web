@@ -24,6 +24,7 @@ import {
   uploadAvatar,
   uploadBanner,
 } from "@/chat-api/services/nerimityCDNService";
+import { FloatingSaveChanges } from "@/components/ui/FloatingSaveChanges";
 
 const Container = styled("div")`
   display: flex;
@@ -58,7 +59,7 @@ export default function ServerGeneralSettings() {
     bannerPoints: null as null | number[],
   });
 
-  const [inputValues, updatedInputValues, setInputValue] =
+  const [inputValues, updatedInputValues, setInputValue, undoUpdatedInput] =
     createUpdatedSignal(defaultInput);
 
   const dropDownChannels = () =>
@@ -358,26 +359,15 @@ export default function ServerGeneralSettings() {
         </SettingsBlock>
       </Show>
 
-      <Show when={error()}>
-        <Text
-          size={12}
-          color="var(--alert-color)"
-          style={{ "margin-top": "5px" }}
-        >
-          {error()}
-        </Text>
-      </Show>
-
-      <Show when={Object.keys(updatedInputValues()).length}>
-        <Button
-          iconName="save"
-          label={requestStatus()}
-          class={css`
-            align-self: flex-end;
-          `}
-          onClick={onSaveButtonClicked}
-        />
-      </Show>
+      <FloatingSaveChanges
+        error={error()}
+        hasChanges={Object.keys(updatedInputValues()).length}
+        isSaving={requestSent()}
+        onSave={onSaveButtonClicked}
+        onUndo={() => {
+          undoUpdatedInput();
+        }}
+      />
     </Container>
   );
 }

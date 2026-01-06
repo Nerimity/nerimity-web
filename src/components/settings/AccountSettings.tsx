@@ -52,6 +52,7 @@ import {
   uploadAvatar,
   uploadBanner,
 } from "@/chat-api/services/nerimityCDNService";
+import { FloatingSaveChanges } from "../ui/FloatingSaveChanges";
 
 const ImageCropModal = lazy(() => import("../ui/ImageCropModal"));
 
@@ -134,7 +135,7 @@ export function EditAccountPage(props: {
     setSettingsHeaderPreview(reconcile({}));
   });
 
-  const [inputValues, updatedInputValues, setInputValue] =
+  const [inputValues, updatedInputValues, setInputValue, undoUpdatedValues] =
     createUpdatedSignal(defaultInput);
 
   const onSaveButtonClicked = async () => {
@@ -157,6 +158,29 @@ export function EditAccountPage(props: {
         setRequestSent(false);
         return;
       }
+    }
+
+    if (
+      !updatedInputValues().password &&
+      !props.bot &&
+      (updatedInputValues().newPassword ||
+        updatedInputValues().username ||
+        updatedInputValues().tag ||
+        updatedInputValues().email)
+    ) {
+      createPortal((close) => (
+        <ConfirmPasswordModal
+          close={close}
+          onConfirm={(password) => {
+            if (!password.trim()) return;
+            setInputValue("password", password);
+            onSaveButtonClicked();
+            close();
+          }}
+        />
+      ));
+      setRequestSent(false);
+      return;
     }
 
     const { avatar, banner, avatarPoints, bannerPoints, ...values } = {
@@ -220,12 +244,10 @@ export function EditAccountPage(props: {
       })
       .catch((err) => {
         setError(err.message);
+        setInputValue("password", "");
       })
       .finally(() => setRequestSent(false));
   };
-
-  const requestStatus = () =>
-    requestSent() ? t("general.saving") : t("general.saveChangesButton");
 
   const { createPortal } = useCustomPortal();
 
@@ -504,7 +526,7 @@ export function EditAccountPage(props: {
         </SettingsBlock>
       </Show>
 
-      <Show when={!props.bot && Object.keys(updatedInputValues()).length}>
+      {/* <Show when={!props.bot && Object.keys(updatedInputValues()).length}>
         <SettingsBlock
           icon="password"
           label={t("settings.account.confirmCurrentPassword")}
@@ -515,28 +537,15 @@ export function EditAccountPage(props: {
             onText={(v) => setInputValue("password", v)}
           />
         </SettingsBlock>
-      </Show>
+      </Show> */}
 
-      <Show when={error()}>
-        <Text
-          size={12}
-          color="var(--alert-color)"
-          style={{ "margin-top": "5px" }}
-        >
-          {error()}
-        </Text>
-      </Show>
-      <Show when={Object.keys(updatedInputValues()).length}>
-        <Button
-          iconName="save"
-          label={requestStatus()}
-          class={css`
-            align-self: flex-end;
-          `}
-          onClick={onSaveButtonClicked}
-        />
-      </Show>
-
+      <FloatingSaveChanges
+        hasChanges={Object.keys(updatedInputValues()).length}
+        isSaving={requestSent()}
+        onSave={onSaveButtonClicked}
+        error={error()}
+        onUndo={() => undoUpdatedValues()}
+      />
       <ChannelNoticeBlock botToken={props.botToken} />
 
       <Show when={!props.bot}>
@@ -919,6 +928,52 @@ const ConfirmEmailModal = (props: { close(): void; message: string }) => {
         <Text color="var(--alert-color)" size={14}>
           {errorMessage()}
         </Text>
+      </FlexColumn>
+    </LegacyModal>
+  );
+};
+const ConfirmPasswordModal = (props: {
+  close(): void;
+  onConfirm(password: string): void;
+}) => {
+  const [password, setPassword] = createSignal("");
+
+  const actionButtons = (
+    <FlexRow style={{ flex: 1 }}>
+      <Button
+        onClick={props.close}
+        styles={{ flex: 1 }}
+        iconName="close"
+        label={t("general.cancelButton")}
+        color="var(--alert-color)"
+      />
+      <Button
+        styles={{ flex: 1 }}
+        iconName="check"
+        label={t("general.confirmButton")}
+        onClick={() => props.onConfirm(password())}
+        primary
+      />
+    </FlexRow>
+  );
+
+  return (
+    <LegacyModal
+      ignoreBackgroundClick
+      title={"Confirm Password"}
+      close={props.close}
+      actionButtons={actionButtons}
+    >
+      <FlexColumn
+        class={css`
+          align-items: center;
+          margin: 10px;
+        `}
+        gap={10}
+      >
+        <Text size={14}>{"Confirm your password to continue"}</Text>
+
+        <Input value={password()} onText={setPassword} type="password" />
       </FlexColumn>
     </LegacyModal>
   );
