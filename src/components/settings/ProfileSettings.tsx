@@ -361,7 +361,10 @@ const ProfileColorBlock = (props: {
             onChange={(v) => props.setValues("primaryColor", v)}
           />
         </SettingsBlock>
-        <SettingsBlock label="Role Font" icon="font_download">
+        <SettingsBlock 
+          label={t("settings.account.usernameFont")}
+          icon="font_download"
+        >
           <DropDown
             selectedId={props.values.font?.toString() || "none"}
             onChange={(item) =>
@@ -373,7 +376,7 @@ const ProfileColorBlock = (props: {
             items={[
               {
                 id: "none",
-                name: "Default",
+                name: t("settings.account.default"),
                 scale: 1,
                 lineHeight: undefined,
                 font: "Inter",
