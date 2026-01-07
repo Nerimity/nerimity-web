@@ -1,6 +1,8 @@
 import env from "./env";
 
-export const inviteLinkRegex = new RegExp(`${env.APP_URL}/i/([\\S]+)`);
+export const inviteLinkRegex = new RegExp(
+  `(?<!<)${env.APP_URL}/i/([^\\s\\[\\]]*[^\\s\\[\\]()])(?!>)`
+);
 
 export const youtubeLinkRegex =
   /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/;
