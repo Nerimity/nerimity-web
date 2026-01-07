@@ -60,8 +60,11 @@
   .postUsernameStyle {
     overflow: hidden;
     line-height: 1.2;
+    line-height: var(--lh);
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-family: var(--font);
+    font-size: calc(16px * var(--scale, 1));
   }
 }
 

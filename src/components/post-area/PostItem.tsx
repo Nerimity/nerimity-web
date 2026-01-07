@@ -48,6 +48,7 @@ import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
 import { toast } from "../ui/custom-portal/CustomPortal";
 import { CreateTicketModal } from "@/components/CreateTicketModal";
+import { Fonts } from "@/common/fonts";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -251,31 +252,41 @@ const Details = (props: {
   hovered: boolean;
   post: Post;
   onRequestUserContextMenu?: (event: MouseEvent) => void;
-}) => (
-  <div class={cn(style.postDetailsContainer, "postDetailsContainer")}>
-    <CustomLink
-      onContextMenu={props.onRequestUserContextMenu}
-      class={style.postUsernameStyle}
-      style={{ color: "white" }}
-      onClick={(e) => e.stopPropagation()}
-      decoration
-      href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}
-    >
-      {props.post.createdBy?.username}
-    </CustomLink>
-    <Show when={props.post.createdBy.bot}>
-      <div class={style.botTag}>Bot</div>
-    </Show>
-    <Text
-      style={{ "flex-shrink": 0 }}
-      title={formatTimestamp(props.post.createdAt)}
-      size={12}
-      color="rgba(255,255,255,0.5)"
-    >
-      {(props.showFullDate ? formatTimestamp : timeSince)(props.post.createdAt)}
-    </Text>
-  </div>
-);
+}) => {
+  const font = createMemo(() => Fonts[props.post.createdBy.profile?.font || 0]);
+  return (
+    <div class={cn(style.postDetailsContainer, "postDetailsContainer")}>
+      <CustomLink
+        onContextMenu={props.onRequestUserContextMenu}
+        class={style.postUsernameStyle}
+        style={{
+          color: "white",
+          "--font": `'${font()?.name}'`,
+          "--lh": font()?.lineHeight,
+          "--scale": font()?.scale,
+        }}
+        onClick={(e) => e.stopPropagation()}
+        decoration
+        href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}
+      >
+        {props.post.createdBy?.username}
+      </CustomLink>
+      <Show when={props.post.createdBy.bot}>
+        <div class={style.botTag}>Bot</div>
+      </Show>
+      <Text
+        style={{ "flex-shrink": 0 }}
+        title={formatTimestamp(props.post.createdAt)}
+        size={12}
+        color="rgba(255,255,255,0.5)"
+      >
+        {(props.showFullDate ? formatTimestamp : timeSince)(
+          props.post.createdAt
+        )}
+      </Text>
+    </div>
+  );
+};
 
 const Content = (props: {
   post: Post;
