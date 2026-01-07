@@ -96,6 +96,7 @@ export default function ServerSettingsRole() {
     if (saveRequestSent()) return;
     setSaveRequestSent(true);
     setError(null);
+
     const values = updatedInputValues();
     await updateServerRole(params.serverId!, role()?.id!, values)
       .catch((err) => setError(err.message))

@@ -35,6 +35,8 @@ import { formatMessage } from "../message-pane/MessagePane";
 import { RawUser } from "@/chat-api/RawData";
 import Checkbox from "../ui/Checkbox";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import DropDown from "../ui/drop-down/DropDown";
+import { Fonts } from "@/common/fonts";
 
 const Container = styled("div")`
   display: flex;
@@ -128,6 +130,7 @@ export function EditProfilePage(props: {
     bgColorOne: userDetails()?.profile?.bgColorOne,
     bgColorTwo: userDetails()?.profile?.bgColorTwo,
     primaryColor: userDetails()?.profile?.primaryColor,
+    font: userDetails()?.profile?.font ?? null,
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -142,7 +145,8 @@ export function EditProfilePage(props: {
     })
   );
 
-  const requestStatus = () => (requestSent() ? t("general.saving") : t("general.saveChangesButton"));
+  const requestStatus = () =>
+    requestSent() ? t("general.saving") : t("general.saveChangesButton");
 
   const onSaveButtonClicked = async () => {
     if (requestSent()) return;
@@ -169,6 +173,9 @@ export function EditProfilePage(props: {
         ...(values.primaryColor !== undefined && values.primaryColor === ""
           ? { primaryColor: null }
           : { primaryColor: values.primaryColor }),
+        ...(values.font !== undefined && values.font === null
+          ? { font: null }
+          : { font: values.font }),
       },
       props.botToken
     )
@@ -274,8 +281,8 @@ const ProfileColorBlock = (props: {
   children: JSXElement;
   values: { [key: string]: string | undefined };
   setValues: (
-    key: "bgColorOne" | "bgColorTwo" | "primaryColor",
-    value: string
+    key: "bgColorOne" | "bgColorTwo" | "primaryColor" | "font",
+    value: string | number | null
   ) => void;
 }) => {
   const { paneWidth } = useWindowProperties();
@@ -295,6 +302,7 @@ const ProfileColorBlock = (props: {
           bg: [props.values.bgColorOne!, props.values.bgColorTwo!],
           primary: props.values.primaryColor,
         }}
+        font={props.values.font}
       />
     ));
   };
@@ -302,7 +310,10 @@ const ProfileColorBlock = (props: {
   return (
     <ProfileColorContainer gap={6}>
       <ColorPickerContainer>
-        <SettingsBlock icon="palette" label={t("settings.account.gradientColor1")}>
+        <SettingsBlock
+          icon="palette"
+          label={t("settings.account.gradientColor1")}
+        >
           <Show when={props.values.bgColorOne}>
             <Button
               onClick={() => props.setValues("bgColorOne", "")}
@@ -316,7 +327,10 @@ const ProfileColorBlock = (props: {
             onChange={(v) => props.setValues("bgColorOne", v)}
           />
         </SettingsBlock>
-        <SettingsBlock icon="palette" label={t("settings.account.gradientColor2")}>
+        <SettingsBlock
+          icon="palette"
+          label={t("settings.account.gradientColor2")}
+        >
           <Show when={props.values.bgColorTwo}>
             <Button
               onClick={() => props.setValues("bgColorTwo", "")}
@@ -330,7 +344,10 @@ const ProfileColorBlock = (props: {
             onChange={(v) => props.setValues("bgColorTwo", v)}
           />
         </SettingsBlock>
-        <SettingsBlock icon="palette" label={t("settings.account.primaryColor")}>
+        <SettingsBlock
+          icon="palette"
+          label={t("settings.account.primaryColor")}
+        >
           <Show when={props.values.primaryColor}>
             <Button
               onClick={() => props.setValues("primaryColor", "")}
@@ -344,6 +361,44 @@ const ProfileColorBlock = (props: {
             onChange={(v) => props.setValues("primaryColor", v)}
           />
         </SettingsBlock>
+        <SettingsBlock label="Role Font" icon="font_download">
+          <DropDown
+            selectedId={props.values.font?.toString() || "none"}
+            onChange={(item) =>
+              props.setValues(
+                "font",
+                item.id === "none" ? null : parseInt(item.id)
+              )
+            }
+            items={[
+              {
+                id: "none",
+                name: "Default",
+                scale: 1,
+                lineHeight: undefined,
+                font: "Inter",
+                letterSpacing: null,
+              },
+              ...Fonts,
+            ].map((f) => ({
+              id: f.id.toString(),
+              label: (
+                <span
+                  style={{
+                    "font-family": `'${
+                      (f as { font: string }).font || f.name
+                    }'`,
+                    "font-size": `${14 * f.scale}px`,
+                    "line-height": f.lineHeight,
+                    "letter-spacing": `${f.letterSpacing || 0}px`,
+                  }}
+                >
+                  {f.name}
+                </span>
+              ),
+            }))}
+          />
+        </SettingsBlock>
         <FlexRow style={{ "align-self": "flex-end" }}>
           <Show when={hidePreview()}>
             <Button
@@ -352,9 +407,11 @@ const ProfileColorBlock = (props: {
               onClick={showPreview}
             />
           </Show>
+
           {props.children}
         </FlexRow>
       </ColorPickerContainer>
+
       <Show when={!hidePreview()}>
         <ProfileFlyoutContainer>
           <ProfileFlyout
@@ -364,6 +421,7 @@ const ProfileColorBlock = (props: {
               bg: [props.values.bgColorOne!, props.values.bgColorTwo!],
               primary: props.values.primaryColor,
             }}
+            font={props.values.font}
             dmPane
           />
         </ProfileFlyoutContainer>

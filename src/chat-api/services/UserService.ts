@@ -188,6 +188,7 @@ export interface UserProfile {
   bgColorOne?: string;
   bgColorTwo?: string;
   primaryColor?: string;
+  font?: number;
 }
 
 export async function getUserDetailsRequest(

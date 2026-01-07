@@ -57,8 +57,12 @@ export interface RawMessage {
   channelId: string;
   silent?: boolean;
   content?: string;
+
   createdBy: RawUser & {
     avatarUrl?: string;
+    profile?: {
+      font?: number;
+    };
   };
   type: MessageType;
   createdAt: number;
@@ -160,6 +164,9 @@ export interface RawUser {
   bot: boolean;
   lastOnlineStatus?: number;
   lastOnlineAt?: number;
+  profile?: {
+    font?: number;
+  };
 }
 
 export interface RawUserConnection {
@@ -259,6 +266,7 @@ export interface RawServerRole {
   icon?: string;
   order: number;
   hexColor?: string;
+  font?: number;
   createdById: string;
   permissions: number;
   serverId: string;

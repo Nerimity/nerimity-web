@@ -54,6 +54,7 @@ import { useResizeObserver } from "@/common/useResizeObserver";
 import { FlexRow } from "../ui/Flexbox";
 import { Item } from "../ui/Item";
 import { VirtualList } from "../ui/VirtualList";
+import { Fonts } from "@/common/fonts";
 
 const MemberItem = (props: {
   member: ServerMember;
@@ -103,6 +104,8 @@ const MemberItem = (props: {
 
   const topRoleWithColor = createMemo(() => props.member.topRoleWithColor());
 
+  const font = createMemo(() => Fonts[props.member.user().profile?.font || 0]);
+
   return (
     <div
       style={props.style}
@@ -138,6 +141,9 @@ const MemberItem = (props: {
               "--gradient":
                 topRoleWithColor()?.gradient || topRoleWithColor()?.hexColor,
               "--color": topRoleWithColor()?.hexColor!,
+              "--font": `'${font()?.name}'`,
+              "--lh": font()?.lineHeight,
+              "--scale": font()?.scale,
             }}
           >
             {props.member.nickname || user().username}

@@ -1,3 +1,12 @@
+import "@fontsource/inter/latin-300.css";
+import "@fontsource/inter/latin-300-italic.css";
+
+import "@fontsource/inter/latin-400.css";
+import "@fontsource/inter/latin-400-italic.css";
+
+import "@fontsource/inter/latin-700.css";
+import "@fontsource/inter/latin-700-italic.css";
+
 import "./sentry";
 import {
   CustomPortalProvider,

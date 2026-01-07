@@ -18,7 +18,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 
 export interface DropDownItem {
   id: string;
-  label?: string;
+  label?: JSXElement;
   description?: string;
   icon?: string;
   onClick?: (item: DropDownItem) => void;
@@ -35,6 +35,7 @@ export interface DropDownProps {
   onChange?: (item: DropDownItem) => void;
   class?: string;
   placeholder?: string;
+  onClick?: (event: MouseEvent) => void;
 }
 
 export default function DropDown(props: DropDownProps) {
@@ -77,7 +78,10 @@ export default function DropDown(props: DropDownProps) {
   };
 
   return (
-    <div class={classNames(styles.dropDown, props.class)}>
+    <div
+      class={classNames(styles.dropDown, props.class)}
+      onClick={props.onClick}
+    >
       <Show when={props.title}>
         <div class={cn(styles.title, "title")}>{props.title}</div>
       </Show>

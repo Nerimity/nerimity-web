@@ -57,9 +57,13 @@
 .username {
   overflow: hidden;
   line-height: 1.2;
+  line-height: var(--lh);
   background: var(--gradient, var(--color, var(--primary-color)));
   -webkit-background-clip: text;
   background-clip: text;
+
+  font-family: var(--font);
+  font-size: calc(16px * var(--scale, 1));
   font-weight: 400;
   -webkit-text-fill-color: transparent;
   &:hover {

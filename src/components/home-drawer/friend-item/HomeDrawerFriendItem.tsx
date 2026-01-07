@@ -9,7 +9,7 @@ import { User } from "@/chat-api/store/useUsers";
 import useStore from "@/chat-api/store/useStore";
 import UserPresence from "@/components/user-presence/UserPresence";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { createSignal, Show } from "solid-js";
+import { createMemo, createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -19,6 +19,7 @@ import { formatTimestamp } from "@/common/date";
 import { unblockUser } from "@/chat-api/services/UserService";
 import { Modal } from "@/components/ui/modal";
 import { Item } from "@/components/ui/Item";
+import { Fonts } from "@/common/fonts";
 
 export default function HomeDrawerFriendItem(props: {
   friend?: Friend;
@@ -89,6 +90,7 @@ export default function HomeDrawerFriendItem(props: {
     }
     return props.user?.inboxChannelId && hovered();
   };
+  const font = createMemo(() => Fonts[user()?.profile?.font || 0]);
 
   return (
     <Show when={user()}>
@@ -106,7 +108,16 @@ export default function HomeDrawerFriendItem(props: {
           <Avatar animate={hovered()} user={user()} size={28} />
         </A>
         <div class={styles.details}>
-          <div class={styles.username}>{user().username}</div>
+          <div
+            class={styles.username}
+            style={{
+              "--font": `'${font()?.name}'`,
+              "--lh": font()?.lineHeight,
+              "--scale": font()?.scale,
+            }}
+          >
+            {user().username}
+          </div>
           <Show when={isBlocked()}>
             <Text class={styles.blockedText} size={12} opacity={0.6}>
               Blocked at {formatTimestamp(props.friend?.createdAt || 0)}

@@ -52,6 +52,7 @@ import { logout } from "@/common/logout";
 import { currentTheme } from "@/common/themes";
 import { userDetailsPreloader } from "@/common/createPreloader";
 import { UserActivity } from "../user-activity/UserActivity";
+import { Fonts } from "@/common/fonts";
 
 interface Props {
   dmPane?: boolean;
@@ -70,6 +71,7 @@ interface Props {
   bio?: string;
   channelNotice?: string;
   showProfileSettings?: boolean;
+  font?: number | null;
 }
 
 const ProfileFlyout = (props: Props) => {
@@ -113,6 +115,7 @@ const ProfileFlyout = (props: Props) => {
           bottom={props.position?.bottom}
           dmPane={props.dmPane}
           userId={props.userId}
+          font={props.font}
           serverId={props.serverId}
           showProfileSettings={props.showProfileSettings}
         />
@@ -126,6 +129,7 @@ const ProfileFlyout = (props: Props) => {
           close={props?.close}
           serverId={props.serverId}
           userId={props.userId}
+          font={props.font}
           showProfileSettings={props.showProfileSettings}
         />
       </Match>
@@ -147,6 +151,7 @@ const DesktopProfileFlyout = (props: {
   serverId?: string;
   hideLatestPost?: boolean;
   left?: number;
+  font?: number | null;
   bottom?: number;
   top?: number;
   ref?: Setter<HTMLDivElement | undefined>;
@@ -342,6 +347,15 @@ const DesktopProfileFlyout = (props: {
     emitDrawerGoToMain();
   };
 
+  const font = createMemo(
+    () =>
+      Fonts[
+        props.font !== undefined
+          ? props.font || 0
+          : details()?.profile?.font || 0
+      ]
+  );
+
   const StickyArea = () => {
     return (
       <Show when={user()}>
@@ -378,7 +392,15 @@ const DesktopProfileFlyout = (props: {
                 style={{ color: "white", "line-height": "1" }}
                 href={RouterEndpoints.PROFILE(props.userId)}
               >
-                <Text style={{ "overflow-wrap": "anywhere" }}>
+                <Text
+                  style={{
+                    "overflow-wrap": "anywhere",
+                    "--font": `'${font()?.name}'`,
+                    "--lh": font()?.lineHeight,
+                    "--scale": font()?.scale,
+                  }}
+                  class={styles.username}
+                >
                   {user()!.username}
                 </Text>
                 <Text color="rgba(255,255,255,0.6)">:{user()!.tag}</Text>
@@ -753,6 +775,7 @@ function MobileFlyout(props: {
         style={style()}
         colors={props.colors}
         mobile
+        font={props.font}
         showProfileSettings={props.showProfileSettings}
         close={props.close}
         serverId={props.serverId}

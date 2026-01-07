@@ -117,6 +117,12 @@
   display: flex;
   align-items: center;
 }
+
+.username {
+  line-height: var(--lh);
+  font-family: var(--font);
+  font-size: calc(20px * var(--scale, 1));
+}
 .followsYou {
   padding: 2px;
   padding-right: 4px;

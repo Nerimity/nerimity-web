@@ -75,6 +75,7 @@ import { emojiToUrl } from "@/common/emojiToUrl";
 import { currentTheme } from "@/common/themes";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 import { getActivityType } from "@/common/activityType";
+import { Fonts } from "@/common/fonts";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -205,6 +206,8 @@ export default function ProfilePane() {
     })
   );
 
+  const font = createMemo(() => Fonts[userDetails()?.profile?.font || 0]);
+
   return (
     <>
       <MetaTitle>{!user() ? "Profile" : user()?.username}</MetaTitle>
@@ -268,11 +271,22 @@ export default function ProfilePane() {
                   <div class={styles.details}>
                     <div class={styles.usernameTagOuter}>
                       <div class={styles.usernameTag}>
-                        <span class={styles.username}>{user()!.username}</span>
+                        <span
+                          class={styles.username}
+                          style={{
+                            "--font": `'${font()?.name}'`,
+                            "--lh": font()?.lineHeight,
+                            "--scale": font()?.scale,
+                          }}
+                        >
+                          {user()!.username}
+                        </span>
                         <span class={styles.tag}>{`:${user()!.tag}`}</span>
                       </div>
                       <Show when={userDetails()?.followsYou}>
-                        <div class={styles.followsYou}>{t("profile.followsYou")}</div>
+                        <div class={styles.followsYou}>
+                          {t("profile.followsYou")}
+                        </div>
                       </Show>
                     </div>
                     <UserPresence
@@ -383,7 +397,9 @@ const BotCommands = (props: {
         background: props.paneBgColor,
       }}
     >
-      <div class={styles.botCommandsTitle}>{t("profile.availableCommands")}</div>
+      <div class={styles.botCommandsTitle}>
+        {t("profile.availableCommands")}
+      </div>
       <div class={styles.botCommands}>
         <For each={props.commands}>
           {(command) => <BotCommandItem command={command} />}
@@ -652,7 +668,11 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
         icon: "content_copy",
         onClick: copyProfileClick,
       },
-      { label: t("userContextMenu.copyId"), icon: "content_copy", onClick: copyIdClick }
+      {
+        label: t("userContextMenu.copyId"),
+        icon: "content_copy",
+        onClick: copyIdClick,
+      }
     );
     return items;
   };
@@ -749,7 +769,9 @@ function SideBar(props: {
           value={
             !props.user.suspensionExpiresAt
               ? t("profile.expiresNever")
-              : t("profile.expires", { time: getDaysAgo(props.user.suspensionExpiresAt!) })
+              : t("profile.expires", {
+                  time: getDaysAgo(props.user.suspensionExpiresAt!),
+                })
           }
         />
       </Show>
@@ -1437,7 +1459,10 @@ function BadgeDetailModal(props: {
   });
 
   return (
-    <LegacyModal title={t("profile.badge", { badgeName: `${props.badge.name()}` })} close={props.close}>
+    <LegacyModal
+      title={t("profile.badge", { badgeName: `${props.badge.name()}` })}
+      close={props.close}
+    >
       <BadgeDetailsModalContainer gap={30}>
         <FlexColumn itemsCenter gap={18}>
           <Avatar user={user()} size={80} animate={animate()} />

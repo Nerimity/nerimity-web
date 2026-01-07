@@ -97,6 +97,10 @@
 
 .username {
   line-height: 1;
+
+  line-height: var(--lh);
+  font-family: var(--font);
+  font-size: calc(20px * var(--scale, 1));
 }
 .usernameTag {
   display: -webkit-box;

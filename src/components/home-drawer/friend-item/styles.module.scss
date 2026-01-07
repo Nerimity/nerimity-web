@@ -72,9 +72,11 @@
 
   .username {
     line-height: 1;
+    line-height: var(--lh);
     opacity: 0.6;
     transition: 0.2s;
-    font-size: 14px;
+    font-family: var(--font);
+    font-size: calc(14px * var(--scale, 1));
   }
   :global .itemContent {
     align-items: center;
