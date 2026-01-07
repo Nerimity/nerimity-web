@@ -97,7 +97,7 @@ import { Trans, useTransContext } from "@nerimity/solid-i18lite";
 import markupStyle from "@/components/Markup.scss?inline";
 import avatarStyle from "@/components/ui/Avatar.module.css?inline";
 import avatarBorderStyle from "@/components/avatar-borders/FounderAdminSupporterBorder.module.css?inline";
-import { Fonts } from "@/common/fonts";
+import { Fonts, getFont } from "@/common/fonts";
 const ImagePreviewModal = lazy(
   () => import("@/components/ui/ImagePreviewModal")
 );
@@ -223,8 +223,8 @@ const Details = (props: DetailsProps) => {
   const topRoleWithColor = createMemo(() =>
     props.serverMember?.topRoleWithColor()
   );
-  const font = createMemo(
-    () => Fonts[props.message.createdBy.profile?.font || 0]
+  const font = createMemo(() =>
+    getFont(props.message.createdBy.profile?.font || 0)
   );
 
   return (

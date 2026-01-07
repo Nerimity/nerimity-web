@@ -30,6 +30,9 @@ export const Fonts: Font[] = [
   },
 ];
 
+export const getFont = (id: number) =>
+  Fonts.find((f) => f.id === id) || Fonts[0];
+
 export const loadAllFonts = async () => {
   for (const font of Fonts) {
     await font.import();

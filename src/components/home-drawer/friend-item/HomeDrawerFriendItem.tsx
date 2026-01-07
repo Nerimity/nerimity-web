@@ -19,7 +19,7 @@ import { formatTimestamp } from "@/common/date";
 import { unblockUser } from "@/chat-api/services/UserService";
 import { Modal } from "@/components/ui/modal";
 import { Item } from "@/components/ui/Item";
-import { Fonts } from "@/common/fonts";
+import { Fonts, getFont } from "@/common/fonts";
 
 export default function HomeDrawerFriendItem(props: {
   friend?: Friend;
@@ -90,7 +90,7 @@ export default function HomeDrawerFriendItem(props: {
     }
     return props.user?.inboxChannelId && hovered();
   };
-  const font = createMemo(() => Fonts[user()?.profile?.font || 0]);
+  const font = createMemo(() => getFont(user()?.profile?.font || 0));
 
   return (
     <Show when={user()}>

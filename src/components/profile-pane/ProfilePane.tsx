@@ -75,7 +75,7 @@ import { emojiToUrl } from "@/common/emojiToUrl";
 import { currentTheme } from "@/common/themes";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 import { getActivityType } from "@/common/activityType";
-import { Fonts } from "@/common/fonts";
+import { Fonts, getFont } from "@/common/fonts";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -206,7 +206,7 @@ export default function ProfilePane() {
     })
   );
 
-  const font = createMemo(() => Fonts[userDetails()?.profile?.font || 0]);
+  const font = createMemo(() => getFont(userDetails()?.profile?.font || 0));
 
   return (
     <>

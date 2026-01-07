@@ -48,7 +48,7 @@ import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
 import { toast } from "../ui/custom-portal/CustomPortal";
 import { CreateTicketModal } from "@/components/CreateTicketModal";
-import { Fonts } from "@/common/fonts";
+import { Fonts, getFont } from "@/common/fonts";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -253,7 +253,9 @@ const Details = (props: {
   post: Post;
   onRequestUserContextMenu?: (event: MouseEvent) => void;
 }) => {
-  const font = createMemo(() => Fonts[props.post.createdBy.profile?.font || 0]);
+  const font = createMemo(() =>
+    getFont(props.post.createdBy.profile?.font || 0)
+  );
   return (
     <div class={cn(style.postDetailsContainer, "postDetailsContainer")}>
       <CustomLink
