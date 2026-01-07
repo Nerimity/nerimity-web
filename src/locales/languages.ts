@@ -15,7 +15,7 @@ export const languages: Record<string, Language> = {
     contributors: [
       "https://github.com/SupertigerDev",
       "Asraye",
-      "https://github.com/1enify"
+      "https://github.com/1enify",
     ],
   },
   "en-us": {
@@ -90,6 +90,12 @@ export const languages: Record<string, Language> = {
     emoji: "🇭🇺",
     contributors: ["https://github.com/andrasdaradici"],
   },
+  "ja-jp": {
+    name: "Japanese",
+    nativeName: "日本語",
+    emoji: "🇯🇵",
+    contributors: ["https://github.com/ch3rryc0l4xd"],
+  },
   "fil-ph": {
     name: "Filipino",
     emoji: "🇵🇭",
@@ -143,10 +149,7 @@ export const languages: Record<string, Language> = {
   "uw-uw": {
     name: "UwU",
     emoji: "🐱",
-    contributors: [
-      "Berry",
-      "Asraye",
-    ],
+    contributors: ["Berry", "Asraye"],
   },
 };
 
