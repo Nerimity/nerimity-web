@@ -207,6 +207,9 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
         replyToMessage: { ...m },
       })) || [],
     createdBy: {
+      profile: {
+        font: user.profile?.font,
+      },
       id: user.id,
       username: user.username,
       tag: user.tag,

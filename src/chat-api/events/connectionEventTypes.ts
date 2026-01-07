@@ -76,4 +76,7 @@ export interface SelfUser {
   hideFollowers: boolean;
   hideFollowing: boolean;
   reminders: RawReminder[];
+  profile?: {
+    font?: number;
+  };
 }
