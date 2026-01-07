@@ -424,7 +424,9 @@
             "confirmEmail": "Confirme seu email",
             "preview": "Pré-visualizar",
             "channelNoticeTooLong": "Nota de canal não pode ser mais longa que 300 caracteres.",
-            "channelNoticeDescription": "Aparece quando o usuário está prestes a conversar pela primeira vez. Mudanças são aplicadas após recarregar."
+            "channelNoticeDescription": "Aparece quando o usuário está prestes a conversar pela primeira vez. Mudanças são aplicadas após recarregar.",
+            "usernameFont": "Fonte do nome de usuário",
+            "default": "Padrão do aplicativo"
         },
         "window": {
             "startMinimized": "Iniciar minimizado",
@@ -463,7 +465,7 @@
         },
         "call": {
             "stopButton": "Parar",
-            "default": "Padrão",
+            "default": "Padrão do sistema",
             "outputDevices": "Dispositivos de saída",
             "inputMode": "Modo de entrada",
             "openMic": "Microfone aberto",
