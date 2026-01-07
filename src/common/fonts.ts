@@ -28,6 +28,42 @@ export const Fonts: Font[] = [
     scale: 1.33,
     lineHeight: 0.9,
   },
+  {
+    id: 3,
+    name: "IBM Plex Mono",
+    import: () => import("@fontsource/ibm-plex-mono/latin-400.css"),
+    scale: 0.9,
+  },
+  {
+    id: 4,
+    name: "Dancing Script",
+    import: () => import("@fontsource/dancing-script/latin-400.css"),
+    scale: 1,
+  },
+  {
+    id: 5,
+    name: "Mochiy Pop One",
+    import: () => import("@fontsource/mochiy-pop-one/latin-400.css"),
+    scale: 0.8,
+  },
+  {
+    id: 6,
+    name: "Grandstander",
+    import: () => import("@fontsource/grandstander/latin-400.css"),
+    scale: 1.2,
+  },
+  {
+    id: 7,
+    name: "Sora",
+    import: () => import("@fontsource/sora/latin-400.css"),
+    scale: 0.9,
+  },
+  {
+    id: 8,
+    name: "Roboto Slab",
+    import: () => import("@fontsource/roboto-slab/latin-400.css"),
+    scale: 0.9,
+  },
 ];
 
 export const getFont = (id: number) =>

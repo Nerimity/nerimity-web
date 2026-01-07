@@ -176,35 +176,42 @@ function Popup(props: {
     )
   );
 
-  createRenderEffect(() => {
+  // Inside function Popup(...)
+
+  createEffect(() => {
+    const elHeight = resizeObserver.height();
+    const elWidth = resizeObserver.width();
+    const winHeight = height();
+    const winWidth = width();
+
+    // Don't calculate until we actually have dimensions
+    if (elHeight === 0) return;
+
     let top = props.position.top;
     let left = props.position.left;
 
     const selElement = selectedElement();
     if (selElement) {
       selElement.scrollIntoView({ behavior: "instant", block: "center" });
-      top = top - selElement.offsetTop;
-      // remove scroll position
-      top = top + element!.scrollTop;
+      top = top - selElement.offsetTop + element!.scrollTop;
     }
 
-    const elWidth = resizeObserver.width();
-    const right = left + elWidth;
-    if (right > width()) {
-      left = width() - elWidth - 10;
+    // Horizontal boundary check
+    if (left + elWidth > winWidth) {
+      left = winWidth - elWidth - 10;
     }
 
-    const elHeight = resizeObserver.height();
-    const bottom = top + elHeight;
-
-    if (bottom > height()) {
-      top = height() - elHeight - 20;
+    // Vertical boundary check
+    if (top + elHeight > winHeight) {
+      top = winHeight - elHeight - 20;
     }
+
+    // Ensure it doesn't go off the top of the screen either
+    if (top < 0) top = 10;
 
     setPosition({
       top: top + "px",
       left: left + "px",
-
       "min-width": props.position.minWidth + "px",
     });
   });
