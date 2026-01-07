@@ -223,8 +223,15 @@
             "pinnedServers": "Закріплені сервери",
             "recentlyBumped": "Недавно підняті сервери",
             "memberCount": "{{count}} спільників",
-            "lifetimeBumpCount": "{{count}} підняттів за весь час"
-        }
+            "lifetimeBumpCount": "{{count}} підняттів за весь час",
+            "visitServerButton": "Зайти",
+            "joinServerButton": "Вступити",
+            "bumpButton": "Підняти"
+        },
+        "sort": "Сортування",
+        "filter": "Фільтрування",
+        "by": "Ад",
+        "bumped": "Піднято"
     },
     "inputFieldActions": {
         "copy": "Копіювати",
@@ -260,10 +267,62 @@
             "offlineFriends": "{{count}} Друзів не в мережі",
             "notes": "Нотатки",
             "addFriendButton": "Додати друга",
-            "blockedUsersButton": "Блоковані",
+            "blockedUsersButton": "Блокованні",
             "inboxTitle": "Скринька",
             "friendsButton": "Друзі",
             "viewAll": "Дивіться всіх"
+        }
+    },
+    "editFolderModal": {
+        "title": "Редагувати теку",
+        "placeholder": "Назва теки",
+        "errors": {
+            "emptyName": "Введіть назву теки."
+        }
+    },
+    "servers": {
+        "settings": {
+            "drawer": {
+                "general": "Огульні",
+                "audit-logs": "Журнал аудиту",
+                "roles": "Ролі",
+                "channels": "Канали",
+                "bans": "Бани",
+                "invites": "Запрошенні",
+                "publishServer": "Публікування",
+                "verify": "Верифікування",
+                "role": "Роля",
+                "welcome-screen": "Екран привітання",
+                "channel": "Канал",
+                "permissions": "Дозволи",
+                "emoji": "Емодзі",
+                "notifications": "Оповіщенні",
+                "external-embed": "Зовнішній ембед"
+            },
+            "bans": {
+                "sort": {
+                    "alphabetical": "Алфавітне",
+                    "unsorted": "Несортоване"
+                },
+                "noResults": "Результатів не знайдено.",
+                "reason": "Причина",
+                "noReason": "Причини не надано",
+                "bannedAt": "Забанено о",
+                "unknown": "Невідома",
+                "unban": "Розбанити",
+                "unbanning": "Розбання…"
+            },
+            "webhook": {
+                "title": "Вебхуки",
+                "name": "Назва вебхуку",
+                "link": "Посилання вебхуку",
+                "linkDescription": "Виконувати діяння через це посилання",
+                "delete": "Видалити вебхук"
+            },
+            "general": {
+                "serverRenameNotice": "Ви стратьте всі переваги верифікованого сервера, коли переназвіть його.",
+                "serverName": "Назва сервера"
+            }
         }
     }
 }
