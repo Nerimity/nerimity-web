@@ -279,7 +279,9 @@
             },
             "channels": {
                 "createButton": "Crear",
-                "createNewDescription": "Crear un nuevo servidor o categoria"
+                "createNewDescription": "Crear un nuevo servidor o categoria",
+                "textChannel": "Canal de texto",
+                "category": "Categoria"
             },
             "channel": {
                 "channelName": "Nombre del canal",
@@ -350,6 +352,26 @@
                 "title": "Emoji customizado",
                 "description": "Añade tu propio emoji.",
                 "addButton": "Añadir emoji"
+            },
+            "welcomeScreen": {
+                "title": "Preguntas",
+                "description": "Prepara preguntas. Deja que los usuarios se asignen roles.",
+                "questions": {
+                    "addButton": "Añadir pregunta",
+                    "question": "Pregunta",
+                    "questionPlaceholder": "Gatos o perros?",
+                    "multiselect": "Selección múltiple"
+                },
+                "answers": {
+                    "title": "Respuestas",
+                    "addButton": "Añadir respuesta",
+                    "editModal": {
+                        "title": "Editar respuesta",
+                        "answer": "Respuesta",
+                        "placeholder": "Gatos",
+                        "selectRoles": "Seleccionar roles"
+                    }
+                }
             }
         },
         "rolePermissions": {
@@ -462,7 +484,9 @@
                 "posts": "Tus publicaciones"
             },
             "postsAndMessagesNotice": "Tus publicaciones y mensajes pueden tardar semanas en ser eliminados.",
-            "deleteCheckbox": "Eliminar mis publicaciones y mensajes"
+            "deleteCheckbox": "Eliminar mis publicaciones y mensajes",
+            "usernameFont": "Tipografía del nombre de usuario",
+            "default": "Predeterminado de la aplicación"
         },
         "privacy": {
             "lastOnline": {
