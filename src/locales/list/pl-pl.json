@@ -130,7 +130,8 @@
                 "notifications": "Powiadomienia",
                 "audit-logs": "Dziennik Zdarzeń",
                 "external-embed": "Zewnętrzne Osadzenie",
-                "permissions": "Uprawnienia"
+                "permissions": "Uprawnienia",
+                "emoji": "Emoji"
             },
             "general": {
                 "serverRenameNotice": "Jeśli zmienisz nazwę serwera, stracisz jego weryfikację oraz wszystkie korzyści, które z niej płyną.",
@@ -167,7 +168,9 @@
             },
             "channels": {
                 "createButton": "Stwórz",
-                "createNewDescription": "Stwórz kanał lub kategorię"
+                "createNewDescription": "Stwórz kanał lub kategorię",
+                "textChannel": "Kanał Tekstowy",
+                "category": "Kategoria"
             },
             "channel": {
                 "channelName": "Nazwa Kanału",
@@ -208,7 +211,8 @@
             },
             "bans": {
                 "sort": {
-                    "unsorted": "Bez sortowania"
+                    "unsorted": "Bez sortowania",
+                    "alphabetical": "Alfabetyczne"
                 },
                 "noResults": "Nie znaleziono wyników.",
                 "reason": "Powód",
@@ -216,7 +220,7 @@
                 "bannedAt": "Zbanowano",
                 "unknown": "Nieznane",
                 "unban": "Odbanuj",
-                "unbanning": "Odbanowywanie"
+                "unbanning": "Odbanowywanie…"
             },
             "verify": {
                 "alreadyVerified": "Twój serwer jest już zweryfikowany!",
@@ -252,6 +256,31 @@
                     "hdScreenshare": "Udostępnianie ekranu w 1080p@60fps",
                     "hdScreenshareDescription": "Udostępniaj ekran w rozdzielczości 1080p w 60 klatkach na sekundę."
                 }
+            },
+            "welcomeScreen": {
+                "title": "Pytania",
+                "description": "Ustaw pytania. Pozwól użytkownikom nadać sobie role.",
+                "questions": {
+                    "addButton": "Dodaj pytanie",
+                    "question": "Pytanie",
+                    "questionPlaceholder": "Koty czy psy?",
+                    "multiselect": "Wielokrotny wybór"
+                },
+                "answers": {
+                    "title": "Odpowiedzi",
+                    "addButton": "Dodaj odpowiedź",
+                    "editModal": {
+                        "title": "Edytuj Odpowiedź",
+                        "answer": "Odpowiedź",
+                        "placeholder": "Koty",
+                        "selectRoles": "Wybierz role"
+                    }
+                }
+            },
+            "emoji": {
+                "title": "Własna Emoji",
+                "description": "Dodaj własną emoji.",
+                "addButton": "Dodaj emoji"
             }
         },
         "rolePermissions": {
@@ -858,8 +887,8 @@
         },
         "leaveServer": "<User/><2> wyszedł z serwera.</2>",
         "kickUser": "<User/><2> został wyrzucony.</2>",
-        "banUser": "<User/><2> został zbanowany.</2>",
-        "callStarted": "<User/><2> rozpoczął połączenie.</2>",
+        "banUser": "<User/><2> został zbanowany.</2>",
+        "callStarted": "<User/><2> rozpoczął połączenie.</2>",
         "bumpServer": "<User/><2> podbił serwer.</2>",
         "pinnedMessage": "<User/><2> przypiął wiadomość.</2>",
         "unsupported": "<User/><2> Niewspierana wiadomość.</2>"
@@ -948,7 +977,7 @@
         "suspended": "Twoje konto zostało zawieszone.",
         "reason": "Powód",
         "defaultReason": "Łamanie Warunków Użytkowania",
-        "until": "Wygasa",
+        "until": "Czas wygaśnięcia",
         "never": "nigdy",
         "by": "Przez",
         "deletionNotice": "Twoje konto i powiązane z nim dane zostaną usunięte za 15 dni",
