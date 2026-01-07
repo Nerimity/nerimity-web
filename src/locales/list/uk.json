@@ -178,6 +178,92 @@
             "everyone": "Згадає всіх",
             "someone": "Згадає випадкового користувача",
             "silent": "Тихо повідомлення"
+        },
+        "linkToGoogleDrive": {
+            "body": "Ви мусите з'єднати ваш акаунт з Google Drive, щоб завантажувати великі зображення, відео та файли",
+            "linkButton": "З'єднати зараз",
+            "cancelButton": "Не єднати"
+        },
+        "emailNotice": "Підтвердить вашу електронну адресу, щоб відправляти повідомлення."
+    },
+    "explore": {
+        "bots": {
+            "inviteButton": "Запросити",
+            "serverCount": "На {{count}} серверах",
+            "title": "Дослідування - Боти",
+            "noticeMessage": "Бота можливо підняти раз о {{hours}} години. Всі піднятті скидуються кожні {{date}}.",
+            "moderationNotice": "Боти не модеруються Nerimity. Доповість на ботів, що є шкідливими або порушають УВ."
+        },
+        "themes": {
+            "title": "Дослідування - Теми",
+            "themesHeaderDescription": "Допасуйте Nerimity с власною темою.",
+            "officialThemes": "Офіційні теми",
+            "communityThemes": "Теми від спільноти",
+            "noCommunityThemes": "Тем від спільноти не знайдено.",
+            "fetchThemesError": "Не вдалося завантажити теми. Попробуйте ще раз.",
+            "unlockDescription": "Натисніть, щоб досліджувати теми від спільноти"
+        },
+        "drawer": {
+            "title": "Дослідування",
+            "servers": "Сервери",
+            "bots": "Боти",
+            "themes": "Теми"
+        },
+        "servers": {
+            "title": "Дослідування - Сервери",
+            "noticeMessage": "Сервер можливо підняти раз о {{hours}} години. Всі піднятті скидуються кожні {{date}}.",
+            "moderationNotice": "Сервери не модеруються Nerimity. Доповість на сервери, що порушають УВ.",
+            "sortMostBumps": "Найбільш підняттів",
+            "sortMostMembers": "Найбільш спільників",
+            "sortRecentlyAdded": "Недавно додано",
+            "sortRecentlyBumped": "Недавно піднято",
+            "sortMostActive": "Самі активні (Бета)",
+            "filterAll": "Всі",
+            "filterVerified": "Верифіковані",
+            "pinnedServers": "Закріплені сервери",
+            "recentlyBumped": "Недавно підняті сервери",
+            "memberCount": "{{count}} спільників",
+            "lifetimeBumpCount": "{{count}} підняттів за весь час"
+        }
+    },
+    "inputFieldActions": {
+        "copy": "Копіювати",
+        "cut": "Вирізати",
+        "paste": "Вставити"
+    },
+    "markup": {
+        "bold": "Жирний",
+        "italic": "Курсив",
+        "strikethrough": "Закреслений",
+        "header": "Заголовок",
+        "namedLink": "Убудоване посилання",
+        "spoiler": "Спойлер",
+        "timestamp": "Часова мітка",
+        "color": "Колер",
+        "html": "Режим HTML",
+        "emojiPicker": "Вибір емодзі",
+        "timestampModal": {
+            "title": "Наладка мітки часу",
+            "relative": "Відносна",
+            "offset": "Зміщення",
+            "doneButton": "Готово"
+        }
+    },
+    "inbox": {
+        "blockedUsersModal": {
+            "title": "Заблоковані користувачі"
+        },
+        "drawer": {
+            "searchBarPlaceholder": "Пошук",
+            "friendRequests": "{{count}} Запиті дружби",
+            "onlineFriends": "{{count}} Друзів в мережі",
+            "offlineFriends": "{{count}} Друзів не в мережі",
+            "notes": "Нотатки",
+            "addFriendButton": "Додати друга",
+            "blockedUsersButton": "Блоковані",
+            "inboxTitle": "Скринька",
+            "friendsButton": "Друзі",
+            "viewAll": "Дивіться всіх"
         }
     }
 }
