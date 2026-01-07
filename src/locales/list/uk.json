@@ -1,1 +1,183 @@
-{}
+{
+    "general": {
+        "nothingSelected": "Нічого ні обрано",
+        "selectItem": "Обрати елемент",
+        "searchPlaceholder": "Пошук",
+        "backButton": "Назад",
+        "cancelButton": "Скасувати",
+        "closeButton": "Закрити",
+        "editButton": "Редагувати",
+        "undoButton": "Відробити",
+        "deleteButton": "Видалити",
+        "cannotBeUndone": "Це неможливо відробити!",
+        "confirmButton": "Підтвердити",
+        "doneButton": "Готово",
+        "saveButton": "Зберегти",
+        "saveChangesButton": "Зберегти зміни",
+        "saving": "Збереження…",
+        "copyLink": "Скопіювати посилання",
+        "copyID": "Скопіювати ID",
+        "accountData": {
+            "email": "Електронна пошта",
+            "username": "Ім'я користувача",
+            "password": "Пароль"
+        },
+        "avatarAndBanner": {
+            "avatar": "Аватар",
+            "banner": "Банер",
+            "supportedFileTypes": "Підтримано: {{extensions}}, макс. {{size}}",
+            "browse": "Обрати"
+        }
+    },
+    "header": {
+        "logoutButton": "Вийти",
+        "openAppButton": "Відкрити застосунок",
+        "loginButton": "Війти",
+        "joinNowButton": "Долучитися зараз"
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<User/><2> додано на сервер.</2>",
+            "user": "<User/><2> приєднався до серверу.</2>"
+        },
+        "leaveServer": "<User/><2> вийшов з серверу.</2>",
+        "kickUser": "<User/><2> був вигнаний.</2>",
+        "banUser": "<User/><2> був забанены.</2>",
+        "callStarted": "<User/><2> розпочав виклик.</2>",
+        "bumpServer": "<User/><2> підняв сервер.</2>",
+        "pinnedMessage": "<User/><2> закріпити повідомлення.</2>",
+        "unsupported": "<User/><2> Повідомлення не підтримано.</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "Помилка аутентифікації",
+        "connecting": "Підключення…",
+        "reconnecting": "Перепідключення…",
+        "inQueue": "В черзі: перед вами {{count}} користувачів",
+        "authenticating": "Аутентифікація…",
+        "connected": "Підключено!"
+    },
+    "dangerousLinkModal": {
+        "title": "Користувацьке посилання",
+        "message": "Це посилання приведе вас до",
+        "cancelButton": "Не навідувати",
+        "visitButton": "Навідати"
+    },
+    "connectionErrorModal": {
+        "title": "Помилка підключення",
+        "ok": "ОК",
+        "noToken": "Токену не дано.",
+        "suspended": "Ви призупинене.",
+        "reason": "Причина",
+        "defaultReason": "Порушення УВ",
+        "until": "До",
+        "never": "ніколи",
+        "by": "Призупинено",
+        "deletionNotice": "Ваш акаунт та дані будуть видалено через 15 днів",
+        "ipBanned": "Ваш IP забанено.",
+        "ipBanNotice": "Хтось з тим же IP був призупинений на Nerimity. Ваш акаунт не змінився."
+    },
+    "homePage": {
+        "slogan": "Сучасний та стильний застосунок для спілкування.",
+        "subslogan": "Nerimity пропонує елегантний та багатий на функції досвід, що робить платформу незвичайною.",
+        "viewGitHubButton": "Дивитися GitHub",
+        "getStarted": "Розпочати",
+        "availableOn": "Доступний на",
+        "browser": "Браузер",
+        "featureList": {
+            "feature1": "Безплатні анімовані аватари та емодзі",
+            "feature2": "Вишуканий дизайн",
+            "feature3": "Безплатне змінення теґу",
+            "feature4": "Створення дописів на вашому профілю",
+            "feature5": "Створить свою спільноту",
+            "feature6": "Знайдіть нові спільноти",
+            "feature7": "Працює з данків",
+            "feature8": "Повний вихідний код на GitHub",
+            "feature9": "Виражайте себе за допомогою облямівок"
+        }
+    },
+    "loginPage": {
+        "title": "Ввійдіть, щоб протягнути",
+        "emailOrUsernameAndTag": "Ел. адреса / ім'я користувача:теґ",
+        "password": "Пароль",
+        "login": "Ввійти",
+        "createAccountInstead": "Замість цього створити акаунт",
+        "loggingIn": "Вхід…"
+    },
+    "registerPage": {
+        "header": "Реєстрація",
+        "notices": {
+            "title": "Повідомлення",
+            "toxic": "Не будь токсичними.",
+            "nsfw": "18+ контент заборонений.",
+            "age": "Вам мусить бути 14 або більше років."
+        },
+        "title": "Вітаємо у {{appName}}",
+        "email": "Електронна адреса",
+        "username": "Ім'я користувача",
+        "password": "Пароль",
+        "confirmPassword": "Підтвердити пароль",
+        "agreement": "Сотворяючи акаунт, ви погоджуйтеся Умовив Використання та Політики Приватности.",
+        "registerButton": "Зареєструвати",
+        "registering": "Реєстрування…",
+        "loginInstead": "Замість цього ввійти"
+    },
+    "resetPassword": {
+        "title": "Скид пароля",
+        "resetSuccessful": "Пароль був скинути.",
+        "passwordsDoNotMatch": "Паролі не відповідають.",
+        "passwordTooLong": "Пароль не може бути більш за 72 символі.",
+        "resetPasswordButton": "Скинути пароль",
+        "resetting": "Скидування…",
+        "email": "Електронна адреса",
+        "sendEmailButton": "Дослати лист",
+        "sending": "Досилання…"
+    },
+    "dashboard": {
+        "title": "Стіннівка",
+        "activeUsers": "Користувачі в мережі",
+        "noActiveUsers": "Немає активних користувачів",
+        "servers": "Сервері",
+        "posts": "Дописи",
+        "feed": "Стужка",
+        "discover": "Все дописи",
+        "notifications": "Сповіщення"
+    },
+    "status": {
+        "online": "В мережі",
+        "ltp": "Шукає гульні",
+        "afk": "Не на місці",
+        "dnd": "Не турбувати",
+        "offline": "Не в мережі",
+        "appearAsOffline": "Показуватися як не в мережі"
+    },
+    "sidePane": {
+        "home": "Домашня сторінка",
+        "homeShort": "Дом",
+        "moderation": "Панель модерації",
+        "moderationShort": "Мод",
+        "addServer": "Додати сервер"
+    },
+    "updateModal": {
+        "title": "Доступно обновлення",
+        "updateButton": "Обновити зараз",
+        "laterButton": "Пізніше",
+        "releasedAt": "Випущено о"
+    },
+    "messageArea": {
+        "messageBoxPlaceholder": "Написати {{username}}",
+        "messageBoxChannelPlaceholder": "Написати до {{channelName}}",
+        "replying": "Відповідь на {{count}} повідомлення",
+        "mention": "Згадати",
+        "dropFile": "Відпустить файл",
+        "uploadTo": "Завантажувати до",
+        "channelNotice": {
+            "title": "Перед тим як почати…",
+            "understoodButton": "Зрозуміла"
+        },
+        "specialMentions": {
+            "everyone": "Згадає всіх",
+            "someone": "Згадає випадкового користувача",
+            "silent": "Тихо повідомлення"
+        }
+    }
+}

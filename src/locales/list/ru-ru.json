@@ -140,7 +140,8 @@
                 "notifications": "Уведомления",
                 "audit-logs": "Журнал аудита",
                 "external-embed": "Внешний эмбед",
-                "permissions": "Разрешения"
+                "permissions": "Разрешения",
+                "emoji": "Эмодзи"
             },
             "general": {
                 "serverRenameNotice": "Вы потеряете все преимущества верификации сервера, если переименуете его.",
@@ -177,7 +178,9 @@
             },
             "channels": {
                 "createButton": "Создать",
-                "createNewDescription": "Создать новый канал или категорию"
+                "createNewDescription": "Создать новый канал или категорию",
+                "textChannel": "Текстовый канал",
+                "category": "Категория"
             },
             "channel": {
                 "channelName": "Название канала",
@@ -211,7 +214,8 @@
             },
             "bans": {
                 "sort": {
-                    "unsorted": "Без сортировки"
+                    "unsorted": "Без сортировки",
+                    "alphabetical": "По алфавиту"
                 },
                 "noResults": "Нет результатов.",
                 "reason": "Причина",
@@ -219,7 +223,7 @@
                 "bannedAt": "Забанен",
                 "unknown": "Неизвестно",
                 "unban": "Разбанить",
-                "unbanning": "Разбан"
+                "unbanning": "Разбан…"
             },
             "webhook": {
                 "title": "Вебхуки",
@@ -262,6 +266,31 @@
                     "hdScreenshare": "Стримы в 1080p/60fps",
                     "hdScreenshareDescription": "Делитесь экраном в 1080p, 60fps."
                 }
+            },
+            "welcomeScreen": {
+                "title": "Вопросы",
+                "description": "Настройте вопросы. Позвольте пользователям выбрать себе роли.",
+                "questions": {
+                    "addButton": "Добавить вопрос",
+                    "question": "Вопрос",
+                    "questionPlaceholder": "Коты или собаки?",
+                    "multiselect": "Несколько ответов"
+                },
+                "answers": {
+                    "title": "Ответы",
+                    "addButton": "Добавить ответ",
+                    "editModal": {
+                        "title": "Редактирование ответа",
+                        "answer": "Ответ",
+                        "placeholder": "Коты",
+                        "selectRoles": "Выбор ролей"
+                    }
+                }
+            },
+            "emoji": {
+                "title": "Пользовательские эмодзи",
+                "description": "Добавьте свои эмодзи.",
+                "addButton": "Добавить эмодзи"
             }
         },
         "rolePermissions": {
@@ -1068,7 +1097,8 @@
     },
     "nicknameChangeModal": {
         "title": "Обновление серверного профиля",
-        "description": "Все на этом сервере увидят ваш псевдоним."
+        "description": "Все на этом сервере увидят ваш псевдоним.",
+        "inputLabel": "Псевдоним"
     },
     "transferOwnershipModal": {
         "title": "Передача прав владения",

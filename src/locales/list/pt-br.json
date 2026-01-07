@@ -178,7 +178,9 @@
             },
             "channels": {
                 "createButton": "Criar",
-                "createNewDescription": "Crie um novo canal ou categoria"
+                "createNewDescription": "Crie um novo canal ou categoria",
+                "textChannel": "Canal de texto",
+                "category": "Categoria"
             },
             "channel": {
                 "channelName": "Nome do canal",
@@ -268,6 +270,26 @@
                 "title": "Emoji customizado",
                 "addButton": "Adicionar emoji",
                 "description": "Adicione seu próprio emoji."
+            },
+            "welcomeScreen": {
+                "title": "Perguntas",
+                "description": "Configure perguntas. Permita usuários atribuir cargos.",
+                "questions": {
+                    "addButton": "Adicionar pergunta",
+                    "question": "Pergunta",
+                    "questionPlaceholder": "Gatos ou cachorros?",
+                    "multiselect": "Múltipla seleção"
+                },
+                "answers": {
+                    "title": "Respostas",
+                    "addButton": "Adicionar resposta",
+                    "editModal": {
+                        "title": "Editar resposta",
+                        "answer": "Resposta",
+                        "placeholder": "Gatos",
+                        "selectRoles": "Selecionar cargos"
+                    }
+                }
             }
         },
         "rolePermissions": {
