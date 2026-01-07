@@ -176,15 +176,12 @@ function Popup(props: {
     )
   );
 
-  // Inside function Popup(...)
-
   createEffect(() => {
     const elHeight = resizeObserver.height();
     const elWidth = resizeObserver.width();
     const winHeight = height();
     const winWidth = width();
 
-    // Don't calculate until we actually have dimensions
     if (elHeight === 0) return;
 
     let top = props.position.top;
@@ -196,17 +193,14 @@ function Popup(props: {
       top = top - selElement.offsetTop + element!.scrollTop;
     }
 
-    // Horizontal boundary check
     if (left + elWidth > winWidth) {
       left = winWidth - elWidth - 10;
     }
 
-    // Vertical boundary check
     if (top + elHeight > winHeight) {
       top = winHeight - elHeight - 20;
     }
 
-    // Ensure it doesn't go off the top of the screen either
     if (top < 0) top = 10;
 
     setPosition({
