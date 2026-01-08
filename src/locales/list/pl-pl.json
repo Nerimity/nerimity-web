@@ -281,6 +281,30 @@
                 "title": "Własna Emoji",
                 "description": "Dodaj własną emoji.",
                 "addButton": "Dodaj emoji"
+            },
+            "notifications": {
+                "notice": "Te ustawienia zmienia się tylko dla Ciebie.",
+                "ping": "Ping Powiadomień",
+                "pingDescription": "Wyświetl wskaźnik powiadomienia.",
+                "sound": "Dźwięk Powiadomień",
+                "soundDescription": "Włącz dźwięk przy otrzymaniu powiadomienia.",
+                "channelsDescription": "Zarządzaj powiadomieniami dla poszczególnych kanałów.",
+                "resetButton": "Zresetuj Nadpisania({{count}})"
+            },
+            "externalEmbed": {
+                "noInvites": {
+                    "title": "Nie utworzono żadnych zaproszeń",
+                    "description": "Musisz najpierw utworzyć zaproszenie zanim stworzysz link do zewnetrznego osadzenia.",
+                    "createButton": "Utwórz Zaproszenie"
+                },
+                "title": "Utwórz link do zewnętrznego osadzenia",
+                "description": "Utwórz zewnętrzną ramkę IFrame do osadzenia na swojej stronie internetowej.",
+                "dropdownPlaceholder": "Wybierz Zaproszenie",
+                "options": {
+                    "hideHeader": "Ukryj Nagłówek",
+                    "hideMembers": "Ukryj Listę Członków",
+                    "hideActivities": "Ukryj Listę Aktywności"
+                }
             }
         },
         "rolePermissions": {
@@ -387,7 +411,9 @@
             "gradientColor1": "Kolor Gradientu 1",
             "gradientColor2": "Kolor Gradientu 2",
             "primaryColor": "Kolor Podstawowy",
-            "preview": "Podgląd"
+            "preview": "Podgląd",
+            "usernameFont": "Czcionka Nazwy Użytkownika",
+            "default": "Domyślna czcionka aplikacji"
         },
         "privacy": {
             "lastOnline": {
@@ -447,7 +473,7 @@
             "nextCallNotice": "Zmiany zostaną zastosowane przy Twoich następnych połączeniach.",
             "inputDevices": "Urządzenia wejściowe",
             "outputDevices": "Urządzenia wyjściowe",
-            "default": "Domyślne",
+            "default": "Domyślne ustawienie systemowe",
             "inputMode": "Tryb wejścia",
             "openMic": "Transmisja ciągła",
             "voiceActivity": "Aktywność głosowa",
