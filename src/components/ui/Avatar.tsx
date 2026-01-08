@@ -441,7 +441,7 @@ function Overlays(props: {
   return (
     <Show when={props.badges}>
       <Switch>
-        <Match when={hasBit(props.badges!, USER_BADGES.FOX_EARS_BROWN.bit)}>
+        <Match when={hasBit(props.badges!, USER_BADGES.WOLF_EARS.bit)}>
           <WolfEarsBorder
             size={props.size}
             offset={(props.offset || 0) - 0.2}
