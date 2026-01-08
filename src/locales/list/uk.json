@@ -38,7 +38,7 @@
     "systemMessages": {
         "joinServer": {
             "bot": "<User/><2> додано на сервер.</2>",
-            "user": "<User/><2> приєднався до серверу.</2>"
+            "user": "<User/><2> приєднався до сервера.</2>"
         },
         "leaveServer": "<User/><2> вийшов з серверу.</2>",
         "kickUser": "<User/><2> був вигнаний.</2>",
@@ -230,7 +230,7 @@
         },
         "sort": "Сортування",
         "filter": "Фільтрування",
-        "by": "Ад",
+        "by": "Від",
         "bumped": "Піднято"
     },
     "inputFieldActions": {
@@ -321,7 +321,72 @@
             },
             "general": {
                 "serverRenameNotice": "Ви стратьте всі переваги верифікованого сервера, коли переназвіть його.",
-                "serverName": "Назва сервера"
+                "serverName": "Назва сервера",
+                "defaultChannel": "Передвизначений канал",
+                "defaultChannelDescription": "Нові спільники будуть накеровано до цього каналу.",
+                "systemMessages": "Системні повідомлення",
+                "systemMessagesDescription": "Тут мусять з'являтися системні повідомлення.",
+                "deleteThisServer": "Видалити цей сервер",
+                "deleteServerButton": "Видалити сервер",
+                "none": "Нічого"
+            },
+            "roles": {
+                "addNewRole": "Додати нову роль",
+                "addRoleButton": "Додати роль"
+            },
+            "role": {
+                "roleName": "Назва ролі",
+                "roleColor": "Колер ролі",
+                "clear": "Скинути",
+                "roleIcon": "Значок ролі",
+                "managedByBot": "Ця роль керується {{botName}}. Ви не можете видалити або додати спільників до цієї ролі. Виженіть бота, щоб позбавиться від цієї ролі.",
+                "hideRole": "Ховати роль",
+                "hideRoleDescription": "Показувати спільників з цією роллю разом зі звичайними",
+                "applyOnJoin": "Уживати при приєднанні",
+                "applyOnJoinDescription": "Давати цю роль спільникам, колі вони заходять на сервер.",
+                "permissionsDescription": "Керувати дозволами цієї ролі.",
+                "deleteRoleTitle": "Видалити {{roleName}}",
+                "deleteRoleButton": "Видалити цю роль"
+            },
+            "header": {
+                "editServer": "Редагувати сервер",
+                "serverMemberCount": "{{count}} спільників"
+            },
+            "welcomeScreen": {
+                "title": "Питання",
+                "description": "Наладь питання. Дати користувачам обрати ролі.",
+                "questions": {
+                    "addButton": "Додати питання",
+                    "question": "Питання",
+                    "questionPlaceholder": "Котки чи собаки?",
+                    "multiselect": "Множний вибір"
+                },
+                "answers": {
+                    "title": "Відповіді",
+                    "addButton": "Додати відповідь",
+                    "editModal": {
+                        "title": "Редагування відповіді",
+                        "answer": "Відповідь",
+                        "placeholder": "Котки",
+                        "selectRoles": "Обрати ролі"
+                    }
+                }
+            },
+            "channels": {
+                "createButton": "Сотворити",
+                "createNewDescription": "Сотворити новий канал чи розділ",
+                "textChannel": "Текстовий канал",
+                "category": "Розділ"
+            },
+            "channel": {
+                "channelName": "Назва каналу",
+                "channelIcon": "Значок каналу",
+                "permissionsDescription": "Керувати дозволами цього каналу.",
+                "slowModeDescription": "Укажіть, скільки користувач мусить почекати до того, як дослати повідомлення.",
+                "deleteThisChannel": "Видалити цей канал",
+                "deleteChannelTitle": "Видалити {{channelName}}",
+                "deleteChannelButton": "Видалити канал",
+                "removeNoticeButton": "Прибрати попередження"
             }
         }
     }
