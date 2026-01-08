@@ -994,6 +994,16 @@
         "credit": {
             "avatarBorder": "Аблямоўка аватара ад {{author}} на {{platform}}",
             "avatarBorderEdited": "Аблямоўка аватара ад {{author}} на {{platform}}, адрэдагавана {{editor}}"
+        },
+        "bunny": {
+            "name": "Трусік",
+            "bunnyDescription": "Трусік з чорнымі вушкамі",
+            "maidDescription": "Трусік-пакаёўка"
+        },
+        "dog": {
+            "name": "Сабачка",
+            "dogDescription": "Сабака з карычневымі вушкамі",
+            "shibaDescription": "Сабака Сіба-іну"
         }
     },
     "status": {
