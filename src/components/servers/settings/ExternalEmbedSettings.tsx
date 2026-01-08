@@ -88,7 +88,7 @@ export default function ExternalEmbedSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - External Embed",
+      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.external-embed"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -130,11 +130,11 @@ export default function ExternalEmbedSettings() {
       <Show when={invites() && !invites()?.length}>
         <Notice
           type="error"
-          title="No Invites Created"
-          description="You must create an invite before you can create an external embed link."
+          title={t("servers.settings.externalEmbed.noInvites.title")}
+          description={t("servers.settings.externalEmbed.noInvites.description")}
           children={
             <Button
-              label="Create Invite"
+              label={t("servers.settings.externalEmbed.noInvites.createButton")}
               styles={{ "margin-left": "auto" }}
               margin={0}
               primary
@@ -151,13 +151,13 @@ export default function ExternalEmbedSettings() {
         <ListContainer>
           <SettingsBlock
             icon="link"
-            label="Create External Embed Link"
-            description="Create an external iframe embed for your website."
+            label={t("servers.settings.externalEmbed.title")}
+            description={t("servers.settings.externalEmbed.description")}
           >
             <FlexRow>
               <Show when={embed() === undefined}>
                 <DropDown
-                  placeholder="Select Invite"
+                  placeholder={t("servers.settings.externalEmbed.dropdownPlaceholder")}
                   onChange={onInviteSelected}
                   items={invites()!.map((invite) => ({
                     id: invite.code,
@@ -168,7 +168,7 @@ export default function ExternalEmbedSettings() {
               <Show when={embed()}>
                 <Button
                   onClick={deleteEmbed}
-                  label="Delete Embed"
+                  label={t("general.deleteButton")}
                   alert
                   primary
                   iconName="delete"
@@ -193,17 +193,17 @@ export default function ExternalEmbedSettings() {
         <FlexRow wrap>
           <FlexColumn gap={8} style={{ flex: 1, "min-width": "300px" }}>
             <Checkbox
-              label="Hide Header"
+              label={t("servers.settings.externalEmbed.options.hideHeader")}
               checked={opts().hide_header}
               onChange={(val) => setOpts({ ...opts(), hide_header: val })}
             />
             <Checkbox
-              label="Hide Members List"
+              label={t("servers.settings.externalEmbed.options.hideMembers")}
               checked={opts().hide_members}
               onChange={(val) => setOpts({ ...opts(), hide_members: val })}
             />
             <Checkbox
-              label="Hide Activity List"
+              label={t("servers.settings.externalEmbed.options.hideActivities")}
               checked={opts().hide_activities}
               onChange={(val) => setOpts({ ...opts(), hide_activities: val })}
             />

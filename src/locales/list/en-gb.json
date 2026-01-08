@@ -388,6 +388,15 @@
         "deleteChannelButton": "Delete Channel",
         "removeNoticeButton": "Remove Notice"
       },
+      "notifications": {
+        "notice": "These settings will only change for you.",
+        "ping": "Notification Ping",
+        "pingDescription": "Display a notification indicator.",
+        "sound": "Notification Sound",
+        "soundDescription": "Make a sound when receiving a notification.",
+        "channelsDescription": "Manage notifications per channel.",
+        "resetButton": "Reset Overrides({{count}})"
+      },
       "emoji": {
         "title": "Custom Emoji",
         "description": "Add your own emoji.",
@@ -446,6 +455,21 @@
           "emojiSlotsDescription": "200 emoji slots for your server.",
           "hdScreenshare": "1080p@60fps screenshare",
           "hdScreenshareDescription": "Screenshare in 1080p at 60fps."
+        }
+      },
+      "externalEmbed": {
+        "noInvites": {
+          "title": "No Invites Created",
+          "description": "You must create an invite before you can create an external embed link.",
+          "createButton": "Create Invite"
+        },
+        "title": "Create External Embed Link",
+        "description": "Create an external IFrame embed for your website.",
+        "dropdownPlaceholder": "Select Invite",
+        "options": {
+          "hideHeader": "Hide Header",
+          "hideMembers": "Hide Members List",
+          "hideActivities": "Hide Activity List"
         }
       }
     },
