@@ -29,6 +29,8 @@ const USER_BADGE_BITS = {
   BUNNY_EARS_MAID: 8192,
   DOG_EARS_BROWN: 16384,
   DOG_SHIBA: 32768,
+
+  WOLF_EARS: 65536,
 } as const;
 
 export interface UserBadge {
@@ -43,6 +45,13 @@ export interface UserBadge {
 
 export const USER_BADGES = {
   // overlays
+  WOLF_EARS: {
+    name: () => t("badges.wolf.name"),
+    bit: USER_BADGE_BITS.WOLF_EARS,
+    color: "linear-gradient(90deg, #585858ff 0%, #252525ff 100%)",
+    overlay: true,
+    description: () => t("badges.wolf.wolfDescription"),
+  },
   DOG_SHIBA: {
     name: () => t("badges.dog.name"),
     bit: USER_BADGE_BITS.DOG_SHIBA,

@@ -24,6 +24,7 @@ import { BunnyEarsBorder } from "../avatar-borders/BunnyEarBorder";
 import { DogEarsBorder } from "../avatar-borders/DogEarBorder";
 import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
 import { DogTailBorder } from "../avatar-borders/DogTailBorder";
+import { WolfEarsBorder } from "../avatar-borders/WolfEarBorder";
 
 interface Props {
   url?: string | null;
@@ -440,6 +441,12 @@ function Overlays(props: {
   return (
     <Show when={props.badges}>
       <Switch>
+        <Match when={hasBit(props.badges!, USER_BADGES.FOX_EARS_BROWN.bit)}>
+          <WolfEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) - 0.2}
+          />
+        </Match>
         <Match when={hasBit(props.badges!, USER_BADGES.DOG_SHIBA.bit)}>
           <DogEarsBorder
             size={props.size}

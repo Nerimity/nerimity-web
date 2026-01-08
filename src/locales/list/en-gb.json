@@ -1144,6 +1144,10 @@
       "name": "Doggy",
       "dogDescription": "Dog Ears Brown",
       "shibaDescription": "Dog Shiba"
+    },
+    "wolf": {
+      "name": "Wolfy",
+      "wolfDescription": "Wolf Ears"
     }
   }
 }
