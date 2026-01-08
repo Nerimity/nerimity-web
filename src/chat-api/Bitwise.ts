@@ -44,7 +44,6 @@ export const USER_BADGES = {
     color: "linear-gradient(90deg, #78a5ff 0%, #ffffff 100%)",
     overlay: true,
     description: () => t("badges.kitty.blueDescription"),
-    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
 
   CAT_EARS_WHITE: {
@@ -53,7 +52,6 @@ export const USER_BADGES = {
     color: "linear-gradient(90deg, #ffa761 0%, #ffffff 100%)",
     overlay: true,
     description: () => t("badges.kitty.whiteDescription"),
-    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
 
   FOX_EARS_GOLD: {
@@ -62,7 +60,6 @@ export const USER_BADGES = {
     color: "linear-gradient(90deg, #ffb100 0%, #ffffff 100%)",
     overlay: true,
     description: () => t("badges.foxy.foxyGoldDescription"),
-    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
 
   FOX_EARS_BROWN: {
@@ -71,7 +68,6 @@ export const USER_BADGES = {
     color: "linear-gradient(90deg, #bb7435 0%, #ffffff 100%)",
     overlay: true,
     description: () => t("badges.foxy.foxyBrownDescription"),
-    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
 
   FOUNDER: {
@@ -79,15 +75,25 @@ export const USER_BADGES = {
     bit: USER_BADGE_BITS.FOUNDER,
     description: () => t("badges.founder.description"),
     color: "linear-gradient(90deg, #4fffbd 0%, #4a5efc 100%)",
-    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
+    credit: () =>
+      t("badges.credit.avatarBorder", {
+        author: "upklyak",
+        platform: "Freepik",
+      }),
   },
 
   ADMIN: {
     name: () => t("badges.admin.name"),
     bit: USER_BADGE_BITS.ADMIN,
     description: () => t("badges.admin.description"),
-    color: "linear-gradient(90deg, rgba(224,26,185,1) 0%, rgba(64,122,255,1) 100%)",
-    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
+    color:
+      "linear-gradient(90deg, rgba(224,26,185,1) 0%, rgba(64,122,255,1) 100%)",
+    credit: () =>
+      t("badges.credit.avatarBorderEdited", {
+        author: "upklyak",
+        platform: "Freepik",
+        editor: "Supertiger",
+      }),
   },
 
   MOD: {
@@ -95,7 +101,11 @@ export const USER_BADGES = {
     bit: USER_BADGE_BITS.MOD,
     description: () => t("badges.mod.description"),
     color: "linear-gradient(90deg, #57acfa 0%, #1485ed 100%)",
-    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
+    credit: () =>
+      t("badges.credit.avatarBorder", {
+        author: "upklyak",
+        platform: "Freepik",
+      }),
   },
 
   EMO_SUPPORTER: {
@@ -104,15 +114,25 @@ export const USER_BADGES = {
     bit: USER_BADGE_BITS.EMO_SUPPORTER,
     textColor: "rgba(255,255,255,0.8)",
     color: "linear-gradient(90deg, #424242 0%, #303030 100%)",
-    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
+    credit: () =>
+      t("badges.credit.avatarBorderEdited", {
+        author: "upklyak",
+        platform: "Freepik",
+        editor: "Supertiger",
+      }),
   },
 
   SUPPORTER: {
     name: () => t("badges.supporter.name"),
     description: () => t("badges.supporter.description"),
     bit: USER_BADGE_BITS.SUPPORTER,
-    color: "linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)",
-    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
+    color:
+      "linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)",
+    credit: () =>
+      t("badges.credit.avatarBorder", {
+        author: "upklyak",
+        platform: "Freepik",
+      }),
   },
 
   CONTRIBUTOR: {
@@ -124,11 +144,16 @@ export const USER_BADGES = {
 
   PALESTINE: {
     name: () => t("badges.palestine.name"),
-    description: () => "[Click to help](https://arab.org/click-to-help/palestine/)",
+    description: () =>
+      "[Click to help](https://arab.org/click-to-help/palestine/)",
     bit: USER_BADGE_BITS.PALESTINE,
     color: "linear-gradient(90deg, red, white, green)",
     credit: () =>
-      t("badges.credit.avatarBorderEdited", { author: "upklyak", platform: "Freepik", editor: "Supertiger" }),
+      t("badges.credit.avatarBorderEdited", {
+        author: "upklyak",
+        platform: "Freepik",
+        editor: "Supertiger",
+      }),
   },
 
   BOT: {
