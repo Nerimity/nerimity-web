@@ -33,6 +33,7 @@ export default function BadgeSettings() {
   });
 
   const availableBadges = [
+    USER_BADGES.WOLF_EARS,
     USER_BADGES.DOG_SHIBA,
     USER_BADGES.DOG_EARS_BROWN,
     USER_BADGES.BUNNY_EARS_MAID,
