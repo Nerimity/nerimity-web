@@ -3,7 +3,7 @@ import { JSXElement } from "solid-js";
 export function DogTailBorder(props: {
   children?: JSXElement;
   hovered?: boolean;
-  size: number;
+  size?: number;
   offset?: number;
   offsetLeft?: number;
   color: "shiba";

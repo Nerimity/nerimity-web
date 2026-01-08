@@ -4,6 +4,7 @@ export function DogEarsBorder(props: {
   children?: JSXElement;
   hovered?: boolean;
   size: number;
+  scale?: number;
   offset?: number;
   color: "brown" | "shiba";
 }) {
@@ -11,6 +12,7 @@ export function DogEarsBorder(props: {
     <img
       class="dog-ears"
       style={{
+        transform: props.scale ? `scale(${props.scale}) ` : "",
         position: "absolute",
         width: "100%",
         "margin-top": (props.offset || 0) * props.size + "px",

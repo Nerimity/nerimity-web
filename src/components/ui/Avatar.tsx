@@ -443,14 +443,15 @@ function Overlays(props: {
         <Match when={hasBit(props.badges!, USER_BADGES.DOG_SHIBA.bit)}>
           <DogEarsBorder
             size={props.size}
-            offset={(props.offset || 0) - 0.0}
+            scale={1.2}
+            offset={(props.offset || 0) - 0.03}
             color="shiba"
           />
           <DogTailBorder
-            offset={(props.offset || 0) + (props.hasBorder ? 0.4 : -0.1)}
+            offset={(props.offset || 0) + (props.hasBorder ? 1 : 0.27)}
             size={props.size}
             color="shiba"
-            offsetLeft={props.hasBorder ? -1.7 : -0.9}
+            offsetLeft={props.hasBorder ? -1.4 : -0.72}
           />
         </Match>
         <Match when={hasBit(props.badges!, USER_BADGES.DOG_EARS_BROWN.bit)}>
