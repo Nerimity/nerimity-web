@@ -397,7 +397,9 @@
                 "posts": "• Ваши публикации"
             },
             "postsAndMessagesNotice": "Удаление ваших постов и сообщений может занять недели.",
-            "deleteCheckbox": "Удалить мои посты и сообщения"
+            "deleteCheckbox": "Удалить мои посты и сообщения",
+            "usernameFont": "Шрифт имени пользователя",
+            "default": "Стандартный"
         },
         "privacy": {
             "lastOnline": {
