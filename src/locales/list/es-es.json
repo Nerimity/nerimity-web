@@ -64,7 +64,7 @@
         "notices": {
             "title": "Avisos",
             "toxic": "No seas tóxico.",
-            "nsfw": "No contenido NSFW.",
+            "nsfw": "Nada de contenido NSFW.",
             "age": "Debes tener 14 años o más."
         },
         "title": "Bienvenido a {{appName}}",
@@ -112,8 +112,8 @@
         "releasedAt": "Publicado el"
     },
     "messageArea": {
-        "messageBoxPlaceholder": "Enviar un mensaje a {{username}}",
-        "messageBoxChannelPlaceholder": "Enviar un mensaje en {{channelName}}",
+        "messageBoxPlaceholder": "Envia un mensaje a {{username}}",
+        "messageBoxChannelPlaceholder": "Envia un mensaje en {{channelName}}",
         "replying": "Respondiendo a {{count}} mensaje(s)",
         "mention": "Mención",
         "dropFile": "Soltar archivo",
@@ -130,7 +130,7 @@
         "linkToGoogleDrive": {
             "body": "Debes vincular tu cuenta a Google Drive para subir imágenes, vídeos o archivos grandes",
             "linkButton": "Vincular ahora",
-            "cancelButton": "No vincular"
+            "cancelButton": "No vincules"
         },
         "emailNotice": "Confirma tu correo para enviar mensajes."
     },
@@ -140,12 +140,12 @@
         },
         "drawer": {
             "searchBarPlaceholder": "Buscar",
-            "friendRequests": "{{count}} Solicitudes de Amistad",
-            "onlineFriends": "{{count}} Amigos en línea",
-            "offlineFriends": "{{count}} Amigos desconectados",
+            "friendRequests": "Solicitudes de Amistad — {{count}}",
+            "onlineFriends": "Amigos en línea — {{count}}",
+            "offlineFriends": "Amigos desconectados — {{count}}",
             "notes": "Notas",
             "addFriendButton": "Añadir amigo",
-            "blockedUsersButton": "Bloqueado",
+            "blockedUsersButton": "Usuarios bloqueados",
             "inboxTitle": "Conversaciones",
             "friendsButton": "Amigos",
             "viewAll": "Ver todos"
@@ -161,7 +161,7 @@
         "bots": {
             "title": "Explorar - Bots",
             "noticeMessage": "Un bot puede destacarse una vez cada {{hours}} horas. Todos los destacados se reinician cada {{date}}.",
-            "moderationNotice": "Los bots no son moderados por Nerimity. Por favor, reporta los bots que sean maliciosos o que incumplan los TOS.",
+            "moderationNotice": "Los bots no son moderados por Nerimity. Por favor, reporta los bots que sean maliciosos o que incumplan las TOS.",
             "inviteButton": "Invitar",
             "serverCount": "En {{count}} servidores"
         },
@@ -371,6 +371,30 @@
                         "placeholder": "Gatos",
                         "selectRoles": "Seleccionar roles"
                     }
+                }
+            },
+            "notifications": {
+                "notice": "Estos ajustes solo cambiarán para ti.",
+                "ping": "Aviso de notificación",
+                "pingDescription": "Mostrar un indicador de notificación.",
+                "sound": "Sonido al recibir notificación",
+                "soundDescription": "Reproducir un sonido al recibir una notificación.",
+                "channelsDescription": "Gestiona las notificaciones por canal.",
+                "resetButton": "Restablecer configuraciones personalizadas ({{count}})"
+            },
+            "externalEmbed": {
+                "noInvites": {
+                    "title": "No se han creado invitaciones",
+                    "description": "Tienes que crear una invitación antes de que puedas crear un enlace incrustado externo.",
+                    "createButton": "Crear invitación"
+                },
+                "title": "Crear enlace incrustado externo",
+                "description": "Crea un IFrame incrustado externo de tu página web.",
+                "dropdownPlaceholder": "Seleccionar invitación",
+                "options": {
+                    "hideHeader": "Esconder encabezado",
+                    "hideMembers": "Esconder lista de miembros",
+                    "hideActivities": "Esconder lista de actividad"
                 }
             }
         },
@@ -970,6 +994,16 @@
         "credit": {
             "avatarBorder": "Borde de avatar hecho por {{author}} en {{platform}}",
             "avatarBorderEdited": "Borde de avatar hecho por {{author}} en {{platform}}, editado por {{editor}}"
+        },
+        "bunny": {
+            "name": "Conejo",
+            "bunnyDescription": "Orejas de conejo negras",
+            "maidDescription": "Orejas de conejo de sirvienta"
+        },
+        "dog": {
+            "name": "Perro",
+            "dogDescription": "Orejas de perro marrones",
+            "shibaDescription": "Perro Shiba"
         }
     },
     "status": {
@@ -991,8 +1025,8 @@
         "never": "nunca",
         "by": "Por",
         "deletionNotice": "Tu cuenta y los datos serán eliminados en 15 días",
-        "ipBanned": "Tu IP ha sido baneada.",
-        "ipBanNotice": "Alguien con la misma IP ha sido suspendido de Nerimity. Tu cuenta no se verá afectada."
+        "ipBanned": "Tu IP está baneada.",
+        "ipBanNotice": "Alguien con tu misma IP ha sido suspendido de Nerimity. Tu cuenta no se verá afectada."
     },
     "markup": {
         "bold": "Negrita",

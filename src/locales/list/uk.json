@@ -387,6 +387,14 @@
                 "deleteChannelTitle": "Видалити {{channelName}}",
                 "deleteChannelButton": "Видалити канал",
                 "removeNoticeButton": "Прибрати попередження"
+            },
+            "notifications": {
+                "notice": "Ці налаштування зміняться тільки для вас.",
+                "ping": "Познака сповіщення",
+                "pingDescription": "Показувати вказівник при сповіщенні.",
+                "sound": "Гук сповіщення",
+                "soundDescription": "Програвати гук при отриманні сповіщення.",
+                "channelsDescription": "Керування сповіщеннями осібних каналів."
             }
         }
     }
