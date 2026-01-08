@@ -1134,6 +1134,16 @@
     "credit": {
       "avatarBorder": "Avatar Border by {{author}} on {{platform}}",
       "avatarBorderEdited": "Avatar Border by {{author}} on {{platform}}, edited by {{editor}}"
+    },
+    "bunny": {
+      "name": "Bunny",
+      "bunnyDescription": "Black Ears Bunny",
+      "maidDescription": "Maid Ears Bunny"
+    },
+    "dog": {
+      "name": "Doggy",
+      "dogDescription": "Dog Ears Brown",
+      "shibaDescription": "Dog Shiba"
     }
   }
 }

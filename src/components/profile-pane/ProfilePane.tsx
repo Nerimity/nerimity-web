@@ -76,6 +76,7 @@ import { currentTheme } from "@/common/themes";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 import { getActivityType } from "@/common/activityType";
 import { Fonts, getFont } from "@/common/fonts";
+import { Modal } from "../ui/modal";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -1459,23 +1460,32 @@ function BadgeDetailModal(props: {
   });
 
   return (
-    <LegacyModal
-      title={t("profile.badge", { badgeName: `${props.badge.name()}` })}
-      close={props.close}
-    >
-      <BadgeDetailsModalContainer gap={30}>
-        <FlexColumn itemsCenter gap={18}>
-          <Avatar user={user()} size={80} animate={animate()} />
-          <Text style={{ "max-width": "200px", "text-align": "center" }}>
-            <Markup text={props.badge.description()!} />
-          </Text>
-        </FlexColumn>
-        <FlexColumn itemsCenter gap={16}>
-          <Text size={14} opacity={0.6}>
-            {props.badge.credit?.()}
-          </Text>
-        </FlexColumn>
-      </BadgeDetailsModalContainer>
-    </LegacyModal>
+    <Modal.Root close={props.close}>
+      <Modal.Header
+        title={t("profile.badge", { badgeName: `${props.badge.name()}` })}
+        icon="info"
+      />
+      <Modal.Body>
+        <BadgeDetailsModalContainer gap={30}>
+          <FlexColumn itemsCenter gap={18}>
+            <Avatar user={user()} size={80} animate={animate()} />
+            <Text style={{ "max-width": "200px", "text-align": "center" }}>
+              <Markup text={props.badge.description()!} />
+            </Text>
+          </FlexColumn>
+          <Show when={props.badge.credit}>
+            <FlexColumn itemsCenter gap={16}>
+              <Text
+                size={14}
+                opacity={0.6}
+                style={{ "text-align": "center", "max-width": "200px" }}
+              >
+                {props.badge.credit?.()}
+              </Text>
+            </FlexColumn>
+          </Show>
+        </BadgeDetailsModalContainer>
+      </Modal.Body>
+    </Modal.Root>
   );
 }

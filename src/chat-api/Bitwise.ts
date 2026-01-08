@@ -24,6 +24,11 @@ const USER_BADGE_BITS = {
 
   FOX_EARS_GOLD: 1024,
   FOX_EARS_BROWN: 2048,
+
+  BUNNY_EARS_BLACK: 4096,
+  BUNNY_EARS_MAID: 8192,
+  DOG_EARS_BROWN: 16384,
+  DOG_SHIBA: 32768,
 } as const;
 
 export interface UserBadge {
@@ -38,6 +43,34 @@ export interface UserBadge {
 
 export const USER_BADGES = {
   // overlays
+  DOG_SHIBA: {
+    name: () => t("badges.dog.name"),
+    bit: USER_BADGE_BITS.DOG_SHIBA,
+    color: "linear-gradient(90deg, #bb7435 0%, #ffbd67ff 100%)",
+    overlay: true,
+    description: () => t("badges.dog.shibaDescription"),
+  },
+  DOG_EARS_BROWN: {
+    name: () => t("badges.dog.name"),
+    bit: USER_BADGE_BITS.DOG_EARS_BROWN,
+    color: "linear-gradient(90deg, #bb7435 0%, #ffbd67ff 100%)",
+    overlay: true,
+    description: () => t("badges.dog.dogDescription"),
+  },
+  BUNNY_EARS_MAID: {
+    name: () => t("badges.bunny.name"),
+    bit: USER_BADGE_BITS.BUNNY_EARS_MAID,
+    color: "linear-gradient(90deg, #6b6b6bff 0%, #ff9dc6ff 100%)",
+    overlay: true,
+    description: () => t("badges.bunny.maidDescription"),
+  },
+  BUNNY_EARS_BLACK: {
+    name: () => t("badges.bunny.name"),
+    bit: USER_BADGE_BITS.BUNNY_EARS_BLACK,
+    color: "linear-gradient(90deg, #ffffffff 0%, #ff9dc6ff 100%)",
+    overlay: true,
+    description: () => t("badges.bunny.bunnyDescription"),
+  },
   CAT_EARS_BLUE: {
     name: () => t("badges.kitty.name"),
     bit: USER_BADGE_BITS.CAT_EARS_BLUE,

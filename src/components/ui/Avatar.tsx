@@ -7,6 +7,7 @@ import {
   JSXElement,
   Match,
   Show,
+  splitProps,
   Switch,
 } from "solid-js";
 import {
@@ -16,10 +17,13 @@ import {
   UserBadge,
 } from "@/chat-api/Bitwise";
 import style from "./Avatar.module.css";
-import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
 import { CatEarsBorder } from "../avatar-borders/CatEarBorder";
 import { FoxEarsBorder } from "../avatar-borders/FoxEarBorder";
 import env from "@/common/env";
+import { BunnyEarsBorder } from "../avatar-borders/BunnyEarBorder";
+import { DogEarsBorder } from "../avatar-borders/DogEarBorder";
+import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
+import { DogTailBorder } from "../avatar-borders/DogTailBorder";
 
 interface Props {
   url?: string | null;
@@ -184,7 +188,8 @@ function AvatarBorder(props: {
     <>
       <Switch>
         <Match when={props.badge?.bit === USER_BADGES.MOD.bit}>
-          <ModBorder
+          <UniversalBorder
+            type="mod"
             size={props.size}
             avatarUrl={props.url}
             hovered={props.hovered}
@@ -196,7 +201,8 @@ function AvatarBorder(props: {
         </Match>
 
         <Match when={props.badge?.bit === USER_BADGES.EMO_SUPPORTER.bit}>
-          <EmoSupporterBorder
+          <UniversalBorder
+            type="emo-supporter"
             size={props.size}
             avatarUrl={props.url}
             hovered={props.hovered}
@@ -207,7 +213,8 @@ function AvatarBorder(props: {
           />
         </Match>
         <Match when={props.badge?.bit === USER_BADGES.SUPPORTER.bit}>
-          <SupporterBorder
+          <UniversalBorder
+            type="supporter"
             size={props.size}
             avatarUrl={props.url}
             hovered={props.hovered}
@@ -218,7 +225,8 @@ function AvatarBorder(props: {
           />
         </Match>
         <Match when={props.badge?.bit === USER_BADGES.ADMIN.bit}>
-          <AdminBorder
+          <UniversalBorder
+            type="admin"
             size={props.size}
             avatarUrl={props.url}
             hovered={props.hovered}
@@ -229,7 +237,8 @@ function AvatarBorder(props: {
           />
         </Match>
         <Match when={props.badge?.bit === USER_BADGES.FOUNDER.bit}>
-          <FounderBorder
+          <UniversalBorder
+            type="founder"
             size={props.size}
             avatarUrl={props.url}
             hovered={props.hovered}
@@ -240,7 +249,8 @@ function AvatarBorder(props: {
           />
         </Match>
         <Match when={props.badge?.bit === USER_BADGES.PALESTINE.bit}>
-          <PalestineBorder
+          <UniversalBorder
+            type="palestine"
             size={props.size}
             avatarUrl={props.url}
             hovered={props.hovered}
@@ -376,7 +386,16 @@ function BasicBorder(props: {
   );
 }
 
-function ModBorder(props: {
+type BorderType =
+  | "mod"
+  | "emo-supporter"
+  | "supporter"
+  | "admin"
+  | "founder"
+  | "palestine";
+
+interface UniversalBorderProps {
+  type: BorderType;
   size: number;
   avatarUrl?: string;
   hovered?: boolean;
@@ -384,149 +403,77 @@ function ModBorder(props: {
   children?: JSXElement;
   badges?: number;
   serverOrUser: ServerOrUserAvatar;
-}) {
-  return (
-    <FounderAdminSupporterBorder
-      type="mod"
-      serverOrUser={props.serverOrUser}
-      size={props.size}
-      children={props.children}
-      overlay={
-        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
-      }
-      color={props.color}
-      url={props.avatarUrl}
-      hovered={props.hovered}
-    />
-  );
 }
-function EmoSupporterBorder(props: {
-  size: number;
-  avatarUrl?: string;
-  hovered?: boolean;
-  color?: string;
-  children?: JSXElement;
-  badges?: number;
-  serverOrUser: ServerOrUserAvatar;
-}) {
+
+function UniversalBorder(props: UniversalBorderProps) {
+  const [local, rest] = splitProps(props, [
+    "type",
+    "size",
+    "badges",
+    "avatarUrl",
+  ]);
+
   return (
     <FounderAdminSupporterBorder
-      serverOrUser={props.serverOrUser}
-      size={props.size}
-      type="emo-supporter"
-      children={props.children}
-      color={props.color}
+      type={local.type}
+      size={local.size}
+      url={local.avatarUrl}
       overlay={
-        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
+        <Overlays
+          size={local.size}
+          offset={-0.78}
+          badges={local.badges}
+          hasBorder
+        />
       }
-      url={props.avatarUrl}
-      hovered={props.hovered}
-    />
-  );
-}
-function SupporterBorder(props: {
-  size: number;
-  avatarUrl?: string;
-  hovered?: boolean;
-  color?: string;
-  children?: JSXElement;
-  badges?: number;
-  serverOrUser: ServerOrUserAvatar;
-}) {
-  return (
-    <FounderAdminSupporterBorder
-      serverOrUser={props.serverOrUser}
-      size={props.size}
-      type="supporter"
-      children={props.children}
-      overlay={
-        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
-      }
-      color={props.color}
-      url={props.avatarUrl}
-      hovered={props.hovered}
+      {...rest}
     />
   );
 }
 
-function AdminBorder(props: {
-  size: number;
-  avatarUrl?: string;
-  hovered?: boolean;
-  color?: string;
+function Overlays(props: {
   badges?: number;
-  children?: JSXElement;
-  serverOrUser: ServerOrUserAvatar;
-}) {
-  return (
-    <FounderAdminSupporterBorder
-      serverOrUser={props.serverOrUser}
-      size={props.size}
-      type="admin"
-      children={props.children}
-      color={props.color}
-      overlay={
-        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
-      }
-      url={props.avatarUrl}
-      hovered={props.hovered}
-    />
-  );
-}
-
-function FounderBorder(props: {
+  offset?: number;
+  hasBorder?: boolean;
   size: number;
-  avatarUrl?: string;
-  hovered?: boolean;
-  color?: string;
-  badges?: number;
-  children?: JSXElement;
-  serverOrUser: ServerOrUserAvatar;
 }) {
-  return (
-    <FounderAdminSupporterBorder
-      serverOrUser={props.serverOrUser}
-      size={props.size}
-      type="founder"
-      children={props.children}
-      color={props.color}
-      overlay={
-        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
-      }
-      url={props.avatarUrl}
-      hovered={props.hovered}
-    />
-  );
-}
-function PalestineBorder(props: {
-  size: number;
-  avatarUrl?: string;
-  hovered?: boolean;
-  color?: string;
-  children?: JSXElement;
-  badges?: number;
-  serverOrUser: ServerOrUserAvatar;
-}) {
-  return (
-    <FounderAdminSupporterBorder
-      serverOrUser={props.serverOrUser}
-      size={props.size}
-      type="palestine"
-      children={props.children}
-      overlay={
-        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
-      }
-      color={props.color}
-      url={props.avatarUrl}
-      hovered={props.hovered}
-    />
-  );
-}
-
-function Overlays(props: { badges?: number; offset?: number; size: number }) {
   return (
     <Show when={props.badges}>
       <Switch>
+        <Match when={hasBit(props.badges!, USER_BADGES.DOG_SHIBA.bit)}>
+          <DogEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) - 0.0}
+            color="shiba"
+          />
+          <DogTailBorder
+            offset={(props.offset || 0) + (props.hasBorder ? 0.4 : -0.1)}
+            size={props.size}
+            color="shiba"
+            offsetLeft={props.hasBorder ? -1.7 : -0.9}
+          />
+        </Match>
+        <Match when={hasBit(props.badges!, USER_BADGES.DOG_EARS_BROWN.bit)}>
+          <DogEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) + (props.hasBorder ? 0.4 : 0.1)}
+            color="brown"
+          />
+        </Match>
+        <Match when={hasBit(props.badges!, USER_BADGES.BUNNY_EARS_MAID.bit)}>
+          <BunnyEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) - 0.4}
+            color="maid"
+          />
+        </Match>
+        <Match when={hasBit(props.badges!, USER_BADGES.BUNNY_EARS_BLACK.bit)}>
+          <BunnyEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) - 0.5}
+            color="black"
+          />
+        </Match>
         <Match when={hasBit(props.badges!, USER_BADGES.FOX_EARS_BROWN.bit)}>
           <FoxEarsBorder
             size={props.size}
