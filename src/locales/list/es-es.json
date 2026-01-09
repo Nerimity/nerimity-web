@@ -1004,6 +1004,18 @@
             "name": "Perro",
             "dogDescription": "Orejas de perro marrones",
             "shibaDescription": "Perro Shiba"
+        },
+        "wolf": {
+            "name": "Lobo",
+            "wolfDescription": "Orejas de lobo"
+        },
+        "goat": {
+            "name": "Cabra",
+            "goatDescription": "Orejas de cabra blancas"
+        },
+        "deer": {
+            "name": "Ciervo",
+            "deerDescription": "Astas de ciervo"
         }
     },
     "status": {
