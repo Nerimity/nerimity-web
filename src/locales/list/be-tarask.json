@@ -953,7 +953,8 @@
         "kitty": {
             "name": "Кіса",
             "blueDescription": "Кіса з блякітнымі вушкамі",
-            "whiteDescription": "Кіса з белымі вушкамі"
+            "whiteDescription": "Кіса з белымі вушкамі",
+            "maidDescription": "Кіса-пакаёўка"
         },
         "foxy": {
             "name": "Ліса",
