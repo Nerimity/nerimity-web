@@ -75,6 +75,7 @@ const sliceText = (
 type CustomEntity = Entity & { type: "custom" };
 
 const TimeOffsetRegex = /^[+-]\d{4}$/;
+const CustomColorExprRegex = /^(?<from>#(?:\p{Hex_Digit}{3}|\p{Hex_Digit}{6}))-(?<to>#(?:\p{Hex_Digit}{3}|\p{Hex_Digit}{6}))\s+(?<text>.*)$/v
 
 function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
   const channels = useChannels();
@@ -157,9 +158,8 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
             id,
             animated,
             name,
-            url: `${env.NERIMITY_CDN}emojis/${id}${
-              animated ? ".gif" : ".webp"
-            }${shouldAnimate}`,
+            url: `${env.NERIMITY_CDN}emojis/${id}${animated ? ".gif" : ".webp"
+              }${shouldAnimate}`,
           }}
         />
       );
@@ -205,6 +205,19 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
           post={ctx.props().post}
         />
       );
+    }
+    case "gradient": {
+      const { from, to, text } = expr.trim().match(CustomColorExprRegex)?.groups ?? {}
+      console.log(from, to, text)
+      if (from == null || to == null || text == null) break;
+
+      // const children = transformEntity(addTextSpans(parseMarkup(text)), ctx)
+      return (
+        <span
+          class="gradient"
+          style={{ '--from-color': from, '--to-color': to }}
+        >{<Markup text={text} inline={true} />}</span>
+      )
     }
     case "vertical": {
       if (!ctx.props().inline) {
