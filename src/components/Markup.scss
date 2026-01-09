@@ -258,3 +258,10 @@
     margin-right: 5px;
   }
 }
+
+.markup .vertical {
+  overflow: auto;
+
+  writing-mode: vertical-rl;
+  max-width: 40vw;
+}

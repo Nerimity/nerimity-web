@@ -206,6 +206,16 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         />
       );
     }
+    case "vertical": {
+      if (!ctx.props().inline) {
+        const output = expr.split("  ").join("\n").trim();
+
+        if (output.length > 0) {
+          return <div class="vertical">{output}</div>;
+        }
+      }
+      break;
+    }
     default: {
       console.warn("Unknown custom entity:", type);
     }
