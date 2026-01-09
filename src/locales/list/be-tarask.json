@@ -1004,6 +1004,10 @@
             "name": "Сабачка",
             "dogDescription": "Сабака з карычневымі вушкамі",
             "shibaDescription": "Сабака Сіба-іну"
+        },
+        "wolf": {
+            "name": "Ваўчок",
+            "wolfDescription": "Вушкі воўка"
         }
     },
     "status": {
