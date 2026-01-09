@@ -5,7 +5,7 @@ export function CatEarsBorder(props: {
   hovered?: boolean;
   size: number;
   offset?: number;
-  color: "white" | "blue" | "maid";
+  color: "white" | "blue" | "purple" | "maid";
 }) {
   return (
     <img
