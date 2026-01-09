@@ -456,6 +456,11 @@
                     "hdScreenshare": "Показ екрана 1080p@60fps",
                     "hdScreenshareDescription": "Транслювання екрана у 1080p, 60fps."
                 }
+            },
+            "externalEmbed": {
+                "noInvites": {
+                    "title": "Запрошень не сотворено"
+                }
             }
         }
     }
