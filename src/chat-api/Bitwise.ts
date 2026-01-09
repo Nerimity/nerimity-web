@@ -37,6 +37,7 @@ const USER_BADGE_BITS = {
   DEER_EARS_HORNS_DARK: 1048576,
   CAT_EARS_MAID: 2097152,
   CAT_EARS_PURPLE: 4194304,
+  DEER_EARS_WHITE: 8388608,
 } as const;
 
 export interface UserBadge {
@@ -51,6 +52,13 @@ export interface UserBadge {
 
 export const USER_BADGES = {
   // overlays
+  DEER_EARS_WHITE: {
+    name: () => t("badges.deer.name"),
+    bit: USER_BADGE_BITS.DEER_EARS_WHITE,
+    color: "linear-gradient(90deg, #bb7435 0%, #ffbd67ff 100%)",
+    overlay: true,
+    description: () => t("badges.deer.deerWhiteDescription"),
+  },
   DEER_EARS_HORNS_DARK: {
     name: () => t("badges.deer.name"),
     bit: USER_BADGE_BITS.DEER_EARS_HORNS_DARK,

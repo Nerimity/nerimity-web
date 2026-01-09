@@ -5,7 +5,7 @@ export function DeerEarsBorder(props: {
   hovered?: boolean;
   size: number;
   offset?: number;
-  color: "horns" | "horns-dark";
+  color: "white" | "horns" | "horns-dark";
   scale?: number;
 }) {
   return (
