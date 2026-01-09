@@ -227,17 +227,14 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
     }
     case "gradient": {
       const { from, to, text } = expr.trim().match(CustomColorExprRegex)?.groups ?? {}
-      console.log(from, to, text)
       if (from == null || to == null || text == null) break;
 
-      // const children = transformEntity(addTextSpans(parseMarkup(text)), ctx)
       return (
         <span
           class="gradient"
           style={{ '--from-color': from, '--to-color': to }}
-        >
-          <Markup {...ctx} text={text} inline={true} />
-        </span>
+          textContent={text}
+        />
       )
     }
     case "vertical": {
@@ -245,7 +242,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         const output = expr.split("  ").join("\n").trim();
 
         if (output.length > 0) {
-          return <div class="vertical"><Markup {...ctx} text={output} /></div>;
+          return <div class="vertical" textContent={output} />;
         }
       }
       break;
