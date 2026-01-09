@@ -394,7 +394,68 @@
                 "pingDescription": "Показувати вказівник при сповіщенні.",
                 "sound": "Гук сповіщення",
                 "soundDescription": "Програвати гук при отриманні сповіщення.",
-                "channelsDescription": "Керування сповіщеннями осібних каналів."
+                "channelsDescription": "Керування сповіщеннями осібних каналів.",
+                "resetButton": "Скинути передвизначення({{count}})"
+            },
+            "emoji": {
+                "title": "Власні емодзі",
+                "description": "Додати ваші особісти емодзі.",
+                "addButton": "Додати емодзі"
+            },
+            "invites": {
+                "createInviteButton": "Сотворити запрошення",
+                "serverInvites": "Серверні запрошення",
+                "serverInvitesDescription": "Запросіть ваших друзів до цього серверу.",
+                "customInviteVerifiedOnlyNotice": "Користувацькі запрошення доступні тільки для верифікованих серверів.",
+                "customLink": "Користувацьке посилання",
+                "uses": "{{count}} використання(ів)"
+            },
+            "publishServer": {
+                "publishNotice": "Публікування сервера зробіть його доступнім зі сторінки <1>дослідування</1>.",
+                "public": "Публічній",
+                "publicDescription": "Зробити цей сервер публічнім.",
+                "bumpServer": "Підняти сервер",
+                "bumpServerDescription": "Підніміть сервер, щоб він піднявся по щабельнику.",
+                "bumpButton": "Підняти ({{count}})",
+                "descriptionLabel": "Описання сервера ({{current}}/{{max}})",
+                "publishServerButton": "Опублікувати сервер",
+                "unpublishServerButton": "Приватизувати сервер",
+                "bumpCooldown": "Ви мусите почекати {{hours}} годин, {{minutes}} хвилин та {{seconds}} секунд, щоб підняти сервер."
+            },
+            "verify": {
+                "alreadyVerified": "Ваш сервер вже верифікований!",
+                "insufficientMembers": "Вам потрібно ще {{count}} спільників, щоб подати на верифікацію.",
+                "verifiable": "Готово до верифікування",
+                "verifiableDescription": "У вас досить спільників, щоб подати на верифікацію!",
+                "verifyButton": "Верифікувати",
+                "requirements": {
+                    "title": "Вимаганні",
+                    "englishOnly": "Тільки англійська",
+                    "englishOnlyDescription": "Сервери не на англійській тяжче модерувати.",
+                    "oneMonthOrSupporter": "Принаймні 1 місяць АБО значок підтримки",
+                    "oneMonthOrSupporterDescription": "Серверу мусить бути принаймні один місяць АБО у владарі мусить бути облямівка прибічнику.",
+                    "members": "{{count}} або більш спільників",
+                    "membersDescription": "На вашому серверу мусить бути принаймні {{count}} спільників.",
+                    "profanityFree": "Без неповаги",
+                    "profanityFreeDescription": "Назва, аватар та банер сервера мусять бути без вульгарності.",
+                    "avatarAndBanner": "Аватар та банер",
+                    "avatarAndBannerDescription": "У серверу мусять бути аватар з банером.",
+                    "rules": "Правили серверу",
+                    "rulesDescription": "На сервери мусить бути канал з правилами."
+                },
+                "perks": {
+                    "title": "Переваги",
+                    "badge": "Значок верифікації",
+                    "badgeDescription": "Значок, щоб показати, що ваш сервер особливий.",
+                    "explore": "Вилучення в дослідування",
+                    "exploreDescription": "Ваш сервер буде відображатися в осібнім відділі на сторінці дослідування.",
+                    "customInvite": "Користувацьке посилання-запрошення",
+                    "customInviteDescription": "Створить вашу особисте посилання-запрошення у налаштуваннях.",
+                    "emojiSlots": "Більше слотів для емодзі",
+                    "emojiSlotsDescription": "200 слотів емодзі для вашого сервера.",
+                    "hdScreenshare": "Показ екрана 1080p@60fps",
+                    "hdScreenshareDescription": "Транслювання екрана у 1080p, 60fps."
+                }
             }
         }
     }
