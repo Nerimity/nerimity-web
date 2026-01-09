@@ -206,6 +206,25 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         />
       );
     }
+    case "ruby": {
+      const output: JSXElement[] = [];
+      const matches = expr.matchAll(/(.+?)\((.*?)\)/g);
+      for (const match of matches) {
+        const text = match[1]!.trim();
+        const annotation = match[2]!.trim();
+
+        output.push(
+          <span>{text}</span>,
+          <rp>(</rp>,
+          <rt>{annotation}</rt>,
+          <rp>)</rp>
+        );
+      }
+      if (output.length > 0) {
+        return <ruby>{output}</ruby>;
+      }
+      break;
+    }
     case "gradient": {
       const { from, to, text } = expr.trim().match(CustomColorExprRegex)?.groups ?? {}
       console.log(from, to, text)
@@ -216,7 +235,9 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         <span
           class="gradient"
           style={{ '--from-color': from, '--to-color': to }}
-        >{<Markup text={text} inline={true} />}</span>
+        >
+          <Markup {...ctx} text={text} inline={true} />
+        </span>
       )
     }
     case "vertical": {
@@ -224,7 +245,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         const output = expr.split("  ").join("\n").trim();
 
         if (output.length > 0) {
-          return <div class="vertical">{output}</div>;
+          return <div class="vertical"><Markup {...ctx} text={output} /></div>;
         }
       }
       break;
