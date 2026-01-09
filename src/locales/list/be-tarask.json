@@ -953,7 +953,8 @@
         "kitty": {
             "name": "Кіса",
             "blueDescription": "Кіса з блякітнымі вушкамі",
-            "whiteDescription": "Кіса з белымі вушкамі"
+            "whiteDescription": "Кіса з белымі вушкамі",
+            "maidDescription": "Кіса-пакаёўка"
         },
         "foxy": {
             "name": "Ліса",
@@ -1008,6 +1009,16 @@
         "wolf": {
             "name": "Ваўчок",
             "wolfDescription": "Вушкі воўка"
+        },
+        "goat": {
+            "name": "Каза",
+            "goatDescription": "Белыя казіныя вухі",
+            "goatHornDescription": "Казіныя рогі"
+        },
+        "deer": {
+            "name": "Алень",
+            "deerDescription": "Вухі і рага аленя",
+            "deerDarkDescription": "Цёмныя вухі і рага аленя"
         }
     },
     "status": {

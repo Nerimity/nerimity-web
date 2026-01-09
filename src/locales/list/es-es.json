@@ -953,7 +953,8 @@
         "kitty": {
             "name": "Gato",
             "blueDescription": "Orejas de gato azules",
-            "whiteDescription": "Orejas de gato blancas"
+            "whiteDescription": "Orejas de gato blancas",
+            "maidDescription": "Maid con orejas de gato"
         },
         "foxy": {
             "name": "Zorro",
@@ -1011,11 +1012,13 @@
         },
         "goat": {
             "name": "Cabra",
-            "goatDescription": "Orejas de cabra blancas"
+            "goatDescription": "Orejas de cabra blancas",
+            "goatHornDescription": "Cuernos de cabra"
         },
         "deer": {
             "name": "Ciervo",
-            "deerDescription": "Astas de ciervo"
+            "deerDescription": "Astas de ciervo",
+            "deerDarkDescription": "Orejas y astas de ciervo oscuras"
         }
     },
     "status": {
