@@ -75,7 +75,7 @@ const sliceText = (
 type CustomEntity = Entity & { type: "custom" };
 
 const TimeOffsetRegex = /^[+-]\d{4}$/;
-const CustomColorExprRegex = /^(?<from>#(?:\p{Hex_Digit}{3}|\p{Hex_Digit}{6}))-(?<to>#(?:\p{Hex_Digit}{3}|\p{Hex_Digit}{6}))\s+(?<text>.*)$/v
+const CustomColorExprRegex = /^(?<colors>#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})(?:-(?:#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})))+)\s+(?<text>.*)$/v
 
 function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
   const channels = useChannels();
@@ -226,13 +226,13 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       break;
     }
     case "gradient": {
-      const { from, to, text } = expr.trim().match(CustomColorExprRegex)?.groups ?? {}
-      if (from == null || to == null || text == null) break;
+      const { colors, text } = expr.trim().match(CustomColorExprRegex)?.groups ?? {}
+      if (colors == null || text == null) break;
 
       return (
         <span
           class="gradient"
-          style={{ '--from-color': from, '--to-color': to }}
+          style={{ 'background-image': `linear-gradient(0.25turn, ${colors.replaceAll('-', ',')})` }}
           textContent={text}
         />
       )
