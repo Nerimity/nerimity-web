@@ -1101,6 +1101,21 @@
             "name": "Пёсик",
             "dogDescription": "Собака с коричневыми ушками",
             "shibaDescription": "Собачка Сиба-ину"
+        },
+        "wolf": {
+            "name": "Волчок",
+            "wolfDescription": "Волчьи ушки"
+        },
+        "goat": {
+            "name": "Коза",
+            "goatDescription": "Коза с белыми ушками",
+            "goatHornDescription": "Козьи рога"
+        },
+        "deer": {
+            "name": "Олень",
+            "deerDescription": "Оленьи рога и уши",
+            "deerDarkDescription": "Тёмные оленьи рога и уши",
+            "deerWhiteDescription": "Олень с белыми ушками"
         }
     },
     "general": {
