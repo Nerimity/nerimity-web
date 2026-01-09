@@ -1008,6 +1008,15 @@
         "wolf": {
             "name": "Ваўчок",
             "wolfDescription": "Вушкі воўка"
+        },
+        "goat": {
+            "name": "Каза",
+            "goatDescription": "Белыя казіныя вухі",
+            "goatHornDescription": "Казіныя рогі"
+        },
+        "deer": {
+            "name": "Алень",
+            "deerDescription": "Вухі і рага аленя"
         }
     },
     "status": {
