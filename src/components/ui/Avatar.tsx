@@ -534,6 +534,13 @@ function Overlays(props: {
           />
         </Match>
 
+        <Match when={hasBit(props.badges!, USER_BADGES.CAT_EARS_MAID.bit)}>
+          <CatEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) + (props.hasBorder ? -0.1 : -0.1)}
+            color="maid"
+          />
+        </Match>
         <Match when={hasBit(props.badges!, USER_BADGES.CAT_EARS_BLUE.bit)}>
           <CatEarsBorder size={props.size} offset={props.offset} color="blue" />
         </Match>

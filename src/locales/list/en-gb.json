@@ -1093,7 +1093,8 @@
     "kitty": {
       "name": "Kitty",
       "blueDescription": "Blue Ears Kitty",
-      "whiteDescription": "White Ears Kitty"
+      "whiteDescription": "White Ears Kitty",
+      "maidDescription": "Cat Ears Maid"
     },
     "foxy": {
       "name": "Foxy",
