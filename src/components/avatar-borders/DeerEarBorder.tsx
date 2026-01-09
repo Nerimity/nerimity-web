@@ -5,12 +5,12 @@ export function DeerEarsBorder(props: {
   hovered?: boolean;
   size: number;
   offset?: number;
-  color: "horns";
+  color: "horns" | "horns-dark";
   scale?: number;
 }) {
   return (
     <img
-      class="goat-ears"
+      class="deer-ears"
       style={{
         "pointer-events": "none",
         position: "absolute",

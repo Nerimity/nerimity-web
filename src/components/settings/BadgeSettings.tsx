@@ -33,6 +33,7 @@ export default function BadgeSettings() {
   });
 
   const availableBadges = [
+    USER_BADGES.DEER_EARS_HORNS_DARK,
     USER_BADGES.DEER_EARS_HORNS,
     USER_BADGES.GOAT_HORNS,
     USER_BADGES.GOAT_EARS_WHITE,

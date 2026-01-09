@@ -1156,7 +1156,8 @@
     },
     "deer": {
       "name": "Deer",
-      "deerDescription": "Deer Ears Horns"
+      "deerDescription": "Deer Ears Horns",
+      "deerDarkDescription": "Deer Ear Horns Dark"
     }
   }
 }

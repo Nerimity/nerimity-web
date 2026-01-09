@@ -451,6 +451,16 @@ function Overlays(props: {
             scale={1.4}
           />
         </Match>
+        <Match
+          when={hasBit(props.badges!, USER_BADGES.DEER_EARS_HORNS_DARK.bit)}
+        >
+          <DeerEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) - 0.5}
+            color="horns-dark"
+            scale={1.1}
+          />
+        </Match>
         <Match when={hasBit(props.badges!, USER_BADGES.DEER_EARS_HORNS.bit)}>
           <DeerEarsBorder
             size={props.size}
