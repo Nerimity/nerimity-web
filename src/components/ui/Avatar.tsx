@@ -443,6 +443,14 @@ function Overlays(props: {
   return (
     <Show when={props.badges}>
       <Switch>
+        <Match when={hasBit(props.badges!, USER_BADGES.GOAT_HORNS.bit)}>
+          <GoatEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) + 0.1}
+            color="horns"
+            scale={1.4}
+          />
+        </Match>
         <Match when={hasBit(props.badges!, USER_BADGES.DEER_EARS_HORNS.bit)}>
           <DeerEarsBorder
             size={props.size}
@@ -455,7 +463,7 @@ function Overlays(props: {
           <GoatEarsBorder
             size={props.size}
             offset={(props.offset || 0) + 0.1}
-            color="white"
+            color="ears-white"
             scale={1.4}
           />
         </Match>

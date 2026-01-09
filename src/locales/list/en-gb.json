@@ -1151,7 +1151,8 @@
     },
     "goat": {
       "name": "Goat",
-      "goatDescription": "Goat Ears White"
+      "goatDescription": "Goat Ears White",
+      "goatHornDescription": "Goat Horns"
     },
     "deer": {
       "name": "Deer",
