@@ -1016,7 +1016,8 @@
         },
         "deer": {
             "name": "Алень",
-            "deerDescription": "Вухі і рага аленя"
+            "deerDescription": "Вухі і рага аленя",
+            "deerDarkDescription": "Цёмныя вухі і рага аленя"
         }
     },
     "status": {
