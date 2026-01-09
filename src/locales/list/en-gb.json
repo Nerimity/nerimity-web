@@ -1148,6 +1148,14 @@
     "wolf": {
       "name": "Wolfy",
       "wolfDescription": "Wolf Ears"
+    },
+    "goat": {
+      "name": "Goat",
+      "goatDescription": "Goat Ears White"
+    },
+    "deer": {
+      "name": "Deer",
+      "deerDescription": "Deer Ears Horns"
     }
   }
 }
