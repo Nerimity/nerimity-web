@@ -130,7 +130,8 @@
                 "audit-logs": "Journaux d'audit",
                 "welcome-screen": "Écran de bienvenue",
                 "external-embed": "Intégration externe",
-                "permissions": "Autorisations"
+                "permissions": "Autorisations",
+                "emoji": "Émoji"
             },
             "general": {
                 "serverRenameNotice": "Vous perdrez tous les avantages de faire vérifier votre serveur si vous le renommez.",
@@ -201,14 +202,15 @@
             "bans": {
                 "reason": "Raison",
                 "sort": {
-                    "unsorted": "Non trié"
+                    "unsorted": "Non trié",
+                    "alphabetical": "Alphabétique"
                 },
                 "noResults": "Aucun résultat trouvé.",
                 "noReason": "Aucune raison fournie",
                 "bannedAt": "Banni à",
                 "unknown": "Inconnue",
                 "unban": "Annuler le bannissement",
-                "unbanning": "Annulation du bannissement"
+                "unbanning": "Annulation du bannissement…"
             },
             "webhook": {
                 "name": "Nom du webhook",
@@ -251,6 +253,27 @@
                     "hdScreenshareDescription": "Partage d'écran en 1080p à 60ips."
                 },
                 "alreadyVerified": "Votre serveur est déjà vérifié !"
+            },
+            "welcomeScreen": {
+                "title": "Questions",
+                "description": "Configurer les questions. Permettre aux utilisateurs d'attribuer des rôles.",
+                "questions": {
+                    "addButton": "Ajouter question",
+                    "question": "Question",
+                    "questionPlaceholder": "Chats ou chiens?"
+                },
+                "answers": {
+                    "title": "Réponses",
+                    "addButton": "Ajouter réponse",
+                    "editModal": {
+                        "title": "Modifier Réponse",
+                        "answer": "Réponse",
+                        "placeholder": "Chats"
+                    }
+                }
+            },
+            "emoji": {
+                "addButton": "Ajouter émoji"
             }
         },
         "rolePermissions": {
@@ -363,7 +386,8 @@
                 "posts": "• Vos publications"
             },
             "postsAndMessagesNotice": "La suppression de vos publications et messages peut prendre des semaines.",
-            "deleteCheckbox": "Supprimez mes publications et messages"
+            "deleteCheckbox": "Supprimez mes publications et messages",
+            "usernameFont": "Police du Nom d'Utilisateur"
         },
         "notifications": {
             "sounds": "Sons",
