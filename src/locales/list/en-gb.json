@@ -207,7 +207,8 @@
       "relative": "Relative",
       "offset": "Offset",
       "doneButton": "Done"
-    }
+    },
+    "checkbox": "Checkbox"
   },
   "inbox": {
     "blockedUsersModal": {

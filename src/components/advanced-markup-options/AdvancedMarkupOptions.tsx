@@ -32,6 +32,11 @@ const formats = {
     offsetEnd: "Name".length + 1,
     res: `[Name](${url || "https://example.com"})`,
   }),
+  checkbox: (text: string) => ({
+    offsetStart: 5,
+    offsetEnd: 5 + " Item 1".length,
+    res: "-[ ] Item 1\n",
+  }),
   header: (text: string) => ({
     offsetStart: 2,
     offsetEnd: text.length + 2,
@@ -100,6 +105,7 @@ export const AdvancedMarkupOptions = (props: {
       | "strikethrough"
       | "spoiler"
       | "color"
+      | "checkbox"
       | "gradient"
       | "timestamp"
       | "header"
@@ -284,6 +290,15 @@ export const AdvancedMarkupOptions = (props: {
         iconSize={18}
         margin={0}
         iconName="link"
+        color={props.primaryColor}
+        class={styles.button}
+      />
+      <Button
+        hoverText={t("markup.checkbox")}
+        onClick={() => applyFormat("checkbox")}
+        iconSize={18}
+        margin={0}
+        iconName="check_box"
         color={props.primaryColor}
         class={styles.button}
       />
