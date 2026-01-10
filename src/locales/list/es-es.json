@@ -768,7 +768,8 @@
         "reply": "Responder",
         "markUnread": "Marcar como no leído",
         "pinMessage": "Fijar",
-        "unpinMessage": "Desfijar"
+        "unpinMessage": "Desfijar",
+        "copyHTML": "Copiar HTML"
     },
     "profile": {
         "followButton": "Seguir",
