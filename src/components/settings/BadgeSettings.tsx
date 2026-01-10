@@ -7,12 +7,13 @@ import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
 import { electronWindowAPI } from "@/common/Electron";
-import { addBit, Bitwise, USER_BADGES } from "@/chat-api/Bitwise";
+import { addBit, Bitwise, USER_BADGES, UserBadge } from "@/chat-api/Bitwise";
 import { RawUser } from "@/chat-api/RawData";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { SelfUser } from "@/chat-api/events/connectionEventTypes";
 import Avatar from "../ui/Avatar";
 import { Notice } from "../ui/Notice/Notice";
+import { cn } from "@/common/classNames";
 
 const Container = styled("div")`
   display: flex;
@@ -35,7 +36,6 @@ export default function BadgeSettings() {
   const availableBadges = [
     USER_BADGES.DEER_EARS_HORNS_DARK,
     USER_BADGES.DEER_EARS_HORNS,
-    USER_BADGES.DEER_EARS_WHITE,
     USER_BADGES.GOAT_HORNS,
     USER_BADGES.GOAT_EARS_WHITE,
     USER_BADGES.WOLF_EARS,
@@ -43,7 +43,6 @@ export default function BadgeSettings() {
     USER_BADGES.DOG_EARS_BROWN,
     USER_BADGES.BUNNY_EARS_MAID,
     USER_BADGES.BUNNY_EARS_BLACK,
-    USER_BADGES.CAT_EARS_PURPLE,
     USER_BADGES.CAT_EARS_BLUE,
     USER_BADGES.CAT_EARS_WHITE,
     USER_BADGES.CAT_EARS_MAID,
@@ -74,8 +73,8 @@ export default function BadgeSettings() {
         icon="favorite"
       />
       <SupportMethodBlock />
-      <BadgesPreview badges={[USER_BADGES.SUPPORTER]} price={9.99} />
-      <BadgesPreview badges={availableBadges} price={4.99} />
+      <BadgesPreview badges={[USER_BADGES.SUPPORTER]} price={10} />
+      <BadgesPreview badges={availableBadges} price={3} />
       <BadgesPreview
         badges={[
           {
@@ -101,44 +100,83 @@ const BadgesPreview = (props: { badges: Bitwise[]; price: number }) => {
           label={t("settings.badges.price", { price: `$${props.price}` })}
           icon="favorite"
         />
-        <For each={props.badges}>
-          {(badge, i) => (
-            <BadgeItem
-              user={user()!}
-              badge={badge}
-              index={i()}
-              length={props.badges.length}
-            />
-          )}
-        </For>
+        <div
+          class={css`
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            justify-items: center;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+          `}
+        >
+          <For each={props.badges}>
+            {(badge, i) => (
+              <BadgeItem
+                user={user()!}
+                badge={badge}
+                index={i()}
+                length={props.badges.length}
+              />
+            )}
+          </For>
+        </div>
       </div>
     </Show>
   );
 };
 
+const badgeItemStyle = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  text-align: center;
+  gap: 8px;
+  .badge-desc {
+    font-size: 12px;
+    opacity: 0.6;
+  }
+`;
 const BadgeItem = (props: {
   user: SelfUser;
-  badge: Bitwise;
+  badge: UserBadge;
   index: number;
   length: number;
 }) => {
   const [hovered, setHovered] = createSignal(false);
+  console.log(props.badge.textColor);
   return (
-    <SettingsBlock
+    <div
+      class={badgeItemStyle}
       onMouseOver={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      label={props.badge.name}
-      borderBottomRadius={props.index === props.length - 1}
-      borderTopRadius={false}
-      description={props.badge.description}
-      icon={
-        <Avatar
-          user={{ ...props.user, badges: props.badge.bit }}
-          size={42}
-          animate={hovered()}
-        />
-      }
-    />
+    >
+      <Avatar
+        user={{ ...props.user, badges: props.badge.bit }}
+        size={42}
+        animate={hovered()}
+      />
+      <div
+        style={{
+          "border-radius": "4px",
+          padding: "3px",
+          "font-weight": "bold",
+          "font-size": "12px",
+          background: props.badge.color,
+          color: props.badge.textColor || "rgba(0, 0, 0, 0.7)",
+        }}
+        class="badge-name"
+      >
+        {props.badge.name()}
+      </div>
+      <div class="badge-desc">{props.badge.description?.()}</div>
+    </div>
   );
 };
 
