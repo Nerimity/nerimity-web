@@ -106,7 +106,7 @@ export default function ImageCropModal(props: {
       actionButtons={
         <Button
           iconName="check"
-          label={t("imageCropModal.done")}
+          label={t("general.doneButton")}
           onClick={onClick}
           styles={{ flex: 1 }}
           primary

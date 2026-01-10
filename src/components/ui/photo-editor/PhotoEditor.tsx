@@ -384,11 +384,11 @@ export default function PhotoEditor(props: PhotoEditorProps) {
       actionButtonsArr={[
         {
           iconName: "close",
-          label: t("photoEditor.cancel"),
+          label: t("general.cancelButton"),
           onClick: props.close,
           color: "var(--alert-color)",
         },
-        { iconName: "check", label: t("photoEditor.edit"), onClick: onDone },
+        { iconName: "check", label: t("general.editButton"), onClick: onDone },
       ]}
       ignoreBackgroundClick
     >
@@ -396,7 +396,7 @@ export default function PhotoEditor(props: PhotoEditorProps) {
 
       <div class={styles.buttons}>
         <Button
-          hoverText={t("photoEditor.undo")}
+          hoverText={t("general.undoButton") + " (Ctrl + Z)"}
           onClick={undo}
           iconName="undo"
           margin={0}
