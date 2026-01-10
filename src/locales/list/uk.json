@@ -541,6 +541,32 @@
             "servers": "серверів",
             "friends": "друзів",
             "manageAccount": "Керувати на акаунт"
+        },
+        "account": {
+            "tag": "Теґ",
+            "botID": "ID бота",
+            "profile": "Профіль",
+            "profileDescription": "Редагування описання та кілерів",
+            "palestineBorder": "Додати палестинську облямівку до вашого аватара.",
+            "bio": "Про мене",
+            "bioDescription": "Ви можете записати текст в декілька рядків і форматувати його",
+            "gradientColor1": "Колер градієнту 1",
+            "gradientColor2": "Колер градієнту 2",
+            "primaryColor": "Основний колір",
+            "usernameFont": "Шрифт ім'ї користувача",
+            "default": "Як в застосунку",
+            "preview": "Перегляд",
+            "changePassword": "Змінити пароль",
+            "forgotPassword": "Забулися пароль",
+            "newPassword": "Новий пароль",
+            "newPasswordDescription": "Зміна пароля приведе до виходу зі всіх прилад.",
+            "confirmNewPassword": "Підтвердить новий пароль",
+            "confirmNewPasswordDescription": "Підтвердить ваш новий пароль",
+            "confirmCurrentPassword": "Підтвердить текучий пароль",
+            "confirmEmail": "Підтвердить вашу електронну адресу",
+            "enterCode": "Введіть 5 лічб, досланих у вашу електронну скриньку:",
+            "sendCodeButton": "Дослати код",
+            "resendIn": "Дослати знову через {{time}}"
         }
     }
 }
