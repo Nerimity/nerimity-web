@@ -1045,6 +1045,7 @@
     "reactions": {
       "more": "{{count}} more"
     },
+    "imageMessage": "Image message",
     "deletedMessage": "Message was deleted.",
     "dismissButton": "Dismiss",
     "editedAt": "Edited at {{time}}",
