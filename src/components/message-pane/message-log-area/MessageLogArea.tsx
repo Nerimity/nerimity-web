@@ -1050,7 +1050,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
         { separator: true },
         {
           icon: "link",
-          label: t("messageContextMenu.copyLink")!,
+          label: t("general.copyLink")!,
           onClick: () => {
             const channel = channels.get(props.message.channelId!);
             if (channel?.serverId) {
@@ -1077,7 +1077,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
           ? [
               {
                 icon: "content_copy",
-                label: "Copy HTML",
+                label: t("messageContextMenu.copyHTML"),
                 onClick: () =>
                   copyToClipboard(
                     renderHtml(unzipJson(props.message.htmlEmbed!))
@@ -1087,7 +1087,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
           : []),
         {
           icon: "content_copy",
-          label: t("messageContextMenu.copyId")!,
+          label: t("general.copyID")!,
           onClick: () => copyToClipboard(props.message.id!),
         },
       ]}

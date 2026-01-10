@@ -852,15 +852,14 @@
     "deleteMessage": "Delete Message",
     "translateMessage": "Translate",
     "copyMessage": "Copy Message",
-    "copyId": "Copy ID",
+    "copyHTML": "Copy HTML",
     "viewReactions": "View Reactions",
     "quoteMessage": "Quote Message",
     "reportMessage": "Report Message",
     "reply": "Reply",
     "markUnread": "Mark Unread",
     "pinMessage": "Pin",
-    "unpinMessage": "Unpin",
-    "copyLink": "Copy Link"
+    "unpinMessage": "Unpin"
   },
   "profile": {
     "followerCount": "{{count}} Followers",
@@ -878,7 +877,6 @@
     "blockButton": "Block",
     "unblockButton": "Unblock",
     "reportButton": "Report",
-    "copyLinkButton": "Copy Profile URL",
     "mutualFriends": "Mutual Friends ({{count}})",
     "mutualServers": "Mutual Servers ({{count}})",
     "latestPost": "Latest Post",

@@ -665,12 +665,12 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
     items.push(
       { separator: true },
       {
-        label: t("profile.copyLinkButton"),
+        label: t("general.copyLink"),
         icon: "content_copy",
         onClick: copyProfileClick,
       },
       {
-        label: t("userContextMenu.copyId"),
+        label: t("general.copyID"),
         icon: "content_copy",
         onClick: copyIdClick,
       }
