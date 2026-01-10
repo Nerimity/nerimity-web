@@ -1064,14 +1064,10 @@
     }
   },
   "colorPickerModal": {
-    "title": "Colour Picker",
-    "done": "Done"
+    "title": "Colour Picker"
   },
   "photoEditor": {
     "title": "Photo Editor",
-    "cancel": "Cancel",
-    "edit": "Edit",
-    "undo": "Undo (Ctrl + Z)",
     "brush": "Brush",
     "erase": "Erase",
     "strokeWidth": "Stroke width: {{width}}",
@@ -1080,8 +1076,7 @@
     "desktopZoom": "Scroll to Zoom"
   },
   "imageCropModal": {
-    "title": "Crop Image",
-    "done": "Done"
+    "title": "Crop Image"
   },
   "oauth2": {
     "AuthorizeButton": "Authorise",

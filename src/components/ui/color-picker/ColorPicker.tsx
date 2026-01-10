@@ -278,7 +278,7 @@ export const ColorPickerModal = (props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={t("colorPickerModal.done")}
+          label={t("general.doneButton")}
           onClick={done}
           iconName="check"
           primary
