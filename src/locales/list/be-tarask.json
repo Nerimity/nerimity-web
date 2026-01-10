@@ -954,7 +954,8 @@
             "name": "Кіса",
             "blueDescription": "Кіса з блякітнымі вушкамі",
             "whiteDescription": "Кіса з белымі вушкамі",
-            "maidDescription": "Кіса-пакаёўка"
+            "maidDescription": "Кіса-пакаёўка",
+            "purpleDescription": "Кіса зь фіялетавымі вушкамі"
         },
         "foxy": {
             "name": "Ліса",
@@ -1018,7 +1019,8 @@
         "deer": {
             "name": "Алень",
             "deerDescription": "Вухі і рага аленя",
-            "deerDarkDescription": "Цёмныя вухі і рага аленя"
+            "deerDarkDescription": "Цёмныя вухі і рага аленя",
+            "deerWhiteDescription": "Алень з белымі вушкамі"
         }
     },
     "status": {

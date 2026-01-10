@@ -303,7 +303,17 @@
             },
             "externalEmbed": {
                 "noInvites": {
-                    "title": "Приглашений не создано"
+                    "title": "Приглашений не создано",
+                    "description": "Вы должны иметь хотя бы одну пригласительную ссылку, прежде чем создать внешний эмбед.",
+                    "createButton": "Создать приглашение"
+                },
+                "title": "Создать внешний эмбед",
+                "description": "Создайте встраиваемый компонент «IFrame» для вашего веб-сайта.",
+                "dropdownPlaceholder": "Выбрать приглашение",
+                "options": {
+                    "hideHeader": "Убрать заголовок",
+                    "hideMembers": "Убрать список участников",
+                    "hideActivities": "Убрать список активностей"
                 }
             }
         },
@@ -1038,7 +1048,9 @@
         "kitty": {
             "name": "Кошечка",
             "blueDescription": "Кошечка с синими ушками",
-            "whiteDescription": "Кошечка с белыми ушками"
+            "whiteDescription": "Кошечка с белыми ушками",
+            "maidDescription": "Кошечка-горничная",
+            "purpleDescription": "Кошечка с фиолетовыми ушками"
         },
         "foxy": {
             "name": "Лисичка",
@@ -1079,6 +1091,31 @@
         "credit": {
             "avatarBorder": "Рамка аватара {{author}} на {{platform}}",
             "avatarBorderEdited": "Рамка аватара {{author}} на {{platform}}, отредактировано {{editor}}"
+        },
+        "bunny": {
+            "name": "Кролик",
+            "bunnyDescription": "Кролик с чёрными ушками",
+            "maidDescription": "Кролик-горничная"
+        },
+        "dog": {
+            "name": "Пёсик",
+            "dogDescription": "Собака с коричневыми ушками",
+            "shibaDescription": "Собачка Сиба-ину"
+        },
+        "wolf": {
+            "name": "Волчок",
+            "wolfDescription": "Волчьи ушки"
+        },
+        "goat": {
+            "name": "Коза",
+            "goatDescription": "Коза с белыми ушками",
+            "goatHornDescription": "Козьи рога"
+        },
+        "deer": {
+            "name": "Олень",
+            "deerDescription": "Оленьи рога и уши",
+            "deerDarkDescription": "Тёмные оленьи рога и уши",
+            "deerWhiteDescription": "Олень с белыми ушками"
         }
     },
     "general": {
