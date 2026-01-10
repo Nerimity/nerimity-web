@@ -621,7 +621,8 @@
         "reply": "Odpowiedz",
         "markUnread": "Oznacz jako nieprzeczytane",
         "pinMessage": "Przypnij",
-        "unpinMessage": "Odepnij"
+        "unpinMessage": "Odepnij",
+        "copyHTML": "Kopiuj HTML"
     },
     "profile": {
         "followButton": "Obserwuj",
@@ -950,7 +951,9 @@
         "kitty": {
             "name": "Kotek",
             "blueDescription": "Niebieskouchy Kotek",
-            "whiteDescription": "Białouchy Kotek"
+            "whiteDescription": "Białouchy Kotek",
+            "maidDescription": "Kocie uszka z opaską",
+            "purpleDescription": "Fioletowouchy Kotek"
         },
         "foxy": {
             "name": "Lisek",
@@ -991,6 +994,31 @@
         "credit": {
             "avatarBorder": "Obramowanie awatara od {{author}} na {{platform}}",
             "avatarBorderEdited": "Obramwoanie awatara od {{author}} na {{platform}}, zmodyfikowane przez {{editor}}"
+        },
+        "bunny": {
+            "name": "Zajączek",
+            "bunnyDescription": "Czarnouchy Zajączek",
+            "maidDescription": "Zajęcze uszka z opaską"
+        },
+        "dog": {
+            "name": "Piesek",
+            "dogDescription": "Brązowouchy Pies",
+            "shibaDescription": "Pies Shiba"
+        },
+        "wolf": {
+            "name": "Wilczek",
+            "wolfDescription": "Uszy Wilka"
+        },
+        "goat": {
+            "name": "Koza",
+            "goatDescription": "Białoucha Koza",
+            "goatHornDescription": "Kozie Rogi"
+        },
+        "deer": {
+            "name": "Jeleń",
+            "deerDescription": "Jelenie Rogi",
+            "deerDarkDescription": "Jelenie Rogi Ciemne",
+            "deerWhiteDescription": "Jelenie Uszy"
         }
     },
     "connectionErrorModal": {
