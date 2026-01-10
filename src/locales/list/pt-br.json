@@ -853,8 +853,7 @@
         "confirmButton": "Excluir"
     },
     "colorPickerModal": {
-        "title": "Seletor de cores",
-        "done": "Feito"
+        "title": "Seletor de cores"
     },
     "systemMessages": {
         "joinServer": {
@@ -876,9 +875,6 @@
     },
     "photoEditor": {
         "title": "Editor de foto",
-        "cancel": "Cancelar",
-        "edit": "Editar",
-        "undo": "Desfazer (Ctrl + Z)",
         "erase": "Excluir",
         "brush": "Pincel",
         "strokeWidth": "Largura do traço: {{width}}",
@@ -887,7 +883,6 @@
         "desktopZoom": "Rodar para ampliar"
     },
     "imageCropModal": {
-        "done": "Feito",
         "title": "Cortar imagem"
     },
     "oauth2": {

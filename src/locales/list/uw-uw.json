@@ -618,14 +618,10 @@
         "confirmButton": "Poof~"
     },
     "colorPickerModal": {
-        "title": "Cowow Picky",
-        "done": "YEP!"
+        "title": "Cowow Picky"
     },
     "photoEditor": {
         "title": "Piccy Editow",
-        "cancel": "RUN AWAYYY..",
-        "edit": "DIS IS PURRFECT!",
-        "undo": "Un-doo (Ctww + Z)",
         "brush": "Bwushie",
         "erase": "Poof",
         "strokeWidth": "Stwokie width: {{width}}~",
@@ -634,8 +630,7 @@
         "desktopZoom": "Scwoww to zoomie"
     },
     "imageCropModal": {
-        "title": "Cwop Piccy",
-        "done": "DIS IS PURRFECT!"
+        "title": "Cwop Piccy"
     },
     "systemMessages": {
         "joinServer": {
