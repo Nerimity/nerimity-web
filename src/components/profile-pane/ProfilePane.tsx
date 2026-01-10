@@ -543,7 +543,7 @@ const ActionButtons = (props: {
       )}
       {isFollowing() && (
         <ActionButton
-          icon="add_circle"
+          icon="do_not_disturb_on"
           label={t("profile.unfollowButton")}
           onClick={unfollowClick}
           color="var(--alert-color)"
