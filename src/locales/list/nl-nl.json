@@ -176,8 +176,7 @@
     "messageContextMenu": {
         "editMessage": "Bericht bewerken",
         "deleteMessage": "Verwijder bericht",
-        "copyMessage": "Bericht kopiëren",
-        "copyId": "Kopieer ID"
+        "copyMessage": "Bericht kopiëren"
     },
     "profile": {
         "followButton": "Volgen",

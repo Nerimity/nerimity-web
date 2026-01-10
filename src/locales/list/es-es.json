@@ -762,15 +762,13 @@
         "deleteMessage": "Eliminar mensaje",
         "translateMessage": "Traducir",
         "copyMessage": "Copiar mensaje",
-        "copyId": "Copiar ID",
         "viewReactions": "Ver reacciones",
         "reportMessage": "Reportar mensaje",
         "quoteMessage": "Citar mensaje",
         "reply": "Responder",
         "markUnread": "Marcar como no leído",
         "pinMessage": "Fijar",
-        "unpinMessage": "Desfijar",
-        "copyLink": "Copiar enlace"
+        "unpinMessage": "Desfijar"
     },
     "profile": {
         "followButton": "Seguir",
@@ -792,7 +790,6 @@
         "blockButton": "Bloquear",
         "unblockButton": "Desbloquear",
         "reportButton": "Reportar",
-        "copyLinkButton": "Copiar enlace del perfil",
         "availableCommands": "Comandos disponibles",
         "botCreator": "Creador del bot",
         "suspended": "Este usuario ha sido suspendido",

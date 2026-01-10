@@ -598,7 +598,6 @@
         "editMessage": "Editar mensagem",
         "deleteMessage": "Excluir mensagem",
         "copyMessage": "Copiar mensagem",
-        "copyId": "Copiar ID",
         "pinMessage": "Fixar",
         "unpinMessage": "Desafixar",
         "markUnread": "Marcar como não lida",
@@ -606,8 +605,7 @@
         "reportMessage": "Denunciar mensagem",
         "quoteMessage": "Citar mensagem",
         "viewReactions": "Ver reações",
-        "translateMessage": "Traduzir",
-        "copyLink": "Copiar link"
+        "translateMessage": "Traduzir"
     },
     "profile": {
         "followButton": "Seguir",
@@ -633,7 +631,6 @@
         "botCreator": "Criador do robô",
         "expires": "Expira {{time}}.",
         "expiresNever": "Expira nunca.",
-        "copyLinkButton": "Copiar URL do perfil",
         "blocked": "Você foi bloqueado",
         "suspended": "Este usuário está suspenso",
         "blockedDescription": "Este usuário bloqueou você.",

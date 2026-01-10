@@ -604,7 +604,6 @@
         "editMessage": "Mesajı Düzenle",
         "deleteMessage": "Mesajı Sil",
         "copyMessage": "Mesajı Kopyala",
-        "copyId": "ID'yi Kopyala",
         "viewReactions": "Tepkileri Görüntüle",
         "quoteMessage": "Mesajı Alıntıla",
         "reportMessage": "Mesajı Bildir",
@@ -612,8 +611,7 @@
         "translateMessage": "Çevir",
         "markUnread": "Okunmamış Olarak İşaretle",
         "pinMessage": "Sabitle",
-        "unpinMessage": "Sabitlemeyi Kaldır",
-        "copyLink": "Bağlantıyı Kopyala"
+        "unpinMessage": "Sabitlemeyi Kaldır"
     },
     "profile": {
         "followButton": "Takip Et",
@@ -636,7 +634,6 @@
         "blockButton": "Engelle",
         "unblockButton": "Engeli Kaldır",
         "reportButton": "Bildir",
-        "copyLinkButton": "Profil URL'sini kopyala",
         "suspended": "Bu kullanıcı askıya alındı",
         "blockedDescription": "Bu kullanıcı seni engelledi.",
         "blocked": "Engellendiniz",

@@ -762,15 +762,13 @@
         "deleteMessage": "Выдаліць паведамленьне",
         "translateMessage": "Перакласьці",
         "copyMessage": "Скапіяваць паведамленьне",
-        "copyId": "Скапіяваць ID",
         "viewReactions": "Праглядзець рэакцыйі",
         "quoteMessage": "Цытаваць паведамленьне",
         "reportMessage": "Паскардзіцца на паведамленьне",
         "reply": "Адказаць",
         "markUnread": "Пазначыць непрачытаным",
         "pinMessage": "Замацаваць",
-        "unpinMessage": "Адмацаваць",
-        "copyLink": "Скапіяваць спасылку"
+        "unpinMessage": "Адмацаваць"
     },
     "profile": {
         "followButton": "Падпісацца",
@@ -792,7 +790,6 @@
         "blockButton": "Заблякаваць",
         "unblockButton": "Разблякаваць",
         "reportButton": "Паскардзіцца",
-        "copyLinkButton": "Скапіяваць URL профілю",
         "availableCommands": "Даступныя каманды",
         "botCreator": "Стваральнік бота",
         "suspended": "Гэты карыстач забанены",

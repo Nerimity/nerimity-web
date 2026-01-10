@@ -648,7 +648,6 @@
         "editMessage": "Редактировать сообщение",
         "deleteMessage": "Удалить сообщение",
         "copyMessage": "Скопировать сообщение",
-        "copyId": "Скопировать ID сообщения",
         "translateMessage": "Перевести",
         "viewReactions": "Просмотреть реакции",
         "quoteMessage": "Цитировать сообщение",
@@ -656,8 +655,7 @@
         "reply": "Ответить",
         "markUnread": "Пометить непрочитаным",
         "pinMessage": "Закрепить",
-        "unpinMessage": "Открепить",
-        "copyLink": "Скопировать ссылку"
+        "unpinMessage": "Открепить"
     },
     "profile": {
         "followButton": "Подписаться",
@@ -679,7 +677,6 @@
         "blockButton": "Заблокировать",
         "unblockButton": "Разблокировать",
         "reportButton": "Пожаловаться",
-        "copyLinkButton": "Скопировать URL профиля",
         "availableCommands": "Доступные комманды",
         "botCreator": "Создатель бота",
         "suspended": "Этот пользователь отстранён",

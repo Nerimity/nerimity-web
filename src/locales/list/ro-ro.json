@@ -226,8 +226,7 @@
     "messageContextMenu": {
         "editMessage": "Editează Mesaj",
         "deleteMessage": "Stergere Mesaj",
-        "copyMessage": "Copiaza Mesaj",
-        "copyId": "Copiaza ID"
+        "copyMessage": "Copiaza Mesaj"
     },
     "profile": {
         "followButton": "Urmărește",

@@ -277,8 +277,7 @@
     "messageContextMenu": {
         "editMessage": "แก้ไขข้อความ",
         "deleteMessage": "ลบข้อความ",
-        "copyMessage": "คัดลอกข้อความ",
-        "copyId": "คัดลอก ID"
+        "copyMessage": "คัดลอกข้อความ"
     },
     "profile": {
         "followButton": "ติดตาม",

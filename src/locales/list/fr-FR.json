@@ -614,7 +614,6 @@
         "editMessage": "Modifier",
         "deleteMessage": "Supprimer",
         "copyMessage": "Copier le Message",
-        "copyId": "Copier l'ID",
         "translateMessage": "Traduire",
         "reply": "Répondre",
         "viewReactions": "Afficher les réactions",
@@ -622,8 +621,7 @@
         "reportMessage": "Signaler le message",
         "markUnread": "Marquer comme non lu",
         "pinMessage": "Épingler",
-        "unpinMessage": "Détacher",
-        "copyLink": "Copier le lien"
+        "unpinMessage": "Détacher"
     },
     "profile": {
         "followButton": "Suivre",
@@ -644,7 +642,6 @@
         "blockButton": "Bloquer",
         "unblockButton": "Débloquer",
         "reportButton": "Signaler",
-        "copyLinkButton": "Copier l'URL du profil",
         "availableCommands": "Commandes disponibles",
         "botCreator": "Créateur de robots",
         "suspended": "Cet utilisateur est suspendu",
