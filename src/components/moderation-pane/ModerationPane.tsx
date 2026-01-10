@@ -213,7 +213,6 @@ export default function ModerationPane() {
             overflow: "auto",
             "justify-content": "center",
             display: "flex",
-            margin: isMobileWidth() ? 0 : "8px 8px 8px 0",
             "border-radius": isMobileWidth() ? 0 : "8px",
             "padding-top": "40px",
             "z-index": "1111",
