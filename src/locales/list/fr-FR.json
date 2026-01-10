@@ -168,7 +168,9 @@
             },
             "channels": {
                 "createButton": "Créer",
-                "createNewDescription": "Créer un nouveau salon ou catégorie"
+                "createNewDescription": "Créer un nouveau salon ou catégorie",
+                "textChannel": "Canal de texte",
+                "category": "Catégorie"
             },
             "channel": {
                 "channelName": "Nom du salon",
@@ -185,7 +187,8 @@
                 "serverInvites": "Invitations",
                 "serverInvitesDescription": "Invitez vos amis sur ce serveur.",
                 "customInviteVerifiedOnlyNotice": "Les liens d'invitation personnalisés ne sont disponibles que pour les serveurs vérifiés.",
-                "customLink": "Lien d'invitation personnalisé"
+                "customLink": "Lien d'invitation personnalisé",
+                "uses": "{{count}} utilisation(s)"
             },
             "publishServer": {
                 "publishNotice": "Publier votre serveur le rendra accessible depuis le menu <1>explore</1>.",
@@ -260,7 +263,8 @@
                 "questions": {
                     "addButton": "Ajouter question",
                     "question": "Question",
-                    "questionPlaceholder": "Chats ou chiens?"
+                    "questionPlaceholder": "Chats ou chiens?",
+                    "multiselect": "Sélection multiple"
                 },
                 "answers": {
                     "title": "Réponses",
@@ -268,12 +272,39 @@
                     "editModal": {
                         "title": "Modifier Réponse",
                         "answer": "Réponse",
-                        "placeholder": "Chats"
+                        "placeholder": "Chats",
+                        "selectRoles": "Sélectionnez des rôles"
                     }
                 }
             },
             "emoji": {
-                "addButton": "Ajouter émoji"
+                "addButton": "Ajouter émoji",
+                "title": "Emoji personnalisé",
+                "description": "Ajoutez votre propre emoji."
+            },
+            "notifications": {
+                "notice": "Ces paramètres ne seront modifiés que pour vous.",
+                "ping": "Ping de notification",
+                "pingDescription": "Afficher un indicateur de notification.",
+                "sound": "Son de notification",
+                "soundDescription": "Émettre un son lors de la réception d'une notification.",
+                "channelsDescription": "Gérer les notifications par canal.",
+                "resetButton": "Réinitialiser les remplacements({{count}})"
+            },
+            "externalEmbed": {
+                "noInvites": {
+                    "title": "Aucune invitation créée",
+                    "description": "Vous devez créer une invitation avant de pouvoir créer un lien d'intégration externe.",
+                    "createButton": "Créer une invitation"
+                },
+                "title": "Créer un lien d'intégration externe",
+                "description": "Créez une intégration IFrame externe pour votre site web.",
+                "dropdownPlaceholder": "Sélectionnez Inviter",
+                "options": {
+                    "hideHeader": "Masquer l'en-tête",
+                    "hideMembers": "Masquer la liste des membres",
+                    "hideActivities": "Masquer la liste d'activités"
+                }
             }
         },
         "rolePermissions": {
@@ -387,7 +418,8 @@
             },
             "postsAndMessagesNotice": "La suppression de vos publications et messages peut prendre des semaines.",
             "deleteCheckbox": "Supprimez mes publications et messages",
-            "usernameFont": "Police du Nom d'Utilisateur"
+            "usernameFont": "Police du Nom d'Utilisateur",
+            "default": "Application par défaut"
         },
         "notifications": {
             "sounds": "Sons",
@@ -455,7 +487,7 @@
             "leaveCall": "Vous devez d'abord raccrocher",
             "inputDevices": "Périphériques d'entrée",
             "outputDevices": "Périphériques de sortie",
-            "default": "Défaut",
+            "default": "Système par défaut",
             "inputMode": "Mode d'entrée",
             "openMic": "Micro ouvert",
             "voiceActivity": "Activité vocale",
@@ -788,7 +820,9 @@
         "kitty": {
             "name": "Chaton",
             "blueDescription": "Chat aux oreilles bleues",
-            "whiteDescription": "Chat aux oreilles blanches"
+            "whiteDescription": "Chat aux oreilles blanches",
+            "maidDescription": "Oreilles de chat femme de ménage",
+            "purpleDescription": "Chat aux oreilles violettes"
         },
         "founder": {
             "name": "Fondateur",
@@ -825,6 +859,31 @@
         "mod": {
             "name": "Moderateur",
             "description": "Moderateur de Nerimity"
+        },
+        "bunny": {
+            "name": "Lapin",
+            "bunnyDescription": "Lapin aux oreilles noires",
+            "maidDescription": "Lapin oreilles de bonne"
+        },
+        "dog": {
+            "name": "Chienchien",
+            "dogDescription": "Oreilles de chien marron",
+            "shibaDescription": "Chien Shiba"
+        },
+        "wolf": {
+            "name": "Loup",
+            "wolfDescription": "Oreilles de loup"
+        },
+        "goat": {
+            "name": "Chèvre",
+            "goatDescription": "Oreilles de chèvre blanches",
+            "goatHornDescription": "Cornes de chèvre"
+        },
+        "deer": {
+            "name": "Cerf",
+            "deerDescription": "Cornes d'oreilles de cerf",
+            "deerDarkDescription": "Cornes d'oreilles de cerf foncées",
+            "deerWhiteDescription": "Oreilles de cerf blanches"
         }
     },
     "botInvite": {
@@ -1091,7 +1150,8 @@
     },
     "nicknameChangeModal": {
         "title": "Mettre à jour le profil du serveur",
-        "description": "Tous les membres de ce serveur verront votre pseudo."
+        "description": "Tous les membres de ce serveur verront votre pseudo.",
+        "inputLabel": "Surnom"
     },
     "transferOwnershipModal": {
         "title": "Transférer la propriété",
