@@ -184,8 +184,7 @@
     "messageContextMenu": {
         "editMessage": "Redigeer Boodskap",
         "deleteMessage": "Verwyder Boodskap",
-        "copyMessage": "Kopieer Boodskap",
-        "copyId": "Kopieer ID"
+        "copyMessage": "Kopieer Boodskap"
     },
     "profile": {
         "followButton": "Volg",

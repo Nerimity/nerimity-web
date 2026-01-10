@@ -443,8 +443,7 @@
     "messageContextMenu": {
         "editMessage": "I-edit ang mensahe",
         "deleteMessage": "Tanggalin ang mensahe",
-        "copyMessage": "Kopyahin ang mensahe",
-        "copyId": "Kopyahin ang ID"
+        "copyMessage": "Kopyahin ang mensahe"
     },
     "profile": {
         "followButton": "I-follow",

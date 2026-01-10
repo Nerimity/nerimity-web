@@ -184,8 +184,7 @@
     "messageContextMenu": {
         "editMessage": "編輯訊息",
         "deleteMessage": "刪除訊息",
-        "copyMessage": "複製訊息",
-        "copyId": "複製 ID"
+        "copyMessage": "複製訊息"
     },
     "profile": {
         "followButton": "關注",
