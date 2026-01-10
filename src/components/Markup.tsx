@@ -21,7 +21,7 @@ import useChannels from "@/chat-api/store/useChannels";
 import { MentionChannel } from "./markup/MentionChannel";
 import useUsers from "@/chat-api/store/useUsers";
 import { MentionUser } from "./markup/MentionUser";
-import { Message } from "@/chat-api/store/useMessages";
+import useMessages, { Message } from "@/chat-api/store/useMessages";
 import env from "@/common/env";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { Link } from "./markup/Link";
@@ -36,6 +36,7 @@ import { Dynamic } from "solid-js/web";
 import { Post } from "@/chat-api/store/usePosts";
 import useServerRoles from "@/chat-api/store/useServerRoles";
 import { WorldTimezones } from "@/common/WorldTimezones";
+import Checkbox from "./ui/Checkbox";
 
 export interface Props {
   text: string;
@@ -48,6 +49,8 @@ export interface Props {
   serverId?: string;
   prefix?: JSXElement;
   replaceCommandBotId?: boolean;
+  canEditCheckboxes?: boolean
+  onCheckboxChanged?: (entity: Entity, state: boolean) => void
 }
 
 type RenderContext = {
@@ -78,6 +81,7 @@ const TimeOffsetRegex = /^[+-]\d{4}$/;
 const CustomColorExprRegex = /^(?<colors>#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})(?:-(?:#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})))+)\s+(?<text>.*)$/v
 
 function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
+  const messages = useMessages()
   const channels = useChannels();
   const users = useUsers();
   const serverRoles = useServerRoles();
@@ -287,6 +291,10 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
           {transformEntities(entity, ctx)}
         </blockquote>
       );
+    }
+    case "checkbox": {
+      const { checked } = entity.params
+      return <Checkbox checked={checked} disabled={!ctx.props().canEditCheckboxes} onChange={state => ctx.props().onCheckboxChanged?.(entity, state)} style={{ display: 'inline' }} />
     }
     case "color": {
       const { color } = entity.params;

@@ -13,7 +13,7 @@ import {
   RawMessageReaction,
   RawUser,
 } from "@/chat-api/RawData";
-import { Message, MessageSentStatus } from "@/chat-api/store/useMessages";
+import useMessages, { Message, MessageSentStatus } from "@/chat-api/store/useMessages";
 import {
   addMessageReaction,
   fetchMessageReactedUsers,
@@ -98,6 +98,8 @@ import markupStyle from "@/components/Markup.scss?inline";
 import avatarStyle from "@/components/ui/Avatar.module.css?inline";
 import avatarBorderStyle from "@/components/avatar-borders/FounderAdminSupporterBorder.module.css?inline";
 import { Fonts, getFont } from "@/common/fonts";
+import useAccount from "@/chat-api/store/useAccount";
+import { Entity } from "@nerimity/nevula";
 const ImagePreviewModal = lazy(
   () => import("@/components/ui/ImagePreviewModal")
 );
@@ -609,6 +611,22 @@ const MessageItem = (props: MessageItemProps) => {
   );
 };
 
+const updateCheckEntity = (message: Message, entity: Entity, state: boolean) => {
+  const messages = useMessages()
+
+  const text = message.content ?? ""
+  const before = text.slice(0, entity.outerSpan.start)
+  const checkbox = `-[${state ? 'x' : ' '}]`
+  const after = text.slice(entity.outerSpan.end, text.length)
+
+  messages.editAndStoreMessage(
+    message.channelId,
+    message.id,
+    `${before}${checkbox}${after}`
+  );
+}
+
+
 const Content = (props: {
   message: Message;
   hovered: boolean;
@@ -617,6 +635,11 @@ const Content = (props: {
   const params = useParams<{ serverId?: string }>();
   const store = useStore();
   const [t] = useTransContext();
+  const account = useAccount()
+
+  const canEditMessage = () =>
+    account.user()?.id === props.message.createdBy.id &&
+    props.message.type === MessageType.CONTENT;
 
   const isImageEmbedOnlyMessage = () => {
     const content = props.message.content;
@@ -629,6 +652,7 @@ const Content = (props: {
       return false;
     }
   };
+
   return (
     <div class={styles.content}>
       <Show when={!isImageEmbedOnlyMessage()}>
@@ -637,6 +661,8 @@ const Content = (props: {
           message={props.message}
           text={props.message.content || ""}
           serverId={params.serverId}
+          canEditCheckboxes={canEditMessage()}
+          onCheckboxChanged={(entity, state) => updateCheckEntity(props.message, entity, state)}
         />
       </Show>
       <Show
