@@ -875,14 +875,10 @@
         "confirmButton": "Sil"
     },
     "colorPickerModal": {
-        "title": "Renk Seçici",
-        "done": "Tamam"
+        "title": "Renk Seçici"
     },
     "photoEditor": {
         "title": "Fotoğraf Düzenleyici",
-        "cancel": "İptal",
-        "edit": "Düzenle",
-        "undo": "Geri Al (Ctrl + Z)",
         "brush": "Fırça",
         "erase": "Silgi",
         "strokeWidth": "Çizgi genişliği: {{width}}",
@@ -891,8 +887,7 @@
         "desktopZoom": "Kaydırarak Yakınlaştır"
     },
     "imageCropModal": {
-        "title": "Görüntüyü Kırp",
-        "done": "Tamam"
+        "title": "Görüntüyü Kırp"
     },
     "oauth2": {
         "AuthorizeButton": "Yetkilendirme",
