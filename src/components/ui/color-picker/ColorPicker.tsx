@@ -120,7 +120,7 @@ export function ColorPicker(props: {
 
 export const ColorPickerModal = (props: {
   color: string | null;
-  done?: (color: string) => void;
+  done?: (color: string, colors: string[]) => void;
   close: () => void;
   onChange: (value: string) => void;
   alpha?: boolean;
@@ -220,10 +220,10 @@ export const ColorPickerModal = (props: {
         .map((s) => `${s.color} ${s.percent}%`)
         .join(", ")})`;
 
-      props.done?.(newGradient);
+      props.done?.(newGradient, stops().map((s) => s.color));
       return;
     }
-    props.done?.(color!);
+    props.done?.(color!, [color]);
   };
 
   return (

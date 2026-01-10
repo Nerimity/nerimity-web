@@ -62,6 +62,12 @@ const formats = {
     offsetEnd: color!.length + 2 + text.length,
     res: `[${color}]${text || ""}`,
   }),
+  gradient: (text: string, colors: string) => ({
+    offsetStart: colors.length + 12,
+    offsetEnd: colors.length + 12 + "Message".length,
+    res: `[gradient: ${colors} ${text || "Message"}]`,
+  }),
+  
   timestamp: (text: string, schedule?: number, type?: TimestampType) => ({
     offsetStart: 5 + schedule!.toString().length,
     offsetEnd: 5 + schedule!.toString().length,
@@ -94,6 +100,7 @@ export const AdvancedMarkupOptions = (props: {
       | "strikethrough"
       | "spoiler"
       | "color"
+      | "gradient"
       | "timestamp"
       | "header"
       | "named_link",
@@ -105,9 +112,14 @@ export const AdvancedMarkupOptions = (props: {
       createPortal?.((close) => (
         <ColorPickerModal
           close={close}
+          tabs={["solid", "gradient"]}
           color={colorHistory}
-          done={(color) => {
-            applyFormat(format, color);
+          done={(color, colors) => {
+            if (colors.length > 1) {
+              applyFormat("gradient", colors.join("-"));
+            } else {
+              applyFormat("color", color);
+            }
             colorHistory = color;
           }}
           onChange={(value) => (color = value)}
