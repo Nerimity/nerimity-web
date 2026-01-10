@@ -56,7 +56,7 @@
     "@jridgewell/trace-mapping": "^0.3.31",
     "@melloware/coloris": "^0.25.0",
     "@nerimity/i18lite": "^1.2.0",
-    "@nerimity/nevula": "^0.14.0",
+    "@nerimity/nevula": "^0.15.0",
     "@nerimity/solid-emoji-picker": "^0.4.9",
     "@nerimity/solid-i18lite": "^1.8.0",
     "@nerimity/solid-opus-media-recorder": "^1.0.1",

@@ -21,7 +21,7 @@ import useChannels from "@/chat-api/store/useChannels";
 import { MentionChannel } from "./markup/MentionChannel";
 import useUsers from "@/chat-api/store/useUsers";
 import { MentionUser } from "./markup/MentionUser";
-import { Message } from "@/chat-api/store/useMessages";
+import useMessages, { Message } from "@/chat-api/store/useMessages";
 import env from "@/common/env";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { Link } from "./markup/Link";
@@ -36,6 +36,7 @@ import { Dynamic } from "solid-js/web";
 import { Post } from "@/chat-api/store/usePosts";
 import useServerRoles from "@/chat-api/store/useServerRoles";
 import { WorldTimezones } from "@/common/WorldTimezones";
+import Checkbox from "./ui/Checkbox";
 
 export interface Props {
   text: string;
@@ -48,6 +49,8 @@ export interface Props {
   serverId?: string;
   prefix?: JSXElement;
   replaceCommandBotId?: boolean;
+  canEditCheckboxes?: boolean
+  onCheckboxChanged?: (entity: Entity, state: boolean) => void
 }
 
 type RenderContext = {
@@ -75,8 +78,10 @@ const sliceText = (
 type CustomEntity = Entity & { type: "custom" };
 
 const TimeOffsetRegex = /^[+-]\d{4}$/;
+const CustomColorExprRegex = /^(?<colors>#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})(?:-(?:#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})))+)\s+(?<text>.*)$/v
 
 function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
+  const messages = useMessages()
   const channels = useChannels();
   const users = useUsers();
   const serverRoles = useServerRoles();
@@ -157,9 +162,8 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
             id,
             animated,
             name,
-            url: `${env.NERIMITY_CDN}emojis/${id}${
-              animated ? ".gif" : ".webp"
-            }${shouldAnimate}`,
+            url: `${env.NERIMITY_CDN}emojis/${id}${animated ? ".gif" : ".webp"
+              }${shouldAnimate}`,
           }}
         />
       );
@@ -206,6 +210,47 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         />
       );
     }
+    case "ruby": {
+      const output: JSXElement[] = [];
+      const matches = expr.matchAll(/(.+?)\((.*?)\)/g);
+      for (const match of matches) {
+        const text = match[1]!.trim();
+        const annotation = match[2]!.trim();
+
+        output.push(
+          <span>{text}</span>,
+          <rp>(</rp>,
+          <rt>{annotation}</rt>,
+          <rp>)</rp>
+        );
+      }
+      if (output.length > 0) {
+        return <ruby>{output}</ruby>;
+      }
+      break;
+    }
+    case "gradient": {
+      const { colors, text } = expr.trim().match(CustomColorExprRegex)?.groups ?? {}
+      if (colors == null || text == null) break;
+
+      return (
+        <span
+          class="gradient"
+          style={{ 'background-image': `linear-gradient(0.25turn, ${colors.replaceAll('-', ',')})` }}
+          textContent={text}
+        />
+      )
+    }
+    case "vertical": {
+      if (!ctx.props().inline) {
+        const output = expr.split("  ").join("\n").trim();
+
+        if (output.length > 0) {
+          return <div class="vertical" textContent={output} />;
+        }
+      }
+      break;
+    }
     default: {
       console.warn("Unknown custom entity:", type);
     }
@@ -246,6 +291,10 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
           {transformEntities(entity, ctx)}
         </blockquote>
       );
+    }
+    case "checkbox": {
+      const { checked } = entity.params
+      return <Checkbox checked={checked} disabled={!ctx.props().canEditCheckboxes} onChange={state => ctx.props().onCheckboxChanged?.(entity, state)} style={{ display: 'inline' }} />
     }
     case "color": {
       const { color } = entity.params;
