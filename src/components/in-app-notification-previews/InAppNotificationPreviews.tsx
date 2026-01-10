@@ -210,8 +210,8 @@ export default function InAppNotificationPreviews() {
             <div class={style.actionsContainer}>
               <Show when={notification()?.message}>
                 <Button
-                  label="Mark as Read"
-                  title="Mark as Read"
+                  label={t("serverContextMenu.markAsRead")}
+                  title={t("serverContextMenu.markAsRead")}
                   onClick={markAsRead}
                   padding={3}
                   iconSize={16}
@@ -220,8 +220,8 @@ export default function InAppNotificationPreviews() {
                 />
               </Show>
               <Button
-                label="Dismiss"
-                title="Dismiss"
+                label={t("message.dismissButton")}
+                title={t("message.dismissButton")}
                 onClick={dismissNotification}
                 padding={3}
                 iconSize={16}

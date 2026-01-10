@@ -12,6 +12,7 @@ import {
   StorageKeys,
 } from "@/common/localStorage";
 import { isMentioned } from "@/common/Sound";
+import { t } from "@nerimity/i18lite";
 import { createStore, reconcile } from "solid-js/store";
 
 interface InAppPreviewNotification {
@@ -58,7 +59,7 @@ const buildMessageNotification = (
     title: `${displayName} ${
       server ? `(#${channel?.name} ${server?.name})` : ""
     }`,
-    body: message.content || "Attachment",
+    body: message.content || t("message.imageMessage"),
     color: mentioned ? "var(--alert-color)" : undefined,
     channel,
     message,
