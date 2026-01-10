@@ -655,7 +655,8 @@
         "reply": "Ответить",
         "markUnread": "Пометить непрочитаным",
         "pinMessage": "Закрепить",
-        "unpinMessage": "Открепить"
+        "unpinMessage": "Открепить",
+        "copyHTML": "Скопировать как HTML"
     },
     "profile": {
         "followButton": "Подписаться",
