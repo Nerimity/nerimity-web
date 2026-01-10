@@ -921,7 +921,8 @@
         "translationError": "No se ha podido traducir este mensaje.",
         "translation": {
             "title": "traducción"
-        }
+        },
+        "imageMessage": "Mensaje de imagen"
     },
     "colorPickerModal": {
         "title": "Selector de color"
