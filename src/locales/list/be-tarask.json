@@ -768,7 +768,8 @@
         "reply": "Адказаць",
         "markUnread": "Пазначыць непрачытаным",
         "pinMessage": "Замацаваць",
-        "unpinMessage": "Адмацаваць"
+        "unpinMessage": "Адмацаваць",
+        "copyHTML": "Скапіяваць як HTML"
     },
     "profile": {
         "followButton": "Падпісацца",
