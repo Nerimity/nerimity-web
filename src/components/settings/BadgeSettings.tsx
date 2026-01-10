@@ -35,6 +35,7 @@ export default function BadgeSettings() {
   const availableBadges = [
     USER_BADGES.DEER_EARS_HORNS_DARK,
     USER_BADGES.DEER_EARS_HORNS,
+    USER_BADGES.DEER_EARS_WHITE,
     USER_BADGES.GOAT_HORNS,
     USER_BADGES.GOAT_EARS_WHITE,
     USER_BADGES.WOLF_EARS,
@@ -42,6 +43,7 @@ export default function BadgeSettings() {
     USER_BADGES.DOG_EARS_BROWN,
     USER_BADGES.BUNNY_EARS_MAID,
     USER_BADGES.BUNNY_EARS_BLACK,
+    USER_BADGES.CAT_EARS_PURPLE,
     USER_BADGES.CAT_EARS_BLUE,
     USER_BADGES.CAT_EARS_WHITE,
     USER_BADGES.CAT_EARS_MAID,
@@ -72,8 +74,8 @@ export default function BadgeSettings() {
         icon="favorite"
       />
       <SupportMethodBlock />
-      <BadgesPreview badges={[USER_BADGES.SUPPORTER]} price={10} />
-      <BadgesPreview badges={availableBadges} price={3} />
+      <BadgesPreview badges={[USER_BADGES.SUPPORTER]} price={9.99} />
+      <BadgesPreview badges={availableBadges} price={4.99} />
       <BadgesPreview
         badges={[
           {
