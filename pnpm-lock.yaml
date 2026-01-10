@@ -68,8 +68,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0(html-parse-string@0.0.9)(solid-js@1.9.10)
       '@nerimity/nevula':
-        specifier: ^0.14.0
-        version: 0.14.0
+        specifier: ^0.15.0
+        version: 0.15.0
       '@nerimity/solid-emoji-picker':
         specifier: ^0.4.9
         version: 0.4.9(solid-js@1.9.10)
@@ -712,8 +712,8 @@ packages:
       html-parse-string:
         optional: true
 
-  '@nerimity/nevula@0.14.0':
-    resolution: {integrity: sha512-LPoswLxCMuxdB6Fe4wyVW3RqhnCTzf/PUaqWm39rweVgPg0SharUYyLkJ02rYPSQkyMFmJtnrjuK7TH4xyGtFA==}
+  '@nerimity/nevula@0.15.0':
+    resolution: {integrity: sha512-1fztSBR0Uxw5L1EUfTXT+fZNJO0P1ZKHR916PRV1LYHRg8iYsWRU4+CCRwJ153NNaD7iF4AiXdqK/s/nYXLgcw==}
 
   '@nerimity/solid-emoji-picker@0.4.9':
     resolution: {integrity: sha512-TwBeqqIrzXaKCaY+OKGX3DmPY64bnb+UITOT+UX8P66iy2v/HD0pFO+SAW4ofPkHjsveZ9TV4U2/QVnmgMGUsQ==}
@@ -2780,7 +2780,7 @@ snapshots:
     optionalDependencies:
       html-parse-string: 0.0.9
 
-  '@nerimity/nevula@0.14.0': {}
+  '@nerimity/nevula@0.15.0': {}
 
   '@nerimity/solid-emoji-picker@0.4.9(solid-js@1.9.10)':
     dependencies:
