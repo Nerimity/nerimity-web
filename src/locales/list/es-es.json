@@ -954,7 +954,8 @@
             "name": "Gato",
             "blueDescription": "Orejas de gato azules",
             "whiteDescription": "Orejas de gato blancas",
-            "maidDescription": "Maid con orejas de gato"
+            "maidDescription": "Maid con orejas de gato",
+            "purpleDescription": "Orejas de gato moradas"
         },
         "foxy": {
             "name": "Zorro",
@@ -1018,7 +1019,8 @@
         "deer": {
             "name": "Ciervo",
             "deerDescription": "Astas de ciervo",
-            "deerDarkDescription": "Orejas y astas de ciervo oscuras"
+            "deerDarkDescription": "Orejas y astas de ciervo oscuras",
+            "deerWhiteDescription": "Orejas de ciervo blancas"
         }
     },
     "status": {
