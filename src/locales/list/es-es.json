@@ -921,17 +921,14 @@
         "translationError": "No se ha podido traducir este mensaje.",
         "translation": {
             "title": "traducción"
-        }
+        },
+        "imageMessage": "Mensaje de imagen"
     },
     "colorPickerModal": {
-        "done": "Hecho",
         "title": "Selector de color"
     },
     "photoEditor": {
         "title": "Editor de fotos",
-        "cancel": "Cancelar",
-        "edit": "Editar",
-        "undo": "Deshacer (Ctrl + Z)",
         "brush": "Pincel",
         "erase": "Borrar",
         "strokeWidth": "Ancho del trazo: {{width}}",
@@ -940,7 +937,6 @@
         "desktopZoom": "Desplaza la rueda del ratón para acercar/alejar"
     },
     "imageCropModal": {
-        "done": "Hecho",
         "title": "Recortar imagen"
     },
     "oauth2": {
