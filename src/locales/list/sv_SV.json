@@ -9,6 +9,7 @@
         "undoButton": "Ångra",
         "deleteButton": "Radera",
         "cannotBeUndone": "Detta kan inte göras ogjord!",
-        "confirmButton": "Bekräfta"
+        "confirmButton": "Bekräfta",
+        "doneButton": "Gjort"
     }
 }
