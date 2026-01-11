@@ -823,7 +823,8 @@
         "translationError": "Nie udało się przetłumaczyć tej wiadomości.",
         "translation": {
             "title": "Tłumaczenie"
-        }
+        },
+        "imageMessage": "Wiadomość ze zdjęciem"
     },
     "typing": {
         "single": "<1>{{username}}</1> pisze…",
@@ -1054,7 +1055,8 @@
             "relative": "Relatywny",
             "offset": "Strefa Czasowa",
             "doneButton": "Gotowe"
-        }
+        },
+        "checkbox": "Pole wyboru"
     },
     "mainPaneHeader": {
         "mentions": {
