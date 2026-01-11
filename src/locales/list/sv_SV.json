@@ -220,7 +220,19 @@
             "onlineFriends": "{{count}} Onlinevänner",
             "offlineFriends": "{{count}} Offline-vänner",
             "notes": "Anteckningar",
-            "addFriendButton": "Lägg till vän"
+            "addFriendButton": "Lägg till vän",
+            "blockedUsersButton": "Blockerad",
+            "inboxTitle": "Inkorg",
+            "friendsButton": "Vänner",
+            "viewAll": "Visa alla"
+        }
+    },
+    "explore": {
+        "drawer": {
+            "title": "Utforska",
+            "servers": "Servrar",
+            "bots": "Botar",
+            "themes": "Teman"
         }
     }
 }
