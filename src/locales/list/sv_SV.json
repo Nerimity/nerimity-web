@@ -1,1 +1,7 @@
-{}
+{
+    "general": {
+        "nothingSelected": "Inget valt",
+        "selectItem": "välj objekt",
+        "searchPlaceholder": "söka"
+    }
+}
