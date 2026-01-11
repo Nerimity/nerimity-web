@@ -37,46 +37,49 @@
     },
     "systemMessages": {
         "joinServer": {
-            "bot": "<Användare/><2> har lagts till på servern.</2>",
-            "user": "<Användare/><2> har anslutit till servern.</2>"
+            "bot": "<User/><2> har lagts till i servern.</2>",
+            "user": "<User/><2> har anslutit till servern.</2>"
         },
-        "leaveServer": "<Användare/><2> har lämnat servern.</2>",
-        "kickUser": "<Användare/><2> har blivit avstängd.</2>",
-        "banUser": "<Användare/><2> har blivit avstängd.</2>",
-        "callStarted": "<Användare/><2> startade ett samtal.</2>",
-        "bumpServer": "<Användare/><2> bumpade servern.</2>",
-        "pinnedMessage": "<Användare/><2> fäste ett meddelande.</2>",
-        "unsupported": "<Användare/><2> Meddelande som inte stöds.</2>"
+        "leaveServer": "<User/><2> har lämnat servern.</2>",
+        "kickUser": "<User/><2> har blivit utsparkad.</2>",
+        "banUser": "<User/><2> har blivit bannad.</2>",
+        "callStarted": "<User/><2> startade ett samtal.</2>",
+        "bumpServer": "<User/><2> bumpade servern.</2>",
+        "pinnedMessage": "<User/><2> fäste fast ett meddelande.</2>",
+        "unsupported": "<User/><2> Meddelandet stöds ej.</2>"
     },
     "statusHeader": {
         "authenticationError": "Autentiseringsfel",
         "connecting": "Ansluter…",
         "reconnecting": "Återansluter…",
-        "inQueue": "I kö: {{count}} användare före dig",
+        "inQueue": "I kön: {{count}} Användare före dig",
         "authenticating": "Autentiserar…",
         "connected": "Ansluten!"
     },
     "dangerousLinkModal": {
         "title": "Anpassad länk",
         "message": "Den här länken tar dig till",
-        "cancelButton": "Besök inte"
+        "cancelButton": "Besök inte",
+        "visitButton": "Besök"
     },
     "connectionErrorModal": {
-        "noToken": "Ingen token tillhandahålls.",
+        "noToken": "Ingen token försedd.",
         "suspended": "Du är avstängd.",
-        "reason": "Resonera",
-        "defaultReason": "Brott mot användarvillkoren",
-        "until": "Tills",
+        "reason": "Anledning",
+        "defaultReason": "Bryter mot användarvillkoren",
+        "until": "Tillsvidare",
         "never": "aldrig",
         "by": "Av",
         "deletionNotice": "Ditt konto och dina uppgifter kommer att raderas om 15 dagar",
-        "ipBanned": "Din IP-adress är avstängd.",
-        "ipBanNotice": "Någon med samma IP-adress har stängts av från Nerimity. Ditt konto påverkas inte."
+        "ipBanned": "Din IP-adress är bannad.",
+        "ipBanNotice": "Någon med samma IP-adress har stängts av från Nerimity. Ditt konto påverkas inte.",
+        "title": "Anslutningsfel",
+        "ok": "OK"
     },
     "homePage": {
         "slogan": "En modern och snygg chattapp.",
         "subslogan": "Nerimity erbjuder en elegant och funktionsrik upplevelse som skiljer den från mängden.",
-        "viewGitHubButton": "View on GitHub",
+        "viewGitHubButton": "Se på GitHub",
         "getStarted": "Kom igång",
         "availableOn": "Tillgänglig på",
         "browser": "Webbläsare",
