@@ -32,6 +32,7 @@
     "header": {
         "logoutButton": "Logga ut",
         "openAppButton": "Öppna app",
-        "loginButton": "Logga in"
+        "loginButton": "Logga in",
+        "joinNowButton": "Gå med nu"
     }
 }
