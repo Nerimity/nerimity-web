@@ -20,10 +20,10 @@
     },
     "statusHeader": {
         "authenticationError": "Authentifizierungsfehler",
-        "connecting": "Verbinden...",
-        "reconnecting": "Erneut verbinden...",
+        "connecting": "Verbinden…",
+        "reconnecting": "Erneut verbinden…",
         "inQueue": "In Warteschlange: {{count}} Nutzer(innen) vor dir",
-        "authenticating": "Authentifizieren...",
+        "authenticating": "Authentifizieren…",
         "connected": "Verbunden!"
     },
     "dangerousLinkModal": {
@@ -57,7 +57,7 @@
         "password": "Passwort",
         "login": "Anmelden",
         "createAccountInstead": "Stattdessen ein Konto erstellen",
-        "loggingIn": "Anmelden..."
+        "loggingIn": "Anmeldung läuft…"
     },
     "registerPage": {
         "header": "Registrieren",
@@ -74,7 +74,7 @@
         "confirmPassword": "Passwort bestätigen",
         "agreement": "Durch das Erstellen eines Kontos stimmst du den Nutzungsbedingungen und der Datenschutzrichtlinie zu.",
         "registerButton": "Registrieren",
-        "registering": "Registrieren...",
+        "registering": "Registrierung läuft…",
         "loginInstead": "Stattdessen anmelden"
     },
     "resetPassword": {
@@ -83,10 +83,10 @@
         "passwordsDoNotMatch": "Passwortbestätigung stimmt nicht überein.",
         "passwordTooLong": "Das Passwort muss kürzer als 72 Zeichen sein.",
         "resetPasswordButton": "Passwort zurücksetzen",
-        "resetting": "Wird zurückgesetzt...",
+        "resetting": "Wird zurückgesetzt…",
         "email": "E-Mail",
         "sendEmailButton": "E-Mail senden",
-        "sending": "E-Mail wird gesendet..."
+        "sending": "E-Mail wird gesendet…"
     },
     "dashboard": {
         "title": "Übersicht",
@@ -101,7 +101,9 @@
     "sidePane": {
         "home": "Start",
         "moderation": "Moderationsbereich",
-        "addServer": "Server hinzufügen"
+        "addServer": "Server hinzufügen",
+        "homeShort": "Start",
+        "moderationShort": "Mod"
     },
     "updateModal": {
         "title": "Update verfügbar",
@@ -117,7 +119,7 @@
         "dropFile": "Datei ablegen",
         "uploadTo": "Hochladen nach",
         "channelNotice": {
-            "title": "Bevor du chattest...",
+            "title": "Bevor du chattest…",
             "understoodButton": "Verstanden"
         },
         "specialMentions": {
@@ -218,11 +220,14 @@
                 "welcome-screen": "Willkommensbildschirm",
                 "channel": "Kanal",
                 "notifications": "Benachrichtigungen",
-                "external-embed": "Externe Einbettung"
+                "external-embed": "Externe Einbettung",
+                "permissions": "Berechtigungen",
+                "emoji": "Emoji"
             },
             "bans": {
                 "sort": {
-                    "unsorted": "Unsortiert"
+                    "unsorted": "Unsortiert",
+                    "alphabetical": "Alphabetisch"
                 },
                 "noResults": "Keine Ergebnisse gefunden.",
                 "reason": "Grund",
@@ -230,11 +235,11 @@
                 "bannedAt": "Gesperrt am",
                 "unknown": "Unbekannt",
                 "unban": "Entsperren",
-                "unbanning": "Wird entsperrt..."
+                "unbanning": "Wird entbannt.."
             },
             "webhook": {
                 "title": "Webhook-Einstellungen",
-                "name": "Name",
+                "name": "Webhook-Name",
                 "link": "Webhook-URL",
                 "linkDescription": "Aktionen über diesen Link ausführen",
                 "delete": "Webhook löschen"
@@ -260,7 +265,13 @@
                 "hideRole": "Rolle ausblenden",
                 "hideRoleDescription": "Mitglieder mit dieser Rolle zusammen mit allen Standardmitgliedern anzeigen",
                 "permissionsDescription": "Berechtigungen für diese Rolle verwalten.",
-                "deleteRoleButton": "Diese Rolle löschen"
+                "deleteRoleButton": "Diese Rolle löschen",
+                "clear": "Zurücksetzen",
+                "roleIcon": "Rollen-Icon",
+                "managedByBot": "Diese Rolle wird von {{botName}} verwaltet.\nDu kannst sie nicht löschen oder anderen Mitgliedern zugewiesen werden. Kicke den Bot um die Rolle zu löschen.",
+                "applyOnJoin": "Beitrittsanfrage",
+                "applyOnJoinDescription": "Weise diese Rolle Mitgliedern hinzu, wenn sie dem Server beitreten.",
+                "deleteRoleTitle": "Lösche {{roleName}}"
             },
             "header": {
                 "editServer": "Server bearbeiten",
@@ -268,21 +279,27 @@
             },
             "channels": {
                 "createButton": "Erstellen",
-                "createNewDescription": "Neuen Kanal oder neue Kategorie erstellen"
+                "createNewDescription": "Neuen Kanal oder neue Kategorie erstellen",
+                "textChannel": "Textkanal",
+                "category": "Kategorie"
             },
             "channel": {
                 "channelName": "Kanalname",
                 "permissionsDescription": "Berechtigungen für diesen Kanal verwalten.",
                 "deleteThisChannel": "Diesen Kanal löschen",
                 "deleteChannelButton": "Kanal löschen",
-                "removeNoticeButton": "Hinweis entfernen"
+                "removeNoticeButton": "Hinweis entfernen",
+                "channelIcon": "Kanal Icon",
+                "slowModeDescription": "Lege fest, wie lange ein Nutzer warten muss, bevor er eine Nachricht senden kann.",
+                "deleteChannelTitle": "{{channelName}} löschen"
             },
             "invites": {
                 "createInviteButton": "Einladung erstellen",
                 "serverInvites": "Server-Einladungen",
                 "serverInvitesDescription": "Lade deine Freunde auf diesen Server ein.",
                 "customInviteVerifiedOnlyNotice": "Benutzerdefinierte Einladungslinks sind nur für verifizierte Server verfügbar.",
-                "customLink": "Benutzerdefinierter Link"
+                "customLink": "Benutzerdefinierter Link",
+                "uses": "{{count}} Nutzung(en)"
             },
             "publishServer": {
                 "publishNotice": "Wenn du deinen Server veröffentlichst, wird er auf der <1>Erkunden</1>-Seite verfügbar.",
@@ -330,6 +347,55 @@
                     "hdScreenshare": "1080p@60fps Bildschirmfreigabe",
                     "hdScreenshareDescription": "Bildschirmfreigabe in 1080p bei 60fps."
                 }
+            },
+            "welcomeScreen": {
+                "title": "Fragen",
+                "description": "Richte Fragen ein, mit denen Nutzer Rollen zuweisen können.",
+                "questions": {
+                    "addButton": "Frage hinzufügen",
+                    "question": "Frage",
+                    "questionPlaceholder": "Katzen oder Hunde?",
+                    "multiselect": "Mehrfachauswahl"
+                },
+                "answers": {
+                    "title": "Antworten",
+                    "addButton": "Antwort hinzufügen",
+                    "editModal": {
+                        "title": "Antwort bearbeiten",
+                        "answer": "Antwort",
+                        "placeholder": "Katzen",
+                        "selectRoles": "Rollen auswählen"
+                    }
+                }
+            },
+            "notifications": {
+                "notice": "Diese Einstellungen gelten nur für dich.",
+                "ping": "Benachrichtigungston",
+                "pingDescription": "Zeige einen Benachrichtigungsindikator an.",
+                "sound": "Benachrichtigungston",
+                "soundDescription": "Spiele einen Ton ab, wenn du eine Benachrichtigung erhältst.",
+                "channelsDescription": "Verwalte Benachrichtigungen pro Kanal.",
+                "resetButton": "Überschreibungen zurücksetzen ({{count}})"
+            },
+            "emoji": {
+                "title": "Personalisierte Emojis",
+                "description": "Füge deinen eigenen Emoji hinzu.",
+                "addButton": "Emoji hinzufügen"
+            },
+            "externalEmbed": {
+                "noInvites": {
+                    "title": "Noch keine Einladung",
+                    "description": "Du musst zuerst eine Einladung erstellen, bevor du einen externen Embed-Link erstellen kannst.",
+                    "createButton": "Einladung erstellen"
+                },
+                "title": "Externen Embed-Link erstellen",
+                "description": "Erstelle ein externes IFrame-Embed für deine Website.",
+                "dropdownPlaceholder": "Einladung auswählen",
+                "options": {
+                    "hideHeader": "Header ausblenden",
+                    "hideMembers": "Mitgliederliste ausblenden",
+                    "hideActivities": "Aktivitätenliste ausblenden"
+                }
             }
         },
         "rolePermissions": {
@@ -365,7 +431,8 @@
             "sendMessage": "Nachrichten senden",
             "sendMessageDescription": "Erlaubt das Senden von Nachrichten im Kanal. Server-Admins können weiterhin Nachrichten senden.",
             "joinVoice": "Voice beitreten",
-            "joinVoiceDescription": "Erlaubt das Beitreten zu Voice-Kanälen. Server-Admins können weiterhin Voice-Kanälen beitreten."
+            "joinVoiceDescription": "Erlaubt das Beitreten zu Voice-Kanälen. Server-Admins können weiterhin Voice-Kanälen beitreten.",
+            "hiddenChannel": "Ausgeblendeter Kanal"
         }
     },
     "settings": {
@@ -392,7 +459,8 @@
         "language": {
             "reloadNotice": "Du musst die App neu laden, damit die neue Sprache vollständig angewendet wird.",
             "reloadButton": "Neu laden",
-            "contributors": "Mitwirkende"
+            "contributors": "Mitwirkende",
+            "searchNotice": "Übersetzungen werden von der Community gepflegt. Bitte melde Übersetzungen, die falsch oder unangemessen sind, an Nerimity."
         },
         "header": {
             "servers": "Server",
@@ -440,7 +508,9 @@
                 "posts": "• Deine Beiträge"
             },
             "postsAndMessagesNotice": "Das Löschen deiner Beiträge und Nachrichten kann Wochen dauern.",
-            "deleteCheckbox": "Meine Beiträge und Nachrichten löschen"
+            "deleteCheckbox": "Meine Beiträge und Nachrichten löschen",
+            "usernameFont": "Schriftart des Benutzernamens",
+            "default": "App-Standard"
         },
         "privacy": {
             "lastOnline": {
@@ -461,6 +531,13 @@
                 "hideFollowersDescription": "Blende deine Follower auf deinem Profil aus.",
                 "hideFollowing": "Folge-Ich ausblenden",
                 "hideFollowingDescription": "Blende Nutzer aus, denen du folgst."
+            },
+            "options": {
+                "anybody": "Jeder",
+                "friendsOnly": "Nur Freunde",
+                "serversOnly": "Nur Server",
+                "friendsAndServers": "Freunde und Server",
+                "nobody": "Niemand"
             }
         },
         "notifications": {
@@ -483,20 +560,25 @@
             "inAppPreviewModes": {
                 "off": "Aus",
                 "inheritFromPingSettings": "Von Ping-Einstellungen übernehmen"
+            },
+            "testNotification": {
+                "title": "Es hat funktioniert!",
+                "body": "Desktop-Benachrichtigungen aktiviert."
             }
         },
         "call": {
             "nextCallNotice": "Änderungen werden bei deinen nächsten Anrufen angewendet.",
             "inputDevices": "Eingabegeräte",
             "outputDevices": "Ausgabegeräte",
-            "default": "Standard",
+            "default": "System-Standard",
             "inputMode": "Eingabemodus",
             "openMic": "Offenes Mikrofon",
             "voiceActivity": "Sprachaktivität",
             "pushToTalk": "Push-to-Talk",
             "bindButton": "Belegen",
             "stopButton": "Stop",
-            "downloadAppNotice": "Lade die Nerimity-Desktop-App herunter, um diese Funktion ohne Fenster-/Tab-Fokus zu nutzen."
+            "downloadAppNotice": "Lade die Nerimity-Desktop-App herunter, um diese Funktion ohne Fenster-/Tab-Fokus zu nutzen.",
+            "leaveCall": "Du musst den Anruf zuerst verlassen"
         },
         "interface": {
             "customCSS": "Benutzerdefiniertes CSS",
@@ -514,7 +596,14 @@
             "disableAdvancedMarkupBarDescription": "Verhindert, dass die erweiterte Markup-Leiste angezeigt wird.",
             "customizeColors": "Farben anpassen",
             "customizeColorsDescription": "Farben für das aktuelle Design bearbeiten.",
-            "chatBarOptions": "Chatleisten-Optionen"
+            "chatBarOptions": "Chatleisten-Optionen",
+            "voiceMessage": "Sprachnachricht",
+            "gifPicker": "GIF-Picker",
+            "emojiPicker": "Emoji-Picker",
+            "sendButton": "Nachricht senden",
+            "timeTitle": "Zeitformat umschalten",
+            "12HourFormatDescription": "Zeiten im 12-Stunden-Format mit AM/PM anzeigen.",
+            "24HourFormatDescription": "Zeiten im 24-Stunden-Format anzeigen."
         },
         "window": {
             "downloadAppNotice": "Um diese Einstellungen zu ändern, musst du die Nerimity-Desktop-App herunterladen.",
@@ -553,6 +642,33 @@
                 "title": "OAuth2",
                 "generateLink": "Link generieren"
             }
+        },
+        "badges": {
+            "noticeTitle": "Spenden",
+            "notice": "Unterstütze dieses Projekt, indem du Geld spendest.",
+            "palestineDescription": "Kann über {{account}} -> {{profile}} erhalten werden",
+            "price": "{{price}} Abzeichen",
+            "supportMethods": "Unterstützungsmethoden"
+        },
+        "connections": {
+            "thirdParty": {
+                "title": "Drittanbieter-Verbindungen",
+                "connectionCount": "{{count}} Verbindung(en)",
+                "unauthorizeButton": "Deauthorisieren",
+                "unauthorizing": "Deauthorisieren…"
+            },
+            "googleDescription": "Durch das Verknüpfen deines Google-Kontos kannst du Dateien in Nerimity hochladen. Die Dateien werden in deinem Google Drive gespeichert.",
+            "linkButton": "Verknüpfen",
+            "unlinkButton": "Entknüpfen"
+        },
+        "experiments": {
+            "noExperiments": "Derzeit sind keine Experimente verfügbar.",
+            "reloadRequired": {
+                "title": "Neuladen erforderlich",
+                "body": "Nerimity muss neu gestartet werden, damit die Änderungen wirksam werden.",
+                "restartNow": "Jetzt neu starten",
+                "restartLater": "Später neu starten"
+            }
         }
     },
     "activityNames": {
@@ -570,7 +686,7 @@
         "serverName": "Servername",
         "placeholder": "Mein fantastischer Server",
         "createServerButton": "Server erstellen",
-        "creating": "Wird erstellt...",
+        "creating": "Wird erstellt…",
         "tabLabel": "Erstellen"
     },
     "joinServerModal": {
@@ -588,8 +704,14 @@
         "notificationOptions": {
             "everything": "Alles",
             "mentionsOnly": "Nur Erwähnungen",
-            "mute": "Stumm"
-        }
+            "mute": "Stumm",
+            "sections": {
+                "ping": "Ping",
+                "sound": "Ton"
+            },
+            "initial": "Standard"
+        },
+        "channelSettings": "Kanal Einstellungen"
     },
     "messageView": {
         "noMessages": "Keine Nachrichten",
@@ -620,7 +742,7 @@
     "kickServerMemberModal": {
         "title": "{{username}} kicken",
         "kickButton": "Kicken",
-        "kicking": "Wird gekickt...",
+        "kicking": "Wird gekickt…",
         "message": "Möchtest du <1>{{username}}</1> wirklich kicken?"
     },
     "editServerRolesModal": {
@@ -631,7 +753,7 @@
         "message": "Möchtest du <1>{{username}}</1> wirklich bannen?",
         "deletePastMessagesCheckbox": "Nachrichten der letzten 7 Stunden löschen.",
         "banButton": "Bannen",
-        "banning": "Wird gebannt...",
+        "banning": "Wird gebannt…",
         "reasonLabel": "Grund (optional)",
         "reasonPlaceholder": "Grund eingeben…"
     },
@@ -646,7 +768,8 @@
         "reply": "Antworten",
         "markUnread": "Als ungelesen markieren",
         "pinMessage": "Anpinnen",
-        "unpinMessage": "Loslösen"
+        "unpinMessage": "Loslösen",
+        "copyHTML": "HTML kopieren"
     },
     "profile": {
         "followButton": "Folgen",
@@ -662,7 +785,29 @@
         "followersTab": "Follower",
         "followingTab": "Folge ich",
         "postsAndRepliesTab": "Beiträge und Antworten ({{count}})",
-        "likedPostsTab": "Gefällt mir ({{count}})"
+        "likedPostsTab": "Gefällt mir ({{count}})",
+        "followerCount": "{{count}} Follower",
+        "followingCount": "{{count}} Gefolgt",
+        "fullProfile": "Vollständiges Profil",
+        "followsYou": "Folgt Dir",
+        "badge": "{{badgeName}} Abzeichen",
+        "blockButton": "Blockieren",
+        "unblockButton": "Blockierung aufheben",
+        "reportButton": "Melden",
+        "latestPost": "Neuester Post",
+        "availableCommands": "Verfügbare Befehle",
+        "botCreator": "Bot Ersteller",
+        "suspended": "Dieser Nutzer ist suspendiert",
+        "expires": "Läuft {{time}} ab.",
+        "expiresNever": "Läuft niemals ab.",
+        "blocked": "Du wurdest blockiert",
+        "blockedDescription": "Dieser Nutzer hat dich blockiert.",
+        "privateList": "Nur du kannst diese Liste sehen.",
+        "personal": {
+            "editProfile": "Profil bearbeiten",
+            "presence": "Status",
+            "customStatus": "Benutzerdefinierter Status"
+        }
     },
     "posts": {
         "deletePostModal": {
@@ -675,8 +820,8 @@
         "someoneRepostedYourPost": "<1>{{username}}</1> hat deinen Beitrag repostet!",
         "someoneFollowedYou": "<1>{{username}}</1> folgt dir jetzt!",
         "someoneRepliedToPost": "<1>{{username}}</1> hat auf deinen Beitrag geantwortet!",
-        "createAPostInputPlaceholder": "Beitrag erstellen...",
-        "replyInputPlaceholder": "Antworten...",
+        "createAPostInputPlaceholder": "Beitrag erstellen…",
+        "replyInputPlaceholder": "Antworten…",
         "replyButton": "Antworten",
         "createButton": "Erstellen",
         "pollOptions": "Umfrageoptionen",
@@ -685,24 +830,33 @@
     "informationDrawer": {
         "channelNotice": "Kanalhinweis",
         "attachments": "Anhänge",
-        "members": "Mitglieder"
+        "members": "Mitglieder",
+        "info": "Info",
+        "files": "Dateien",
+        "searchBarPlaceholder": "Suche {{username}}",
+        "searchBarChannelPlaceholder": "Suche in {{channelName}}",
+        "sortLatest": "Neuste",
+        "sortOldest": "Älteste",
+        "creator": "Ersteller",
+        "admin": "Admin"
     },
     "botInvite": {
         "serverSelect": "Bitte wähle einen Server aus!",
         "creator": "Erstellt von ",
         "selectButton": "Server auswählen",
         "addButton": "Bot hinzufügen",
-        "permissions": "Bot-Berechtigungen"
+        "permissions": "Bot-Berechtigungen",
+        "title": "Bot einladen"
     },
     "googleAccountLink": {
-        "linking": "Google-Konto wird verknüpft...",
+        "linking": "Google-Konto wird verknüpft…",
         "success": "Konto verknüpft! Du kannst dieses Fenster jetzt schließen."
     },
     "invite": {
-        "loading": "Einladung wird geladen...",
+        "loading": "Einladung wird geladen…",
         "invalid": "Ungültiger Einladungscode",
         "joinButton": "Beitreten",
-        "joiningButton": "Beitritt läuft...",
+        "joiningButton": "Beitritt läuft…",
         "visitButton": "Besuchen",
         "member": "Mitglied",
         "members": "Mitglieder"
@@ -730,7 +884,7 @@
         "requestSent": "Anfrage gesendet!",
         "closeButton": "Schließen",
         "sendRequest": "Anfrage senden",
-        "sending": "Wird gesendet...",
+        "sending": "Wird gesendet…",
         "errors": {
             "missingTag": "Bitte gib einen Benutzernamen:Tag ein.",
             "colonInUsername": "Der Benutzername darf keinen Doppelpunkt enthalten."
@@ -767,10 +921,11 @@
         "translationError": "Diese Nachricht konnte nicht übersetzt werden.",
         "translation": {
             "title": "Übersetzung"
-        }
+        },
+        "imageMessage": "Bild Nachricht"
     },
     "colorPickerModal": {
-        "title": "Farbwähler"
+        "title": "Farbauswähler"
     },
     "photoEditor": {
         "title": "Foto-Editor",
@@ -798,8 +953,209 @@
         "until": "Bis",
         "never": "niemals",
         "by": "Von",
-        "deletionNotice": "Ihr Konto und Ihre Daten werden in 15 Tagen gelöscht",
-        "ipBanned": "Ihre IP-Adresse wurde gesperrt.",
-        "ipBanNotice": "Jemand mit der gleichen IP-Adresse wurde bei Nerimity gesperrt. Ihr Konto ist davon nicht betroffen."
+        "deletionNotice": "Dein Konto und deine Daten werden in 15 Tagen gelöscht",
+        "ipBanned": "Deine IP-Adresse wurde gesperrt.",
+        "ipBanNotice": "Jemand mit der gleichen IP-Adresse wurde bei Nerimity gesperrt. Dein Konto ist davon nicht betroffen."
+    },
+    "general": {
+        "nothingSelected": "Nichts ausgewählt",
+        "selectItem": "Auswählen",
+        "searchPlaceholder": "Suchen",
+        "backButton": "Zurück",
+        "cancelButton": "Abbrechen",
+        "closeButton": "Schließen",
+        "editButton": "Bearbeiten",
+        "undoButton": "Rückgängig",
+        "deleteButton": "Löschen",
+        "cannotBeUndone": "Kann nicht rückgängig gemacht werden!",
+        "confirmButton": "Bestätigen",
+        "doneButton": "Fertig",
+        "saveButton": "Speichern",
+        "saveChangesButton": "Änderungen speichern",
+        "saving": "Speichert…",
+        "copyLink": "Link kopieren",
+        "copyID": "ID kopieren",
+        "accountData": {
+            "email": "Email",
+            "username": "Benutzername",
+            "password": "Passwort"
+        },
+        "avatarAndBanner": {
+            "avatar": "Avatar",
+            "banner": "Banner",
+            "supportedFileTypes": "Unterstützt: {{extensions}}, max. {{size}}",
+            "browse": "Durchsuchen"
+        }
+    },
+    "status": {
+        "online": "Online",
+        "ltp": "Sucht Mitspieler",
+        "afk": "Abwesend",
+        "dnd": "Bitte nicht stören",
+        "offline": "Offline",
+        "appearAsOffline": "Unsichtbar"
+    },
+    "inputFieldActions": {
+        "copy": "Kopieren",
+        "cut": "Ausschneiden",
+        "paste": "Einfügen"
+    },
+    "markup": {
+        "bold": "Fett",
+        "italic": "Kursiv",
+        "strikethrough": "Durchgestrichen",
+        "header": "Überschrift",
+        "namedLink": "Textlink",
+        "spoiler": "Spoiler",
+        "timestamp": "Zeitstempel",
+        "color": "Farbe",
+        "html": "HTML-Modus",
+        "emojiPicker": "Emoji-Auswahl",
+        "timestampModal": {
+            "title": "Zeit-Markup",
+            "relative": "Relativ",
+            "offset": "Versatz",
+            "doneButton": "Fertig"
+        },
+        "checkbox": "Checkbox"
+    },
+    "nicknameChangeModal": {
+        "title": "Serverprofil aktualisieren",
+        "description": "Jeder in diesem Server wird deinen Nicknamen sehen.",
+        "inputLabel": "Nickname"
+    },
+    "transferOwnershipModal": {
+        "title": "Eigentum übertragen",
+        "description": "Dadurch wird der Besitz auf einen neuen Besitzer übertragen.",
+        "ifVerified": "Dieser Server wird unverifiziert.",
+        "server": "Server:",
+        "newOwner": "Neuer Besitzer:",
+        "cancelButton": "Nicht übertragen",
+        "transferButton": "Übertragen",
+        "transferring": "Übertragung läuft…"
+    },
+    "mainPaneHeader": {
+        "mentions": {
+            "noMentions": "Keine Erwähnungen"
+        },
+        "pins": {
+            "noPins": "Keine Pins"
+        },
+        "jump": "Springen",
+        "voice": {
+            "join": "Beitreten",
+            "leave": "Verlassen",
+            "muted": "Stummgeschalten",
+            "deafened": "Taubgeschalten",
+            "fullscreen": "Vollbild"
+        }
+    },
+    "channelDrawer": {
+        "customize": {
+            "title": "Personalisieren",
+            "subtitle": "Beantworte diese Fragen:",
+            "continueButton": "Weiter zu {{channel}}"
+        },
+        "members": {
+            "filter": {
+                "header": "Filtern nach",
+                "24hours": "24 Stunden"
+            },
+            "sort": {
+                "header": "Sortieren nach",
+                "member": "Mitglied",
+                "joined": "Beigetreten",
+                "joinedNerimity": "Nerimity beigetreten"
+            },
+            "order": {
+                "header": "Sortieren nach",
+                "ascending": "Aufsteigend",
+                "descending": "Absteigend"
+            }
+        },
+        "addChannel": "Kanal hinzufügen",
+        "inVoice": "Im Sprachchat"
+    },
+    "inVoiceActions": {
+        "connectedFor": "Verbunden seit"
+    },
+    "removeFriendModal": {
+        "title": "Entfreunde {{username}}",
+        "body": "Bist du sicher, dass du diesen Nutzer entfreunden möchtest?",
+        "removing": "Entfernen…"
+    },
+    "badges": {
+        "kitty": {
+            "name": "Kitty",
+            "blueDescription": "Kitty mit blauen Ohren",
+            "whiteDescription": "Kitty mit weißen Ohren",
+            "maidDescription": "Maid mit Katzenohren",
+            "purpleDescription": "Kitty mit Lila Ohren"
+        },
+        "foxy": {
+            "name": "Foxy",
+            "foxyGoldDescription": "Fuchs mit Goldenen Ohren",
+            "foxyBrownDescription": "Fox mit braunen Ohren"
+        },
+        "founder": {
+            "name": "Gründer",
+            "description": "Ersteller von Nerimity"
+        },
+        "admin": {
+            "name": "Admin",
+            "description": "Admin von Nerimity"
+        },
+        "mod": {
+            "name": "Moderator",
+            "description": "Moderator von Nerimity"
+        },
+        "supporter": {
+            "name": "Supporter",
+            "description": "Hat dieses Projekt durch eine Geldspende unterstützt."
+        },
+        "emoSupporter": {
+            "name": "Emo-Unterstützer",
+            "description": "Hat dieses Projekt durch eine Geldspende unterstützt."
+        },
+        "contributor": {
+            "name": "Mitwirkende(r)",
+            "description": "Hat auf irgendeine Weise bei diesem Projekt geholfen"
+        },
+        "palestine": {
+            "name": "Palestine"
+        },
+        "bot": {
+            "name": "Bot Nutzer",
+            "description": "Bot Nutzer"
+        },
+        "credit": {
+            "avatarBorder": "Avatar-Rahmen von {{author}} auf {{platform}}",
+            "avatarBorderEdited": "Avatar-Rahmen von {{author}} auf {{platform}}, bearbeitet von {{editor}}"
+        },
+        "bunny": {
+            "name": "Bunny",
+            "bunnyDescription": "Bunny mit schwarzen Ohren",
+            "maidDescription": "Maid mit Hasenohren"
+        },
+        "dog": {
+            "name": "Doggy",
+            "dogDescription": "Hund mit braunen Ohren",
+            "shibaDescription": "Shiba Inu"
+        },
+        "wolf": {
+            "name": "Wolfy",
+            "wolfDescription": "Wolf Ohren"
+        },
+        "goat": {
+            "name": "Ziege",
+            "goatDescription": "Ziege mit weißen Ohren",
+            "goatHornDescription": "Ziegen Hörner"
+        },
+        "deer": {
+            "name": "Hirsch",
+            "deerDescription": "Hirsch mit Ohren und Hörnern",
+            "deerDarkDescription": "Hirsch mit dunklen Ohren und Hörnern",
+            "deerWhiteDescription": "Hirsch Ohren weiß"
+        }
     }
 }
