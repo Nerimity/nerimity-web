@@ -34,5 +34,13 @@
         "openAppButton": "Öppna app",
         "loginButton": "Logga in",
         "joinNowButton": "Gå med nu"
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<Användare/><2> har lagts till på servern.</2>",
+            "user": "<Användare/><2> har anslutit till servern.</2>"
+        },
+        "leaveServer": "<Användare/><2> har lämnat servern.</2>",
+        "kickUser": "<Användare/><2> har blivit avstängd.</2>"
     }
 }
