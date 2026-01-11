@@ -238,7 +238,7 @@
                 "unbanning": "Wird entbannt.."
             },
             "webhook": {
-                "title": "Webhook-Einstellungen",
+                "title": "Webhooks",
                 "name": "Webhook-Name",
                 "link": "Webhook-URL",
                 "linkDescription": "Aktionen über diesen Link ausführen",
