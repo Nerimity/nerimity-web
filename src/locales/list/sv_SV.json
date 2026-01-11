@@ -78,6 +78,146 @@
         "subslogan": "Nerimity erbjuder en elegant och funktionsrik upplevelse som skiljer den från mängden.",
         "viewGitHubButton": "View on GitHub",
         "getStarted": "Kom igång",
-        "availableOn": "Tillgänglig på"
+        "availableOn": "Tillgänglig på",
+        "browser": "Webbläsare",
+        "featureList": {
+            "feature1": "Gratis animerade avatarer och emojis",
+            "feature2": "Elegant design",
+            "feature3": "Ändra din tagg gratis",
+            "feature4": "Skapa inlägg på din profil",
+            "feature5": "Skapa din egen gemenskap",
+            "feature6": "Hitta nya samhällen",
+            "feature7": "Löper från donationer",
+            "feature8": "Fullständig källkod på GitHub",
+            "feature9": "Uttryck dig med gränser"
+        }
+    },
+    "loginPage": {
+        "title": "Logga in för att fortsätta",
+        "emailOrUsernameAndTag": "E-postadress / användarnamn: tagg",
+        "password": "Lösenord",
+        "login": "Inloggning",
+        "createAccountInstead": "Skapa ett konto istället",
+        "loggingIn": "Loggar in…"
+    },
+    "registerPage": {
+        "header": "Register",
+        "notices": {
+            "title": "Meddelanden",
+            "toxic": "Var inte giftig.",
+            "nsfw": "Inget NSFW-innehåll.",
+            "age": "Du måste vara 14 år eller äldre."
+        },
+        "title": "Välkommen till {{appName}}",
+        "email": "E-post",
+        "username": "Användarnamn",
+        "password": "Lösenord",
+        "confirmPassword": "Bekräfta lösenord",
+        "agreement": "Genom att skapa ett konto godkänner du Villkoren och Integritetspolicyn.",
+        "registerButton": "Register",
+        "registering": "Registrerar…",
+        "loginInstead": "Logga in istället"
+    },
+    "resetPassword": {
+        "title": "Återställ lösenord",
+        "resetSuccessful": "Lösenordsåterställningen lyckades.",
+        "passwordsDoNotMatch": "Bekräfta att lösenordet inte matchar.",
+        "passwordTooLong": "Lösenordet måste vara kortare än 72 tecken.",
+        "resetPasswordButton": "Återställ lösenord",
+        "resetting": "Återställer…",
+        "email": "E-post",
+        "sendEmailButton": "Skicka e-post",
+        "sending": "Skickar e-post…"
+    },
+    "dashboard": {
+        "title": "Instrumentpanel",
+        "activeUsers": "Aktiva användare",
+        "noActiveUsers": "Inga aktiva användare",
+        "servers": "Servrar",
+        "posts": "Inlägg",
+        "feed": "Foder",
+        "discover": "Upptäcka",
+        "notifications": "Aviseringar"
+    },
+    "status": {
+        "online": "Online",
+        "ltp": "Vill spela",
+        "afk": "Bort från tangentbordet",
+        "dnd": "Stör ej",
+        "offline": "Off-line",
+        "appearAsOffline": "Visas som offline"
+    },
+    "sidePane": {
+        "home": "Hem",
+        "homeShort": "Hem",
+        "moderation": "Modereringsruta",
+        "moderationShort": "Mod",
+        "addServer": "Lägg till server"
+    },
+    "updateModal": {
+        "title": "Uppdatering tillgänglig",
+        "updateButton": "Uppdatera nu",
+        "laterButton": "Senare",
+        "releasedAt": "Släpptes kl."
+    },
+    "messageArea": {
+        "messageBoxPlaceholder": "Meddelande till {{användarnamn}}",
+        "messageBoxChannelPlaceholder": "Meddelande i {{channelName}}",
+        "replying": "Svarar på {{count}} meddelanden)",
+        "mention": "Nämna",
+        "dropFile": "Släpp fil",
+        "uploadTo": "Ladda upp till",
+        "channelNotice": {
+            "title": "Innan du chattar…",
+            "understoodButton": "Förstått"
+        },
+        "specialMentions": {
+            "everyone": "Nämner alla",
+            "someone": "Nämner en slumpmässig användare",
+            "silent": "Tyst meddelande"
+        },
+        "linkToGoogleDrive": {
+            "body": "Du måste länka ditt konto till Google Drive för att ladda upp stora bilder, videor eller filer",
+            "linkButton": "Länka nu",
+            "cancelButton": "Länka inte"
+        },
+        "emailNotice": "Bekräfta din e-postadress för att skicka meddelanden."
+    },
+    "inputFieldActions": {
+        "copy": "Kopiera",
+        "cut": "Skära",
+        "paste": "Klistra"
+    },
+    "markup": {
+        "bold": "Djärv",
+        "italic": "Kursiv",
+        "strikethrough": "Genomstruken",
+        "header": "Rubrik",
+        "namedLink": "Namngiven länk",
+        "spoiler": "Spoiler",
+        "timestamp": "Tidsstämpel",
+        "color": "Färg",
+        "html": "HTML-läge",
+        "emojiPicker": "Emoji-väljare",
+        "timestampModal": {
+            "title": "Tidspåslag",
+            "relative": "Relativ",
+            "offset": "Offset",
+            "doneButton": "Gjort"
+        },
+        "checkbox": "Kryssruta"
+    },
+    "inbox": {
+        "blockedUsersModal": {
+            "title": "Blockerade användare"
+        },
+        "drawer": {
+            "searchBarPlaceholder": "Söka",
+            "friendRequests": "{{count}} vänförfrågningar",
+            "onlineFriends": "{{count}} Onlinevänner",
+            "offlineFriends": "{{count}} Offline-vänner",
+            "notes": "Anteckningar",
+            "addFriendButton": "Lägg till vän"
+        }
     }
 }
