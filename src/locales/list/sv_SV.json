@@ -41,6 +41,9 @@
             "user": "<Användare/><2> har anslutit till servern.</2>"
         },
         "leaveServer": "<Användare/><2> har lämnat servern.</2>",
-        "kickUser": "<Användare/><2> har blivit avstängd.</2>"
+        "kickUser": "<Användare/><2> har blivit avstängd.</2>",
+        "banUser": "<Användare/><2> har blivit avstängd.</2>",
+        "callStarted": "<Användare/><2> startade ett samtal.</2>",
+        "bumpServer": "<Användare/><2> bumpade servern.</2>"
     }
 }
