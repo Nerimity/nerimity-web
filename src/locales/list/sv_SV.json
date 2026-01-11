@@ -44,6 +44,13 @@
         "kickUser": "<Användare/><2> har blivit avstängd.</2>",
         "banUser": "<Användare/><2> har blivit avstängd.</2>",
         "callStarted": "<Användare/><2> startade ett samtal.</2>",
-        "bumpServer": "<Användare/><2> bumpade servern.</2>"
+        "bumpServer": "<Användare/><2> bumpade servern.</2>",
+        "pinnedMessage": "<Användare/><2> fäste ett meddelande.</2>",
+        "unsupported": "<Användare/><2> Meddelande som inte stöds.</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "Autentiseringsfel",
+        "connecting": "Ansluter…",
+        "reconnecting": "Återansluter…"
     }
 }
