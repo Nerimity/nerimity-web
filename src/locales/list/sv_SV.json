@@ -66,6 +66,15 @@
         "suspended": "Du är avstängd.",
         "reason": "Resonera",
         "defaultReason": "Brott mot användarvillkoren",
-        "until": "Tills"
+        "until": "Tills",
+        "never": "aldrig",
+        "by": "Av",
+        "deletionNotice": "Ditt konto och dina uppgifter kommer att raderas om 15 dagar",
+        "ipBanned": "Din IP-adress är avstängd.",
+        "ipBanNotice": "Någon med samma IP-adress har stängts av från Nerimity. Ditt konto påverkas inte."
+    },
+    "homePage": {
+        "slogan": "En modern och snygg chattapp.",
+        "subslogan": "Nerimity erbjuder en elegant och funktionsrik upplevelse som skiljer den från mängden."
     }
 }
