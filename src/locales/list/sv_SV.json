@@ -58,6 +58,14 @@
     },
     "dangerousLinkModal": {
         "title": "Anpassad länk",
-        "message": "Den här länken tar dig till"
+        "message": "Den här länken tar dig till",
+        "cancelButton": "Besök inte"
+    },
+    "connectionErrorModal": {
+        "noToken": "Ingen token tillhandahålls.",
+        "suspended": "Du är avstängd.",
+        "reason": "Resonera",
+        "defaultReason": "Brott mot användarvillkoren",
+        "until": "Tills"
     }
 }
