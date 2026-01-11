@@ -1,15 +1,36 @@
 {
     "general": {
         "nothingSelected": "Inget valt",
-        "selectItem": "välj objekt",
-        "searchPlaceholder": "söka",
-        "cancelButton": "Avboka",
-        "closeButton": "Nära",
+        "selectItem": "Välj objekt",
+        "searchPlaceholder": "Sök",
+        "cancelButton": "Avbryt",
+        "closeButton": "Stäng",
         "editButton": "Redigera",
         "undoButton": "Ångra",
         "deleteButton": "Radera",
-        "cannotBeUndone": "Detta kan inte göras ogjord!",
+        "cannotBeUndone": "Detta kan inte göras om!",
         "confirmButton": "Bekräfta",
-        "doneButton": "Gjort"
+        "doneButton": "Klar",
+        "backButton": "Tillbaka",
+        "saveButton": "Spara",
+        "saveChangesButton": "Spara Ändringar",
+        "saving": "Sparar…",
+        "copyLink": "Kopiera Länk",
+        "copyID": "Kopiera ID",
+        "accountData": {
+            "email": "E-mail",
+            "username": "Användarnamn",
+            "password": "Lösenord"
+        },
+        "avatarAndBanner": {
+            "avatar": "Profilbild",
+            "banner": "Bakgrundsbild",
+            "browse": "Bläddra"
+        }
+    },
+    "header": {
+        "logoutButton": "Logga ut",
+        "openAppButton": "Öppna app",
+        "loginButton": "Logga in"
     }
 }
