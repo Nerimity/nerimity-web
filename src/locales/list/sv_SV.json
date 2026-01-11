@@ -25,7 +25,8 @@
         "avatarAndBanner": {
             "avatar": "Profilbild",
             "banner": "Bakgrundsbild",
-            "browse": "Bläddra"
+            "browse": "Bläddra",
+            "supportedFileTypes": "Stöds: {{extensions}}, Max {{size}}"
         }
     },
     "header": {
