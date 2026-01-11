@@ -75,6 +75,9 @@
     },
     "homePage": {
         "slogan": "En modern och snygg chattapp.",
-        "subslogan": "Nerimity erbjuder en elegant och funktionsrik upplevelse som skiljer den från mängden."
+        "subslogan": "Nerimity erbjuder en elegant och funktionsrik upplevelse som skiljer den från mängden.",
+        "viewGitHubButton": "View on GitHub",
+        "getStarted": "Kom igång",
+        "availableOn": "Tillgänglig på"
     }
 }
