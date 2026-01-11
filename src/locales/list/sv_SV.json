@@ -5,6 +5,10 @@
         "searchPlaceholder": "söka",
         "cancelButton": "Avboka",
         "closeButton": "Nära",
-        "editButton": "Redigera"
+        "editButton": "Redigera",
+        "undoButton": "Ångra",
+        "deleteButton": "Radera",
+        "cannotBeUndone": "Detta kan inte göras ogjord!",
+        "confirmButton": "Bekräfta"
     }
 }
