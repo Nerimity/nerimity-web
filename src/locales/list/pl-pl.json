@@ -823,7 +823,8 @@
         "translationError": "Nie udało się przetłumaczyć tej wiadomości.",
         "translation": {
             "title": "Tłumaczenie"
-        }
+        },
+        "imageMessage": "Wiadomość ze zdjęciem"
     },
     "typing": {
         "single": "<1>{{username}}</1> pisze…",
@@ -881,14 +882,10 @@
         "confirmButton": "Usuń"
     },
     "colorPickerModal": {
-        "title": "Próbnik Kolorów",
-        "done": "Gotowe"
+        "title": "Próbnik Kolorów"
     },
     "photoEditor": {
         "title": "Edytor Obrazów",
-        "cancel": "Anuluj",
-        "edit": "Edytuj",
-        "undo": "Cofnij (Ctrl + Z)",
         "brush": "Pędzel",
         "erase": "Wymaż",
         "strokeWidth": "Szerokość pędzla: {{width}}",
@@ -897,8 +894,7 @@
         "desktopZoom": "Przewiń, aby powiększyć"
     },
     "imageCropModal": {
-        "title": "Przytnij Obraz",
-        "done": "Gotowe"
+        "title": "Przytnij Obraz"
     },
     "oauth2": {
         "AuthorizeButton": "Autoryzuj",
@@ -1059,7 +1055,8 @@
             "relative": "Relatywny",
             "offset": "Strefa Czasowa",
             "doneButton": "Gotowe"
-        }
+        },
+        "checkbox": "Pole wyboru"
     },
     "mainPaneHeader": {
         "mentions": {

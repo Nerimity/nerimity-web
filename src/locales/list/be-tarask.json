@@ -924,14 +924,10 @@
         }
     },
     "colorPickerModal": {
-        "title": "Выбар колеру",
-        "done": "Гатова"
+        "title": "Выбар колеру"
     },
     "photoEditor": {
         "title": "Рэдактар фота",
-        "cancel": "Скасаваць",
-        "edit": "Адрэдагаваць",
-        "undo": "Адрабіць (Ctrl + Z)",
         "brush": "Пэндзаль",
         "erase": "Гумка",
         "strokeWidth": "Шырыня пэндзалю: {{width}}",
@@ -940,8 +936,7 @@
         "desktopZoom": "Прагортка: зьмена маштабу"
     },
     "imageCropModal": {
-        "title": "Абрэзаць відарыс",
-        "done": "Гатова"
+        "title": "Абрэзаць відарыс"
     },
     "oauth2": {
         "AuthorizeButton": "Аўтарызаваць",

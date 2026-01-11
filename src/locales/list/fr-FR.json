@@ -1087,14 +1087,10 @@
         "confirmButton": "Supprimer"
     },
     "colorPickerModal": {
-        "title": "Sélecteur de couleurs",
-        "done": "Fait"
+        "title": "Sélecteur de couleurs"
     },
     "photoEditor": {
         "title": "Éditeur de photos",
-        "cancel": "Annuler",
-        "edit": "Modifier",
-        "undo": "Annuler (Ctrl + Z)",
         "brush": "Brosse",
         "erase": "Effacer",
         "strokeWidth": "Largeur du trait : {{width}}",
@@ -1103,8 +1099,7 @@
         "desktopZoom": "Faites défiler pour Zoomer"
     },
     "imageCropModal": {
-        "title": "Recadrer l'image",
-        "done": "Fait"
+        "title": "Recadrer l'image"
     },
     "oauth2": {
         "AuthorizeButton": "Autoriser",

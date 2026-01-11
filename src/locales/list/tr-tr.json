@@ -190,7 +190,8 @@
                 "clear": "Temizle",
                 "roleIcon": "Rol Simgesi",
                 "applyOnJoinDescription": "Üyeler sunucuya katıldığı zaman bu rolü ver.",
-                "deleteRoleTitle": "{{roleName}} rolünü sil"
+                "deleteRoleTitle": "{{roleName}} rolünü sil",
+                "managedByBot": "Bu rol {{botAdı}} tarafından yönetilmektedir. Bu role üye ekleyemez veya üyeleri kaldıramazsınız. Bu rolü kaldırmak için botu atın."
             },
             "header": {
                 "editServer": "Sunucuyu Düzenle",
@@ -230,7 +231,8 @@
             },
             "bans": {
                 "sort": {
-                    "unsorted": "Sıralanmamış"
+                    "unsorted": "Sıralanmamış",
+                    "alphabetical": "Alfabetik"
                 },
                 "noResults": "Sonuç bulunamadı.",
                 "reason": "Sebep",
@@ -238,7 +240,7 @@
                 "bannedAt": "Yasaklanma Tarihi",
                 "unknown": "Bilinmiyor",
                 "unban": "Yasağı Kaldırmak",
-                "unbanning": "Yasak Kaldırma"
+                "unbanning": "Yasak Kaldırılıyor…"
             },
             "webhook": {
                 "title": "Web Kancaları",
@@ -281,6 +283,9 @@
                     "hdScreenshare": "1080p@60fps ekran paylaşımı",
                     "hdScreenshareDescription": "1080p çözünürlükte, 60 kare/saniye hızında ekran paylaşımı."
                 }
+            },
+            "welcomeScreen": {
+                "title": "Sorular"
             }
         },
         "rolePermissions": {
@@ -444,7 +449,7 @@
             "nextCallNotice": "Değişiklikler sonraki aramalarınızda geçerli olacak.",
             "inputDevices": "Giriş Cihazları",
             "outputDevices": "Çıkış Cihazları",
-            "default": "Varsayılan",
+            "default": "sistem Varsayılanı",
             "inputMode": "Giriş Modu",
             "openMic": "Sürekli Açık Mikrofon",
             "voiceActivity": "Ses Etkinliği",
@@ -670,7 +675,7 @@
         "info": "Bilgi",
         "files": "Dosyalar",
         "searchBarChannelPlaceholder": "{{channelName}} kanalında ara",
-        "searchBarPlaceholder": "{{username}} ara",
+        "searchBarPlaceholder": "{{kullanıcı adı}} ara",
         "sortLatest": "En Son",
         "sortOldest": "En Eski"
     },
@@ -820,7 +825,8 @@
             "relative": "Göreceli",
             "offset": "Offset",
             "doneButton": "Tamamlandı"
-        }
+        },
+        "checkbox": "Onay Kutusu"
     },
     "editFolderModal": {
         "title": "Klasörü Düzenle",
@@ -875,14 +881,10 @@
         "confirmButton": "Sil"
     },
     "colorPickerModal": {
-        "title": "Renk Seçici",
-        "done": "Tamam"
+        "title": "Renk Seçici"
     },
     "photoEditor": {
         "title": "Fotoğraf Düzenleyici",
-        "cancel": "İptal",
-        "edit": "Düzenle",
-        "undo": "Geri Al (Ctrl + Z)",
         "brush": "Fırça",
         "erase": "Silgi",
         "strokeWidth": "Çizgi genişliği: {{width}}",
@@ -891,8 +893,7 @@
         "desktopZoom": "Kaydırarak Yakınlaştır"
     },
     "imageCropModal": {
-        "title": "Görüntüyü Kırp",
-        "done": "Tamam"
+        "title": "Görüntüyü Kırp"
     },
     "oauth2": {
         "AuthorizeButton": "Yetkilendirme",
@@ -943,6 +944,25 @@
         "credit": {
             "avatarBorder": "{{platform}}'da {{author}} tarafından Avatar Çerçevesi",
             "avatarBorderEdited": "{{platform}}'da {{author}} tarafından Avatar Çerçevesi, düzenleyen: {{editor}}"
+        },
+        "deer": {
+            "deerWhiteDescription": "Geyik Kulakları Beyaz",
+            "name": "Geyik"
+        },
+        "goat": {
+            "goatHornDescription": "Keçi Boynuzları",
+            "goatDescription": "Keçi Kulakları Beyaz",
+            "name": "Keçi"
+        },
+        "wolf": {
+            "wolfDescription": "Kurt Kulakları"
+        },
+        "dog": {
+            "shibaDescription": "Shiba Köpeği",
+            "dogDescription": "Köpek Kulakları Kahverengi"
+        },
+        "bunny": {
+            "maidDescription": "Hizmetçi Kulakları Tavşan"
         }
     },
     "systemMessages": {
@@ -985,9 +1005,14 @@
                 "member": "Üye",
                 "joined": "Katıldı",
                 "joinedNerimity": "Nerimity'e Katıldı"
+            },
+            "order": {
+                "ascending": "Artarak",
+                "descending": "Azalarak"
             }
         },
-        "inVoice": "Sesli aramada"
+        "inVoice": "Sesli aramada",
+        "addChannel": "Kanal Ekle"
     },
     "general": {
         "searchPlaceholder": "Ara",
@@ -1014,14 +1039,16 @@
             "avatar": "Avatar",
             "banner": "Afiş",
             "browse": ""
-        }
+        },
+        "nothingSelected": "Hiçbir şey seçilmedi",
+        "selectItem": "Öğe seç"
     },
     "nicknameChangeModal": {
         "title": "Sunucu Profilini Güncelle"
     },
     "transferOwnershipModal": {
         "title": "Sahipliği Aktar",
-        "description": "",
+        "description": "Sahiplik yeni bir kullanıcıya devredilecektir.",
         "ifVerified": "Bu sunucu doğrulanmamış olucak.",
         "server": "Sunucu:",
         "transferring": "Transfer ediliyor…"

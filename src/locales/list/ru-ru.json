@@ -1019,14 +1019,10 @@
         }
     },
     "colorPickerModal": {
-        "title": "Выбор цвета",
-        "done": "Готово"
+        "title": "Выбор цвета"
     },
     "photoEditor": {
         "title": "Редактор фото",
-        "cancel": "Отмена",
-        "edit": "Отредактировать",
-        "undo": "Отменить (Ctrl + Z)",
         "brush": "Кисть",
         "erase": "Стёрка",
         "strokeWidth": "Толщина кисти: {{width}}",
@@ -1035,8 +1031,7 @@
         "desktopZoom": "Прокрутка: масштаб"
     },
     "imageCropModal": {
-        "title": "Обрезка изображения",
-        "done": "Готово"
+        "title": "Обрезка изображения"
     },
     "oauth2": {
         "AuthorizeButton": "Авторизировать",
