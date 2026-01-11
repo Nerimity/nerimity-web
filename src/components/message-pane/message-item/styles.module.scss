@@ -61,6 +61,7 @@
   background: var(--gradient, var(--color, var(--primary-color)));
   -webkit-background-clip: text;
   background-clip: text;
+  letter-spacing: var(--ls);
 
   font-family: var(--font);
   font-size: calc(16px * var(--scale, 1));

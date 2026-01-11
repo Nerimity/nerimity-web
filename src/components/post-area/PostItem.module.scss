@@ -62,6 +62,7 @@
     line-height: 1.2;
     line-height: var(--lh);
     text-overflow: ellipsis;
+    letter-spacing: var(--ls);
     white-space: nowrap;
     font-family: var(--font);
     font-size: calc(16px * var(--scale, 1));

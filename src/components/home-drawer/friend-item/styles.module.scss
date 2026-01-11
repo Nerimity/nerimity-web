@@ -74,6 +74,7 @@
     line-height: var(--lh);
     opacity: 0.6;
     transition: 0.2s;
+    letter-spacing: var(--ls);
     font-family: var(--font);
     font-size: calc(14px * var(--scale, 1));
   }

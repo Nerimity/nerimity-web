@@ -277,6 +277,7 @@ export default function ProfilePane() {
                           style={{
                             "--font": `'${font()?.name}'`,
                             "--lh": font()?.lineHeight,
+                            "--ls": font()?.letterSpacing,
                             "--scale": font()?.scale,
                           }}
                         >

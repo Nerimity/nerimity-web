@@ -145,6 +145,7 @@ const MemberItem = (props: {
               "--color": topRoleWithColor()?.hexColor!,
               "--font": `'${font()?.name}'`,
               "--lh": font()?.lineHeight,
+              "--ls": font()?.letterSpacing,
               "--scale": font()?.scale,
             }}
           >

@@ -398,6 +398,7 @@ const DesktopProfileFlyout = (props: {
                     "--font": `'${font()?.name}'`,
                     "--lh": font()?.lineHeight,
                     "--scale": font()?.scale,
+                    "--ls": font()?.letterSpacing,
                   }}
                   class={styles.username}
                 >

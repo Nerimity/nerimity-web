@@ -120,6 +120,7 @@
 
 .username {
   line-height: var(--lh);
+  letter-spacing: var(--ls);
   font-family: var(--font);
   font-size: calc(20px * var(--scale, 1));
 }

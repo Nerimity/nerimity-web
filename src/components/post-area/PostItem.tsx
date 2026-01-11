@@ -265,6 +265,7 @@ const Details = (props: {
           color: "white",
           "--font": `'${font()?.name}'`,
           "--lh": font()?.lineHeight,
+          "--ls": font()?.letterSpacing,
           "--scale": font()?.scale,
         }}
         onClick={(e) => e.stopPropagation()}

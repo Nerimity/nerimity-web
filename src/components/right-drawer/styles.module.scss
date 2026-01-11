@@ -236,6 +236,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     text-overflow: ellipsis;
+    letter-spacing: var(--ls);
     white-space: nowrap;
     font-family: var(--font);
     font-size: calc(16px * var(--scale, 1));

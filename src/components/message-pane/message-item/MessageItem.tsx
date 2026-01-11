@@ -13,7 +13,10 @@ import {
   RawMessageReaction,
   RawUser,
 } from "@/chat-api/RawData";
-import useMessages, { Message, MessageSentStatus } from "@/chat-api/store/useMessages";
+import useMessages, {
+  Message,
+  MessageSentStatus,
+} from "@/chat-api/store/useMessages";
 import {
   addMessageReaction,
   fetchMessageReactedUsers,
@@ -250,6 +253,7 @@ const Details = (props: DetailsProps) => {
           "--color": topRoleWithColor()?.hexColor!,
           "--font": `'${font()?.name}'`,
           "--lh": font()?.lineHeight,
+          "--ls": font()?.letterSpacing,
           "--scale": font()?.scale,
         }}
       >
@@ -611,21 +615,24 @@ const MessageItem = (props: MessageItemProps) => {
   );
 };
 
-const updateCheckEntity = (message: Message, entity: Entity, state: boolean) => {
-  const messages = useMessages()
+const updateCheckEntity = (
+  message: Message,
+  entity: Entity,
+  state: boolean
+) => {
+  const messages = useMessages();
 
-  const text = message.content ?? ""
-  const before = text.slice(0, entity.outerSpan.start)
-  const checkbox = `-[${state ? 'x' : ' '}]`
-  const after = text.slice(entity.outerSpan.end, text.length)
+  const text = message.content ?? "";
+  const before = text.slice(0, entity.outerSpan.start);
+  const checkbox = `-[${state ? "x" : " "}]`;
+  const after = text.slice(entity.outerSpan.end, text.length);
 
   messages.editAndStoreMessage(
     message.channelId,
     message.id,
     `${before}${checkbox}${after}`
   );
-}
-
+};
 
 const Content = (props: {
   message: Message;
@@ -635,7 +642,7 @@ const Content = (props: {
   const params = useParams<{ serverId?: string }>();
   const store = useStore();
   const [t] = useTransContext();
-  const account = useAccount()
+  const account = useAccount();
 
   const canEditMessage = () =>
     account.user()?.id === props.message.createdBy.id &&
@@ -662,7 +669,9 @@ const Content = (props: {
           text={props.message.content || ""}
           serverId={params.serverId}
           canEditCheckboxes={canEditMessage()}
-          onCheckboxChanged={(entity, state) => updateCheckEntity(props.message, entity, state)}
+          onCheckboxChanged={(entity, state) =>
+            updateCheckEntity(props.message, entity, state)
+          }
         />
       </Show>
       <Show
