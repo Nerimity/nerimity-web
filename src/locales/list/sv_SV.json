@@ -2,6 +2,9 @@
     "general": {
         "nothingSelected": "Inget valt",
         "selectItem": "välj objekt",
-        "searchPlaceholder": "söka"
+        "searchPlaceholder": "söka",
+        "cancelButton": "Avboka",
+        "closeButton": "Nära",
+        "editButton": "Redigera"
     }
 }
