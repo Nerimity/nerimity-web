@@ -51,6 +51,13 @@
     "statusHeader": {
         "authenticationError": "Autentiseringsfel",
         "connecting": "Ansluter…",
-        "reconnecting": "Återansluter…"
+        "reconnecting": "Återansluter…",
+        "inQueue": "I kö: {{count}} användare före dig",
+        "authenticating": "Autentiserar…",
+        "connected": "Ansluten!"
+    },
+    "dangerousLinkModal": {
+        "title": "Anpassad länk",
+        "message": "Den här länken tar dig till"
     }
 }
