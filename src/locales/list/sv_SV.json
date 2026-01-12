@@ -1,7 +1,7 @@
 {
     "general": {
         "nothingSelected": "Inget valt",
-        "selectItem": "Välj objekt",
+        "selectItem": "Markera objekt",
         "searchPlaceholder": "Sök",
         "cancelButton": "Avbryt",
         "closeButton": "Stäng",
@@ -13,12 +13,12 @@
         "doneButton": "Klar",
         "backButton": "Tillbaka",
         "saveButton": "Spara",
-        "saveChangesButton": "Spara Ändringar",
+        "saveChangesButton": "Spara ändringar",
         "saving": "Sparar…",
-        "copyLink": "Kopiera Länk",
+        "copyLink": "Kopiera länk",
         "copyID": "Kopiera ID",
         "accountData": {
-            "email": "E-mail",
+            "email": "E-post",
             "username": "Användarnamn",
             "password": "Lösenord"
         },
@@ -38,7 +38,7 @@
     "systemMessages": {
         "joinServer": {
             "bot": "<User/><2> har lagts till i servern.</2>",
-            "user": "<User/><2> har anslutit till servern.</2>"
+            "user": "<User/><2> har gått med i servern.</2>"
         },
         "leaveServer": "<User/><2> har lämnat servern.</2>",
         "kickUser": "<User/><2> har blivit utsparkad.</2>",
