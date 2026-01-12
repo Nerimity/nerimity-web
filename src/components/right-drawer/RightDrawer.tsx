@@ -32,7 +32,7 @@ import {
 } from "@/chat-api/services/MessageService";
 import { ChannelType, RawAttachment, RawMessage } from "@/chat-api/RawData";
 import env from "@/common/env";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { classNames, cn, conditionalClass } from "@/common/classNames";
 import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { emitScrollToMessage } from "@/common/GlobalEvents";
@@ -91,7 +91,7 @@ const MemberItem = (props: {
     createRegisteredPortal(
       "ProfileFlyout",
       {
-        triggerEl: e.target as HTMLElement,
+        triggerEl: e.currentTarget as HTMLElement,
         position: { left: rect.left, top: rect.top },
         serverId: params.serverId,
         close: close,
@@ -111,7 +111,6 @@ const MemberItem = (props: {
   return (
     <div
       style={props.style}
-      class="trigger-profile-flyout"
       onMouseEnter={() => {
         userDetailsPreloader.preload(user().id);
         setHovering(true);
@@ -127,7 +126,7 @@ const MemberItem = (props: {
       <div
         onClick={onClick}
         ref={elementRef}
-        class={styles.memberItem}
+        class={cn(styles.memberItem, "trigger-profile-flyout")}
         onContextMenu={onContextMenu}
       >
         <Avatar
