@@ -49,7 +49,7 @@ importers:
       '@fontsource/mochiy-pop-one':
         specifier: ^5.2.8
         version: 5.2.8
-      '@fontsource/press-start-2p':
+      '@fontsource/pixelify-sans':
         specifier: ^5.2.7
         version: 5.2.7
       '@fontsource/roboto-slab':
@@ -618,8 +618,8 @@ packages:
   '@fontsource/mochiy-pop-one@5.2.8':
     resolution: {integrity: sha512-WNPX7iIlifcXKDd27o2+YeUkS2BwLIU3LupW3Sz7RLHxxl/mE3ucNuAJesJ+aL/BNLI62+J7w+e3RMoGNlzd8w==}
 
-  '@fontsource/press-start-2p@5.2.7':
-    resolution: {integrity: sha512-ezSxYRchANoteja170ZHh2Tt4oejmVEvX42VFPOVVvERSZ68pcuZFjbhHfrK/sNjYmaGg656y7B3431ojO9PCQ==}
+  '@fontsource/pixelify-sans@5.2.7':
+    resolution: {integrity: sha512-F/UuV2M9poAj/BJ5/6u95mOy6ptp8/+dpfnxh4TFzKeAB+vdanAjQ8fLJcS0q+WHYgesRRxPwNFr2Pqm18CVGg==}
 
   '@fontsource/roboto-slab@5.2.8':
     resolution: {integrity: sha512-8+iMCsoUZsDwQUe5omwCp7JPNTVdyAgay5AdhmnFZPEVIVabujrmYaFkSuZ1+GUemPEWlzEQ6aQkg2mPL84SAA==}
@@ -2681,7 +2681,7 @@ snapshots:
 
   '@fontsource/mochiy-pop-one@5.2.8': {}
 
-  '@fontsource/press-start-2p@5.2.7': {}
+  '@fontsource/pixelify-sans@5.2.7': {}
 
   '@fontsource/roboto-slab@5.2.8': {}
 

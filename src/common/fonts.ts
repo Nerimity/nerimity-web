@@ -4,7 +4,7 @@ export interface Font {
   import: () => Promise<{ default: typeof import("*.css") }>;
   scale: number;
   lineHeight?: number;
-  letterSpacing?: number;
+  letterSpacing?: string;
 }
 export const Fonts: Font[] = [
   {
@@ -16,10 +16,9 @@ export const Fonts: Font[] = [
   },
   {
     id: 1,
-    name: "Press Start 2P",
-    import: () => import("@fontsource/press-start-2p/latin-400.css"),
-    scale: 0.9,
-    letterSpacing: -2.1,
+    name: "Pixelify Sans",
+    import: () => import("@fontsource/pixelify-sans/latin-400.css"),
+    scale: 1,
   },
   {
     id: 2,
