@@ -233,6 +233,11 @@
             "servers": "Servrar",
             "bots": "Botar",
             "themes": "Teman"
+        },
+        "bots": {
+            "title": "Utforska - Botar",
+            "noticeMessage": "En bot kan bli bumpad en gång var {{hours}} timme. Alla bumps återställs var {{date}}.",
+            "moderationNotice": "Bottar modereras inte av Nerimity. Vänligen rapportera bottar som är illvilliga eller bryter mot användarvillkoren."
         }
     }
 }
