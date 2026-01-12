@@ -1,7 +1,7 @@
 {
     "general": {
         "nothingSelected": "Inget valt",
-        "selectItem": "Markera objekt",
+        "selectItem": "Välj objekt",
         "searchPlaceholder": "Sök",
         "cancelButton": "Avbryt",
         "closeButton": "Stäng",
@@ -26,7 +26,7 @@
             "avatar": "Profilbild",
             "banner": "Bakgrundsbild",
             "browse": "Bläddra",
-            "supportedFileTypes": "Stöds: {{extensions}}, Max {{size}}"
+            "supportedFileTypes": "Stödjer: {{extensions}}, Max {{size}}"
         }
     },
     "header": {
@@ -66,7 +66,7 @@
         "noToken": "Ingen token försedd.",
         "suspended": "Du är avstängd.",
         "reason": "Anledning",
-        "defaultReason": "Bryter mot användarvillkoren",
+        "defaultReason": "Bryter mot Användarvillkoren",
         "until": "Tillsvidare",
         "never": "aldrig",
         "by": "Av",
@@ -145,15 +145,15 @@
     "status": {
         "online": "Online",
         "ltp": "Vill spela",
-        "afk": "Bort från tangentbordet",
+        "afk": "Borta från tangentbordet",
         "dnd": "Stör ej",
-        "offline": "Off-line",
+        "offline": "Offline",
         "appearAsOffline": "Visas som offline"
     },
     "sidePane": {
         "home": "Hem",
         "homeShort": "Hem",
-        "moderation": "Modereringsruta",
+        "moderation": "Moderationsruta",
         "moderationShort": "Mod",
         "addServer": "Lägg till server"
     },
@@ -161,17 +161,17 @@
         "title": "Uppdatering tillgänglig",
         "updateButton": "Uppdatera nu",
         "laterButton": "Senare",
-        "releasedAt": "Släpptes kl."
+        "releasedAt": "Släpptes vid"
     },
     "messageArea": {
-        "messageBoxPlaceholder": "Meddelande till {{användarnamn}}",
-        "messageBoxChannelPlaceholder": "Meddelande i {{channelName}}",
+        "messageBoxPlaceholder": "Skriv till {{användarnamn}}",
+        "messageBoxChannelPlaceholder": "Skriv i {{channelName}}",
         "replying": "Svarar på {{count}} meddelanden)",
-        "mention": "Nämna",
-        "dropFile": "Släpp fil",
+        "mention": "Nämn",
+        "dropFile": "Dra in fil",
         "uploadTo": "Ladda upp till",
         "channelNotice": {
-            "title": "Innan du chattar…",
+            "title": "Innan du skriver…",
             "understoodButton": "Förstått"
         },
         "specialMentions": {
@@ -180,7 +180,7 @@
             "silent": "Tyst meddelande"
         },
         "linkToGoogleDrive": {
-            "body": "Du måste länka ditt konto till Google Drive för att ladda upp stora bilder, videor eller filer",
+            "body": "Du måste länka ditt Google Drive konto för att ladda upp stora bilder, videor eller filer",
             "linkButton": "Länka nu",
             "cancelButton": "Länka inte"
         },
@@ -188,12 +188,12 @@
     },
     "inputFieldActions": {
         "copy": "Kopiera",
-        "cut": "Skära",
+        "cut": "Klipp ut",
         "paste": "Klistra"
     },
     "markup": {
-        "bold": "Djärv",
-        "italic": "Kursiv",
+        "bold": "Fetstil",
+        "italic": "Kursivstil",
         "strikethrough": "Genomstruken",
         "header": "Rubrik",
         "namedLink": "Namngiven länk",
@@ -203,10 +203,10 @@
         "html": "HTML-läge",
         "emojiPicker": "Emoji-väljare",
         "timestampModal": {
-            "title": "Tidspåslag",
+            "title": "Tids-markup",
             "relative": "Relativ",
             "offset": "Offset",
-            "doneButton": "Gjort"
+            "doneButton": "Klar"
         },
         "checkbox": "Kryssruta"
     },
@@ -215,9 +215,9 @@
             "title": "Blockerade användare"
         },
         "drawer": {
-            "searchBarPlaceholder": "Söka",
-            "friendRequests": "{{count}} vänförfrågningar",
-            "onlineFriends": "{{count}} Onlinevänner",
+            "searchBarPlaceholder": "Sök",
+            "friendRequests": "{{count}} Vänförfrågningar",
+            "onlineFriends": "{{count}} Online-vänner",
             "offlineFriends": "{{count}} Offline-vänner",
             "notes": "Anteckningar",
             "addFriendButton": "Lägg till vän",
@@ -231,13 +231,13 @@
         "drawer": {
             "title": "Utforska",
             "servers": "Servrar",
-            "bots": "Botar",
+            "bots": "Bottar",
             "themes": "Teman"
         },
         "bots": {
-            "title": "Utforska - Botar",
-            "noticeMessage": "En bot kan bli bumpad en gång var {{hours}} timme. Alla bumps återställs var {{date}}.",
-            "moderationNotice": "Bottar modereras inte av Nerimity. Vänligen rapportera bottar som är illvilliga eller bryter mot användarvillkoren."
+            "title": "Utforska - Bottar",
+            "noticeMessage": "En bot kan bli bumpad en gång var {{hours}} timme. Alla bumpar återställs var {{date}}.",
+            "moderationNotice": "Bottar modereras inte av Nerimity. Vänligen rapportera bottar som är elakartade eller bryter mot användarvillkoren."
         }
     }
 }
