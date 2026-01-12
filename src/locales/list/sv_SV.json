@@ -1,7 +1,7 @@
 {
     "general": {
         "nothingSelected": "Inget valt",
-        "selectItem": "Välj objekt",
+        "selectItem": "Markera objekt",
         "searchPlaceholder": "Sök",
         "cancelButton": "Avbryt",
         "closeButton": "Stäng",
@@ -13,12 +13,12 @@
         "doneButton": "Klar",
         "backButton": "Tillbaka",
         "saveButton": "Spara",
-        "saveChangesButton": "Spara Ändringar",
+        "saveChangesButton": "Spara ändringar",
         "saving": "Sparar…",
-        "copyLink": "Kopiera Länk",
+        "copyLink": "Kopiera länk",
         "copyID": "Kopiera ID",
         "accountData": {
-            "email": "E-mail",
+            "email": "E-post",
             "username": "Användarnamn",
             "password": "Lösenord"
         },
@@ -38,21 +38,21 @@
     "systemMessages": {
         "joinServer": {
             "bot": "<User/><2> har lagts till i servern.</2>",
-            "user": "<User/><2> har anslutit till servern.</2>"
+            "user": "<User/><2> har gått med i servern.</2>"
         },
         "leaveServer": "<User/><2> har lämnat servern.</2>",
         "kickUser": "<User/><2> har blivit utsparkad.</2>",
         "banUser": "<User/><2> har blivit bannad.</2>",
         "callStarted": "<User/><2> startade ett samtal.</2>",
         "bumpServer": "<User/><2> bumpade servern.</2>",
-        "pinnedMessage": "<User/><2> fäste fast ett meddelande.</2>",
+        "pinnedMessage": "<User/><2> fäste ett meddelande.</2>",
         "unsupported": "<User/><2> Meddelandet stöds ej.</2>"
     },
     "statusHeader": {
         "authenticationError": "Autentiseringsfel",
         "connecting": "Ansluter…",
         "reconnecting": "Återansluter…",
-        "inQueue": "I kön: {{count}} Användare före dig",
+        "inQueue": "I kön: {{count}} användare före dig",
         "authenticating": "Autentiserar…",
         "connected": "Ansluten!"
     },
@@ -72,42 +72,42 @@
         "by": "Av",
         "deletionNotice": "Ditt konto och dina uppgifter kommer att raderas om 15 dagar",
         "ipBanned": "Din IP-adress är bannad.",
-        "ipBanNotice": "Någon med samma IP-adress har stängts av från Nerimity. Ditt konto påverkas inte.",
+        "ipBanNotice": "Någon med samma IP-address har stängts av från Nerimity. Ditt konto påverkas inte.",
         "title": "Anslutningsfel",
         "ok": "OK"
     },
     "homePage": {
-        "slogan": "En modern och snygg chattapp.",
-        "subslogan": "Nerimity erbjuder en elegant och funktionsrik upplevelse som skiljer den från mängden.",
-        "viewGitHubButton": "Se på GitHub",
+        "slogan": "En modern och elegant chattapp.",
+        "subslogan": "Nerimity erbjuder en elegant och funktionsrik upplevelse som skiljer sig från mängden.",
+        "viewGitHubButton": "Visa på GitHub",
         "getStarted": "Kom igång",
         "availableOn": "Tillgänglig på",
         "browser": "Webbläsare",
         "featureList": {
-            "feature1": "Gratis animerade avatarer och emojis",
+            "feature1": "Gratis animerade profilbilder & emojis",
             "feature2": "Elegant design",
             "feature3": "Ändra din tagg gratis",
             "feature4": "Skapa inlägg på din profil",
-            "feature5": "Skapa din egen gemenskap",
-            "feature6": "Hitta nya samhällen",
-            "feature7": "Löper från donationer",
+            "feature5": "Skapa ditt egna community",
+            "feature6": "Hitta nya gemenskaper",
+            "feature7": "Bibehålls genom donationer",
             "feature8": "Fullständig källkod på GitHub",
-            "feature9": "Uttryck dig med gränser"
+            "feature9": "Uttryck dig själv med profilramar"
         }
     },
     "loginPage": {
         "title": "Logga in för att fortsätta",
-        "emailOrUsernameAndTag": "E-postadress / användarnamn: tagg",
+        "emailOrUsernameAndTag": "E-postadress / användarnamn:tagg",
         "password": "Lösenord",
-        "login": "Inloggning",
+        "login": "Logga in",
         "createAccountInstead": "Skapa ett konto istället",
         "loggingIn": "Loggar in…"
     },
     "registerPage": {
-        "header": "Register",
+        "header": "Registrera dig",
         "notices": {
-            "title": "Meddelanden",
-            "toxic": "Var inte giftig.",
+            "title": "Notiser",
+            "toxic": "Var inte elakartad.",
             "nsfw": "Inget NSFW-innehåll.",
             "age": "Du måste vara 14 år eller äldre."
         },
@@ -117,13 +117,13 @@
         "password": "Lösenord",
         "confirmPassword": "Bekräfta lösenord",
         "agreement": "Genom att skapa ett konto godkänner du Villkoren och Integritetspolicyn.",
-        "registerButton": "Register",
+        "registerButton": "Registrera dig",
         "registering": "Registrerar…",
         "loginInstead": "Logga in istället"
     },
     "resetPassword": {
         "title": "Återställ lösenord",
-        "resetSuccessful": "Lösenordsåterställningen lyckades.",
+        "resetSuccessful": "Återställning av lösenord lyckades.",
         "passwordsDoNotMatch": "Bekräfta att lösenordet inte matchar.",
         "passwordTooLong": "Lösenordet måste vara kortare än 72 tecken.",
         "resetPasswordButton": "Återställ lösenord",
@@ -133,13 +133,13 @@
         "sending": "Skickar e-post…"
     },
     "dashboard": {
-        "title": "Instrumentpanel",
+        "title": "Aktivitetsflöde",
         "activeUsers": "Aktiva användare",
         "noActiveUsers": "Inga aktiva användare",
         "servers": "Servrar",
         "posts": "Inlägg",
-        "feed": "Foder",
-        "discover": "Upptäcka",
+        "feed": "Flöde",
+        "discover": "Upptäck",
         "notifications": "Aviseringar"
     },
     "status": {
@@ -233,6 +233,11 @@
             "servers": "Servrar",
             "bots": "Botar",
             "themes": "Teman"
+        },
+        "bots": {
+            "title": "Utforska - Botar",
+            "noticeMessage": "En bot kan bli bumpad en gång var {{hours}} timme. Alla bumps återställs var {{date}}.",
+            "moderationNotice": "Bottar modereras inte av Nerimity. Vänligen rapportera bottar som är illvilliga eller bryter mot användarvillkoren."
         }
     }
 }

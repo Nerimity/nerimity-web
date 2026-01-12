@@ -921,7 +921,8 @@
         "translationError": "Не ўдалося перакласьці паведамленьне.",
         "translation": {
             "title": "Пераклад"
-        }
+        },
+        "imageMessage": "Паведамленьне з відарысам"
     },
     "colorPickerModal": {
         "title": "Выбар колеру"
@@ -945,10 +946,10 @@
     "badges": {
         "kitty": {
             "name": "Кіса",
-            "blueDescription": "Кіса з блякітнымі вушкамі",
-            "whiteDescription": "Кіса з белымі вушкамі",
+            "blueDescription": "Вушкі кісы з Арктыкі",
+            "whiteDescription": "Кіса пароды рыска",
             "maidDescription": "Кіса-пакаёўка",
-            "purpleDescription": "Кіса зь фіялетавымі вушкамі"
+            "purpleDescription": "Чэшырская кіса"
         },
         "foxy": {
             "name": "Ліса",
@@ -992,28 +993,28 @@
         },
         "bunny": {
             "name": "Трусік",
-            "bunnyDescription": "Трусік з чорнымі вушкамі",
+            "bunnyDescription": "Трусік з прыгнутым вушкам",
             "maidDescription": "Трусік-пакаёўка"
         },
         "dog": {
             "name": "Сабачка",
-            "dogDescription": "Сабака з карычневымі вушкамі",
-            "shibaDescription": "Сабака Сіба-іну"
+            "dogDescription": "Вушкі добрага хлопчыка",
+            "shibaDescription": "Сабачка Сіба-іну"
         },
         "wolf": {
             "name": "Ваўчок",
-            "wolfDescription": "Вушкі воўка"
+            "wolfDescription": "Вушкі ваўчка"
         },
         "goat": {
             "name": "Каза",
-            "goatDescription": "Белыя казіныя вухі",
+            "goatDescription": "Мілыя казіныя вушкі",
             "goatHornDescription": "Казіныя рогі"
         },
         "deer": {
             "name": "Алень",
-            "deerDescription": "Вухі і рага аленя",
-            "deerDarkDescription": "Цёмныя вухі і рага аленя",
-            "deerWhiteDescription": "Алень з белымі вушкамі"
+            "deerDescription": "Мілыя рогі аленя",
+            "deerDarkDescription": "Рогі эма-аленя",
+            "deerWhiteDescription": "Мілы алень з ружовымі вушкамі"
         }
     },
     "status": {
@@ -1040,7 +1041,8 @@
             "relative": "Адносны",
             "offset": "Зрух",
             "doneButton": "Гатова"
-        }
+        },
+        "checkbox": "Птушка"
     },
     "connectionErrorModal": {
         "title": "Памылка пры падлучэньні",
