@@ -1095,7 +1095,7 @@
     "foxy": {
       "name": "Foxy",
       "foxyGoldDescription": "Golden Foxy Ears",
-      "foxyBrownDescription": "Brown Foxy ears"
+      "foxyBrownDescription": "Brown Foxy Ears"
     },
     "founder": {
       "name": "Founder",
@@ -1139,7 +1139,7 @@
     },
     "dog": {
       "name": "Doggy",
-      "dogDescription": "Good puppy ears",
+      "dogDescription": "Good Puppy Ears",
       "shibaDescription": "Shiba Inu Doggy"
     },
     "wolf": {
