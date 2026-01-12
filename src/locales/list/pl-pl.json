@@ -946,15 +946,15 @@
     "badges": {
         "kitty": {
             "name": "Kotek",
-            "blueDescription": "Niebieskouchy Kotek",
-            "whiteDescription": "Białouchy Kotek",
+            "blueDescription": "Arktyczne Kocie Uszka",
+            "whiteDescription": "Kocie Uszka Calico",
             "maidDescription": "Kocie uszka z opaską",
-            "purpleDescription": "Fioletowouchy Kotek"
+            "purpleDescription": "Kocie Uszka Cheshire"
         },
         "foxy": {
             "name": "Lisek",
-            "foxyGoldDescription": "Złotouchy Lis",
-            "foxyBrownDescription": "Brązowouchy Lis"
+            "foxyGoldDescription": "Złotouchy Lisek",
+            "foxyBrownDescription": "Brązowouchy Lisek"
         },
         "founder": {
             "name": "Założyciel",
@@ -993,28 +993,28 @@
         },
         "bunny": {
             "name": "Zajączek",
-            "bunnyDescription": "Czarnouchy Zajączek",
+            "bunnyDescription": "Zajęcze zwisające uszy",
             "maidDescription": "Zajęcze uszka z opaską"
         },
         "dog": {
             "name": "Piesek",
-            "dogDescription": "Brązowouchy Pies",
-            "shibaDescription": "Pies Shiba"
+            "dogDescription": "Uszy dobrego szczeniaka",
+            "shibaDescription": "Piesek Shiba Inu"
         },
         "wolf": {
             "name": "Wilczek",
-            "wolfDescription": "Uszy Wilka"
+            "wolfDescription": "Wilcze Uszka"
         },
         "goat": {
             "name": "Koza",
-            "goatDescription": "Białoucha Koza",
+            "goatDescription": "Kozie Uszka Kawaii",
             "goatHornDescription": "Kozie Rogi"
         },
         "deer": {
             "name": "Jeleń",
-            "deerDescription": "Jelenie Rogi",
-            "deerDarkDescription": "Jelenie Rogi Ciemne",
-            "deerWhiteDescription": "Jelenie Uszy"
+            "deerDescription": "Słodkie Jelenie Poroże",
+            "deerDarkDescription": "Emo Jelenie Poroże",
+            "deerWhiteDescription": "Różowy Jeleń Kawaii"
         }
     },
     "connectionErrorModal": {
