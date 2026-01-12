@@ -1055,7 +1055,8 @@
             "relative": "Relativo",
             "offset": "Diferencia horaria",
             "doneButton": "Hecho"
-        }
+        },
+        "checkbox": "Checkbox"
     },
     "mainPaneHeader": {
         "mentions": {
