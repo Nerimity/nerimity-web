@@ -129,6 +129,18 @@ export const languages: Record<string, Language> = {
     emoji: "🇪🇸",
     contributors: ["https://github.com/World170", "Linterna001"],
   },
+  "sv-sv": {
+    name: "Swedish",
+    nativeName: "Svenska",
+    emoji: "🇸🇪",
+    contributors: ["Hyruled"],
+  },
+  uk: {
+    name: "Ukrainian",
+    nativeName: "Українська",
+    emoji: "🇺🇦",
+    contributors: ["https://github.com/1enify", "Shiroi karasu"],
+  },
   "th-th": {
     name: "Thai",
     nativeName: "ไทย",
