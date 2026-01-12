@@ -158,7 +158,7 @@ const DesktopProfileFlyout = (props: {
   anchor?: "left" | "right";
   showProfileSettings?: boolean;
 }) => {
-  const { createPortal } = useCustomPortal();
+  const { createPortal, openedPortals } = useCustomPortal();
   const { users, account, serverMembers, posts } = useStore();
   const [details, setDetails] = createSignal<UserDetails | undefined>(
     undefined
@@ -279,6 +279,10 @@ const DesktopProfileFlyout = (props: {
   let textSelected = false;
 
   const onBackgroundClick = (event: MouseEvent) => {
+    if (props.showProfileSettings) {
+      if (openedPortals().length > 1) return;
+    }
+
     if (props.mobile) return;
     if (event.target instanceof Element) {
       if (event.target.closest(".dropdown-popup")) return;
