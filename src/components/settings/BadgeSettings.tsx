@@ -76,7 +76,7 @@ export default function BadgeSettings() {
       />
       <SupportMethodBlock />
       <BadgesPreview badges={[USER_BADGES.SUPPORTER]} price={9.99} />
-      <BadgesPreview badges={availableBadges} price={3.99} />
+      <BadgesPreview badges={availableBadges} price={4.99} />
       <BadgesPreview
         badges={[
           {
