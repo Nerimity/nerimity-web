@@ -1087,15 +1087,15 @@
     "badges": {
         "kitty": {
             "name": "Kitty",
-            "blueDescription": "Kitty mit blauen Ohren",
-            "whiteDescription": "Kitty mit weißen Ohren",
+            "blueDescription": "Kitty mit arktischen Ohren",
+            "whiteDescription": "Kitty mit Calico-Ohren",
             "maidDescription": "Maid mit Katzenohren",
-            "purpleDescription": "Kitty mit Lila Ohren"
+            "purpleDescription": "Kitty mit Cheshire-Ohren"
         },
         "foxy": {
             "name": "Foxy",
-            "foxyGoldDescription": "Fuchs mit Goldenen Ohren",
-            "foxyBrownDescription": "Fox mit braunen Ohren"
+            "foxyGoldDescription": "Fuchs mit goldenen Ohren",
+            "foxyBrownDescription": "Foxy mit braunen Ohren"
         },
         "founder": {
             "name": "Gründer",
@@ -1134,28 +1134,28 @@
         },
         "bunny": {
             "name": "Bunny",
-            "bunnyDescription": "Bunny mit schwarzen Ohren",
+            "bunnyDescription": "Bunny mit Schlappohren",
             "maidDescription": "Maid mit Hasenohren"
         },
         "dog": {
             "name": "Doggy",
-            "dogDescription": "Hund mit braunen Ohren",
-            "shibaDescription": "Shiba Inu"
+            "dogDescription": "Braver Welpe mit Ohren",
+            "shibaDescription": "Shiba Inu Doggy"
         },
         "wolf": {
             "name": "Wolfy",
-            "wolfDescription": "Wolf Ohren"
+            "wolfDescription": "Wolfsohren"
         },
         "goat": {
             "name": "Ziege",
-            "goatDescription": "Ziege mit weißen Ohren",
+            "goatDescription": "Kawaii-Ziegen-Ohren",
             "goatHornDescription": "Ziegen Hörner"
         },
         "deer": {
             "name": "Hirsch",
-            "deerDescription": "Hirsch mit Ohren und Hörnern",
-            "deerDarkDescription": "Hirsch mit dunklen Ohren und Hörnern",
-            "deerWhiteDescription": "Hirsch Ohren weiß"
+            "deerDescription": "Niedliche Hirschgeweihe",
+            "deerDarkDescription": "Emo Hirschgeweihe",
+            "deerWhiteDescription": "Kawaii-pinker Hirsch"
         }
     }
 }
