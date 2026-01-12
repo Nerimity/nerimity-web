@@ -13,10 +13,18 @@
     overflow: hidden;
     align-items: center;
     padding: 4px;
+
+    padding-top: 0;
     margin-top: 4px;
     margin-left: -20px;
     border-radius: 8px;
     gap: 6px;
+    &.hasImage {
+      padding-top: 4px;
+      .richInfo {
+        margin-left: 0;
+      }
+    }
 
     .backgroundImage {
       position: absolute;
@@ -31,7 +39,7 @@
       display: flex;
       flex: 1;
       flex-direction: column;
-      margin-right: 2px;
+      margin-left: 16px;
     }
   }
   .activityImg {

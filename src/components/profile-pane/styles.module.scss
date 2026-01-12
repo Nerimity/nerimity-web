@@ -260,9 +260,13 @@
   flex-direction: column;
 
   padding: 6px;
-  border-radius: 8px;
 
+  padding-top: 0;
+  border-radius: 8px;
   gap: 6px;
+  &.hasImage {
+    padding-top: 6px;
+  }
   .backgroundImage {
     position: absolute;
     z-index: -1;
@@ -277,6 +281,8 @@
     flex: 1;
     flex-direction: column;
     margin-right: 2px;
+    margin-bottom: 4px;
+    margin-left: 2px;
   }
 }
 .activityImg {

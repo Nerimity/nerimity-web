@@ -21,6 +21,7 @@ import { t } from "@nerimity/i18lite";
 
 import style from "./UserActivity.module.css";
 import { getActivityType } from "@/common/activityType";
+import { cn } from "@/common/classNames";
 
 export const UserActivity = (props: {
   primaryColor?: string;
@@ -90,16 +91,14 @@ export const UserActivity = (props: {
               {activity()?.name}
             </Text>
           </div>
-          <Show when={activity()?.imgSrc || activity()?.emoji}>
-            <div class={style.richPresence}>
-              <Show when={imgSrc()}>
-                <div
-                  class={style.backgroundImage}
-                  style={{
-                    "background-image": `url(${imgSrc()})`,
-                  }}
-                />
-              </Show>
+          <div class={cn(style.richPresence, imgSrc() && style.hasImage)}>
+            <Show when={imgSrc()}>
+              <div
+                class={style.backgroundImage}
+                style={{
+                  "background-image": `url(${imgSrc()})`,
+                }}
+              />
               <img
                 src={imgSrc()}
                 class={style.activityImg + " activityImage"}
@@ -107,7 +106,9 @@ export const UserActivity = (props: {
                   [style.videoActivityImg!]: isVideo() || isLiveStream(),
                 }}
               />
-              <div class={style.richInfo}>
+            </Show>
+            <div class={style.richInfo}>
+              <Show when={activity()?.title}>
                 <Text
                   href={activity()?.link}
                   isDangerousLink
@@ -115,42 +116,35 @@ export const UserActivity = (props: {
                   size={13}
                   opacity={0.9}
                 >
-                  {activity()?.title || activity()?.name}
+                  {activity()?.title}
                 </Text>
+              </Show>
+              <Show when={activity()?.subtitle}>
                 <Text size={13} opacity={0.6}>
                   {activity()?.subtitle}
                 </Text>
-                <Show when={!isMusic() && !isVideo()}>
-                  <Text
-                    class={style.playedFor}
-                    size={13}
-                    opacity={0.6}
-                    title={formatTimestamp(activity()?.startedAt || 0)}
-                  >
-                    {playedFor()}
-                  </Text>
-                </Show>
-                <Show when={isMusic() || isVideo()}>
-                  <RichProgressBar
-                    updatedAt={activity()?.updatedAt}
-                    primaryColor={props.primaryColor}
-                    speed={activity()?.speed}
-                    startedAt={activity()?.startedAt!}
-                    endsAt={activity()?.endsAt!}
-                  />
-                </Show>
-              </div>
+              </Show>
+              <Show when={!isMusic() && !isVideo()}>
+                <Text
+                  class={style.playedFor}
+                  size={13}
+                  opacity={0.6}
+                  title={formatTimestamp(activity()?.startedAt || 0)}
+                >
+                  For {playedFor()}
+                </Text>
+              </Show>
+              <Show when={isMusic() || isVideo()}>
+                <RichProgressBar
+                  updatedAt={activity()?.updatedAt}
+                  primaryColor={props.primaryColor}
+                  speed={activity()?.speed}
+                  startedAt={activity()?.startedAt!}
+                  endsAt={activity()?.endsAt!}
+                />
+              </Show>
             </div>
-          </Show>
-          <Show when={!activity()?.imgSrc && !activity()?.emoji}>
-            <Text
-              class={style.playedFor}
-              size={13}
-              title={formatTimestamp(activity()?.startedAt || 0)}
-            >
-              For {playedFor()}
-            </Text>
-          </Show>
+          </div>
         </div>
       </div>
     </Show>

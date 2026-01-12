@@ -916,16 +916,14 @@ const UserActivity = (props: {
           </span>
         </FlexRow>
 
-        <Show when={activity()?.imgSrc || activity()?.emoji}>
-          <div class={styles.richPresence}>
-            <Show when={imgSrc()}>
-              <div
-                class={styles.backgroundImage}
-                style={{
-                  "background-image": `url(${imgSrc()})`,
-                }}
-              />
-            </Show>
+        <div class={cn(styles.richPresence, imgSrc() && styles.hasImage)}>
+          <Show when={imgSrc()}>
+            <div
+              class={styles.backgroundImage}
+              style={{
+                "background-image": `url(${imgSrc()})`,
+              }}
+            />
             <img
               src={imgSrc()}
               class={styles.activityImg}
@@ -933,7 +931,9 @@ const UserActivity = (props: {
                 [styles.videoActivityImg!]: isVideo() || isLiveStream(),
               }}
             />
-            <div class={styles.richInfo}>
+          </Show>
+          <div class={styles.richInfo}>
+            <Show when={activity()?.title}>
               <Text
                 size={13}
                 opacity={0.9}
@@ -941,50 +941,35 @@ const UserActivity = (props: {
                 isDangerousLink
                 newTab
               >
-                {activity()?.title || activity()?.name}
+                {activity()?.title}
               </Text>
-
+            </Show>
+            <Show when={activity()?.subtitle}>
               <Text size={13} opacity={0.6}>
                 {activity()?.subtitle}
               </Text>
-              <Show when={!isMusic() && !isVideo()}>
-                <Text
-                  class={styles.playedFor}
-                  size={13}
-                  opacity={0.6}
-                  title={formatTimestamp(activity()?.startedAt || 0)}
-                >
-                  {playedFor()}
-                </Text>
-              </Show>
-              <Show when={isMusic() || isVideo()}>
-                <RichProgressBar
-                  updatedAt={activity()?.updatedAt}
-                  speed={activity()?.speed}
-                  primaryColor={props.color}
-                  startedAt={activity()?.startedAt!}
-                  endsAt={activity()?.endsAt!}
-                />
-              </Show>
-            </div>
+            </Show>
+            <Show when={!isMusic() && !isVideo()}>
+              <Text
+                class={styles.playedFor}
+                size={13}
+                opacity={0.6}
+                title={formatTimestamp(activity()?.startedAt || 0)}
+              >
+                For {playedFor()}
+              </Text>
+            </Show>
+            <Show when={isMusic() || isVideo()}>
+              <RichProgressBar
+                updatedAt={activity()?.updatedAt}
+                speed={activity()?.speed}
+                primaryColor={props.color}
+                startedAt={activity()?.startedAt!}
+                endsAt={activity()?.endsAt!}
+              />
+            </Show>
           </div>
-        </Show>
-
-        <Show when={!activity()?.imgSrc && !activity()?.emoji}>
-          <Text
-            class={styles.playedFor}
-            style={{
-              "margin-left": "8px",
-              "margin-top": "-4px",
-              "margin-bottom": "8px",
-            }}
-            title={formatTimestamp(activity()?.startedAt || 0)}
-            size={14}
-            opacity={0.6}
-          >
-            For {playedFor()}
-          </Text>
-        </Show>
+        </div>
       </FlexColumn>
     </Show>
   );
