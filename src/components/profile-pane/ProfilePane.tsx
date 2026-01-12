@@ -933,7 +933,7 @@ const UserActivity = (props: {
             />
           </Show>
           <div class={styles.richInfo}>
-            <Show when={activity()?.title}>
+            <Show when={activity()?.title || (activity()?.name && imgSrc())}>
               <Text
                 size={13}
                 opacity={0.9}
@@ -941,7 +941,7 @@ const UserActivity = (props: {
                 isDangerousLink
                 newTab
               >
-                {activity()?.title}
+                {activity()?.title || activity()?.name}
               </Text>
             </Show>
             <Show when={activity()?.subtitle}>

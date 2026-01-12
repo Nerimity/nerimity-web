@@ -108,7 +108,7 @@ export const UserActivity = (props: {
               />
             </Show>
             <div class={style.richInfo}>
-              <Show when={activity()?.title}>
+              <Show when={activity()?.title || (activity()?.name && imgSrc())}>
                 <Text
                   href={activity()?.link}
                   isDangerousLink
@@ -116,7 +116,7 @@ export const UserActivity = (props: {
                   size={13}
                   opacity={0.9}
                 >
-                  {activity()?.title}
+                  {activity()?.title || activity()?.name}
                 </Text>
               </Show>
               <Show when={activity()?.subtitle}>
