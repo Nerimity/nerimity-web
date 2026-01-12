@@ -8,7 +8,7 @@
         "editButton": "Redigera",
         "undoButton": "Ångra",
         "deleteButton": "Radera",
-        "cannotBeUndone": "Detta kan inte göras om!",
+        "cannotBeUndone": "Detta kan ej ångras!",
         "confirmButton": "Bekräfta",
         "doneButton": "Klar",
         "backButton": "Tillbaka",
@@ -67,7 +67,7 @@
         "suspended": "Du är avstängd.",
         "reason": "Anledning",
         "defaultReason": "Bryter mot Användarvillkoren",
-        "until": "Tillsvidare",
+        "until": "Tills",
         "never": "aldrig",
         "by": "Av",
         "deletionNotice": "Ditt konto och dina uppgifter kommer att raderas om 15 dagar",
@@ -90,7 +90,7 @@
             "feature4": "Skapa inlägg på din profil",
             "feature5": "Skapa ditt egna community",
             "feature6": "Hitta nya gemenskaper",
-            "feature7": "Bibehålls genom donationer",
+            "feature7": "Hålls uppe via donationer",
             "feature8": "Fullständig källkod på GitHub",
             "feature9": "Uttryck dig själv med profilramar"
         }
@@ -107,7 +107,7 @@
         "header": "Registrera dig",
         "notices": {
             "title": "Notiser",
-            "toxic": "Var inte elakartad.",
+            "toxic": "Var inte elak.",
             "nsfw": "Inget NSFW-innehåll.",
             "age": "Du måste vara 14 år eller äldre."
         },
@@ -237,7 +237,90 @@
         "bots": {
             "title": "Utforska - Bottar",
             "noticeMessage": "En bot kan bli bumpad en gång var {{hours}} timme. Alla bumpar återställs var {{date}}.",
-            "moderationNotice": "Bottar modereras inte av Nerimity. Vänligen rapportera bottar som är elakartade eller bryter mot användarvillkoren."
+            "moderationNotice": "Bottar modereras inte av Nerimity. Vänligen rapportera bottar som är elakartade eller bryter mot användarvillkoren.",
+            "inviteButton": "Bjud in",
+            "serverCount": "I {{count}} servrar"
+        },
+        "themes": {
+            "title": "Utforska - Teman",
+            "themesHeaderDescription": "Personalisera Nerimity med ett eget tema.",
+            "officialThemes": "Officiella Teman",
+            "communityThemes": "Community Teman",
+            "noCommunityThemes": "Inga community teman hittades.",
+            "fetchThemesError": "Misslyckades att hämta in teman. Försök igen senare.",
+            "unlockDescription": "Klicka för att utforska alla community teman"
+        },
+        "servers": {
+            "title": "Utforska - Servrar",
+            "noticeMessage": "En server kan bli bumpad en gång per {{hours}} timme. Alla bumpar nollställs var {{date}}.",
+            "moderationNotice": "Servrar modereras inte av Nerimity. Anmäl servrar som bryter mot Användarvillkoren, tack.",
+            "sortMostBumps": "Mest Bumpar",
+            "sortMostMembers": "Mest Medlemmar",
+            "sortRecentlyAdded": "Nyligen tillagda",
+            "sortRecentlyBumped": "Nyligen Bumpad",
+            "sortMostActive": "Mest Aktiv (Beta)",
+            "filterAll": "Alla",
+            "filterVerified": "Verifierad",
+            "pinnedServers": "Fästa Sevrar",
+            "recentlyBumped": "Nyligen Bumpade Servrar",
+            "memberCount": "{{count}} medlemmar",
+            "visitServerButton": "Besök",
+            "joinServerButton": "Gå med",
+            "bumpButton": "Bumpa ({{count}})"
+        },
+        "sort": "Sortera",
+        "filter": "Filtrera",
+        "by": "Av",
+        "bumped": "Bumpad"
+    },
+    "editFolderModal": {
+        "title": "Redigera mapp",
+        "placeholder": "Mappnamn",
+        "errors": {
+            "emptyName": "Ge mappen ett namn."
+        }
+    },
+    "servers": {
+        "settings": {
+            "drawer": {
+                "general": "Allmänt",
+                "audit-logs": "Audit Loggar",
+                "roles": "Roller",
+                "channels": "Kanaler",
+                "bans": "Bannade",
+                "invites": "Inbjudningar",
+                "publishServer": "Publicera server",
+                "verify": "Verifiera",
+                "role": "Roll",
+                "welcome-screen": "Välkomstskärm",
+                "channel": "Kanal",
+                "permissions": "Behörigheter",
+                "emoji": "Emoji",
+                "notifications": "Aviseringar",
+                "external-embed": "Extern Embed"
+            },
+            "bans": {
+                "sort": {
+                    "alphabetical": "Alfabetiskt",
+                    "unsorted": "Osorterad"
+                },
+                "noResults": "Inga resultat hittades.",
+                "reason": "Anledning",
+                "noReason": "Ingen anledning angiven",
+                "bannedAt": "Bannad vid",
+                "unknown": "Okänd"
+            },
+            "webhook": {
+                "title": "Webhooks",
+                "name": "Webhook Namn",
+                "link": "Webhook URL",
+                "delete": "Ta bort Webhook"
+            },
+            "general": {
+                "serverRenameNotice": "Du kommer att förlora alla förmåner som en verifierad server ger om du byter namn.",
+                "serverName": "Servernamn",
+                "defaultChannel": "Standardkanal"
+            }
         }
     }
 }
