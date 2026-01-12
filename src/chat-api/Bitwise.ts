@@ -117,7 +117,8 @@ export const USER_BADGES = {
   BUNNY_EARS_MAID: {
     name: () => t("badges.bunny.name"),
     bit: USER_BADGE_BITS.BUNNY_EARS_MAID,
-    color: "linear-gradient(90deg, #6b6b6bff 0%, #ff9dc6ff 100%)",
+    color: "linear-gradient(100deg, #ff94e2, #ffffff)",
+    textColor: "#2a1d1d",
     overlay: true,
     description: () => t("badges.bunny.maidDescription"),
   },
@@ -132,7 +133,8 @@ export const USER_BADGES = {
   CAT_EARS_MAID: {
     name: () => t("badges.kitty.name"),
     bit: USER_BADGE_BITS.CAT_EARS_MAID,
-    color: "linear-gradient(90deg, #6b6b6bff 0%, #ff9dc6ff 100%)",
+    color: "linear-gradient(100deg, #ff94e2, #ffffff)",
+    textColor: "#2a1d1d",
     overlay: true,
     description: () => t("badges.kitty.maidDescription"),
   },
