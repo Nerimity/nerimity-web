@@ -133,7 +133,7 @@ export const languages: Record<string, Language> = {
     name: "Swedish",
     nativeName: "Svenska",
     emoji: "🇸🇪",
-    contributors: ["Hyruled"],
+    contributors: ["Hyruled", "reks"],
   },
   uk: {
     name: "Ukrainian",
