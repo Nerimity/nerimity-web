@@ -105,12 +105,13 @@ const BadgesPreview = (props: { badges: Bitwise[]; price: number }) => {
         <div
           class={css`
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
             gap: 6px;
             background: rgba(255, 255, 255, 0.05);
             justify-items: center;
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
+            padding: 6px;
           `}
         >
           <For each={props.badges}>
@@ -133,16 +134,29 @@ const badgeItemStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 200px;
+  width: 100%;
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 20px;
   padding-top: 20px;
-  text-align: center;
   gap: 8px;
+  position: relative;
+  box-sizing: border-box;
+  z-index: 1;
+  &:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--background-color);
+    opacity: 0.2;
+    z-index: -1;
+    border-radius: 8px;
+    pointer-events: none;
+  }
   .badge-desc {
     font-size: 12px;
     opacity: 0.6;
+    text-align: center;
   }
 `;
 const BadgeItem = (props: {
@@ -152,7 +166,6 @@ const BadgeItem = (props: {
   length: number;
 }) => {
   const [hovered, setHovered] = createSignal(false);
-  console.log(props.badge.textColor);
   return (
     <div
       class={badgeItemStyle}
@@ -161,7 +174,7 @@ const BadgeItem = (props: {
     >
       <Avatar
         user={{ ...props.user, badges: props.badge.bit }}
-        size={42}
+        size={52}
         animate={hovered()}
       />
       <div
