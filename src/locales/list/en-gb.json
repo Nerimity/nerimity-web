@@ -1087,15 +1087,15 @@
   "badges": {
     "kitty": {
       "name": "Kitty",
-      "blueDescription": "Blue Ears Kitty",
-      "whiteDescription": "White Ears Kitty",
-      "maidDescription": "Cat Ears Maid",
-      "purpleDescription": "Purple Ears Kitty"
+      "blueDescription": "Arctic Kitty Ears",
+      "whiteDescription": "Calico Kitty Ears",
+      "maidDescription": "Kitty Maid Ears",
+      "purpleDescription": "Chesire Kitty Ears"
     },
     "foxy": {
       "name": "Foxy",
-      "foxyGoldDescription": "Gold Ears Fox",
-      "foxyBrownDescription": "Brown Ears Fox"
+      "foxyGoldDescription": "Golden Foxy Ears",
+      "foxyBrownDescription": "Brown Foxy ears"
     },
     "founder": {
       "name": "Founder",
@@ -1134,28 +1134,28 @@
     },
     "bunny": {
       "name": "Bunny",
-      "bunnyDescription": "Black Ears Bunny",
-      "maidDescription": "Maid Ears Bunny"
+      "bunnyDescription": "Floppy Bunny Ears",
+      "maidDescription": "Maid Bunny Ears"
     },
     "dog": {
       "name": "Doggy",
-      "dogDescription": "Dog Ears Brown",
-      "shibaDescription": "Dog Shiba"
+      "dogDescription": "Good puppy ears",
+      "shibaDescription": "Shiba Inu Doggy"
     },
     "wolf": {
       "name": "Wolfy",
-      "wolfDescription": "Wolf Ears"
+      "wolfDescription": "Wolfy Ears"
     },
     "goat": {
       "name": "Goat",
-      "goatDescription": "Goat Ears White",
+      "goatDescription": "Kawaii Goat Ears",
       "goatHornDescription": "Goat Horns"
     },
     "deer": {
       "name": "Deer",
-      "deerDescription": "Deer Ears Horns",
-      "deerDarkDescription": "Deer Ear Horns Dark",
-      "deerWhiteDescription": "Deer Ears White"
+      "deerDescription": "Cute Deer Antlers",
+      "deerDarkDescription": "Emo Deer Antlers",
+      "deerWhiteDescription": "Kawaii Pink Deer"
     }
   }
 }
