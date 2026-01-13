@@ -135,7 +135,7 @@
                 "publishServer": "Открытость сервера",
                 "verify": "Верификация",
                 "role": "Роль",
-                "welcome-screen": "Экран приветствия",
+                "welcome-screen": "Раздел предпочтений",
                 "channel": "Канал",
                 "notifications": "Уведомления",
                 "audit-logs": "Журнал аудита",
@@ -196,7 +196,7 @@
                 "createInviteButton": "Создать приглашение",
                 "serverInvites": "Приглашения на сервер",
                 "serverInvitesDescription": "Пригласите своих друзей на этот сервер.",
-                "customInviteVerifiedOnlyNotice": "Пользовательские ссылки на приглашения доступны только для проверенных серверов.",
+                "customInviteVerifiedOnlyNotice": "Пользовательские ссылки на приглашения доступны только для верифицированных серверов.",
                 "customLink": "Пользовательская ссылка",
                 "uses": "{{count}} использование(ий)"
             },
@@ -228,7 +228,7 @@
             "webhook": {
                 "title": "Вебхуки",
                 "name": "Название вебхука",
-                "link": "URL вэбхука",
+                "link": "URL вебхука",
                 "linkDescription": "Выполнять действия через эту ссылку",
                 "delete": "Удалить вебхук"
             },
@@ -377,7 +377,7 @@
         },
         "header": {
             "servers": "сервера(ов)",
-            "friends": "друга(зей)",
+            "friends": "друга(друзей)",
             "manageAccount": "Управление аккаунтом"
         },
         "account": {
@@ -400,7 +400,7 @@
             "botID": "ID Бота",
             "palestineBorder": "Добавить палестинскую рамку к аватару.",
             "bio": "Обо мне",
-            "bioDescription": "Поддерживаются текста в несколько строк и форматирование",
+            "bioDescription": "Поддерживается полное форматирование и написание в несколько строк",
             "gradientColor1": "Цвет градиента 1",
             "gradientColor2": "Цвет градиента 2",
             "primaryColor": "Основной цвет",
@@ -427,8 +427,8 @@
         },
         "privacy": {
             "lastOnline": {
-                "title": "Последнее время онлайн",
-                "description": "Настроить, кто может видеть ваше последнее время онлайн."
+                "title": "Последнее время в сети",
+                "description": "Настроить, кто может видеть ваше последнее время в сети."
             },
             "directMessage": {
                 "title": "Личное сообщение",
@@ -549,7 +549,7 @@
             "startMinimized": "Открывать свёрнутой",
             "startMinimizedDescription": "Автоматически сворачивать Nerimity в трей.",
             "disableHardwareAcceleration": "Отключить аппаратное ускорение",
-            "reopenAppNotice": "Вы должгы перезапустить приложение, чтобы изменения вступили в силу.",
+            "reopenAppNotice": "Вы должны перезапустить приложение, чтобы изменения вступили в силу.",
             "disableCustomTitlebar": "Использовать системный заголовок окна"
         },
         "activity": {
@@ -581,7 +581,7 @@
             }
         },
         "experiments": {
-            "noExperiments": "Сейчас нету экспериментов.",
+            "noExperiments": "Сейчас нет экспериментов.",
             "reloadRequired": {
                 "title": "Необходима перезагрузка",
                 "body": "Чтобы применить изменения, необходимо перезагрузить Nerimity.",
@@ -600,7 +600,7 @@
         "serverName": "Название сервера",
         "placeholder": "Мой замечательный сервер",
         "creating": "Создание…",
-        "createServerButton": "Создать",
+        "createServerButton": "Создать сервер",
         "tabLabel": "Создание"
     },
     "serverContextMenu": {
@@ -611,7 +611,7 @@
             "mentionsOnly": "Только упоминания",
             "mute": "Ничего",
             "sections": {
-                "ping": "Отметка",
+                "ping": "Оповещение",
                 "sound": "Звук"
             },
             "initial": "Как у сервера"
@@ -673,16 +673,16 @@
         "followingTab": "Подписки",
         "postsAndRepliesTab": "Посты и ответы ({{count}})",
         "likedPostsTab": "Понравившиеся посты ({{count}})",
-        "followsYou": "Подписчик",
+        "followsYou": "Подписан(а) на вас",
         "badge": "Значок «{{badgeName}}»",
         "blockButton": "Заблокировать",
         "unblockButton": "Разблокировать",
         "reportButton": "Пожаловаться",
         "availableCommands": "Доступные комманды",
         "botCreator": "Создатель бота",
-        "suspended": "Этот пользователь отстранён",
-        "expires": "Истекает {{time}}.",
-        "expiresNever": "Истекает никогда.",
+        "suspended": "Этот пользователь приостановлен на платформе",
+        "expires": "Истекает: {{time}}.",
+        "expiresNever": "Истекает: никогда.",
         "blocked": "Вас заблокировали",
         "blockedDescription": "Этот пользователь вас заблокировал.",
         "privateList": "Этот список виден только вам.",
@@ -704,15 +704,15 @@
         },
         "postWasDeleted": "Этот пост был удален!",
         "someoneLikedYourPost": "<1>{{username}}</1> понравился ваш пост!",
-        "someoneFollowedYou": "<1>{{username}}</1> подписался на вас!",
-        "someoneRepliedToPost": "<1>{{username}}</1> ответил на ваш пост!",
+        "someoneFollowedYou": "<1>{{username}}</1> подписался(ась) на вас!",
+        "someoneRepliedToPost": "<1>{{username}}</1> ответил(а) на ваш пост!",
         "createAPostInputPlaceholder": "Написать пост…",
         "replyInputPlaceholder": "Написать ответ…",
         "replyButton": "Ответить",
         "createButton": "Опубликовать",
         "pollOptions": "Варианты голосования",
         "optionNumberPlaceholder": "Ответ {{number}}",
-        "someoneRepostedYourPost": "<1>{{username}}</1> репостнул ваш пост!"
+        "someoneRepostedYourPost": "<1>{{username}}</1> репостнул(а) ваш пост!"
     },
     "informationDrawer": {
         "channelNotice": "Примечание канала",
@@ -840,8 +840,8 @@
         "html": "Режим HTML",
         "emojiPicker": "Выбор эмодзи",
         "timestampModal": {
-            "title": "Настройка времени",
-            "relative": "Относительная",
+            "title": "Дата и время",
+            "relative": "Относительное",
             "offset": "Смещение",
             "doneButton": "Готово"
         },
@@ -860,7 +860,7 @@
         "listening": "Слушает"
     },
     "joinServerModal": {
-        "title": "Присоединение",
+        "title": "Присоединение к серверу",
         "notice": "Если вы хотите увидеть общедоступные серверы, перейдите во вкладку исследования.",
         "exploreButton": "Исследовать серверы",
         "inviteCode": "Код приглашения",
@@ -891,7 +891,7 @@
             "noMentions": "Нет упоминаний"
         },
         "pins": {
-            "noPins": "Нет закреплённых"
+            "noPins": "Нет закреплённых сообщений"
         },
         "jump": "Перейти",
         "voice": {
@@ -904,7 +904,7 @@
     },
     "channelDrawer": {
         "customize": {
-            "title": "Настройка",
+            "title": "Предпочтения",
             "subtitle": "Ответьте на эти вопросы:",
             "continueButton": "Перейти в {{channel}}"
         },
@@ -957,7 +957,7 @@
         "modifiedOrDeleted": "Этот файл был изменён/удалён создателем на их Google Drive.",
         "viewImage": "Просмотреть изображение",
         "download": "Скачать",
-        "expires": "Иссекает"
+        "expires": "Исчезнет"
     },
     "videoEmbed": {
         "couldNotGetVideo": "Не удалось подучить видео.",
@@ -965,7 +965,7 @@
         "googleDrivePolicy": "Из-за новой политики Google Drive, видео можно проигрывать только в приложении Nerimity для ПК.",
         "videoExpired": "Видео истекло.",
         "modifiedOrDeleted": "Это видео было изменёно/удалёно создателем на их Google Drive.",
-        "expires": "Иссякает",
+        "expires": "Исчезнет",
         "expired": "Истекло"
     },
     "addFriendModal": {
@@ -1014,7 +1014,7 @@
             "detailedEmbed": "Детализированный эмбед"
         },
         "blocked": "Вы заблокировали этого пользователя. Нажмите, чтобы показать.",
-        "translationError": "Не удалось перевести сообщение.",
+        "translationError": "Не удалось перевести это сообщение.",
         "translation": {
             "title": "Перевод"
         },
@@ -1145,7 +1145,7 @@
     },
     "nicknameChangeModal": {
         "title": "Обновление серверного профиля",
-        "description": "Все на этом сервере увидят ваш псевдоним.",
+        "description": "Все на этом сервере увидят этот псевдоним.",
         "inputLabel": "Псевдоним"
     },
     "transferOwnershipModal": {
