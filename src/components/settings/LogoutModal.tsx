@@ -19,13 +19,13 @@ export const LogoutModal = (props: { close: () => void }) => {
           label="Don't Logout"
           onClick={props.close}
           type="hover_border"
-          alert
           iconName="close"
         />
         <Modal.Button
           primary
           label="Logout"
           iconName="logout"
+          alert
           onClick={() => logout(undefined, !clearLocalSettings())}
         />
       </Modal.Footer>
