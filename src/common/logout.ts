@@ -1,10 +1,13 @@
 import { clearCache } from "./localCache";
 import { reactNativeAPI } from "./ReactNative";
 
-export const logout = async (redirect = true) => {
+export const logout = async (redirect = true, keepCache = false) => {
   reactNativeAPI()?.logout();
-  await clearCache();
-  localStorage.clear();
+  if (!keepCache) {
+    await clearCache();
+    localStorage.clear();
+  }
+  localStorage.removeItem("userToken");
   if (redirect) {
     location.href = "/";
   }

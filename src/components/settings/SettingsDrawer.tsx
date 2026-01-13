@@ -25,6 +25,7 @@ import { SupportBlock } from "../SupportBlock";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { Rerun } from "@solid-primitives/keyed";
 import { getCurrentLanguage } from "@/locales/languages";
+import { LogoutModal } from "./LogoutModal";
 
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;
@@ -74,7 +75,6 @@ const FooterContainer = styled(FlexColumn)`
 
 function Footer() {
   const [t] = useTransContext();
-  const navigate = useNavigate();
   const { createPortal } = useCustomPortal();
   const { isMobileWidth } = useWindowProperties();
 
@@ -82,8 +82,7 @@ function Footer() {
     createPortal?.((close) => <ChangelogModal close={close} />);
 
   const onLogoutClick = async () => {
-    await clearCache();
-    logout();
+    createPortal((close) => <LogoutModal close={close} />);
   };
 
   return (

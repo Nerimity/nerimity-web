@@ -53,6 +53,7 @@ import { currentTheme } from "@/common/themes";
 import { userDetailsPreloader } from "@/common/createPreloader";
 import { UserActivity } from "../user-activity/UserActivity";
 import { Fonts } from "@/common/fonts";
+import { LogoutModal } from "../settings/LogoutModal";
 
 interface Props {
   dmPane?: boolean;
@@ -811,6 +812,7 @@ function FlyoutTitle(props: {
 function SelfArea(props: { bg: string }) {
   const store = useStore();
   const navigate = useNavigate();
+  const { createPortal } = useCustomPortal();
 
   const userId = () => store.account.user()?.id;
   const navigateToProfile = () => {
@@ -823,6 +825,10 @@ function SelfArea(props: { bg: string }) {
   const goToNotes = () => {
     store.users.openDM(userId()!);
     emitDrawerGoToMain();
+  };
+
+  const logoutClick = () => {
+    createPortal((close) => <LogoutModal close={close} />);
   };
 
   return (
@@ -849,7 +855,7 @@ function SelfArea(props: { bg: string }) {
           label={t("header.logoutButton")}
           icon="logout"
           alert
-          onClick={logout}
+          onClick={logoutClick}
         />
       </div>
     </>

@@ -10,6 +10,8 @@ import { useTransContext } from "@nerimity/solid-i18lite";
 import { logout } from "@/common/logout";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import Avatar from "./ui/Avatar";
+import { useCustomPortal } from "./ui/custom-portal/CustomPortal";
+import { LogoutModal } from "./settings/LogoutModal";
 
 const HeaderContainer = styled("header")`
   display: flex;
@@ -196,8 +198,9 @@ function LogInLogOutSkeleton() {
 
 function LoggedInLinks(props: { user: RawUser }) {
   const [t] = useTransContext();
+  const { createPortal } = useCustomPortal();
   const onLogoutClick = () => {
-    logout();
+    createPortal((close) => <LogoutModal close={close} />);
   };
 
   return (
