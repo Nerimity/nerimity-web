@@ -26,13 +26,15 @@ import style from "./InterfaceSettings.module.css";
 import { useNavigate } from "solid-navigator";
 import { FlexColumn } from "../ui/Flexbox";
 import { timeFormat, setTimeFormat } from "@/common/date";
+import { toast } from "../ui/custom-portal/CustomPortal";
 
 export default function InterfaceSettings() {
   const { header } = useStore();
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
       iconName: "settings",
     });
   });
@@ -180,11 +182,11 @@ function TimeFormatSetting() {
   return (
     <SettingsBlock
       icon="schedule"
-      label={t("settings.interface.timeTitle")} 
+      label={t("settings.interface.timeTitle")}
       description={t(
         timeFormat() === "24hr"
-      ? t("settings.interface.24HourFormatDescription")
-      : t("settings.interface.12HourFormatDescription")
+          ? t("settings.interface.24HourFormatDescription")
+          : t("settings.interface.12HourFormatDescription")
       )}
     >
       <Checkbox checked={timeFormat() === "12hr"} onChange={toggleTimeFormat} />
@@ -263,13 +265,15 @@ function ChatBar() {
         )}
       </For>
       <SettingsBlock
-      icon="mobile_dots"
-      label={t("settings.interface.disableAdvancedMarkupBar")}
-      description={t("settings.interface.disableAdvancedMarkupBarDescription")}
-      borderTopRadius={false}
-    >
-      <Checkbox onChange={setEnabled} checked={enabled()} />
-    </SettingsBlock>
+        icon="mobile_dots"
+        label={t("settings.interface.disableAdvancedMarkupBar")}
+        description={t(
+          "settings.interface.disableAdvancedMarkupBarDescription"
+        )}
+        borderTopRadius={false}
+      >
+        <Checkbox onChange={setEnabled} checked={enabled()} />
+      </SettingsBlock>
     </FlexColumn>
   );
 }
@@ -308,6 +312,11 @@ function BlurEffect() {
 }
 
 function CustomizeColors() {
+  const copyThemeClipboard = () => {
+    navigator.clipboard.writeText(JSON.stringify(currentTheme()));
+    toast("Copied theme to clipboard.");
+  };
+
   return (
     <div>
       <SettingsBlock
@@ -315,7 +324,13 @@ function CustomizeColors() {
         label={t("settings.interface.customizeColors")}
         description={t("settings.interface.customizeColorsDescription")}
         header
-      />
+      >
+        <Button
+          label="Copy To Clipboard"
+          iconName="content_copy"
+          onClick={copyThemeClipboard}
+        />
+      </SettingsBlock>
       <For each={Object.entries(currentTheme())}>
         {([name, value], i) => (
           <SettingsBlock
