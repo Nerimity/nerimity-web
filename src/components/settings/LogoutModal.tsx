@@ -18,7 +18,6 @@ export const LogoutModal = (props: { close: () => void }) => {
         <Modal.Button
           label="Don't Logout"
           onClick={props.close}
-          type="hover_border"
           iconName="close"
         />
         <Modal.Button
