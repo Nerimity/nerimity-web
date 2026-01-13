@@ -74,7 +74,7 @@
             "viewAll": "Посмотреть всех"
         },
         "blockedUsersModal": {
-            "title": "Заблокированные"
+            "title": "Заблокированные пользователи"
         }
     },
     "explore": {
@@ -835,16 +835,17 @@
         "header": "Заголовок",
         "namedLink": "Названная ссылка",
         "spoiler": "Спойлер",
-        "timestamp": "Временная отметка",
+        "timestamp": "Метка времени",
         "color": "Цвет",
         "html": "Режим HTML",
         "emojiPicker": "Выбор эмодзи",
         "timestampModal": {
             "title": "Настройка времени",
-            "relative": "Относительное",
+            "relative": "Относительная",
             "offset": "Смещение",
             "doneButton": "Готово"
-        }
+        },
+        "checkbox": "Галочка"
     },
     "editFolderModal": {
         "title": "Изменение папки",
@@ -1016,7 +1017,8 @@
         "translationError": "Не удалось перевести сообщение.",
         "translation": {
             "title": "Перевод"
-        }
+        },
+        "imageMessage": "Изображение в сообщении"
     },
     "colorPickerModal": {
         "title": "Выбор цвета"
@@ -1040,8 +1042,8 @@
     "badges": {
         "kitty": {
             "name": "Кошечка",
-            "blueDescription": "Кошечка с синими ушками",
-            "whiteDescription": "Кошечка с белыми ушками",
+            "blueDescription": "Ушки северного котенка",
+            "whiteDescription": "Кошечка с трёхцветными ушками",
             "maidDescription": "Кошечка-горничная",
             "purpleDescription": "Кошечка с фиолетовыми ушками"
         },
