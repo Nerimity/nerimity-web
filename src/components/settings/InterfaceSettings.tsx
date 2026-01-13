@@ -18,6 +18,8 @@ import {
   customColors,
   setThemeColor,
   DefaultTheme,
+  setCustomColors,
+  updateTheme,
 } from "@/common/themes";
 import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import Button from "../ui/Button";
@@ -317,6 +319,12 @@ function CustomizeColors() {
     toast("Copied theme to clipboard.");
   };
 
+  const importTheme = () => {
+    const theme = JSON.parse(prompt("Paste theme here:")! as string) as Theme;
+    setCustomColors(theme);
+    updateTheme();
+  };
+
   return (
     <div>
       <SettingsBlock
@@ -326,10 +334,11 @@ function CustomizeColors() {
         header
       >
         <Button
-          label="Copy To Clipboard"
+          label="Export"
           iconName="content_copy"
           onClick={copyThemeClipboard}
         />
+        <Button label="Import" iconName="content_paste" onClick={importTheme} />
       </SettingsBlock>
       <For each={Object.entries(currentTheme())}>
         {([name, value], i) => (

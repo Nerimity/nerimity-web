@@ -136,4 +136,4 @@ export const applyTheme = (name: string, themeObj?: ThemePreset) => {
 
 updateTheme();
 
-export { DefaultTheme as theme, currentTheme, customColors };
+export { DefaultTheme as theme, currentTheme, customColors, setCustomColors };
