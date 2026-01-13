@@ -1145,7 +1145,7 @@
     },
     "nicknameChangeModal": {
         "title": "Zaktualizuj Profil Serwerowy",
-        "description": "Wszyscy użytkownicy tego serwera będą widzieć Twój pseudonim.",
+        "description": "Wszyscy użytkownicy tego serwera zobaczą ten pseudonim.",
         "inputLabel": "Pseudonim"
     },
     "transferOwnershipModal": {
