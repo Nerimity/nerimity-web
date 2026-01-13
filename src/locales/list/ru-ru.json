@@ -1094,8 +1094,8 @@
         },
         "dog": {
             "name": "Пёсик",
-            "dogDescription": "Щенок с коричневыми ушками",
-            "shibaDescription": "Собачка Сиба-ину"
+            "dogDescription": "Пёсик с коричневыми ушками",
+            "shibaDescription": "Пёсик Сиба-ину"
         },
         "wolf": {
             "name": "Волчок",
