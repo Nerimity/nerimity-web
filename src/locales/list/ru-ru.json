@@ -6,22 +6,22 @@
         "joinNowButton": "Присоединиться сейчас"
     },
     "homePage": {
-        "slogan": "Современное и стильное приложение для общения.",
+        "slogan": "Современное и утончённое приложение для общения.",
         "viewGitHubButton": "Посмотреть на GitHub",
         "subslogan": "Nerimity предлагает изящный и богатый функциями опыт, что делает его особенным.",
-        "getStarted": "Начнём",
+        "getStarted": "Начать",
         "availableOn": "Доступно для",
-        "browser": "Браузера",
+        "browser": "Браузер",
         "featureList": {
             "feature1": "Бесплатные анимированые аватары и эмодзи",
-            "feature2": "Стильный дезайн",
+            "feature2": "Стильный дизайн",
             "feature3": "Бесплатная смена тега",
             "feature4": "Создание публикаций в профиле",
             "feature5": "Создайте собственное сообщество",
             "feature6": "Найдите новые сообщества",
             "feature7": "Работает на пожертвованиях",
             "feature8": "Полный исходный код на GitHub",
-            "feature9": "Выражайте себя с помощью рамок"
+            "feature9": "Выражайте себя с помощью значков"
         }
     },
     "loginPage": {
@@ -441,9 +441,9 @@
             "profileOptions": {
                 "title": "Настройки профиля",
                 "hideFollowers": "Скрыть подписчиков",
-                "hideFollowersDescription": "Скрыть ваших подписчиков в профиле.",
+                "hideFollowersDescription": "Скрыть из вашего профиля ваших подписчиков.",
                 "hideFollowing": "Скрыть подписки",
-                "hideFollowingDescription": "Скрыть пользователей, на которых вы подписаны из вашего профиля."
+                "hideFollowingDescription": "Скрыть из вашего профиля пользователей, на которых вы подписаны."
             },
             "options": {
                 "anybody": "Все",
@@ -729,44 +729,44 @@
     },
     "systemMessages": {
         "joinServer": {
-            "bot": "<User/><2> был добавлен на сервер.</2>",
-            "user": "<User/><2> присоединился к серверу.</2>"
+            "bot": "<User/><2> был(а) добавлен(а) на сервер.</2>",
+            "user": "<User/><2> присоединился(ась) к серверу.</2>"
         },
-        "leaveServer": "<User/><2> вышел с сервера.</2>",
-        "kickUser": "<User/><2> был выгнан.</2>",
-        "banUser": "<User/><2> был забанен.</2>",
-        "callStarted": "<User/><2> начал звонок.</2>",
-        "bumpServer": "<User/><2> продвинул сервер.</2>",
-        "pinnedMessage": "<User/><2> закрепил сообщение.</2>",
+        "leaveServer": "<User/><2> вышел(а) с сервера.</2>",
+        "kickUser": "<User/><2> исключили с сервера.</2>",
+        "banUser": "<User/><2> заблокировали на сервере.</2>",
+        "callStarted": "<User/><2> начал(а) звонок.</2>",
+        "bumpServer": "<User/><2> продвинул(а) сервер.</2>",
+        "pinnedMessage": "<User/><2> закрепил(а) сообщение.</2>",
         "unsupported": "<User/><2> Сообщение не поддерживается.</2>"
     },
     "statusHeader": {
         "authenticationError": "Ошибка аутентификации",
         "connecting": "Подключение…",
         "reconnecting": "Переподключение…",
-        "inQueue": "В очереди: перед вами {{count}} пользователь(ей)",
+        "inQueue": "В очереди: {{count}} пользователь(ей) перед Вами",
         "authenticating": "Аутентификация…",
         "connected": "Подключено!"
     },
     "dangerousLinkModal": {
         "title": "Пользовательская ссылка",
         "message": "Эта ссылка приведёт вас на",
-        "cancelButton": "Не посещать",
-        "visitButton": "Посетить"
+        "cancelButton": "Не переходить",
+        "visitButton": "Перейти"
     },
     "connectionErrorModal": {
         "title": "Ошибка подключения",
         "ok": "Ок",
-        "noToken": "Токен не дан.",
-        "suspended": "Вы отстронены.",
+        "noToken": "Токен не предоставлен.",
+        "suspended": "Ваш аккаунт приостановлен.",
         "reason": "Причина",
-        "defaultReason": "Нарушения условий",
-        "until": "До",
+        "defaultReason": "Нарушение условий использования платформы",
+        "until": "Возвращение доступа",
         "never": "никогда",
         "by": "От",
-        "deletionNotice": "Ваш аккаунт и данные будут удалены через 15 дней",
+        "deletionNotice": "Ваш аккаунт и его данные будут удалены через 15 дней",
         "ipBanned": "Ваш IP-адрес заблокирован.",
-        "ipBanNotice": "Кто-то с таким же IP-адресом был отстранён от использования Nerimity. Ваш аккаунт это не затрагивает."
+        "ipBanNotice": "Кто-то с таким же IP-адресом был приостановлен на Nerimity. Ваш аккаунт это не затрагивает."
     },
     "resetPassword": {
         "title": "Сброс пароля",
@@ -797,18 +797,18 @@
     "updateModal": {
         "title": "Доступно обновление",
         "updateButton": "Обновить сейчас",
-        "laterButton": "Потом",
+        "laterButton": "Позже",
         "releasedAt": "Выпущено"
     },
     "messageArea": {
         "messageBoxPlaceholder": "Написать {{username}}",
         "messageBoxChannelPlaceholder": "Написать в {{channelName}}",
-        "replying": "В ответ на {{count}} сообщений",
+        "replying": "Отвечая на {{count}} сообщения(ий)",
         "mention": "Упомянуть",
         "dropFile": "Отпустите файл",
         "uploadTo": "Загрузить на",
         "channelNotice": {
-            "title": "Перед тем, как начать…",
+            "title": "Перед тем, как начать общение…",
             "understoodButton": "Понятно"
         },
         "specialMentions": {
@@ -824,7 +824,7 @@
         "emailNotice": "Подтвердите ваш электронный адрес, чтобы отправлять сообщения."
     },
     "inputFieldActions": {
-        "copy": "Копировать",
+        "copy": "Скопировать",
         "cut": "Вырезать",
         "paste": "Вставить"
     },
@@ -1108,14 +1108,14 @@
         },
         "deer": {
             "name": "Олень",
-            "deerDescription": "Оленьи рога и уши",
-            "deerDarkDescription": "Тёмные оленьи рога и уши",
+            "deerDescription": "Оленьи рога и ушки",
+            "deerDarkDescription": "Тёмные оленьи рога и ушки",
             "deerWhiteDescription": "Олень с белыми ушками"
         }
     },
     "general": {
         "nothingSelected": "Ничего не выбрано",
-        "selectItem": "Выбор",
+        "selectItem": "Выберите",
         "searchPlaceholder": "Поиск",
         "backButton": "Назад",
         "cancelButton": "Отмена",
@@ -1136,7 +1136,7 @@
         "avatarAndBanner": {
             "avatar": "Аватар",
             "banner": "Баннер",
-            "supportedFileTypes": "Поддерживаются: {{extensions}}, макс. {{size}}",
+            "supportedFileTypes": "Поддерживаются: {{extensions}}, Максимум {{size}}",
             "browse": "Выбрать"
         },
         "closeButton": "Закрыть",
