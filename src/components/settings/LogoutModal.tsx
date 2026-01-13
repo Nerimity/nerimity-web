@@ -4,7 +4,7 @@ import { Modal } from "../ui/modal";
 import { logout } from "@/common/logout";
 
 export const LogoutModal = (props: { close: () => void }) => {
-  const [clearLocalSettings, setClearLocalSettings] = createSignal(false);
+  const [clearLocalSettings, setClearLocalSettings] = createSignal(true);
   return (
     <Modal.Root close={props.close}>
       <Modal.Header title="Logout?" icon="logout" />
