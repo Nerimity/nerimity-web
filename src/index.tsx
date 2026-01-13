@@ -88,6 +88,9 @@ const ServerDrawer = lazy(
   () => import("@/components/servers/drawer/ServerDrawer")
 );
 const HomeDrawer = lazy(() => import("@/components/home-drawer/HomeDrawer"));
+const ModerationDrawer = lazy(
+  () => import("@/components/moderation-pane/ModerationDrawer")
+);
 const ExploreDrawer = lazy(() => import("@/components/explore/ExploreDrawer"));
 const ServerSettingsDrawer = lazy(
   () => import("@/components/servers/settings/ServerSettingsDrawer")
@@ -326,7 +329,10 @@ render(() => {
           <Show when={account.hasModeratorPerm(true)}>
             <Route
               path="/moderation"
-              components={{ mainPane: ModerationPane, leftDrawer: HomeDrawer }}
+              components={{
+                mainPane: ModerationPane,
+                leftDrawer: ModerationDrawer,
+              }}
             >
               <Route
                 path="/servers/:serverId"
