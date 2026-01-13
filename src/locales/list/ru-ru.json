@@ -1042,10 +1042,10 @@
     "badges": {
         "kitty": {
             "name": "Кошечка",
-            "blueDescription": "Ушки северного котенка",
+            "blueDescription": "Кошечка с северными ушками",
             "whiteDescription": "Кошечка с трёхцветными ушками",
             "maidDescription": "Кошечка-горничная",
-            "purpleDescription": "Кошечка с чеширскими ушками"
+            "purpleDescription": "Кошечка с фиолетовыми ушками"
         },
         "foxy": {
             "name": "Лисичка",
@@ -1089,12 +1089,12 @@
         },
         "bunny": {
             "name": "Кролик",
-            "bunnyDescription": "Кролик с чёрными ушками",
+            "bunnyDescription": "Кролик с серыми свисающими ушками",
             "maidDescription": "Кролик-горничная"
         },
         "dog": {
             "name": "Пёсик",
-            "dogDescription": "Собака с коричневыми ушками",
+            "dogDescription": "Щенок с коричневыми ушками",
             "shibaDescription": "Собачка Сиба-ину"
         },
         "wolf": {
