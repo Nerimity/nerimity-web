@@ -37,6 +37,7 @@ import { useDocumentListener } from "@/common/useDocumentListener";
 import { emojis, lazyLoadEmojis } from "@/emoji";
 import { Delay } from "@/common/Delay";
 import { Rerun } from "@solid-primitives/keyed";
+import Input from "../input/Input";
 
 const [gifPickerSearch, setGifPickerSearch] = createSignal("");
 
@@ -233,7 +234,7 @@ const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
 const GifPickerSearchBar = () => {
   const { isMobileAgent } = useWindowProperties();
 
-  let inputRef: HTMLInputElement | undefined;
+  const [inputRef, setInputRef] = createSignal<HTMLInputElement | null>(null);
   let timeout: null | number = null;
   const onInput = (e: InputEvent) => {
     if (timeout) {
@@ -247,17 +248,24 @@ const GifPickerSearchBar = () => {
 
   onMount(() => {
     if (!isMobileAgent()) {
-      inputRef?.focus();
+      inputRef()?.focus();
     }
   });
 
   return (
     <div class={styles.gifPickerSearchBar}>
-      <input
+      <Input
         ref={inputRef}
-        placeholder="Search KLIPY GIFs"
+        placeholder="Search KLIPY"
         value={gifPickerSearch()}
         onInput={onInput}
+        class={styles.gifPickerSearchBarInput}
+        suffix={
+          <img
+            class={styles.poweredByKlipy}
+            src="/assets/klipy-powered-by.png"
+          />
+        }
       />
     </div>
   );

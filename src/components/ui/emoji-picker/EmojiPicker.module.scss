@@ -4,7 +4,7 @@
       background-color: black;
       backdrop-filter: none;
     }
-    .gifPickerSearchBar input {
+    .gifPickerSearchBarInput > div {
       backdrop-filter: none;
       background-color: rgb(37, 37, 37);
     }
@@ -90,6 +90,12 @@
   }
 }
 
+.poweredByKlipy {
+  height: 26px;
+  align-self: center;
+  margin-top: -4px;
+  margin-right: 4px;
+}
 .gifPickerSearchBar {
   display: flex;
   position: sticky;
@@ -100,7 +106,10 @@
   right: 0;
   margin-bottom: 8px;
   padding-right: 6px;
-  input {
+  .gifPickerSearchBarInput {
+    flex: 1;
+  }
+  .gifPickerSearchBarInput > div {
     outline: none;
     color: white;
     flex: 1;
@@ -110,7 +119,6 @@
     border: solid 1px rgba(255, 255, 255, 0.2);
     border-bottom: solid 1px var(--primary-color);
     border-radius: 6px;
-    padding: 10px;
   }
 }
 

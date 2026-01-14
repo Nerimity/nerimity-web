@@ -4,7 +4,7 @@ import { styled } from "solid-styled-components";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { RawAttachment } from "@/chat-api/RawData";
-import { createSignal, lazy, onCleanup, onMount } from "solid-js";
+import { createSignal, lazy, onCleanup, onMount, Show } from "solid-js";
 import env from "@/common/env";
 import { transitionViewIfSupported } from "@/common/transitionViewIfSupported";
 
@@ -17,8 +17,15 @@ const ImageEmbedContainer = styled(FlexRow)`
   align-self: flex-start;
   cursor: pointer;
 
-  img {
+  .image {
     border-radius: 8px;
+  }
+
+  .klipy {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    height: 12px;
   }
 
   &.gif:after {
@@ -58,6 +65,9 @@ export function ImageEmbed(props: ImageEmbedProps) {
     }
     return url.href;
   };
+
+  const isKlipy = () =>
+    props.attachment.origSrc?.startsWith("https://static.klipy.com");
 
   const contextMenuSrc = () => {
     return props.attachment.origSrc || url(true);
@@ -122,10 +132,14 @@ export function ImageEmbed(props: ImageEmbedProps) {
       <img
         data-contextmenu-src={contextMenuSrc()}
         loading="lazy"
+        class="image"
         src={url()}
         style={style()}
         alt=""
       />
+      <Show when={isKlipy()}>
+        <img class="klipy" src="/assets/klipy-light.png" />
+      </Show>
     </ImageEmbedContainer>
   );
 }
