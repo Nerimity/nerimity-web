@@ -164,7 +164,7 @@
         "releasedAt": "Släpptes vid"
     },
     "messageArea": {
-        "messageBoxPlaceholder": "Skriv till {{användarnamn}}",
+        "messageBoxPlaceholder": "Skriv till {{username}}",
         "messageBoxChannelPlaceholder": "Skriv i {{channelName}}",
         "replying": "Svarar på {{count}} meddelanden)",
         "mention": "Nämn",
