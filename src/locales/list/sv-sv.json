@@ -266,7 +266,8 @@
             "memberCount": "{{count}} medlemmar",
             "visitServerButton": "Besök",
             "joinServerButton": "Gå med",
-            "bumpButton": "Bumpa ({{count}})"
+            "bumpButton": "Bumpa ({{count}})",
+            "lifetimeBumpCount": "{{count}} totala bumpar"
         },
         "sort": "Sortera",
         "filter": "Filtrera",
@@ -308,18 +309,40 @@
                 "reason": "Anledning",
                 "noReason": "Ingen anledning angiven",
                 "bannedAt": "Bannad vid",
-                "unknown": "Okänd"
+                "unknown": "Okänd",
+                "unban": "Ta bort ban",
+                "unbanning": "Tar bort ban…"
             },
             "webhook": {
                 "title": "Webhooks",
                 "name": "Webhook Namn",
                 "link": "Webhook URL",
-                "delete": "Ta bort Webhook"
+                "delete": "Ta bort Webhook",
+                "linkDescription": "Utför aktion genom denna länk"
             },
             "general": {
                 "serverRenameNotice": "Du kommer att förlora alla förmåner som en verifierad server ger om du byter namn.",
                 "serverName": "Servernamn",
-                "defaultChannel": "Standardkanal"
+                "defaultChannel": "Standardkanal",
+                "defaultChannelDescription": "Nya medlemmar kommer dirigeras till denna kanal.",
+                "systemMessages": "Systemmeddelanden",
+                "systemMessagesDescription": "Där systemmeddelanden ska visas.",
+                "deleteThisServer": "Radera servern",
+                "deleteServerButton": "Radera Servern",
+                "none": "Inga"
+            },
+            "roles": {
+                "addNewRole": "Lägg till ny roll",
+                "addRoleButton": "Lägg till roll"
+            },
+            "role": {
+                "clear": "Nollställ",
+                "roleIcon": "Ikon till roll",
+                "managedByBot": "Denna roll överses av {{botName}}. Du kan inte ta bort eller lägga till medlemmar till rollen. Sparka ut botten för att radera rollen.",
+                "hideRole": "Göm Rollen",
+                "hideRoleDescription": "Visa medlemmar med denna roll tillsammans med vanliga medlemmar",
+                "applyOnJoin": "Applicera när användare har gått med",
+                "applyOnJoinDescription": "Rollen appliceras när användaren går med i servern."
             }
         }
     }
