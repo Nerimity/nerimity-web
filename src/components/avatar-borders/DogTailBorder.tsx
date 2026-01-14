@@ -16,7 +16,7 @@ export function DogTailBorder(props: {
         width: "100%",
         "margin-left": (props.offsetLeft || 0) * props.size + "px",
         "margin-top": (props.offset || 0) * props.size + "px",
-        "z-index": "1111",
+        "z-index": "1",
       }}
       src={`/borders/dog-tail-${props.color}.png`}
     />
