@@ -25,7 +25,8 @@ const ImageEmbedContainer = styled(FlexRow)`
     position: absolute;
     bottom: 4px;
     left: 4px;
-    height: 12px;
+    height: 10px;
+    opacity: 0.8;
   }
 
   &.gif:after {
