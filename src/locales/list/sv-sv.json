@@ -342,7 +342,31 @@
                 "hideRole": "Göm Rollen",
                 "hideRoleDescription": "Visa medlemmar med denna roll tillsammans med vanliga medlemmar",
                 "applyOnJoin": "Applicera när användare har gått med",
-                "applyOnJoinDescription": "Rollen appliceras när användaren går med i servern."
+                "applyOnJoinDescription": "Rollen appliceras när användaren går med i servern.",
+                "roleName": "Rollnamn",
+                "roleColor": "Rollfärg",
+                "permissionsDescription": "Hantera behörigheter för den här rollen.",
+                "deleteRoleTitle": "Radera {{roleName}}",
+                "deleteRoleButton": "Radera rollen"
+            },
+            "header": {
+                "editServer": "Redigera server",
+                "serverMemberCount": "{{count}} medlemmar"
+            },
+            "welcomeScreen": {
+                "title": "Frågor",
+                "description": "Anordna frågor. Låt användare tillsätta roller.",
+                "answers": {
+                    "editModal": {
+                        "selectRoles": "Välj roller"
+                    }
+                }
+            },
+            "channels": {
+                "createButton": "Skapa",
+                "createNewDescription": "Skapa en ny kanal eller kategori",
+                "textChannel": "Textkanal",
+                "category": "Kategori"
             }
         }
     }
