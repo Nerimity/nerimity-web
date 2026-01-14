@@ -241,16 +241,16 @@
                 "title": "Webhooks",
                 "name": "Nombre de Webhook",
                 "link": "Enlace de Webhook",
-                "linkDescription": "Ejecuta acciones usando este link",
+                "linkDescription": "Ejecuta acciones usando este enlance",
                 "delete": "Elimina webhook"
             },
             "general": {
-                "serverRenameNotice": "Perderás todas las ventajas de tener tu servidor verificado si cambias el nombre.",
+                "serverRenameNotice": "Perderás todas las ventajas de un servidor verificado si cambias el nombre.",
                 "serverName": "Nombre del servidor",
                 "defaultChannel": "Canal predeterminado",
                 "defaultChannelDescription": "Los nuevos miembros serán dirigidos a este canal.",
                 "systemMessages": "Mensajes del sistema",
-                "systemMessagesDescription": "El canal donde los mensajes del sistema deberían aparecer.",
+                "systemMessagesDescription": "Canal dónde se muestran los mensajes del sistema.",
                 "deleteThisServer": "Eliminar este servidor",
                 "deleteServerButton": "Eliminar servidor",
                 "none": "Ninguno"
@@ -263,14 +263,14 @@
                 "roleName": "Nombre del rol",
                 "roleColor": "Color del rol",
                 "hideRole": "Ocultar rol",
-                "hideRoleDescription": "Mostrar los miembros con este rol junto con todos los miembros predeterminados",
+                "hideRoleDescription": "Mostrar los miembros con este rol junto con los miembros predeterminados",
                 "permissionsDescription": "Gestiona los permisos de este rol.",
-                "deleteRoleButton": "Eliminar este rol",
+                "deleteRoleButton": "Elimina este rol",
                 "clear": "Limpiar",
                 "roleIcon": "Icono del rol",
-                "managedByBot": "Este rol esta controlado por {{botName}}. No puedes eliminar o añadir miembros a este rol. Expulsa a este bot para quitar este rol.",
+                "managedByBot": "Este rol está gestionado por {{botName}}. No puedes añadir ni eliminar miembros de este rol. Expulsa a este bot para eliminar el rol.",
                 "applyOnJoin": "Aplicar al unirse",
-                "applyOnJoinDescription": "Aplica este rol a cualquier miembro cuando se una al servidor.",
+                "applyOnJoinDescription": "Otorgar este rol a los usuarios al entrar al servidor.",
                 "deleteRoleTitle": "Eliminar {{roleName}}"
             },
             "header": {
@@ -717,7 +717,7 @@
         "noMessages": "Sin mensajes",
         "noMessagesDescription": "No hay mensajes en este canal.",
         "newMessages": "Nuevos mensajes",
-        "slowMode": "Modo calmado",
+        "slowMode": "Tiempo de espera entre mensajes",
         "flaggedServer": {
             "title": "Eliminar programación",
             "description": "Este servidor no cumplió con nuestros Términos de Servicio y será eliminado pronto.",
@@ -1086,7 +1086,7 @@
                 "24hours": "24 horas"
             },
             "sort": {
-                "header": "Ordenar por",
+                "header": "Ordenar",
                 "member": "Miembro",
                 "joined": "Se unió",
                 "joinedNerimity": "Se unió a Nerimity"
