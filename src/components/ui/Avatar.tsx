@@ -265,6 +265,7 @@ function AvatarBorder(props: {
         </Match>
         <Match when={props.badge || props.serverOrUser?.verified}>
           <BasicBorder
+          badges={props.badges}
             size={props.size}
             color={
               props.serverOrUser?.verified
