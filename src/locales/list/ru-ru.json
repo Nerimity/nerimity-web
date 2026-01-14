@@ -808,7 +808,7 @@
         "dropFile": "Отпустите файл",
         "uploadTo": "Загрузить на",
         "channelNotice": {
-            "title": "Перед тем, как начать общение…",
+            "title": "Перед тем, как начать…",
             "understoodButton": "Понятно"
         },
         "specialMentions": {
