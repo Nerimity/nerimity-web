@@ -94,7 +94,7 @@
         "noActiveUsers": "Keine aktiven Nutzer",
         "servers": "Server",
         "posts": "Beiträge",
-        "feed": "Feed",
+        "feed": "Startseite",
         "discover": "Entdecken",
         "notifications": "Benachrichtigungen"
     },
@@ -103,7 +103,7 @@
         "moderation": "Moderationsbereich",
         "addServer": "Server hinzufügen",
         "homeShort": "Start",
-        "moderationShort": "Mod"
+        "moderationShort": "Moderator"
     },
     "updateModal": {
         "title": "Update verfügbar",
@@ -1021,7 +1021,7 @@
     },
     "nicknameChangeModal": {
         "title": "Serverprofil aktualisieren",
-        "description": "Jeder in diesem Server wird deinen Nicknamen sehen.",
+        "description": "Jeder in diesem Server wird diesen Nicknamen sehen.",
         "inputLabel": "Nickname"
     },
     "transferOwnershipModal": {
@@ -1039,7 +1039,7 @@
             "noMentions": "Keine Erwähnungen"
         },
         "pins": {
-            "noPins": "Keine Pins"
+            "noPins": "Keine gepinten Nachrichten"
         },
         "jump": "Springen",
         "voice": {
@@ -1133,29 +1133,29 @@
             "avatarBorderEdited": "Avatar-Rahmen von {{author}} auf {{platform}}, bearbeitet von {{editor}}"
         },
         "bunny": {
-            "name": "Bunny",
-            "bunnyDescription": "Bunny mit Schlappohren",
+            "name": "Hase",
+            "bunnyDescription": "Hase mit Schlappohren",
             "maidDescription": "Maid mit Hasenohren"
         },
         "dog": {
-            "name": "Doggy",
+            "name": "Hündchen",
             "dogDescription": "Braver Welpe Ohren",
-            "shibaDescription": "Shiba Inu Doggy"
+            "shibaDescription": "Shiba Inu Hündchen"
         },
         "wolf": {
-            "name": "Wolfy",
+            "name": "Wölfchen",
             "wolfDescription": "Wolfsohren"
         },
         "goat": {
             "name": "Ziege",
-            "goatDescription": "Kawaii-Ziegen-Ohren",
+            "goatDescription": "Süße Ziegen-Ohren",
             "goatHornDescription": "Ziegen Hörner"
         },
         "deer": {
             "name": "Hirsch",
             "deerDescription": "Niedliche Hirschgeweihe",
             "deerDarkDescription": "Emo Hirschgeweihe",
-            "deerWhiteDescription": "Kawaii-pinker Hirsch"
+            "deerWhiteDescription": "Süßer-pinker Hirsch"
         }
     }
 }
