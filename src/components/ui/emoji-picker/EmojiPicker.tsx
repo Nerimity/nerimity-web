@@ -255,7 +255,7 @@ const GifPickerSearchBar = () => {
     <div class={styles.gifPickerSearchBar}>
       <input
         ref={inputRef}
-        placeholder="Search GIFs"
+        placeholder="Search KLIPY GIFs"
         value={gifPickerSearch()}
         onInput={onInput}
       />
