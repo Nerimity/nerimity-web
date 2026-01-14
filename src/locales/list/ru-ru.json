@@ -6,22 +6,22 @@
         "joinNowButton": "Присоединиться сейчас"
     },
     "homePage": {
-        "slogan": "Современное и стильное приложение для общения.",
+        "slogan": "Современное и утончённое приложение для общения.",
         "viewGitHubButton": "Посмотреть на GitHub",
         "subslogan": "Nerimity предлагает изящный и богатый функциями опыт, что делает его особенным.",
-        "getStarted": "Начнём",
+        "getStarted": "Начать",
         "availableOn": "Доступно для",
-        "browser": "Браузера",
+        "browser": "Браузер",
         "featureList": {
             "feature1": "Бесплатные анимированые аватары и эмодзи",
-            "feature2": "Стильный дезайн",
+            "feature2": "Стильный дизайн",
             "feature3": "Бесплатная смена тега",
             "feature4": "Создание публикаций в профиле",
             "feature5": "Создайте собственное сообщество",
             "feature6": "Найдите новые сообщества",
             "feature7": "Работает на пожертвованиях",
             "feature8": "Полный исходный код на GitHub",
-            "feature9": "Выражайте себя с помощью рамок"
+            "feature9": "Выражайте себя с помощью значков"
         }
     },
     "loginPage": {
@@ -74,7 +74,7 @@
             "viewAll": "Посмотреть всех"
         },
         "blockedUsersModal": {
-            "title": "Заблокированные"
+            "title": "Заблокированные пользователи"
         }
     },
     "explore": {
@@ -135,7 +135,7 @@
                 "publishServer": "Открытость сервера",
                 "verify": "Верификация",
                 "role": "Роль",
-                "welcome-screen": "Экран приветствия",
+                "welcome-screen": "Раздел предпочтений",
                 "channel": "Канал",
                 "notifications": "Уведомления",
                 "audit-logs": "Журнал аудита",
@@ -167,9 +167,9 @@
                 "deleteRoleButton": "Удалить эту роль",
                 "clear": "Очистить",
                 "roleIcon": "Иконка роли",
-                "managedByBot": "Эта роль управляется {{botName}}. Вы не можете удалить её или призначить её участникам. Выгоните бота, чтобы удалить роль.",
+                "managedByBot": "Эта роль управляется {{botName}}. Вы не можете удалить её или выдать её участникам. Выгоните бота, чтобы удалить эту роль.",
                 "applyOnJoin": "Применить при присоединении",
-                "applyOnJoinDescription": "Призначить роль участникам, как только они заходят на сервер.",
+                "applyOnJoinDescription": "Выдавать роль участникам, как только они заходят на сервер.",
                 "deleteRoleTitle": "Удалить {{roleName}}"
             },
             "header": {
@@ -196,7 +196,7 @@
                 "createInviteButton": "Создать приглашение",
                 "serverInvites": "Приглашения на сервер",
                 "serverInvitesDescription": "Пригласите своих друзей на этот сервер.",
-                "customInviteVerifiedOnlyNotice": "Пользовательские ссылки на приглашения доступны только для проверенных серверов.",
+                "customInviteVerifiedOnlyNotice": "Пользовательские ссылки на приглашения доступны только для верифицированных серверов.",
                 "customLink": "Пользовательская ссылка",
                 "uses": "{{count}} использование(ий)"
             },
@@ -228,13 +228,13 @@
             "webhook": {
                 "title": "Вебхуки",
                 "name": "Название вебхука",
-                "link": "URL вэбхука",
+                "link": "URL вебхука",
                 "linkDescription": "Выполнять действия через эту ссылку",
                 "delete": "Удалить вебхук"
             },
             "verify": {
                 "alreadyVerified": "Ваш сервер уже верифицирован!",
-                "insufficientMembers": "Вам нужно ещё {{count}} участник(ов) перед тем, как подать на верификацию.",
+                "insufficientMembers": "Вам нужно ещё {{count}} участника(ов) перед тем, как подать на верификацию.",
                 "verifiable": "Можно верифицировать",
                 "verifiableDescription": "У вас достаточно участников для верификации сервера!",
                 "verifyButton": "Верифицировать",
@@ -274,7 +274,7 @@
                     "addButton": "Добавить вопрос",
                     "question": "Вопрос",
                     "questionPlaceholder": "Коты или собаки?",
-                    "multiselect": "Несколько ответов"
+                    "multiselect": "Выбор нескольких ответов"
                 },
                 "answers": {
                     "title": "Ответы",
@@ -337,9 +337,9 @@
         },
         "channelPermissions": {
             "sendMessage": "Отправлять сообщения",
-            "sendMessageDescription": "Разрешение на отправку сообщений в канале. Администраторы сервера могут отправлять сообщения.",
+            "sendMessageDescription": "Разрешение на отправку сообщений в канале. Администраторы сервера всегда могут отправлять сообщения.",
             "joinVoice": "Присоединяться к голосовому каналу",
-            "joinVoiceDescription": "Разрешение на присоединение к голосовым каналам. Администраторы сервера могут присоединяться к голосовым каналам.",
+            "joinVoiceDescription": "Разрешение на присоединение к голосовым каналам. Администраторы сервера всегда могут присоединяться к голосовым каналам.",
             "publicChannel": "Публичный канал",
             "publicChannelDescription": "Разрешение включает доступ к каналу. Администраторы имеют доступ ко всем каналам.",
             "hiddenChannel": "Канал спрятан"
@@ -377,7 +377,7 @@
         },
         "header": {
             "servers": "сервера(ов)",
-            "friends": "друга(зей)",
+            "friends": "друга(друзей)",
             "manageAccount": "Управление аккаунтом"
         },
         "account": {
@@ -398,9 +398,9 @@
             "deleteAccountNotice": "Вы должны покинуть / удалить все серверы, прежде чем сможете удалить свою учетную запись.",
             "understoodButton": "Понятно",
             "botID": "ID Бота",
-            "palestineBorder": "Добавить палестинскую рамку к аватару.",
+            "palestineBorder": "Добавить палестинский значок к аватару.",
             "bio": "Обо мне",
-            "bioDescription": "Поддерживаются текста в несколько строк и форматирование",
+            "bioDescription": "Поддерживается полное форматирование и написание в несколько строк",
             "gradientColor1": "Цвет градиента 1",
             "gradientColor2": "Цвет градиента 2",
             "primaryColor": "Основной цвет",
@@ -420,15 +420,15 @@
                 "messages": "• Ваши сообщения",
                 "posts": "• Ваши публикации"
             },
-            "postsAndMessagesNotice": "Удаление ваших постов и сообщений может занять недели.",
+            "postsAndMessagesNotice": "Удаление ваших постов и сообщений может занимать до нескольких недель.",
             "deleteCheckbox": "Удалить мои посты и сообщения",
             "usernameFont": "Шрифт имени пользователя",
             "default": "Стандартный"
         },
         "privacy": {
             "lastOnline": {
-                "title": "Последнее время онлайн",
-                "description": "Настроить, кто может видеть ваше последнее время онлайн."
+                "title": "Последнее время в сети",
+                "description": "Настроить, кто может видеть ваше последнее время в сети."
             },
             "directMessage": {
                 "title": "Личное сообщение",
@@ -441,9 +441,9 @@
             "profileOptions": {
                 "title": "Настройки профиля",
                 "hideFollowers": "Скрыть подписчиков",
-                "hideFollowersDescription": "Скрыть ваших подписчиков в профиле.",
+                "hideFollowersDescription": "Скрыть из вашего профиля ваших подписчиков.",
                 "hideFollowing": "Скрыть подписки",
-                "hideFollowingDescription": "Скрыть пользователей, на которых вы подписаны из вашего профиля."
+                "hideFollowingDescription": "Скрыть из вашего профиля пользователей, на которых вы подписаны."
             },
             "options": {
                 "anybody": "Все",
@@ -509,7 +509,7 @@
         "connections": {
             "thirdParty": {
                 "title": "Сторонние подключения",
-                "connectionCount": "{{count}} подключений",
+                "connectionCount": "{{count}} подключение(я/ий)",
                 "unauthorizeButton": "Деавторизировать",
                 "unauthorizing": "Деавторизация…"
             },
@@ -549,7 +549,7 @@
             "startMinimized": "Открывать свёрнутой",
             "startMinimizedDescription": "Автоматически сворачивать Nerimity в трей.",
             "disableHardwareAcceleration": "Отключить аппаратное ускорение",
-            "reopenAppNotice": "Вы должгы перезапустить приложение, чтобы изменения вступили в силу.",
+            "reopenAppNotice": "Вы должны перезапустить приложение, чтобы изменения вступили в силу.",
             "disableCustomTitlebar": "Использовать системный заголовок окна"
         },
         "activity": {
@@ -581,7 +581,7 @@
             }
         },
         "experiments": {
-            "noExperiments": "Сейчас нету экспериментов.",
+            "noExperiments": "Сейчас нет экспериментов.",
             "reloadRequired": {
                 "title": "Необходима перезагрузка",
                 "body": "Чтобы применить изменения, необходимо перезагрузить Nerimity.",
@@ -600,18 +600,18 @@
         "serverName": "Название сервера",
         "placeholder": "Мой замечательный сервер",
         "creating": "Создание…",
-        "createServerButton": "Создать",
+        "createServerButton": "Создать сервер",
         "tabLabel": "Создание"
     },
     "serverContextMenu": {
         "markAsRead": "Отметить прочитанным",
-        "leave": "Выйти",
+        "leave": "Покинуть",
         "notificationOptions": {
             "everything": "Всё",
             "mentionsOnly": "Только упоминания",
             "mute": "Ничего",
             "sections": {
-                "ping": "Отметка",
+                "ping": "Пометка",
                 "sound": "Звук"
             },
             "initial": "Как у сервера"
@@ -673,16 +673,16 @@
         "followingTab": "Подписки",
         "postsAndRepliesTab": "Посты и ответы ({{count}})",
         "likedPostsTab": "Понравившиеся посты ({{count}})",
-        "followsYou": "Подписчик",
+        "followsYou": "Подписан(а) на вас",
         "badge": "Значок «{{badgeName}}»",
         "blockButton": "Заблокировать",
         "unblockButton": "Разблокировать",
         "reportButton": "Пожаловаться",
         "availableCommands": "Доступные комманды",
         "botCreator": "Создатель бота",
-        "suspended": "Этот пользователь отстранён",
-        "expires": "Истекает {{time}}.",
-        "expiresNever": "Истекает никогда.",
+        "suspended": "Этот пользователь приостановлен на платформе",
+        "expires": "Истекает: {{time}}.",
+        "expiresNever": "Истекает: никогда.",
         "blocked": "Вас заблокировали",
         "blockedDescription": "Этот пользователь вас заблокировал.",
         "privateList": "Этот список виден только вам.",
@@ -704,15 +704,15 @@
         },
         "postWasDeleted": "Этот пост был удален!",
         "someoneLikedYourPost": "<1>{{username}}</1> понравился ваш пост!",
-        "someoneFollowedYou": "<1>{{username}}</1> подписался на вас!",
-        "someoneRepliedToPost": "<1>{{username}}</1> ответил на ваш пост!",
+        "someoneFollowedYou": "<1>{{username}}</1> подписался(ась) на вас!",
+        "someoneRepliedToPost": "<1>{{username}}</1> ответил(а) на ваш пост!",
         "createAPostInputPlaceholder": "Написать пост…",
         "replyInputPlaceholder": "Написать ответ…",
         "replyButton": "Ответить",
         "createButton": "Опубликовать",
         "pollOptions": "Варианты голосования",
         "optionNumberPlaceholder": "Ответ {{number}}",
-        "someoneRepostedYourPost": "<1>{{username}}</1> репостнул ваш пост!"
+        "someoneRepostedYourPost": "<1>{{username}}</1> репостнул(а) ваш пост!"
     },
     "informationDrawer": {
         "channelNotice": "Примечание канала",
@@ -729,44 +729,44 @@
     },
     "systemMessages": {
         "joinServer": {
-            "bot": "<User/><2> был добавлен на сервер.</2>",
-            "user": "<User/><2> присоединился к серверу.</2>"
+            "bot": "<User/><2> был(а) добавлен(а) на сервер.</2>",
+            "user": "<User/><2> присоединился(ась) к серверу.</2>"
         },
-        "leaveServer": "<User/><2> вышел с сервера.</2>",
-        "kickUser": "<User/><2> был выгнан.</2>",
-        "banUser": "<User/><2> был забанен.</2>",
-        "callStarted": "<User/><2> начал звонок.</2>",
-        "bumpServer": "<User/><2> продвинул сервер.</2>",
-        "pinnedMessage": "<User/><2> закрепил сообщение.</2>",
+        "leaveServer": "<User/><2> вышел(а) с сервера.</2>",
+        "kickUser": "<User/><2> исключили с сервера.</2>",
+        "banUser": "<User/><2> заблокировали на сервере.</2>",
+        "callStarted": "<User/><2> начал(а) звонок.</2>",
+        "bumpServer": "<User/><2> продвинул(а) сервер.</2>",
+        "pinnedMessage": "<User/><2> закрепил(а) сообщение.</2>",
         "unsupported": "<User/><2> Сообщение не поддерживается.</2>"
     },
     "statusHeader": {
         "authenticationError": "Ошибка аутентификации",
         "connecting": "Подключение…",
         "reconnecting": "Переподключение…",
-        "inQueue": "В очереди: перед вами {{count}} пользователь(ей)",
+        "inQueue": "В очереди: {{count}} пользователь(я/ей) перед вами",
         "authenticating": "Аутентификация…",
         "connected": "Подключено!"
     },
     "dangerousLinkModal": {
         "title": "Пользовательская ссылка",
         "message": "Эта ссылка приведёт вас на",
-        "cancelButton": "Не посещать",
-        "visitButton": "Посетить"
+        "cancelButton": "Не переходить",
+        "visitButton": "Перейти"
     },
     "connectionErrorModal": {
         "title": "Ошибка подключения",
         "ok": "Ок",
-        "noToken": "Токен не дан.",
-        "suspended": "Вы отстронены.",
+        "noToken": "Токен не предоставлен.",
+        "suspended": "Ваш аккаунт приостановлен.",
         "reason": "Причина",
-        "defaultReason": "Нарушения условий",
-        "until": "До",
+        "defaultReason": "Нарушение условий использования платформы",
+        "until": "Возвращение доступа",
         "never": "никогда",
         "by": "От",
-        "deletionNotice": "Ваш аккаунт и данные будут удалены через 15 дней",
+        "deletionNotice": "Ваш аккаунт и его данные будут удалены через 15 дней",
         "ipBanned": "Ваш IP-адрес заблокирован.",
-        "ipBanNotice": "Кто-то с таким же IP-адресом был отстранён от использования Nerimity. Ваш аккаунт это не затрагивает."
+        "ipBanNotice": "Кто-то с таким же IP-адресом был приостановлен на Nerimity. Ваш аккаунт это не затрагивает."
     },
     "resetPassword": {
         "title": "Сброс пароля",
@@ -797,13 +797,13 @@
     "updateModal": {
         "title": "Доступно обновление",
         "updateButton": "Обновить сейчас",
-        "laterButton": "Потом",
+        "laterButton": "Позже",
         "releasedAt": "Выпущено"
     },
     "messageArea": {
         "messageBoxPlaceholder": "Написать {{username}}",
         "messageBoxChannelPlaceholder": "Написать в {{channelName}}",
-        "replying": "В ответ на {{count}} сообщений",
+        "replying": "Отвечая на {{count}} сообщения(ий)",
         "mention": "Упомянуть",
         "dropFile": "Отпустите файл",
         "uploadTo": "Загрузить на",
@@ -824,7 +824,7 @@
         "emailNotice": "Подтвердите ваш электронный адрес, чтобы отправлять сообщения."
     },
     "inputFieldActions": {
-        "copy": "Копировать",
+        "copy": "Скопировать",
         "cut": "Вырезать",
         "paste": "Вставить"
     },
@@ -835,16 +835,17 @@
         "header": "Заголовок",
         "namedLink": "Названная ссылка",
         "spoiler": "Спойлер",
-        "timestamp": "Временная отметка",
+        "timestamp": "Метка времени",
         "color": "Цвет",
         "html": "Режим HTML",
         "emojiPicker": "Выбор эмодзи",
         "timestampModal": {
-            "title": "Настройка времени",
+            "title": "Дата и время",
             "relative": "Относительное",
             "offset": "Смещение",
             "doneButton": "Готово"
-        }
+        },
+        "checkbox": "Галочка"
     },
     "editFolderModal": {
         "title": "Изменение папки",
@@ -859,7 +860,7 @@
         "listening": "Слушает"
     },
     "joinServerModal": {
-        "title": "Присоединение",
+        "title": "Присоединение к серверу",
         "notice": "Если вы хотите увидеть общедоступные серверы, перейдите во вкладку исследования.",
         "exploreButton": "Исследовать серверы",
         "inviteCode": "Код приглашения",
@@ -890,7 +891,7 @@
             "noMentions": "Нет упоминаний"
         },
         "pins": {
-            "noPins": "Нет закреплённых"
+            "noPins": "Нет закреплённых сообщений"
         },
         "jump": "Перейти",
         "voice": {
@@ -903,7 +904,7 @@
     },
     "channelDrawer": {
         "customize": {
-            "title": "Настройка",
+            "title": "Предпочтения",
             "subtitle": "Ответьте на эти вопросы:",
             "continueButton": "Перейти в {{channel}}"
         },
@@ -956,7 +957,7 @@
         "modifiedOrDeleted": "Этот файл был изменён/удалён создателем на их Google Drive.",
         "viewImage": "Просмотреть изображение",
         "download": "Скачать",
-        "expires": "Иссекает"
+        "expires": "Исчезнет"
     },
     "videoEmbed": {
         "couldNotGetVideo": "Не удалось подучить видео.",
@@ -964,13 +965,13 @@
         "googleDrivePolicy": "Из-за новой политики Google Drive, видео можно проигрывать только в приложении Nerimity для ПК.",
         "videoExpired": "Видео истекло.",
         "modifiedOrDeleted": "Это видео было изменёно/удалёно создателем на их Google Drive.",
-        "expires": "Иссякает",
+        "expires": "Исчезнет",
         "expired": "Истекло"
     },
     "addFriendModal": {
         "title": "Добавление друга",
         "description": "Введите имя пользователя и тег, чтобы добавить друга.",
-        "placeholder": "Имя_Пользователя:АБВ1",
+        "placeholder": "Имя пользователя:АБВ1",
         "requestSent": "Запрос отправлен!",
         "closeButton": "Закрыть",
         "sendRequest": "Отправить запрос",
@@ -1013,10 +1014,11 @@
             "detailedEmbed": "Детализированный эмбед"
         },
         "blocked": "Вы заблокировали этого пользователя. Нажмите, чтобы показать.",
-        "translationError": "Не удалось перевести сообщение.",
+        "translationError": "Не удалось перевести это сообщение.",
         "translation": {
             "title": "Перевод"
-        }
+        },
+        "imageMessage": "Изображение в сообщении"
     },
     "colorPickerModal": {
         "title": "Выбор цвета"
@@ -1026,7 +1028,7 @@
         "brush": "Кисть",
         "erase": "Стёрка",
         "strokeWidth": "Толщина кисти: {{width}}",
-        "mobileNotice": "Щипок: перемещение/масштаб",
+        "mobileNotice": "Сожмите пальцы: перемещение/масштаб",
         "desktopMove": "Перетягивание с пробелом: перемещение",
         "desktopZoom": "Прокрутка: масштаб"
     },
@@ -1040,8 +1042,8 @@
     "badges": {
         "kitty": {
             "name": "Кошечка",
-            "blueDescription": "Кошечка с синими ушками",
-            "whiteDescription": "Кошечка с белыми ушками",
+            "blueDescription": "Кошечка с северными ушками",
+            "whiteDescription": "Кошечка с трёхцветными ушками",
             "maidDescription": "Кошечка-горничная",
             "purpleDescription": "Кошечка с фиолетовыми ушками"
         },
@@ -1071,7 +1073,7 @@
             "description": "Поддержал проект деньгами"
         },
         "contributor": {
-            "name": "Участник",
+            "name": "Помощник",
             "description": "Каким-либо образом помог с проектом"
         },
         "palestine": {
@@ -1082,18 +1084,18 @@
             "description": "Пользователь-бот"
         },
         "credit": {
-            "avatarBorder": "Рамка аватара {{author}} на {{platform}}",
-            "avatarBorderEdited": "Рамка аватара {{author}} на {{platform}}, отредактировано {{editor}}"
+            "avatarBorder": "Значок аватара {{author}} на {{platform}}",
+            "avatarBorderEdited": "Значок аватара {{author}} на {{platform}}, отредактировано {{editor}}"
         },
         "bunny": {
             "name": "Кролик",
-            "bunnyDescription": "Кролик с чёрными ушками",
+            "bunnyDescription": "Кролик с серыми свисающими ушками",
             "maidDescription": "Кролик-горничная"
         },
         "dog": {
             "name": "Пёсик",
-            "dogDescription": "Собака с коричневыми ушками",
-            "shibaDescription": "Собачка Сиба-ину"
+            "dogDescription": "Пёсик с коричневыми ушками",
+            "shibaDescription": "Пёсик Сиба-ину"
         },
         "wolf": {
             "name": "Волчок",
@@ -1106,14 +1108,14 @@
         },
         "deer": {
             "name": "Олень",
-            "deerDescription": "Оленьи рога и уши",
-            "deerDarkDescription": "Тёмные оленьи рога и уши",
+            "deerDescription": "Оленьи рога и ушки",
+            "deerDarkDescription": "Тёмные оленьи рога и ушки",
             "deerWhiteDescription": "Олень с белыми ушками"
         }
     },
     "general": {
         "nothingSelected": "Ничего не выбрано",
-        "selectItem": "Выбор",
+        "selectItem": "Выберите",
         "searchPlaceholder": "Поиск",
         "backButton": "Назад",
         "cancelButton": "Отмена",
@@ -1134,7 +1136,7 @@
         "avatarAndBanner": {
             "avatar": "Аватар",
             "banner": "Баннер",
-            "supportedFileTypes": "Поддерживаются: {{extensions}}, макс. {{size}}",
+            "supportedFileTypes": "Поддерживаются: {{extensions}}, Максимум {{size}}",
             "browse": "Выбрать"
         },
         "closeButton": "Закрыть",
@@ -1143,7 +1145,7 @@
     },
     "nicknameChangeModal": {
         "title": "Обновление серверного профиля",
-        "description": "Все на этом сервере увидят ваш псевдоним.",
+        "description": "Все на этом сервере увидят этот псевдоним.",
         "inputLabel": "Псевдоним"
     },
     "transferOwnershipModal": {

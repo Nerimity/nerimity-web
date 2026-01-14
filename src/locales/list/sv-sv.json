@@ -1,14 +1,14 @@
 {
     "general": {
         "nothingSelected": "Inget valt",
-        "selectItem": "Markera objekt",
+        "selectItem": "Välj objekt",
         "searchPlaceholder": "Sök",
         "cancelButton": "Avbryt",
         "closeButton": "Stäng",
         "editButton": "Redigera",
         "undoButton": "Ångra",
         "deleteButton": "Radera",
-        "cannotBeUndone": "Detta kan inte göras om!",
+        "cannotBeUndone": "Detta kan ej ångras!",
         "confirmButton": "Bekräfta",
         "doneButton": "Klar",
         "backButton": "Tillbaka",
@@ -26,7 +26,7 @@
             "avatar": "Profilbild",
             "banner": "Bakgrundsbild",
             "browse": "Bläddra",
-            "supportedFileTypes": "Stöds: {{extensions}}, Max {{size}}"
+            "supportedFileTypes": "Stödjer: {{extensions}}, Max {{size}}"
         }
     },
     "header": {
@@ -66,8 +66,8 @@
         "noToken": "Ingen token försedd.",
         "suspended": "Du är avstängd.",
         "reason": "Anledning",
-        "defaultReason": "Bryter mot användarvillkoren",
-        "until": "Tillsvidare",
+        "defaultReason": "Bryter mot Användarvillkoren",
+        "until": "Tills",
         "never": "aldrig",
         "by": "Av",
         "deletionNotice": "Ditt konto och dina uppgifter kommer att raderas om 15 dagar",
@@ -90,7 +90,7 @@
             "feature4": "Skapa inlägg på din profil",
             "feature5": "Skapa ditt egna community",
             "feature6": "Hitta nya gemenskaper",
-            "feature7": "Bibehålls genom donationer",
+            "feature7": "Hålls uppe via donationer",
             "feature8": "Fullständig källkod på GitHub",
             "feature9": "Uttryck dig själv med profilramar"
         }
@@ -107,7 +107,7 @@
         "header": "Registrera dig",
         "notices": {
             "title": "Notiser",
-            "toxic": "Var inte elakartad.",
+            "toxic": "Var inte elak.",
             "nsfw": "Inget NSFW-innehåll.",
             "age": "Du måste vara 14 år eller äldre."
         },
@@ -145,15 +145,15 @@
     "status": {
         "online": "Online",
         "ltp": "Vill spela",
-        "afk": "Bort från tangentbordet",
+        "afk": "Borta från tangentbordet",
         "dnd": "Stör ej",
-        "offline": "Off-line",
+        "offline": "Offline",
         "appearAsOffline": "Visas som offline"
     },
     "sidePane": {
         "home": "Hem",
         "homeShort": "Hem",
-        "moderation": "Modereringsruta",
+        "moderation": "Moderationsruta",
         "moderationShort": "Mod",
         "addServer": "Lägg till server"
     },
@@ -161,17 +161,17 @@
         "title": "Uppdatering tillgänglig",
         "updateButton": "Uppdatera nu",
         "laterButton": "Senare",
-        "releasedAt": "Släpptes kl."
+        "releasedAt": "Släpptes vid"
     },
     "messageArea": {
-        "messageBoxPlaceholder": "Meddelande till {{användarnamn}}",
-        "messageBoxChannelPlaceholder": "Meddelande i {{channelName}}",
+        "messageBoxPlaceholder": "Skriv till {{username}}",
+        "messageBoxChannelPlaceholder": "Skriv i {{channelName}}",
         "replying": "Svarar på {{count}} meddelanden)",
-        "mention": "Nämna",
-        "dropFile": "Släpp fil",
+        "mention": "Nämn",
+        "dropFile": "Dra in fil",
         "uploadTo": "Ladda upp till",
         "channelNotice": {
-            "title": "Innan du chattar…",
+            "title": "Innan du skriver…",
             "understoodButton": "Förstått"
         },
         "specialMentions": {
@@ -180,7 +180,7 @@
             "silent": "Tyst meddelande"
         },
         "linkToGoogleDrive": {
-            "body": "Du måste länka ditt konto till Google Drive för att ladda upp stora bilder, videor eller filer",
+            "body": "Du måste länka ditt Google Drive konto för att ladda upp stora bilder, videor eller filer",
             "linkButton": "Länka nu",
             "cancelButton": "Länka inte"
         },
@@ -188,12 +188,12 @@
     },
     "inputFieldActions": {
         "copy": "Kopiera",
-        "cut": "Skära",
+        "cut": "Klipp ut",
         "paste": "Klistra"
     },
     "markup": {
-        "bold": "Djärv",
-        "italic": "Kursiv",
+        "bold": "Fetstil",
+        "italic": "Kursivstil",
         "strikethrough": "Genomstruken",
         "header": "Rubrik",
         "namedLink": "Namngiven länk",
@@ -203,10 +203,10 @@
         "html": "HTML-läge",
         "emojiPicker": "Emoji-väljare",
         "timestampModal": {
-            "title": "Tidspåslag",
+            "title": "Tids-markup",
             "relative": "Relativ",
             "offset": "Offset",
-            "doneButton": "Gjort"
+            "doneButton": "Klar"
         },
         "checkbox": "Kryssruta"
     },
@@ -215,9 +215,9 @@
             "title": "Blockerade användare"
         },
         "drawer": {
-            "searchBarPlaceholder": "Söka",
-            "friendRequests": "{{count}} vänförfrågningar",
-            "onlineFriends": "{{count}} Onlinevänner",
+            "searchBarPlaceholder": "Sök",
+            "friendRequests": "{{count}} Vänförfrågningar",
+            "onlineFriends": "{{count}} Online-vänner",
             "offlineFriends": "{{count}} Offline-vänner",
             "notes": "Anteckningar",
             "addFriendButton": "Lägg till vän",
@@ -231,13 +231,119 @@
         "drawer": {
             "title": "Utforska",
             "servers": "Servrar",
-            "bots": "Botar",
+            "bots": "Bottar",
             "themes": "Teman"
         },
         "bots": {
-            "title": "Utforska - Botar",
-            "noticeMessage": "En bot kan bli bumpad en gång var {{hours}} timme. Alla bumps återställs var {{date}}.",
-            "moderationNotice": "Bottar modereras inte av Nerimity. Vänligen rapportera bottar som är illvilliga eller bryter mot användarvillkoren."
+            "title": "Utforska - Bottar",
+            "noticeMessage": "En bot kan bli bumpad en gång var {{hours}} timme. Alla bumpar återställs var {{date}}.",
+            "moderationNotice": "Bottar modereras inte av Nerimity. Vänligen rapportera bottar som är elakartade eller bryter mot användarvillkoren.",
+            "inviteButton": "Bjud in",
+            "serverCount": "I {{count}} servrar"
+        },
+        "themes": {
+            "title": "Utforska - Teman",
+            "themesHeaderDescription": "Personalisera Nerimity med ett eget tema.",
+            "officialThemes": "Officiella Teman",
+            "communityThemes": "Community Teman",
+            "noCommunityThemes": "Inga community teman hittades.",
+            "fetchThemesError": "Misslyckades att hämta in teman. Försök igen senare.",
+            "unlockDescription": "Klicka för att utforska alla community teman"
+        },
+        "servers": {
+            "title": "Utforska - Servrar",
+            "noticeMessage": "En server kan bli bumpad en gång per {{hours}} timme. Alla bumpar nollställs var {{date}}.",
+            "moderationNotice": "Servrar modereras inte av Nerimity. Anmäl servrar som bryter mot Användarvillkoren, tack.",
+            "sortMostBumps": "Mest Bumpar",
+            "sortMostMembers": "Mest Medlemmar",
+            "sortRecentlyAdded": "Nyligen tillagda",
+            "sortRecentlyBumped": "Nyligen Bumpad",
+            "sortMostActive": "Mest Aktiv (Beta)",
+            "filterAll": "Alla",
+            "filterVerified": "Verifierad",
+            "pinnedServers": "Fästa Sevrar",
+            "recentlyBumped": "Nyligen Bumpade Servrar",
+            "memberCount": "{{count}} medlemmar",
+            "visitServerButton": "Besök",
+            "joinServerButton": "Gå med",
+            "bumpButton": "Bumpa ({{count}})",
+            "lifetimeBumpCount": "{{count}} totala bumpar"
+        },
+        "sort": "Sortera",
+        "filter": "Filtrera",
+        "by": "Av",
+        "bumped": "Bumpad"
+    },
+    "editFolderModal": {
+        "title": "Redigera mapp",
+        "placeholder": "Mappnamn",
+        "errors": {
+            "emptyName": "Ge mappen ett namn."
+        }
+    },
+    "servers": {
+        "settings": {
+            "drawer": {
+                "general": "Allmänt",
+                "audit-logs": "Audit Loggar",
+                "roles": "Roller",
+                "channels": "Kanaler",
+                "bans": "Bannade",
+                "invites": "Inbjudningar",
+                "publishServer": "Publicera server",
+                "verify": "Verifiera",
+                "role": "Roll",
+                "welcome-screen": "Välkomstskärm",
+                "channel": "Kanal",
+                "permissions": "Behörigheter",
+                "emoji": "Emoji",
+                "notifications": "Aviseringar",
+                "external-embed": "Extern Embed"
+            },
+            "bans": {
+                "sort": {
+                    "alphabetical": "Alfabetiskt",
+                    "unsorted": "Osorterad"
+                },
+                "noResults": "Inga resultat hittades.",
+                "reason": "Anledning",
+                "noReason": "Ingen anledning angiven",
+                "bannedAt": "Bannad vid",
+                "unknown": "Okänd",
+                "unban": "Ta bort ban",
+                "unbanning": "Tar bort ban…"
+            },
+            "webhook": {
+                "title": "Webhooks",
+                "name": "Webhook Namn",
+                "link": "Webhook URL",
+                "delete": "Ta bort Webhook",
+                "linkDescription": "Utför aktion genom denna länk"
+            },
+            "general": {
+                "serverRenameNotice": "Du kommer att förlora alla förmåner som en verifierad server ger om du byter namn.",
+                "serverName": "Servernamn",
+                "defaultChannel": "Standardkanal",
+                "defaultChannelDescription": "Nya medlemmar kommer dirigeras till denna kanal.",
+                "systemMessages": "Systemmeddelanden",
+                "systemMessagesDescription": "Där systemmeddelanden ska visas.",
+                "deleteThisServer": "Radera servern",
+                "deleteServerButton": "Radera Servern",
+                "none": "Inga"
+            },
+            "roles": {
+                "addNewRole": "Lägg till ny roll",
+                "addRoleButton": "Lägg till roll"
+            },
+            "role": {
+                "clear": "Nollställ",
+                "roleIcon": "Ikon till roll",
+                "managedByBot": "Denna roll överses av {{botName}}. Du kan inte ta bort eller lägga till medlemmar till rollen. Sparka ut botten för att radera rollen.",
+                "hideRole": "Göm Rollen",
+                "hideRoleDescription": "Visa medlemmar med denna roll tillsammans med vanliga medlemmar",
+                "applyOnJoin": "Applicera när användare har gått med",
+                "applyOnJoinDescription": "Rollen appliceras när användaren går med i servern."
+            }
         }
     }
 }

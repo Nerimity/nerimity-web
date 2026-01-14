@@ -1145,7 +1145,7 @@
     },
     "nicknameChangeModal": {
         "title": "Рэдагаваньне профілю сэрвэра",
-        "description": "Усе на гэтым сэрвэры пабачаць ваш псэўданім.",
+        "description": "Усе на гэтым сэрвэры пабачаць гэты псэўданім.",
         "inputLabel": "Псэўданім"
     },
     "transferOwnershipModal": {

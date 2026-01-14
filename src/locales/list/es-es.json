@@ -169,10 +169,10 @@
             "title": "Explorar - Temas",
             "themesHeaderDescription": "Personaliza Nerimity con un tema personalizado.",
             "officialThemes": "Temas oficiales",
-            "communityThemes": "Temas de la comunidad",
-            "noCommunityThemes": "No se han encontrado temas de la comunidad.",
+            "communityThemes": "Temas hechos por la comunidad",
+            "noCommunityThemes": "No se han encontrado temas hechos por la comunidad.",
             "fetchThemesError": "Error al obtener los temas. Por favor, inténtalo de nuevo más tarde.",
-            "unlockDescription": "Haz clic para explorar todos los temas de la comunidad"
+            "unlockDescription": "Haz clic para explorar todos los temas hechos por la comunidad"
         },
         "servers": {
             "title": "Explorar - Servidores",
@@ -184,25 +184,25 @@
             "filterAll": "Todos",
             "filterVerified": "Verificados",
             "memberCount": "{{count}} miembros",
-            "lifetimeBumpCount": "{{count}} destacados totales",
+            "lifetimeBumpCount": "{{count}} destacados acumulados",
             "visitServerButton": "Visitar",
             "joinServerButton": "Unirse",
-            "bumpButton": "Veces destacado ({{count}})",
-            "moderationNotice": "Los servidores no son moderados por Nerimity. Por favor, reporta los servidores que sean maliciosos o que incumplan los TOS.",
-            "sortMostActive": "Más activo (Beta)",
+            "bumpButton": "{{count}} Veces destacado",
+            "moderationNotice": "Nerimity no supervisa ni modera los servidores. Rogamos reportar aquellos que sean maliciosos o infrinjan los Términos de Servicio.",
+            "sortMostActive": "Más activos (Beta)",
             "pinnedServers": "Servidores fijados",
             "recentlyBumped": "Servidores destacados recientemente"
         },
-        "sort": "Ordenar",
-        "filter": "Filtro",
+        "sort": "Ordenar por",
+        "filter": "Filtrar por",
         "by": "Por",
         "bumped": "Destacado"
     },
     "editFolderModal": {
         "title": "Editar carpeta",
-        "placeholder": "Nombre de carpeta",
+        "placeholder": "Nombre de la carpeta",
         "errors": {
-            "emptyName": "Por favor, introduce un nombre de carpeta."
+            "emptyName": "Por favor, introduzca un nombre para la carpeta."
         }
     },
     "servers": {
@@ -210,7 +210,7 @@
             "drawer": {
                 "general": "General",
                 "roles": "Roles",
-                "audit-logs": "Registros",
+                "audit-logs": "Registros de auditoría",
                 "channels": "Canales",
                 "bans": "Baneados",
                 "invites": "Invitaciones",
@@ -946,10 +946,10 @@
     "badges": {
         "kitty": {
             "name": "Gato",
-            "blueDescription": "Orejas de gato azules",
-            "whiteDescription": "Orejas de gato blancas",
+            "blueDescription": "Orejas de gato ártico",
+            "whiteDescription": "Orejas de gato calicó",
             "maidDescription": "Maid con orejas de gato",
-            "purpleDescription": "Orejas de gato moradas"
+            "purpleDescription": "Orejas de gato Cheshire"
         },
         "foxy": {
             "name": "Zorro",
@@ -993,13 +993,13 @@
         },
         "bunny": {
             "name": "Conejo",
-            "bunnyDescription": "Orejas de conejo negras",
+            "bunnyDescription": "Orejas de conejo caídas",
             "maidDescription": "Orejas de conejo de sirvienta"
         },
         "dog": {
             "name": "Perro",
-            "dogDescription": "Orejas de perro marrones",
-            "shibaDescription": "Perro Shiba"
+            "dogDescription": "Orejas de perro bueno",
+            "shibaDescription": "Perro Shiba Inu"
         },
         "wolf": {
             "name": "Lobo",
@@ -1007,14 +1007,14 @@
         },
         "goat": {
             "name": "Cabra",
-            "goatDescription": "Orejas de cabra blancas",
+            "goatDescription": "Orejas de cabra kawaii",
             "goatHornDescription": "Cuernos de cabra"
         },
         "deer": {
             "name": "Ciervo",
-            "deerDescription": "Astas de ciervo",
-            "deerDarkDescription": "Orejas y astas de ciervo oscuras",
-            "deerWhiteDescription": "Orejas de ciervo blancas"
+            "deerDescription": "Astas de ciervo adorables",
+            "deerDarkDescription": "Astas de ciervo emo",
+            "deerWhiteDescription": "Ciervo rosa kawaii"
         }
     },
     "status": {
