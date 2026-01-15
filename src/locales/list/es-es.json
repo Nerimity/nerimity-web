@@ -241,7 +241,7 @@
                 "title": "Webhooks",
                 "name": "Nombre de Webhook",
                 "link": "Enlace de Webhook",
-                "linkDescription": "Ejecuta acciones usando este enlance",
+                "linkDescription": "Ejecuta acciones usando este enlace",
                 "delete": "Elimina webhook"
             },
             "general": {
