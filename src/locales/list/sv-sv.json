@@ -417,7 +417,34 @@
                 "bumpServer": "Bumpa servern",
                 "bumpServerDescription": "Bumpa servern till toppen.",
                 "bumpButton": "Bump ({{count}})"
+            },
+            "verify": {
+                "requirements": {
+                    "membersDescription": "Din server måste ha minst {{count}} mängd medlemmar.",
+                    "profanityFree": "Inga svordomar",
+                    "profanityFreeDescription": "Server namn, bild och bakgrundsbild får inte ha svordomar.",
+                    "avatarAndBanner": "Bild & Bakgrund",
+                    "avatarAndBannerDescription": "Servern måste ha en bild och bakgrund.",
+                    "rules": "Serverregler",
+                    "rulesDescription": "Servern måste ha en kanal med regler."
+                },
+                "perks": {
+                    "title": "Förmåner",
+                    "badge": "Verifierad emblem",
+                    "badgeDescription": "En emblem för att visa att din server är speciell.",
+                    "explore": "Markera i Utforska",
+                    "exploreDescription": "Din server kommer visas i en separat del på utforskasidan.",
+                    "customInvite": "Egen inbjudningslänk",
+                    "customInviteDescription": "Skapa din egna inbjudningslänk från Inbjudningar-sidan.",
+                    "emojiSlots": "Mer platser för emojis",
+                    "emojiSlotsDescription": "200st emojis till din server.",
+                    "hdScreenshare": "1080p@60fps skärmdelning"
+                }
             }
+        },
+        "rolePermissions": {
+            "manageChannelsDescription": "Behörigheter för att uppdatera eller radera kanaler.",
+            "kick": "Kicka"
         }
     }
 }
