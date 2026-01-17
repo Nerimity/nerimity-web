@@ -18,7 +18,11 @@ export const getTenorCategories = async () => {
 };
 
 export interface TenorImage {
+  /**
+   * @deprecated
+   */
   url: string;
+  gifUrl: string;
   previewUrl: string;
   previewHeight: number;
   previewWidth: number;

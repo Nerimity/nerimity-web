@@ -116,7 +116,7 @@ function NewPostArea(props: {
   const [content, setContent] = createSignal("");
   const { isPortalOpened } = useCustomPortal();
   const [attachedFile, setAttachedFile] = createSignal<File | undefined>(
-    undefined
+    undefined,
   );
   const [fileBrowserRef, setFileBrowserRef] = createSignal<
     undefined | FileBrowserRef
@@ -203,7 +203,7 @@ function NewPostArea(props: {
       `:${shortcode}: `,
       textAreaEl()!.selectionStart,
       textAreaEl()!.selectionEnd,
-      "end"
+      "end",
     );
     setContent(textAreaEl()!.value);
     if (!shiftMode) setShowEmojiPicker(false);
@@ -211,10 +211,10 @@ function NewPostArea(props: {
   const gifPicked = (gif: TenorImage) => {
     textAreaEl()!.focus();
     textAreaEl()!.setRangeText(
-      `${gif.url} `,
+      `${gif.gifUrl} `,
       textAreaEl()!.selectionStart,
       textAreaEl()!.selectionEnd,
-      "end"
+      "end",
     );
     setContent(textAreaEl()!.value);
     setShowEmojiPicker(false);
@@ -262,7 +262,7 @@ function NewPostArea(props: {
                 border: transparent;
               }
             `,
-            "newPostInput"
+            "newPostInput",
           )}
           ref={setTextAreaEl}
           placeholder={
@@ -329,7 +329,7 @@ function NewPostArea(props: {
               css`
                 width: 20px;
                 height: 20px;
-              `
+              `,
             )}
             iconSize={16}
             onClick={() => setShowEmojiPicker(!showEmojiPicker())}
@@ -386,7 +386,7 @@ function Suggestions(props: {
   const onClick = (e: any) => {
     setIsFocus(
       e.target.closest(".newPostInput") ===
-        props.textArea?.parentElement?.parentElement
+        props.textArea?.parentElement?.parentElement,
     );
   };
 
@@ -432,7 +432,7 @@ function Suggestions(props: {
 }
 
 function getCursorPositionPx(
-  textarea: HTMLTextAreaElement
+  textarea: HTMLTextAreaElement,
 ): { x: number; y: number } | null {
   if (!textarea) {
     return null; // Handle cases where the textarea is not provided or doesn't exist
@@ -499,14 +499,14 @@ function SuggestUsers(props: {
       props.search,
       `${user?.username}:${user?.tag} `,
       props.content,
-      props.updateContent
+      props.updateContent,
     );
   };
 
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => users().length,
     () => props.textAreaEl!,
-    (i) => onUserClick(users()[i])
+    (i) => onUserClick(users()[i]),
   );
 
   let timeoutId: number | undefined;
@@ -539,8 +539,8 @@ function SuggestUsers(props: {
       () => {
         window.clearTimeout(timeoutId);
         timeoutId = window.setTimeout(fetchAndSetUsers, 500);
-      }
-    )
+      },
+    ),
   );
 
   return (
@@ -585,13 +585,13 @@ function appendText(
   query: string,
   name: string,
   content: string,
-  updateContent: (content: string) => void
+  updateContent: (content: string) => void,
 ) {
   const cursorPosition = textArea.selectionStart!;
   const removeCurrentQuery = removeByIndex(
     content,
     cursorPosition - query.length,
-    query.length
+    query.length,
   );
   const result =
     removeCurrentQuery.slice(0, cursorPosition - query.length) +
@@ -918,7 +918,7 @@ export function PostsArea(props: {
       setLoading(true);
       const newPosts = await posts.fetchUserPosts(
         props.userId!,
-        props.showReplies
+        props.showReplies,
       );
       setLastFetchCount(newPosts?.length || 0);
       setLoading(false);
@@ -943,7 +943,7 @@ export function PostsArea(props: {
     setLoading(true);
     const newPosts = await posts.fetchDiscover(
       sortValue === "latest" ? undefined : sortValue,
-      abortController.signal
+      abortController.signal,
     );
     setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
@@ -962,7 +962,7 @@ export function PostsArea(props: {
       fetchFeed();
       fetchDiscover();
       fetchReplies();
-    })
+    }),
   );
 
   const hasMorePosts = () => lastFetchCount() >= 30;
@@ -980,7 +980,7 @@ export function PostsArea(props: {
     setLoading(true);
     const newPosts = await posts.fetchMoreUserPosts(
       props.userId!,
-      props.showReplies
+      props.showReplies,
     );
     setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
@@ -998,7 +998,7 @@ export function PostsArea(props: {
     setLoading(true);
     const sortValue = sort();
     const newPosts = await posts.fetchMoreDiscover(
-      sortValue === "latest" ? undefined : sortValue
+      sortValue === "latest" ? undefined : sortValue,
     );
     setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
@@ -1106,11 +1106,11 @@ function partInViewport(elem: HTMLElement) {
   const y = elem.getBoundingClientRect().top;
   const ww = Math.max(
     document.documentElement.clientWidth,
-    window.innerWidth || 0
+    window.innerWidth || 0,
   );
   const hw = Math.max(
     document.documentElement.clientHeight,
-    window.innerHeight || 0
+    window.innerHeight || 0,
   );
   const w = elem.clientWidth;
   const h = elem.clientHeight;
@@ -1451,7 +1451,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
 
 export function PostNotificationsArea(props: { style?: JSX.CSSProperties }) {
   const [notifications, setNotifications] = createSignal<RawPostNotification[]>(
-    []
+    [],
   );
 
   onMount(async () => {
@@ -1492,8 +1492,8 @@ export function ViewPostModal(props: { close(): void }) {
         setSelectedTab("comments");
         if (!postId) return;
         getPost(postId);
-      }
-    )
+      },
+    ),
   );
 
   const getPost = async (postId: string) => {

@@ -103,7 +103,7 @@ const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
 
 const DeleteMessageModal = lazy(
-  () => import("./message-delete-modal/MessageDeleteModal")
+  () => import("./message-delete-modal/MessageDeleteModal"),
 );
 const PhotoEditor = lazy(() => import("../ui/photo-editor/PhotoEditor"));
 
@@ -175,7 +175,7 @@ function MessagePane() {
 
   const disabledAdvancedMarkup = getStorageBoolean(
     StorageKeys.DISABLED_ADVANCED_MARKUP,
-    false
+    false,
   );
 
   createEffect(
@@ -186,10 +186,10 @@ function MessagePane() {
             ? 48
             : 40
           : isMobileWidth()
-          ? 84
-          : 74
+            ? 84
+            : 74,
       );
-    })
+    }),
   );
 
   onMount(() => {
@@ -303,7 +303,7 @@ function MessageArea(props: {
   createEffect(
     on(textAreaEl, () => {
       props.textAreaRef(textAreaEl());
-    })
+    }),
   );
 
   const channelProperty = () => channelProperties.get(params.channelId);
@@ -352,7 +352,7 @@ function MessageArea(props: {
           (m) =>
             m.type === MessageType.CONTENT &&
             m.createdBy.id === myId &&
-            m.sentStatus === undefined
+            m.sentStatus === undefined,
         );
       if (msg) {
         channelProperties.setEditMessage(params.channelId, msg);
@@ -402,7 +402,7 @@ function MessageArea(props: {
       trimmedMessage,
       params.serverId,
       params.channelId,
-      !!editMessageId()
+      !!editMessageId(),
     );
 
     if (editMessageId()) {
@@ -421,7 +421,7 @@ function MessageArea(props: {
       messages.editAndStoreMessage(
         params.channelId,
         editMessageId()!,
-        formattedMessage
+        formattedMessage,
       );
       cancelEdit();
     } else {
@@ -447,7 +447,7 @@ function MessageArea(props: {
   createEffect(
     on(paneWidth, () => {
       adjustHeight();
-    })
+    }),
   );
 
   const onInput = (event: any) => {
@@ -467,7 +467,7 @@ function MessageArea(props: {
       `:${shortcode}: `,
       textAreaEl()!.selectionStart,
       textAreaEl()!.selectionEnd,
-      "end"
+      "end",
     );
     setMessage(textAreaEl()!.value);
     if (!shiftDown) setShowEmojiPicker(false);
@@ -477,10 +477,10 @@ function MessageArea(props: {
     if (!textAreaEl()) return;
     textAreaEl()!.focus();
     textAreaEl()!.setRangeText(
-      `${gif.url} `,
+      `${gif.gifUrl} `,
       textAreaEl()!.selectionStart,
       textAreaEl()!.selectionEnd,
-      "end"
+      "end",
     );
     setMessage(textAreaEl()!.value);
     setShowEmojiPicker(false);
@@ -496,7 +496,7 @@ function MessageArea(props: {
       class={classNames(
         "messageArea",
         styles.messageArea,
-        conditionalClass(editMessageId(), styles.editing)
+        conditionalClass(editMessageId(), styles.editing),
       )}
     >
       <Show when={showEmojiPicker()}>
@@ -547,11 +547,11 @@ function MessageArea(props: {
                 interpolation: { escapeValue: false },
               })
             : channel()?.recipient()?.username
-            ? t("messageArea.messageBoxPlaceholder", {
-                username: channel()?.recipient()?.username,
-                interpolation: { escapeValue: false },
-              })
-            : ""
+              ? t("messageArea.messageBoxPlaceholder", {
+                  username: channel()?.recipient()?.username,
+                  interpolation: { escapeValue: false },
+                })
+              : ""
         }
         onkeydown={onKeyDown}
         onInput={onInput}
@@ -582,8 +582,7 @@ function MessageArea(props: {
     </div>
   );
 }
-interface CustomTextAreaProps
-  extends JSX.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface CustomTextAreaProps extends JSX.TextareaHTMLAttributes<HTMLTextAreaElement> {
   isEditing: boolean;
   onSendClick: () => void;
   onEmojiPickerClick: () => void;
@@ -641,7 +640,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
   const advancedMarkupShown = !getStorageBoolean(
     StorageKeys.DISABLED_ADVANCED_MARKUP,
-    false
+    false,
   );
 
   const reminders = createMemo(() => store.account.reminders(params.channelId));
@@ -649,7 +648,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
   const showRemindersModal = () => {
     createPortal(
       (close) => <RemindersModal close={close} channelId={params.channelId} />,
-      "reminders-modal"
+      "reminders-modal",
     );
   };
 
@@ -658,7 +657,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
       class={classNames(
         styles.textAreaContainer,
         conditionalClass(isFocused(), styles.focused),
-        conditionalClass(advancedMarkupShown, styles.advancedMarkupShown)
+        conditionalClass(advancedMarkupShown, styles.advancedMarkupShown),
       )}
     >
       <BeforeYouChatNotice
@@ -817,7 +816,7 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
     const myLocation = event.changedTouches[0];
     const realTarget = document.elementFromPoint(
       myLocation.clientX,
-      myLocation.clientY
+      myLocation.clientY,
     );
     setCancelRecording(!realTarget?.closest(".voice-recorder-button"));
   };
@@ -881,7 +880,7 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
         timer = null;
       }
       setDuration("0:00");
-    })
+    }),
   );
 
   return (
@@ -948,7 +947,7 @@ function TypingIndicator() {
     }
     const timeoutId = window.setTimeout(
       () => setTypingUserIds(event.userId, undefined),
-      5000
+      5000,
     );
     setTypingUserIds(event.userId, timeoutId);
   };
@@ -970,11 +969,11 @@ function TypingIndicator() {
       () => params.channelId,
       () => {
         Object.values(typingUserIds).forEach((timeoutId) =>
-          clearTimeout(timeoutId)
+          clearTimeout(timeoutId),
         );
         setTypingUserIds(reconcile({}));
-      }
-    )
+      },
+    ),
   );
 
   onMount(() => {
@@ -992,7 +991,7 @@ function TypingIndicator() {
   const typingUsers = createMemo(() =>
     Object.keys(typingUserIds)
       .filter((id) => !friends.hasBeenBlockedByMe(id))
-      .map((userId) => users.get(userId)!)
+      .map((userId) => users.get(userId)!),
   );
 
   const typingUserDisplayNames = createMemo(() => {
@@ -1170,7 +1169,7 @@ function FloatingMessageEmojiPicker(props: {
 
 const [globalMention, setGlobalMention] = useLocalStorage<boolean>(
   StorageKeys.MENTION_REPLIES,
-  true
+  true,
 );
 
 function FloatingReply() {
@@ -1359,7 +1358,7 @@ function FloatingAttachment(props: {}) {
               channelProperties.setAttachment(
                 params.channelId,
                 undefined,
-                item.id
+                item.id,
               )
             }
             items={uploadToOptions()}
@@ -1420,7 +1419,7 @@ export function formatMessage(
   message: string,
   serverId?: string,
   channelId?: string,
-  isEditing?: boolean
+  isEditing?: boolean,
 ): string {
   const isSomeoneMentioned =
     !isEditing && (message.includes("@someone") || false);
@@ -1465,11 +1464,11 @@ export function formatMessage(
         if (!dmUsers) return match;
 
         const user = dmUsers.find(
-          (user) => user?.username === username && user?.tag === tag
+          (user) => user?.username === username && user?.tag === tag,
         );
         if (!user) return match;
         return `[@:${user.id}]`;
-      }
+      },
     );
 
     if (isSomeoneMentioned) {
@@ -1478,7 +1477,7 @@ export function formatMessage(
         () =>
           `[@:s] **${randomKaomoji()} (${
             dmUsers[randomIndex(dmUsers.length)]?.username
-          })**`
+          })**`,
       );
     }
   }
@@ -1494,7 +1493,7 @@ export function formatMessage(
         });
         if (!member) return match;
         return `[@:${member.user().id}]`;
-      }
+      },
     );
     finalString = finalString.replace(roleMentionRegex, (match, group) => {
       const channel = serverRoles.find((c) => c!.name === group);
@@ -1508,7 +1507,7 @@ export function formatMessage(
         const channel = serverChannels.find((c) => c!.name === group);
         if (!channel) return match;
         return `[#:${channel.id}]`;
-      }
+      },
     );
 
     if (isSomeoneMentioned) {
@@ -1517,7 +1516,7 @@ export function formatMessage(
         () =>
           `[@:s] **${randomKaomoji()} (${
             members[randomIndex(members.length)]?.user().username
-          })**`
+          })**`,
       );
     }
   }
@@ -1536,7 +1535,7 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
     !properties()?.isScrolledBottom || properties()?.moreBottomToLoad;
 
   const newMessages = createMemo(() =>
-    channels.get(params.channelId)?.hasNotifications()
+    channels.get(params.channelId)?.hasNotifications(),
   );
 
   const onClick = async () => {
@@ -1581,7 +1580,7 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   const onClick = (e: any) => {
     setIsFocus(
       e.target.closest("." + styles.textArea) ||
-        e.target.closest(".clickableCommandSuggestionItem")
+        e.target.closest(".clickableCommandSuggestionItem"),
     );
   };
 
@@ -1666,7 +1665,7 @@ function FloatingChannelSuggestions(props: {
     () =>
       channels
         .getChannelsByServerId(params.serverId!, true)
-        .filter((c) => c?.type !== ChannelType.CATEGORY) as Channel[]
+        .filter((c) => c?.type !== ChannelType.CATEGORY) as Channel[],
   );
 
   const searchedChannels = () =>
@@ -1682,7 +1681,7 @@ function FloatingChannelSuggestions(props: {
       params.channelId,
       props.textArea,
       props.search,
-      normalizeText(channel.name) + "# "
+      normalizeText(channel.name) + "# ",
     );
   };
 
@@ -1692,7 +1691,7 @@ function FloatingChannelSuggestions(props: {
     () => searchedChannels().length,
     () => props.textArea!,
     onEnterClick,
-    sendButtonRef
+    sendButtonRef,
   );
 
   return (
@@ -1810,7 +1809,7 @@ function FloatingUserSuggestions(props: {
           (e) => normalizeText(e.nickname),
           (e) => normalizeText(e.name),
         ],
-      }
+      },
     )
       .slice(0, 10)
       .sort((a, b) => {
@@ -1838,7 +1837,7 @@ function FloatingUserSuggestions(props: {
         params.channelId,
         props.textArea,
         props.search,
-        `${normalizeText(user.username || user.name)}${user.name ? "@" : ""} `
+        `${normalizeText(user.username || user.name)}${user.name ? "@" : ""} `,
       );
       return;
     }
@@ -1846,7 +1845,7 @@ function FloatingUserSuggestions(props: {
       params.channelId,
       props.textArea,
       props.search,
-      `${normalizeText(user.username)}:${normalizeText(user.tag)} `
+      `${normalizeText(user.username)}:${normalizeText(user.tag)} `,
     );
   };
 
@@ -1858,7 +1857,7 @@ function FloatingUserSuggestions(props: {
     () => searched().length,
     () => props.textArea!,
     onEnterClick,
-    sendButtonRef
+    sendButtonRef,
   );
 
   return (
@@ -1949,7 +1948,7 @@ function FloatingEmojiSuggestions(props: {
       keys: ["short_names.*", "name"],
       baseSort: (a, b) => {
         const recentlyUsed: string[] = JSON.parse(
-          localStorage["nerimity-solid-emoji-pane"] || "[]"
+          localStorage["nerimity-solid-emoji-pane"] || "[]",
         );
 
         const getName = (e: any): string => {
@@ -1987,7 +1986,7 @@ function FloatingEmojiSuggestions(props: {
       params.channelId,
       props.textArea,
       props.search,
-      normalizeText(name) + ": "
+      normalizeText(name) + ": ",
     );
   };
 
@@ -1997,7 +1996,7 @@ function FloatingEmojiSuggestions(props: {
     () => searchedEmojis().length,
     () => props.textArea!,
     onEnterClick,
-    sendButtonRef
+    sendButtonRef,
   );
 
   return (
@@ -2045,7 +2044,7 @@ function FloatingCommandSuggestions(props: {
         setTimeout(() => {
           channelProperties.updateSelectedBotCommand(
             params.channelId,
-            undefined
+            undefined,
           );
         });
       }
@@ -2054,7 +2053,7 @@ function FloatingCommandSuggestions(props: {
       setTimeout(() => {
         channelProperties.updateSelectedBotCommand(params.channelId, undefined);
       });
-    })
+    }),
   );
 
   const commands = () => {
@@ -2080,7 +2079,7 @@ function FloatingCommandSuggestions(props: {
   createEffect(
     on(searched, () => {
       setCurrent(0);
-    })
+    }),
   );
 
   const onItemClick = (cmd: RawBotCommand) => {
@@ -2102,7 +2101,7 @@ function FloatingCommandSuggestions(props: {
     () => searched().length,
     () => props.textArea!,
     onEnterClick,
-    sendButtonRef
+    sendButtonRef,
   );
 
   const onInput = (event: InputEvent) => {
@@ -2169,7 +2168,7 @@ function CommandSuggestionItem(props: {
       class={cn(
         styles.suggestionItem,
         styles.commandSuggestionItem,
-        props.class
+        props.class,
       )}
       onclick={() => props.onclick(props.cmd)}
     >
@@ -2243,7 +2242,7 @@ function appendText(
   channelId: string,
   textArea: HTMLTextAreaElement,
   query: string,
-  name: string
+  name: string,
 ) {
   const channelProperties = useChannelProperties();
   const content = channelProperties.get(channelId)?.content || "";
@@ -2252,7 +2251,7 @@ function appendText(
   const removeCurrentQuery = removeByIndex(
     content,
     cursorPosition - query.length,
-    query.length
+    query.length,
   );
   const result =
     removeCurrentQuery.slice(0, cursorPosition - query.length) +
@@ -2314,7 +2313,7 @@ function BeforeYouChatNotice(props: {
   textAreaEl(): HTMLInputElement | undefined;
 }) {
   const { notice, setNotice, hasAlreadySeenNotice, updateLastSeen } = useNotice(
-    () => props.channelId
+    () => props.channelId,
   );
   const [textAreaFocus, setTextAreaFocus] = createSignal(false);
   const { isMobileWidth } = useWindowProperties();
@@ -2347,7 +2346,7 @@ function BeforeYouChatNotice(props: {
           setButtonClickable(true);
         }, 1000);
       }
-    })
+    }),
   );
 
   createEffect(
@@ -2358,7 +2357,7 @@ function BeforeYouChatNotice(props: {
         document.removeEventListener("click", onDocClick);
         document.removeEventListener("keypress", onInput);
       });
-    })
+    }),
   );
 
   const understoodClick = () => {
@@ -2381,7 +2380,7 @@ function BeforeYouChatNotice(props: {
         <div
           class={classNames(
             styles.beforeYouChatNotice,
-            conditionalClass(isMobileWidth(), styles.mobile)
+            conditionalClass(isMobileWidth(), styles.mobile),
           )}
         >
           <div class={styles.title}>
