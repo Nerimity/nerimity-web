@@ -55,7 +55,8 @@ export default function ServerSettingsBans() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.emoji"),
+      title:
+        t("settings.drawer.title") + " - " + t("servers.settings.drawer.emoji"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -77,7 +78,7 @@ export default function ServerSettingsBans() {
               { ...newEmoji, uploadedBy: account.user() as RawUser },
               ...emojis(),
             ]);
-          }
+          },
         );
         await sleep(800);
       };
@@ -102,7 +103,7 @@ export default function ServerSettingsBans() {
         <BreadcrumbItem
           href={RouterEndpoints.SERVER_MESSAGES(
             params.serverId,
-            server()?.defaultChannelId!
+            server()?.defaultChannelId!,
           )}
           icon="home"
           title={server()?.name}
@@ -131,7 +132,10 @@ export default function ServerSettingsBans() {
           ref={setFileBrowser}
           onChange={onFilePick}
         />
-        <Button label={t("servers.settings.emoji.addButton")} onClick={() => fileBrowser()?.open()} />
+        <Button
+          label={t("servers.settings.emoji.addButton")}
+          onClick={() => fileBrowser()?.open()}
+        />
       </SettingsBlock>
       <EmojiCountPane
         count={emojis().length}
@@ -217,7 +221,7 @@ function EmojiItem(props: {
           name={props.emoji.name}
           animated={props.emoji.gif}
           url={`${env.NERIMITY_CDN}emojis/${props.emoji.id}${
-            props.emoji.gif ? ".gif" : ".webp"
+            props.emoji.gif && !props.emoji.webp ? ".gif" : ".webp"
           }`}
         />
       </div>

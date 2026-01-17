@@ -64,7 +64,8 @@ export function Banner(props: {
       url.searchParams.set("size", props.resize.toString());
     }
 
-    if (!props.url?.endsWith(".gif")) return url.href;
+    if (!props.url?.endsWith(".gif") && !props.url.endsWith("#a"))
+      return url.href;
 
     if (!hasFocus() || !props.animate) {
       url.searchParams.set("type", "webp");

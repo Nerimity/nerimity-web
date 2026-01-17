@@ -59,8 +59,8 @@ export function EmojiPicker(props: {
   createEffect(
     on(
       () => props.tab,
-      () => setSelectedTab(props.tab ?? "EMOJI")
-    )
+      () => setSelectedTab(props.tab ?? "EMOJI"),
+    ),
   );
 
   useDocumentListener("keydown", (e) => {
@@ -102,6 +102,7 @@ export function EmojiPicker(props: {
       .map((e) => {
         const server = servers.get(e.serverId!)!;
         const url = server.avatarUrl();
+
         return {
           id: e.id,
           category: {
@@ -115,7 +116,7 @@ export function EmojiPicker(props: {
           },
           name: e.name,
           url: `${env.NERIMITY_CDN}emojis/${e.id}.${
-            e.gif ? "gif" : "webp"
+            e.gif && !e.webp ? "gif" : "webp"
           }?size=60`,
         };
       })
@@ -123,8 +124,8 @@ export function EmojiPicker(props: {
         a.category.id === params.serverId
           ? -1
           : b.category.id === params.serverId
-          ? 1
-          : 0
+            ? 1
+            : 0,
       ) as CustomEmoji[];
   };
 
@@ -200,7 +201,7 @@ export function EmojiPicker(props: {
 
 const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
   const [scrollElement, setScrollElement] = createSignal<HTMLElement | null>(
-    null
+    null,
   );
 
   onCleanup(() => {
@@ -210,7 +211,7 @@ const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
   createEffect(
     on(gifPickerSearch, () => {
       scrollElement()?.scrollTo(0, 0);
-    })
+    }),
   );
 
   return (
@@ -295,7 +296,7 @@ const GifPickerImages = (props: {
 
     const res = await getTenorImages(
       props.query,
-      loadMore ? tenorResponse()?.next : undefined
+      loadMore ? tenorResponse()?.next : undefined,
     );
 
     if (!res) {
@@ -328,8 +329,8 @@ const GifPickerImages = (props: {
       () => props.query,
       () => {
         loadImages();
-      }
-    )
+      },
+    ),
   );
 
   return (
@@ -480,7 +481,7 @@ const GifPickerCategories = (props: {
         css`
           flex-wrap: wrap;
           gap: 6px;
-        `
+        `,
       )}
       style={{ display: props.hide ? "none" : "flex" }}
     >

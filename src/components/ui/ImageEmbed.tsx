@@ -56,7 +56,9 @@ export function ImageEmbed(props: ImageEmbedProps) {
   const { createPortal } = useCustomPortal();
   const [previewModalOpened, setPreviewModalOpened] = createSignal(false);
 
-  const isGif = () => props.attachment.path?.endsWith(".gif");
+  const isGif = () =>
+    props.attachment.path?.endsWith(".gif") ||
+    props.attachment.path?.endsWith("#a");
   const url = (ignoreFocus?: boolean) => {
     const url = new URL(`${env.NERIMITY_CDN}${props.attachment.path}`);
     if (ignoreFocus) return url.href;
@@ -77,7 +79,7 @@ export function ImageEmbed(props: ImageEmbedProps) {
   const style = () => {
     const maxWidth = clamp(
       (props.customWidth || paneWidth()!) + (props.widthOffset || 0),
-      props.maxWidth || 600
+      props.maxWidth || 600,
     );
     const maxHeight = props.maxHeight
       ? clamp((props.customHeight || height()) / 2, props.maxHeight)
@@ -88,7 +90,7 @@ export function ImageEmbed(props: ImageEmbedProps) {
         props.attachment.width!,
         props.attachment.height!,
         maxWidth,
-        maxHeight
+        maxHeight,
       ),
       ...(previewModalOpened()
         ? { "view-transition-name": "embed-image" }
@@ -127,7 +129,7 @@ export function ImageEmbed(props: ImageEmbedProps) {
       onclick={onClicked}
       class={classNames(
         "imageEmbedContainer",
-        conditionalClass(isGif() && !hasFocus(), "gif")
+        conditionalClass(isGif() && !hasFocus(), "gif"),
       )}
     >
       <img
@@ -153,7 +155,7 @@ export function clampImageSize(
   width: number,
   height: number,
   maxWidth: number,
-  maxHeight: number
+  maxHeight: number,
 ) {
   const aspectRatio = width / height;
   if (width > maxWidth) {

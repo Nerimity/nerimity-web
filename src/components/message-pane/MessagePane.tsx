@@ -1444,7 +1444,7 @@ export function formatMessage(
 
     const customEmoji = servers.customEmojiNamesToEmoji()[emojiName];
     if (customEmoji)
-      return `[${customEmoji.gif ? "ace" : "ce"}:${
+      return `[${customEmoji.gif ? (customEmoji.webp ? "wace" : "ace") : "ce"}:${
         customEmoji.id
       }:${emojiName}]`;
 

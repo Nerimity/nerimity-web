@@ -106,6 +106,7 @@ export interface RawEmbed {
   origUrl?: string;
   imageUrl?: string;
   imageWidth?: number;
+  animated?: boolean;
   imageHeight?: number;
   imageMime?: string;
 
@@ -257,6 +258,7 @@ export interface RawCustomEmoji {
   id: string;
   name: string;
   gif: boolean;
+  webp: boolean;
   serverId?: string;
 }
 
@@ -394,7 +396,7 @@ export interface RawPostPoll {
     | [
         {
           pollChoiceId: string;
-        }
+        },
       ]
     | [];
 }

@@ -104,11 +104,11 @@ import { Fonts, getFont } from "@/common/fonts";
 import useAccount from "@/chat-api/store/useAccount";
 import { Entity } from "@nerimity/nevula";
 const ImagePreviewModal = lazy(
-  () => import("@/components/ui/ImagePreviewModal")
+  () => import("@/components/ui/ImagePreviewModal"),
 );
 
 const DeleteMessageModal = lazy(
-  () => import("../message-delete-modal/MessageDeleteModal")
+  () => import("../message-delete-modal/MessageDeleteModal"),
 );
 
 interface FloatingOptionsProps {
@@ -226,10 +226,10 @@ const Details = (props: DetailsProps) => {
   const [t] = useTransContext();
 
   const topRoleWithColor = createMemo(() =>
-    props.serverMember?.topRoleWithColor()
+    props.serverMember?.topRoleWithColor(),
   );
   const font = createMemo(() =>
-    getFont(props.message.createdBy.profile?.font || 0)
+    getFont(props.message.createdBy.profile?.font || 0),
   );
 
   return (
@@ -323,7 +323,7 @@ const MessageItem = (props: MessageItemProps) => {
   const serverMember = createMemo(() =>
     params.serverId
       ? serverMembers.get(params.serverId, props.message.createdBy.id)
-      : undefined
+      : undefined,
   );
   const server = createMemo(() => servers.get(params.serverId!));
 
@@ -385,7 +385,7 @@ const MessageItem = (props: MessageItemProps) => {
     const translated = await fetchTranslation(props.message.content!).catch(
       () => {
         toast(t("message.translationError"));
-      }
+      },
     );
     if (!translated) return;
     setTranslatedContent(translated);
@@ -399,7 +399,7 @@ const MessageItem = (props: MessageItemProps) => {
   });
 
   const selfMember = createMemo(() =>
-    serverMembers.get(params.serverId!, account.user()?.id!)
+    serverMembers.get(params.serverId!, account.user()?.id!),
   );
   createEffect(
     on(
@@ -418,28 +418,28 @@ const MessageItem = (props: MessageItemProps) => {
           const isSomeoneMentioned =
             props.message.content?.includes("[@:s]") || false;
           const isQuoted = props.message.quotedMessages?.find(
-            (m) => m.createdBy?.id === account.user()?.id
+            (m) => m.createdBy?.id === account.user()?.id,
           );
           const isReplied = props.message.replyMessages?.find(
-            (m) => m.replyToMessage?.createdBy?.id === account.user()?.id
+            (m) => m.replyToMessage?.createdBy?.id === account.user()?.id,
           );
           const isRoleMentioned =
             serverMember()?.hasPermission(ROLE_PERMISSIONS.MENTION_ROLES) &&
             props.message.roleMentions.find(
               (r) =>
-                r.id !== server()?.defaultRoleId && selfMember()?.hasRole(r.id)
+                r.id !== server()?.defaultRoleId && selfMember()?.hasRole(r.id),
             );
           const isMentioned =
             isEveryoneMentioned ||
             props.message.mentions?.find((u) => u.id === account.user()?.id);
 
           setIsMentioned(
-            !!isQuoted || !!isMentioned || !!isReplied || !!isRoleMentioned
+            !!isQuoted || !!isMentioned || !!isReplied || !!isRoleMentioned,
           );
           setIsSomeoneMentioned(isSomeoneMentioned);
         });
-      }
-    )
+      },
+    ),
   );
 
   const showProfileFlyout = (event: MouseEvent) => {
@@ -463,7 +463,7 @@ const MessageItem = (props: MessageItemProps) => {
         userId: props.message.createdBy.id,
       },
       "profile-pane-flyout-" + props.message.createdBy.id,
-      true
+      true,
     );
   };
 
@@ -482,7 +482,7 @@ const MessageItem = (props: MessageItemProps) => {
           conditionalClass(props.isEditing, styles.isEditing),
           conditionalClass(isSomeoneMentioned(), styles.someoneMentioned),
           props.class,
-          "messageItem"
+          "messageItem",
         )}
         onContextMenu={props.contextMenu}
         onMouseEnter={() => setHovered(true)}
@@ -505,7 +505,7 @@ const MessageItem = (props: MessageItemProps) => {
                 onClick={() => setBlockedMessage(false)}
                 class={classNames(
                   styles.blockedMessage,
-                  conditionalClass(isCompact(), styles.compact)
+                  conditionalClass(isCompact(), styles.compact),
                 )}
               >
                 {t("message.blocked")}
@@ -552,7 +552,7 @@ const MessageItem = (props: MessageItemProps) => {
                     class={classNames(
                       styles.avatar,
                       "avatar",
-                      "trigger-profile-flyout"
+                      "trigger-profile-flyout",
                     )}
                   >
                     <Avatar
@@ -618,7 +618,7 @@ const MessageItem = (props: MessageItemProps) => {
 const updateCheckEntity = (
   message: Message,
   entity: Entity,
-  state: boolean
+  state: boolean,
 ) => {
   const messages = useMessages();
 
@@ -630,7 +630,7 @@ const updateCheckEntity = (
   messages.editAndStoreMessage(
     message.channelId,
     message.id,
-    `${before}${checkbox}${after}`
+    `${before}${checkbox}${after}`,
   );
 };
 
@@ -690,7 +690,7 @@ const Content = (props: {
           onClick={() => {
             store.messages.locallyRemoveMessage(
               props.message.channelId,
-              props.message.id
+              props.message.id,
             );
           }}
         />
@@ -784,7 +784,7 @@ const SystemMessage = (props: {
   showProfileFlyout?: (event: MouseEvent) => void;
 }) => {
   const systemMessage = createMemo(() =>
-    getSystemMessage(props.message.type, props.message.createdBy.bot)
+    getSystemMessage(props.message.type, props.message.createdBy.bot),
   );
 
   return (
@@ -795,7 +795,9 @@ const SystemMessage = (props: {
             name={systemMessage()?.icon}
             class={cn(
               styles.icon,
-              systemMessage()?.icon === "logout" ? styles.logoutIcon : undefined
+              systemMessage()?.icon === "logout"
+                ? styles.logoutIcon
+                : undefined,
             )}
             color={systemMessage()?.color}
           />
@@ -949,7 +951,7 @@ const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
       error={isExpired() ? t("fileEmbed.expired") : undefined}
       file={{
         name: decodeURIComponent(
-          props.attachment.path?.split("/").reverse()[0]!
+          props.attachment.path?.split("/").reverse()[0]!,
         ),
         size: props.attachment.filesize!,
         url: env.NERIMITY_CDN + props.attachment.path!,
@@ -970,7 +972,7 @@ const LocalFileEmbed = (props: { attachment: RawAttachment }) => {
       error={isExpired() ? t("fileEmbed.expired") : undefined}
       file={{
         name: decodeURIComponent(
-          props.attachment.path?.split("/").reverse()[0]!
+          props.attachment.path?.split("/").reverse()[0]!,
         ),
         mime: props.attachment.mime!,
         size: props.attachment.filesize!,
@@ -1018,7 +1020,7 @@ export const YoutubeEmbed = (props: {
     if (props.shorts) {
       const maxWidth = clamp(
         (customWidth || containerWidth()) + (widthOffset || 0),
-        600
+        600,
       );
       const maxHeight =
         containerWidth() <= 600
@@ -1029,7 +1031,7 @@ export const YoutubeEmbed = (props: {
 
     const maxWidth = clamp(
       (customWidth || containerWidth()) + (widthOffset || 0),
-      600
+      600,
     );
     return clampImageSize(1920, 1080, maxWidth, 999999);
   };
@@ -1086,7 +1088,7 @@ const GoogleDriveVideoEmbed = (props: { attachment: RawAttachment }) => {
     if (!googleApiInitialized()) return;
     const file = await getFile(
       props.attachment.fileId!,
-      "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata"
+      "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata",
     ).catch((e) => console.log(e));
 
     if (!file) return setError(t("videoEmbed.couldNotGetVideo"));
@@ -1152,7 +1154,7 @@ const VideoEmbed = (props: {
     toast(
       props.file?.expireAt
         ? t("videoEmbed.videoExpired") // Can probably move all "expired" to use a central expired string in future
-        : t("videoEmbed.modifiedOrDeleted")
+        : t("videoEmbed.modifiedOrDeleted"),
     );
 
   return (
@@ -1277,7 +1279,7 @@ const FileEmbed = (props: {
     toast(
       props.file?.expireAt
         ? t("fileEmbed.expired")
-        : t("fileEmbed.modifiedOrDeleted")
+        : t("fileEmbed.modifiedOrDeleted"),
     );
 
   return (
@@ -1363,7 +1365,7 @@ const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
     if (!googleApiInitialized()) return;
     const file = await getFile(
       props.attachment.fileId!,
-      "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink"
+      "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink",
     ).catch((e) => console.log(e));
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
     if (!file) return setError("Could not get file.");
@@ -1428,7 +1430,7 @@ export function ServerInviteEmbed(props: { code: string }) {
     if (!_invite) return;
     if (cachedServer())
       return navigate(
-        RouterEndpoints.SERVER_MESSAGES(_invite.id, _invite.defaultChannelId)
+        RouterEndpoints.SERVER_MESSAGES(_invite.id, _invite.defaultChannelId),
       );
 
     if (joining()) return;
@@ -1482,8 +1484,8 @@ export function ServerInviteEmbed(props: { code: string }) {
                 joining()
                   ? t("invite.joiningButton")
                   : cachedServer()
-                  ? t("invite.visitButton")
-                  : t("invite.joinButton")
+                    ? t("invite.visitButton")
+                    : t("invite.joinButton")
               }
               iconName="login"
               onClick={joinOrVisitServer}
@@ -1518,7 +1520,7 @@ export function OGEmbed(props: {
   const showDetailedTwitterEmbed = () => {
     const [useTwitterEmbed, setUseTwitterEmbed] = useLocalStorage(
       StorageKeys.USE_TWITTER_EMBED,
-      false
+      false,
     );
     if (showDetailed()) {
       return setShowDetailed(false);
@@ -1574,7 +1576,8 @@ export function OGEmbed(props: {
               id: "",
               origSrc: origSrc()!,
               path: `proxy/${encodeURIComponent(origSrc()!)}/embed.${
-                embed().imageMime?.split("/")[1]
+                embed().imageMime?.split("/")[1] +
+                (embed().animated ? "#a" : "")
               }`,
               width: embed().imageWidth,
               height: embed().imageHeight,
@@ -1660,7 +1663,7 @@ const NormalEmbed = (props: {
     <div
       class={classNames(
         styles.ogEmbedContainer,
-        conditionalClass(largeImage(), styles.largeImage)
+        conditionalClass(largeImage(), styles.largeImage),
       )}
     >
       <Show when={embed().imageUrl}>
@@ -1740,14 +1743,14 @@ const htmlEmbedContainerStyles: JSX.CSSProperties = {
 function HTMLEmbed(props: { message: RawMessage }) {
   const id = createUniqueId();
   const embed = createMemo<HtmlEmbedItem | HtmlEmbedItem[]>(() =>
-    unzipJson(props.message.htmlEmbed!)
+    unzipJson(props.message.htmlEmbed!),
   );
   const { hasFocus } = useWindowProperties();
 
   const styleItem = createMemo(
     () =>
       (embed() as HtmlEmbedItem[]).find?.((item) => item?.tag === "style")
-        ?.content[0] as string | undefined
+        ?.content[0] as string | undefined,
   );
 
   return (
@@ -1952,7 +1955,7 @@ function ReactionItem(props: ReactionItemProps) {
       onClick={addReaction}
       class={classNames(
         styles.reactionItem,
-        conditionalClass(props.reaction.reacted, styles.reacted)
+        conditionalClass(props.reaction.reacted, styles.reacted),
       )}
       label={props.reaction.count.toLocaleString()}
       textSize={12}
@@ -2004,7 +2007,7 @@ function Reactions(props: {
           }}
         />
       ),
-      "whoReactedModal"
+      "whoReactedModal",
     );
   };
   const onBlur = () => {
@@ -2110,7 +2113,7 @@ const MessageReplies = (props: { message: Message }) => {
         }),
       },
       props.message.channelId,
-      props.message.id
+      props.message.id,
     );
   }
 
@@ -2123,7 +2126,7 @@ const MessageReplies = (props: { message: Message }) => {
 
     const replyMessages = [...props.message.replyMessages];
     const index = replyMessages.findIndex(
-      (q) => q.replyToMessage?.id === payload.messageId
+      (q) => q.replyToMessage?.id === payload.messageId,
     );
     replyMessages[index] = {
       ...replyMessages[index],
@@ -2134,7 +2137,7 @@ const MessageReplies = (props: { message: Message }) => {
         replyMessages,
       },
       props.message.channelId,
-      props.message.id
+      props.message.id,
     );
   }
 
@@ -2165,7 +2168,7 @@ const MessageReplyItem = (props: {
   const member = () =>
     store.serverMembers.get(
       params.serverId!,
-      props.replyToMessage?.createdBy?.id!
+      props.replyToMessage?.createdBy?.id!,
     );
 
   const topRoleWithColor = createMemo(() => member()?.topRoleWithColor());
@@ -2183,7 +2186,7 @@ const MessageReplyItem = (props: {
       <div
         class={classNames(
           styles.line,
-          props.index === 0 ? styles.first : undefined
+          props.index === 0 ? styles.first : undefined,
         )}
       />
       <div class={styles.replyContentContainer}>

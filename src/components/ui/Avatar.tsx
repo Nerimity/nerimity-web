@@ -84,7 +84,7 @@ export default function Avatar(props: Props) {
       url.searchParams.set("size", props.resize.toString());
     }
 
-    if (!rawUrl?.endsWith(".gif")) return url.href;
+    if (!rawUrl?.endsWith(".gif") && !rawUrl.endsWith("#a")) return url.href;
 
     if (!hasFocus() || !props.animate) {
       url.searchParams.set("type", "webp");
@@ -103,13 +103,17 @@ export default function Avatar(props: Props) {
 
       const proxyUrl = new URL(
         `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
-          baseUrl.href
-        )}/avatar.${ext}`
+          baseUrl.href,
+        )}/avatar.${ext}`,
       );
 
       proxyUrl.searchParams.set("size", props.resize?.toString() || "500");
 
-      if (!proxyUrl.pathname.endsWith(".gif")) return proxyUrl.href;
+      if (
+        !proxyUrl.pathname.endsWith(".gif") &&
+        !proxyUrl.pathname.endsWith("#a")
+      )
+        return proxyUrl.href;
 
       if (!hasFocus() || !props.animate) {
         proxyUrl.searchParams.set("type", "webp");
@@ -265,7 +269,7 @@ function AvatarBorder(props: {
         </Match>
         <Match when={props.badge || props.serverOrUser?.verified}>
           <BasicBorder
-          badges={props.badges}
+            badges={props.badges}
             size={props.size}
             color={
               props.serverOrUser?.verified
@@ -298,8 +302,8 @@ export const FirstLetterAvatar = (props: {
       (firstLetters().length === 1
         ? 50
         : firstLetters().length === 2
-        ? 40
-        : 30) +
+          ? 40
+          : 30) +
     "px";
   return (
     <div style={{ "font-size": size() }} class={style.avatarText}>
@@ -444,10 +448,7 @@ function Overlays(props: {
   return (
     <Show when={props.badges}>
       <Switch>
-   
-        <Match
-          when={hasBit(props.badges!, USER_BADGES.DEER_EARS_WHITE.bit)}
-        >
+        <Match when={hasBit(props.badges!, USER_BADGES.DEER_EARS_WHITE.bit)}>
           <DeerEarsBorder
             size={props.size}
             offset={(props.offset || 0) - 0.5}
@@ -554,7 +555,11 @@ function Overlays(props: {
           />
         </Match>
         <Match when={hasBit(props.badges!, USER_BADGES.CAT_EARS_PURPLE.bit)}>
-          <CatEarsBorder size={props.size} offset={props.offset} color="purple" />
+          <CatEarsBorder
+            size={props.size}
+            offset={props.offset}
+            color="purple"
+          />
         </Match>
         <Match when={hasBit(props.badges!, USER_BADGES.CAT_EARS_BLUE.bit)}>
           <CatEarsBorder size={props.size} offset={props.offset} color="blue" />

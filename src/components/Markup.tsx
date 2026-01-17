@@ -10,7 +10,7 @@ import {
   Span,
   UnreachableCaseError,
 } from "@nerimity/nevula";
-import { createMemo, JSXElement, on } from "solid-js";
+import { createEffect, createMemo, JSXElement, on } from "solid-js";
 import {
   emojiShortcodeToUnicode,
   emojiUnicodeToShortcode,
@@ -49,8 +49,8 @@ export interface Props {
   serverId?: string;
   prefix?: JSXElement;
   replaceCommandBotId?: boolean;
-  canEditCheckboxes?: boolean
-  onCheckboxChanged?: (entity: Entity, state: boolean) => void
+  canEditCheckboxes?: boolean;
+  onCheckboxChanged?: (entity: Entity, state: boolean) => void;
 }
 
 type RenderContext = {
@@ -66,7 +66,7 @@ const transformEntities = (entity: Entity, ctx: RenderContext) =>
 const sliceText = (
   ctx: RenderContext,
   span: Span,
-  { countText = true } = {}
+  { countText = true } = {},
 ) => {
   const text = ctx.props().text.slice(span.start, span.end);
   if (countText && !/^\s+$/.test(text)) {
@@ -78,10 +78,11 @@ const sliceText = (
 type CustomEntity = Entity & { type: "custom" };
 
 const TimeOffsetRegex = /^[+-]\d{4}$/;
-const CustomColorExprRegex = /^(?<colors>#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})(?:-(?:#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})))+)\s+(?<text>.*)$/v
+const CustomColorExprRegex =
+  /^(?<colors>#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})(?:-(?:#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})))+)\s+(?<text>.*)$/v;
 
 function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
-  const messages = useMessages()
+  const messages = useMessages();
   const channels = useChannels();
   const users = useUsers();
   const serverRoles = useServerRoles();
@@ -146,24 +147,30 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
 
       return <QuoteMessageInvalid />;
     }
-    case "ace": // animated custom emoji
+    case "ace": // legacy animated custom emoji gif
+    case "wace": // animated custom emoji webp
     case "ce": {
       // custom emoji
       const [id, name] = expr.split(":");
       ctx.emojiCount += 1;
       const animated = type === "ace";
+      const webpAnimated = type === "wace";
       const shouldAnimate =
-        animated && ctx.props().animateEmoji === false ? "?type=webp" : "";
+        (animated || webpAnimated) && ctx.props().animateEmoji === false
+          ? "?type=webp"
+          : "";
+
       return (
         <Emoji
           custom
           clickable
           {...{
             id,
-            animated,
+            animated: animated || webpAnimated,
             name,
-            url: `${env.NERIMITY_CDN}emojis/${id}${animated ? ".gif" : ".webp"
-              }${shouldAnimate}`,
+            url: `${env.NERIMITY_CDN}emojis/${id}${
+              animated && !webpAnimated ? ".gif" : ".webp"
+            }${shouldAnimate}`,
           }}
         />
       );
@@ -221,7 +228,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
           <span>{text}</span>,
           <rp>(</rp>,
           <rt>{annotation}</rt>,
-          <rp>)</rp>
+          <rp>)</rp>,
         );
       }
       if (output.length > 0) {
@@ -230,16 +237,19 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       break;
     }
     case "gradient": {
-      const { colors, text } = expr.trim().match(CustomColorExprRegex)?.groups ?? {}
+      const { colors, text } =
+        expr.trim().match(CustomColorExprRegex)?.groups ?? {};
       if (colors == null || text == null) break;
 
       return (
         <span
           class="gradient"
-          style={{ 'background-image': `linear-gradient(0.25turn, ${colors.replaceAll('-', ',')})` }}
+          style={{
+            "background-image": `linear-gradient(0.25turn, ${colors.replaceAll("-", ",")})`,
+          }}
           textContent={text}
         />
-      )
+      );
     }
     case "vertical": {
       if (!ctx.props().inline) {
@@ -293,8 +303,15 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
       );
     }
     case "checkbox": {
-      const { checked } = entity.params
-      return <Checkbox checked={checked} disabled={!ctx.props().canEditCheckboxes} onChange={state => ctx.props().onCheckboxChanged?.(entity, state)} style={{ display: 'inline' }} />
+      const { checked } = entity.params;
+      return (
+        <Checkbox
+          checked={checked}
+          disabled={!ctx.props().canEditCheckboxes}
+          onChange={(state) => ctx.props().onCheckboxChanged?.(entity, state)}
+          style={{ display: "inline" }}
+        />
+      );
     }
     case "color": {
       const { color } = entity.params;
@@ -390,8 +407,8 @@ export function Markup(props: Props) {
         _ctx.textCount = 0;
         _ctx.quoteCount = 0;
         return transformEntity(entity, _ctx);
-      }
-    )
+      },
+    ),
   );
 
   const ctx = on(output, () => _ctx);
@@ -404,7 +421,7 @@ export function Markup(props: Props) {
       class={classNames(
         "markup",
         props.class,
-        conditionalClass(largeEmoji(), "largeEmoji")
+        conditionalClass(largeEmoji(), "largeEmoji"),
       )}
     >
       {props.prefix}
