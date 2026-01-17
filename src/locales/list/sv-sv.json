@@ -444,7 +444,24 @@
         },
         "rolePermissions": {
             "manageChannelsDescription": "Behörigheter för att uppdatera eller radera kanaler.",
-            "kick": "Kicka"
+            "kick": "Kicka",
+            "banDescription": "Behörigheten att kunna banna användare.",
+            "mentionEveryone": "Nämn Alla",
+            "mentionEveryoneDescription": "Aktivera nämningen @everyone. Admin till servern kan fortfarande nämna alla användare.",
+            "nicknameMember": "Ge smeknamn",
+            "nicknameMemberDescription": "Låt användare ändra sitt smeknamn i servern."
+        },
+        "leaveModal": {
+            "title": "Lämna servern?",
+            "body": {
+                "part1": "Är du säker på att du vill lämna <1>{{serverName}}</1>?",
+                "part2": "Du kan gå med i servern igen när som!"
+            },
+            "cancelButton": "Lämna inte",
+            "confirmButton": "Lämna"
+        },
+        "channelPermissions": {
+            "hiddenChannel": "Gömd kanal"
         }
     }
 }
