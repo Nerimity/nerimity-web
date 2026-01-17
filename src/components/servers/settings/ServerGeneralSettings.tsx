@@ -9,7 +9,10 @@ import { deleteServer, updateServer } from "@/chat-api/services/ServerService";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import { Server } from "@/chat-api/store/useServers";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal,
+} from "@/components/ui/custom-portal/CustomPortal";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
 import { Notice } from "@/components/ui/Notice/Notice";
@@ -173,7 +176,7 @@ export default function ServerGeneralSettings() {
 
   const onCropped = (
     points: number[],
-    type: "avatar" | "banner" = "avatar"
+    type: "avatar" | "banner" = "avatar",
   ) => {
     const pointsKey = type === "banner" ? "bannerPoints" : "avatarPoints";
     setInputValue(pointsKey, points);
@@ -181,6 +184,12 @@ export default function ServerGeneralSettings() {
   };
 
   const onAvatarPick = (files: string[], rawFiles: FileList) => {
+    const size = rawFiles[0]?.size || 0;
+    const MAX_SIZE = 12; // 12 MB
+    if (size > MAX_SIZE * 1024 * 1024) {
+      toast(`File size must be less than ${MAX_SIZE}MB`);
+      return;
+    }
     if (files[0]) {
       createPortal((close) => (
         <ImageCropModal
@@ -195,6 +204,12 @@ export default function ServerGeneralSettings() {
   };
 
   const onBannerPick = (files: string[], rawFiles: FileList) => {
+    const size = rawFiles[0]?.size || 0;
+    const MAX_SIZE = 12; // 12 MB
+    if (size > MAX_SIZE * 1024 * 1024) {
+      toast(`File size must be less than ${MAX_SIZE}MB`);
+      return;
+    }
     if (files[0]) {
       createPortal((close) => (
         <ImageCropModal
@@ -218,7 +233,7 @@ export default function ServerGeneralSettings() {
         <BreadcrumbItem
           href={RouterEndpoints.SERVER_MESSAGES(
             params.serverId,
-            server()?.defaultChannelId!
+            server()?.defaultChannelId!,
           )}
           icon="home"
           title={server()?.name}
