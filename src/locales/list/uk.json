@@ -254,7 +254,8 @@
             "relative": "Відносна",
             "offset": "Зміщення",
             "doneButton": "Готово"
-        }
+        },
+        "checkbox": "Прапорець"
     },
     "inbox": {
         "blockedUsersModal": {
@@ -566,7 +567,8 @@
             "confirmEmail": "Підтвердить вашу електронну адресу",
             "enterCode": "Введіть 5 лічб, досланих у вашу електронну скриньку:",
             "sendCodeButton": "Дослати код",
-            "resendIn": "Дослати знову через {{time}}"
+            "resendIn": "Дослати знову через {{time}}",
+            "channelNotice": "Попередження каналу"
         }
     }
 }
