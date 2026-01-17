@@ -461,7 +461,12 @@
             "confirmButton": "Lämna"
         },
         "channelPermissions": {
-            "hiddenChannel": "Gömd kanal"
+            "hiddenChannel": "Gömd kanal",
+            "publicChannel": "Offentlig kanal",
+            "publicChannelDescription": "Aktivera tillträde till kanalen. Admin till servern har tillträde till alla kanaler.",
+            "sendMessage": "Skicka meddelanden",
+            "sendMessageDescription": "Aktivera att kunna skicka meddelanden i kanalen. Admin till servern kan fortfarande skicka meddelanden.",
+            "joinVoice": "Anslut till röstkanal"
         }
     }
 }
