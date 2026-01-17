@@ -36,7 +36,7 @@ import {
 } from "@/common/localStorage";
 import socketClient from "@/chat-api/socketClient";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import useServers from "@/chat-api/store/useServers";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
@@ -253,7 +253,7 @@ export function EditAccountPage(props: {
 
   const onCropped = (
     points: number[],
-    type: "avatar" | "banner" = "avatar"
+    type: "avatar" | "banner" = "avatar",
   ) => {
     const pointsKey = type === "banner" ? "bannerPoints" : "avatarPoints";
 
@@ -262,6 +262,12 @@ export function EditAccountPage(props: {
   };
 
   const onAvatarPick = (files: string[], rawFiles: FileList) => {
+    const size = rawFiles[0]?.size || 0;
+    const MAX_SIZE = 12; // 12 MB
+    if (size > MAX_SIZE * 1024 * 1024) {
+      toast(`File size must be less than ${MAX_SIZE}MB`);
+      return;
+    }
     if (files[0]) {
       createPortal((close) => (
         <ImageCropModal
@@ -276,6 +282,12 @@ export function EditAccountPage(props: {
   };
 
   const onBannerPick = (files: string[], rawFiles: FileList) => {
+    const size = rawFiles[0]?.size || 0;
+    const MAX_SIZE = 12; // 12 MB
+    if (size > MAX_SIZE * 1024 * 1024) {
+      toast(`File size must be less than ${MAX_SIZE}MB`);
+      return;
+    }
     if (files[0]) {
       createPortal((close) => (
         <ImageCropModal
@@ -712,7 +724,7 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
       return setError(t("settings.account.channelNoticeTooLong"));
     const res = await updateDMChannelNotice(
       formattedContent,
-      props.botToken
+      props.botToken,
     ).catch((err) => {
       setError(err.message);
     });
