@@ -358,8 +358,19 @@
                 "description": "Anordna frågor. Låt användare tillsätta roller.",
                 "answers": {
                     "editModal": {
-                        "selectRoles": "Välj roller"
-                    }
+                        "selectRoles": "Välj roller",
+                        "title": "Redigera svar",
+                        "answer": "Svar",
+                        "placeholder": "Katter"
+                    },
+                    "title": "Svar",
+                    "addButton": "Lägg till svar"
+                },
+                "questions": {
+                    "addButton": "Lägg till fråga",
+                    "question": "Fråga",
+                    "questionPlaceholder": "Katt eller hund?",
+                    "multiselect": "Markera flera"
                 }
             },
             "channels": {
@@ -367,7 +378,90 @@
                 "createNewDescription": "Skapa en ny kanal eller kategori",
                 "textChannel": "Textkanal",
                 "category": "Kategori"
+            },
+            "channel": {
+                "channelName": "Kanalnamn",
+                "channelIcon": "Kanalikon",
+                "permissionsDescription": "Hantera behörigheter för kanalen.",
+                "slowModeDescription": "Specifiera hur länge en användare måste vänta innan de får skicka ett meddelande.",
+                "deleteThisChannel": "Radera kanalen",
+                "deleteChannelTitle": "Radera {{channelName}}",
+                "deleteChannelButton": "Radera kanal",
+                "removeNoticeButton": "Ta bort notis"
+            },
+            "notifications": {
+                "notice": "Dessa inställningar ändras bara för dig.",
+                "ping": "Aviseringsping",
+                "pingDescription": "Visa en aviseringsindikator.",
+                "sound": "Aviseringsljud",
+                "soundDescription": "Gör ett ljud när du får en avisering.",
+                "channelsDescription": "Hantera aviseringar per kanal."
+            },
+            "emoji": {
+                "title": "Egen Emoji",
+                "description": "Lägg till din egen emoji.",
+                "addButton": "Lägg till emoji"
+            },
+            "invites": {
+                "createInviteButton": "Skapa inbjudan",
+                "serverInvites": "Server Inbjudningar",
+                "serverInvitesDescription": "Bjud in dina vänner till servern.",
+                "customInviteVerifiedOnlyNotice": "Att skapa en egen inbjudningslänk är bara tillgängligt för verifierade servrar.",
+                "customLink": "Egen Länk",
+                "uses": "{{count}} användning(ar)"
+            },
+            "publishServer": {
+                "publishNotice": "När du gör din server offentlig kommer den synas på <1>explore</1> sidan.",
+                "public": "Offentlig",
+                "publicDescription": "Gör denna server offentlig.",
+                "bumpServer": "Bumpa servern",
+                "bumpServerDescription": "Bumpa servern till toppen.",
+                "bumpButton": "Bump ({{count}})"
+            },
+            "verify": {
+                "requirements": {
+                    "membersDescription": "Din server måste ha minst {{count}} mängd medlemmar.",
+                    "profanityFree": "Inga svordomar",
+                    "profanityFreeDescription": "Server namn, bild och bakgrundsbild får inte ha svordomar.",
+                    "avatarAndBanner": "Bild & Bakgrund",
+                    "avatarAndBannerDescription": "Servern måste ha en bild och bakgrund.",
+                    "rules": "Serverregler",
+                    "rulesDescription": "Servern måste ha en kanal med regler."
+                },
+                "perks": {
+                    "title": "Förmåner",
+                    "badge": "Verifierad emblem",
+                    "badgeDescription": "En emblem för att visa att din server är speciell.",
+                    "explore": "Markera i Utforska",
+                    "exploreDescription": "Din server kommer visas i en separat del på utforskasidan.",
+                    "customInvite": "Egen inbjudningslänk",
+                    "customInviteDescription": "Skapa din egna inbjudningslänk från Inbjudningar-sidan.",
+                    "emojiSlots": "Mer platser för emojis",
+                    "emojiSlotsDescription": "200st emojis till din server.",
+                    "hdScreenshare": "1080p@60fps skärmdelning"
+                }
             }
+        },
+        "rolePermissions": {
+            "manageChannelsDescription": "Behörigheter för att uppdatera eller radera kanaler.",
+            "kick": "Kicka",
+            "banDescription": "Behörigheten att kunna banna användare.",
+            "mentionEveryone": "Nämn Alla",
+            "mentionEveryoneDescription": "Aktivera nämningen @everyone. Admin till servern kan fortfarande nämna alla användare.",
+            "nicknameMember": "Ge smeknamn",
+            "nicknameMemberDescription": "Låt användare ändra sitt smeknamn i servern."
+        },
+        "leaveModal": {
+            "title": "Lämna servern?",
+            "body": {
+                "part1": "Är du säker på att du vill lämna <1>{{serverName}}</1>?",
+                "part2": "Du kan gå med i servern igen när som!"
+            },
+            "cancelButton": "Lämna inte",
+            "confirmButton": "Lämna"
+        },
+        "channelPermissions": {
+            "hiddenChannel": "Gömd kanal"
         }
     }
 }
