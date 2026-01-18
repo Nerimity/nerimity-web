@@ -468,5 +468,55 @@
             "sendMessageDescription": "Aktivera att kunna skicka meddelanden i kanalen. Admin till servern kan fortfarande skicka meddelanden.",
             "joinVoice": "Anslut till röstkanal"
         }
+    },
+    "settings": {
+        "drawer": {
+            "privacy": "Sekretess",
+            "connections": "Anslutningar",
+            "profile": "Profil"
+        },
+        "language": {
+            "reloadNotice": "Starta om appen för att applicera översättningen helt.",
+            "reloadButton": "Ladda om",
+            "searchNotice": "Översättningar överses av Nerimitys användare. Var snäll och rapportera felaktiga eller olämpliga översättningar till Nerimity.",
+            "contributors": "De som bidrar"
+        },
+        "header": {
+            "servers": "servrar",
+            "friends": "vänner",
+            "manageAccount": "Hantera Konto"
+        },
+        "account": {
+            "tag": "Tagg",
+            "botID": "Bot ID",
+            "profile": "Profil",
+            "profileDescription": "Redigera din beskrivning eller färger",
+            "palestineBorder": "Lägg till Palestina-ram till din profilbild.",
+            "bio": "Beskrivning",
+            "gradientColor1": "Gradientfärg 1",
+            "gradientColor2": "Gradientfärg 2",
+            "primaryColor": "Primärfärg",
+            "usernameFont": "Font till användarnamn",
+            "default": "Appstandard",
+            "preview": "Förhandsvisa",
+            "changePassword": "Byt lösenord",
+            "forgotPassword": "Glömt lösenordet",
+            "newPassword": "Nytt lösenord",
+            "newPasswordDescription": "Byter du lösenord så blir du utloggad på alla andra enheter.",
+            "confirmNewPassword": "Bekfräfta nytt lösenord",
+            "confirmNewPasswordDescription": "Bekräfta ditt nya lösenord",
+            "confirmCurrentPassword": "Bekräfta nuvarande lösenord",
+            "confirmEmail": "Bekräfta din E-post",
+            "enterCode": "Ange 5-siffriga koden som skickats till din E-post:",
+            "sendCodeButton": "Skicka kod",
+            "resendIn": "Skicka igen {{time}}",
+            "channelNotice": "Kanalnotis",
+            "channelNoticeDescription": "Visas när användaren ska skriva i chatten för första gången. Ändringar appliceras efter omstart.",
+            "channelNoticeTooLong": "Kanalnotisen får inte vara längre än 300 karaktärer.",
+            "deleteAccount": "Radera mitt konto",
+            "deleteAccountDescription": "Detta kan ej ångras!",
+            "deleteAccountNotice": "Du måste lämna/radera alla dina servrar innan du kan radera ditt konto.",
+            "understoodButton": "Jag förstår"
+        }
     }
 }
