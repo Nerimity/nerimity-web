@@ -621,7 +621,8 @@
         "reportMessage": "Signaler le message",
         "markUnread": "Marquer comme non lu",
         "pinMessage": "Épingler",
-        "unpinMessage": "Détacher"
+        "unpinMessage": "Détacher",
+        "copyHTML": "Copier le HTML"
     },
     "profile": {
         "followButton": "Suivre",
@@ -784,7 +785,8 @@
         "spoiler": "Spoiler",
         "timestamp": "Horodatage",
         "html": "Mode HTML",
-        "emojiPicker": "Sélecteur d'émoji"
+        "emojiPicker": "Sélecteur d'émoji",
+        "checkbox": "Case à cocher"
     },
     "typing": {
         "single": "<1>{{username}}</1> est en train d'écrire…",
@@ -816,10 +818,10 @@
         },
         "kitty": {
             "name": "Chaton",
-            "blueDescription": "Chat aux oreilles bleues",
-            "whiteDescription": "Chat aux oreilles blanches",
-            "maidDescription": "Oreilles de chat femme de ménage",
-            "purpleDescription": "Chat aux oreilles violettes"
+            "blueDescription": "Oreilles de chat arctique",
+            "whiteDescription": "Oreilles de chat calico",
+            "maidDescription": "Oreilles de chaton bonne",
+            "purpleDescription": "Oreilles de chat du Cheshire"
         },
         "founder": {
             "name": "Fondateur",
@@ -846,8 +848,8 @@
         },
         "foxy": {
             "name": "Rusé",
-            "foxyGoldDescription": "Renard aux oreilles d'or",
-            "foxyBrownDescription": "Renard à oreilles brunes"
+            "foxyGoldDescription": "Oreilles de renard dorées",
+            "foxyBrownDescription": "Oreilles de renard brunes"
         },
         "admin": {
             "name": "Administrateur",
@@ -859,13 +861,13 @@
         },
         "bunny": {
             "name": "Lapin",
-            "bunnyDescription": "Lapin aux oreilles noires",
-            "maidDescription": "Lapin oreilles de bonne"
+            "bunnyDescription": "Oreilles de lapin tombantes",
+            "maidDescription": "Oreilles de lapin bonne"
         },
         "dog": {
             "name": "Chienchien",
-            "dogDescription": "Oreilles de chien marron",
-            "shibaDescription": "Chien Shiba"
+            "dogDescription": "Bonnes oreilles de chiot",
+            "shibaDescription": "Chien Shiba Inu"
         },
         "wolf": {
             "name": "Loup",
@@ -873,14 +875,14 @@
         },
         "goat": {
             "name": "Chèvre",
-            "goatDescription": "Oreilles de chèvre blanches",
+            "goatDescription": "Oreilles de chèvre kawaii",
             "goatHornDescription": "Cornes de chèvre"
         },
         "deer": {
             "name": "Cerf",
-            "deerDescription": "Cornes d'oreilles de cerf",
-            "deerDarkDescription": "Cornes d'oreilles de cerf foncées",
-            "deerWhiteDescription": "Oreilles de cerf blanches"
+            "deerDescription": "Bois de cerf mignons",
+            "deerDarkDescription": "Bois de cerf emo",
+            "deerWhiteDescription": "Cerf rose Kawaii"
         }
     },
     "botInvite": {
@@ -960,7 +962,8 @@
         "translationError": "Impossible de traduire ce message.",
         "translation": {
             "title": "Traduction"
-        }
+        },
+        "imageMessage": "Message illustré"
     },
     "messageView": {
         "flaggedServer": {
@@ -1040,7 +1043,7 @@
             "noMentions": "Aucune mention"
         },
         "pins": {
-            "noPins": "Aucune épingles"
+            "noPins": "Aucun message épinglé"
         },
         "jump": "Sauter",
         "voice": {
@@ -1142,7 +1145,7 @@
     },
     "nicknameChangeModal": {
         "title": "Mettre à jour le profil du serveur",
-        "description": "Tous les membres de ce serveur verront votre pseudo.",
+        "description": "Ce pseudo sera visible par tous les utilisateurs de ce serveur.",
         "inputLabel": "Surnom"
     },
     "transferOwnershipModal": {
