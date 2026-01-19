@@ -83,7 +83,7 @@ export default function ServerSettingsChannel() {
         <BreadcrumbItem
           href={RouterEndpoints.SERVER_MESSAGES(
             params.serverId,
-            server()?.defaultChannelId!
+            server()?.defaultChannelId!,
           )}
           icon="home"
           title={server()?.name}
@@ -160,7 +160,7 @@ function PermissionsTab() {
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const [selectedRoleId, setSelectedRoleId] = createSignal<string | undefined>(
-    undefined
+    undefined,
   );
 
   const [permissions, setPermissions] = createSignal(0);
@@ -210,7 +210,7 @@ function PermissionsTab() {
               </div>
             ) : null,
           label: role!.name,
-        } satisfies DropDownItem)
+        }) satisfies DropDownItem,
     );
 
   createEffect(
@@ -220,7 +220,7 @@ function PermissionsTab() {
         serverId: params.serverId!,
         iconName: "settings",
       });
-    })
+    }),
   );
 
   const onSaveButtonClicked = async () => {
@@ -317,7 +317,7 @@ function GeneralTab() {
         serverId: params.serverId!,
         iconName: "settings",
       });
-    })
+    }),
   );
 
   const onSaveButtonClicked = async () => {
@@ -330,9 +330,6 @@ function GeneralTab() {
       .finally(() => setSaveRequestSent(false));
   };
 
-  const saveRequestStatus = () =>
-    saveRequestSent() ? t("general.saving") : t("general.saveChangesButton");
-
   const openChannelIconPicker = (event: MouseEvent) => {
     setEmojiPickerPosition({
       x: event.clientX,
@@ -341,10 +338,16 @@ function GeneralTab() {
   };
 
   const onIconPicked = (shortcode: string) => {
-    const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
+    const customEmoji = servers.customEmojiNamesToEmoji()[shortcode]!;
     const unicode = emojiShortcodeToUnicode(shortcode);
-    const icon =
-      unicode || `${customEmoji.id}.${customEmoji.gif ? "gif" : "webp"}`;
+
+    const ext = () => {
+      if (customEmoji.gif && !customEmoji.webp) return ".gif";
+      if (customEmoji.webp && customEmoji.gif) return ".webp#a";
+      return ".webp";
+    };
+
+    const icon = unicode || `${customEmoji.id}${ext()}`;
     setInputValue("icon", icon);
   };
   const showDeleteConfirmModal = () => {
@@ -532,7 +535,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
     const res = await updateChannelNotice(
       props.serverId,
       props.channelId,
-      inputValues().content
+      inputValues().content,
     ).catch((err) => {
       setError(err.message);
     });
@@ -544,7 +547,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
   const deleteNotice = async () => {
     const res = await deleteChannelNotice(
       props.serverId,
-      props.channelId
+      props.channelId,
     ).catch((err) => {
       setError(err.message);
     });
@@ -662,7 +665,7 @@ const WebhooksBlock = (props: { channelId: string; serverId: string }) => {
     const res = await createWebhook(props.serverId, props.channelId).catch(
       (err) => {
         toast(err.message);
-      }
+      },
     );
     if (!res) return;
     navigate(`./webhooks/${res.id}`);

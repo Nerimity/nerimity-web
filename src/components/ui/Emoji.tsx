@@ -10,6 +10,7 @@ const ChannelIconImage = styled("img")`
   height: 18px;
   width: 18px;
   flex-shrink: 0;
+  object-fit: scale-down;
 `;
 
 const tooltipStyles = css`
@@ -28,15 +29,23 @@ export const Emoji = (props: {
   const { hasFocus } = useWindowProperties();
   const url = () => {
     if (props.icon!.includes(".")) {
-      const url = new URL(
-        `${env.NERIMITY_CDN}emojis/${props.icon}${
-          (!props.hovered || !hasFocus()) && props.icon?.endsWith(".gif")
-            ? "?type=webp"
-            : ""
-        }`
-      );
+      const shouldBeStatic = () => {
+        const isGif = props.icon?.endsWith(".gif");
+        const isAnimatedWebp = props.icon?.endsWith(".webp#a");
+
+        if (!isAnimatedWebp && !isGif) {
+          return false;
+        }
+
+        return !props.hovered || !hasFocus();
+      };
+
+      const url = new URL(`${env.NERIMITY_CDN}emojis/${props.icon}`);
       if (props.resize) {
         url.searchParams.set("size", props.resize.toString());
+      }
+      if (shouldBeStatic()) {
+        url.searchParams.set("type", "webp");
       }
       return url.href;
     }

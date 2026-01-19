@@ -33,13 +33,24 @@ export const ChannelIcon = (props: {
   class?: string;
 }) => {
   const url = () => {
+    const shouldBeStatic = () => {
+      const isGif = props.icon?.endsWith(".gif");
+      const isAnimatedWebp = props.icon?.endsWith(".webp#a");
+
+      if (!isAnimatedWebp && !isGif) {
+        return false;
+      }
+
+      return !props.hovered;
+    };
+
     if (props.icon!.includes(".")) {
-      const url = new URL(
-        `${env.NERIMITY_CDN}emojis/${props.icon}${
-          !props.hovered && props.icon?.endsWith(".gif") ? "?type=webp" : ""
-        }`
-      );
+      const url = new URL(`${env.NERIMITY_CDN}emojis/${props.icon}`);
       url.searchParams.set("size", "36");
+
+      if (shouldBeStatic()) {
+        url.searchParams.set("type", "webp");
+      }
       return url.href;
     }
     return unicodeToTwemojiUrl(props.icon!);

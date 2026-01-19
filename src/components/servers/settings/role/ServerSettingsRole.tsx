@@ -89,7 +89,7 @@ export default function ServerSettingsRole() {
         serverId: params.serverId!,
         iconName: "settings",
       });
-    })
+    }),
   );
 
   const onSaveButtonClicked = async () => {
@@ -128,10 +128,16 @@ export default function ServerSettingsRole() {
   };
 
   const onIconPicked = (shortcode: string) => {
-    const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
+    const customEmoji = servers.customEmojiNamesToEmoji()[shortcode]!;
     const unicode = emojiShortcodeToUnicode(shortcode);
-    const icon =
-      unicode || `${customEmoji.id}.${customEmoji.gif ? "gif" : "webp"}`;
+
+    const ext = () => {
+      if (customEmoji.gif && !customEmoji.webp) return ".gif";
+      if (customEmoji.webp && customEmoji.gif) return ".webp#a";
+      return ".webp";
+    };
+
+    const icon = unicode || `${customEmoji.id}${ext()}`;
     setInputValue("icon", icon);
   };
 
@@ -165,7 +171,7 @@ export default function ServerSettingsRole() {
         <BreadcrumbItem
           href={RouterEndpoints.SERVER_MESSAGES(
             params.serverId,
-            server()?.defaultChannelId!
+            server()?.defaultChannelId!,
           )}
           icon="home"
           title={server()?.name}
