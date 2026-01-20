@@ -164,9 +164,7 @@ function CustomInvite(props: { invites: any[]; onUpdate: () => void }) {
             margin-bottom: 10px;
           `}
           type="info"
-          description={t(
-            "servers.settings.invites.customInviteVerifiedOnlyNotice"
-          )}
+          description={t("servers.settings.invites.customInviteVerifiedOnlyNotice")}
         />
       </Show>
 
@@ -251,8 +249,12 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
           <div class={styles.otherDetails}>
             <Icon name="person" size={14} class={styles.icon} />
             {props.invite.createdBy.username}
+          </div>
+          <div class={styles.otherDetails}>
             <Icon name="whatshot" size={14} class={styles.icon} />
             {t("servers.settings.invites.uses", { count: props.invite.uses })}
+          </div>
+          <div class={styles.otherDetails}>
             <Icon name="today" size={14} class={styles.icon} />
             {formatTimestamp(props.invite.createdAt)}
           </div>
@@ -267,7 +269,6 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
           <Button
             onClick={onDeleteClick}
             class={classNames(styles.deleteButton, styles.button)}
-            label={t("general.deleteButton")}
             iconName="delete"
             color="var(--alert-color)"
           />
