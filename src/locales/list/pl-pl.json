@@ -664,7 +664,8 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Czy jesteś pewien, że chcesz usunąć tego posta?"
+            "message": "Czy jesteś pewien, że chcesz usunąć tego posta?",
+            "title": "Usunąć Post?"
         },
         "postWasDeleted": "Ten post został usunięty!",
         "someoneLikedYourPost": "<1>{{username}}</1> polubił(-a) Twój post!",
@@ -676,7 +677,25 @@
         "createButton": "Opublikuj",
         "someoneRepostedYourPost": "<1>{{username}}</1> podał(-a) dalej Twój post!",
         "pollOptions": "Opcje ankiety",
-        "optionNumberPlaceholder": "Opcja {{number}}"
+        "optionNumberPlaceholder": "Opcja {{number}}",
+        "title": "Post",
+        "viewCount": "Szacunkowa liczba wyświetleń",
+        "voteButton": "Głosuj",
+        "voteCount": "{{count}} głos(ów)",
+        "copyPostButton": "Kopiuj Post",
+        "sections": {
+            "replies": "Odpowiedzi ({{count}})",
+            "likes": "Polubienia ({{count}})",
+            "reposts": "Podania dalej ({{count}})"
+        },
+        "editPostModalTitle": "Edytuj Post",
+        "sort": {
+            "latest": "Najnowsze",
+            "mostLiked7Days": "Najwięcej Polubień (7 dni)",
+            "mostLiked30Days": "Najwięcej Polubień (30 dni)",
+            "mostLikedAllTime": "Najwięcej Polubień (Ogółem)"
+        },
+        "postWarning": "Treści dotyczące samookaleczania są niedozwolone, zostaną podjęte działania wobec konta."
     },
     "resetPassword": {
         "title": "Zresetuj hasło",
