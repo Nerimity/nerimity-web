@@ -664,9 +664,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Czy jesteś pewien, że chcesz usunąć tego posta?",
-            "cancelButton": "Anuluj",
-            "deleteButton": "Usuń"
+            "message": "Czy jesteś pewien, że chcesz usunąć tego posta?"
         },
         "postWasDeleted": "Ten post został usunięty!",
         "someoneLikedYourPost": "<1>{{username}}</1> polubił(-a) Twój post!",

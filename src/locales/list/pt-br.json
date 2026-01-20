@@ -647,9 +647,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Tem certeza de que gostaria de excluir esta postagem?",
-            "cancelButton": "Cancelar",
-            "deleteButton": "Excluir"
+            "message": "Tem certeza de que gostaria de excluir esta postagem?"
         },
         "postWasDeleted": "Esta postagem foi excluída!",
         "someoneLikedYourPost": "<1>{{username}}</1> curtiu sua postagem!",

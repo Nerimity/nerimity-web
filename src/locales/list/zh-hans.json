@@ -388,9 +388,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "你确定要删除这条帖子吗？",
-            "cancelButton": "取消",
-            "deleteButton": "删除"
+            "message": "你确定要删除这条帖子吗？"
         },
         "postWasDeleted": "该条帖子已删除！",
         "someoneLikedYourPost": "<1>{{username}}</1> 为你的帖子点了赞！",

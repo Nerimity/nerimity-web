@@ -204,9 +204,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Is jy seker jy wil hierdie plasing verwyder?",
-            "cancelButton": "Kanselleer",
-            "deleteButton": "Verwyder"
+            "message": "Is jy seker jy wil hierdie plasing verwyder?"
         },
         "postWasDeleted": "Hierdie plasing is verwyder!",
         "someoneLikedYourPost": "<1>{{username}}</1> hou van jou plasing!",

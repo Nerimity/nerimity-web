@@ -698,9 +698,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Вы уверены, что хотите удалить этот пост?",
-            "cancelButton": "Отмена",
-            "deleteButton": "Удалить"
+            "message": "Вы уверены, что хотите удалить этот пост?"
         },
         "postWasDeleted": "Этот пост был удален!",
         "someoneLikedYourPost": "<1>{{username}}</1> понравился ваш пост!",

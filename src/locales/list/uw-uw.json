@@ -441,9 +441,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Suwe u wanna dewete dis post?",
-            "cancelButton": "RUN AWAYYY..",
-            "deleteButton": "Poof"
+            "message": "Suwe u wanna dewete dis post?"
         },
         "postWasDeleted": "Postie was poofed!!!",
         "someoneLikedYourPost": "<1>{{username}}</1> wiked youw post!",

@@ -463,9 +463,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Sigurado ka bang gusto mong tanggalin ang post na ito?",
-            "cancelButton": "Kanselahin",
-            "deleteButton": "Tanggalin"
+            "message": "Sigurado ka bang gusto mong tanggalin ang post na ito?"
         },
         "postWasDeleted": "Ang post na ito ay tinanggal!",
         "someoneLikedYourPost": "<1>{{username}}</1> ay nag-like sa post mo!",

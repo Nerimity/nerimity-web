@@ -33,7 +33,7 @@
         "loggingIn": "Giriş Yapılıyor…"
     },
     "registerPage": {
-        "title": "{{appName}}'ye Hoşgeldin!",
+        "title": "{{appName}}'ye Hoşgeldin",
         "email": "E-posta",
         "username": "Kullanıcı Adı",
         "password": "Şifre",
@@ -53,7 +53,7 @@
     "dashboard": {
         "title": "Panel",
         "activeUsers": "Çevrimiçi Kullanıcılar",
-        "noActiveUsers": "Çevrimiçi kullanıcı yok.",
+        "noActiveUsers": "Çevrimiçi kullanıcı yok",
         "servers": "Sunucular",
         "posts": "Gönderiler",
         "feed": "Akış",
@@ -77,7 +77,7 @@
             "silent": "Sessiz mesaj"
         },
         "linkToGoogleDrive": {
-            "body": "Büyük resimleri, videoları veya dosyaları yüklemek için hesabınızı Google Drive ile bağlamalısınız.",
+            "body": "Büyük resimleri, videoları veya dosyaları yüklemek için hesabınızı Google Drive ile bağlamalısınız",
             "linkButton": "Şimdi Bağla",
             "cancelButton": "Bağlama"
         },
@@ -85,7 +85,7 @@
     },
     "inbox": {
         "blockedUsersModal": {
-            "title": "Engellenmiş Kullanıcılar"
+            "title": "Engellenen Kullanıcılar"
         },
         "drawer": {
             "searchBarPlaceholder": "Ara",
@@ -94,7 +94,7 @@
             "offlineFriends": "{{count}} Çevrimdışı Arkadaş",
             "notes": "Notlar",
             "addFriendButton": "Arkadaş Ekle",
-            "blockedUsersButton": "Engellenmiş Kullanıcılar",
+            "blockedUsersButton": "Engellenmiş",
             "inboxTitle": "Gelen Kutusu",
             "friendsButton": "Arkadaşlar",
             "viewAll": "Hepsini Görüntüle"
@@ -140,10 +140,10 @@
             "communityThemes": "Topluluk Temaları",
             "noCommunityThemes": "Topluluk teması bulunamadı.",
             "fetchThemesError": "Temalar alınamadı. Lütfen daha sonra tekrar deneyin.",
-            "unlockDescription": "Tüm topluluk temalarını keşfetmek için tıklayın."
+            "unlockDescription": "Tüm topluluk temalarını keşfetmek için tıklayın"
         },
         "sort": "Sırala",
-        "filter": "Filtrele",
+        "filter": "Filtre",
         "by": "Tarafından",
         "bumped": "Öne Çıkarıldı"
     },
@@ -163,7 +163,8 @@
                 "channel": "Kanal",
                 "notifications": "Bildirimler",
                 "external-embed": "Harici Gömme",
-                "permissions": "İzinler"
+                "permissions": "İzinler",
+                "emoji": "Emoji"
             },
             "general": {
                 "serverRenameNotice": "Sunucunuzu yeniden adlandırmanız doğrulama avantajlarını kaybetmenize neden olur.",
@@ -191,7 +192,8 @@
                 "roleIcon": "Rol Simgesi",
                 "applyOnJoinDescription": "Üyeler sunucuya katıldığı zaman bu rolü ver.",
                 "deleteRoleTitle": "{{roleName}} rolünü sil",
-                "managedByBot": "Bu rol {{botAdı}} tarafından yönetilmektedir. Bu role üye ekleyemez veya üyeleri kaldıramazsınız. Bu rolü kaldırmak için botu atın."
+                "managedByBot": "Bu rol {{botName}} tarafından yönetilmektedir. Bu role üye ekleyemez veya üyeleri kaldıramazsınız. Bu rolü kaldırmak için botu atın.",
+                "applyOnJoin": "Katılımda Uygula"
             },
             "header": {
                 "editServer": "Sunucuyu Düzenle",
@@ -199,7 +201,9 @@
             },
             "channels": {
                 "createButton": "Oluştur",
-                "createNewDescription": "Yeni bir kanal veya bir kategori oluştur"
+                "createNewDescription": "Yeni bir kanal veya bir kategori oluştur",
+                "textChannel": "Metin Kanalı",
+                "category": "Kategori"
             },
             "channel": {
                 "channelName": "Kanal İsmi",
@@ -208,7 +212,8 @@
                 "deleteChannelButton": "Kanalı Sil",
                 "removeNoticeButton": "Hatırlatmayı Sil",
                 "channelIcon": "Kanal Simgesi",
-                "deleteChannelTitle": "{{channelName}} kanalını sil"
+                "deleteChannelTitle": "{{channelName}} kanalını sil",
+                "slowModeDescription": "Bir kullanıcının mesaj atmadan önce ne kadar bekleyeceğini belirle."
             },
             "invites": {
                 "createInviteButton": "Davet Oluştur",
@@ -222,7 +227,7 @@
                 "public": "Herkese Açık",
                 "publicDescription": "Bu sunucuyu herkese açık yap.",
                 "bumpServer": "Sunucuyu Öne Çıkar",
-                "bumpServerDescription": "Sunucuyu üste çıkartmak için sunucuyu öne çıkar",
+                "bumpServerDescription": "Sunucuyu üste çıkartmak için sunucuyu öne çıkar.",
                 "publishServerButton": "Sunucuyu yayınla",
                 "unpublishServerButton": "Sunucuyu yayından kaldır",
                 "bumpButton": "Öne Çıkar ({{count}})",
@@ -285,7 +290,43 @@
                 }
             },
             "welcomeScreen": {
-                "title": "Sorular"
+                "title": "Sorular",
+                "questions": {
+                    "addButton": "Soru ekle",
+                    "question": "Soru",
+                    "questionPlaceholder": "Kediler veya köpekler?",
+                    "multiselect": "Çoklu seçim"
+                },
+                "answers": {
+                    "title": "Cevaplar",
+                    "addButton": "Cevap ekle",
+                    "editModal": {
+                        "title": "Cevabı Düzenle",
+                        "answer": "Cevap",
+                        "placeholder": "Kediler"
+                    }
+                }
+            },
+            "notifications": {
+                "sound": "Bildirim Sesi",
+                "soundDescription": "Bildirim aldığında bir ses çıkarır."
+            },
+            "emoji": {
+                "title": "Özel Emoji",
+                "description": "Kendi emojini ekle.",
+                "addButton": "Emoji ekle"
+            },
+            "externalEmbed": {
+                "noInvites": {
+                    "createButton": "Davet Oluştur"
+                },
+                "title": "Harici Gömülü Bağlantı Oluştur",
+                "dropdownPlaceholder": "Daveti Seç",
+                "options": {
+                    "hideHeader": "Başlığı Gizle",
+                    "hideMembers": "Üye Listesini Gizle",
+                    "hideActivities": "Aktivite Listesini Gizle"
+                }
             }
         },
         "rolePermissions": {
@@ -312,7 +353,8 @@
             "sendMessage": "Mesaj Gönder",
             "sendMessageDescription": "Kanalda mesaj göndermeyi etkinleştirir. Yine de sunucu yöneticileri mesaj gönderebilir.",
             "joinVoice": "Ses Kanalına Katıl",
-            "joinVoiceDescription": "Kanal için sesli sohbete katılmayı etkinleştirir. Sunucu yöneticileri her zaman sesli sohbete katılabilir."
+            "joinVoiceDescription": "Kanal için sesli sohbete katılmayı etkinleştirir. Sunucu yöneticileri her zaman sesli sohbete katılabilir.",
+            "hiddenChannel": "Gizli Kanal"
         },
         "leaveModal": {
             "title": "Sunucudan Ayrıl?",
@@ -359,7 +401,7 @@
             "newPassword": "Yeni Şifre",
             "newPasswordDescription": "Şifrenizi değiştirmeniz diğer cihazlardan çıkış yapmanıza sebep olur.",
             "confirmNewPassword": "Yeni Şifreyi Onaylayın",
-            "confirmNewPasswordDescription": "Yeni şifrenizi tekrar yazın.",
+            "confirmNewPasswordDescription": "Yeni şifrenizi onaylayın",
             "confirmCurrentPassword": "Şuanki Şifrenizi Onaylayın",
             "channelNotice": "Kanal Hatırlatması",
             "channelNoticeDescription": "Kullanıcılar sizinle ilk defa sohbet ettiğinde görünür. Değişiklikler sayfayı yeniledikten sonra uygulanır.",
@@ -391,7 +433,9 @@
             "channelNoticeTooLong": "Kanal başlığı 300 karakterden uzun olamaz.",
             "enterCode": "E-postanıza gönderilen 5 haneli kodu yazın:",
             "resendIn": "{{time}} içinde tekrar gönder",
-            "bioDescription": "Çok satırlı ve biçimlendirme desteği"
+            "bioDescription": "Çok satırlı ve biçimlendirme desteği",
+            "usernameFont": "Kullanıcı adı yazı tipi",
+            "default": "Uygulama varsayılanı"
         },
         "privacy": {
             "lastOnline": {
@@ -416,7 +460,9 @@
             "options": {
                 "anybody": "Herkes",
                 "friendsOnly": "Sadece arkadaşlar",
-                "nobody": "Hiç kimse"
+                "nobody": "Hiç kimse",
+                "serversOnly": "Sadece sunucular",
+                "friendsAndServers": "Arkadaşlar ve sunucular"
             }
         },
         "notifications": {
@@ -461,7 +507,7 @@
         },
         "interface": {
             "blurEffect": "Bulanıklık Efekti",
-            "blurEffectDescription": "Saydam bulanıklık efektini aktive eder. Mobilde varsayılan olarak kapalı olur. Performans kayıplarına neden olabilir.",
+            "blurEffectDescription": "Arayüz öğelerinde saydamlık efektini aktif eder. (Performans kayıplarına neden olabilir)",
             "disableAdvancedMarkupBar": "Gelişmiş İşaretleme Barını Devre Dışı Bırak",
             "disableAdvancedMarkupBarDescription": "Gelişmiş işaretleme barını metin kanallarında devre dışı bırakır.",
             "customizeColors": "Renkleri Kişiselleştir",
@@ -557,7 +603,7 @@
         }
     },
     "supportBlock": {
-        "support": "Geliştiriciyi Destekle!",
+        "support": "Geliştiriciyi Destekle",
         "supportDescription": "Destekçi rozeti kazanmak için bağış yapın!"
     },
     "createServerModal": {
@@ -575,7 +621,11 @@
         "notificationOptions": {
             "everything": "Herşey",
             "mentionsOnly": "Sadece Bahsetmeler",
-            "mute": "Sustur"
+            "mute": "Sustur",
+            "sections": {
+                "ping": "Ping",
+                "sound": "Ses"
+            }
         },
         "channelSettings": "Kanal Ayarları"
     },
@@ -597,7 +647,7 @@
         "title": "Rolleri Düzenle"
     },
     "banModal": {
-        "title": "{{username}} Kullanıcısını Yasakla",
+        "title": "{{username}} kullanıcısını yasakla?",
         "message": "<1>{{username}}</1> kullanıcısını sunucudan yasaklamak istediğinden emin misin?",
         "deletePastMessagesCheckbox": "Son 7 saat içinde gönderilen mesajları sil.",
         "banButton": "Yasakla",
@@ -616,7 +666,8 @@
         "translateMessage": "Çevir",
         "markUnread": "Okunmamış Olarak İşaretle",
         "pinMessage": "Sabitle",
-        "unpinMessage": "Sabitlemeyi Kaldır"
+        "unpinMessage": "Sabitlemeyi Kaldır",
+        "copyHTML": "HTML Kopyala"
     },
     "profile": {
         "followButton": "Takip Et",
@@ -646,15 +697,14 @@
         "personal": {
             "editProfile": "Profili Düzenle",
             "customStatus": "Durum"
-        }
+        },
+        "badge": "{{badgeName}} Rozet"
     },
     "posts": {
         "deletePostModal": {
-            "message": "Bu gönderiyi silmek istediğinden emin misin?",
-            "cancelButton": "İptal Et",
-            "deleteButton": "Kaldır"
+            "message": "Bu gönderiyi silmek istediğinden emin misin?"
         },
-        "postWasDeleted": "Bu gönderi silindi.",
+        "postWasDeleted": "Bu gönderi silindi!",
         "someoneLikedYourPost": "<1>{{username}}</1> gönderini beğendi!",
         "someoneRepostedYourPost": "<1>{{username}}</1> gönderini tekrar paylaştı!",
         "someoneFollowedYou": "<1>{{username}}</1> seni takip etti!",
@@ -675,7 +725,7 @@
         "info": "Bilgi",
         "files": "Dosyalar",
         "searchBarChannelPlaceholder": "{{channelName}} kanalında ara",
-        "searchBarPlaceholder": "{{kullanıcı adı}} ara",
+        "searchBarPlaceholder": "",
         "sortLatest": "En Son",
         "sortOldest": "En Eski"
     },
@@ -691,10 +741,10 @@
         "passwordsDoNotMatch": "Tekrarlanan şifre eşleşmiyor."
     },
     "typing": {
-        "single": "<1>{{username}}</1> yazıyor...",
-        "multiple": "<1>{{username}}</1> ve <2>{{username2}}</2> yazıyor...",
-        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> ve <3>{{username3}}</3> yazıyor...",
-        "andOthers": "<1>{{count}}</1> kullanıcılar yazıyor..."
+        "single": "<1>{{username}}</1> yazıyor…",
+        "multiple": "<1>{{username}}</1> ve <2>{{username2}}</2> yazıyor…",
+        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> ve <3>{{username3}}</3> yazıyor…",
+        "andOthers": "<1>{{count}}</1> kullanıcı yazıyor…"
     },
     "botInvite": {
         "serverSelect": "Lütfen bir sunucu seç!",
@@ -727,7 +777,7 @@
     "message": {
         "badge": {
             "bot": "Bot",
-            "owner": "Kurucu",
+            "owner": "Sahip",
             "webhook": "Webhook"
         },
         "deletedMessage": "Bu mesaj silindi.",
@@ -749,7 +799,8 @@
             "more": "{{count}} Daha Fazla"
         },
         "dismissButton": "Reddet",
-        "editedAt": "Şu saatte düzenlendi: {{time}}"
+        "editedAt": "Şu saatte düzenlendi: {{time}}",
+        "imageMessage": "Görüntü mesajı"
     },
     "videoEmbed": {
         "expired": "Süresi dolmuş",
@@ -902,13 +953,14 @@
     "badges": {
         "kitty": {
             "name": "Kedi",
-            "blueDescription": "Mavi Kulaklı Kedi",
-            "whiteDescription": "Beyaz Kulaklı Kedi"
+            "blueDescription": "Arktik Kedi Kulakları",
+            "whiteDescription": "Calico Kedi Kulakları",
+            "maidDescription": "Hizmetçi Kedi Kulakları"
         },
         "foxy": {
             "name": "Tilki",
-            "foxyGoldDescription": "Altın Kulaklı Tilki",
-            "foxyBrownDescription": "Kahverengi Kulaklı Tilki"
+            "foxyGoldDescription": "Altın Tilki Kulakları",
+            "foxyBrownDescription": "Kahverengi Tilki Kulakları"
         },
         "founder": {
             "name": "Kurucu",
@@ -946,23 +998,28 @@
             "avatarBorderEdited": "{{platform}}'da {{author}} tarafından Avatar Çerçevesi, düzenleyen: {{editor}}"
         },
         "deer": {
-            "deerWhiteDescription": "Geyik Kulakları Beyaz",
-            "name": "Geyik"
+            "deerWhiteDescription": "Şirin Pembe Geyik",
+            "name": "Geyik",
+            "deerDescription": "Şirin Geyik Boynuzları",
+            "deerDarkDescription": "Emo Geyik Boynuzları"
         },
         "goat": {
             "goatHornDescription": "Keçi Boynuzları",
-            "goatDescription": "Keçi Kulakları Beyaz",
+            "goatDescription": "Şirin Keçi Kulakları",
             "name": "Keçi"
         },
         "wolf": {
             "wolfDescription": "Kurt Kulakları"
         },
         "dog": {
-            "shibaDescription": "Shiba Köpeği",
-            "dogDescription": "Köpek Kulakları Kahverengi"
+            "shibaDescription": "Shiba Inu Köpeği",
+            "dogDescription": "Köpek Kulakları Kahverengi",
+            "name": "Köpek"
         },
         "bunny": {
-            "maidDescription": "Hizmetçi Kulakları Tavşan"
+            "maidDescription": "Hizmetçi Tavşan Kulakları",
+            "name": "Tavşan",
+            "bunnyDescription": "Sarkık Tavşan Kulakları"
         }
     },
     "systemMessages": {
@@ -973,9 +1030,9 @@
         "leaveServer": "<User/><2> Sunucudan Ayrıldı</2>",
         "kickUser": "<User/><2> Sunucudan Atıldı.</2>",
         "banUser": "<User/><2> Sunucudan Banlandı.</2>",
-        "callStarted": "<User/><2> Arama başlattı.</2>",
+        "callStarted": "<User/><2> bir arama başlattı.</2>",
         "bumpServer": "<User/><2> Sunucuyu Öne Çıkartı</2>",
-        "pinnedMessage": "<User/><2> Bir mesaj sabitledi.</2>",
+        "pinnedMessage": "<User/><2> bir mesajı sabitledi.</2>",
         "unsupported": "<User/><2> Desteklenmeyen mesaj.</2>"
     },
     "inputFieldActions": {
@@ -990,6 +1047,9 @@
             "muted": "Susturulmuş",
             "deafened": "Sağırlaştırılmış",
             "fullscreen": "Tam Ekran"
+        },
+        "pins": {
+            "noPins": "Sabitlenmiş Mesajlar yok"
         }
     },
     "channelDrawer": {
@@ -999,12 +1059,14 @@
         },
         "members": {
             "filter": {
-                "24hours": "24 Saat"
+                "24hours": "24 Saat",
+                "header": "Filtrele"
             },
             "sort": {
                 "member": "Üye",
                 "joined": "Katıldı",
-                "joinedNerimity": "Nerimity'e Katıldı"
+                "joinedNerimity": "Nerimity'e Katıldı",
+                "header": "Sırala"
             },
             "order": {
                 "ascending": "Artarak",
@@ -1038,13 +1100,16 @@
         "avatarAndBanner": {
             "avatar": "Avatar",
             "banner": "Afiş",
-            "browse": ""
+            "browse": "Göz At",
+            "supportedFileTypes": "Desteklenen:{{extensions}}, Maks. {{size}}"
         },
         "nothingSelected": "Hiçbir şey seçilmedi",
         "selectItem": "Öğe seç"
     },
     "nicknameChangeModal": {
-        "title": "Sunucu Profilini Güncelle"
+        "title": "Sunucu Profilini Güncelle",
+        "description": "Sunucudaki herkes bu kullanıcı adını görebilecek.",
+        "inputLabel": "Kullanıcı adı"
     },
     "transferOwnershipModal": {
         "title": "Sahipliği Aktar",

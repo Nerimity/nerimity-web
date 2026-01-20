@@ -451,9 +451,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "هل أنت متأكد أنك تريد حذف هذا المنشور؟",
-            "cancelButton": "إلغاء",
-            "deleteButton": "حذف"
+            "message": "هل أنت متأكد أنك تريد حذف هذا المنشور؟"
         },
         "postWasDeleted": "تم حذف هذا المنشور!",
         "someoneLikedYourPost": "<1>{{username}}</1> :لقد اعجب بمنشورك",

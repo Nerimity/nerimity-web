@@ -517,6 +517,9 @@
             "deleteAccountDescription": "Detta kan ej ångras!",
             "deleteAccountNotice": "Du måste lämna/radera alla dina servrar innan du kan radera ditt konto.",
             "understoodButton": "Jag förstår"
+        },
+        "notifications": {
+            "message": "Meddelande"
         }
     }
 }
