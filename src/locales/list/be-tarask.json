@@ -93,7 +93,7 @@
         "activeUsers": "Зараз у сетцы",
         "noActiveUsers": "Няма актыўных карыстачоў",
         "servers": "Сэрвэры",
-        "posts": "Публікацыйі",
+        "posts": "Допісы",
         "feed": "Стужка",
         "discover": "Дасьледваць",
         "notifications": "Абвесткі"
@@ -781,11 +781,11 @@
         "messageButton": "Напісаць",
         "mutualFriends": "Агульныя сябры ({{count}})",
         "mutualServers": "Агульныя сэрвэры ({{count}})",
-        "postsTab": "Публікацыйі",
+        "postsTab": "Допісы",
         "followersTab": "Падпісанты",
         "followingTab": "Падпіскі",
-        "postsAndRepliesTab": "Публікацыйі й адказы ({{count}})",
-        "likedPostsTab": "Упадабаныя публікацыйі ({{count}})",
+        "postsAndRepliesTab": "Допісы й адказы ({{count}})",
+        "likedPostsTab": "Упадабаныя допісы ({{count}})",
         "followsYou": "Падпісант",
         "badge": "Аблямоўка «{{badgeName}}»",
         "blockButton": "Заблякаваць",
@@ -811,19 +811,38 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Вы ўпэўненыя, што хочаце выдаліць гэтую публікацыю?"
+            "message": "Вы ўпэўненыя, што хочаце выдаліць гэты допіс?",
+            "title": "Выдаліць допіс?"
         },
-        "postWasDeleted": "Гэтая публікацыя была выдаленая!",
-        "someoneLikedYourPost": "<1>{{username}}</1> упадабаў вашую публікацыю!",
-        "someoneRepostedYourPost": "<1>{{username}}</1> пашырыў вашую публікацыю!",
+        "postWasDeleted": "Гэты допіс быў выдалены!",
+        "someoneLikedYourPost": "<1>{{username}}</1> упадабаў ваш допіс!",
+        "someoneRepostedYourPost": "<1>{{username}}</1> пашырыў ваш допіс!",
         "someoneFollowedYou": "<1>{{username}}</1> падпісаўся на вас!",
-        "someoneRepliedToPost": "<1>{{username}}</1> пакінуў адказ на вашую публікацыю!",
-        "createAPostInputPlaceholder": "Дадаць публікацыю…",
+        "someoneRepliedToPost": "<1>{{username}}</1> пакінуў адказ на ваш допіс!",
+        "createAPostInputPlaceholder": "Стварыце допіс…",
         "replyInputPlaceholder": "Напішыце адказ…",
         "replyButton": "Адказаць",
-        "createButton": "Дадаць",
+        "createButton": "Стварыць",
         "pollOptions": "Варыянты апытаньня",
-        "optionNumberPlaceholder": "Вырыянт {{number}}"
+        "optionNumberPlaceholder": "Вырыянт {{number}}",
+        "title": "Допіс",
+        "viewCount": "Прыкладная колькасьць праглядаў",
+        "voteButton": "Прагаласаваць",
+        "voteCount": "{{count}} голас(а/оў)",
+        "copyPostButton": "Скапіяваць допіс",
+        "sections": {
+            "replies": "Адказы ({{count}})",
+            "likes": "Падабаньні ({{count}})",
+            "reposts": "Пашырэньні ({{count}})"
+        },
+        "editPostModalTitle": "Рэдагаваньне допісу",
+        "sort": {
+            "latest": "Апошнія",
+            "mostLiked7Days": "Найбольш упадабаньняў (за 7 дзён)",
+            "mostLiked30Days": "Найбольш упадабаньняў (за 30 дзён)",
+            "mostLikedAllTime": "Найбольш упадабаньняў (за ўвесь час)"
+        },
+        "postWarning": "Самашкодніцтва забаронена, на ўліковы запіс будуць накладзены абмежаваньні."
     },
     "informationDrawer": {
         "channelNotice": "Папярэджаньне каналу",
