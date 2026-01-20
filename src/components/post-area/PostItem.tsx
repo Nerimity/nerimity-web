@@ -429,15 +429,15 @@ const Actions = (props: {
               ...(showDeleteAndEdit()
                 ? [
                     {
-                      label: props.pinned ? "Unpin" : "Pin",
+                      label: props.pinned ? t("messageContextMenu.unpinMessage") : t("messageContextMenu.pinMessage"),
                       onClick: togglePin,
                       alert: props.pinned,
                       icon: "keep",
                     },
-                    { label: "Edit", onClick: onEditClicked, icon: "edit" },
+                    { label: t("general.editButton"), onClick: onEditClicked, icon: "edit" },
                     { separator: true },
                     {
-                      label: "Delete",
+                      label: t("general.deleteButton"),
                       onClick: onDeleteClick,
                       alert: true,
                       icon: "delete",
@@ -465,7 +465,7 @@ const Actions = (props: {
               },
               { separator: true },
               {
-                label: "Copy Post",
+                label: t("posts.copyPostButton"),
                 onClick: () => {
                   if (!props.post.content?.trim()) return;
                   navigator.clipboard.writeText(props.post.content);
@@ -492,7 +492,7 @@ const Actions = (props: {
                 ? [
                     { separator: true },
                     {
-                      label: "Report",
+                      label: t("profile.reportButton"),
                       onClick: onReportClick,
                       alert: true,
                       icon: "flag",
@@ -545,7 +545,7 @@ const Actions = (props: {
         label={props.post._count?.reposts.toLocaleString()}
       />
       <Show when={showViews()}>
-        <Tooltip tooltip="Estimated Views">
+        <Tooltip tooltip={t("posts.viewCount")}>
           <Button
             margin={0}
             iconSize={16}
@@ -698,10 +698,7 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
 
       <div class={style.footer}>
         <span class={style.votes}>
-          <Text size={12}>{props.poll._count.votedUsers} </Text>
-          <Text size={12} opacity={0.6}>
-            votes
-          </Text>
+          <Text size={12}>{t("posts.voteCount", { count: props.poll._count.votedUsers})}</Text>
         </span>
 
         <Show when={selectedChoiceId() && !votedChoiceId()}>
@@ -709,7 +706,7 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
             onClick={onVoteClick}
             class={style.voteButton}
             primary
-            label="Vote"
+            label={t("posts.voteButton")}
             iconName="check"
             padding={4}
             margin={0}
