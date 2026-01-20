@@ -901,16 +901,33 @@
         }
     },
     "posts": {
-        "deletePostModal": {
-            "message": "Are you sure you would like to delete this post?",
-            "cancelButton": "Cancel",
-            "deleteButton": "Delete"
+        "title": "Post",
+        "viewCount": "Estimated Views",
+        "voteButton": "Vote",
+        "voteCount": "{{count}} vote(s)",
+        "copyPostButton": "Copy Post",
+        "sections": {
+            "replies": "Replies ({{count}})",
+            "likes": "Likes ({{count}})",
+            "reposts": "Reposts ({{count}})"
         },
+        "deletePostModal": {
+            "title": "Delete Post?",
+            "message": "Are you sure you would like to delete this post?"
+        },
+        "editPostModalTitle": "Edit Post",
         "postWasDeleted": "This post was deleted!",
+        "sort": {
+            "latest": "Latest",
+            "mostLiked7Days": "Most Liked (7 days)",
+            "mostLiked30Days": "Most Liked (30 days)",
+            "mostLikedAllTime": "Most Liked (All Time)"
+        },
         "someoneLikedYourPost": "<1>{{username}}</1> liked your post!",
         "someoneRepostedYourPost": "<1>{{username}}</1> reposted your post!",
         "someoneFollowedYou": "<1>{{username}}</1> followed you!",
         "someoneRepliedToPost": "<1>{{username}}</1> replied to your post!",
+        "postWarning": "Self-harm content is not allowed, account action will be taken.",
         "createAPostInputPlaceholder": "Create a post…",
         "replyInputPlaceholder": "Reply…",
         "replyButton": "Reply",
