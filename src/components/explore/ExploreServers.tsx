@@ -101,7 +101,7 @@ export default function ExploreServers() {
         setAfterId(null);
         setShowSkeleton(true);
       });
-    })
+    }),
   );
 
   let timerId = 0;
@@ -153,7 +153,12 @@ export default function ExploreServers() {
           display: flex;
         `}
       >
-        <Button margin={0} href="/app" label={t("general.backButton")} iconName="arrow_back" />
+        <Button
+          margin={0}
+          href="/app"
+          label={t("general.backButton")}
+          iconName="arrow_back"
+        />
       </div>
       <FlexRow
         gap={10}
@@ -239,7 +244,9 @@ export default function ExploreServers() {
             </For>
           </Show>
         </GridLayout>
-        <Text style={{ "margin-bottom": "10px" }}>{t("explore.servers.recentlyBumped")}</Text>
+        <Text style={{ "margin-bottom": "10px" }}>
+          {t("explore.servers.recentlyBumped")}
+        </Text>
       </Show>
 
       <GridLayout class="servers-list-grid">
@@ -391,8 +398,9 @@ function PublicServerItem(props: {
           seconds: timeLeft.getUTCSeconds(),
         }),
         t("servers.settings.publishServer.bumpServer"),
-        "arrow_upward"
+        "arrow_upward",
       );
+      return;
     }
 
     return createPortal((close) => (
@@ -415,7 +423,7 @@ function PublicServerItem(props: {
       class={classNames(
         "serverItemContainer",
         props.class,
-        props.display && "display"
+        props.display && "display",
       )}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -428,7 +436,7 @@ function PublicServerItem(props: {
           css`
             width: 100%;
           `,
-          "banner"
+          "banner",
         )}
         url={bannerUrl(props.publicServer.server!)}
         hexColor={props.publicServer.server?.hexColor}
@@ -452,7 +460,8 @@ function PublicServerItem(props: {
           </Show>
         </FlexRow>
         <Text size={14} color="rgba(255,255,255,0.6)">
-          {t("explore.by")}{": "}
+          {t("explore.by")}
+          {": "}
           <CustomLink href={RouterEndpoints.PROFILE(server.createdBy.id)}>
             <span
               class={css`
@@ -490,7 +499,7 @@ function PublicServerItem(props: {
           <Text size={14}>
             {t("explore.bumped")}{" "}
             {(bumpedUnder24Hours() ? timeSince : getDaysAgo)(
-              props.publicServer.bumpedAt
+              props.publicServer.bumpedAt,
             )}
           </Text>
         </FlexRow>
@@ -502,7 +511,7 @@ function PublicServerItem(props: {
             style={{ "text-decoration": "none", flex: 1, display: "flex" }}
             href={RouterEndpoints.SERVER_MESSAGES(
               cacheServer()!.id,
-              cacheServer()!.defaultChannelId
+              cacheServer()!.defaultChannelId,
             )}
           >
             <Button
@@ -574,7 +583,7 @@ export function ServerBumpModal(props: {
 }) {
   const [t] = useTransContext();
   const [verifyToken, setVerifyKey] = createSignal<string | undefined>(
-    undefined
+    undefined,
   );
   let turnstileRef: TurnstileRef | undefined;
 
