@@ -192,7 +192,8 @@
                 "roleIcon": "Rol Simgesi",
                 "applyOnJoinDescription": "Üyeler sunucuya katıldığı zaman bu rolü ver.",
                 "deleteRoleTitle": "{{roleName}} rolünü sil",
-                "managedByBot": "Bu rol {{botName}} tarafından yönetilmektedir. Bu role üye ekleyemez veya üyeleri kaldıramazsınız. Bu rolü kaldırmak için botu atın."
+                "managedByBot": "Bu rol {{botName}} tarafından yönetilmektedir. Bu role üye ekleyemez veya üyeleri kaldıramazsınız. Bu rolü kaldırmak için botu atın.",
+                "applyOnJoin": "Katılımda Uygula"
             },
             "header": {
                 "editServer": "Sunucuyu Düzenle",
