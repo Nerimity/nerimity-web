@@ -246,9 +246,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Sunteți sigur că doriți să ștergeți această postare?",
-            "cancelButton": "Anulați",
-            "deleteButton": "Sterge"
+            "message": "Sunteți sigur că doriți să ștergeți această postare?"
         },
         "postWasDeleted": "Această postare a fost ștearsă!",
         "someoneLikedYourPost": "<1>{{username}}</1> a apreciat postarea ta!",

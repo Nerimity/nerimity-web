@@ -702,9 +702,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Bu gönderiyi silmek istediğinden emin misin?",
-            "cancelButton": "İptal Et",
-            "deleteButton": "Kaldır"
+            "message": "Bu gönderiyi silmek istediğinden emin misin?"
         },
         "postWasDeleted": "Bu gönderi silindi!",
         "someoneLikedYourPost": "<1>{{username}}</1> gönderini beğendi!",

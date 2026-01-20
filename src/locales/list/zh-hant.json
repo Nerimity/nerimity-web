@@ -204,9 +204,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "您確定要刪除此貼文嗎？",
-            "cancelButton": "取消",
-            "deleteButton": "刪除"
+            "message": "您確定要刪除此貼文嗎？"
         },
         "postWasDeleted": "該貼文已刪除！",
         "someoneLikedYourPost": "<1>{{username}}</1> 喜歡你的貼文！",

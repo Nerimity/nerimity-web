@@ -297,9 +297,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "คุณแน่ใจหรือไม่ว่าต้องการลบโพสต์นี้?",
-            "cancelButton": "ยกเลิก",
-            "deleteButton": "ลบ"
+            "message": "คุณแน่ใจหรือไม่ว่าต้องการลบโพสต์นี้?"
         },
         "postWasDeleted": "โพสต์นี้ถูกลบไปแล้ว",
         "someoneLikedYourPost": "<1>{{username}}</1> กดไลค์โพสต์ของคุณ",

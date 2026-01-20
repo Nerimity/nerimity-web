@@ -196,9 +196,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Weet je zeker dat je dit bericht wilt verwijderen?",
-            "cancelButton": "Annuleren",
-            "deleteButton": "Verwijderen"
+            "message": "Weet je zeker dat je dit bericht wilt verwijderen?"
         },
         "postWasDeleted": "Dit bericht is verwijderd!",
         "someoneLikedYourPost": "<1>{{username}}</1> vond je post leuk!",

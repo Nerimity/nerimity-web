@@ -811,9 +811,7 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Möchtest du diesen Beitrag wirklich löschen?",
-            "cancelButton": "Abbrechen",
-            "deleteButton": "Löschen"
+            "message": "Möchtest du diesen Beitrag wirklich löschen?"
         },
         "postWasDeleted": "Dieser Beitrag wurde gelöscht!",
         "someoneLikedYourPost": "<1>{{username}}</1> gefällt dein Beitrag!",
