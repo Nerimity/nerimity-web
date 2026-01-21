@@ -50,13 +50,16 @@ export default function ServerSettingsInvite() {
       () => params.serverId,
       () => {
         fetchInvites();
-      }
-    )
+      },
+    ),
   );
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.invites"),
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("servers.settings.drawer.invites"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -77,14 +80,14 @@ export default function ServerSettingsInvite() {
     <div
       class={classNames(
         styles.invitesPane,
-        conditionalClass(mobileSize(), styles.mobile)
+        conditionalClass(mobileSize(), styles.mobile),
       )}
     >
       <Breadcrumb>
         <BreadcrumbItem
           href={RouterEndpoints.SERVER_MESSAGES(
             params.serverId,
-            server()?.defaultChannelId!
+            server()?.defaultChannelId!,
           )}
           icon="home"
           title={server()?.name}
@@ -164,7 +167,9 @@ function CustomInvite(props: { invites: any[]; onUpdate: () => void }) {
             margin-bottom: 10px;
           `}
           type="info"
-          description={t("servers.settings.invites.customInviteVerifiedOnlyNotice")}
+          description={t(
+            "servers.settings.invites.customInviteVerifiedOnlyNotice",
+          )}
         />
       </Show>
 
@@ -193,7 +198,7 @@ function CustomInvite(props: { invites: any[]; onUpdate: () => void }) {
             <Button
               onClick={() => copyToClipboard(fullUrl())}
               iconName="content_copy"
-              style={{ "align-self": "stretch", "height": "auto" }}
+              style={{ "align-self": "stretch", height: "auto" }}
             />
           </Show>
         </FlexRow>
@@ -240,23 +245,31 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
         <div class={styles.details}>
           <A
             href={RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(
-              props.invite.code
+              props.invite.code,
             )}
             class={styles.url}
           >
             {url}
           </A>
           <div class={styles.otherDetails}>
-            <Icon name="person" size={14} class={styles.icon} />
-            {props.invite.createdBy.username}
-          </div>
-          <div class={styles.otherDetails}>
-            <Icon name="whatshot" size={14} class={styles.icon} />
-            {t("servers.settings.invites.uses", { count: props.invite.uses })}
-          </div>
-          <div class={styles.otherDetails}>
-            <Icon name="today" size={14} class={styles.icon} />
-            {formatTimestamp(props.invite.createdAt)}
+            <div class={styles.detail}>
+              <Icon name="person" size={14} class={styles.icon} />
+              <span class={styles.username}>
+                {props.invite.createdBy.username}
+              </span>
+            </div>
+            <div class={styles.detail}>
+              <Icon name="whatshot" size={14} class={styles.icon} />
+              <span>
+                {t("servers.settings.invites.uses", {
+                  count: props.invite.uses,
+                })}
+              </span>
+            </div>
+            <div class={styles.detail}>
+              <Icon name="today" size={14} class={styles.icon} />
+              <span>{formatTimestamp(props.invite.createdAt)}</span>
+            </div>
           </div>
         </div>
         <FlexRow class={styles.buttons}>
@@ -264,12 +277,16 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
             onClick={() => copyToClipboard(url)}
             class={classNames(styles.copyButton, styles.button)}
             label={t("general.copyLink")}
+            iconSize={18}
+            textSize={14}
             iconName="content_copy"
           />
           <Button
             onClick={onDeleteClick}
             class={classNames(styles.deleteButton, styles.button)}
             iconName="delete"
+            iconSize={18}
+            textSize={14}
             color="var(--alert-color)"
           />
         </FlexRow>
