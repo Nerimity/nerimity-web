@@ -603,7 +603,11 @@
             "voiceMessage": "Галасавое паведамленьне",
             "gifPicker": "Выбар GIF",
             "emojiPicker": "Выбар эмодзі",
-            "sendButton": "Дасыланьне паведамленьня"
+            "sendButton": "Дасыланьне паведамленьня",
+            "exportButton": "Экспарт",
+            "importButton": "Імпарт",
+            "exportModal": "Тэма скапіяваная да буфера.",
+            "importModal": "Устаўце тэму сюды:"
         },
         "window": {
             "downloadAppNotice": "Каб змяніць гэтыя налады, вы мусіце спампаваць аплікацыю Nerimity для ПК.",
