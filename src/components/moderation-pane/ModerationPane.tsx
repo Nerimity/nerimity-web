@@ -68,6 +68,8 @@ import { UsersAuditLogsPane } from "./UsersAuditLogsPane";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import { Modal } from "../ui/modal";
 import { RadioBox } from "../ui/RadioBox";
+import { selectedUsers, setSelectedUsers } from "./selectedUsers";
+import { UserPaneContainer } from "./UserComponents";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -75,7 +77,6 @@ const ServerPage = lazy(() => import("./ServerPage"));
 
 const [stats, setStats] = createSignal<ModerationStats | null>(null);
 
-export const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
 const [selectedServers, setSelectedServers] = createSignal<any[]>([]);
 const [onlineUsersCount, setOnlineUsersCount] = createSignal<
   number | undefined
@@ -121,8 +122,6 @@ const PaneContainer = styled("div")<{ expanded: boolean }>`
   margin-right: 10px;
   min-height: 80px;
 `;
-
-export const UserPaneContainer = styled(PaneContainer)``;
 
 const ListContainer = styled("div")`
   display: flex;
@@ -421,7 +420,7 @@ function OnlineUsersPane() {
     setUsers(
       localUsers.filter((u) => {
         return selectedUsers().find((su) => su.id !== u.id);
-      })
+      }),
     );
   });
 
@@ -472,7 +471,7 @@ function ServersPane() {
         const wasSuspended = deletedServers.find((su) => su.id === u.id);
         if (!wasSuspended) return u;
         return { ...u, scheduledForDeletion: { scheduledAt: Date.now() } };
-      })
+      }),
     );
   });
 
@@ -481,7 +480,7 @@ function ServersPane() {
       servers().map((u) => {
         if (u.id !== serverId) return u;
         return { ...u, scheduledForDeletion: undefined };
-      })
+      }),
     );
   });
 
@@ -491,7 +490,7 @@ function ServersPane() {
         return fetchSearch();
       }
       fetchServers();
-    })
+    }),
   );
 
   const onLoadMoreClick = () => {
@@ -591,7 +590,7 @@ function ActiveServersPane() {
         const wasSuspended = deletedServers.find((su) => su.id === u.id);
         if (!wasSuspended) return u;
         return { ...u, scheduledForDeletion: { scheduledAt: Date.now() } };
-      })
+      }),
     );
   });
 
@@ -600,7 +599,7 @@ function ActiveServersPane() {
       servers().map((u) => {
         if (u.id !== serverId) return u;
         return { ...u, scheduledForDeletion: undefined };
-      })
+      }),
     );
   });
 
@@ -657,7 +656,7 @@ function SuggestedActionsPane() {
   createEffect(
     on(afterId, async () => {
       fetchUsers();
-    })
+    }),
   );
 
   const onLoadMoreClick = () => {
@@ -792,7 +791,9 @@ function SuggestedActionsPane() {
                           done={() => {
                             deleteSuggestActions(suggest.id).then(() => {
                               setSuggestions(
-                                suggestions().filter((s) => s.id !== suggest.id)
+                                suggestions().filter(
+                                  (s) => s.id !== suggest.id,
+                                ),
                               );
                             });
                           }}
@@ -820,7 +821,9 @@ function SuggestedActionsPane() {
                           done={() => {
                             deleteSuggestActions(suggest.id).then(() => {
                               setSuggestions(
-                                suggestions().filter((s) => s.id !== suggest.id)
+                                suggestions().filter(
+                                  (s) => s.id !== suggest.id,
+                                ),
                               );
                             });
                           }}
@@ -846,7 +849,7 @@ function SuggestedActionsPane() {
                   onClick={() => {
                     deleteSuggestActions(suggest.id).then(() => {
                       setSuggestions(
-                        suggestions().filter((s) => s.id !== suggest.id)
+                        suggestions().filter((s) => s.id !== suggest.id),
                       );
                     });
                   }}
@@ -866,97 +869,6 @@ function SuggestedActionsPane() {
     </UserPaneContainer>
   );
 }
-export function User(props: { user: any; class?: string }) {
-  const joined = formatTimestamp(props.user.joinedAt);
-  const [hovered, setHovered] = createSignal(false);
-
-  const selected = createMemo(() => isUserSelected(props.user.id));
-
-  const onCheckChanged = () => {
-    if (selected()) {
-      setSelectedUsers(selectedUsers().filter((u) => u.id !== props.user.id));
-      return;
-    }
-    setSelectedUsers([...selectedUsers(), props.user]);
-  };
-
-  const onLinkClick = (event: any) => {
-    if (event.target.closest(".checkbox")) event.preventDefault();
-  };
-
-  return (
-    <A
-      onMouseOver={() => setHovered(true)}
-      onMouseOut={() => setHovered(false)}
-      href={`/app/moderation/users/${props.user.id}`}
-      onclick={onLinkClick}
-      class={classNames(itemStyles, props.class)}
-    >
-      <Checkbox checked={selected()} onChange={onCheckChanged} />
-      <CustomLink href={RouterEndpoints.PROFILE(props.user.id)}>
-        <Avatar
-          animate={hovered()}
-          user={props.user}
-          size={28}
-          class={css`
-            margin-top: 2px;
-          `}
-        />
-      </CustomLink>
-      <ItemDetailContainer class="details">
-        <FlexRow>
-          <Text size={14}>{props.user.username}</Text>
-          <Text size={14} opacity={0.6}>
-            :{props.user.tag}
-          </Text>
-        </FlexRow>
-        <FlexRow gap={3} itemsCenter>
-          <Text size={12} opacity={0.6}>
-            Registered:
-          </Text>
-          <Text size={12}>{joined}</Text>
-          <Show when={props.user.suspension}>
-            <Text
-              size={12}
-              style={{
-                background: "var(--alert-color)",
-                "border-radius": "4px",
-                padding: "3px",
-              }}
-            >
-              Banned
-            </Text>
-          </Show>
-          <Show when={props.user.shadowBan}>
-            <Text
-              size={12}
-              style={{
-                background: "var(--warn-color)",
-                "border-radius": "4px",
-                padding: "3px",
-              }}
-            >
-              Shadow Banned
-            </Text>
-          </Show>
-          <Show when={props.user.bot}>
-            <Text
-              size={12}
-              style={{
-                background: "var(--primary-color)",
-                "border-radius": "4px",
-                padding: "3px",
-              }}
-            >
-              Bot
-            </Text>
-          </Show>
-        </FlexRow>
-      </ItemDetailContainer>
-    </A>
-  );
-}
-
 export function Server(props: {
   server: RawServer & { messageCount?: number; userMessageCount?: number };
 }) {
@@ -978,7 +890,7 @@ export function Server(props: {
   const onCheckChanged = () => {
     if (selected()) {
       setSelectedServers(
-        selectedServers().filter((u) => u.id !== props.server.id)
+        selectedServers().filter((u) => u.id !== props.server.id),
       );
       return;
     }
@@ -1146,7 +1058,7 @@ export function AuditLogPane(props: {
   createEffect(
     on(afterId, async () => {
       fetchLogs();
-    })
+    }),
   );
 
   const onLoadMoreClick = () => {
@@ -1504,7 +1416,7 @@ function PostsPane() {
         return fetchSearch();
       }
       fetchPosts();
-    })
+    }),
   );
 
   const onLoadMoreClick = () => {
@@ -1558,7 +1470,7 @@ function PostsPane() {
       posts().map((post) => {
         if (post.id !== postId) return post;
         return { ...post, announcement: true };
-      })
+      }),
     );
   };
   const onAnnouncementRemove = (postId: string) => {
@@ -1566,7 +1478,7 @@ function PostsPane() {
       posts().map((post) => {
         if (post.id !== postId) return post;
         return { ...post, announcement: false };
-      })
+      }),
     );
   };
 

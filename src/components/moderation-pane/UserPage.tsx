@@ -34,7 +34,8 @@ import Button from "../ui/Button";
 import env from "@/common/env";
 import Text from "../ui/Text";
 import { RawServer, RawUser } from "@/chat-api/RawData";
-import { AuditLogPane, Server, User } from "./ModerationPane";
+import { AuditLogPane, Server } from "./ModerationPane";
+import { User } from "./UserComponents";
 import EditUserSuspensionModal from "./EditUserSuspensionModal";
 import WarnUserModal from "./WarnUserModal";
 import { UserDetails } from "@/chat-api/services/UserService";
@@ -123,8 +124,8 @@ export default function UserPage() {
       () => params.userId,
       () => {
         getUser(params.userId).then(setUser);
-      }
-    )
+      },
+    ),
   );
 
   const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");

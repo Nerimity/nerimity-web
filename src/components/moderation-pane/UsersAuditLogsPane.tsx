@@ -1,6 +1,7 @@
 import { RawServer, RawUser } from "@/chat-api/RawData";
 import { createEffect, createSignal, For, on, Show } from "solid-js";
-import { selectedUsers, User, UserPaneContainer } from "./ModerationPane";
+import { selectedUsers } from "./selectedUsers";
+import { User, UserPaneContainer } from "./UserComponents";
 import { useModerationUserSuspendedListener } from "@/common/GlobalEvents";
 import {
   getUsersAuditLogs,
@@ -43,7 +44,7 @@ export function UsersAuditLogsPane(props: {
   createEffect(
     on(afterId, async () => {
       fetchUsers();
-    })
+    }),
   );
 
   const onLoadMoreClick = () => {
@@ -183,13 +184,13 @@ const AuditLogItem = (props: {
     const bannedUserId = props.item.data?.bannedUserId;
     if (!kickedUserId && !bannedUserId && !unbannedUserId) return;
     const user = props.users.find(
-      (u) => u.id === (kickedUserId || bannedUserId || unbannedUserId)
+      (u) => u.id === (kickedUserId || bannedUserId || unbannedUserId),
     );
     const action = kickedUserId
       ? "Kicked"
       : unbannedUserId
-      ? "Unbanned"
-      : "Banned";
+        ? "Unbanned"
+        : "Banned";
     return {
       user,
       action,

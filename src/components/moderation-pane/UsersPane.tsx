@@ -1,6 +1,7 @@
 import { RawUser } from "@/chat-api/RawData";
 import { createEffect, createSignal, For, on, Show } from "solid-js";
-import { selectedUsers, User, UserPaneContainer } from "./ModerationPane";
+import { selectedUsers } from "./selectedUsers";
+import { User, UserPaneContainer } from "./UserComponents";
 import { useModerationUserSuspendedListener } from "@/common/GlobalEvents";
 import { getUsers, searchUsers } from "@/chat-api/services/ModerationService";
 import Input from "../ui/input/Input";
@@ -40,7 +41,7 @@ export function UsersPane(props: {
         const wasSuspended = selectedUsers().find((su) => su.id === u.id);
         if (!wasSuspended) return u;
         return { ...u, suspension };
-      })
+      }),
     );
   });
 
@@ -50,7 +51,7 @@ export function UsersPane(props: {
         return fetchSearch();
       }
       fetchUsers();
-    })
+    }),
   );
 
   const onLoadMoreClick = () => {

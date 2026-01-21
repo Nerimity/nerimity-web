@@ -11,7 +11,8 @@ import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useNavigate, useParams } from "solid-navigator";
 import { Show, createEffect, createSignal, onMount } from "solid-js";
-import { AuditLogPane, User } from "./ModerationPane";
+import { AuditLogPane } from "./ModerationPane";
+import { User } from "./UserComponents";
 import Text from "../ui/Text";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Input from "../ui/input/Input";
@@ -274,7 +275,7 @@ const PublicServerBlock = (props: {
   const { joinPublicById, joining: joinClicked } = useJoinServer();
   const store = useStore();
   const [isPinned, setIsPinned] = createSignal(
-    !!props.server.publicServer.pinnedAt
+    !!props.server.publicServer.pinnedAt,
   );
 
   const cacheServer = () => store.servers.get(props.server.id);
@@ -302,8 +303,8 @@ const PublicServerBlock = (props: {
             cacheServer()
               ? "Visit"
               : joinClicked()
-              ? "Joining..."
-              : "Join Server"
+                ? "Joining..."
+                : "Join Server"
           }
           primary
         />
