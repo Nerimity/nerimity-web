@@ -16,7 +16,7 @@ export const ThemeCategory = {
   Drawer: "Drawer",
 } as const;
 
-export const ThemeTokens = [
+const ThemeTokensBase = [
   // Surface
   {
     key: "background-color",
@@ -184,14 +184,21 @@ export const ThemeTokens = [
   },
 ] as const;
 
-type ThemeKey = (typeof ThemeTokens)[number]["key"];
+// Get the order of categories as defined in ThemeCategory
+const categoryOrder = Object.keys(ThemeCategory);
+
+export const ThemeTokens = [...ThemeTokensBase].sort((a, b) => {
+  const categoryIndexA = categoryOrder.indexOf(a.category);
+  const categoryIndexB = categoryOrder.indexOf(b.category);
+  return categoryIndexA - categoryIndexB;
+});
+
+type ThemeKey = (typeof ThemeTokensBase)[number]["key"];
 
 export const DefaultTheme = ThemeTokens.reduce(
   (acc, token) => {
-    {
-      acc[token.key] = token.value;
-      return acc;
-    }
+    acc[token.key] = token.value;
+    return acc;
   },
   {} as Record<ThemeKey, string>,
 );
