@@ -22,7 +22,7 @@ import { reconcile } from "solid-js/store";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { ChannelType } from "@/chat-api/RawData";
-import { setServerSettingsHeaderPreview } from "./settings-pane/ServerSettingsPane";
+import { setServerSettingsHeaderPreview } from "./settings-pane/serverSettingsHeaderPreview";
 import {
   uploadAvatar,
   uploadBanner,

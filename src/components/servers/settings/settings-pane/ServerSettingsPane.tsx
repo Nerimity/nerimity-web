@@ -3,7 +3,6 @@ import { Show } from "solid-js";
 import ServerSettingsHeader from "./ServerSettingsHeader";
 import useStore from "@/chat-api/store/useStore";
 import { styled } from "solid-styled-components";
-import { createStore } from "solid-js/store";
 
 const SettingsPaneContainer = styled("div")`
   display: flex;
@@ -13,17 +12,6 @@ const SettingsPaneContainer = styled("div")`
   max-width: 900px;
   align-self: center;
 `;
-
-interface ServerSettingsHeaderPreview {
-  name?: string;
-  avatar?: string;
-  avatarPoints?: number[];
-  banner?: string;
-  bannerPoints?: number[];
-}
-
-export const [serverSettingsHeaderPreview, setServerSettingsHeaderPreview] =
-  createStore<ServerSettingsHeaderPreview>({});
 
 export default function ServerSettingsPane() {
   const params = useParams<{ serverId: string }>();

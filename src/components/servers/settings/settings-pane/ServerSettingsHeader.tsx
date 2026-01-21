@@ -11,7 +11,7 @@ import { useTransContext } from "@nerimity/solid-i18lite";
 import { avatarUrl, bannerUrl } from "@/chat-api/store/useServers";
 import { Banner } from "@/components/ui/Banner";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { serverSettingsHeaderPreview } from "./ServerSettingsPane";
+import { serverSettingsHeaderPreview } from "./serverSettingsHeaderPreview";
 
 const HeaderContainer = styled("div")`
   position: relative;
@@ -82,8 +82,8 @@ const ServerSettingsHeader = () => {
       () => serverSettingsHeaderPreview.avatar,
       (val) => {
         if (val) getImageDimensions(val).then(setImgDim);
-      }
-    )
+      },
+    ),
   );
 
   createEffect(
@@ -91,8 +91,8 @@ const ServerSettingsHeader = () => {
       () => serverSettingsHeaderPreview.banner,
       (val) => {
         if (val) getImageDimensions(val).then(setBannerDim);
-      }
-    )
+      },
+    ),
   );
 
   const avatarCropStyle = createMemo(() => {
@@ -104,11 +104,11 @@ const ServerSettingsHeader = () => {
     const scaleY = el.clientHeight / (coords[3] - coords[1]);
     return `
       background-position: -${coords[0] * scaleX}px -${
-      coords[1] * scaleY
-    }px !important;
+        coords[1] * scaleY
+      }px !important;
       background-size: ${dims.width * scaleX}px ${
-      dims.height * scaleY
-    }px !important;
+        dims.height * scaleY
+      }px !important;
     `;
   });
 
@@ -121,11 +121,11 @@ const ServerSettingsHeader = () => {
     const scaleY = el.clientHeight / (coords[3] - coords[1]);
     return `
       background-position: -${coords[0] * scaleX}px -${
-      coords[1] * scaleY
-    }px !important;
+        coords[1] * scaleY
+      }px !important;
       background-size: ${dims.width * scaleX}px ${
-      dims.height * scaleY
-    }px !important;
+        dims.height * scaleY
+      }px !important;
       background-repeat: no-repeat !important;
     `;
   });
