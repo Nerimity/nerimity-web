@@ -161,7 +161,7 @@
         "bots": {
             "title": "Explorar - Bots",
             "noticeMessage": "Un bot puede destacarse una vez cada {{hours}} horas. Todos los destacados se reinician cada {{date}}.",
-            "moderationNotice": "Los bots no son moderados por Nerimity. Por favor, reporta los bots que sean maliciosos o que incumplan las TOS.",
+            "moderationNotice": "Nerimity no supervisa ni modera los bots. Rogamos reportar aquellos que sean maliciosos o infrinjan los Términos de Servicio.",
             "inviteButton": "Invitar",
             "serverCount": "En {{count}} servidores"
         },
@@ -811,7 +811,8 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "¿Seguro que quieres eliminar esta publicación?"
+            "message": "¿Seguro que quieres eliminar esta publicación?",
+            "title": "¿Eliminar publicación?"
         },
         "postWasDeleted": "¡Esta publicación ha sido eliminada!",
         "someoneLikedYourPost": "¡A <1>{{username}}</1> le ha gustado tu publicación!",
@@ -823,7 +824,25 @@
         "replyButton": "Responder",
         "createButton": "Crear",
         "pollOptions": "Opciones de encuesta",
-        "optionNumberPlaceholder": "Opcion {{number}}"
+        "optionNumberPlaceholder": "Opcion {{number}}",
+        "title": "Publicación",
+        "viewCount": "Estimación de visualizaciones",
+        "voteButton": "Votar",
+        "voteCount": "{{count}} voto(s)",
+        "copyPostButton": "Copiar publicación",
+        "sections": {
+            "replies": "Respuestas ({{count}})",
+            "likes": "Me gusta ({{count}})",
+            "reposts": "Republicaciones ({{count}})"
+        },
+        "editPostModalTitle": "Editar publicación",
+        "sort": {
+            "latest": "Mas recientes",
+            "mostLiked7Days": "Más gustados (7 días)",
+            "mostLiked30Days": "Más gustados (30 días)",
+            "mostLikedAllTime": "Más gustados (Histórico)"
+        },
+        "postWarning": "No se permite la publicación de contenido relacionado con la autolesión. El incumplimiento de esta norma podrá dar lugar a medidas sobre la cuenta."
     },
     "informationDrawer": {
         "channelNotice": "Información",
