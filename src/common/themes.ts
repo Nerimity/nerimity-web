@@ -38,6 +38,7 @@ export const DefaultTheme = {
   "status-do-not-disturb": "#e37878",
   // Text Color
   "text-color": "white",
+  "content-color": "rgba(255, 255, 255, 0.8)",
   "side-pane-text-color": "white",
 
   // Markup

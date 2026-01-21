@@ -74,7 +74,7 @@ const ServerDrawer = () => {
 const CustomizeItem = () => {
   const params = useParams<{ serverId: string }>();
   const match = useMatch(() =>
-    RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome")
+    RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome"),
   );
   return (
     <div class={styles.welcomeItemContainer}>
@@ -83,7 +83,7 @@ const CustomizeItem = () => {
         href={RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome")}
       >
         <ChannelContainer selected={match()}>
-          <Icon name="tune" color="rgba(255,255,255,0.6)" size={16} />
+          <Icon name="tune" size={16} />
           <div class="label">{t("channelDrawer.customize.title")}</div>
         </ChannelContainer>
       </A>
@@ -93,7 +93,7 @@ const CustomizeItem = () => {
 const MembersItem = () => {
   const params = useParams<{ serverId: string }>();
   const match = useMatch(() =>
-    RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members")
+    RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members"),
   );
   return (
     <div class={styles.membersItemContainer}>
@@ -102,7 +102,7 @@ const MembersItem = () => {
         href={RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members")}
       >
         <ChannelContainer selected={match()}>
-          <Icon name="group" color="rgba(255,255,255,0.6)" size={16} />
+          <Icon name="group" size={16} />
           <div class="label">{t("informationDrawer.members")}</div>
         </ChannelContainer>
       </A>
@@ -130,11 +130,11 @@ const ChannelList = () => {
     sortedChannels().filter((channel) => !channel?.categoryId);
   const channelsWithoutCategory = () =>
     sortedChannels().filter(
-      (channel) => channel?.type !== ChannelType.CATEGORY
+      (channel) => channel?.type !== ChannelType.CATEGORY,
     );
   const selectedChannelIndex = () =>
     channelsWithoutCategory().findIndex(
-      (channel) => channel?.id === params.channelId
+      (channel) => channel?.id === params.channelId,
     );
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -152,7 +152,7 @@ const ChannelList = () => {
       navigate(
         `/app/servers/${params.serverId}/${
           channelsWithoutCategory()[newIndex]?.id
-        }`
+        }`,
       );
     }
 
@@ -168,7 +168,7 @@ const ChannelList = () => {
       navigate(
         `/app/servers/${params.serverId}/${
           channelsWithoutCategory()[newIndex]?.id
-        }`
+        }`,
       );
     }
   };
@@ -247,7 +247,7 @@ const ChannelContainer = styled(ItemContainer)`
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 14px;
-    color: white;
+    color: var(--text-color);
     flex: 1;
   }
   &:hover .label {
@@ -279,7 +279,7 @@ function CategoryItem(props: {
   const sortedServerChannels = createMemo(() =>
     channels
       .getSortedChannelsByServerId(params.serverId, true)
-      .filter((channel) => channel?.categoryId === props.channel.id)
+      .filter((channel) => channel?.categoryId === props.channel.id),
   );
 
   const isPrivateCategory = () => {
@@ -290,7 +290,7 @@ function CategoryItem(props: {
 
     const noViewableChannels = sortedServerChannels().every(
       (channel) =>
-        !channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true)
+        !channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true),
     );
 
     return (
@@ -523,14 +523,14 @@ function CallTime(props: { channelId: string }) {
           setTime(timeElapsed(joinedAt));
           interval = window.setInterval(
             () => setTime(timeElapsed(joinedAt)),
-            1000
+            1000,
           );
         }
         onCleanup(() => {
           interval && clearInterval(interval);
         });
-      }
-    )
+      },
+    ),
   );
 
   return (

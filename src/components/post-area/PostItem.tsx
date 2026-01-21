@@ -167,7 +167,7 @@ export function PostItem(props: {
             .markup blockquote {
               border-left-color: ${props.primaryColor};
             }
-          `
+          `,
       )}
       style={{ "background-color": props.bgColor }}
       tabIndex="0"
@@ -254,7 +254,7 @@ const Details = (props: {
   onRequestUserContextMenu?: (event: MouseEvent) => void;
 }) => {
   const font = createMemo(() =>
-    getFont(props.post.createdBy.profile?.font || 0)
+    getFont(props.post.createdBy.profile?.font || 0),
   );
   return (
     <div class={cn(style.postDetailsContainer, "postDetailsContainer")}>
@@ -278,13 +278,12 @@ const Details = (props: {
         <div class={style.botTag}>Bot</div>
       </Show>
       <Text
-        style={{ "flex-shrink": 0 }}
         title={formatTimestamp(props.post.createdAt)}
         size={12}
-        color="rgba(255,255,255,0.5)"
+        class={style.postTimestamp}
       >
         {(props.showFullDate ? formatTimestamp : timeSince)(
-          props.post.createdAt
+          props.post.createdAt,
         )}
       </Text>
     </div>
@@ -429,12 +428,18 @@ const Actions = (props: {
               ...(showDeleteAndEdit()
                 ? [
                     {
-                      label: props.pinned ? t("messageContextMenu.unpinMessage") : t("messageContextMenu.pinMessage"),
+                      label: props.pinned
+                        ? t("messageContextMenu.unpinMessage")
+                        : t("messageContextMenu.pinMessage"),
                       onClick: togglePin,
                       alert: props.pinned,
                       icon: "keep",
                     },
-                    { label: t("general.editButton"), onClick: onEditClicked, icon: "edit" },
+                    {
+                      label: t("general.editButton"),
+                      onClick: onEditClicked,
+                      icon: "edit",
+                    },
                     { separator: true },
                     {
                       label: t("general.deleteButton"),
@@ -450,7 +455,7 @@ const Actions = (props: {
                       label: "Moderation Pane",
                       onClick: () =>
                         navigate(
-                          "/app/moderation?search-post-id=" + props.post.id
+                          "/app/moderation?search-post-id=" + props.post.id,
                         ),
                       icon: "security",
                     },
@@ -476,7 +481,7 @@ const Actions = (props: {
                 label: t("general.copyLink"),
                 onClick: () => {
                   navigator.clipboard.writeText(
-                    env.APP_URL + "/p/" + props.post.id
+                    env.APP_URL + "/p/" + props.post.id,
                   );
                 },
                 icon: "content_copy",
@@ -506,7 +511,7 @@ const Actions = (props: {
           />
         ),
         "post-context-menu",
-        true
+        true,
       );
     }
   };
@@ -575,7 +580,7 @@ const Actions = (props: {
 function Embeds(props: { post: Post; hovered: boolean }) {
   let element: HTMLDivElement | undefined;
   const { width } = useResizeObserver(
-    () => element?.parentElement?.parentElement?.parentElement
+    () => element?.parentElement?.parentElement?.parentElement,
   );
 
   const youtubeEmbed = () => props.post.embed?.origUrl?.match(youtubeLinkRegex);
@@ -639,7 +644,7 @@ export const YoutubeEmbed = (props: {
     if (props.shorts) {
       const maxWidth = clamp(
         (customWidth || props.containerWidth) + (widthOffset || 0),
-        600
+        600,
       );
       const maxHeight =
         props.containerWidth <= 600
@@ -650,7 +655,7 @@ export const YoutubeEmbed = (props: {
 
     const maxWidth = clamp(
       (customWidth || props.containerWidth) + (widthOffset || 0),
-      600
+      600,
     );
 
     return clampImageSize(1920, 1080, maxWidth, 999999);
@@ -663,7 +668,7 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
   const votedChoiceId = () => props.poll.votedUsers[0]?.pollChoiceId;
 
   const [selectedChoiceId, setSelectedChoiceId] = createSignal<string | null>(
-    null
+    null,
   );
 
   createEffect(() => {
@@ -679,7 +684,7 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
       <div
         class={cn(
           style.pollChoicesContainer,
-          votedChoiceId() && style.notAllowed
+          votedChoiceId() && style.notAllowed,
         )}
       >
         <For each={props.poll.choices}>
@@ -698,7 +703,9 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
 
       <div class={style.footer}>
         <span class={style.votes}>
-          <Text size={12}>{t("posts.voteCount", { count: props.poll._count.votedUsers})}</Text>
+          <Text size={12}>
+            {t("posts.voteCount", { count: props.poll._count.votedUsers })}
+          </Text>
         </span>
 
         <Show when={selectedChoiceId() && !votedChoiceId()}>
@@ -731,7 +738,8 @@ const PollChoice = (props: {
   // (100 * vote) / totalVotes
   const votes = () =>
     Math.round(
-      (100 * props.choice._count.votedUsers) / props.poll._count.votedUsers || 0
+      (100 * props.choice._count.votedUsers) / props.poll._count.votedUsers ||
+        0,
     );
 
   const showResults = () => {
@@ -745,11 +753,11 @@ const PollChoice = (props: {
     <div
       class={cn(
         style.pollChoiceContainer,
-        props.votedChoiceId === props.choice.id && "selected"
+        props.votedChoiceId === props.choice.id && "selected",
       )}
       onClick={() =>
         props.setSelected(
-          props.choice.id === props.selectedId ? null : props.choice.id
+          props.choice.id === props.selectedId ? null : props.choice.id,
         )
       }
     >
@@ -804,7 +812,7 @@ const Pinned = () => {
 };
 const Reposted = (props: { post: Post; showRepostsAsSelf: boolean | any }) => {
   const repostUsers = createMemo(() =>
-    props.post.reposts.map((r) => r.createdBy)
+    props.post.reposts.map((r) => r.createdBy),
   );
   return (
     <div class={style.pinnedContainer}>

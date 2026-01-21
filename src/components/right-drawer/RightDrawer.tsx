@@ -98,14 +98,14 @@ const MemberItem = (props: {
         userId: user().id,
       },
       "profile-pane-flyout-" + user().id,
-      true
+      true,
     );
   };
 
   const topRoleWithColor = createMemo(() => props.member.topRoleWithColor());
 
   const font = createMemo(() =>
-    getFont(props.member.user().profile?.font || 0)
+    getFont(props.member.user().profile?.font || 0),
   );
 
   return (
@@ -219,7 +219,7 @@ const Header = (props: {
     >
       <Button
         class={classNames(
-          props.selectedPage === "info" && selectedHeaderButtonStyle
+          props.selectedPage === "info" && selectedHeaderButtonStyle,
         )}
         iconName="info"
         label={t("informationDrawer.info")}
@@ -230,7 +230,7 @@ const Header = (props: {
       />
       <Button
         class={classNames(
-          props.selectedPage === "attachments" && selectedHeaderButtonStyle
+          props.selectedPage === "attachments" && selectedHeaderButtonStyle,
         )}
         iconName="attach_file"
         type="hover_border"
@@ -241,7 +241,7 @@ const Header = (props: {
       />
       <Button
         class={classNames(
-          props.selectedPage === "search" && selectedHeaderButtonStyle
+          props.selectedPage === "search" && selectedHeaderButtonStyle,
         )}
         iconName="search"
         label={t("general.searchPlaceholder")}
@@ -264,8 +264,8 @@ const RightDrawer = () => {
       () => params.channelId,
       () => {
         setPage("info");
-      }
-    )
+      },
+    ),
   );
 
   return (
@@ -298,7 +298,7 @@ const AttachmentDrawer = () => {
   const { channels } = useStore();
 
   const [attachments, setAttachments] = createSignal<RawAttachment[] | null>(
-    null
+    null,
   );
   const channel = () => channels.get(params.channelId);
 
@@ -338,8 +338,8 @@ const AttachmentDrawer = () => {
     if (payload.channelId !== params.channelId) return;
     setAttachments(
       attachments()!.filter(
-        (attachment) => attachment.messageId !== payload.messageId
-      )
+        (attachment) => attachment.messageId !== payload.messageId,
+      ),
     );
     decrAttachments(params.channelId);
   };
@@ -400,7 +400,7 @@ const AttachmentImage = (props: { attachment: RawAttachment }) => {
     <div
       class={classNames(
         styles.attachmentImageContainer,
-        conditionalClass(isGif(), styles.gif)
+        conditionalClass(isGif(), styles.gif),
       )}
     >
       <div class={styles.attachmentHover} onClick={onClicked}>
@@ -530,7 +530,7 @@ const ServerDrawer = () => {
   });
 
   const offlineMembers = createMemo(() =>
-    members().filter((member) => !member?.user().presence()?.status)
+    members().filter((member) => !member?.user().presence()?.status),
   );
   const defaultRole = () =>
     serverRoles.get(server()?.id!, server()?.defaultRoleId!);
@@ -558,7 +558,7 @@ const ServerDrawer = () => {
                     members={item
                       .members()
                       .sort((a, b) =>
-                        a?.user().username.localeCompare(b?.user().username)
+                        a?.user().username.localeCompare(b?.user().username),
                       )}
                     roleName={item.role?.name!}
                     roleIcon={item.role?.icon!}
@@ -570,7 +570,7 @@ const ServerDrawer = () => {
             {/* Offline */}
             <RoleItem
               members={offlineMembers().sort((a, b) =>
-                a?.user().username.localeCompare(b?.user().username)
+                a?.user().username.localeCompare(b?.user().username),
               )}
               roleName={t("status.offline")}
               roleIcon={defaultRole()?.icon}
@@ -597,18 +597,15 @@ function RoleItem(props: {
       onMouseLeave={() => setHovered(false)}
     >
       <div class={styles.roleTitle} onClick={() => setExpanded(!expanded())}>
-        <div class={styles.roleName}>
-          {" "}
-          <Show when={props.roleIcon}>
-            <Emoji
-              hovered={hovered()}
-              size={16}
-              resize={26}
-              icon={props.roleIcon}
-            />
-          </Show>{" "}
-          {props.roleName}
-        </div>
+        <Show when={props.roleIcon}>
+          <Emoji
+            hovered={hovered()}
+            size={16}
+            resize={26}
+            icon={props.roleIcon}
+          />
+        </Show>
+        <div class={styles.roleName}>{props.roleName}</div>
         <div class={styles.roleCount}>
           {props.members.length.toLocaleString()}
         </div>
@@ -679,10 +676,10 @@ const SearchDrawer = () => {
           (res) => {
             if (order() === "desc") res.reverse();
             setResults(res);
-          }
+          },
         );
       }, 1000);
-    })
+    }),
   );
   onCleanup(() => window.clearTimeout(interval));
 
@@ -697,11 +694,11 @@ const SearchDrawer = () => {
                 interpolation: { escapeValue: false },
               })
             : channel()?.recipient()?.username
-            ? t("informationDrawer.searchBarPlaceholder", {
-                username: channel()?.recipient()?.username,
-                interpolation: { escapeValue: false },
-              })
-            : ""
+              ? t("informationDrawer.searchBarPlaceholder", {
+                  username: channel()?.recipient()?.username,
+                  interpolation: { escapeValue: false },
+                })
+              : ""
         }
         onText={setQuery}
         value={query()}
@@ -755,13 +752,13 @@ const SearchMessageItem = (props: {
       navigate(
         RouterEndpoints.SERVER_MESSAGES(params.serverId, channelId) +
           "?messageId=" +
-          props.message.id
+          props.message.id,
       );
     } else {
       navigate(
         RouterEndpoints.INBOX_MESSAGES(channelId) +
           "?messageId=" +
-          props.message.id
+          props.message.id,
       );
     }
   };

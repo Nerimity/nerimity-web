@@ -97,7 +97,7 @@
 
 .postContentContainer {
   overflow: hidden;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--content-color);
   word-break: break-word;
   white-space: pre-line;
   font-size: 14px;
@@ -151,6 +151,10 @@
     margin-left: auto;
     gap: 4px;
   }
+}
+.postTimestamp {
+  flex-shrink: 0;
+  opacity: 0.6;
 }
 
 .replyToContainer {

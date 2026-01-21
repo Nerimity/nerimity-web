@@ -20,9 +20,9 @@ const Text = (props: TextProps & JSX.HTMLAttributes<HTMLSpanElement>) => {
       ...(props.style as JSX.CSSProperties),
       color: props.color || "var(--text-color)",
       "font-size": `${props.size || "16"}px`,
-      opacity: props.opacity || "1",
+      ...(props.opacity != undefined ? { opacity: props.opacity } : {}),
       ...(props.bold ? { "font-weight": "bold" } : {}),
-    } as JSX.CSSProperties);
+    }) as JSX.CSSProperties;
   return (
     <Dynamic
       component={props.href ? CustomLink : "span"}
