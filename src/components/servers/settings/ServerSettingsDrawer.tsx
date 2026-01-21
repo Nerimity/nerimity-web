@@ -42,7 +42,7 @@ const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
     opacity: ${(props) => (props.selected ? 1 : 0.6)};
     transition: 0.2s;
     font-size: 14px;
-    color: white;
+    color: var(--text-color);
   }
 
   &:hover .label {

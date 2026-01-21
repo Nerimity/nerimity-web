@@ -46,15 +46,12 @@ const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
   padding-left: ${(props) => (props.nested ? "25px" : "10px")};
   margin-left: 3px;
   margin-right: 3px;
-  :first {
-    background-color: red;
-  }
 
   .label {
     opacity: ${(props) => (props.selected ? 1 : 0.6)};
     font-size: 14px;
     transition: 0.2s;
-    color: white;
+    color: var(--text-color);
   }
 
   &:hover .label {

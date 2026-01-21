@@ -38,6 +38,7 @@ export const DefaultTheme = {
   "status-do-not-disturb": "#e37878",
   // Text Color
   "text-color": "white",
+  "side-pane-text-color": "white",
 
   // Markup
   "markup-code-background-color": "rgba(0, 0, 0, 0.6)",
@@ -47,6 +48,9 @@ export const DefaultTheme = {
 
   "markup-spoiler-background-color": "#0e0f10",
   "markup-spoiler-background-color-hover": "#1c1e20",
+
+  "drawer-item-background-color": "rgba(66, 70, 76, 0.6)",
+  "drawer-item-hover-background-color": "rgba(66, 70, 76, 0.4)",
 
   // TODO:
   // Add multiple text colors, rather than using one.. E.G: message-text-color, channel-text-color, etc.
@@ -65,7 +69,7 @@ export const updateTheme = () => {
   for (const key in newTheme) {
     document.documentElement.style.setProperty(
       `--${key}`,
-      newTheme[key as ThemeKey]
+      newTheme[key as ThemeKey],
     );
   }
 };
@@ -122,12 +126,12 @@ export const applyTheme = (name: string, themeObj?: ThemePreset) => {
 
   // Clear previous
   Object.keys(customColors()).forEach((key) =>
-    setThemeColor(key as ThemeKey, undefined)
+    setThemeColor(key as ThemeKey, undefined),
   );
 
   // Apply
   Object.entries(preset.colors).forEach(([key, value]) =>
-    setThemeColor(key as ThemeKey, value)
+    setThemeColor(key as ThemeKey, value),
   );
 
   // Persist

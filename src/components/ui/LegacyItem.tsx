@@ -76,14 +76,14 @@ const ItemContainer = styled("div")<ItemContainer>`
   }
 
   &:hover {
-    background-color: hsl(216deg 7% 28% / 40%);
+    background-color: var(--drawer-item-hover-background-color);
   }
 
   && {
     ${(props) =>
       props.selected
         ? `
-      background-color: hsl(216deg 7% 28% / 60%);
+      background-color: var(--drawer-item-background-color);
       &:after {
         animation: ${
           props.handlePosition === "top" || props.handlePosition === "bottom"

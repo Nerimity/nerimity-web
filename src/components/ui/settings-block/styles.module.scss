@@ -1,13 +1,13 @@
 .block {
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
   display: flex;
+  align-items: center;
+  min-height: 40px;
   padding: 10px;
   padding-left: 15px;
-  min-height: 40px;
-  border-radius: 8px;
-  align-items: center;
   margin-bottom: 5px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
   &.clickable {
     cursor: pointer;
     &:hover {
@@ -15,9 +15,9 @@
     }
   }
   &.header {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
     margin-bottom: 1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
   }
 }
 
@@ -29,8 +29,8 @@
 }
 .details {
   display: flex;
-  flex-direction: column;
   flex: 1;
+  flex-direction: column;
   margin-left: 15px;
   gap: 3px;
 }
@@ -40,8 +40,8 @@
 }
 
 .description {
+  opacity: 0.6;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
 }
 
 .icon {
