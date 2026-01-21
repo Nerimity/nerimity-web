@@ -4,7 +4,6 @@ import SettingsHeader from "./SettingsHeader";
 import useStore from "@/chat-api/store/useStore";
 import { styled } from "solid-styled-components";
 import { useTransContext } from "@nerimity/solid-i18lite";
-import { createStore } from "solid-js/store";
 import settings from "@/common/Settings";
 
 const SettingsPaneContainer = styled("div")`
@@ -15,18 +14,6 @@ const SettingsPaneContainer = styled("div")`
   max-width: 900px;
   align-self: center;
 `;
-
-interface SettingsHeaderPreview {
-  username?: string;
-  tag?: string;
-  banner?: string;
-  bannerPoints?: number[];
-  avatar?: any;
-  avatarPoints?: number[];
-}
-
-export const [settingsHeaderPreview, setSettingsHeaderPreview] =
-  createStore<SettingsHeaderPreview>({});
 
 export default function SettingsPane() {
   const { account } = useStore();

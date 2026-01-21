@@ -24,7 +24,7 @@ import { reconcile } from "solid-js/store";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
 
-import { setSettingsHeaderPreview } from "./SettingsPane";
+import { setSettingsHeaderPreview } from "./settingsHeaderPreview";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 const ProfileFlyout = lazy(() => import("../floating-profile/FloatingProfile"));
 import { ColorPicker } from "../ui/color-picker/ColorPicker";
@@ -140,9 +140,9 @@ export function EditProfilePage(props: {
     on(account.user, (user) => {
       if (!props.bot && !user) return;
       getUserDetailsRequest(props.bot?.id || account.user()?.id).then(
-        setUserDetails
+        setUserDetails,
       );
-    })
+    }),
   );
 
   const requestStatus = () =>
@@ -177,7 +177,7 @@ export function EditProfilePage(props: {
           ? { font: null }
           : { font: values.font }),
       },
-      props.botToken
+      props.botToken,
     )
       .then((res) => {
         setUserDetails(() => ({
@@ -282,7 +282,7 @@ const ProfileColorBlock = (props: {
   values: { [key: string]: string | undefined };
   setValues: (
     key: "bgColorOne" | "bgColorTwo" | "primaryColor" | "font",
-    value: string | number | null
+    value: string | number | null,
   ) => void;
 }) => {
   const { paneWidth } = useWindowProperties();
@@ -361,7 +361,7 @@ const ProfileColorBlock = (props: {
             onChange={(v) => props.setValues("primaryColor", v)}
           />
         </SettingsBlock>
-        <SettingsBlock 
+        <SettingsBlock
           label={t("settings.account.usernameFont")}
           icon="font_download"
         >
@@ -370,7 +370,7 @@ const ProfileColorBlock = (props: {
             onChange={(item) =>
               props.setValues(
                 "font",
-                item.id === "none" ? null : parseInt(item.id)
+                item.id === "none" ? null : parseInt(item.id),
               )
             }
             items={[

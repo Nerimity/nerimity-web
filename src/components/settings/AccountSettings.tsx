@@ -42,7 +42,7 @@ import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { Notice } from "../ui/Notice/Notice";
 import { RawChannelNotice, RawUser } from "@/chat-api/RawData";
-import { setSettingsHeaderPreview } from "./SettingsPane";
+import { setSettingsHeaderPreview } from "./settingsHeaderPreview";
 import Icon from "../ui/icon/Icon";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { formatMessage } from "../message-pane/MessagePane";

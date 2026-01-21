@@ -9,7 +9,7 @@ import { bannerUrl } from "@/chat-api/store/useUsers";
 import { Banner } from "../ui/Banner";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { FriendStatus, RawUser } from "@/chat-api/RawData";
-import { settingsHeaderPreview } from "./SettingsPane";
+import { settingsHeaderPreview } from "./settingsHeaderPreview";
 import { t } from "@nerimity/i18lite";
 
 const HeaderContainer = styled("div")`
@@ -76,8 +76,14 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
       .length || "0";
   const { width } = useWindowProperties();
 
-  const [imageDimensions, setImageDimensions] = createSignal({ height: 0, width: 0 });
-  const [bannerDimensions, setBannerDimensions] = createSignal({ height: 0, width: 0 });
+  const [imageDimensions, setImageDimensions] = createSignal({
+    height: 0,
+    width: 0,
+  });
+  const [bannerDimensions, setBannerDimensions] = createSignal({
+    height: 0,
+    width: 0,
+  });
 
   createEffect(
     on(
@@ -85,8 +91,8 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
       (val) => {
         if (!val) return;
         getImageDimensions(val).then(setImageDimensions);
-      }
-    )
+      },
+    ),
   );
 
   createEffect(
@@ -95,8 +101,8 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
       (val) => {
         if (!val) return;
         getImageDimensions(val).then(setBannerDimensions);
-      }
-    )
+      },
+    ),
   );
 
   const avatarSize = () => (width() <= 500 ? 70 : 100);
@@ -151,9 +157,17 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
         margin={props.bot ? 0 : undefined}
         animate
         hexColor={props.bot?.hexColor || user()?.hexColor}
-        url={settingsHeaderPreview.bannerPoints ? undefined : (settingsHeaderPreview.banner || bannerUrl(props.bot || user()!))}
+        url={
+          settingsHeaderPreview.bannerPoints
+            ? undefined
+            : settingsHeaderPreview.banner || bannerUrl(props.bot || user()!)
+        }
       >
-        <Show when={settingsHeaderPreview.bannerPoints && settingsHeaderPreview.banner}>
+        <Show
+          when={
+            settingsHeaderPreview.bannerPoints && settingsHeaderPreview.banner
+          }
+        >
           <CustomBanner
             ref={setBannerEl}
             cropPosition={bannerCropPosition()}
@@ -182,7 +196,11 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
                   props.bot?.username ||
                   user()!.username}
               </Text>
-              <Show when={settingsHeaderPreview.tag || props.bot?.tag || user()!.tag}>
+              <Show
+                when={
+                  settingsHeaderPreview.tag || props.bot?.tag || user()!.tag
+                }
+              >
                 <Text opacity={0.7}>
                   :{settingsHeaderPreview.tag || props.bot?.tag || user()!.tag}
                 </Text>
