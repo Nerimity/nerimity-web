@@ -1,13 +1,13 @@
 import { css } from "solid-styled-components";
 import { Modal } from "./modal";
-import { InviteBotPopup } from "@/pages/InviteServerBot";
+import { InviteBotPopup } from "@/components/InviteBotPopup";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { t } from "@nerimity/i18lite";
 
 export const openInviteBotModal = (
   createPortal: ReturnType<typeof useCustomPortal>["createPortal"],
   appId: string,
-  permissions?: number
+  permissions?: number,
 ) => {
   createPortal((c) => (
     <Modal.Root
@@ -23,10 +23,7 @@ export const openInviteBotModal = (
           overflow: auto;
         `}
       >
-        <InviteBotPopup
-          appId={appId}
-          permissions={permissions}
-        />
+        <InviteBotPopup appId={appId} permissions={permissions} />
       </Modal.Body>
     </Modal.Root>
   ));
