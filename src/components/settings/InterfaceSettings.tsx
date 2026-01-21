@@ -317,11 +317,11 @@ function BlurEffect() {
 function CustomizeColors() {
   const copyThemeClipboard = () => {
     navigator.clipboard.writeText(JSON.stringify(currentTheme()));
-    toast("Copied theme to clipboard.");
+    toast(t("settings.interface.exportModal"));
   };
 
   const importTheme = () => {
-    const theme = JSON.parse(prompt("Paste theme here:")! as string) as Theme;
+    const theme = JSON.parse(prompt(t("settings.interface.importModal"))! as string) as Theme;
     setCustomColors(theme);
     updateTheme();
   };
@@ -335,11 +335,15 @@ function CustomizeColors() {
         header
       >
         <Button
-          label="Export"
+          label={t("settings.interface.exportButton")}
           iconName="content_copy"
           onClick={copyThemeClipboard}
         />
-        <Button label="Import" iconName="content_paste" onClick={importTheme} />
+        <Button
+          label={t("settings.interface.importButton")}
+          iconName="content_paste"
+          onClick={importTheme}
+        />
       </SettingsBlock>
       <For each={ThemeTokens}>
         {(token, i) => (
