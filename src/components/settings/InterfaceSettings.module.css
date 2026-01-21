@@ -17,6 +17,14 @@
   flex-direction: column;
 }
 
+.tokenCategory {
+  padding: 8px;
+  padding-left: 8px;
+  margin-bottom: 1px;
+  background-color: rgba(177, 177, 177, 0.05);
+  font-size: 16px;
+  font-weight: bold;
+}
 .themeItem {
   text-transform: capitalize;
 }
@@ -27,7 +35,9 @@
   padding: 12px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   &:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);

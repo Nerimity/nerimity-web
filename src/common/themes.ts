@@ -1,63 +1,200 @@
 import { StorageKeys, useLocalStorage, setStorageString } from "./localStorage";
 
-export const DefaultTheme = {
-  // Main
-  "background-color": "hsl(216deg 9% 8%)",
-  "pane-color": "hsl(216deg 8% 15%)",
-  "side-pane-color": "hsl(216deg 7.82% 12.55%)",
-  "header-background-color": "hsla(216deg 8% 15% / 80%)",
-  "header-background-color-blur-disabled": "hsl(216deg 8% 15%)",
-  "tooltip-background-color": "rgb(40, 40, 40)",
+export const ThemeCategory = {
+  Surface: "Surface",
+  Overlays: "Overlays",
+  Input: "Input",
+  MarkupBar: "MarkupBar",
+  Message: "Message",
+  Accent: "Accent",
+  Alert: "Alert",
+  Warn: "Warn",
+  Success: "Success",
+  Status: "Status",
+  Text: "Text",
+  Markup: "Markup",
+  Drawer: "Drawer",
+} as const;
 
-  "chat-input-background-color": "rgba(0, 0, 0, 0.86)",
-  "chat-input-background-color-blur-disabled": "black",
+export const ThemeTokens = [
+  // Surface
+  {
+    key: "background-color",
+    category: ThemeCategory.Surface,
+    value: "hsl(216deg 9% 8%)",
+  },
+  {
+    key: "pane-color",
+    category: ThemeCategory.Surface,
+    value: "hsl(216deg 8% 15%)",
+  },
+  {
+    key: "side-pane-color",
+    category: ThemeCategory.Surface,
+    value: "hsl(216deg 7.82% 12.55%)",
+  },
 
-  "chat-markup-bar-background-color": "rgba(0, 0, 0, 0.86)",
-  "chat-markup-bar-background-color-blur-disabled": "black",
+  // Overlays
+  {
+    key: "header-background-color",
+    category: ThemeCategory.Overlays,
+    value: "hsla(216deg 8% 15% / 80%)",
+  },
+  {
+    key: "header-background-color-blur-disabled",
+    category: ThemeCategory.Overlays,
+    value: "hsl(216deg 8% 15%)",
+  },
+  {
+    key: "tooltip-background-color",
+    category: ThemeCategory.Overlays,
+    value: "rgb(40, 40, 40)",
+  },
 
-  "message-hover-background-color": "rgba(255, 255, 255, 0.03)",
-  "message-floating-options-background-color": "rgb(40, 40, 40)",
+  // Input
+  {
+    key: "chat-input-background-color",
+    category: ThemeCategory.Input,
+    value: "rgba(0, 0, 0, 0.86)",
+  },
+  {
+    key: "chat-input-background-color-blur-disabled",
+    category: ThemeCategory.Input,
+    value: "black",
+  },
 
-  // Primary
-  "primary-color": "#4c93ff",
-  "primary-color-dark": "#2d3746",
-  // Alerts
-  "alert-color": "#eb6e6e",
-  "alert-color-dark": "#3e2626",
-  // Warns
-  "warn-color": "#ff8f2c",
-  "warn-color-dark": "#3a3229",
+  // Markup bar
+  {
+    key: "chat-markup-bar-background-color",
+    category: ThemeCategory.MarkupBar,
+    value: "rgba(0, 0, 0, 0.86)",
+  },
+  {
+    key: "chat-markup-bar-background-color-blur-disabled",
+    category: ThemeCategory.MarkupBar,
+    value: "black",
+  },
+
+  // Message
+  {
+    key: "message-hover-background-color",
+    category: ThemeCategory.Message,
+    value: "rgba(255, 255, 255, 0.03)",
+  },
+  {
+    key: "message-floating-options-background-color",
+    category: ThemeCategory.Message,
+    value: "rgb(40, 40, 40)",
+  },
+
+  // Accent (Primary)
+  { key: "primary-color", category: ThemeCategory.Accent, value: "#4c93ff" },
+  {
+    key: "primary-color-dark",
+    category: ThemeCategory.Accent,
+    value: "#2d3746",
+  },
+
+  // Alert
+  { key: "alert-color", category: ThemeCategory.Alert, value: "#eb6e6e" },
+  { key: "alert-color-dark", category: ThemeCategory.Alert, value: "#3e2626" },
+
+  // Warn
+  { key: "warn-color", category: ThemeCategory.Warn, value: "#ff8f2c" },
+  { key: "warn-color-dark", category: ThemeCategory.Warn, value: "#3a3229" },
+
   // Success
-  "success-color": "#78e380",
-  "success-color-dark": "#1c221d",
+  { key: "success-color", category: ThemeCategory.Success, value: "#78e380" },
+  {
+    key: "success-color-dark",
+    category: ThemeCategory.Success,
+    value: "#1c221d",
+  },
+
   // Status
-  "status-offline": "#adadad",
-  "status-online": "#78e380",
-  "status-looking-to-play": "#78a5e3",
-  "status-away-from-keyboard": "#e3a878",
-  "status-do-not-disturb": "#e37878",
-  // Text Color
-  "text-color": "white",
-  "content-color": "rgba(255, 255, 255, 0.8)",
-  "side-pane-text-color": "white",
+  { key: "status-offline", category: ThemeCategory.Status, value: "#adadad" },
+  { key: "status-online", category: ThemeCategory.Status, value: "#78e380" },
+  {
+    key: "status-looking-to-play",
+    category: ThemeCategory.Status,
+    value: "#78a5e3",
+  },
+  {
+    key: "status-away-from-keyboard",
+    category: ThemeCategory.Status,
+    value: "#e3a878",
+  },
+  {
+    key: "status-do-not-disturb",
+    category: ThemeCategory.Status,
+    value: "#e37878",
+  },
+
+  // Text
+  { key: "text-color", category: ThemeCategory.Text, value: "white" },
+  {
+    key: "content-color",
+    category: ThemeCategory.Text,
+    value: "rgba(255, 255, 255, 0.8)",
+  },
+  { key: "side-pane-text-color", category: ThemeCategory.Text, value: "white" },
 
   // Markup
-  "markup-code-background-color": "rgba(0, 0, 0, 0.6)",
-  "markup-mention-background-color": "rgba(0, 0, 0, 0.2)",
-  "markup-mention-background-color-hover": "rgba(0, 0, 0, 0.6)",
-  "markup-codeblock-background-color": "rgba(0, 0, 0, 0.6)",
+  {
+    key: "markup-code-background-color",
+    category: ThemeCategory.Markup,
+    value: "rgba(0, 0, 0, 0.6)",
+  },
+  {
+    key: "markup-mention-background-color",
+    category: ThemeCategory.Markup,
+    value: "rgba(0, 0, 0, 0.2)",
+  },
+  {
+    key: "markup-mention-background-color-hover",
+    category: ThemeCategory.Markup,
+    value: "rgba(0, 0, 0, 0.6)",
+  },
+  {
+    key: "markup-codeblock-background-color",
+    category: ThemeCategory.Markup,
+    value: "rgba(0, 0, 0, 0.6)",
+  },
+  {
+    key: "markup-spoiler-background-color",
+    category: ThemeCategory.Markup,
+    value: "#0e0f10",
+  },
+  {
+    key: "markup-spoiler-background-color-hover",
+    category: ThemeCategory.Markup,
+    value: "#1c1e20",
+  },
 
-  "markup-spoiler-background-color": "#0e0f10",
-  "markup-spoiler-background-color-hover": "#1c1e20",
+  // Drawer
+  {
+    key: "drawer-item-background-color",
+    category: ThemeCategory.Drawer,
+    value: "rgba(66, 70, 76, 0.6)",
+  },
+  {
+    key: "drawer-item-hover-background-color",
+    category: ThemeCategory.Drawer,
+    value: "rgba(66, 70, 76, 0.4)",
+  },
+] as const;
 
-  "drawer-item-background-color": "rgba(66, 70, 76, 0.6)",
-  "drawer-item-hover-background-color": "rgba(66, 70, 76, 0.4)",
+type ThemeKey = (typeof ThemeTokens)[number]["key"];
 
-  // TODO:
-  // Add multiple text colors, rather than using one.. E.G: message-text-color, channel-text-color, etc.
-};
-
-type ThemeKey = keyof typeof DefaultTheme;
+export const DefaultTheme = ThemeTokens.reduce(
+  (acc, token) => {
+    {
+      acc[token.key] = token.value;
+      return acc;
+    }
+  },
+  {} as Record<ThemeKey, string>,
+);
 
 const [customColors, setCustomColors] = useLocalStorage<
   Partial<Record<ThemeKey, string>>

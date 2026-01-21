@@ -20,6 +20,7 @@ import {
   DefaultTheme,
   setCustomColors,
   updateTheme,
+  ThemeTokens,
 } from "@/common/themes";
 import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import Button from "../ui/Button";
@@ -188,7 +189,7 @@ function TimeFormatSetting() {
       description={t(
         timeFormat() === "24hr"
           ? t("settings.interface.24HourFormatDescription")
-          : t("settings.interface.12HourFormatDescription")
+          : t("settings.interface.12HourFormatDescription"),
       )}
     >
       <Checkbox checked={timeFormat() === "12hr"} onChange={toggleTimeFormat} />
@@ -201,7 +202,7 @@ function ChatBar() {
   const [chatBarOptions, setChatBarOptions] = useChatBarOptions();
   const [enabled, setEnabled] = useLocalStorage(
     StorageKeys.DISABLED_ADVANCED_MARKUP,
-    false
+    false,
   );
   const options = [
     {
@@ -251,8 +252,8 @@ function ChatBar() {
               if (chatBarOptions().includes(id)) {
                 setChatBarOptions(
                   options.filter(
-                    (i) => i !== (id as unknown as OptionIds)
-                  ) as unknown as OptionIds
+                    (i) => i !== (id as unknown as OptionIds),
+                  ) as unknown as OptionIds,
                 );
               } else {
                 setChatBarOptions([
@@ -270,7 +271,7 @@ function ChatBar() {
         icon="mobile_dots"
         label={t("settings.interface.disableAdvancedMarkupBar")}
         description={t(
-          "settings.interface.disableAdvancedMarkupBarDescription"
+          "settings.interface.disableAdvancedMarkupBarDescription",
         )}
         borderTopRadius={false}
       >
@@ -340,28 +341,44 @@ function CustomizeColors() {
         />
         <Button label="Import" iconName="content_paste" onClick={importTheme} />
       </SettingsBlock>
-      <For each={Object.entries(currentTheme())}>
-        {([name, value], i) => (
-          <SettingsBlock
-            icon="colors"
-            class={style.themeItem}
-            label={name.replaceAll("-", " ")}
-            borderBottomRadius={i() === Object.keys(currentTheme()).length - 1}
-            borderTopRadius={false}
-          >
-            <Show when={customColors()[name] && DefaultTheme[name] !== value}>
-              <Button
-                iconName="restart_alt"
-                padding={2}
-                onClick={() => setThemeColor(name, undefined)}
-              />
+      <For each={ThemeTokens}>
+        {(token, i) => (
+          <>
+            <Show
+              when={
+                i() === 0 || ThemeTokens[i() - 1]?.category !== token.category
+              }
+            >
+              <div class={style.tokenCategory}>{token.category}</div>
             </Show>
-            <ColorPicker
-              alpha
-              color={value}
-              onChange={(v) => setThemeColor(name, v)}
-            />
-          </SettingsBlock>
+            <SettingsBlock
+              icon="colors"
+              class={style.themeItem}
+              label={token.key.replaceAll("-", " ")}
+              borderBottomRadius={
+                i() === Object.keys(currentTheme()).length - 1
+              }
+              borderTopRadius={false}
+            >
+              <Show
+                when={
+                  currentTheme()[token.key] &&
+                  DefaultTheme[token.key] !== currentTheme()[token.key]
+                }
+              >
+                <Button
+                  iconName="restart_alt"
+                  padding={2}
+                  onClick={() => setThemeColor(token.key, undefined)}
+                />
+              </Show>
+              <ColorPicker
+                alpha
+                color={currentTheme()[token.key]}
+                onChange={(v) => setThemeColor(token.key, v)}
+              />
+            </SettingsBlock>
+          </>
         )}
       </For>
     </div>
