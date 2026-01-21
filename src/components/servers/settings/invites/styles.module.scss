@@ -5,75 +5,107 @@
 }
 
 .buttons {
-  margin-left: auto;;
+  margin-left: auto;
 }
 
-.mobile .inviteItem  {
-  .detailsOuter{
-    flex-direction: column;
-    align-items: initial;
+.details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobile .inviteItem {
+  .detailsOuter {
     align-content: center;
+    align-items: initial;
+    flex-direction: column;
   }
   .buttons {
-    margin-left: initial;
     align-self: flex-start;
     margin-top: 5px;
+    margin-left: initial;
   }
 }
 
 .inviteItem {
   display: flex;
   align-items: center;
+  padding: 10px;
 
   margin-bottom: 2px;
-  padding: 10px;  
-  background: rgba(255, 255, 255, 0.06);
-  
-  border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  
+
+  border-bottom-left-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  gap: 6px;
+
   &:not(:last-child) {
-    border-radius: 0;
     margin-bottom: 1px;
+    border-radius: 0;
   }
   .avatar {
     align-self: start;
     margin-top: 4px;
   }
 
-  
   .detailsOuter {
     display: flex;
-    margin-left: 5px;
+    overflow: hidden;
     width: 100%;
+    margin-left: 5px;
   }
   .otherDetails {
+    display: flex;
+    overflow: hidden;
+    align-items: center;
     margin-top: 3px;
     margin-left: -3px;
-    display: flex;
-    align-items: center;
     color: rgba(255, 255, 255, 0.6);
-    font-size: 14px;
+    font-size: 12px;
+    .detail {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
     .icon {
       margin-right: 3px;
       margin-left: 3px;
     }
   }
-
+  .username {
+    overflow: hidden;
+    max-width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   .button {
-    font-size: 14px;
+    align-self: center;
     padding: 4px;
     margin: 0;
-    align-self: center;
+    font-size: 14px;
   }
   .copyButton {
-    margin-left: auto;
     margin-right: 5px;
+    margin-left: auto;
   }
 
   .url {
     word-break: break-word;
   }
+}
 
+@media (max-width: 560px) {
+  .inviteItem .otherDetails {
+    align-items: start;
+    flex-direction: column;
+    gap: 6px;
+    .detail {
+      width: 100%;
+    }
+    .username {
+      max-width: 100%;
+    }
+  }
 }
