@@ -690,14 +690,18 @@
             "disableAdvancedMarkupBarDescription": "Prevent the advanced markup bar from appearing.",
             "customizeColors": "Customise Colours",
             "customizeColorsDescription": "Edit colours for the current theme.",
+            "exportButton": "Export",
+            "importButton": "Import",
+            "exportModal": "Copied theme to keyboard.",
+            "importModal": "Paste theme here:",
             "chatBarOptions": "Chat bar Options",
             "voiceMessage": "Voice Message",
             "gifPicker": "GIF Picker",
             "emojiPicker": "Emoji Picker",
             "sendButton": "Send Message",
             "timeTitle": "Toggle Time Format",
-            "12HourFormatDescription": "Display times in 12-hour format with AM/PM.",
-            "24HourFormatDescription": "Display times in 24-hour format."
+            "12HourFormatDescription": "Display time in 12-hour format with AM/PM.",
+            "24HourFormatDescription": "Display time in 24-hour format."
         },
         "window": {
             "downloadAppNotice": "To modify these settings, you must download the Nerimity desktop app.",
