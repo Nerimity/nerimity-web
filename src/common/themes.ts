@@ -4,7 +4,7 @@ export const ThemeCategory = {
   Surface: "Surface",
   Overlays: "Overlays",
   Input: "Input",
-  MarkupBar: "MarkupBar",
+  MarkupBar: "Markup Bar",
   Message: "Message",
   Accent: "Accent",
   Alert: "Alert",
@@ -185,7 +185,7 @@ const ThemeTokensBase = [
 ] as const;
 
 // Get the order of categories as defined in ThemeCategory
-const categoryOrder = Object.keys(ThemeCategory);
+const categoryOrder = Object.values(ThemeCategory);
 
 export const ThemeTokens = [...ThemeTokensBase].sort((a, b) => {
   const categoryIndexA = categoryOrder.indexOf(a.category);
