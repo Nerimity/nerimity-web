@@ -252,31 +252,3 @@ const Inbox = () => {
     </div>
   );
 };
-
-export const BlockedUsersModal = (props: { close: () => void }) => {
-  const controller = useHomeDrawerController();
-  const location = useLocation();
-
-  createEffect(
-    on(
-      () => location.pathname,
-      () => {
-        props.close();
-      },
-      { defer: true }
-    )
-  );
-
-  return (
-    <Modal.Root close={props.close} class={style.blockedUsersModal}>
-      <Modal.Header title={t("inbox.blockedUsersModal.title")} icon="block" />
-      <Modal.Body>
-        <div class={style.blockedUsersList}>
-          <For each={controller?.friends.blockedUsers()}>
-            {(user) => <HomeDrawerFriendItem friend={user} />}
-          </For>
-        </div>
-      </Modal.Body>
-    </Modal.Root>
-  );
-};
