@@ -31,6 +31,9 @@ Chat App made using SolidJS.
 
 ### Planned Features:
 
+- [ ] Report Servers
+- [ ] Two-Factor Authentication
+
 ### Completed Features:
 
 - [x] Explore Servers
