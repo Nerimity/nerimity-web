@@ -698,7 +698,8 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Вы уверены, что хотите удалить этот пост?"
+            "message": "Вы уверены, что хотите удалить этот пост?",
+            "title": "Удалить пост?"
         },
         "postWasDeleted": "Этот пост был удален!",
         "someoneLikedYourPost": "<1>{{username}}</1> понравился ваш пост!",
@@ -710,7 +711,25 @@
         "createButton": "Опубликовать",
         "pollOptions": "Варианты голосования",
         "optionNumberPlaceholder": "Ответ {{number}}",
-        "someoneRepostedYourPost": "<1>{{username}}</1> репостнул(а) ваш пост!"
+        "someoneRepostedYourPost": "<1>{{username}}</1> репостнул(а) ваш пост!",
+        "title": "Пост",
+        "viewCount": "Приблизительные просмотры",
+        "voteButton": "Голосовать",
+        "voteCount": "{{count}} голос(а/ов)",
+        "copyPostButton": "Скопировать содержимое",
+        "sections": {
+            "replies": "Ответы {{count}}",
+            "likes": "Понравилось {{count}}",
+            "reposts": "Поделилось {{count}}"
+        },
+        "editPostModalTitle": "Редактирование поста",
+        "sort": {
+            "latest": "Самые последние",
+            "mostLiked7Days": "Топ по лайкам (за 7 дней)",
+            "mostLiked30Days": "Топ по лайкам (за 30 дней)",
+            "mostLikedAllTime": "Топ по лайкам (за всё время)"
+        },
+        "postWarning": "Контент о вреде самому себе запрещен, в отношении аккаунта могут быть приняты меры."
     },
     "informationDrawer": {
         "channelNotice": "Примечание канала",
