@@ -1023,7 +1023,7 @@
             "more": "и ещё {{count}}"
         },
         "deletedMessage": "Сообщение удалено.",
-        "dismissButton": "Отклонить",
+        "dismissButton": "Скрыть",
         "editedAt": "Отредактировано {{time}}",
         "twitterEmbed": {
             "modalTitle": "Детальный эмбед Twitter",
