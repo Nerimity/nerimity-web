@@ -69,7 +69,7 @@ import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import { Modal } from "../ui/modal";
 import { RadioBox } from "../ui/RadioBox";
 import { selectedUsers, setSelectedUsers } from "./selectedUsers";
-import { UserPaneContainer } from "./UserComponents";
+import { User, UserPaneContainer } from "./UserComponents";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
