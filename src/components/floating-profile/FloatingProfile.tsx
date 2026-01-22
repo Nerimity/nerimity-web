@@ -48,8 +48,7 @@ import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import Input from "../ui/input/Input";
 import { formatMessage } from "../message-pane/MessagePane";
-import { logout } from "@/common/logout";
-import { currentTheme } from "@/common/themes";
+import {  DefaultTheme, defaultThemeCSSVars } from "@/common/themes";
 import { userDetailsPreloader } from "@/common/createPreloader";
 import { UserActivity } from "../user-activity/UserActivity";
 import { Fonts } from "@/common/fonts";
@@ -198,14 +197,14 @@ const DesktopProfileFlyout = (props: {
   const bgColor = createMemo(() => {
     try {
       return average([
-        colors().bg?.[0] || currentTheme()["pane-color"],
-        colors().bg?.[1] || currentTheme()["pane-color"],
+        colors().bg?.[0] || DefaultTheme["pane-color"],
+        colors().bg?.[1] || DefaultTheme["pane-color"],
       ])
         .luminance(0.01)
         .alpha(0.9)
         .hex();
     } catch {
-      return currentTheme()["pane-color"];
+      return DefaultTheme["pane-color"];
     }
   });
 
@@ -689,6 +688,7 @@ const DesktopProfileFlyout = (props: {
       style={{
         ...style(),
         ...props.style,
+        ...defaultThemeCSSVars,
         "--floating-bg-color": bgColor(),
         "--floating-primary-color": colors()?.primary || "var(--primary-color)",
       }}
@@ -697,8 +697,8 @@ const DesktopProfileFlyout = (props: {
         class={styles.flyoutInnerContainer}
         style={{
           background: `linear-gradient(180deg, ${
-            colors()?.bg?.[0] || currentTheme()["pane-color"]
-          }, ${colors()?.bg?.[1] || currentTheme()["pane-color"]})`,
+            colors()?.bg?.[0] || DefaultTheme["pane-color"]
+          }, ${colors()?.bg?.[1] || DefaultTheme["pane-color"]})`,
         }}
         classList={{
           [styles.dmPane]: props.dmPane,

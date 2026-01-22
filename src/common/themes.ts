@@ -285,4 +285,12 @@ export const applyTheme = (name: string, themeObj?: ThemePreset) => {
 
 updateTheme();
 
+export const defaultThemeCSSVars = Object.keys(DefaultTheme).reduce(
+  (map, key) => {
+    map[`--${key}`] = DefaultTheme[key as keyof typeof DefaultTheme];
+    return map;
+  },
+  {} as Record<string, string>,
+);
+
 export { DefaultTheme as theme, currentTheme, customColors, setCustomColors };

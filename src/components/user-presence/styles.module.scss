@@ -55,7 +55,7 @@ body .full .value > span,
   overflow: hidden;
   align-items: center;
   line-height: 1;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--content-color);
   font-size: 12px;
 }
 

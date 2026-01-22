@@ -72,7 +72,7 @@ import { MetaTitle } from "@/common/MetaTitle";
 import average from "@/common/chromaJS";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { emojiToUrl } from "@/common/emojiToUrl";
-import { currentTheme } from "@/common/themes";
+import { currentTheme, DefaultTheme, defaultThemeCSSVars } from "@/common/themes";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 import { getActivityType } from "@/common/activityType";
 import { Fonts, getFont } from "@/common/fonts";
@@ -159,14 +159,14 @@ export default function ProfilePane() {
   const paneBgColor = createMemo(() => {
     try {
       return average([
-        userDetails()?.profile?.bgColorOne! || currentTheme()["pane-color"],
-        userDetails()?.profile?.bgColorTwo! || currentTheme()["pane-color"],
+        userDetails()?.profile?.bgColorOne! || DefaultTheme["pane-color"],
+        userDetails()?.profile?.bgColorTwo! || DefaultTheme["pane-color"],
       ])
         .luminance(0.01)
         .alpha(0.9)
         .hex();
     } catch {
-      return currentTheme()["pane-color"];
+      return DefaultTheme["pane-color"];
     }
   });
 
@@ -192,8 +192,8 @@ export default function ProfilePane() {
         setPaneBackgroundColor(`
           linear-gradient(
             180deg,
-            ${colors()?.bg?.[0] || currentTheme()["pane-color"]},
-            ${colors()?.bg?.[1] || currentTheme()["pane-color"]}
+            ${colors()?.bg?.[0] || DefaultTheme["pane-color"]},
+            ${colors()?.bg?.[1] || DefaultTheme["pane-color"]}
           )
         `);
       }
@@ -209,6 +209,8 @@ export default function ProfilePane() {
 
   const font = createMemo(() => getFont(userDetails()?.profile?.font || 0));
 
+
+
   return (
     <>
       <MetaTitle>{!user() ? "Profile" : user()?.username}</MetaTitle>
@@ -220,6 +222,7 @@ export default function ProfilePane() {
           )}
           style={{
             "max-width": `${paneWidth()}px`,
+            ...defaultThemeCSSVars
           }}
         >
           <div class={styles.profilePaneInner}>
