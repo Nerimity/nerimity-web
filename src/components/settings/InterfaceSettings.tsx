@@ -85,7 +85,7 @@ export function ThemesBlock() {
                 class={style.themeCard}
                 style={{
                   "background-color": colors["pane-color"],
-                  color: colors["text-color"],
+                  color: colors["text-color"] ||DefaultTheme["text-color"],
                 }}
               >
                 <div class={style.themeName}>{name}</div>
@@ -119,7 +119,6 @@ export function ThemesBlock() {
           style={{
             "background-color": "rgba(255,255,255,0.05)",
             "backdrop-filter": "blur(6px)",
-            color: "#fff",
             display: "flex",
             "flex-direction": "column",
             "justify-content": "center",
