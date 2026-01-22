@@ -603,7 +603,11 @@
             "voiceMessage": "Mensaje de voz",
             "gifPicker": "Selector de GIF",
             "emojiPicker": "Selector de emoji",
-            "sendButton": "Enviar mensaje"
+            "sendButton": "Enviar mensaje",
+            "exportButton": "Exportar",
+            "importButton": "Importar",
+            "exportModal": "El tema se ha copiado al teclado.",
+            "importModal": "Pega el tema aquí:"
         },
         "window": {
             "downloadAppNotice": "Para modificar estos ajustes, tienes que descargarte la aplicación de escritorio de Nerimity.",
