@@ -506,7 +506,11 @@
             "voiceMessage": "Wiadomość Głosowa",
             "gifPicker": "Selektor GIFów",
             "emojiPicker": "Selektor Emoji",
-            "sendButton": "Wyślij Wiadomość"
+            "sendButton": "Wyślij Wiadomość",
+            "exportButton": "Eksportuj",
+            "importButton": "Importuj",
+            "exportModal": "Skopiowano motyw do schowka.",
+            "importModal": "Wklej tu motyw:"
         },
         "window": {
             "downloadAppNotice": "W celu zmiany tych ustawień musisz zainstalować aplikację Nerimity na komputery.",
