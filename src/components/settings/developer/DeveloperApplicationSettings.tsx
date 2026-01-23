@@ -360,8 +360,7 @@ const GenerateOuth2Link = (props: { application: RawApplication }) => {
     if (redirectUri()) url.searchParams.set("redirectUri", redirectUri());
 
     return url.href;
-  };"OAuth2 Documentation"
-
+  };
   const onPermissionChanged = (checked: boolean, bit: number) => {
     if (checked) {
       setPermissions(addBit(permissions(), bit));
