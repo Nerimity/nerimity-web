@@ -397,7 +397,7 @@
             "deleteAccountDescription": "Это действие нельзя отменить!",
             "deleteAccountNotice": "Вы должны покинуть / удалить все серверы, прежде чем сможете удалить свою учетную запись.",
             "understoodButton": "Понятно",
-            "botID": "ID Бота",
+            "botID": "ID бота",
             "palestineBorder": "Добавить палестинский значок к аватару.",
             "bio": "Обо мне",
             "bioDescription": "Поддерживается полное форматирование и написание в несколько строк",
@@ -580,7 +580,32 @@
         "developer": {
             "oauth2": {
                 "description": "Настройка OAuth2",
-                "generateLink": "Сгенерировать ссылку"
+                "generateLink": "Сгенерировать ссылку",
+                "documentation": "Документация OAuth2",
+                "clientId": "ID клиента",
+                "clientSecret": "Секретный ключ клиента",
+                "secretRefreshed": "Секретный ключ клиента был пересоздан.",
+                "secretCopied": "Секретный ключ клиента был скопирован в буфер обмена.",
+                "refreshButton": "Пересоздать",
+                "redirectUris": "Перенаправления на URI",
+                "uri": "URI {{count}}",
+                "redirectUri": "Перенаправлять на URI"
+            },
+            "applicationsDescription": "Создавайте ботов в Nerimity.",
+            "apiDocumentation": "Документация по API (незавершённая)",
+            "addButton": "Создать приложение",
+            "name": "Имя приложения",
+            "appClientId": "ID приложения/клиента",
+            "botUser": "Аккаунт бота",
+            "createBotUser": "Создайте новый бот-аккаунт",
+            "editBotUser": "Редактирование бота",
+            "createBotUserButton": "Создать аккаунт",
+            "deleteApplication": {
+                "title": "Удалить приложение",
+                "willNotGetDeleted": "Что не будет удалено:",
+                "andMore": "• И остальное",
+                "willNotGetDeletedDescription": "Вы можете удалить их вручную перед удалением приложения.",
+                "deleteAppButton": "Удалить это приложение"
             }
         },
         "experiments": {
@@ -1100,8 +1125,8 @@
             "name": "Палестина"
         },
         "bot": {
-            "name": "Пользователь-бот",
-            "description": "Пользователь-бот"
+            "name": "Бот-аккаунт",
+            "description": "Этот аккаунт является ботом"
         },
         "credit": {
             "avatarBorder": "Значок аватара {{author}} на {{platform}}",
