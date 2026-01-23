@@ -735,10 +735,34 @@
             }
         },
         "developer": {
+            "applicationsDescription": "Create Nerimity Bots.",
+            "apiDocumentation": "API Documentation (incomplete)",
+            "addButton": "Add App",
+            "name": "Application Name",
+            "appClientId": "App/Client ID",
+            "botUser": "Bot User",
+            "createBotUser": "Create a new bot user",
+            "editBotUser": "Edit bot",
+            "createBotUserButton": "Create User",
             "oauth2": {
                 "description": "Manage OAuth2",
-                "title": "OAuth2",
-                "generateLink": "Generate Link"
+                "documentation": "OAuth2 Documentation",
+                "clientId": "Client ID",
+                "clientSecret": "Client Secret",
+                "secretRefreshed": "Client secret refreshed.",
+                "secretCopied": "Copied client secret to clipboard.",
+                "refreshButton": "Refresh",
+                "redirectUris": "Redirect URIs",
+                "uri": "URI {{count}}",
+                "generateLink": "Generate Link",
+                "redirectUri": "Redirect URI"
+            },
+            "deleteApplication": {
+                "title": "Delete Application",
+                "willNotGetDeleted": "What will not get deleted:",
+                "andMore": "• And More",
+                "willNotGetDeletedDescription": "You may manually delete them before deleting your app.",
+                "deleteAppButton": "Delete this app"
             }
         },
         "experiments": {

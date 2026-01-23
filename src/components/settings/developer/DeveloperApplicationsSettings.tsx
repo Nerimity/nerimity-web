@@ -29,7 +29,7 @@ export default function DeveloperApplicationsSettings() {
   const navigate = useNavigate();
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Developer Applications",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
       iconName: "settings",
     });
   });
@@ -63,11 +63,11 @@ export default function DeveloperApplicationsSettings() {
       <div>
         <SettingsBlock
           icon="extension"
-          label="Applications"
+          label={t("settings.drawer.applications")}
           header={applications.length !== 0}
           description={`${applications.length}/10`}
         >
-          <Button iconName="add" label="Add" onClick={addNewApp} />
+          <Button iconName="add" label={t("settings.developer.addButton")} onClick={addNewApp} />
         </SettingsBlock>
 
         <For each={applications}>

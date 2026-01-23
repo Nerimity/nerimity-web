@@ -53,7 +53,7 @@ export default function DeveloperApplicationSetting() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Developer Application",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
       iconName: "settings",
     });
   });
@@ -86,7 +86,7 @@ export default function DeveloperApplicationSetting() {
           title={application() ? application()!.name : "loading..."}
         />
         <Show when={tab() === "oauth2"}>
-          <BreadcrumbItem title={t("settings.developer.oauth2.title")} />
+          <BreadcrumbItem title="OAuth2" />
         </Show>
       </Breadcrumb>
 
@@ -129,7 +129,7 @@ const EditDeveloperApplication = (props: {
   const navigate = useNavigate();
   const [error, setError] = createSignal<string | null>(null);
 
-  const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");
+  const requestStatus = () => (requestSent() ? t("general.saving") : t("general.saveChangesButton"));
 
   const createBot = async () => {
     await createAppBotUser(params.id);
@@ -153,26 +153,26 @@ const EditDeveloperApplication = (props: {
 
   return (
     <>
-      <SettingsBlock icon="edit" label="Name">
+      <SettingsBlock icon="edit" label={t("settings.developer.name")}>
         <Input
           value={inputValues().name}
           onText={(v) => setInputValue("name", v)}
         />
       </SettingsBlock>
-      <SettingsBlock icon="id_card" label="App/Client ID">
+      <SettingsBlock icon="id_card" label={t("settings.developer.appClientId")}>
         <Input value={application()!.id} disabled />
       </SettingsBlock>
 
       <SettingsBlock
         href={application()?.botUserId ? "./bot" : undefined}
         icon="smart_toy"
-        label="Bot User"
+        label={t("settings.developer.botUser")}
         description={
-          application()?.botUserId ? "Edit bot" : "Create a new bot user."
+          application()?.botUserId ? t("settings.developer.editBotUser") : t("settings.developer.createBotUser")
         }
       >
         <Show when={!application()?.botUserId}>
-          <Button label="Create" iconName="add" onClick={createBot} />
+          <Button label={t("settings.developer.createBotUserButton")} iconName="add" onClick={createBot} />
         </Show>
         <Show when={application()?.botUserId}>
           <Icon name="keyboard_arrow_right" />
@@ -183,7 +183,7 @@ const EditDeveloperApplication = (props: {
       <SettingsBlock
         href="./oauth2"
         icon="lock"
-        label={t("settings.developer.oauth2.title")}
+        label="OAuth2"
         description={t("settings.developer.oauth2.description")}
       />
       {/* </Show> */}
@@ -225,7 +225,7 @@ const EditApplicationOauth2 = (props: {
     refreshAppClientSecret(props.application.id)
       .then((res) => {
         props.setApplication(res);
-        toast("Client secret refreshed.");
+        toast(t("settings.developer.oauth2.secretRefreshed"));
       })
       .catch((err) => toast(err.message))
       .finally(() => (refreshClicked = false));
@@ -233,7 +233,7 @@ const EditApplicationOauth2 = (props: {
 
   const copyToken = async () => {
     navigator.clipboard.writeText(props.application.clientSecret!);
-    toast("Copied client secret to clipboard.");
+    toast(t("settings.developer.oauth2.secretCopied"));
   };
 
   const defaultInput = () => ({
@@ -245,7 +245,7 @@ const EditApplicationOauth2 = (props: {
 
   const urisLength = () => inputValues().redirectUris.length;
 
-  const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");
+  const requestStatus = () => (requestSent() ? t("general.saving") : t("general.saveChangesButton"));
 
   const onSaveClicked = async () => {
     if (requestSent()) return;
@@ -269,31 +269,31 @@ const EditApplicationOauth2 = (props: {
       <SettingsBlock
         icon="menu_book"
         href="https://docs.nerimity.com/endpoints/oauth2/ExchangeCode"
-        label="OAuth2 Documentation"
+        label={t("settings.developer.oauth2.documentation")}
         hrefBlank
       />
-      <SettingsBlock icon="id_card" label="Client ID">
+      <SettingsBlock icon="id_card" label={t("settings.developer.oauth2.clientId")}>
         <Input value={props.application.id} disabled />
       </SettingsBlock>
 
       <SettingsBlock
         icon="key"
-        label="Client Secret"
+        label={t("settings.developer.oauth2.clientSecret")}
         class={css`
           margin-bottom: 20px;
         `}
       >
-        <Button label="Refresh" onClick={onRefreshClick} iconName="refresh" />
-        <Button onClick={copyToken} label="Copy" iconName="content_copy" />
+        <Button onClick={onRefreshClick} label={t("settings.developer.oauth2.refreshButton")} iconName="refresh" />
+        <Button onClick={copyToken} label={t("inputFieldActions.copy")} iconName="content_copy" />
       </SettingsBlock>
 
       <div>
-        <SettingsBlock icon="link" label="Redirect URIs" header />
+        <SettingsBlock icon="link" label={t("settings.developer.oauth2.redirectUris")} header />
         <For each={new Array(urisLength()).fill(0)}>
           {(_, i) => (
             <SettingsBlock
               icon="link"
-              label={"URI " + (i() + 1)}
+              label={t("settings.developer.oauth2.uri", { count: (i() + 1) })}
               borderTopRadius={false}
               borderBottomRadius={i() === urisLength() - 1}
             >
@@ -361,7 +361,6 @@ const GenerateOuth2Link = (props: { application: RawApplication }) => {
 
     return url.href;
   };
-
   const onPermissionChanged = (checked: boolean, bit: number) => {
     if (checked) {
       setPermissions(addBit(permissions(), bit));
@@ -415,7 +414,7 @@ const GenerateOuth2Link = (props: { application: RawApplication }) => {
         borderTopRadius={false}
         borderBottomRadius={false}
         icon="link"
-        label="Redirect URI"
+        label={t("settings.developer.oauth2.redirectUri")}
       >
         <DropDown
           items={props.application.redirectUris.map((uri) => ({
@@ -473,17 +472,17 @@ function DeleteApplicationBlock(props: { id: string; name: string }) {
     const ModalInfo = () => {
       return (
         <div style={{ "margin-bottom": "15px" }}>
-          What will get deleted:
-          <div>• Email</div>
-          <div>• Username</div>
-          <div>• IP Address</div>
-          <div>• Bio</div>
-          <div>• And More</div>
-          <div style={{ "margin-top": "15px" }}>What will not get deleted:</div>
-          <div>• Your Messages</div>
-          <div>• Your Posts</div>
+          {t("settings.account.deletedInfo.title")}
+          <div>{t("settings.account.deletedInfo.email")}</div>
+          <div>{t("settings.account.deletedInfo.username")}</div>
+          <div>{t("settings.account.deletedInfo.ip")}</div>
+          <div>{t("settings.account.deletedInfo.bio")}</div>
+          <div>{t("settings.developer.deleteApplication.andMore")}</div>
+          <div style={{ "margin-top": "15px" }}>{t("settings.developer.deleteApplication.willNotGetDeleted")}</div>
+          <div>{t("settings.account.deletedInfo.messages")}</div>
+          <div>{t("settings.account.deletedInfo.posts")}</div>
           <div style={{ "margin-top": "5px", "font-size": "12px" }}>
-            You may manually delete them before deleting your app.
+            {t("settings.developer.deleteApplication.willNotGetDeletedDescription")}
           </div>
         </div>
       );
@@ -495,7 +494,7 @@ function DeleteApplicationBlock(props: { id: string; name: string }) {
         custom={<ModalInfo />}
         close={close}
         confirmText={props.name}
-        title="Delete Application"
+        title={t("settings.developer.deleteApplication.title")}
       />
     ));
   };
@@ -504,8 +503,8 @@ function DeleteApplicationBlock(props: { id: string; name: string }) {
     <SettingsBlock
       class={deleteBlockStyles}
       icon="delete"
-      label="Delete Application"
-      description="This cannot be undone!"
+      label={t("settings.developer.deleteApplication.title")}
+      description={t("general.cannotBeUndone")}
     >
       <Button
         onClick={onClick}
@@ -513,7 +512,7 @@ function DeleteApplicationBlock(props: { id: string; name: string }) {
         primary
         color="var(--alert-color)"
         iconName="delete"
-        label="Delete App"
+        label={t("settings.developer.deleteApplication.deleteAppButton")}
       />
     </SettingsBlock>
   );

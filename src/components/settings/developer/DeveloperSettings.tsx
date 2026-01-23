@@ -20,7 +20,7 @@ export default function DeveloperSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Developer",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
       iconName: "settings",
     });
   });
@@ -35,15 +35,15 @@ export default function DeveloperSettings() {
       <SettingsBlock
         href="./applications"
         icon="extension"
-        label="Applications"
-        description="Create Nerimity Bots."
+        label={t("settings.drawer.applications")}
+        description={t("settings.developer.applicationsDescription")}
         children={<Icon name="keyboard_arrow_right" />}
       />
       <SettingsBlock
         href="https://docs.nerimity.com"
         hrefBlank
         icon="menu_book"
-        label="API Documentation (incomplete)"
+        label={t("settings.developer.apiDocumentation")}
         children={<Icon name="open_in_new" style={{ "margin-right": "6px" }} />}
       />
     </Container>
