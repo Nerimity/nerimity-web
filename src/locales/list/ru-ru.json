@@ -540,7 +540,11 @@
             "sendButton": "Отправка сообщения",
             "timeTitle": "Переключить формат времени",
             "12HourFormatDescription": "Отображать время в 12-часовом формате, с использованием AM/PM.",
-            "24HourFormatDescription": "Отображать время в 24-часовом формате."
+            "24HourFormatDescription": "Отображать время в 24-часовом формате.",
+            "exportButton": "Экспорт",
+            "importButton": "Импорт",
+            "exportModal": "Тема скопирована в буфер обмена.",
+            "importModal": "Вставьте тему сюда:"
         },
         "window": {
             "downloadAppNotice": "Чтобы изменить эти настройки, скачайте приложение Nerimity на ПК.",

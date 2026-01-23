@@ -12,7 +12,7 @@
         },
         "leaveServer": "<User/><2> выйшаў з сэрвэра.</2>",
         "kickUser": "<User/><2> быў выгнаны.</2>",
-        "banUser": "<User/><2> быў заблякаваны.</2>",
+        "banUser": "<User/><2> быў забанены.</2>",
         "callStarted": "<User/><2> пачаў выклік.</2>",
         "bumpServer": "<User/><2> усхваліў сэрвэр.</2>",
         "pinnedMessage": "<User/><2> замацаваў паведамленьне.</2>",
@@ -328,10 +328,10 @@
                     "members": "{{count}} альбо больш удзельнікаў",
                     "membersDescription": "На вашым сэрвэры мусіць быць прынамсі {{count}} удзельнікаў.",
                     "profanityFree": "Без блюзьнерства",
-                    "profanityFreeDescription": "Назва сэрвэра, аватар і банар мусяць быць без непрыстойнае брыдкае мовы.",
+                    "profanityFreeDescription": "Назва сэрвэра, аватар і банар мусяць быць безь непрыстойнае брыдкае мовы.",
                     "avatarAndBanner": "Аватар і банар",
-                    "avatarAndBannerDescription": "У сэрвэра мусіць быць аватар і банар.",
-                    "rules": "Правіла сэрвэра",
+                    "avatarAndBannerDescription": "У сэрвэра мусяць быць аватар і банар.",
+                    "rules": "Правілы сэрвэра",
                     "rulesDescription": "На сэрвэры мусіць быць канал з правіламі."
                 },
                 "perks": {
@@ -409,8 +409,8 @@
             "manageChannelsDescription": "Дазвол на рэдагаваньне й выдаленьне каналаў.",
             "kick": "Выганяць",
             "kickDescription": "Дазвол выганяць удзельнікаў.",
-            "ban": "Блякаваць",
-            "banDescription": "Дазвол на блякіроўку ўдзельнікаў.",
+            "ban": "Баніць",
+            "banDescription": "Дазвол на бан ўдзельнікаў.",
             "mentionEveryone": "Згадваць усіх",
             "mentionEveryoneDescription": "Дазваляе згадваньне @everyone. Адміны могуць згадваць усіх незалежна ад гэтага дазволу.",
             "nicknameMember": "Зьмяняць нікнэймы",
@@ -603,7 +603,11 @@
             "voiceMessage": "Галасавое паведамленьне",
             "gifPicker": "Выбар GIF",
             "emojiPicker": "Выбар эмодзі",
-            "sendButton": "Дасыланьне паведамленьня"
+            "sendButton": "Дасыланьне паведамленьня",
+            "exportButton": "Экспарт",
+            "importButton": "Імпарт",
+            "exportModal": "Тэма скапіяваная да буфера.",
+            "importModal": "Устаўце тэму сюды:"
         },
         "window": {
             "downloadAppNotice": "Каб змяніць гэтыя налады, вы мусіце спампаваць аплікацыю Nerimity для ПК.",
@@ -749,8 +753,8 @@
         "title": "Рэдагаваць ролі"
     },
     "banModal": {
-        "title": "Заблякаваць {{username}}?",
-        "message": "Вы ўпэўненыя, што хочаце заблякаваць <1>{{username}}</1>?",
+        "title": "Забаніць {{username}}?",
+        "message": "Вы ўпэўненыя, што хочаце забаніць <1>{{username}}</1>?",
         "deletePastMessagesCheckbox": "Выдаліць паведамленьні, адпраўленыя за апошнія 7 гадзін.",
         "banButton": "Забаніць",
         "banning": "Банім…",
