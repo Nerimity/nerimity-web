@@ -570,7 +570,6 @@
         "developer": {
             "oauth2": {
                 "description": "Gérer OAuth2",
-                "title": "OAuth2",
                 "generateLink": "Générer un lien"
             }
         },

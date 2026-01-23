@@ -580,7 +580,6 @@
         "developer": {
             "oauth2": {
                 "description": "Настройка OAuth2",
-                "title": "OAuth2",
                 "generateLink": "Сгенерировать ссылку"
             }
         },

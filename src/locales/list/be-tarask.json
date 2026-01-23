@@ -643,7 +643,6 @@
         "developer": {
             "oauth2": {
                 "description": "Кіраваньне OAuth2",
-                "title": "OAuth2",
                 "generateLink": "Згенерыраваць спасылку"
             }
         },

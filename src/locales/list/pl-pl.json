@@ -531,7 +531,6 @@
         "developer": {
             "oauth2": {
                 "description": "Zarządzaj opcją OAuth2",
-                "title": "OAuth2",
                 "generateLink": "Wygeneruj Link"
             }
         },
