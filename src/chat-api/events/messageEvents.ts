@@ -1,7 +1,7 @@
 import { playMessageNotification } from "@/common/Sound";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { batch } from "solid-js";
-import { FriendStatus, RawMessage } from "../RawData";
+import { FriendStatus, MessageType, RawMessage } from "../RawData";
 import useAccount from "../store/useAccount";
 import useChannels from "../store/useChannels";
 import useHeader from "../store/useHeader";
@@ -55,10 +55,14 @@ export function onMessageCreated(payload: {
   const selfMember = members.get(channel?.serverId!, accountUser?.id!);
   const server = servers.get(channel?.serverId!);
 
+  const isSystemMessage = payload.message.type !== MessageType.CONTENT;
+  const isSelf =
+    !isSystemMessage && accountUser?.id === payload.message.createdBy.id;
+
   batch(() => {
     channel?.updateLastMessaged(payload.message.createdAt);
 
-    if (accountUser?.id === payload.message.createdBy.id) {
+    if (!isSystemMessage && isSelf) {
       channel?.updateLastSeen(payload.message.createdAt + 1);
     } else if (!channel || channel.recipient()) {
       const user = users.get(payload.message.createdBy.id);
@@ -80,11 +84,11 @@ export function onMessageCreated(payload: {
         if (hasPerm) return true;
       }
       const mention = payload.message.mentions?.find(
-        (u) => u.id === accountUser?.id
+        (u) => u.id === accountUser?.id,
       );
       if (mention) return true;
       const quoteMention = payload.message.quotedMessages?.find(
-        (m) => m.createdBy?.id === accountUser?.id
+        (m) => m.createdBy?.id === accountUser?.id,
       );
 
       if (quoteMention) return true;
@@ -92,7 +96,7 @@ export function onMessageCreated(payload: {
       const isRoleMentioned =
         member?.hasPermission(ROLE_PERMISSIONS.MENTION_ROLES) &&
         payload.message.roleMentions.find(
-          (r) => server?.defaultRoleId !== r.id && selfMember?.hasRole(r.id)
+          (r) => server?.defaultRoleId !== r.id && selfMember?.hasRole(r.id),
         );
 
       if (isRoleMentioned) return true;
@@ -100,13 +104,13 @@ export function onMessageCreated(payload: {
       const replyMention =
         payload.message.mentionReplies &&
         payload.message.replyMessages.find(
-          (m) => m.replyToMessage?.createdBy?.id === accountUser?.id
+          (m) => m.replyToMessage?.createdBy?.id === accountUser?.id,
         );
 
       return replyMention;
     };
 
-    if (payload.message.createdBy.id !== accountUser?.id) {
+    if (!isSelf) {
       if (!channel?.serverId || isMentioned()) {
         mentions.set({
           channelId: payload.message.channelId,
@@ -123,7 +127,7 @@ export function onMessageCreated(payload: {
   // only play notifications if:
   //   it does not have focus (has focus)
   //   channel is not selected (is selected)
-  if (payload.message.createdBy.id !== accountUser?.id) {
+  if (!isSelf) {
     if (hasBlockedRecipient) return;
     const isChannelSelected =
       header.details().id === "MessagePane" &&
@@ -147,7 +151,7 @@ export function onMessageUpdated(payload: {
   messages.updateLocalMessage(
     { ...payload.updated, sentStatus: undefined },
     payload.channelId,
-    payload.messageId
+    payload.messageId,
   );
 }
 
@@ -172,7 +176,6 @@ export function onMessageDeleted(payload: {
     });
   }
 }
-
 
 export function onMessageMarkUnread(payload: {
   channelId: string;
