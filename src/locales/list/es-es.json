@@ -643,7 +643,32 @@
         "developer": {
             "oauth2": {
                 "description": "Gestionar OAuth2",
-                "generateLink": "Generar link"
+                "generateLink": "Generar link",
+                "documentation": "Documentación de OAuth2",
+                "clientId": "ID del cliente",
+                "clientSecret": "Clave secreta del cliente",
+                "secretRefreshed": "La clave secreta del cliente ha sido renovada.",
+                "secretCopied": "La clave secreta del cliente se ha copiado en el portapapeles.",
+                "refreshButton": "Renovar",
+                "redirectUris": "URLs de redirección",
+                "uri": "URL {{count}}",
+                "redirectUri": "URI de redirección"
+            },
+            "applicationsDescription": "Crea bots para Nerimity.",
+            "apiDocumentation": "Documentación de la API (incompleta)",
+            "addButton": "Añadir aplicación",
+            "name": "Nombre de la aplicación",
+            "appClientId": "ID de la aplicación / cliente",
+            "botUser": "Usuario bot",
+            "createBotUser": "Crea un nuevo usuario bot",
+            "editBotUser": "Editar bot",
+            "createBotUserButton": "Crear usuario",
+            "deleteApplication": {
+                "title": "Eliminar aplicación",
+                "willNotGetDeleted": "Elementos que no se eliminarán:",
+                "andMore": "• Y más",
+                "willNotGetDeletedDescription": "Puede eliminarlos manualmente antes de eliminar su aplicación.",
+                "deleteAppButton": "Eliminar esta aplicación"
             }
         },
         "badges": {
@@ -1005,7 +1030,7 @@
         },
         "bot": {
             "name": "Usuario bot",
-            "description": "Usuario bot"
+            "description": "Este usuario es un bot"
         },
         "credit": {
             "avatarBorder": "Borde de avatar hecho por {{author}} en {{platform}}",
