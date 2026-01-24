@@ -602,8 +602,12 @@
             "emojiPicker": "Emoji-Picker",
             "sendButton": "Nachricht senden",
             "timeTitle": "Zeitformat umschalten",
-            "12HourFormatDescription": "Zeiten im 12-Stunden-Format mit AM/PM anzeigen.",
-            "24HourFormatDescription": "Zeiten im 24-Stunden-Format anzeigen."
+            "12HourFormatDescription": "Zeit im 12-Stunden-Format mit AM/PM anzeigen.",
+            "24HourFormatDescription": "Zeit im 24-Stunden-Format anzeigen.",
+            "exportButton": "Exportieren",
+            "importButton": "Importieren",
+            "exportModal": "Design wurde in die Zwischenablage kopiert.",
+            "importModal": "Füge Design hier ein:"
         },
         "window": {
             "downloadAppNotice": "Um diese Einstellungen zu ändern, musst du die Nerimity-Desktop-App herunterladen.",
@@ -639,7 +643,32 @@
         "developer": {
             "oauth2": {
                 "description": "OAuth2 verwalten",
-                "generateLink": "Link generieren"
+                "generateLink": "Link generieren",
+                "documentation": "OAuth2 Dokumentation",
+                "clientId": "Client-ID",
+                "clientSecret": "Client-Geheimnis",
+                "secretRefreshed": "Client-Geheimnis aktualisiert.",
+                "secretCopied": "Client-Geheimnis wurde in die Zwischenablage kopiert.",
+                "refreshButton": "Aktualisieren",
+                "redirectUris": "Weiterleitungs-URIs",
+                "uri": "URI {{count}}",
+                "redirectUri": "Weiterleitung URI"
+            },
+            "applicationsDescription": "Erstelle Nerimity Bots.",
+            "apiDocumentation": "API Dokumentation (unvollständig)",
+            "addButton": "App hinzufügen",
+            "name": "Applikation Name",
+            "appClientId": "App-/Client-ID",
+            "botUser": "Bot Nutzer",
+            "createBotUser": "Neuen Bot-Benutzer erstellen",
+            "editBotUser": "Bot bearbeiten",
+            "createBotUserButton": "Nutzer erstellen",
+            "deleteApplication": {
+                "title": "Applikation löschen",
+                "willNotGetDeleted": "Was wird nicht gelöscht werden:",
+                "andMore": "• Und mehr",
+                "willNotGetDeletedDescription": "Möglicherweise müssen sie vor dem Löschen der App manuell entfernt werden.",
+                "deleteAppButton": "Lösche diese App"
             }
         },
         "badges": {
@@ -810,7 +839,8 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Möchtest du diesen Beitrag wirklich löschen?"
+            "message": "Möchtest du diesen Beitrag wirklich löschen?",
+            "title": "Post löschen?"
         },
         "postWasDeleted": "Dieser Beitrag wurde gelöscht!",
         "someoneLikedYourPost": "<1>{{username}}</1> gefällt dein Beitrag!",
@@ -822,7 +852,25 @@
         "replyButton": "Antworten",
         "createButton": "Erstellen",
         "pollOptions": "Umfrageoptionen",
-        "optionNumberPlaceholder": "Option {{number}}"
+        "optionNumberPlaceholder": "Option {{number}}",
+        "title": "Post",
+        "viewCount": "Geschätzte Aufrufe",
+        "voteButton": "Abstimmen",
+        "voteCount": "{{count}} Stimme(n)",
+        "copyPostButton": "Post kopieren",
+        "sections": {
+            "replies": "Antworten ({{count}})",
+            "likes": "Likes ({{count}})",
+            "reposts": "Neuveröffentlichungen ({{count}})"
+        },
+        "editPostModalTitle": "Post bearbeiten",
+        "sort": {
+            "latest": "Neustes",
+            "mostLiked7Days": "Meiste Likes (7 Tage)",
+            "mostLiked30Days": "Meiste Likes (30 Tage)",
+            "mostLikedAllTime": "Meiste Likes (aller Zeiten)"
+        },
+        "postWarning": "Inhalte, die Selbstverletzung thematisieren, sind nicht erlaubt; es werden Maßnahmen gegen das Konto ergriffen."
     },
     "informationDrawer": {
         "channelNotice": "Kanalhinweis",
@@ -1123,7 +1171,7 @@
         },
         "bot": {
             "name": "Bot Nutzer",
-            "description": "Bot Nutzer"
+            "description": "Dieser Nutzer ist ein Bot"
         },
         "credit": {
             "avatarBorder": "Avatar-Rahmen von {{author}} auf {{platform}}",
