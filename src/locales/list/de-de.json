@@ -639,7 +639,6 @@
         "developer": {
             "oauth2": {
                 "description": "OAuth2 verwalten",
-                "title": "OAuth2",
                 "generateLink": "Link generieren"
             }
         },

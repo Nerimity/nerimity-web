@@ -1171,7 +1171,7 @@
         },
         "bot": {
             "name": "Bot User",
-            "description": "Bot User"
+            "description": "This user is a bot"
         },
         "credit": {
             "avatarBorder": "Avatar Border by {{author}} on {{platform}}",

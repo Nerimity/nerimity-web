@@ -371,7 +371,6 @@
         "developer": {
             "oauth2": {
                 "description": "Handle OAuth2y",
-                "title": "OAuth2y",
                 "generateLink": "Cweate A Winky"
             }
         }
