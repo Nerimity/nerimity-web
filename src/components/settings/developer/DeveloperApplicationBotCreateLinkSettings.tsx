@@ -22,7 +22,7 @@ export default function DeveloperApplicationBotCreateLinkSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Developer Application Bot Create Link",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
       iconName: "settings",
     });
   });
@@ -52,8 +52,8 @@ export default function DeveloperApplicationBotCreateLinkSettings() {
           href="../../"
           title={application() ? application()!.name : "loading..."}
         />
-        <BreadcrumbItem href="../" title="Bot" />
-        <BreadcrumbItem title="Create Link" />
+        <BreadcrumbItem href="../" title={t("message.badge.bot")} />
+        <BreadcrumbItem title={t("settings.developer.bot.createLinkButton")} />
       </Breadcrumb>
       <Show when={application()}>
         <ApplicationBotCreateLinkBlock appId={params.id} />

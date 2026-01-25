@@ -15,7 +15,7 @@ import {
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
-import { useTransContext } from "@nerimity/solid-i18lite";
+import { Trans, useTransContext } from "@nerimity/solid-i18lite";
 import { A, useParams } from "solid-navigator";
 import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
@@ -101,12 +101,12 @@ export default function PublishBotAppSettings() {
 
     if (timeLeftMilliseconds > 0) {
       toast(
-        t("servers.settings.publishServer.bumpCooldown", {
+        t("settings.developer.bot.bumpBotCooldown", {
           hours: timeLeft.getUTCHours(),
           minutes: timeLeft.getUTCMinutes(),
           seconds: timeLeft.getUTCSeconds(),
         }),
-        t("servers.settings.publishServer.bumpServer"),
+        t("settings.developer.bot.bumpBot"),
         "arrow_upward"
       );
     }
@@ -123,13 +123,15 @@ export default function PublishBotAppSettings() {
   return (
     <Container>
       <Text color="rgba(255,255,255,0.6)" style={{ "margin-bottom": "10px" }}>
-        Publishing your bot will make it be available in the{" "}
-        <A href="/app/explore/servers">explore</A> page.
+        <Trans key="settings.developer.bot.publishNotice">
+          Publishing your bot will make it be available in the
+          <A href="/app/explore/servers">explore</A> page.
+        </Trans>
       </Text>
       <SettingsBlock
         icon="public"
         label={t("servers.settings.publishServer.public")}
-        description={"Make this bot public."}
+        description={t("settings.developer.bot.publicDescription")}
       >
         <Checkbox checked={isPublic()} onChange={(v) => setIsPublic(v)} />
       </SettingsBlock>
@@ -137,15 +139,17 @@ export default function PublishBotAppSettings() {
       <Show when={isPublic() && publicItem()}>
         <SettingsBlock
           icon="arrow_upward"
-          label="Bump"
-          description={"Bump this bot to get top the top."}
+          label={t("settings.developer.bot.bumpBot")}
+          description={t("settings.developer.bot.bumpBotDescription")}
         >
           <Button
             onClick={bumpClick}
             class={css`
               margin-right: 0px;
             `}
-            label={`Bump (${publicItem()?.bumpCount})`}
+            label={t("servers.settings.publishServer.bumpButton", {
+              count: publicItem()?.bumpCount,
+            })}
           />
         </SettingsBlock>
       </Show>
@@ -156,9 +160,10 @@ export default function PublishBotAppSettings() {
           onText={(t) => setDescription(t)}
           type="textarea"
           height={200}
-          label={`Bot Description (${
-            description().length
-          }/${MAX_DESCRIPTION_LENGTH})`}
+          label={t("settings.developer.bot.botDescription", {
+            current: description().length,
+            max: MAX_DESCRIPTION_LENGTH,
+          })}
         />
         <ApplicationBotCreateLinkBlock
           value={permissions()}
@@ -173,7 +178,7 @@ export default function PublishBotAppSettings() {
         <Button
           class={buttonStyle}
           iconName="public"
-          label={"Publish"}
+          label={t("servers.settings.publishServer.publishServerButton")}
           onClick={publish}
         />
       </Show>
@@ -182,7 +187,7 @@ export default function PublishBotAppSettings() {
           class={buttonStyle}
           iconName="delete"
           color="var(--alert-color)"
-          label={"Unpublish"}
+          label={t("servers.settings.publishServer.unpublishServerButton")}
           onClick={deletePublic}
         />
       </Show>

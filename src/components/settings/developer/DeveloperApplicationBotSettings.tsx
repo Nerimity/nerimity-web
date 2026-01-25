@@ -43,7 +43,7 @@ export default function DeveloperApplicationBotSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Developer Application Bot",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
       iconName: "settings",
     });
   });
@@ -67,12 +67,12 @@ export default function DeveloperApplicationBotSettings() {
   const copyToken = async () => {
     if (token()) {
       navigator.clipboard.writeText(token()!);
-      return toast("Copied token to clipboard.");
+      return toast(t("settings.developer.bot.tokenCopied"));
     }
     const res = await getAppBotToken(params.id);
     setToken(res.token);
     navigator.clipboard.writeText(token()!);
-    toast("Copied token to clipboard.");
+    toast(t("settings.developer.bot.tokenCopied"));
   };
 
   const onRefreshClick = async () => {
@@ -80,7 +80,7 @@ export default function DeveloperApplicationBotSettings() {
       .then(async () => {
         const res = await getAppBotToken(params.id);
         setToken(res.token);
-        toast("Token refreshed.");
+        toast(t("settings.developer.bot.tokenRefreshed"));
       })
       .catch((err) => {
         toast(err.message);
@@ -114,17 +114,17 @@ export default function DeveloperApplicationBotSettings() {
             title={application() ? application()!.name : "loading..."}
           />
           <BreadcrumbItem
-            title="Bot"
+            title={t("message.badge.bot")}
             href={showProfilePage() ? "../" : undefined}
           />
           <Show when={showProfilePage()}>
-            <BreadcrumbItem title="Profile" />
+            <BreadcrumbItem title={t("settings.drawer.profile")} />
           </Show>
         </Breadcrumb>
 
         <SettingsBlock
           icon="link"
-          label="Create Invite Link"
+          label={t("settings.developer.bot.createInvite")}
           href="./create-link"
         >
           <Icon name="keyboard_arrow_right" />
@@ -132,20 +132,20 @@ export default function DeveloperApplicationBotSettings() {
 
         <SettingsBlock
           icon="key"
-          label="Token"
+          label={t("settings.developer.bot.token")}
           class={css`
             margin-bottom: 20px;
           `}
         >
-          <Button label="Refresh" onClick={onRefreshClick} iconName="refresh" />
-          <Button onClick={copyToken} label="Copy" iconName="content_copy" />
+          <Button onClick={onRefreshClick} label={t("settings.developer.refreshButton")} iconName="refresh" />
+          <Button onClick={copyToken} label={t("inputFieldActions.copy")} iconName="content_copy" />
         </SettingsBlock>
 
         <Show when={showBotPage()}>
           <SettingsBlock
             icon="explore"
-            label="Publish Bot"
-            description="Publish your bot to the explore page so other users can find it."
+            label={t("settings.developer.bot.publishBot")}
+            description={t("settings.developer.bot.publishBotDescription")}
             href="./publish"
           >
             <Icon name="keyboard_arrow_right" />
