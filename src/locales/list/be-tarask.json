@@ -606,7 +606,7 @@
             "sendButton": "Дасыланьне паведамленьня",
             "exportButton": "Экспарт",
             "importButton": "Імпарт",
-            "exportModal": "Тэма скапіяваная да буфера.",
+            "exportModal": "Тэма скапіяваная да буфэра.",
             "importModal": "Устаўце тэму сюды:"
         },
         "window": {
@@ -1030,7 +1030,7 @@
         },
         "bot": {
             "name": "Карыстач-бот",
-            "description": "Карыстач-бот"
+            "description": "Гэты карыстач ёсьць ботам"
         },
         "credit": {
             "avatarBorder": "Аблямоўка аватара ад {{author}} на {{platform}}",
