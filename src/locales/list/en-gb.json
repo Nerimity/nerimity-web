@@ -419,8 +419,8 @@
                 "bumpServerDescription": "Bump this server to get to the top.",
                 "bumpButton": "Bump ({{count}})",
                 "descriptionLabel": "Server Description ({{current}}/{{max}})",
-                "publishServerButton": "Publish server",
-                "unpublishServerButton": "Unpublish server",
+                "publishServerButton": "Publish",
+                "unpublishServerButton": "Unpublish",
                 "bumpCooldown": "You must wait {{hours}} hours, {{minutes}} minutes, and {{seconds}} seconds to bump this server."
             },
             "verify": {
@@ -744,6 +744,23 @@
             "createBotUser": "Create a new bot user",
             "editBotUser": "Edit bot",
             "createBotUserButton": "Create User",
+            "refreshButton": "Refresh",
+            "bot": {
+                "createInvite": "Create Invite Link",
+                "createLinkButton": "Create Link",
+                "token": "Token",
+                "tokenRefreshed": "Token refreshed.",
+                "tokenCopied": "Copied token to clipboard.",
+                "permissionsDescription": "Manage permissions for this link.",
+                "publishBot": "Publish Bot",
+                "publishBotDescription": "Publish your bot to the explore page so other users can find it.",
+                "publishNotice": "Publishing your bot will make it be available in the <1>explore</1> page.",
+                "bumpBot": "Bump Bot",
+                "bumpBotDescription": "Bump this bot to get it to the top",
+                "bumpBotCooldown": "You must wait {{hours}} hours, {{minutes}} minutes, and {{seconds}} seconds to bump this bot.",
+                "publicDescription": "Make this bot public.",
+                "botDescription": "Bot Description ({{current}}/{{max}})"
+            },
             "oauth2": {
                 "description": "Manage OAuth2",
                 "documentation": "OAuth2 Documentation",
@@ -751,7 +768,6 @@
                 "clientSecret": "Client Secret",
                 "secretRefreshed": "Client secret refreshed.",
                 "secretCopied": "Copied client secret to clipboard.",
-                "refreshButton": "Refresh",
                 "redirectUris": "Redirect URIs",
                 "uri": "URI {{count}}",
                 "generateLink": "Generate Link",

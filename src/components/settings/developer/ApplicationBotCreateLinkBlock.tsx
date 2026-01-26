@@ -51,7 +51,7 @@ export const ApplicationBotCreateLinkBlock = (props: {
       <SettingsBlock
         icon="security"
         label={t("servers.settings.drawer.permissions")}
-        description="Modify permissions for this link."
+        description={t("settings.developer.bot.permissionsDescription")}
         header={true}
         class={css`
           flex-wrap: wrap;
