@@ -649,7 +649,6 @@
                 "clientSecret": "Client-Geheimnis",
                 "secretRefreshed": "Client-Geheimnis aktualisiert.",
                 "secretCopied": "Client-Geheimnis wurde in die Zwischenablage kopiert.",
-                "refreshButton": "Aktualisieren",
                 "redirectUris": "Weiterleitungs-URIs",
                 "uri": "URI {{count}}",
                 "redirectUri": "Weiterleitung URI"

@@ -537,7 +537,6 @@
                 "clientSecret": "Tajny klucz klienta",
                 "secretRefreshed": "Odświeżono tajny klucz klienta.",
                 "secretCopied": "Skopiowano tajny klucz klienta do schowka.",
-                "refreshButton": "Odśwież",
                 "redirectUris": "Przekierowania",
                 "uri": "URI {{count}}",
                 "redirectUri": "Adres Przekierowania"

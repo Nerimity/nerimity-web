@@ -649,7 +649,6 @@
                 "clientSecret": "Сэкрэт кліента",
                 "secretRefreshed": "Сэкрэт кліента быў абноўлены.",
                 "secretCopied": "Сэкрэт кліента скапіяваны да буфэра.",
-                "refreshButton": "Абнавіць",
                 "redirectUris": "Перанакіравальныя URI",
                 "uri": "URI {{count}}",
                 "redirectUri": "Перанакіравальная URI"

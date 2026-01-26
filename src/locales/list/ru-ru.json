@@ -586,7 +586,6 @@
                 "clientSecret": "Секретный ключ клиента",
                 "secretRefreshed": "Секретный ключ клиента был пересоздан.",
                 "secretCopied": "Секретный ключ клиента был скопирован в буфер обмена.",
-                "refreshButton": "Пересоздать",
                 "redirectUris": "Перенаправления на URI",
                 "uri": "URI {{count}}",
                 "redirectUri": "Перенаправлять на URI"
