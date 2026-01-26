@@ -420,7 +420,7 @@ function RightDrawerModeBlock() {
       <SettingsBlock
         label="Header Click To Open"
         icon="highlight_mouse_cursor"
-        description="Open the right drawer by clicking the header button. This will enable swipe to reply."
+        description="Open the right drawer by clicking on the header. This will enable swipe to reply."
         borderTopRadius={false}
         onClick={() => {
           setMode("HEADER_CLICK");
