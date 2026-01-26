@@ -54,6 +54,7 @@ const LanguageItemContainer = styled(ItemContainer)`
 `;
 
 export default function LanguageSettings() {
+  const [t] = useTransContext();
   const { header } = useStore();
   const [, actions] = useTransContext();
   const [search, setSearch] = createSignal("");
