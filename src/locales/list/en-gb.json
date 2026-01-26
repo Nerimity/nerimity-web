@@ -692,7 +692,7 @@
             "customizeColorsDescription": "Edit colours for the current theme.",
             "exportButton": "Export",
             "importButton": "Import",
-            "exportModal": "Copied theme to keyboard.",
+            "exportModal": "Copied theme to clipboard.",
             "importModal": "Paste theme here:",
             "chatBarOptions": "Chat bar Options",
             "voiceMessage": "Voice Message",
