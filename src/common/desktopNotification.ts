@@ -8,7 +8,7 @@ import {
   ServerNotificationPingMode,
 } from "@/chat-api/RawData";
 import env from "./env";
-import { avatarUrl } from "@/chat-api/store/useUsers";
+import { avatarUrl, UserStatus } from "@/chat-api/store/useUsers";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { getSystemMessage } from "./SystemMessage";
 import { Trans } from "@nerimity/solid-i18lite";
@@ -17,11 +17,15 @@ import { getResource, t } from "@nerimity/i18lite";
 export function createDesktopNotification(message: Message) {
   const enabled = getStorageBoolean(
     StorageKeys.ENABLE_DESKTOP_NOTIFICATION,
-    false
+    false,
   );
   if (!enabled) return;
-  const { channels, account, serverMembers } = useStore();
+  const { channels, account, users, serverMembers } = useStore();
   const channel = channels.get(message.channelId);
+
+  const user = () => users.get(account.user()?.id!);
+
+  if (user()?.presence()?.status === UserStatus.DND) return;
 
   const serverId = channel?.serverId;
   const channelId = channel?.id;
@@ -38,7 +42,7 @@ export function createDesktopNotification(message: Message) {
   if (notificationPing === ServerNotificationPingMode.MENTIONS_ONLY) {
     showNotification = false;
     const mentionedMe = message.mentions?.find(
-      (m) => m.id === account.user()?.id
+      (m) => m.id === account.user()?.id,
     );
     if (mentionedMe) {
       showNotification = true;

@@ -1,22 +1,21 @@
 import style from "./MobileBottomPane.module.scss";
-import { createEffect, createSignal, Show } from "solid-js";
+import { createEffect, Show } from "solid-js";
 import { useDrawer } from "./drawer/Drawer";
 import Icon from "./icon/Icon";
 import ItemContainer from "./LegacyItem";
-import { A, useLocation, useMatch } from "solid-navigator";
+import { useLocation, useMatch } from "solid-navigator";
 import { CustomLink } from "./CustomLink";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { FriendStatus } from "@/chat-api/RawData";
 import { updateTitleAlert } from "@/common/BrowserTitle";
-import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import { classNames, cn } from "@/common/classNames";
 import Avatar from "./Avatar";
 import { userStatusDetail } from "@/common/userStatus";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { useReminders } from "../useReminders";
-import { t } from "@nerimity/i18lite";
+import { useTransContext } from "@nerimity/solid-i18lite";
 
 export default function MobileBottomPane() {
   const drawer = useDrawer();
@@ -28,7 +27,7 @@ export default function MobileBottomPane() {
       class={classNames(
         "mobileBottomPane",
         style.container,
-        showPane() ? style.show : undefined
+        showPane() ? style.show : undefined,
       )}
     >
       <HomeItem />
@@ -42,6 +41,7 @@ export default function MobileBottomPane() {
 
 function HomeItem() {
   const { inbox, friends, servers, mentions } = useStore();
+  const [t] = useTransContext();
   const { hasActiveReminder } = useReminders();
 
   const location = useLocation();
@@ -64,7 +64,7 @@ function HomeItem() {
       hasActiveReminder() || count() || servers.hasNotifications()
         ? true
         : false,
-      count() + mentions.count()
+      count() + mentions.count(),
     );
   });
 
@@ -80,6 +80,8 @@ function HomeItem() {
 }
 function SettingsItem() {
   const { tickets } = useStore();
+  const [t] = useTransContext();
+
   return (
     <AnchorItem
       title={t("settings.drawer.title")}
@@ -94,6 +96,7 @@ function SettingsItem() {
 
 function ModerationItem() {
   const { account, tickets } = useStore();
+  const [t] = useTransContext();
 
   const hasModeratorPerm = () => account.hasModeratorPerm(true);
 
@@ -168,8 +171,8 @@ function Notify(props: { notify?: ItemProps["notify"] }) {
 
 function UserItem() {
   const { account, users } = useStore();
-  const drawer = useDrawer();
   const { createPortal, createRegisteredPortal } = useCustomPortal();
+  const [t] = useTransContext();
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!);
@@ -199,7 +202,7 @@ function UserItem() {
         userId: userId(),
       },
       "profile-pane-flyout-" + userId(),
-      true
+      true,
     );
   };
 
@@ -221,7 +224,7 @@ function UserItem() {
             name="autorenew"
             class={cn(
               style.connectingIcon,
-              isAuthenticating() ? style.authenticatingIcon : undefined
+              isAuthenticating() ? style.authenticatingIcon : undefined,
             )}
             size={24}
           />

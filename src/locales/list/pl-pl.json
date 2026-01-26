@@ -506,7 +506,11 @@
             "voiceMessage": "Wiadomość Głosowa",
             "gifPicker": "Selektor GIFów",
             "emojiPicker": "Selektor Emoji",
-            "sendButton": "Wyślij Wiadomość"
+            "sendButton": "Wyślij Wiadomość",
+            "exportButton": "Eksportuj",
+            "importButton": "Importuj",
+            "exportModal": "Skopiowano motyw do schowka.",
+            "importModal": "Wklej tu motyw:"
         },
         "window": {
             "downloadAppNotice": "W celu zmiany tych ustawień musisz zainstalować aplikację Nerimity na komputery.",
@@ -527,8 +531,31 @@
         "developer": {
             "oauth2": {
                 "description": "Zarządzaj opcją OAuth2",
-                "title": "OAuth2",
-                "generateLink": "Wygeneruj Link"
+                "generateLink": "Wygeneruj Link",
+                "documentation": "Dokumentacja OAuth2",
+                "clientId": "ID Klienta",
+                "clientSecret": "Tajny klucz klienta",
+                "secretRefreshed": "Odświeżono tajny klucz klienta.",
+                "secretCopied": "Skopiowano tajny klucz klienta do schowka.",
+                "redirectUris": "Przekierowania",
+                "uri": "URI {{count}}",
+                "redirectUri": "Adres Przekierowania"
+            },
+            "applicationsDescription": "Twórz boty na Nerimity.",
+            "apiDocumentation": "Dokumentacja API (niekompletna)",
+            "addButton": "Dodaj Aplikację",
+            "name": "Nazwa Aplikacji",
+            "appClientId": "Aplikacja/ID Klienta",
+            "botUser": "Użytkownik - Bot",
+            "createBotUser": "Stwórz nowe konto użytkownika dla bota",
+            "editBotUser": "Edytuj bota",
+            "createBotUserButton": "Stwórz Użytkownika",
+            "deleteApplication": {
+                "title": "Usuń Aplikację",
+                "willNotGetDeleted": "Co nie zostanie usunięte:",
+                "andMore": "• I więcej",
+                "willNotGetDeletedDescription": "Możesz je ręcznie usunąć przed usunięciem aplikacji.",
+                "deleteAppButton": "Usuń tę aplikację"
             }
         },
         "activity": {
@@ -1002,7 +1029,7 @@
         },
         "bot": {
             "name": "Użytkownik - Bot",
-            "description": "Użytkownik - Bot"
+            "description": "Ten użytkownik jest botem"
         },
         "credit": {
             "avatarBorder": "Obramowanie awatara od {{author}} na {{platform}}",

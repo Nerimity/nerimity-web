@@ -606,7 +606,7 @@
             "sendButton": "Дасыланьне паведамленьня",
             "exportButton": "Экспарт",
             "importButton": "Імпарт",
-            "exportModal": "Тэма скапіяваная да буфера.",
+            "exportModal": "Тэма скапіяваная да буфэра.",
             "importModal": "Устаўце тэму сюды:"
         },
         "window": {
@@ -643,8 +643,31 @@
         "developer": {
             "oauth2": {
                 "description": "Кіраваньне OAuth2",
-                "title": "OAuth2",
-                "generateLink": "Згенерыраваць спасылку"
+                "generateLink": "Згенерыраваць спасылку",
+                "documentation": "Дакумэнтацыя OAuth2",
+                "clientId": "ID кліента",
+                "clientSecret": "Сэкрэт кліента",
+                "secretRefreshed": "Сэкрэт кліента быў абноўлены.",
+                "secretCopied": "Сэкрэт кліента скапіяваны да буфэра.",
+                "redirectUris": "Перанакіравальныя URI",
+                "uri": "URI {{count}}",
+                "redirectUri": "Перанакіравальная URI"
+            },
+            "applicationsDescription": "Стварайце ботаў для Nerimity.",
+            "apiDocumentation": "Дакумэнтацыя API (няпоўная)",
+            "addButton": "Дадаць аплікацыю",
+            "name": "Назва аплікацыйі",
+            "appClientId": "ID аплікацыйі/кліента",
+            "botUser": "Профіль бота",
+            "createBotUser": "Стварыць новага бота",
+            "editBotUser": "Рэдагаваць бота",
+            "createBotUserButton": "Стварыць бота",
+            "deleteApplication": {
+                "title": "Выдаленьне аплікацыйі",
+                "willNotGetDeleted": "Што не будзе выдалена:",
+                "andMore": "• і больш",
+                "willNotGetDeletedDescription": "Вы можаце уласнаруч выдаліць іх перад выдаленьнем вашае аплікацыйі.",
+                "deleteAppButton": "Выдаліць гэтую аплікацыю"
             }
         },
         "badges": {
@@ -1006,7 +1029,7 @@
         },
         "bot": {
             "name": "Карыстач-бот",
-            "description": "Карыстач-бот"
+            "description": "Гэты карыстач ёсьць ботам"
         },
         "credit": {
             "avatarBorder": "Аблямоўка аватара ад {{author}} на {{platform}}",
@@ -1118,11 +1141,11 @@
                 "descending": "Па ўбываньні"
             }
         },
-        "inVoice": "У выкліку",
+        "inVoice": "Выклік ідзе",
         "addChannel": "Дадаць канал"
     },
     "inVoiceActions": {
-        "connectedFor": "Выклік ідзе"
+        "connectedFor": "У выкліку"
     },
     "inputFieldActions": {
         "copy": "Скапіяваць",

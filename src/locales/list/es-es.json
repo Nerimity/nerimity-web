@@ -427,11 +427,11 @@
         },
         "channelPermissions": {
             "publicChannel": "Canal público",
-            "publicChannelDescription": "Permite el acceso al canal. Los administradores del servidor pueden acceder a cualquier canal.",
+            "publicChannelDescription": "Habilita el acceso al canal. Los administradores del servidor pueden acceder a cualquier canal.",
             "sendMessage": "Enviar mensajes",
-            "sendMessageDescription": "Permite enviar mensajes en el canal. Los administradores del servidor aún pueden enviar mensajes.",
+            "sendMessageDescription": "Habilita el envío de mensajes en el canal. Los administradores del servidor aún pueden enviar mensajes.",
             "joinVoice": "Unirse a canal de voz",
-            "joinVoiceDescription": "Permite unirse a los canales de voz en este canal. Los administradores del servidor aún pueden unirse a los canales de voz.",
+            "joinVoiceDescription": "Habilita unirse al canal de voz de este canal. Los administradores del servidor aún pueden unirse a los canales de voz.",
             "hiddenChannel": "Canal oculto"
         }
     },
@@ -450,8 +450,8 @@
             "changelog": "Registro de cambios",
             "window-settings": "Configuración de aplicación",
             "call-settings": "Configuración de llamadas",
-            "activity-status": "Estatus de actividad",
-            "tickets": "Tickets",
+            "activity-status": "Estado de actividad",
+            "tickets": "Ayuda y soporte",
             "privacy": "Privacidad",
             "connections": "Conexiones",
             "profile": "Perfil"
@@ -459,8 +459,8 @@
         "language": {
             "reloadNotice": "Debes recargar la aplicación para aplicar completamente el nuevo idioma.",
             "reloadButton": "Recargar",
-            "contributors": "Colaboradores",
-            "searchNotice": "Las traducciones son mantenidas por la comunidad. Por favor, reporta cualquier traducción que sea incorrecta o inapropiada a Nerimity."
+            "contributors": "Contribuyentes",
+            "searchNotice": "Las traducciones son gestionadas por la comunidad. Se ruega notificar a Nerimity cualquier traducción que resulte incorrecta o inapropiada."
         },
         "header": {
             "servers": "servidores",
@@ -472,7 +472,7 @@
             "botID": "ID del bot",
             "profile": "Perfil",
             "profileDescription": "Edita tu biografía o los colores de tu perfil",
-            "palestineBorder": "Añadir un borde de Palestina a tu avatar.",
+            "palestineBorder": "Agregar la bandera de Palestina a tu avatar.",
             "bio": "Biografía",
             "bioDescription": "Compatible con markup y multiline",
             "gradientColor1": "Gradiente de color 1",
@@ -606,7 +606,7 @@
             "sendButton": "Enviar mensaje",
             "exportButton": "Exportar",
             "importButton": "Importar",
-            "exportModal": "El tema se ha copiado al teclado.",
+            "exportModal": "El tema se ha copiado al portapapeles.",
             "importModal": "Pega el tema aquí:"
         },
         "window": {
@@ -643,8 +643,31 @@
         "developer": {
             "oauth2": {
                 "description": "Gestionar OAuth2",
-                "title": "OAuth2",
-                "generateLink": "Generar link"
+                "generateLink": "Generar link",
+                "documentation": "Documentación de OAuth2",
+                "clientId": "ID del cliente",
+                "clientSecret": "Clave secreta del cliente",
+                "secretRefreshed": "La clave secreta del cliente ha sido renovada.",
+                "secretCopied": "La clave secreta del cliente se ha copiado en el portapapeles.",
+                "redirectUris": "URLs de redirección",
+                "uri": "URL {{count}}",
+                "redirectUri": "URI de redirección"
+            },
+            "applicationsDescription": "Crea bots para Nerimity.",
+            "apiDocumentation": "Documentación de la API (incompleta)",
+            "addButton": "Añadir aplicación",
+            "name": "Nombre de la aplicación",
+            "appClientId": "ID de la aplicación / cliente",
+            "botUser": "Usuario bot",
+            "createBotUser": "Crea un nuevo usuario bot",
+            "editBotUser": "Editar bot",
+            "createBotUserButton": "Crear usuario",
+            "deleteApplication": {
+                "title": "Eliminar aplicación",
+                "willNotGetDeleted": "Elementos que no se eliminarán:",
+                "andMore": "• Y más",
+                "willNotGetDeletedDescription": "Puede eliminarlos manualmente antes de eliminar su aplicación.",
+                "deleteAppButton": "Eliminar esta aplicación"
             }
         },
         "badges": {
@@ -1006,7 +1029,7 @@
         },
         "bot": {
             "name": "Usuario bot",
-            "description": "Usuario bot"
+            "description": "Este usuario es un bot"
         },
         "credit": {
             "avatarBorder": "Borde de avatar hecho por {{author}} en {{platform}}",

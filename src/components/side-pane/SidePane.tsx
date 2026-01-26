@@ -10,7 +10,6 @@ import { FriendStatus } from "../../chat-api/RawData";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { userStatusDetail } from "../../common/userStatus";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import { updateTitleAlert } from "@/common/BrowserTitle";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { useAppVersion } from "@/common/useAppVersion";
@@ -33,13 +32,14 @@ import { useReminders } from "../useReminders";
 import { userDetailsPreloader } from "@/common/createPreloader";
 import { useDrawer } from "../ui/drawer/Drawer";
 import { InboxList } from "./InboxList";
-import { t } from "@nerimity/i18lite";
+import { useTransContext } from "@nerimity/solid-i18lite";
 
 export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;
   const { createPortal } = useCustomPortal();
   const { isMobileWidth } = useWindowProperties();
   const { hasLeftDrawer, hideLeftDrawer } = useDrawer();
+  const [t] = useTransContext();
 
   const showAddServerModal = () => {
     createPortal?.((close) => <AddServerModal close={close} />);
@@ -59,7 +59,7 @@ export default function SidePane(props: { class?: string }) {
       class={cn(
         style.sidePane,
         isMobileWidth() ? style.mobile : undefined,
-        props.class
+        props.class,
       )}
       style={
         isMobileWidth()
@@ -96,7 +96,9 @@ export default function SidePane(props: { class?: string }) {
 }
 
 function HomeItem(props: { size: number }) {
-  const { inbox, friends, servers, mentions } = useStore();
+  const { friends, servers, mentions } = useStore();
+  const [t] = useTransContext();
+
   const location = useLocation();
   const { hasActiveReminder } = useReminders();
   const isSelected = () => {
@@ -117,7 +119,7 @@ function HomeItem(props: { size: number }) {
       hasActiveReminder() || count() || servers.hasNotifications()
         ? true
         : false,
-      count() + mentions.count()
+      count() + mentions.count(),
     );
   });
 
@@ -138,6 +140,8 @@ function UpdateItem(props: { size: number }) {
   const { checkForUpdate, updateAvailable } = useAppVersion();
   const { createPortal } = useCustomPortal();
   const { hasFocus } = useWindowProperties();
+  const [t] = useTransContext();
+
   let lastChecked = 0;
 
   createEffect(
@@ -148,7 +152,7 @@ function UpdateItem(props: { size: number }) {
         lastChecked = now;
         checkForUpdate();
       }
-    })
+    }),
   );
 
   const showUpdateModal = () =>
@@ -171,6 +175,7 @@ function UpdateItem(props: { size: number }) {
 function ModerationItem(props: { size: number }) {
   const { account, tickets } = useStore();
   const hasModeratorPerm = () => account.hasModeratorPerm(true);
+  const [t] = useTransContext();
 
   const selected = useMatch(() => "/app/moderation/*");
 
@@ -192,6 +197,7 @@ function ModerationItem(props: { size: number }) {
 
 function SettingsItem(props: { size: number }) {
   const { tickets } = useStore();
+  const [t] = useTransContext();
 
   const selected = useMatch(() => "/app/settings/*");
 
@@ -214,6 +220,7 @@ const UserItem = (props: { size: number }) => {
   const { createPortal, createRegisteredPortal, isPortalOpened } =
     useCustomPortal();
   const [hovered, setHovered] = createSignal(false);
+  const [t] = useTransContext();
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!);
@@ -257,7 +264,7 @@ const UserItem = (props: { size: number }) => {
         userId: userId(),
       },
       "profile-pane-flyout-" + userId(),
-      true
+      true,
     );
   };
 
@@ -280,7 +287,7 @@ const UserItem = (props: { size: number }) => {
           class={classNames(
             style.user,
             "sidePaneUser",
-            "trigger-profile-flyout"
+            "trigger-profile-flyout",
           )}
           onclick={onClicked}
           selected={modalOpened()}
@@ -330,6 +337,7 @@ const UserItem = (props: { size: number }) => {
 
 function UpdateModal(props: { close: () => void }) {
   const { latestRelease } = useAppVersion();
+  const [t] = useTransContext();
 
   const isRelease = env.APP_VERSION?.startsWith("v");
 

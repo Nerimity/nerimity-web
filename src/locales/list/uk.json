@@ -226,7 +226,7 @@
             "lifetimeBumpCount": "{{count}} підняттів за весь час",
             "visitServerButton": "Зайти",
             "joinServerButton": "Вступити",
-            "bumpButton": "Підняти"
+            "bumpButton": "Підняти ({{count}})"
         },
         "sort": "Сортування",
         "filter": "Фільтрування",

@@ -530,7 +530,11 @@
             "sendButton": "Envoyer un message",
             "timeTitle": "Changer le format de l'heure",
             "12HourFormatDescription": "Afficher l'heure au format 12 heures avec AM/PM.",
-            "24HourFormatDescription": "Afficher l'heure au format 24 heures."
+            "24HourFormatDescription": "Afficher l'heure au format 24 heures.",
+            "exportButton": "Exporter",
+            "importButton": "Importer",
+            "exportModal": "Thème copié sur le clavier.",
+            "importModal": "Collez le thème ici :"
         },
         "window": {
             "downloadAppNotice": "Pour modifier ces paramètres, vous devez télécharger l'application de bureau Nerimity.",
@@ -566,7 +570,6 @@
         "developer": {
             "oauth2": {
                 "description": "Gérer OAuth2",
-                "title": "OAuth2",
                 "generateLink": "Générer un lien"
             }
         },
@@ -664,7 +667,8 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Êtes-vous sûr de vouloir supprimer cette publication?"
+            "message": "Êtes-vous sûr de vouloir supprimer cette publication?",
+            "title": "Supprimer le post?"
         },
         "postWasDeleted": "Cette publication a été supprimé!",
         "someoneLikedYourPost": "<1>{{username}}</1> a aimé votre publication!",
@@ -676,7 +680,25 @@
         "createButton": "Créer",
         "someoneRepostedYourPost": "<1>{{username}}</1> a republié votre message !",
         "pollOptions": "Options de sondage",
-        "optionNumberPlaceholder": "Option {{number}}"
+        "optionNumberPlaceholder": "Option {{number}}",
+        "title": "Poste",
+        "viewCount": "Vues estimées",
+        "voteButton": "Voter",
+        "voteCount": "{{count}} vote(s)",
+        "copyPostButton": "Copier le post",
+        "sections": {
+            "replies": "Réponses ({{count}})",
+            "likes": "Likes ({{count}})",
+            "reposts": "Reposts ({{count}})"
+        },
+        "editPostModalTitle": "Modifier le post",
+        "sort": {
+            "latest": "Dernier",
+            "mostLiked7Days": "Les plus appréciés (7 jours)",
+            "mostLiked30Days": "Les plus appréciés (30 jours)",
+            "mostLikedAllTime": "Les plus appréciés (de tous les temps)"
+        },
+        "postWarning": "Les contenus faisant l'apologie de l'automutilation sont interdits, des mesures seront prises à l'encontre du compte."
     },
     "systemMessages": {
         "joinServer": {
