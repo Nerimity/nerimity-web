@@ -649,7 +649,6 @@
                 "clientSecret": "Clave secreta del cliente",
                 "secretRefreshed": "La clave secreta del cliente ha sido renovada.",
                 "secretCopied": "La clave secreta del cliente se ha copiado en el portapapeles.",
-                "refreshButton": "Renovar",
                 "redirectUris": "URLs de redirección",
                 "uri": "URL {{count}}",
                 "redirectUri": "URI de redirección"
