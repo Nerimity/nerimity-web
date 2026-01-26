@@ -24,7 +24,6 @@ import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
 import { Emoji } from "../markup/Emoji";
 import { CustomLink } from "../ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import { t } from "@nerimity/i18lite";
 import { Notice } from "../ui/Notice/Notice";
 import Button from "../ui/Button";
 import en from "@/locales/list/en-gb.json?raw";
@@ -54,12 +53,13 @@ const LanguageItemContainer = styled(ItemContainer)`
 `;
 
 export default function LanguageSettings() {
+  const [t] = useTransContext();
   const { header } = useStore();
   const [, actions] = useTransContext();
   const [search, setSearch] = createSignal("");
 
   const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(
-    getCurrentLanguage() || "en_gb"
+    getCurrentLanguage() || "en_gb",
   );
 
   const [percentTranslated, setPercentTranslated] = createSignal(0);
@@ -197,7 +197,7 @@ function LanguageItem(props: {
   const handlePercentClick = async () => {
     window.open(
       "https://hosted.weblate.org/projects/nerimity/-/" + props.key,
-      "_blank"
+      "_blank",
     );
     // createPortal((close) => (
     //   <TranslateModal close={close} language={props.key} />
@@ -257,6 +257,7 @@ const ContributorContainer = styled(FlexRow)`
 `;
 
 function Contributors(props: { contributors: string[] }) {
+  const [t] = useTransContext();
   return (
     <FlexRow>
       <Text size={14} style={{ "margin-right": "5px" }}>
@@ -302,56 +303,56 @@ function lastPath(url: string) {
   return split[split.length - 1];
 }
 
-let rawEn: Record<string, string> | null = null;
-let translatedLang: Record<string, string> | null = null;
+// let rawEn: Record<string, string> | null = null;
+// let translatedLang: Record<string, string> | null = null;
 
-const TranslateModal = (props: { language: string; close: () => void }) => {
-  let iframe: HTMLIFrameElement | undefined;
+// const TranslateModal = (props: { language: string; close: () => void }) => {
+//   let iframe: HTMLIFrameElement | undefined;
 
-  const fetchLocaleFromGithub = async (language: string) => {
-    return await fetch(
-      `https://raw.githubusercontent.com/Nerimity/nerimity-web/refs/heads/main/src/locales/list/${language}.json`
-    ).then((res) => res.json());
-  };
+//   const fetchLocaleFromGithub = async (language: string) => {
+//     return await fetch(
+//       `https://raw.githubusercontent.com/Nerimity/nerimity-web/refs/heads/main/src/locales/list/${language}.json`,
+//     ).then((res) => res.json());
+//   };
 
-  const handleIframeLoad = async () => {
-    rawEn = rawEn || (await fetchLocaleFromGithub("en-gb"));
-    translatedLang = await fetchLocaleFromGithub(props.language);
+//   const handleIframeLoad = async () => {
+//     rawEn = rawEn || (await fetchLocaleFromGithub("en-gb"));
+//     translatedLang = await fetchLocaleFromGithub(props.language);
 
-    iframe?.contentWindow?.postMessage(
-      { default: rawEn, translated: translatedLang },
-      "https://supertigerdev.github.io/i18n-tool/"
-    );
-  };
+//     iframe?.contentWindow?.postMessage(
+//       { default: rawEn, translated: translatedLang },
+//       "https://supertigerdev.github.io/i18n-tool/",
+//     );
+//   };
 
-  return (
-    <Modal.Root
-      close={props.close}
-      doNotCloseOnBackgroundClick
-      desktopMaxWidth={860}
-      class={css`
-        width: 90vw;
-      `}
-    >
-      <Modal.Header
-        title={t("settings.language.translateModal.title")}
-        icon="translate"
-      />
-      <Modal.Body
-        class={css`
-          height: 90vh;
-        `}
-      >
-        <iframe
-          src="https://supertigerdev.github.io/i18n-tool/"
-          height="100%"
-          width="100%"
-          ref={iframe}
-          onLoad={() => handleIframeLoad()}
-          frameBorder="0"
-          id="iframe"
-        />
-      </Modal.Body>
-    </Modal.Root>
-  );
-};
+//   return (
+//     <Modal.Root
+//       close={props.close}
+//       doNotCloseOnBackgroundClick
+//       desktopMaxWidth={860}
+//       class={css`
+//         width: 90vw;
+//       `}
+//     >
+//       <Modal.Header
+//         title={tt("settings.language.translateModal.title")}
+//         icon="translate"
+//       />
+//       <Modal.Body
+//         class={css`
+//           height: 90vh;
+//         `}
+//       >
+//         <iframe
+//           src="https://supertigerdev.github.io/i18n-tool/"
+//           height="100%"
+//           width="100%"
+//           ref={iframe}
+//           onLoad={() => handleIframeLoad()}
+//           frameBorder="0"
+//           id="iframe"
+//         />
+//       </Modal.Body>
+//     </Modal.Root>
+//   );
+// };
