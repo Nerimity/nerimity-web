@@ -302,15 +302,15 @@
                 "uses": "{{count}} выкарыстаньня(ў)"
             },
             "publishServer": {
-                "publishNotice": "Пасьля публікацыйі, сэрвэр зьявіцца ва ўкладцы <1>«Дасьледаваць»</1>.",
+                "publishNotice": "Пасьля публікацыйі сэрвэр зьявіцца ва ўкладцы <1>«Дасьледаваць»</1>.",
                 "public": "Публічны",
                 "publicDescription": "Зрабіць гэты сэрвэр публічным.",
                 "bumpServer": "Усхваліць сэрвэр",
-                "bumpServerDescription": "Падтрымайце сэрвэр, каб ён падняўся ўгору.",
+                "bumpServerDescription": "Усхваліце сэрвэр, каб ён падняўся ўгору.",
                 "bumpButton": "Усхваліць ({{count}})",
                 "descriptionLabel": "Апісаньне сэрвэра ({{current}}/{{max}})",
-                "publishServerButton": "Апублікаваць сэрвэр",
-                "unpublishServerButton": "Зрабіць сэрвэр прыватным",
+                "publishServerButton": "Апублікаваць",
+                "unpublishServerButton": "Зрабіць прыватным",
                 "bumpCooldown": "Вы мусіце пачакаць {{hours}} гадзін, {{minutes}} хвілін, і {{seconds}} сякунд каб усхваліць гэты сэрвэр."
             },
             "verify": {
@@ -668,6 +668,23 @@
                 "andMore": "• і больш",
                 "willNotGetDeletedDescription": "Вы можаце уласнаруч выдаліць іх перад выдаленьнем вашае аплікацыйі.",
                 "deleteAppButton": "Выдаліць гэтую аплікацыю"
+            },
+            "refreshButton": "Абнавіць",
+            "bot": {
+                "createInvite": "Стварэньне запрашальнае спыслкі",
+                "createLinkButton": "Стварыць спасылку",
+                "token": "Токэн",
+                "tokenRefreshed": "Токэн быў абноўлены.",
+                "tokenCopied": "Токэн скапіяваны да буфэра.",
+                "permissionsDescription": "Кіраваньне дазволамі гэтае спасылкі.",
+                "publishBot": "Публікацыя бота",
+                "publishBotDescription": "Дадайце свайго бота на старонку дасьледваньня, каб яго маглі зьнайсьці йншыя карыстачы.",
+                "publishNotice": "Пасьля публікацыйі бот зьявіцца ва ўкладцы <1>«Дасьледаваць»</1>.",
+                "bumpBot": "Усхваліць бота",
+                "bumpBotDescription": "Усхваліце бота, каб ён падняўся ўгору",
+                "bumpBotCooldown": "Вы мусіце пачакаць {{hours}} гадзін, {{minutes}} хвілін, і {{seconds}} сякунд каб усхваліць гэтага бота.",
+                "publicDescription": "Зрабіце гэтага бота публічным.",
+                "botDescription": "Апісаньне бота {{current}}/{{max}})"
             }
         },
         "badges": {
@@ -796,7 +813,8 @@
         "markUnread": "Пазначыць непрачытаным",
         "pinMessage": "Замацаваць",
         "unpinMessage": "Адмацаваць",
-        "copyHTML": "Скапіяваць як HTML"
+        "copyHTML": "Скапіяваць як HTML",
+        "copyMessageLink": "Скапіяваць спасылку на паведамленьне"
     },
     "profile": {
         "followButton": "Падпісацца",
@@ -869,7 +887,7 @@
             "mostLiked30Days": "Найбольш упадабаньняў (за 30 дзён)",
             "mostLikedAllTime": "Найбольш упадабаньняў (за ўвесь час)"
         },
-        "postWarning": "Самашкодніцтва забаронена, на ўліковы запіс будуць накладзены абмежаваньні."
+        "postWarning": "Самашкодніцтва забароненае, на ўліковы запіс будуць накладзеныя абмежаваньні."
     },
     "informationDrawer": {
         "channelNotice": "Папярэджаньне каналу",
