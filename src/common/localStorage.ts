@@ -35,13 +35,14 @@ export const StorageKeys = {
   MENTION_REPLIES: "mentionReplies",
   TIME_FORMAT: "timeFormat",
   DASHBOARD_POST_SORT: "dashboardPostSort",
+  rightDrawerMode: "rightDrawerMode",
 } as const;
 
 export type StorageKeys = (typeof StorageKeys)[keyof typeof StorageKeys];
 
 export function getStorageBoolean(
   key: StorageKeys,
-  defaultValue: boolean
+  defaultValue: boolean,
 ): boolean {
   const value = localStorage.getItem(key);
   if (!value) return defaultValue;
@@ -95,7 +96,7 @@ export function removeStorage(key: StorageKeys) {
 export function useLocalStorage<T>(
   key: StorageKeys,
   defaultValue: T,
-  stringMode = false
+  stringMode = false,
 ) {
   const [value, setValue] = createSignal<T>(defaultValue);
 
@@ -116,12 +117,12 @@ export function useLocalStorage<T>(
 type VoiceInputMode = "OPEN" | "VOICE_ACTIVITY" | "PTT";
 const voiceInputMode = useLocalStorage<VoiceInputMode>(
   StorageKeys.voiceInputMode,
-  "VOICE_ACTIVITY"
+  "VOICE_ACTIVITY",
 );
 
 const collapsedServerCategories = useLocalStorage<string[]>(
   StorageKeys.COLLAPSED_SERVER_CATEGORIES,
-  []
+  [],
 );
 
 export const useCollapsedServerCategories = () => collapsedServerCategories;
@@ -136,3 +137,9 @@ export const useChatBarOptions = () => {
     "send",
   ] as const);
 };
+
+type RightDrawerMode = "SWIPE" | "HEADER_CLICK";
+export const rightDrawerMode = useLocalStorage<RightDrawerMode>(
+  StorageKeys.rightDrawerMode,
+  "SWIPE",
+);

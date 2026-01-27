@@ -2,6 +2,7 @@ import { createEffect, For, Show } from "solid-js";
 
 import useStore from "@/chat-api/store/useStore";
 import {
+  rightDrawerMode,
   StorageKeys,
   useChatBarOptions,
   useLocalStorage,
@@ -30,9 +31,11 @@ import { useNavigate } from "solid-navigator";
 import { FlexColumn } from "../ui/Flexbox";
 import { timeFormat, setTimeFormat } from "@/common/date";
 import { toast } from "../ui/custom-portal/CustomPortal";
+import { RadioBoxItem } from "../ui/RadioBox";
 
 export default function InterfaceSettings() {
   const { header } = useStore();
+  const { isMobileAgent } = useWindowProperties();
 
   createEffect(() => {
     header.updateHeader({
@@ -52,6 +55,9 @@ export default function InterfaceSettings() {
       <TimeFormatSetting />
       <BlurEffect />
       <ChatBar />
+      <Show when={isMobileAgent()}>
+        <RightDrawerModeBlock />
+      </Show>
       <CustomizeColors />
       <SettingsBlock
         icon="code"
@@ -85,7 +91,7 @@ export function ThemesBlock() {
                 class={style.themeCard}
                 style={{
                   "background-color": colors["pane-color"],
-                  color: colors["text-color"] ||DefaultTheme["text-color"],
+                  color: colors["text-color"] || DefaultTheme["text-color"],
                 }}
               >
                 <div class={style.themeName}>{name}</div>
@@ -320,7 +326,9 @@ function CustomizeColors() {
   };
 
   const importTheme = () => {
-    const theme = JSON.parse(prompt(t("settings.interface.importModal"))! as string) as Theme;
+    const theme = JSON.parse(
+      prompt(t("settings.interface.importModal"))! as string,
+    ) as Theme;
     setCustomColors(theme);
     updateTheme();
   };
@@ -385,5 +393,44 @@ function CustomizeColors() {
         )}
       </For>
     </div>
+  );
+}
+
+function RightDrawerModeBlock() {
+  const [mode, setMode] = rightDrawerMode;
+  return (
+    <FlexColumn>
+      <SettingsBlock icon="right_panel_open" label="Right Drawer Mode" header />
+
+      <SettingsBlock
+        label="Swipe To Open"
+        description="Open the right drawer by swiping from the right edge. This will disable swipe to reply."
+        borderTopRadius={false}
+        icon="swipe"
+        borderBottomRadius={false}
+        onClick={() => {
+          setMode("SWIPE");
+        }}
+      >
+        <RadioBoxItem
+          selected={mode() === "SWIPE"}
+          item={{ id: 0, label: "" }}
+        />
+      </SettingsBlock>
+      <SettingsBlock
+        label="Header Click To Open"
+        icon="highlight_mouse_cursor"
+        description="Open the right drawer by clicking on the header. This will enable swipe to reply."
+        borderTopRadius={false}
+        onClick={() => {
+          setMode("HEADER_CLICK");
+        }}
+      >
+        <RadioBoxItem
+          selected={mode() === "HEADER_CLICK"}
+          item={{ id: 0, label: "" }}
+        />
+      </SettingsBlock>
+    </FlexColumn>
   );
 }

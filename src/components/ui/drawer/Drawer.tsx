@@ -15,14 +15,12 @@ import {
   Show,
   useContext,
 } from "solid-js";
-import env from "@/common/env";
 import SidePane from "@/components/side-pane/SidePane";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { matchComponent, useLocation } from "solid-navigator";
 import { GlobalEventName, useEventListen } from "@/common/GlobalEvents";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
-import { useResizeObserver } from "@/common/useResizeObserver";
-import { StorageKeys, useLocalStorage } from "@/common/localStorage";
+import { rightDrawerMode, StorageKeys } from "@/common/localStorage";
 import { useResizeBar } from "../ResizeBar";
 
 interface DrawerLayoutProps {
@@ -80,6 +78,8 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const hasLeftDrawer = createMemo(() => !!LeftDrawerComponent());
   const hasRightDrawer = createMemo(() => !!RightDrawerComponent());
 
+  const [getRightDrawerMode] = rightDrawerMode;
+
   let transformString: string;
   let animationFrame: number;
   const setTransformX = (value: number) => {
@@ -104,7 +104,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
       onCleanup(() => {
         removeEvents();
       });
-    })
+    }),
   );
 
   const addEvents = () => {
@@ -191,18 +191,23 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   let ignoreDistance = false;
 
   const onTouchMove = (event: TouchEvent) => {
+    // Cancel previous animation frame
     if (animationFrame) {
       window.cancelAnimationFrame(animationFrame);
     }
+
     animationFrame = window.requestAnimationFrame(() => {
       if (pauseTouches) {
         window.removeEventListener("touchmove", onTouchMove, false);
         return;
       }
+
+      // Get current touch coordinates
       const x = event.touches[0]!.clientX;
       const y = event.touches[0]!.clientY;
       const touchDistance = x - startPos.x;
 
+      // Detect vertical scrolling
       const XDistance = Math.abs(startTransformX - transformX);
       const YDistance = Math.abs(y - startPos.y);
       if (XDistance <= 3 && YDistance >= 7 && !ignoreDistance)
@@ -210,28 +215,43 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
       ignoreDistance = true;
 
+      // Clamp position when on left drawer page
       if (currentPage() === 0 && -touchDistance >= rightDrawerWidth()) {
         return setTransformX(-rightDrawerWidth());
       }
 
+      // Block right drawer swipe when not in swipe mode
+      if (
+        getRightDrawerMode() !== "SWIPE" &&
+        currentPage() === 1 &&
+        -touchDistance >= leftDrawerWidth()
+      ) {
+        return setTransformX(-leftDrawerWidth());
+      }
+
+      // Clamp position when on right drawer page
       if (currentPage() === 2 && -touchDistance <= rightDrawerWidth()) {
         return setTransformX(-rightDrawerWidth());
       }
 
+      // Reset to center when swiping right
       if (touchDistance >= 0) {
         startPos.x = x;
         return setTransformX(0);
       }
 
+      // Clamp position when no right drawer exists
       if (!hasRightDrawer() && -touchDistance >= leftDrawerWidth()) {
         return setTransformX(-leftDrawerWidth());
       }
 
+      // Clamp maximum left swipe distance
       if (touchDistance <= -totalWidth() + width()) {
         startPos.x = x - transformX;
         return setTransformX(-totalWidth() + width());
       }
 
+      // Update position based on touch movement
       setTransformX(touchDistance);
     });
   };
@@ -347,7 +367,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
       <div
         class={classNames(
           styles.drawerLayout,
-          conditionalClass(isMobileWidth(), styles.mobile)
+          conditionalClass(isMobileWidth(), styles.mobile),
         )}
       >
         <div
@@ -364,10 +384,10 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
               width: isMobileWidth()
                 ? leftDrawerWidth() + "px"
                 : hasLeftDrawer()
-                ? hideLeftDrawer()
-                  ? "initial"
-                  : leftDrawerResizeBar.width() + "px"
-                : "initial",
+                  ? hideLeftDrawer()
+                    ? "initial"
+                    : leftDrawerResizeBar.width() + "px"
+                  : "initial",
               display: "flex",
               gap: "4px",
               "flex-shrink": 0,
@@ -377,7 +397,9 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
             <SidePane
               class={cn(
                 styles.sideBar,
-                hasLeftDrawer() && !hideLeftDrawer() ? styles.hasLeftDrawer : ""
+                hasLeftDrawer() && !hideLeftDrawer()
+                  ? styles.hasLeftDrawer
+                  : "",
               )}
             />
             {hasLeftDrawer() && (
@@ -385,7 +407,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
                 <div
                   class={cn(
                     styles.leftDrawer,
-                    isMobileWidth() && "mobileWidth"
+                    isMobileWidth() && "mobileWidth",
                   )}
                   style={
                     hideLeftDrawer() && !isMobileWidth()
@@ -407,7 +429,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
               hasRightDrawer() && !hideRightDrawer()
                 ? styles.hasRightDrawer
                 : "",
-              hasLeftDrawer() && !hideLeftDrawer() ? styles.hasLeftDrawer : ""
+              hasLeftDrawer() && !hideLeftDrawer() ? styles.hasLeftDrawer : "",
             )}
             style={{ width: isMobileWidth() ? width() + "px" : "100%" }}
           >
@@ -427,10 +449,10 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
               width: isMobileWidth()
                 ? rightDrawerWidth() + "px"
                 : hasRightDrawer()
-                ? hideRightDrawer()
-                  ? "0"
-                  : rightDrawerResizeBar.width() + "px"
-                : "0",
+                  ? hideRightDrawer()
+                    ? "0"
+                    : rightDrawerResizeBar.width() + "px"
+                  : "0",
               display: "flex",
               "flex-shrink": 0,
               position: "relative",
