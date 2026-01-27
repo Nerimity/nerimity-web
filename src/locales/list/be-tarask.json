@@ -671,7 +671,7 @@
             },
             "refreshButton": "Абнавіць",
             "bot": {
-                "createInvite": "Стварэньне запрашальнае спыслкі",
+                "createInvite": "Стварэньне запрашальнае спасылкі",
                 "createLinkButton": "Стварыць спасылку",
                 "token": "Токэн",
                 "tokenRefreshed": "Токэн быў абноўлены.",
@@ -684,7 +684,7 @@
                 "bumpBotDescription": "Усхваліце бота, каб ён падняўся ўгору",
                 "bumpBotCooldown": "Вы мусіце пачакаць {{hours}} гадзін, {{minutes}} хвілін, і {{seconds}} сякунд каб усхваліць гэтага бота.",
                 "publicDescription": "Зрабіце гэтага бота публічным.",
-                "botDescription": "Апісаньне бота {{current}}/{{max}})"
+                "botDescription": "Апісаньне бота ({{current}}/{{max}})"
             }
         },
         "badges": {
