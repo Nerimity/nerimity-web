@@ -210,6 +210,7 @@ interface MessageItemProps {
   showNewDayMarker?: boolean;
   isEditing?: boolean;
   containerWidth?: number;
+  allowSwipeActions?: boolean;
 }
 
 interface DetailsProps {
@@ -467,6 +468,93 @@ const MessageItem = (props: MessageItemProps) => {
     );
   };
 
+  const [swipeAction, setSwipeAction] = createSignal<"none" | "reply" | "edit">(
+    "none",
+  );
+  let messageItemRef: HTMLDivElement | undefined;
+  let animationFrame: number;
+  let startX = 0;
+  let currentX = 0;
+  let isSwiping = false;
+
+  const EDIT_THRESHOLD = 80;
+  const REPLY_THRESHOLD = 150;
+
+  const handleTouchStart = (e: TouchEvent) => {
+    if (!props.allowSwipeActions) return;
+
+    startX = e.touches[0]?.clientX || 0;
+    currentX = startX;
+    isSwiping = true;
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    if (!props.allowSwipeActions || !isSwiping) return;
+
+    if (animationFrame) {
+      window.cancelAnimationFrame(animationFrame);
+    }
+    animationFrame = window.requestAnimationFrame(() => {
+      currentX = e.touches[0]?.clientX || 0;
+      const deltaX = currentX - startX;
+      if (deltaX > 0) return;
+      const absDelta = Math.abs(deltaX);
+
+      // Apply resistance curve for smoother feel
+      const translateX = deltaX;
+
+      setSwipeAction(
+        absDelta >= REPLY_THRESHOLD
+          ? "reply"
+          : absDelta >= EDIT_THRESHOLD
+            ? "edit"
+            : "none",
+      );
+
+      if (messageItemRef) {
+        messageItemRef.style.transform = `translateX(${translateX}px)`;
+        messageItemRef.style.transition = "none";
+      }
+    });
+  };
+
+  const handleTouchEnd = (e: TouchEvent) => {
+    if (animationFrame) {
+      window.cancelAnimationFrame(animationFrame);
+    }
+    animationFrame = window.requestAnimationFrame(() => {
+      const action = swipeAction();
+      setSwipeAction("none");
+
+      if (messageItemRef) {
+        messageItemRef.style.transition =
+          "transform 0.2s ease-out, background-color 0.2s";
+        messageItemRef.style.transform = "";
+
+        setTimeout(() => {
+          if (messageItemRef) {
+            messageItemRef.style.backgroundColor = "";
+          }
+        }, 200);
+      }
+
+      if (action === "edit") {
+        const { channelProperties } = useStore();
+        channelProperties.setEditMessage(
+          props.message.channelId,
+          props.message,
+        );
+      } else if (action === "reply") {
+        const { channelProperties } = useStore();
+        channelProperties.addReply(props.message.channelId, props.message);
+        props.textAreaEl?.focus();
+      }
+
+      isSwiping = false;
+      startX = 0;
+      currentX = 0;
+    });
+  };
   return (
     <>
       <Show when={isNewDay()}>
@@ -484,11 +572,23 @@ const MessageItem = (props: MessageItemProps) => {
           props.class,
           "messageItem",
         )}
+        ref={messageItemRef}
         onContextMenu={props.contextMenu}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         id={`message-${props.message.id}`}
+        onTouchMove={handleTouchMove}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
+        <div class={styles.actionIndicator}>
+          <Show when={swipeAction() === "reply"}>
+            <Icon name="reply" size={24} color="var(--primary-color)" />
+          </Show>
+          <Show when={swipeAction() === "edit"}>
+            <Icon name="edit" size={24} color="var(--success-color)" />
+          </Show>
+        </div>
         <Show when={!props.hideFloating && hovered()}>
           <FloatOptions
             textAreaEl={props.textAreaEl}

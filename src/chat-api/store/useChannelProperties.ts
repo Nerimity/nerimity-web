@@ -62,7 +62,11 @@ const addReply = (channelId: string, message: RawMessage) => {
   initIfMissing(channelId);
   const property = get(channelId)!;
   if (property.replyToMessages.length >= 5) return;
-  if (property.replyToMessages.find((m) => m.id === message.id)) return;
+  if (property.replyToMessages.find((m) => m.id === message.id)) {
+    // toggle it
+    removeReply(channelId, message.id);
+    return;
+  }
   setChannelProperties(channelId, {
     replyToMessages: [...property.replyToMessages, message],
     ...(!property.replyToMessages.length ? { mentionReplies: true } : {}),
@@ -117,7 +121,7 @@ const setEditMessage = (channelId: string, message?: Message) => {
 const setAttachment = (
   channelId: string,
   file?: File,
-  uploadTo?: "google_drive" | "nerimity_cdn"
+  uploadTo?: "google_drive" | "nerimity_cdn",
 ) => {
   initIfMissing(channelId);
   if (!file && !uploadTo) {
@@ -160,7 +164,7 @@ const setMoreBottomToLoad = (channelId: string, value: boolean) => {
 
 const updateSlowDownMode = (
   channelId: string,
-  slowDownMode?: { ttl: number; startedAt: number }
+  slowDownMode?: { ttl: number; startedAt: number },
 ) => {
   if (!get(channelId)) return;
   setChannelProperties(channelId, "slowDownMode", slowDownMode);
@@ -168,7 +172,7 @@ const updateSlowDownMode = (
 
 const updateSelectedBotCommand = (
   channelId: string,
-  botCommand?: RawBotCommand
+  botCommand?: RawBotCommand,
 ) => {
   if (!get(channelId)) return;
   setChannelProperties(channelId, "selectedBotCommand", botCommand);

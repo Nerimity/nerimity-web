@@ -76,6 +76,7 @@ import { pushMessageNotification } from "@/components/in-app-notification-previe
 import { fetchTranslation } from "@/common/GoogleTranslate";
 import { messagesPreloader } from "@/common/createPreloader";
 import { unzipJson } from "@/common/zip";
+import { rightDrawerMode } from "@/common/localStorage";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal"),
@@ -91,6 +92,8 @@ export const MessageLogArea = (props: {
   const [searchParams, setSearchParams] = useSearchParams<{
     messageId?: string;
   }>();
+
+  const [getRightDrawerMode] = rightDrawerMode;
 
   let messageLogElement: undefined | HTMLDivElement;
 
@@ -691,6 +694,7 @@ export const MessageLogArea = (props: {
               <UnreadMarker onClick={removeUnreadMarker} />
             </Show>
             <MessageItem
+              allowSwipeActions={getRightDrawerMode() === "HEADER_CLICK"}
               showNewDayMarker
               isEditing={
                 message.id === properties()?.editMessageId ||
