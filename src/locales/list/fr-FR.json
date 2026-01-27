@@ -196,8 +196,8 @@
                 "publicDescription": "Rendre ce serveur public.",
                 "bumpServer": "Bump le Serveur",
                 "bumpServerDescription": "Bump this server to get to the top.",
-                "publishServerButton": "Publier le serveur",
-                "unpublishServerButton": "Annuler la publication du serveur",
+                "publishServerButton": "Publier",
+                "unpublishServerButton": "Annuler la publication",
                 "bumpButton": "Bump ({{count}})",
                 "descriptionLabel": "Description du serveur ({{current}}/{{max}})",
                 "bumpCooldown": "Vous devez attendre {{hours}} heures, {{minutes}} minutes et {{seconds}} secondes pour relancer ce serveur."
@@ -533,7 +533,7 @@
             "24HourFormatDescription": "Afficher l'heure au format 24 heures.",
             "exportButton": "Exporter",
             "importButton": "Importer",
-            "exportModal": "Thème copié sur le clavier.",
+            "exportModal": "Thème copié dans le presse-papiers.",
             "importModal": "Collez le thème ici :"
         },
         "window": {
@@ -571,6 +571,24 @@
             "oauth2": {
                 "description": "Gérer OAuth2",
                 "generateLink": "Générer un lien"
+            },
+            "applicationsDescription": "Créer des bots Nerimity.",
+            "apiDocumentation": "Documentation API (incomplète)",
+            "addButton": "Ajouter une application",
+            "name": "Nom de la demande",
+            "appClientId": "ID de l'application/du client",
+            "botUser": "Utilisateur du robot",
+            "createBotUser": "Créer un nouvel utilisateur bot",
+            "editBotUser": "Modifier le robot",
+            "createBotUserButton": "Créer un utilisateur",
+            "refreshButton": "Rafraîchir",
+            "bot": {
+                "createInvite": "Créer un lien d'invitation",
+                "createLinkButton": "Créer un lien",
+                "token": "Jeton",
+                "tokenRefreshed": "Jeton actualisé.",
+                "tokenCopied": "Jeton copié dans le presse-papiers.",
+                "permissionsDescription": "Gérer les autorisations de ce lien."
             }
         },
         "experiments": {
