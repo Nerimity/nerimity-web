@@ -187,7 +187,7 @@
             "lifetimeBumpCount": "{{count}} destacados acumulados",
             "visitServerButton": "Visitar",
             "joinServerButton": "Unirse",
-            "bumpButton": "{{count}} Veces destacado",
+            "bumpButton": "Veces destacado {{count}}",
             "moderationNotice": "Nerimity no supervisa ni modera los servidores. Rogamos reportar aquellos que sean maliciosos o infrinjan los Términos de Servicio.",
             "sortMostActive": "Más activos (Beta)",
             "pinnedServers": "Servidores fijados",
@@ -309,7 +309,7 @@
                 "bumpServerDescription": "Destaca este servidor y colócalo en la parte superior de explorar.",
                 "bumpButton": "Veces destacado — {{count}}",
                 "descriptionLabel": "Descripción del servidor {{current}}/{{max}}",
-                "publishServerButton": "Publicar servidor",
+                "publishServerButton": "Publicar",
                 "unpublishServerButton": "Hacer privado",
                 "bumpCooldown": "Debes esperar {{hours}} horas, {{minutes}} minutos y {{seconds}} segundos para destacar este servidor otra vez."
             },
@@ -668,6 +668,23 @@
                 "andMore": "• Y más",
                 "willNotGetDeletedDescription": "Puede eliminarlos manualmente antes de eliminar su aplicación.",
                 "deleteAppButton": "Eliminar esta aplicación"
+            },
+            "refreshButton": "Renovar",
+            "bot": {
+                "createInvite": "Crear enlace de invitación",
+                "createLinkButton": "Crear enlace",
+                "token": "Token",
+                "tokenRefreshed": "Token renovado.",
+                "tokenCopied": "El token se ha copiado al portapapeles.",
+                "permissionsDescription": "Gestionar permisos de este enlace.",
+                "publishBot": "Publicar Bot",
+                "publishBotDescription": "Publica el bot en la página Explorar para que otros usuarios puedan encontrarlo.",
+                "publishNotice": "Al publicar tu bot, estará disponible en la página <1>Explorar</1>.",
+                "bumpBot": "Destacar Bot",
+                "bumpBotDescription": "Destaca este bot para colocarlo en la parte superior",
+                "bumpBotCooldown": "Es necesario esperar {{hours}} horas, {{minutes}} minutos y {{seconds}} segundos para destacar este bot.",
+                "publicDescription": "Haz público este bot.",
+                "botDescription": "Descripción del bot ({{current}}/{{max}})"
             }
         },
         "badges": {
@@ -796,7 +813,8 @@
         "markUnread": "Marcar como no leído",
         "pinMessage": "Fijar",
         "unpinMessage": "Desfijar",
-        "copyHTML": "Copiar HTML"
+        "copyHTML": "Copiar HTML",
+        "copyMessageLink": "Copiar enlance del mensaje"
     },
     "profile": {
         "followButton": "Seguir",

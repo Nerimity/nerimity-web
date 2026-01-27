@@ -206,8 +206,8 @@
                 "publicDescription": "Сделать этот сервер публичным.",
                 "bumpServer": "Продвинуть сервер",
                 "bumpServerDescription": "Продвинет сервер вверх списка.",
-                "publishServerButton": "Опубликовать сервер",
-                "unpublishServerButton": "Снять сервер с публикации",
+                "publishServerButton": "Опубликовать",
+                "unpublishServerButton": "Снять с публикации",
                 "bumpButton": "Продвинуть ({{count}})",
                 "descriptionLabel": "Описание сервера ({{current}}/{{max}})",
                 "bumpCooldown": "Вы должны подождать {{hours}} часов, {{minutes}} минут и {{seconds}} секунд перед тем, как продвинуть этот сервер."
@@ -585,7 +585,7 @@
                 "clientId": "ID клиента",
                 "clientSecret": "Секретный ключ клиента",
                 "secretRefreshed": "Секретный ключ клиента был пересоздан.",
-                "secretCopied": "Секретный ключ клиента был скопирован в буфер обмена.",
+                "secretCopied": "Секретный ключ клиента скопирован в буфер обмена.",
                 "redirectUris": "Перенаправления на URI",
                 "uri": "URI {{count}}",
                 "redirectUri": "Перенаправлять на URI"
@@ -605,6 +605,15 @@
                 "andMore": "• И остальное",
                 "willNotGetDeletedDescription": "Вы можете удалить их вручную перед удалением приложения.",
                 "deleteAppButton": "Удалить это приложение"
+            },
+            "refreshButton": "Пересоздать",
+            "bot": {
+                "createInvite": "Создать ссылку для приглашений",
+                "createLinkButton": "Создать ссылку",
+                "token": "Токен",
+                "tokenRefreshed": "Токен был пересоздан.",
+                "tokenCopied": "Токен скопирован в буфер обмена.",
+                "permissionsDescription": "Управление разрешениями для этой ссылки."
             }
         },
         "experiments": {
