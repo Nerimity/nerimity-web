@@ -480,6 +480,10 @@ const MessageItem = (props: MessageItemProps) => {
   const EDIT_THRESHOLD = 80;
   const REPLY_THRESHOLD = 150;
 
+  const canEditSwipe = () =>
+    account.user()?.id === props.message.createdBy.id &&
+    props.message.type === MessageType.CONTENT;
+
   const handleTouchStart = (e: TouchEvent) => {
     if (!props.allowSwipeActions) return;
 
@@ -506,7 +510,7 @@ const MessageItem = (props: MessageItemProps) => {
       setSwipeAction(
         absDelta >= REPLY_THRESHOLD
           ? "reply"
-          : absDelta >= EDIT_THRESHOLD
+          : absDelta >= EDIT_THRESHOLD && canEditSwipe()
             ? "edit"
             : "none",
       );
@@ -538,7 +542,7 @@ const MessageItem = (props: MessageItemProps) => {
         }, 200);
       }
 
-      if (action === "edit") {
+      if (action === "edit" && canEditSwipe()) {
         const { channelProperties } = useStore();
         channelProperties.setEditMessage(
           props.message.channelId,
