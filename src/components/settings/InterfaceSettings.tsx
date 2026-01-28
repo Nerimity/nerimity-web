@@ -400,13 +400,13 @@ function RightDrawerModeBlock() {
   const [mode, setMode] = rightDrawerMode;
   return (
     <FlexColumn>
-      <SettingsBlock icon="right_panel_open" label="Right Drawer Mode" header />
+      <SettingsBlock icon="right_panel_open" label={t("settings.interface.rightDrawerMode")} header />
 
       <SettingsBlock
-        label="Swipe To Open"
-        description="Open the right drawer by swiping from the right edge. This will disable swipe to reply."
-        borderTopRadius={false}
+        label={t("settings.interface.swipeToOpen")}
+        description={t("settings.interface.swipeToOpenDescription")}
         icon="swipe"
+        borderTopRadius={false}
         borderBottomRadius={false}
         onClick={() => {
           setMode("SWIPE");
@@ -418,9 +418,9 @@ function RightDrawerModeBlock() {
         />
       </SettingsBlock>
       <SettingsBlock
-        label="Header Click To Open"
+        label={t("settings.interface.headerTapToOpen")}
+        description={t("settings.interface.headerTapToOpenDescription")}
         icon="highlight_mouse_cursor"
-        description="Open the right drawer by clicking on the header. This will enable swipe to reply."
         borderTopRadius={false}
         onClick={() => {
           setMode("HEADER_CLICK");
