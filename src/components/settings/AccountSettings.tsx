@@ -492,8 +492,8 @@ export function EditAccountPage(props: {
 
       <SettingsBlock
         icon="info"
-        label="Looking for Profile Settings?"
-        description="Profile Settings has been moved to the settings drawer on the left."
+        label={t("settings.account.profileSettingsMoved")}
+        description={t("settings.account.profileSettingsMovedDescription")}
         href="/app/settings/profile"
       />
       <Show when={!props.bot}>
@@ -970,7 +970,7 @@ const ConfirmPasswordModal = (props: {
   return (
     <LegacyModal
       ignoreBackgroundClick
-      title={"Confirm Password"}
+      title={t("registerPage.confirmPassword")}
       close={props.close}
       actionButtons={actionButtons}
     >
@@ -981,7 +981,7 @@ const ConfirmPasswordModal = (props: {
         `}
         gap={10}
       >
-        <Text size={14}>{"Confirm your password to continue"}</Text>
+        <Text size={14}>{t("settings.account.confirmPasswordToContinue")}</Text>
 
         <Input value={password()} onText={setPassword} type="password" />
       </FlexColumn>
