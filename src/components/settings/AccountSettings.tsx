@@ -492,12 +492,10 @@ export function EditAccountPage(props: {
 
       <SettingsBlock
         icon="info"
-        label={t("settings.account.profile")}
-        description={t("settings.account.profileDescription")}
-        href="./profile"
-      >
-        <Icon name="keyboard_arrow_right" />
-      </SettingsBlock>
+        label="Looking for Profile Settings?"
+        description="Profile Settings has been moved to the settings drawer on the left."
+        href="/app/settings/profile"
+      />
       <Show when={!props.bot}>
         <ChangePasswordButton
           onClick={onChangePasswordClick}

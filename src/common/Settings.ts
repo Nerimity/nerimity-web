@@ -15,11 +15,11 @@ export interface Setting {
 
 const DeveloperApplicationBotSettings = lazy(
   () =>
-    import("@/components/settings/developer/DeveloperApplicationBotSettings")
+    import("@/components/settings/developer/DeveloperApplicationBotSettings"),
 );
 
 const DeveloperApplicationSettings = lazy(
-  () => import("@/components/settings/developer/DeveloperApplicationSettings")
+  () => import("@/components/settings/developer/DeveloperApplicationSettings"),
 );
 
 const settings: Setting[] = [
@@ -32,12 +32,11 @@ const settings: Setting[] = [
   },
 
   {
-    path: "/account/profile",
-    routePath: "/account/profile",
-    name: () => t("settings.drawer.account"),
-    icon: "account_circle",
+    path: "/profile",
+    routePath: "/profile",
+    name: () => t("settings.account.profile"),
+    icon: "person",
     element: lazy(() => import("@/components/settings/ProfileSettings")),
-    hide: true,
   },
   {
     path: "badges",
@@ -116,7 +115,7 @@ const settings: Setting[] = [
     name: () => t("settings.drawer.developer"),
     icon: "code",
     element: lazy(
-      () => import("@/components/settings/developer/DeveloperSettings")
+      () => import("@/components/settings/developer/DeveloperSettings"),
     ),
   },
   {
@@ -127,7 +126,7 @@ const settings: Setting[] = [
     hide: true,
     element: lazy(
       () =>
-        import("@/components/settings/developer/DeveloperApplicationsSettings")
+        import("@/components/settings/developer/DeveloperApplicationsSettings"),
     ),
   },
   {
@@ -157,9 +156,7 @@ const settings: Setting[] = [
     hide: true,
     element: lazy(
       () =>
-        import(
-          "@/components/settings/developer/DeveloperApplicationBotCreateLinkSettings"
-        )
+        import("@/components/settings/developer/DeveloperApplicationBotCreateLinkSettings"),
     ),
   },
   {
