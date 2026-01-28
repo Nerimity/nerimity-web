@@ -570,7 +570,15 @@
         "developer": {
             "oauth2": {
                 "description": "Gérer OAuth2",
-                "generateLink": "Générer un lien"
+                "generateLink": "Générer un lien",
+                "documentation": "Documentation OAuth2",
+                "clientId": "Identifiant client",
+                "clientSecret": "Secret client",
+                "secretRefreshed": "Clé secrète du client mise à jour.",
+                "secretCopied": "Clé secrète du client copiée dans le presse-papiers.",
+                "redirectUris": "URI de redirection",
+                "uri": "URI {{count}}",
+                "redirectUri": "rediriger URL"
             },
             "applicationsDescription": "Créer des bots Nerimity.",
             "apiDocumentation": "Documentation API (incomplète)",
@@ -588,7 +596,22 @@
                 "token": "Jeton",
                 "tokenRefreshed": "Jeton actualisé.",
                 "tokenCopied": "Jeton copié dans le presse-papiers.",
-                "permissionsDescription": "Gérer les autorisations de ce lien."
+                "permissionsDescription": "Gérer les autorisations de ce lien.",
+                "publishBot": "Publier le robot",
+                "publishBotDescription": "Publiez votre bot sur la page Explorer pour que les autres utilisateurs puissent le trouver.",
+                "publishNotice": "La publication de votre bot le rendra disponible sur la page <1>explore</1>.",
+                "bumpBot": "Bump bot",
+                "bumpBotDescription": "Faites remonter ce bot en tête de liste",
+                "bumpBotCooldown": "Vous devez attendre {{hours}} heures, {{minutes}} minutes et {{seconds}} secondes pour relancer ce bot.",
+                "publicDescription": "Rendez ce bot public.",
+                "botDescription": "Description du bot ({{current}}/{{max}})"
+            },
+            "deleteApplication": {
+                "title": "Supprimer l'application",
+                "willNotGetDeleted": "Ce qui ne sera pas supprimé :",
+                "andMore": "• Et plus encore",
+                "willNotGetDeletedDescription": "Vous pouvez les supprimer manuellement avant de supprimer votre application.",
+                "deleteAppButton": "Supprimer cette application"
             }
         },
         "experiments": {
@@ -643,7 +666,8 @@
         "markUnread": "Marquer comme non lu",
         "pinMessage": "Épingler",
         "unpinMessage": "Détacher",
-        "copyHTML": "Copier le HTML"
+        "copyHTML": "Copier le HTML",
+        "copyMessageLink": "Copier le lien du message"
     },
     "profile": {
         "followButton": "Suivre",
@@ -878,7 +902,7 @@
         },
         "bot": {
             "name": "Utilisateur de robot",
-            "description": "Utilisateur de robot"
+            "description": "Cet utilisateur est un bot"
         },
         "credit": {
             "avatarBorder": "Bordure d'avatar par {{author}} sur {{platform}}",
