@@ -365,11 +365,14 @@ const BadgeItem = (props: {
           animate={hovered()}
         />
       }
+      onClick={() => {
+        props.onBadgeUpdate(
+          !hasBit(props.badges, props.badge.bit),
+          props.badge.bit,
+        );
+      }}
     >
-      <Checkbox
-        checked={hasBit(props.badges, props.badge.bit)}
-        onChange={(checked) => props.onBadgeUpdate(checked, props.badge.bit)}
-      />
+      <Checkbox checked={hasBit(props.badges, props.badge.bit)} />
     </SettingsBlock>
   );
 };
