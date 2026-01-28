@@ -72,6 +72,7 @@
     display: block;
     overflow: hidden;
     max-width: 200px;
+    color: var(--typing-indicator-color);
     text-overflow: ellipsis;
     white-space: nowrap;
   }

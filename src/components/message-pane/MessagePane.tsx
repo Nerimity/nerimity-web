@@ -1016,7 +1016,11 @@ function TypingIndicator() {
         "z-index": "1",
       }}
     >
-      <Text size={paneWidth()! < 500 ? 10 : 12} class={styles.typingText}>
+      <Text
+        color="var(--typing-indicator-secondary-color)"
+        size={paneWidth()! < 500 ? 10 : 12}
+        class={styles.typingText}
+      >
         <Switch>
           <Match when={typingUserDisplayNames().length === 1}>
             <UnescapedTrans

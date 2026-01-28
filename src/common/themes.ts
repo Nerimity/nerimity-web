@@ -138,6 +138,16 @@ const ThemeTokensBase = [
     value: "rgba(255, 255, 255, 0.8)",
   },
   { key: "side-pane-text-color", category: ThemeCategory.Text, value: "white" },
+  {
+    key: "typing-indicator-color",
+    category: ThemeCategory.Text,
+    value: "white",
+  },
+  {
+    key: "typing-indicator-secondary-color",
+    category: ThemeCategory.Text,
+    value: "rgba(255, 255, 255, 0.7)",
+  },
 
   // Markup
   {
