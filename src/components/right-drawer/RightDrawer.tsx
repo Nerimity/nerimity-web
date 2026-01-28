@@ -55,6 +55,8 @@ import { FlexRow } from "../ui/Flexbox";
 import { Item } from "../ui/Item";
 import { VirtualList } from "../ui/VirtualList";
 import { Fonts, getFont } from "@/common/fonts";
+import { Channel } from "@/chat-api/store/useChannels";
+import { matchSorter } from "match-sorter";
 
 const MemberItem = (props: {
   member: ServerMember;
@@ -652,6 +654,163 @@ const ServerChannelNotice = () => {
   );
 };
 
+const normalizeText = (str?: string) => str?.normalize("NFKC") || "";
+
+function getTextBeforeCursor(element?: HTMLInputElement) {
+  if (!element) return "";
+  const cursorPosition = element.selectionStart || 0;
+  const textBeforeCursor = element.value.substring(0, cursorPosition);
+  const lastWord = textBeforeCursor.split(/\s+/).reverse()[0];
+  return lastWord;
+}
+
+const SearchInputBox = (props: {
+  channel?: Channel;
+  query: string;
+  setQuery: (query: string) => void;
+  users: ServerMember[];
+  setUsers: (users: ServerMember[]) => void;
+}) => {
+  const store = useStore();
+  const params = useParams<{ serverId?: string; channelId?: string }>();
+  const [inputRef, setInputRef] = createSignal<HTMLInputElement>();
+
+  const [textBefore, setTextBefore] = createSignal("");
+  const [isFocus, setIsFocus] = createSignal(false);
+  const onFocus = () => setIsFocus(true);
+
+  const onSelectionChange = () => {
+    if (!isFocus()) return;
+    update();
+  };
+
+  createEffect(() => {
+    inputRef()?.addEventListener("focus", onFocus);
+    document.addEventListener("selectionchange", onSelectionChange);
+    onCleanup(() => {
+      inputRef()?.removeEventListener("focus", onFocus);
+      document.removeEventListener("selectionchange", onSelectionChange);
+    });
+  });
+
+  const update = () => {
+    if (inputRef()?.selectionStart !== inputRef()?.selectionEnd)
+      return setIsFocus(false);
+    setIsFocus(true);
+    const textBefore = getTextBeforeCursor(inputRef());
+    setTextBefore(normalizeText(textBefore));
+  };
+
+  const members = () => store.serverMembers.array(params.serverId!);
+
+  const suggestUsers = () => textBefore().startsWith("@");
+  const userSearchQuery = () => textBefore().substring(1);
+  const searchedServerUsers = createMemo(() => {
+    if (!suggestUsers()) return [];
+    return matchSorter(
+      members(),
+
+      userSearchQuery(),
+      {
+        keys: [
+          (e) => normalizeText(e?.user?.().username),
+          (e) => normalizeText(e?.nickname!),
+        ],
+      },
+    ).slice(0, 10);
+  });
+
+  const handleSuggestUserClick = (member: ServerMember) => {
+    if (props.users.find((u) => u.userId === member.userId)) return;
+    props.setUsers([...props.users, member]);
+
+    const input = inputRef();
+    if (!input || input.selectionStart === null) return;
+
+    const cursorPos = input.selectionStart;
+    const beforeCursor = input.value.substring(0, cursorPos);
+
+    const lastAtIndex = beforeCursor.lastIndexOf("@");
+    if (lastAtIndex === -1) return;
+
+    const beforeMention = input.value.substring(0, lastAtIndex);
+    const afterCursor = input.value.substring(cursorPos);
+    const newQuery = beforeMention + afterCursor;
+
+    props.setQuery(newQuery);
+
+    input.focus();
+    input.setSelectionRange(lastAtIndex, lastAtIndex);
+    update();
+  };
+
+  return (
+    <>
+      <Input
+        ref={setInputRef}
+        placeholder={
+          props.channel?.name
+            ? t("informationDrawer.searchBarChannelPlaceholder", {
+                channelName: props.channel!.name,
+                interpolation: { escapeValue: false },
+              })
+            : props.channel?.recipient()?.username
+              ? t("informationDrawer.searchBarPlaceholder", {
+                  username: props.channel?.recipient()?.username,
+                  interpolation: { escapeValue: false },
+                })
+              : ""
+        }
+        onText={props.setQuery}
+        value={props.query}
+        onBlur={() => setIsFocus(false)}
+      />
+      <Show when={isFocus() && searchedServerUsers().length}>
+        <div class={styles.searchUserSuggestions}>
+          <For each={searchedServerUsers()}>
+            {(member) => (
+              <div
+                class={styles.searchUserSuggestionItem}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                }}
+                onClick={() => handleSuggestUserClick(member!)}
+              >
+                <Avatar size={24} user={member?.user()} resize={28} />
+                <div>{member?.nickname || member?.user()?.username}</div>
+              </div>
+            )}
+          </For>
+        </div>
+      </Show>
+      <Show when={props.users.length}>
+        <div class={styles.searchSelectedUsers}>
+          <For each={props.users}>
+            {(member) => (
+              <div
+                class={styles.searchSelectedUser}
+                onClick={() => {
+                  props.setUsers(
+                    props.users.filter((u) => u.userId !== member.userId),
+                  );
+                }}
+              >
+                <Avatar size={20} user={member?.user()} resize={28} />
+                <div>{member?.nickname || member?.user()?.username}</div>
+                <Icon
+                  name="close"
+                  size={18}
+                  class={styles.removeSelectedUser}
+                />
+              </div>
+            )}
+          </For>
+        </div>
+      </Show>
+    </>
+  );
+};
+
 const SearchDrawer = () => {
   const store = useStore();
   const params = useParams<{ serverId?: string; channelId?: string }>();
@@ -661,23 +820,27 @@ const SearchDrawer = () => {
   const [containerEl, setContainerEl] = createSignal<HTMLDivElement>();
   const [order, setOrder] = createSignal<"asc" | "desc">("desc");
 
+  const [users, setUsers] = createSignal<ServerMember[]>([]);
+
   const { width: containerWidth } = useResizeObserver(containerEl);
 
   const channel = () => store.channels.get(params.channelId!);
 
   let interval = 0;
   createEffect(
-    on([query, order], () => {
+    on([query, order, users], () => {
       setResults(null);
       window.clearTimeout(interval);
 
       interval = window.setTimeout(() => {
-        searchMessages(query(), params.channelId!, { order: order() }).then(
-          (res) => {
-            if (order() === "desc") res.reverse();
-            setResults(res);
-          },
-        );
+        const userIds = users().map((u) => u.userId);
+        searchMessages(query(), params.channelId!, {
+          order: order(),
+          userIds,
+        }).then((res) => {
+          if (order() === "desc") res.reverse();
+          setResults(res);
+        });
       }, 1000);
     }),
   );
@@ -685,23 +848,12 @@ const SearchDrawer = () => {
 
   return (
     <div class={styles.searchDrawer} ref={setContainerEl}>
-      <Input
-        // placeholder={`Search ${!isDMChannel() ? "in " : ""}${name() || ""}`}
-        placeholder={
-          channel()?.name
-            ? t("informationDrawer.searchBarChannelPlaceholder", {
-                channelName: channel()!.name,
-                interpolation: { escapeValue: false },
-              })
-            : channel()?.recipient()?.username
-              ? t("informationDrawer.searchBarPlaceholder", {
-                  username: channel()?.recipient()?.username,
-                  interpolation: { escapeValue: false },
-                })
-              : ""
-        }
-        onText={setQuery}
-        value={query()}
+      <SearchInputBox
+        setUsers={setUsers}
+        users={users()}
+        channel={channel()}
+        query={query()}
+        setQuery={setQuery}
       />
       <FlexRow gap={4} class={styles.searchOrder}>
         <Item.Root
