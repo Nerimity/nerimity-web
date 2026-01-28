@@ -356,8 +356,8 @@ const BadgeItem = (props: {
       onMouseOver={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       class={BadgeItemStyles}
-      label={props.badge.name}
-      description={props.badge.description}
+      label={props.badge.name()}
+      description={props.badge.description?.()}
       icon={
         <Avatar
           user={{ ...props.user, badges: props.badge.bit }}
