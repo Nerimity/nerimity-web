@@ -519,7 +519,9 @@
             "understoodButton": "Jag förstår"
         },
         "notifications": {
-            "message": "Meddelande"
+            "message": "Meddelande",
+            "mention": "Nämn",
+            "mentionDescription": "Ljudet som spelas när du nämns."
         }
     }
 }
