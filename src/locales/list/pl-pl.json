@@ -511,7 +511,12 @@
             "exportButton": "Eksportuj",
             "importButton": "Importuj",
             "exportModal": "Skopiowano motyw do schowka.",
-            "importModal": "Wklej tu motyw:"
+            "importModal": "Wklej tu motyw:",
+            "rightDrawerMode": "Tryb prawej szuflady",
+            "swipeToOpen": "Przeciągnij, by otworzyć",
+            "swipeToOpenDescription": "Otwórz prawą szufladę, przesuwając palcem od prawej krawędzi. Spowoduje to wyłączenie funkcji przesuń, by odpowiedzieć.",
+            "headerTapToOpen": "Kliknij nagłówek, aby otworzyć",
+            "headerTapToOpenDescription": "Otwórz prawą szufladę, klikając nagłówek. Włączy to funkcję przeciągnij, aby odpowiedzieć."
         },
         "window": {
             "downloadAppNotice": "W celu zmiany tych ustawień musisz zainstalować aplikację Nerimity na komputery.",
@@ -600,7 +605,7 @@
         "badges": {
             "noticeTitle": "Darowizny",
             "notice": "Wesprzyj projekt przekazując darowiznę pieniężną.",
-            "palestineDescription": "Możliwa do zdobycia w sekcji {{account}} -> {{profile}}",
+            "palestineDescription": "Można ją założyć w ustawieniach profilu",
             "price": "Odznaki za {{price}}",
             "supportMethods": "Metody wsparcia"
         },
@@ -1219,5 +1224,17 @@
         "cancelButton": "Nie przenoś",
         "transferButton": "Przenieś",
         "transferring": "Trwa przenoszenie…"
+    },
+    "welcomePopup": {
+        "subtitle": "Dziękujemy za wypróbowanie Nerimity!",
+        "joinServer": "Dołącz do oficjalnego serwera Nerimity",
+        "editProfile": "Edytuj mój profil",
+        "support": "Wesprzyj mnie na {{platform}}",
+        "contribute": "Wnieś wkład w Nerimity na GitHubie"
+    },
+    "dropDown": {
+        "selectItem": "Wybierz element",
+        "selectItemMultiple": "Wybierz element(y)",
+        "itemsSelected": "{{count}} wybranych elementów"
     }
 }
