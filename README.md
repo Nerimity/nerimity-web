@@ -27,14 +27,7 @@ Chat App made using SolidJS.
 - Run `pnpm i` and `pnpm run dev`
 - Go to http://local.nerimity.com:3000
 
-## ✅ Feature Checklist
-
-### Planned Features:
-
-- [ ] Report Servers
-- [ ] Two-Factor Authentication
-
-### Completed Features:
+### ✨ Features:
 
 - [x] Explore Servers
 - [x] Explore Themes
