@@ -1,7 +1,6 @@
 {
     "general": {
         "nothingSelected": "Nothing Selected",
-        "selectItem": "Select Item",
         "searchPlaceholder": "Search",
         "backButton": "Back",
         "cancelButton": "Cancel",
@@ -197,6 +196,11 @@
         "copy": "Copy",
         "cut": "Cut",
         "paste": "Paste"
+    },
+    "dropDown": {
+        "selectItem": "Select Item",
+        "selectItemMultiple": "Select Item(s)",
+        "itemsSelected": "{{count}} item(s) selected"
     },
     "markup": {
         "bold": "Bold",
