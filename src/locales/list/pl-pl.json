@@ -413,7 +413,8 @@
             "primaryColor": "Kolor podstawowy",
             "preview": "Podgląd",
             "usernameFont": "Czcionka nazwy użytkownika",
-            "default": "Domyślna czcionka aplikacji"
+            "default": "Domyślna czcionka aplikacji",
+            "confirmPasswordToContinue": "Potwierdź hasło, aby kontynuować"
         },
         "privacy": {
             "lastOnline": {
@@ -1177,7 +1178,6 @@
     },
     "general": {
         "nothingSelected": "Nic nie wybrano",
-        "selectItem": "Wybierz element",
         "searchPlaceholder": "Wyszukaj",
         "backButton": "Wstecz",
         "cancelButton": "Anuluj",

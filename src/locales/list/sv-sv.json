@@ -1,7 +1,6 @@
 {
     "general": {
         "nothingSelected": "Inget valt",
-        "selectItem": "Välj objekt",
         "searchPlaceholder": "Sök",
         "cancelButton": "Avbryt",
         "closeButton": "Stäng",

@@ -1102,8 +1102,7 @@
             "browse": "Göz At",
             "supportedFileTypes": "Desteklenen:{{extensions}}, Maks. {{size}}"
         },
-        "nothingSelected": "Hiçbir şey seçilmedi",
-        "selectItem": "Öğe seç"
+        "nothingSelected": "Hiçbir şey seçilmedi"
     },
     "nicknameChangeModal": {
         "title": "Sunucu Profilini Güncelle",
