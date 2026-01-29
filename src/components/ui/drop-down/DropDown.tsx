@@ -15,6 +15,7 @@ import styles from "./styles.module.scss";
 import { Portal } from "solid-js/web";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { t } from "@nerimity/i18lite";
 
 export interface DropDownItem {
   id: string;
@@ -110,7 +111,7 @@ function ItemTemplate(props: { item?: DropDownItem; placeholder?: string }) {
       <CircleColor color={props.item?.circleColor} />
       <div class={styles.details}>
         <div class={styles.label}>
-          {props.item?.label || props.placeholder || "Select Item"}
+          {props.item?.label || props.placeholder || t("dropDown.selectItem")}
           {props.item?.suffix}
         </div>
         <Show when={props.item?.description}>

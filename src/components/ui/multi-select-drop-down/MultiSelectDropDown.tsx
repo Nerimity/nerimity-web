@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import { Portal } from "solid-js/web";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { t } from "@nerimity/i18lite";
 
 
 export interface MultiSelectDropDownItem {
@@ -80,7 +81,7 @@ function ItemTemplate(props: { items?: MultiSelectDropDownItem[], item?: MultiSe
     <div class={styles.itemTemplate}>
       <div class={styles.details}>
         <div>
-          <Show when={props.items}>{props.items ? `${props.items.length} item(s) selected` :"Select Item(s)"}</Show>
+          <Show when={props.items}>{props.items ? t("dropDown.itemsSelected", { count: props.items.length }) : t("dropDown.selectItemMultiple")}</Show>
           <Show when={props.item}>{props.item?.label}</Show>
         </div>
       </div>
