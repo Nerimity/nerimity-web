@@ -1178,7 +1178,6 @@
     },
     "general": {
         "nothingSelected": "Nic nie wybrano",
-        "selectItem": "Wybierz element",
         "searchPlaceholder": "Wyszukaj",
         "backButton": "Wstecz",
         "cancelButton": "Anuluj",

@@ -1003,7 +1003,6 @@
     },
     "general": {
         "nothingSelected": "Nichts ausgewählt",
-        "selectItem": "Auswählen",
         "searchPlaceholder": "Suchen",
         "backButton": "Zurück",
         "cancelButton": "Abbrechen",

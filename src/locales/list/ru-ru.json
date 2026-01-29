@@ -1177,7 +1177,6 @@
     },
     "general": {
         "nothingSelected": "Ничего не выбрано",
-        "selectItem": "Выберите",
         "searchPlaceholder": "Поиск",
         "backButton": "Назад",
         "cancelButton": "Отмена",

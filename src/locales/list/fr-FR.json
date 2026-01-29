@@ -1177,7 +1177,6 @@
     },
     "general": {
         "nothingSelected": "Rien de sélectionné",
-        "selectItem": "Sélectionner un article",
         "searchPlaceholder": "Rechercher",
         "backButton": "Retour",
         "cancelButton": "Annuler",

@@ -1,7 +1,6 @@
 {
     "general": {
         "nothingSelected": "Нічого ні обрано",
-        "selectItem": "Обрати елемент",
         "searchPlaceholder": "Пошук",
         "backButton": "Назад",
         "cancelButton": "Скасувати",
