@@ -492,8 +492,8 @@ export function EditAccountPage(props: {
 
       <SettingsBlock
         icon="info"
-        label={t("settings.account.profileSettingsMoved")}
-        description={t("settings.account.profileSettingsMovedDescription")}
+        label="Looking for Profile Settings?"
+        description="Profile Settings has been moved to the settings drawer on the left."
         href="/app/settings/profile"
       />
       <Show when={!props.bot}>

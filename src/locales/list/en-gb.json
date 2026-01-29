@@ -546,8 +546,6 @@
         "account": {
             "tag": "Tag",
             "botID": "Bot ID",
-            "profileSettingsMoved": "Looking for Profile Settings?",
-            "profileSettingsMovedDescription": "Profile settings have been moved to a separate category in the settings drawer on the left",
             "profile": "Profile",
             "profileDescription": "Edit your bio or colours",
             "palestineBorder": "Add Palestine border to your avatar.",
