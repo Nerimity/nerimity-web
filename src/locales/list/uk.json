@@ -577,8 +577,91 @@
             "understoodButton": "Зрозумів",
             "deletionNotice": "Шкода, що ви виходите від нас :( Коли вам щось не сподобалося, повідомить про це на офіційному серверу Nerimity.",
             "deletedInfo": {
-                "title": "Що буде видалено"
+                "title": "Що буде видалено",
+                "email": "• Електрона пошта",
+                "username": "• Ім'я користувача",
+                "ip": "• IP адреса",
+                "bio": "• «Про мене»",
+                "messages": "• Ваші повідомлення",
+                "posts": "• Ваші дописи"
+            },
+            "confirmPasswordToContinue": "Підтвердить ваш пароль, щоб протягнути",
+            "postsAndMessagesNotice": "Видалення ваших дописів та повідомлень може зайняти декілька тижнів.",
+            "deleteCheckbox": "Видалити мої дописи та повідомлення"
+        },
+        "badges": {
+            "noticeTitle": "Пожертвування",
+            "notice": "Підтримати цей проєкт грошима.",
+            "palestineDescription": "Можливо отримати у налаштуваннях профілю",
+            "price": "Облямівки за {{price}}",
+            "supportMethods": "Методі підтримки"
+        },
+        "privacy": {
+            "lastOnline": {
+                "title": "Останній час в мережі",
+                "description": "Задати, хто може бачити, коли ви останній раз були в мережі."
+            },
+            "directMessage": {
+                "title": "Приватні повідомлення",
+                "description": "Виберіть, хто може досилати вам приватні повідомлення."
+            },
+            "friendRequest": {
+                "title": "Запити дружби",
+                "description": "Виберіть, хто може досилати вам запити на дружбу."
+            },
+            "options": {
+                "anybody": "Хто завгодно",
+                "friendsOnly": "Тільки друзі",
+                "serversOnly": "Тільки спільні сервери",
+                "friendsAndServers": "Друзі та сервері",
+                "nobody": "Ніхто"
+            },
+            "profileOptions": {
+                "title": "Опції профілю",
+                "hideFollowers": "Заховати підписників",
+                "hideFollowersDescription": "Заховати підписників з вашого профілю.",
+                "hideFollowing": "Заховати підписантів",
+                "hideFollowingDescription": "Заховати людин, на яких ви підписані, з вашого профілю."
             }
+        },
+        "notifications": {
+            "desktopNotifications": "Сповіщенні на стільниці",
+            "testNotification": {
+                "title": "Воно працює!",
+                "body": "Сповіщення на стільниці включені."
+            },
+            "desktopNotificationsDescription": "Показувати сповіщення на стільниці, навіть коли застосунок згорнути.",
+            "sounds": "Звуки",
+            "soundsDescription": "Коли звуки сповіщень вам надто докучають, ви можете їх виключити.",
+            "volume": "Гук",
+            "volumeDescription": "Змінення рівня гуку звуків сповіщень.",
+            "changeSoundsDescription": "Змініть звук сповіщень з цими звуками без авторських прав.",
+            "message": "Повідомлення",
+            "messageDescription": "Звук отримання повідомлення.",
+            "mention": "Згадування",
+            "mentionDescription": "Звук, коли вас згадують.",
+            "reminder": "Нагадування",
+            "reminderDescription": "Звук сповіщення для нагадувань.",
+            "inAppPreview": "Перегляд в застосунку",
+            "inAppPreviewDescription": "Показувати вириначі сповіщень в застосунку.",
+            "mute": "Без звуку",
+            "inAppPreviewModes": {
+                "off": "Виключено",
+                "inheritFromPingSettings": "Брати з налаштувань згадування"
+            }
+        },
+        "call": {
+            "nextCallNotice": "Зміні будуть вжити в ваших наступних викликах.",
+            "leaveCall": "Спочатку залишить виклик",
+            "inputDevices": "Пристрої вводу",
+            "outputDevices": "Пристрої виводу",
+            "default": "Як в системі",
+            "inputMode": "Режим вводу",
+            "openMic": "Завжди слухати",
+            "voiceActivity": "Коли розмовляєте",
+            "pushToTalk": "По натиску",
+            "bindButton": "Підв'язати",
+            "stopButton": "Спиніть"
         }
     }
 }
