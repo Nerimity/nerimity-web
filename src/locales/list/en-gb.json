@@ -603,7 +603,7 @@
         "badges": {
             "noticeTitle": "Donations",
             "notice": "Support this project by donating money.",
-            "palestineDescription": "Can be obtained by going to {{account}} -> {{profile}}",
+            "palestineDescription": "Can be equipped by going to profile settings",
             "price": "{{price}} Badges",
             "supportMethods": "Support Methods"
         },
