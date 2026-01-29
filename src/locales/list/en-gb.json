@@ -132,6 +132,13 @@
         "sendEmailButton": "Send Email",
         "sending": "Sending Email…"
     },
+    "welcomePopup": {
+        "subtitle": "Thanks for trying out Nerimity!",
+        "joinServer": "Join the official Nerimity server",
+        "editProfile": "Edit my profile",
+        "support": "Support me on {{platform}}",
+        "contribute": "Contribute to Nerimity on GitHub"
+    },
     "dashboard": {
         "title": "Dashboard",
         "activeUsers": "Active Users",
