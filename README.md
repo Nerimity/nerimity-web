@@ -15,23 +15,19 @@
 
 Chat App made using SolidJS.
 
-## Repos
+## 🗂️ Repos
 
 - Nerimity Web - Frontend (You Are Here)
-- [Nerimity Server - Backend](https://github.com/Supertigerr/chat-server)
+- [Nerimity Server - Backend](https://github.com/Nerimity/nerimity-server)
 
-## Setup
+## 🔧 Setup
 
 - Fork the repo
 - duplicate and rename `example.env` to `.env`
 - Run `pnpm i` and `pnpm run dev`
 - Go to http://local.nerimity.com:3000
 
-## Features Checklist:
-
-### Planned Features:
-
-### Completed Features:
+### ✨ Features:
 
 - [x] Explore Servers
 - [x] Explore Themes
