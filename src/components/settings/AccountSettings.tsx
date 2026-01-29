@@ -970,7 +970,7 @@ const ConfirmPasswordModal = (props: {
   return (
     <LegacyModal
       ignoreBackgroundClick
-      title={"Confirm Password"}
+      title={t("registerPage.confirmPassword")}
       close={props.close}
       actionButtons={actionButtons}
     >
@@ -981,7 +981,7 @@ const ConfirmPasswordModal = (props: {
         `}
         gap={10}
       >
-        <Text size={14}>{"Confirm your password to continue"}</Text>
+        <Text size={14}>{t("settings.account.confirmPasswordToContinue")}</Text>
 
         <Input value={password()} onText={setPassword} type="password" />
       </FlexColumn>
