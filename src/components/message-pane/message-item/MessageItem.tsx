@@ -103,6 +103,7 @@ import avatarBorderStyle from "@/components/avatar-borders/FounderAdminSupporter
 import { getFont } from "@/common/fonts";
 import useAccount from "@/chat-api/store/useAccount";
 import { Entity } from "@nerimity/nevula";
+import { useSwipeActions } from "./useSwipeActions";
 const ImagePreviewModal = lazy(
   () => import("@/components/ui/ImagePreviewModal")
 );
@@ -333,6 +334,14 @@ const MessageItem = (props: MessageItemProps) => {
 
   const { createRegisteredPortal } = useCustomPortal();
 
+  const [messageItemRef, setMessageItemRef] = createSignal<HTMLDivElement>();
+  const swipeActions = useSwipeActions(() => ({
+    message: props.message,
+    allowSwipeActions: props.allowSwipeActions,
+    textAreaEl: props.textAreaEl,
+    messageItemRef: messageItemRef()
+  }));
+
   const isNewDay = createMemo(() => {
     if (!props.showNewDayMarker) return false;
     if (!props.beforeMessage) return true;
@@ -468,97 +477,6 @@ const MessageItem = (props: MessageItemProps) => {
     );
   };
 
-  const [swipeAction, setSwipeAction] = createSignal<"none" | "reply" | "edit">(
-    "none"
-  );
-  let messageItemRef: HTMLDivElement | undefined;
-  let animationFrame: number;
-  let startX = 0;
-  let currentX = 0;
-  let isSwiping = false;
-
-  const EDIT_THRESHOLD = 80;
-  const REPLY_THRESHOLD = 150;
-
-  const canEditSwipe = () =>
-    account.user()?.id === props.message.createdBy.id &&
-    props.message.type === MessageType.CONTENT;
-
-  const handleTouchStart = (e: TouchEvent) => {
-    if (!props.allowSwipeActions) return;
-
-    startX = e.touches[0]?.clientX || 0;
-    currentX = startX;
-    isSwiping = true;
-  };
-
-  const handleTouchMove = (e: TouchEvent) => {
-    if (!props.allowSwipeActions || !isSwiping) return;
-
-    if (animationFrame) {
-      window.cancelAnimationFrame(animationFrame);
-    }
-    animationFrame = window.requestAnimationFrame(() => {
-      currentX = e.touches[0]?.clientX || 0;
-      const deltaX = currentX - startX;
-      if (deltaX > 0) return;
-      const absDelta = Math.abs(deltaX);
-
-      // Apply resistance curve for smoother feel
-      const translateX = deltaX;
-
-      setSwipeAction(
-        absDelta >= REPLY_THRESHOLD
-          ? "reply"
-          : absDelta >= EDIT_THRESHOLD && canEditSwipe()
-            ? "edit"
-            : "none"
-      );
-
-      if (messageItemRef) {
-        messageItemRef.style.transform = `translateX(${translateX}px)`;
-        messageItemRef.style.transition = "none";
-      }
-    });
-  };
-
-  const handleTouchEnd = () => {
-    if (animationFrame) {
-      window.cancelAnimationFrame(animationFrame);
-    }
-    animationFrame = window.requestAnimationFrame(() => {
-      const action = swipeAction();
-      setSwipeAction("none");
-
-      if (messageItemRef) {
-        messageItemRef.style.transition =
-          "transform 0.2s ease-out, background-color 0.2s";
-        messageItemRef.style.transform = "";
-
-        setTimeout(() => {
-          if (messageItemRef) {
-            messageItemRef.style.backgroundColor = "";
-          }
-        }, 200);
-      }
-
-      if (action === "edit" && canEditSwipe()) {
-        const { channelProperties } = useStore();
-        channelProperties.setEditMessage(
-          props.message.channelId,
-          props.message
-        );
-      } else if (action === "reply") {
-        const { channelProperties } = useStore();
-        channelProperties.addReply(props.message.channelId, props.message);
-        props.textAreaEl?.focus();
-      }
-
-      isSwiping = false;
-      startX = 0;
-      currentX = 0;
-    });
-  };
   return (
     <>
       <Show when={isNewDay()}>
@@ -576,20 +494,20 @@ const MessageItem = (props: MessageItemProps) => {
           props.class,
           "messageItem"
         )}
-        ref={messageItemRef}
+        ref={setMessageItemRef}
         onContextMenu={props.contextMenu}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         id={`message-${props.message.id}`}
-        onTouchMove={handleTouchMove}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
+        onTouchMove={swipeActions.handleTouchMove}
+        onTouchStart={swipeActions.handleTouchStart}
+        onTouchEnd={swipeActions.handleTouchEnd}
       >
         <div class={styles.actionIndicator}>
-          <Show when={swipeAction() === "reply"}>
+          <Show when={swipeActions.action() === "reply"}>
             <Icon name="reply" size={24} color="var(--primary-color)" />
           </Show>
-          <Show when={swipeAction() === "edit"}>
+          <Show when={swipeActions.action() === "edit"}>
             <Icon name="edit" size={24} color="var(--success-color)" />
           </Show>
         </div>
