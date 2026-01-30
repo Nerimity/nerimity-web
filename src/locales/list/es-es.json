@@ -510,7 +510,8 @@
             "postsAndMessagesNotice": "Tus publicaciones y mensajes pueden tardar semanas en ser eliminados.",
             "deleteCheckbox": "Eliminar mis publicaciones y mensajes",
             "usernameFont": "Tipografía del nombre de usuario",
-            "default": "Predeterminado de la aplicación"
+            "default": "Predeterminado de la aplicación",
+            "confirmPasswordToContinue": "Confirma tu contraseña para continuar"
         },
         "privacy": {
             "lastOnline": {
@@ -607,7 +608,12 @@
             "exportButton": "Exportar",
             "importButton": "Importar",
             "exportModal": "El tema se ha copiado al portapapeles.",
-            "importModal": "Pega el tema aquí:"
+            "importModal": "Pega el tema aquí:",
+            "rightDrawerMode": "Modo del panel derecho",
+            "swipeToOpen": "Deslizar para abrir",
+            "swipeToOpenDescription": "Desliza desde el borde derecho para abrir el panel derecho. Esto desactivará la función de deslizar para responder.",
+            "headerTapToOpen": "Toca el encabezado para abrir",
+            "headerTapToOpenDescription": "Abre el panel derecho haciendo clic en el encabezado. Esto activará el deslizamiento para responder."
         },
         "window": {
             "downloadAppNotice": "Para modificar estos ajustes, tienes que descargarte la aplicación de escritorio de Nerimity.",
@@ -690,7 +696,7 @@
         "badges": {
             "noticeTitle": "Donaciones",
             "notice": "Apoya este proyecto donando dinero.",
-            "palestineDescription": "Se obtiene yendo a {{account}} -> {{profile}}",
+            "palestineDescription": "Puede equiparse accediendo a la configuración del perfil",
             "price": "{{price}} Insignias",
             "supportMethods": "Métodos de donación"
         },
@@ -1218,5 +1224,17 @@
         "cancelButton": "No transferir",
         "transferButton": "Transferir",
         "transferring": "Transferiendo…"
+    },
+    "welcomePopup": {
+        "subtitle": "¡Gracias por probar Nerimity!",
+        "joinServer": "Únete al servidor oficial de Nerimity",
+        "editProfile": "Editar perfil",
+        "support": "Apóyame en {{platform}}",
+        "contribute": "Contribuye a Nerimity en GitHub"
+    },
+    "dropDown": {
+        "selectItem": "Seleccionar elemento",
+        "selectItemMultiple": "Seleccionar elemento(s)",
+        "itemsSelected": "{{count}} elemento(s) seleccionado(s)"
     }
 }
