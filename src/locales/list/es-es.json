@@ -948,7 +948,6 @@
     "addFriendModal": {
         "title": "Añadir amigo",
         "placeholder": "Usuario:ABC1",
-        "closeButton": "Cerrar",
         "sendRequest": "Enviar solicitud",
         "description": "Introduce el nombre y la etiqueta de tu amigo para añadirlo.",
         "requestSent": "¡Solicitud enviada!",
@@ -961,8 +960,7 @@
     "deleteMessageModal": {
         "title": "¿Eliminar mensaje?",
         "body": "¿Quieres eliminar este mensaje?",
-        "cancelButton": "No lo elimines",
-        "confirmButton": "Eliminar"
+        "cancelButton": "No lo elimines"
     },
     "message": {
         "badge": {
@@ -1121,8 +1119,7 @@
         "timestampModal": {
             "title": "Marcar fecha",
             "relative": "Relativo",
-            "offset": "Diferencia horaria",
-            "doneButton": "Hecho"
+            "offset": "Diferencia horaria"
         },
         "checkbox": "Checkbox"
     },

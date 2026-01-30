@@ -873,8 +873,7 @@
         "timestampModal": {
             "title": "Zaman İşaretlemesi",
             "relative": "Göreceli",
-            "offset": "Offset",
-            "doneButton": "Tamamlandı"
+            "offset": "Offset"
         },
         "checkbox": "Onay Kutusu"
     },
@@ -916,7 +915,6 @@
         "description": "Arkadaşını eklemek için **kullanıcı adını ve etiketini** gir.",
         "placeholder": "Kulanıcı Adı:ABC1",
         "requestSent": "İstek gönderildi!",
-        "closeButton": "Kapat",
         "sendRequest": "İstek Gönder",
         "sending": "Gönderiliyor…",
         "errors": {
@@ -927,8 +925,7 @@
     "deleteMessageModal": {
         "title": "Mesajı Silecekmisin?",
         "body": "Bu mesajı silmek ister misiniz?",
-        "cancelButton": "Silme",
-        "confirmButton": "Sil"
+        "cancelButton": "Silme"
     },
     "colorPickerModal": {
         "title": "Renk Seçici"

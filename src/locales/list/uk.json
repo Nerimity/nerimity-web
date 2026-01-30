@@ -251,8 +251,7 @@
         "timestampModal": {
             "title": "Наладка мітки часу",
             "relative": "Відносна",
-            "offset": "Зміщення",
-            "doneButton": "Готово"
+            "offset": "Зміщення"
         },
         "checkbox": "Прапорець"
     },

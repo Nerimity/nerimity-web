@@ -834,7 +834,6 @@
     "markup": {
         "color": "Couleur",
         "timestampModal": {
-            "doneButton": "Terminé",
             "title": "Balisage temporel",
             "relative": "Relatif",
             "offset": "Compenser"
@@ -959,7 +958,6 @@
         "title": "Ajouter Un Ami",
         "sendRequest": "Envoyer Une Demande",
         "sending": "Envoie…",
-        "closeButton": "Fermer",
         "requestSent": "Demande envoyée!",
         "description": "Saisissez le nom d'utilisateur et le nom d'utilisateur de votre ami pour l'ajouter.",
         "placeholder": "Nom d'utilisateur:ABC1",
@@ -1148,8 +1146,7 @@
     "deleteMessageModal": {
         "title": "Supprimer le message ?",
         "body": "Souhaitez-vous supprimer ce message ?",
-        "cancelButton": "Ne pas supprimer",
-        "confirmButton": "Supprimer"
+        "cancelButton": "Ne pas supprimer"
     },
     "colorPickerModal": {
         "title": "Sélecteur de couleurs"

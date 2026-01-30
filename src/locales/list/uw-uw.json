@@ -599,7 +599,6 @@
         "title": "Add Fwiend",
         "description": "Entyew youw fwiend’s usewnyame & tag to add dem~",
         "placeholder": "Usewnyame:UWU1",
-        "closeButton": "RUN AWAYYY..",
         "requestSent": "Wequest senties!~",
         "sendRequest": "Send Wequest",
         "sending": "Sending…",
@@ -611,8 +610,7 @@
     "deleteMessageModal": {
         "title": "Suwe u wanna poof dis talky?",
         "body": "U wanna poof dis talky?",
-        "cancelButton": "RUN AWAYYY..",
-        "confirmButton": "Poof~"
+        "cancelButton": "RUN AWAYYY.."
     },
     "colorPickerModal": {
         "title": "Cowow Picky"
