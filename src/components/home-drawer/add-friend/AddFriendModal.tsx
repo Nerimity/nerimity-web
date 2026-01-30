@@ -24,7 +24,7 @@ export default function AddFriendModal(props: { close: () => void }) {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={t("addFriendModal.closeButton")}
+          label={t("general.closeButton")}
           alert
           iconName="close"
           onClick={props.close}

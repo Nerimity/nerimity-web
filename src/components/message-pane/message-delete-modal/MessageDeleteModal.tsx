@@ -87,7 +87,7 @@ export default function DeleteMessageModal(props: {
         />
         <Modal.Button
           primary
-          label={t("deleteMessageModal.confirmButton")}
+          label={t("general.deleteButton")}
           onClick={onDeleteClick}
           iconName="delete"
           color="var(--alert-color)"
