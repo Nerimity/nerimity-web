@@ -269,7 +269,7 @@
                 "clear": "Скінуць",
                 "roleIcon": "Значок ролі",
                 "managedByBot": "Гэтая роля кіруецца {{botName}}. Вы ня можаце выдаліць яе альбо дадаць удзельнікаў. Каб прыбраць ролю, выганіце бота.",
-                "applyOnJoin": "Прымяняць пры далучэньні",
+                "applyOnJoin": "Дадаваць пры далучэньні",
                 "applyOnJoinDescription": "Даваць гэтую ролю ўдзельнікам, калі яны толькі далучыліся да сэрвэра.",
                 "deleteRoleTitle": "Выдаліць {{roleName}}"
             },
@@ -584,10 +584,10 @@
         "interface": {
             "customCSS": "Уласны CSS",
             "customCSSWarning": "Не ўстаўляйце код ад людзей, якім не давяраеце.",
-            "saveAndApply": "Захаваць і прымяніць",
+            "saveAndApply": "Захаваць і ўжыць",
             "themesDescription": "Абярыце гатовую тэму альбо вярніцеся да зыходнае.",
             "maintainers": "Удзельнікі",
-            "apply": "Прымяніць",
+            "apply": "Ужыць",
             "enableEruda": "Уключыць Eruda",
             "enableErudaDescription": "Уключыце Eruda для адладкі. Не абагульвайце аніякіх дадзеных зь іншымі.",
             "enableOnce": "Уключыць аднойчы",
@@ -1224,5 +1224,17 @@
         "cancelButton": "Не перадаваць",
         "transferButton": "Перадаць",
         "transferring": "Перадаем…"
+    },
+    "welcomePopup": {
+        "subtitle": "Дзякуй, што паспрабавалі Nerimity!",
+        "joinServer": "Далучыцеся да афіцыйнага сэрвэра Nerimity",
+        "editProfile": "Адрэдагуйце ваш профіль",
+        "support": "Падтрымайце мяне на {{platform}}",
+        "contribute": "Паўдзельнічайце ў Nerimity на GitHub"
+    },
+    "dropDown": {
+        "selectItem": "Абярыце элэмэнт",
+        "selectItemMultiple": "Абярыце элэмэнт(ы)",
+        "itemsSelected": "Абрана {{count}} элэмэнтаў"
     }
 }
