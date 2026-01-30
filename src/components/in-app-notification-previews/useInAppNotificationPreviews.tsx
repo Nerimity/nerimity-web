@@ -1,14 +1,9 @@
-import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { ServerNotificationPingMode } from "@/chat-api/RawData";
 import { Channel } from "@/chat-api/store/useChannels";
 import { Message } from "@/chat-api/store/useMessages";
 import useStore from "@/chat-api/store/useStore";
-import { isExperimentEnabled } from "@/common/experiments";
 import {
-  getStorageBoolean,
-  getStorageNumber,
   getStorageObject,
-  getStorageString,
   StorageKeys,
 } from "@/common/localStorage";
 import { isMentioned } from "@/common/Sound";
@@ -23,6 +18,7 @@ interface InAppPreviewNotification {
   message?: Message;
   channel?: Channel;
   onClick?: () => void;
+  id: string;
 }
 
 const [notifications, setNotifications] = createStore<
@@ -31,6 +27,7 @@ const [notifications, setNotifications] = createStore<
 
 const pushNotification = (notification: InAppPreviewNotification) => {
   if (!document.hasFocus()) return;
+  if (notifications.find((n) => n.id === notification.id)) return;
   if (notifications.length >= 2) {
     setNotifications(reconcile([notifications[0]!, notification]));
   }
@@ -56,6 +53,7 @@ const buildMessageNotification = (
   const displayName = nickname || message.createdBy.username;
 
   pushNotification({
+    id: message.id,
     title: `${displayName} ${
       server ? `(#${channel?.name} ${server?.name})` : ""
     }`,

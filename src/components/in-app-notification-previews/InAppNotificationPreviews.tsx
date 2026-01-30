@@ -4,8 +4,6 @@ import {
   createSignal,
   Match,
   on,
-  onCleanup,
-  onMount,
   Show,
   Switch,
 } from "solid-js";
@@ -25,7 +23,7 @@ import { getSystemMessage } from "@/common/SystemMessage";
 import { t } from "@nerimity/i18lite";
 
 export default function InAppNotificationPreviews() {
-  const { notifications, removeNotification, pushNotification } =
+  const { notifications, removeNotification } =
     useInAppNotificationPreviews();
   const [progressEl, setProgressEl] = createSignal<HTMLDivElement>();
   const [expanded, setExpanded] = createSignal(false);
@@ -49,10 +47,12 @@ export default function InAppNotificationPreviews() {
   });
 
   let anim: Animation | undefined;
+  let currentNotification = notification();
 
   createEffect(
     on([notification, progressEl], () => {
       anim?.cancel();
+      anim = undefined;
       const progressElement = progressEl();
       if (!notification()) {
         setExpanded(false);
@@ -60,10 +60,7 @@ export default function InAppNotificationPreviews() {
       }
       if (!progressElement) return;
 
-      if (anim) {
-        return;
-      }
-
+      currentNotification = notification();
       anim = progressElement.animate(
         [
           { composite: "replace", width: "100%" },
@@ -73,10 +70,12 @@ export default function InAppNotificationPreviews() {
       );
 
       anim.onfinish = () => {
-        anim?.cancel();
-        anim = undefined;
-        removeNotification(notification()!);
-        setExpanded(false);
+        if (anim && currentNotification === notification()) {
+          anim?.cancel();
+          anim = undefined;
+          removeNotification(notification()!);
+          setExpanded(false);
+        }
       };
     })
   );
@@ -108,10 +107,11 @@ export default function InAppNotificationPreviews() {
   };
   createEffect(
     on(expanded, () => {
+      if (!anim) return;
       if (expanded()) {
-        anim?.pause();
+        anim.pause();
       } else {
-        anim?.play();
+        anim.play();
       }
     })
   );
