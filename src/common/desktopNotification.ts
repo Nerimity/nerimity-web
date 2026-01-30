@@ -84,7 +84,7 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
   const username = member?.nickname || message.createdBy.username;
 
   if (!body && message.attachments?.length) {
-    body = "Image Message";
+    body = t("message.imageMessage");
   }
   const systemMessage = getSystemMessage(message.type);
 
@@ -116,7 +116,7 @@ function createDMDesktopNotification(message: Message) {
   }
 
   if (!body && message.attachments?.length) {
-    body = "Image Message";
+    body = t("message.imageMessage");
   }
   if (message.type === MessageType.CALL_STARTED) {
     body = `${message.createdBy.username} started a call.`;
