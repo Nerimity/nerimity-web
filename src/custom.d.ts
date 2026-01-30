@@ -3,6 +3,14 @@ declare module "chroma-js/src/generator/average.js" {
   export default function average(
     colors: Array<string | Color>,
     colorSpace?: InterpolationMode,
-    weights?: number[]
+    weights?: number[],
   ): Color;
+}
+
+interface Window {
+  twttr?: {
+    widgets: {
+      load: (element?: HTMLElement) => void;
+    };
+  };
 }

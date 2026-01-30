@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
   baseDirectory: __dirname,
   recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
+  allConfig: js.configs.all
 });
 
 export default [
@@ -22,29 +22,28 @@ export default [
   ),
   {
     plugins: {
-      "@typescript-eslint": typescriptEslint,
+      "@typescript-eslint": typescriptEslint
     },
 
     languageOptions: {
       globals: {
-        ...globals.browser,
+        ...globals.browser
       },
 
       parser: tsParser,
       ecmaVersion: "latest",
-      sourceType: "module",
+      sourceType: "module"
     },
 
     rules: {
       "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
       "brace-style": "off",
-      quotes: ["error", "double"],
-
+      quotes: ["error", "double", { avoidEscape: true }],
       indent: "off",
 
       semi: ["error", "always"],
-      "comma-dangle": "off",
-    },
+      "comma-dangle": "off"
+    }
   },
-  solid,
+  solid
 ];

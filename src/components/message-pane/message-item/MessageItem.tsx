@@ -11,16 +11,16 @@ import {
   RawEmbed,
   RawMessage,
   RawMessageReaction,
-  RawUser,
+  RawUser
 } from "@/chat-api/RawData";
 import useMessages, {
   Message,
-  MessageSentStatus,
+  MessageSentStatus
 } from "@/chat-api/store/useMessages";
 import {
   addMessageReaction,
   fetchMessageReactedUsers,
-  removeMessageReaction,
+  removeMessageReaction
 } from "@/chat-api/services/MessageService";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { A, useNavigate, useParams } from "solid-navigator";
@@ -39,12 +39,12 @@ import {
   onMount,
   ParentComponent,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import { Markup } from "@/components/Markup";
 import {
   toast,
-  useCustomPortal,
+  useCustomPortal
 } from "@/components/ui/custom-portal/CustomPortal";
 import Button from "@/components/ui/Button";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
@@ -59,13 +59,13 @@ import { DangerousLinkModal } from "@/components/ui/DangerousLinkModal";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import {
   ServerWithMemberCount,
-  serverDetailsByInviteCode,
+  serverDetailsByInviteCode
 } from "@/chat-api/services/ServerService";
 import { ServerVerifiedIcon } from "@/components/servers/ServerVerifiedIcon";
 import {
   getFile,
   googleApiInitialized,
-  initializeGoogleDrive,
+  initializeGoogleDrive
 } from "@/common/driveAPI";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
@@ -91,7 +91,7 @@ import { StorageKeys, useLocalStorage } from "@/common/localStorage";
 import {
   inviteLinkRegex,
   youtubeLinkRegex,
-  twitterStatusLinkRegex,
+  twitterStatusLinkRegex
 } from "@/common/regex";
 import { RawYoutubeEmbed } from "./RawYoutubeEmbed";
 import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
@@ -100,15 +100,15 @@ import { Trans, useTransContext } from "@nerimity/solid-i18lite";
 import markupStyle from "@/components/Markup.scss?inline";
 import avatarStyle from "@/components/ui/Avatar.module.css?inline";
 import avatarBorderStyle from "@/components/avatar-borders/FounderAdminSupporterBorder.module.css?inline";
-import { Fonts, getFont } from "@/common/fonts";
+import { getFont } from "@/common/fonts";
 import useAccount from "@/chat-api/store/useAccount";
 import { Entity } from "@nerimity/nevula";
 const ImagePreviewModal = lazy(
-  () => import("@/components/ui/ImagePreviewModal"),
+  () => import("@/components/ui/ImagePreviewModal")
 );
 
 const DeleteMessageModal = lazy(
-  () => import("../message-delete-modal/MessageDeleteModal"),
+  () => import("../message-delete-modal/MessageDeleteModal")
 );
 
 interface FloatingOptionsProps {
@@ -227,10 +227,10 @@ const Details = (props: DetailsProps) => {
   const [t] = useTransContext();
 
   const topRoleWithColor = createMemo(() =>
-    props.serverMember?.topRoleWithColor(),
+    props.serverMember?.topRoleWithColor()
   );
   const font = createMemo(() =>
-    getFont(props.message.createdBy.profile?.font || 0),
+    getFont(props.message.createdBy.profile?.font || 0)
   );
 
   return (
@@ -255,7 +255,7 @@ const Details = (props: DetailsProps) => {
           "--font": `'${font()?.name}'`,
           "--lh": font()?.lineHeight,
           "--ls": font()?.letterSpacing,
-          "--scale": font()?.scale,
+          "--scale": font()?.scale
         }}
       >
         {props.serverMember?.nickname || props.message.createdBy.username}
@@ -324,7 +324,7 @@ const MessageItem = (props: MessageItemProps) => {
   const serverMember = createMemo(() =>
     params.serverId
       ? serverMembers.get(params.serverId, props.message.createdBy.id)
-      : undefined,
+      : undefined
   );
   const server = createMemo(() => servers.get(params.serverId!));
 
@@ -386,7 +386,7 @@ const MessageItem = (props: MessageItemProps) => {
     const translated = await fetchTranslation(props.message.content!).catch(
       () => {
         toast(t("message.translationError"));
-      },
+      }
     );
     if (!translated) return;
     setTranslatedContent(translated);
@@ -400,7 +400,7 @@ const MessageItem = (props: MessageItemProps) => {
   });
 
   const selfMember = createMemo(() =>
-    serverMembers.get(params.serverId!, account.user()?.id!),
+    serverMembers.get(params.serverId!, account.user()?.id!)
   );
   createEffect(
     on(
@@ -408,7 +408,7 @@ const MessageItem = (props: MessageItemProps) => {
         () => props.message.mentions?.length,
         () => props.message.quotedMessages?.length,
         () => props.message.roleMentions?.length,
-        blockedMessage,
+        blockedMessage
       ],
       () => {
         if (blockedMessage()) return;
@@ -419,28 +419,28 @@ const MessageItem = (props: MessageItemProps) => {
           const isSomeoneMentioned =
             props.message.content?.includes("[@:s]") || false;
           const isQuoted = props.message.quotedMessages?.find(
-            (m) => m.createdBy?.id === account.user()?.id,
+            (m) => m.createdBy?.id === account.user()?.id
           );
           const isReplied = props.message.replyMessages?.find(
-            (m) => m.replyToMessage?.createdBy?.id === account.user()?.id,
+            (m) => m.replyToMessage?.createdBy?.id === account.user()?.id
           );
           const isRoleMentioned =
             serverMember()?.hasPermission(ROLE_PERMISSIONS.MENTION_ROLES) &&
             props.message.roleMentions.find(
               (r) =>
-                r.id !== server()?.defaultRoleId && selfMember()?.hasRole(r.id),
+                r.id !== server()?.defaultRoleId && selfMember()?.hasRole(r.id)
             );
           const isMentioned =
             isEveryoneMentioned ||
             props.message.mentions?.find((u) => u.id === account.user()?.id);
 
           setIsMentioned(
-            !!isQuoted || !!isMentioned || !!isReplied || !!isRoleMentioned,
+            !!isQuoted || !!isMentioned || !!isReplied || !!isRoleMentioned
           );
           setIsSomeoneMentioned(isSomeoneMentioned);
         });
-      },
-    ),
+      }
+    )
   );
 
   const showProfileFlyout = (event: MouseEvent) => {
@@ -451,7 +451,7 @@ const MessageItem = (props: MessageItemProps) => {
     const pos = {
       left: rect.left + 40,
       top: rect.top,
-      anchor: "left",
+      anchor: "left"
     } as const;
 
     createRegisteredPortal(
@@ -461,15 +461,15 @@ const MessageItem = (props: MessageItemProps) => {
         position: pos,
         serverId: params.serverId,
         close: close,
-        userId: props.message.createdBy.id,
+        userId: props.message.createdBy.id
       },
       "profile-pane-flyout-" + props.message.createdBy.id,
-      true,
+      true
     );
   };
 
   const [swipeAction, setSwipeAction] = createSignal<"none" | "reply" | "edit">(
-    "none",
+    "none"
   );
   let messageItemRef: HTMLDivElement | undefined;
   let animationFrame: number;
@@ -512,7 +512,7 @@ const MessageItem = (props: MessageItemProps) => {
           ? "reply"
           : absDelta >= EDIT_THRESHOLD && canEditSwipe()
             ? "edit"
-            : "none",
+            : "none"
       );
 
       if (messageItemRef) {
@@ -522,7 +522,7 @@ const MessageItem = (props: MessageItemProps) => {
     });
   };
 
-  const handleTouchEnd = (e: TouchEvent) => {
+  const handleTouchEnd = () => {
     if (animationFrame) {
       window.cancelAnimationFrame(animationFrame);
     }
@@ -546,7 +546,7 @@ const MessageItem = (props: MessageItemProps) => {
         const { channelProperties } = useStore();
         channelProperties.setEditMessage(
           props.message.channelId,
-          props.message,
+          props.message
         );
       } else if (action === "reply") {
         const { channelProperties } = useStore();
@@ -574,7 +574,7 @@ const MessageItem = (props: MessageItemProps) => {
           conditionalClass(props.isEditing, styles.isEditing),
           conditionalClass(isSomeoneMentioned(), styles.someoneMentioned),
           props.class,
-          "messageItem",
+          "messageItem"
         )}
         ref={messageItemRef}
         onContextMenu={props.contextMenu}
@@ -609,7 +609,7 @@ const MessageItem = (props: MessageItemProps) => {
                 onClick={() => setBlockedMessage(false)}
                 class={classNames(
                   styles.blockedMessage,
-                  conditionalClass(isCompact(), styles.compact),
+                  conditionalClass(isCompact(), styles.compact)
                 )}
               >
                 {t("message.blocked")}
@@ -656,7 +656,7 @@ const MessageItem = (props: MessageItemProps) => {
                     class={classNames(
                       styles.avatar,
                       "avatar",
-                      "trigger-profile-flyout",
+                      "trigger-profile-flyout"
                     )}
                   >
                     <Avatar
@@ -722,7 +722,7 @@ const MessageItem = (props: MessageItemProps) => {
 const updateCheckEntity = (
   message: Message,
   entity: Entity,
-  state: boolean,
+  state: boolean
 ) => {
   const messages = useMessages();
 
@@ -734,7 +734,7 @@ const updateCheckEntity = (
   messages.editAndStoreMessage(
     message.channelId,
     message.id,
-    `${before}${checkbox}${after}`,
+    `${before}${checkbox}${after}`
   );
 };
 
@@ -794,7 +794,7 @@ const Content = (props: {
           onClick={() => {
             store.messages.locallyRemoveMessage(
               props.message.channelId,
-              props.message.id,
+              props.message.id
             );
           }}
         />
@@ -840,7 +840,7 @@ const SentStatus = (props: { message: Message }) => {
   const editedAt = () => {
     if (!props.message.editedAt) return;
     return t("message.editedAt", {
-      time: formatTimestamp(props.message.editedAt),
+      time: formatTimestamp(props.message.editedAt)
     });
   };
 
@@ -888,7 +888,7 @@ const SystemMessage = (props: {
   showProfileFlyout?: (event: MouseEvent) => void;
 }) => {
   const systemMessage = createMemo(() =>
-    getSystemMessage(props.message.type, props.message.createdBy.bot),
+    getSystemMessage(props.message.type, props.message.createdBy.bot)
   );
 
   return (
@@ -899,9 +899,7 @@ const SystemMessage = (props: {
             name={systemMessage()?.icon}
             class={cn(
               styles.icon,
-              systemMessage()?.icon === "logout"
-                ? styles.logoutIcon
-                : undefined,
+              systemMessage()?.icon === "logout" ? styles.logoutIcon : undefined
             )}
             color={systemMessage()?.color}
           />
@@ -927,7 +925,7 @@ const SystemMessage = (props: {
                   User: <MentionUser user={props.message.createdBy} />,
                   "2": (props: { children: string }) => (
                     <span>{props.children}</span>
-                  ),
+                  )
                 }}
               />
             </span>
@@ -1055,12 +1053,12 @@ const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
       error={isExpired() ? t("fileEmbed.expired") : undefined}
       file={{
         name: decodeURIComponent(
-          props.attachment.path?.split("/").reverse()[0]!,
+          props.attachment.path?.split("/").reverse()[0]!
         ),
         size: props.attachment.filesize!,
         url: env.NERIMITY_CDN + props.attachment.path!,
         expireAt: props.attachment.expireAt,
-        provider: "local",
+        provider: "local"
       }}
     />
   );
@@ -1076,13 +1074,13 @@ const LocalFileEmbed = (props: { attachment: RawAttachment }) => {
       error={isExpired() ? t("fileEmbed.expired") : undefined}
       file={{
         name: decodeURIComponent(
-          props.attachment.path?.split("/").reverse()[0]!,
+          props.attachment.path?.split("/").reverse()[0]!
         ),
         mime: props.attachment.mime!,
         size: props.attachment.filesize!,
         url: env.NERIMITY_CDN + props.attachment.path!,
         previewUrl: env.NERIMITY_CDN + props.attachment.path!,
-        expireAt: props.attachment.expireAt,
+        expireAt: props.attachment.expireAt
       }}
     />
   );
@@ -1124,7 +1122,7 @@ export const YoutubeEmbed = (props: {
     if (props.shorts) {
       const maxWidth = clamp(
         (customWidth || containerWidth()) + (widthOffset || 0),
-        600,
+        600
       );
       const maxHeight =
         containerWidth() <= 600
@@ -1135,7 +1133,7 @@ export const YoutubeEmbed = (props: {
 
     const maxWidth = clamp(
       (customWidth || containerWidth()) + (widthOffset || 0),
-      600,
+      600
     );
     return clampImageSize(1920, 1080, maxWidth, 999999);
   };
@@ -1144,19 +1142,29 @@ export const YoutubeEmbed = (props: {
 };
 
 const TwitterEmbed = (props: { path: string }) => {
-  let ref: HTMLDivElement | undefined;
+  let ref: HTMLQuoteElement | undefined;
   let containerRef: HTMLDivElement | undefined;
-  const existingScript = document.getElementById("twitter-wjs");
-  if (!existingScript) {
-    const scriptEl = document.createElement("script");
-    scriptEl.src = "https://platform.twitter.com/widgets.js";
-    scriptEl.async = true;
-    scriptEl.id = "twitter-wjs";
 
-    document.body.appendChild(scriptEl);
-  }
+  const loadWidget = () => {
+    if (window.twttr && window.twttr.widgets) {
+      window.twttr.widgets.load(ref);
+    } else {
+      setTimeout(loadWidget, 100);
+    }
+  };
+
   onMount(() => {
-    window.twttr?.widgets.load(ref);
+    const existingScript = document.getElementById("twitter-wjs");
+
+    if (!existingScript) {
+      const scriptEl = document.createElement("script");
+      scriptEl.src = "https://platform.twitter.com/widgets.js";
+      scriptEl.async = true;
+      scriptEl.id = "twitter-wjs";
+      document.body.appendChild(scriptEl);
+    }
+
+    loadWidget();
   });
   onCleanup(() => {
     containerRef?.remove();
@@ -1181,7 +1189,6 @@ const TwitterEmbed = (props: { path: string }) => {
 const GoogleDriveVideoEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
   const [error, setError] = createSignal<string | undefined>();
-  const [playVideo, setPlayVideo] = createSignal<boolean>(false);
   const [t] = useTransContext();
 
   onMount(async () => {
@@ -1192,7 +1199,7 @@ const GoogleDriveVideoEmbed = (props: { attachment: RawAttachment }) => {
     if (!googleApiInitialized()) return;
     const file = await getFile(
       props.attachment.fileId!,
-      "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata",
+      "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata"
     ).catch((e) => console.log(e));
 
     if (!file) return setError(t("videoEmbed.couldNotGetVideo"));
@@ -1216,7 +1223,7 @@ const GoogleDriveVideoEmbed = (props: { attachment: RawAttachment }) => {
               name: file()!.name!,
               size: parseInt(file()!.size! || "0"),
               thumbnailLink: file()?.thumbnailLink,
-              provider: "google_drive",
+              provider: "google_drive"
             }
           : undefined
       }
@@ -1258,7 +1265,7 @@ const VideoEmbed = (props: {
     toast(
       props.file?.expireAt
         ? t("videoEmbed.videoExpired") // Can probably move all "expired" to use a central expired string in future
-        : t("videoEmbed.modifiedOrDeleted"),
+        : t("videoEmbed.modifiedOrDeleted")
     );
 
   return (
@@ -1322,7 +1329,7 @@ const VideoEmbed = (props: {
                 style={{
                   width: "100%",
                   height: "100%",
-                  "object-fit": "contain",
+                  "object-fit": "contain"
                 }}
                 src={props.file?.thumbnailLink}
                 alt=""
@@ -1383,7 +1390,7 @@ const FileEmbed = (props: {
     toast(
       props.file?.expireAt
         ? t("fileEmbed.expired")
-        : t("fileEmbed.modifiedOrDeleted"),
+        : t("fileEmbed.modifiedOrDeleted")
     );
 
   return (
@@ -1469,7 +1476,7 @@ const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
     if (!googleApiInitialized()) return;
     const file = await getFile(
       props.attachment.fileId!,
-      "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink",
+      "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink"
     ).catch((e) => console.log(e));
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
     if (!file) return setError("Could not get file.");
@@ -1494,7 +1501,7 @@ const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
               size: parseInt(file()?.size!),
               url: file()?.webContentLink!,
               previewUrl: previewUrl(),
-              originalPreviewUrl: originalPreview(),
+              originalPreviewUrl: originalPreview()
             }
           : undefined
       }
@@ -1534,7 +1541,7 @@ export function ServerInviteEmbed(props: { code: string }) {
     if (!_invite) return;
     if (cachedServer())
       return navigate(
-        RouterEndpoints.SERVER_MESSAGES(_invite.id, _invite.defaultChannelId),
+        RouterEndpoints.SERVER_MESSAGES(_invite.id, _invite.defaultChannelId)
       );
 
     if (joining()) return;
@@ -1601,7 +1608,7 @@ export function ServerInviteEmbed(props: { code: string }) {
   );
 }
 export function OGEmbed(props: {
-  message: { content?: string; embed: RawEmbed };
+  message: { content?: string; embed?: RawEmbed | null };
   customWidth?: number;
   customHeight?: number;
   customWidthOffset?: number;
@@ -1624,7 +1631,7 @@ export function OGEmbed(props: {
   const showDetailedTwitterEmbed = () => {
     const [useTwitterEmbed, setUseTwitterEmbed] = useLocalStorage(
       StorageKeys.USE_TWITTER_EMBED,
-      false,
+      false
     );
     if (showDetailed()) {
       return setShowDetailed(false);
@@ -1669,7 +1676,7 @@ export function OGEmbed(props: {
   };
 
   return (
-    <>
+    <Show when={embed()}>
       <Switch>
         <Match when={showDetailed()}>
           <TwitterEmbed path={twitterStatusEmbed()?.[3]!} />
@@ -1684,7 +1691,7 @@ export function OGEmbed(props: {
                 (embed().animated ? "#a" : "")
               }`,
               width: embed().imageWidth,
-              height: embed().imageHeight,
+              height: embed().imageHeight
             }}
             widthOffset={props.customWidthOffset || -90}
             customWidth={props.customWidth}
@@ -1709,12 +1716,12 @@ export function OGEmbed(props: {
           margin={[4, 0, 0, 0]}
         />
       </Show>
-    </>
+    </Show>
   );
 }
 
 const NormalEmbed = (props: {
-  message: RawMessage;
+  message: { embed?: RawEmbed | null };
   containerWidth?: number;
 }) => {
   const { hasFocus } = useWindowProperties();
@@ -1767,7 +1774,7 @@ const NormalEmbed = (props: {
     <div
       class={classNames(
         styles.ogEmbedContainer,
-        conditionalClass(largeImage(), styles.largeImage),
+        conditionalClass(largeImage(), styles.largeImage)
       )}
     >
       <Show when={embed().imageUrl}>
@@ -1791,7 +1798,7 @@ const NormalEmbed = (props: {
                   embed().imageMime?.split("/")[1]
                 }`,
                 width: embed().imageWidth,
-                height: embed().imageHeight,
+                height: embed().imageHeight
               }}
               widthOffset={-90}
               maxWidth={500}
@@ -1841,20 +1848,20 @@ const htmlEmbedContainerStyles: JSX.CSSProperties = {
   display: "flex",
   overflow: "auto",
   "align-self": "normal",
-  "max-height": "500px",
+  "max-height": "500px"
 };
 
 function HTMLEmbed(props: { message: RawMessage }) {
   const id = createUniqueId();
   const embed = createMemo<HtmlEmbedItem | HtmlEmbedItem[]>(() =>
-    unzipJson(props.message.htmlEmbed!),
+    unzipJson(props.message.htmlEmbed!)
   );
   const { hasFocus } = useWindowProperties();
 
   const styleItem = createMemo(
     () =>
       (embed() as HtmlEmbedItem[]).find?.((item) => item?.tag === "style")
-        ?.content[0] as string | undefined,
+        ?.content[0] as string | undefined
   );
 
   return (
@@ -1991,12 +1998,12 @@ function ReactionItem(props: ReactionItemProps) {
 
   let isHovering = false;
 
-  const onMouseEnter = (e: any) => {
+  const onMouseEnter = (e: MouseEvent) => {
     isHovering = true;
     props.onMouseEnter?.(e);
   };
 
-  const onMouseLeave = (e: any) => {
+  const onMouseLeave = (e: MouseEvent) => {
     isHovering = false;
     props.onMouseLeave?.(e);
   };
@@ -2024,7 +2031,7 @@ function ReactionItem(props: ReactionItemProps) {
         channelId: props.message.channelId,
         messageId: props.message.id,
         name: props.reaction.name,
-        emojiId: props.reaction.emojiId,
+        emojiId: props.reaction.emojiId
       });
       return;
     }
@@ -2033,7 +2040,7 @@ function ReactionItem(props: ReactionItemProps) {
       messageId: props.message.id,
       name: props.reaction.name,
       emojiId: props.reaction.emojiId,
-      gif: props.reaction.gif,
+      gif: props.reaction.gif
     });
   };
 
@@ -2050,7 +2057,7 @@ function ReactionItem(props: ReactionItemProps) {
       customChildrenLeft={
         <Emoji
           class={styles.emoji}
-          name={name()}
+          name={name()!}
           url={url()}
           custom={!!props.reaction.emojiId}
           resize={60}
@@ -2059,7 +2066,7 @@ function ReactionItem(props: ReactionItemProps) {
       onClick={addReaction}
       class={classNames(
         styles.reactionItem,
-        conditionalClass(props.reaction.reacted, styles.reacted),
+        conditionalClass(props.reaction.reacted, styles.reacted)
       )}
       label={props.reaction.count.toLocaleString()}
       textSize={12}
@@ -2107,11 +2114,11 @@ function Reactions(props: {
             x: rect.x + rect.width / 2,
             y: rect.y,
             reaction,
-            message: props.message,
+            message: props.message
           }}
         />
       ),
-      "whoReactedModal",
+      "whoReactedModal"
     );
   };
   const onBlur = () => {
@@ -2157,7 +2164,7 @@ function WhoReactedModal(props: {
         messageId: props.message.id,
         name: props.reaction.name,
         emojiId: props.reaction.emojiId,
-        limit: 5,
+        limit: 5
       });
       setUsers(newReactedUsers.map((u) => u.user));
     }, 500);
@@ -2171,7 +2178,7 @@ function WhoReactedModal(props: {
     if (!height()) return { pointerEvents: "none" };
     return {
       top: props.y - height() - 5 + "px",
-      left: props.x - width() / 2 + "px",
+      left: props.x - width() / 2 + "px"
     };
   };
 
@@ -2214,10 +2221,10 @@ const MessageReplies = (props: { message: Message }) => {
         replyMessages: props.message.replyMessages.map((m) => {
           const match = m.replyToMessage?.id === payload.messageId;
           return match ? m : {};
-        }),
+        })
       },
       props.message.channelId,
-      props.message.id,
+      props.message.id
     );
   }
 
@@ -2230,18 +2237,18 @@ const MessageReplies = (props: { message: Message }) => {
 
     const replyMessages = [...props.message.replyMessages];
     const index = replyMessages.findIndex(
-      (q) => q.replyToMessage?.id === payload.messageId,
+      (q) => q.replyToMessage?.id === payload.messageId
     );
     replyMessages[index] = {
       ...replyMessages[index],
-      ...{ replyToMessage: payload.updated },
+      ...{ replyToMessage: payload.updated }
     };
     store.messages.updateLocalMessage(
       {
-        replyMessages,
+        replyMessages
       },
       props.message.channelId,
-      props.message.id,
+      props.message.id
     );
   }
 
@@ -2272,7 +2279,7 @@ const MessageReplyItem = (props: {
   const member = () =>
     store.serverMembers.get(
       params.serverId!,
-      props.replyToMessage?.createdBy?.id!,
+      props.replyToMessage?.createdBy?.id!
     );
 
   const topRoleWithColor = createMemo(() => member()?.topRoleWithColor());
@@ -2290,7 +2297,7 @@ const MessageReplyItem = (props: {
       <div
         class={classNames(
           styles.line,
-          props.index === 0 ? styles.first : undefined,
+          props.index === 0 ? styles.first : undefined
         )}
       />
       <div class={styles.replyContentContainer}>
@@ -2300,7 +2307,7 @@ const MessageReplyItem = (props: {
             style={{
               "--gradient":
                 topRoleWithColor()?.gradient || topRoleWithColor()?.hexColor,
-              "--color": topRoleWithColor()?.hexColor!,
+              "--color": topRoleWithColor()?.hexColor!
             }}
           >
             {member()?.nickname || props.replyToMessage!.createdBy?.username}
@@ -2350,7 +2357,7 @@ const ShadowRoot: ParentComponent = (props) => {
       shadow.adoptedStyleSheets = [
         markupStyleSheet,
         avatarStyleSheet,
-        avatarBorderStyleSheet,
+        avatarBorderStyleSheet
       ];
     }
   };
