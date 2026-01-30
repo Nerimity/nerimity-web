@@ -904,8 +904,7 @@
         "timestampModal": {
             "title": "Дата и время",
             "relative": "Относительное",
-            "offset": "Смещение",
-            "doneButton": "Готово"
+            "offset": "Смещение"
         },
         "checkbox": "Галочка"
     },
@@ -1035,7 +1034,6 @@
         "description": "Введите имя пользователя и тег, чтобы добавить друга.",
         "placeholder": "Имя пользователя:АБВ1",
         "requestSent": "Запрос отправлен!",
-        "closeButton": "Закрыть",
         "sendRequest": "Отправить запрос",
         "sending": "Отправка…",
         "errors": {
@@ -1051,8 +1049,7 @@
     "deleteMessageModal": {
         "title": "Удалить сообщение?",
         "body": "Вы уверены, что хотите удалить это сообщение?",
-        "cancelButton": "Не удалять",
-        "confirmButton": "Удалить"
+        "cancelButton": "Не удалять"
     },
     "message": {
         "badge": {

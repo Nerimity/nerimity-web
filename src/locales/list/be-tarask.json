@@ -950,7 +950,6 @@
         "description": "Увядзіце ймя карыстача й and тэґ, каб дадаць іх.",
         "placeholder": "Імя_Карыстача:АБВ1",
         "requestSent": "Запыт дасланы!",
-        "closeButton": "Закрыць",
         "sendRequest": "Даслаць запыт",
         "sending": "Дасылаем…",
         "errors": {
@@ -961,8 +960,7 @@
     "deleteMessageModal": {
         "title": "Выдаліць паведамленьне?",
         "body": "Вы сапраўды хочаце выдаліць гэтае паведамленьне?",
-        "cancelButton": "Не выдаляць",
-        "confirmButton": "Выдаліць"
+        "cancelButton": "Не выдаляць"
     },
     "message": {
         "badge": {
@@ -1107,8 +1105,7 @@
         "timestampModal": {
             "title": "Наладка часу",
             "relative": "Адносны",
-            "offset": "Зрух",
-            "doneButton": "Гатова"
+            "offset": "Зрух"
         },
         "checkbox": "Птушка"
     },

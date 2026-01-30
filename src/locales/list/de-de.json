@@ -950,7 +950,6 @@
         "description": "Gib den Benutzernamen und Tag deines Freundes ein, um ihn hinzuzufügen.",
         "placeholder": "Benutzername:ABC1",
         "requestSent": "Anfrage gesendet!",
-        "closeButton": "Schließen",
         "sendRequest": "Anfrage senden",
         "sending": "Wird gesendet…",
         "errors": {
@@ -961,8 +960,7 @@
     "deleteMessageModal": {
         "title": "Nachricht löschen?",
         "body": "Möchtest du diese Nachricht löschen?",
-        "cancelButton": "Nicht löschen",
-        "confirmButton": "Löschen"
+        "cancelButton": "Nicht löschen"
     },
     "message": {
         "badge": {
@@ -1081,8 +1079,7 @@
         "timestampModal": {
             "title": "Zeit-Markup",
             "relative": "Relativ",
-            "offset": "Versatz",
-            "doneButton": "Fertig"
+            "offset": "Versatz"
         },
         "checkbox": "Checkbox"
     },

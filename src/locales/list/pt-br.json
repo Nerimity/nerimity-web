@@ -835,7 +835,6 @@
         "description": "Insira o nome de usuário e tag de seu(ua) amigo(a) para o(a) adicionar.",
         "placeholder": "Nome de usuário:ABC1",
         "requestSent": "Pedido enviado!",
-        "closeButton": "Fechar",
         "sendRequest": "Enviar pedido",
         "sending": "Enviando…",
         "errors": {
@@ -846,8 +845,7 @@
     "deleteMessageModal": {
         "title": "Excluir mensagem?",
         "body": "Você gostaria de excluir esta mensagem?",
-        "cancelButton": "Não excluir",
-        "confirmButton": "Excluir"
+        "cancelButton": "Não excluir"
     },
     "colorPickerModal": {
         "title": "Seletor de cores"
@@ -988,7 +986,6 @@
         "emojiPicker": "Seletor de emoji",
         "timestampModal": {
             "title": "Marcação de tempo",
-            "doneButton": "Feito",
             "relative": "Relativo",
             "offset": "Ajuste"
         },

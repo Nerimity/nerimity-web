@@ -204,8 +204,7 @@
         "timestampModal": {
             "title": "Tids-markup",
             "relative": "Relativ",
-            "offset": "Offset",
-            "doneButton": "Klar"
+            "offset": "Offset"
         },
         "checkbox": "Kryssruta"
     },
