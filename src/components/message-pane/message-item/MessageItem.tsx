@@ -2240,7 +2240,7 @@ const MessageReplyItem = (props: {
               message={props.replyToMessage!}
               text={
                 props.replyToMessage!.content ||
-                (hasAttachments() ? "Image message" : "")
+                (hasAttachments() ? t("message.imageMessage") : "")
               }
             />
           </div>

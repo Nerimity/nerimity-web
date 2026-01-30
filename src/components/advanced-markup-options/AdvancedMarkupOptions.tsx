@@ -432,7 +432,7 @@ const DateTimePickerModal = (props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={t("markup.timestampModal.doneButton")}
+          label={t("general.doneButton")}
           iconName="check"
           primary
           onClick={onDone}

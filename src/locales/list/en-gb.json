@@ -216,8 +216,7 @@
         "timestampModal": {
             "title": "Time Markup",
             "relative": "Relative",
-            "offset": "Offset",
-            "doneButton": "Done"
+            "offset": "Offset"
         },
         "checkbox": "Checkbox"
     },
@@ -1097,7 +1096,6 @@
         "description": "Enter your friend's username and tag to add them.",
         "placeholder": "Username:ABC1",
         "requestSent": "Request sent!",
-        "closeButton": "Close",
         "sendRequest": "Send Request",
         "sending": "Sending…",
         "errors": {
@@ -1113,8 +1111,7 @@
     "deleteMessageModal": {
         "title": "Delete Message?",
         "body": "Would you like to delete this message?",
-        "cancelButton": "Don't Delete",
-        "confirmButton": "Delete"
+        "cancelButton": "Don't Delete"
     },
     "message": {
         "badge": {
