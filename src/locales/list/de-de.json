@@ -235,7 +235,7 @@
                 "bannedAt": "Gesperrt am",
                 "unknown": "Unbekannt",
                 "unban": "Entsperren",
-                "unbanning": "Wird entbannt.."
+                "unbanning": "Wird entbannt…"
             },
             "webhook": {
                 "title": "Webhooks",
@@ -268,7 +268,7 @@
                 "deleteRoleButton": "Diese Rolle löschen",
                 "clear": "Zurücksetzen",
                 "roleIcon": "Rollen-Icon",
-                "managedByBot": "Diese Rolle wird von {{botName}} verwaltet.\nDu kannst sie nicht löschen oder anderen Mitgliedern zugewiesen werden. Kicke den Bot um die Rolle zu löschen.",
+                "managedByBot": "Diese Rolle wird von {{botName}} verwaltet. Du kannst sie nicht löschen oder anderen Mitgliedern zuweisen. Kicke den Bot um die Rolle zu löschen.",
                 "applyOnJoin": "Beitrittsanfrage",
                 "applyOnJoinDescription": "Weise diese Rolle Mitgliedern hinzu, wenn sie dem Server beitreten.",
                 "deleteRoleTitle": "Lösche {{roleName}}"
@@ -309,7 +309,7 @@
                 "bumpServerDescription": "Bumpe diesen Server, um ganz nach oben zu kommen.",
                 "bumpButton": "Bump ({{count}})",
                 "descriptionLabel": "Serverbeschreibung ({{current}}/{{max}})",
-                "publishServerButton": "Server veröffentlichen",
+                "publishServerButton": "Veröffentlichen",
                 "unpublishServerButton": "Veröffentlichung aufheben",
                 "bumpCooldown": "Du musst {{hours}} Stunde(n), {{minutes}} Minute(n) und {{seconds}} Sekunde(n) warten, um den Server erneut zu bumpen."
             },
@@ -510,7 +510,8 @@
             "postsAndMessagesNotice": "Das Löschen deiner Beiträge und Nachrichten kann Wochen dauern.",
             "deleteCheckbox": "Meine Beiträge und Nachrichten löschen",
             "usernameFont": "Schriftart des Benutzernamens",
-            "default": "App-Standard"
+            "default": "App-Standard",
+            "confirmPasswordToContinue": "Bestätige dein Passwort um fortzufahren"
         },
         "privacy": {
             "lastOnline": {
@@ -607,7 +608,12 @@
             "exportButton": "Exportieren",
             "importButton": "Importieren",
             "exportModal": "Design wurde in die Zwischenablage kopiert.",
-            "importModal": "Füge Design hier ein:"
+            "importModal": "Füge Design hier ein:",
+            "rightDrawerMode": "Rechter Seitenleistenmodus",
+            "swipeToOpen": "Swipe um zu öffnen",
+            "swipeToOpenDescription": "­Öffne die rechte Seitenleiste durch swipen vom rechten Bildschirmrand. Dadurch wird swipen zum Antworten deaktiviert.",
+            "headerTapToOpen": "Header tippen zum Öffnen",
+            "headerTapToOpenDescription": "Öffne die rechte Seitenleiste durch Klicken auf den Header. Dadurch wird swipen zum Antworten aktiviert."
         },
         "window": {
             "downloadAppNotice": "Um diese Einstellungen zu ändern, musst du die Nerimity-Desktop-App herunterladen.",
@@ -668,12 +674,29 @@
                 "andMore": "• Und mehr",
                 "willNotGetDeletedDescription": "Möglicherweise müssen sie vor dem Löschen der App manuell entfernt werden.",
                 "deleteAppButton": "Lösche diese App"
+            },
+            "refreshButton": "Aktualisieren",
+            "bot": {
+                "createInvite": "Erstelle einen Einladungslink",
+                "createLinkButton": "Link erstellen",
+                "token": "Token",
+                "tokenRefreshed": "Token wurde aktualisiert.",
+                "tokenCopied": "Token wurde in die Zwischenablage kopiert.",
+                "permissionsDescription": "Verwalte die Berechtigungen für diesen Link.",
+                "publishBot": "Bot veröffentlichen",
+                "publishBotDescription": "Veröffentliche deinen Bot auf der Explore-Seite, damit andere Nutzer ihn finden können.",
+                "publishNotice": "Durch das Veröffentlichen deines Bots wird er auf der <1>Explore</1>-Seite verfügbar.",
+                "bumpBot": "Bump Bot",
+                "bumpBotDescription": "Bumpe diesen Bot, um ihn an die Spitze zu bringen",
+                "bumpBotCooldown": "Du musst {{hours}} Stunden, {{minutes}} Minuten und {{seconds}} Sekunden warten, um diesen Bot zu bumpen.",
+                "publicDescription": "Mache diesen Bot öffentlich.",
+                "botDescription": "Bot Beschreibung ({{current}}/{{max}})"
             }
         },
         "badges": {
             "noticeTitle": "Spenden",
             "notice": "Unterstütze dieses Projekt, indem du Geld spendest.",
-            "palestineDescription": "Kann über {{account}} -> {{profile}} erhalten werden",
+            "palestineDescription": "Kann in den Profileinstellungen ausgewählt werden",
             "price": "{{price}} Abzeichen",
             "supportMethods": "Unterstützungsmethoden"
         },
@@ -796,7 +819,8 @@
         "markUnread": "Als ungelesen markieren",
         "pinMessage": "Anpinnen",
         "unpinMessage": "Loslösen",
-        "copyHTML": "HTML kopieren"
+        "copyHTML": "HTML kopieren",
+        "copyMessageLink": "Link zur Nachricht kopieren"
     },
     "profile": {
         "followButton": "Folgen",
@@ -1200,5 +1224,17 @@
             "deerDarkDescription": "Emo Hirschgeweihe",
             "deerWhiteDescription": "Süßer-pinker Hirsch"
         }
+    },
+    "welcomePopup": {
+        "subtitle": "Danke, dass du Nerimity ausprobierst!",
+        "joinServer": "Tritt dem offiziellen Nerimity-Server bei",
+        "editProfile": "Bearbeite mein Profil",
+        "support": "Unterstützte mich auf {{platform}}",
+        "contribute": "Trage auf GitHub zu Nerimity bei"
+    },
+    "dropDown": {
+        "selectItem": "Element auswählen",
+        "selectItemMultiple": "Element(e) auswählen",
+        "itemsSelected": "{{count}} Element(e) ausgewählt"
     }
 }
