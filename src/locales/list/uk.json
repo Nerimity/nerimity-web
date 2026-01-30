@@ -105,7 +105,7 @@
     "registerPage": {
         "header": "Реєстрація",
         "notices": {
-            "title": "Повідомлення",
+            "title": "Зауваження",
             "toxic": "Не будь токсичними.",
             "nsfw": "18+ контент заборонений.",
             "age": "Вам мусить бути 14 або більше років."
@@ -418,8 +418,8 @@
                 "bumpServerDescription": "Підніміть сервер, щоб він піднявся по щабельнику.",
                 "bumpButton": "Підняти ({{count}})",
                 "descriptionLabel": "Описання сервера ({{current}}/{{max}})",
-                "publishServerButton": "Опублікувати сервер",
-                "unpublishServerButton": "Приватизувати сервер",
+                "publishServerButton": "Опублікувати",
+                "unpublishServerButton": "Приватизувати",
                 "bumpCooldown": "Ви мусите почекати {{hours}} годин, {{minutes}} хвилин та {{seconds}} секунд, щоб підняти сервер."
             },
             "verify": {
@@ -660,7 +660,42 @@
             "voiceActivity": "Коли розмовляєте",
             "pushToTalk": "По натиску",
             "bindButton": "Підв'язати",
-            "stopButton": "Спиніть"
+            "stopButton": "Спиніть",
+            "downloadAppNotice": "Завантажуйте застосунок Nerimity на комп'ютер, щоб користатися цей функціюй без фокусування на вкладці."
+        },
+        "connections": {
+            "thirdParty": {
+                "title": "Сторонні під'єднанні",
+                "connectionCount": "{{count}} під'єднання(ів)",
+                "unauthorizeButton": "Деавторізувати",
+                "unauthorizing": "Деавторізування…"
+            },
+            "googleDescription": "Під'єднання вашого акаунту Google дозволить вам завантажувати файли в Nerimity. Файли будуть збережено на вашому Google Drive.",
+            "linkButton": "Під'єднати",
+            "unlinkButton": "Роз'єднати"
+        },
+        "interface": {
+            "customCSS": "Користувацькі CSS",
+            "customCSSWarning": "Не вставлять код від тих, кім не довіряєте.",
+            "saveAndApply": "Зберегти та вжиті",
+            "themesDescription": "Оберіть готову тему чи скинуть за замовчувань.",
+            "maintainers": "Автори",
+            "apply": "Вжиті",
+            "enableEruda": "Вимкнуті Eruda",
+            "enableErudaDescription": "Вимкнуті Eruda для зневадження. Не ділитеся деталями з іншими.",
+            "enableOnce": "Вимкнуті один раз"
         }
+    },
+    "welcomePopup": {
+        "subtitle": "Дякуємо за пробування Nerimity!",
+        "joinServer": "Приєднуйтеся до офіційного сервера Nerimity",
+        "editProfile": "Редагуйте свій профіль",
+        "support": "Підтримайте мені на {{platform}}",
+        "contribute": "Допоможіть Nerimity на GitHub"
+    },
+    "dropDown": {
+        "selectItem": "Оберіть елемент",
+        "selectItemMultiple": "Оберіть елемент(и)",
+        "itemsSelected": "Обрано {{count}} елемент(а/ів)"
     }
 }
