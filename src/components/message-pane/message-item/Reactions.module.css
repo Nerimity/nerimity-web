@@ -1,0 +1,49 @@
+.reactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+body .reactionItem {
+  background: transparent;
+  background-color: rgba(255, 255, 255, 0.05);
+  &.reacted {
+    background-color: rgba(255, 255, 255, 0.16);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.16);
+    }
+  }
+  .emoji {
+    width: 1.4em;
+    height: 1.4em;
+    margin-right: 3px;
+    border-radius: 4px;
+    object-fit: contain;
+  }
+}
+
+.whoReactedModal {
+  position: absolute;
+  z-index: 11111;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background-color: rgba(40, 40, 40, 0.86);
+  backdrop-filter: blur(34px);
+}
+
+.whoReactedItem {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  font-size: 12px;
+  gap: 5px;
+}
+.whoReactedPlusCount {
+  margin-bottom: 5px;
+  opacity: 0.6;
+  text-align: center;
+  font-size: 12px;
+}
