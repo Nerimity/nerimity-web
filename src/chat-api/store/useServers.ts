@@ -159,13 +159,18 @@ const hasAllNotifications = () => {
 };
 const emojis = createMemo(() => {
   const arr = orderedArray(true);
-  const serverIdsInFolder = new Set<string>();
+  const serverIdsInFolder = arr
+    .filter((item) => item.type === "folder")
+    .reduce<Set<string>>((set, item) => {
+      item.serverIds.forEach((id) => set.add(id));
+      return set;
+    }, new Set<string>());
+
   const servers: Server[] = [];
 
   for (const item of arr) {
     if (item.type === "folder") {
       for (const id of item.serverIds) {
-        serverIdsInFolder.add(id);
         const server = get(id);
         if (server) servers.push(server);
       }
