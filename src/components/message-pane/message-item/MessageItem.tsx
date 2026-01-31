@@ -1220,8 +1220,8 @@ const VideoEmbed = (props: {
             color={props.error ? "var(--alert-color)" : "var(--primary-color)"}
           />
           {props.error
-            ? t("videoEmbed.expired") + " "
-            : t("videoEmbed.expires") + " "}
+            ? t("fileEmbed.expired") + " "
+            : t("fileEmbed.expires") + " "}
           {timeSinceMentions(props.file?.expireAt!)}
         </div>
       </Show>
