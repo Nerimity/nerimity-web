@@ -23,6 +23,7 @@ import {
   onMount,
   Show,
 } from "solid-js";
+import { t } from "@nerimity/i18lite";
 
 export const LocalAudioEmbed = (props: { attachment: RawAttachment }) => {
   const isExpired = () => {
@@ -35,7 +36,7 @@ export const LocalAudioEmbed = (props: { attachment: RawAttachment }) => {
 
   return (
     <AudioEmbed
-      error={isExpired() ? "File expired." : undefined}
+      error={isExpired() ? t("fileEmbed.fileExpired") : undefined}
       file={{
         duration: props.attachment.duration,
         name: fileName,
@@ -64,14 +65,14 @@ export const GoogleDriveAudioEmbed = (props: { attachment: RawAttachment }) => {
       "name, size, modifiedTime, webContentLink, mimeType"
     ).catch((e) => console.log(e));
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
-    if (!file) return setError("Could not get file.");
+    if (!file) return setError(t("fileEmbed.couldNotGetFile"));
 
     if (file.mimeType !== props.attachment.mime)
-      return setError("File was modified.");
+      return setError(t("fileEmbed.fileModified"));
 
     const fileTime = new Date(file.modifiedTime!).getTime();
     const diff = fileTime - (props.attachment?.createdAt || 0);
-    if (diff >= 5000) return setError("File was modified.");
+    if (diff >= 5000) return setError(t("fileEmbed.fileModified"));
     setFile(file);
   });
 
@@ -133,9 +134,7 @@ export const AudioEmbed = (props: {
         !electronWindowAPI()?.isElectron &&
         !reactNativeAPI()?.isReactNative
       ) {
-        toast(
-          "Due to new Google Drive policy, you can only play audio from the Nerimity Desktop App."
-        );
+        toast(t("fileEmbed.audioEmbed.googleDrivePolicy"));
       }
     }
     if (audio.loaded()) {
@@ -168,8 +167,8 @@ export const AudioEmbed = (props: {
             onClick={() =>
               toast(
                 props.file?.expireAt
-                  ? "File expired."
-                  : "This file was modified/deleted by the creator in their Google Drive. "
+                  ? t("fileEmbed.fileExpired")
+                  : t("fileEmbed.modifiedOrDeleted")
               )
             }
           />
