@@ -134,7 +134,7 @@ export const AudioEmbed = (props: {
         !electronWindowAPI()?.isElectron &&
         !reactNativeAPI()?.isReactNative
       ) {
-        toast(t("fileEmbed.audioEmbed.googleDrivePoilcy"));
+        toast(t("fileEmbed.audioEmbed.googleDrivePolicy"));
       }
     }
     if (audio.loaded()) {
