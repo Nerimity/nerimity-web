@@ -1078,8 +1078,8 @@
     "fileEmbed": {
         "viewImage": "View Image",
         "download": "Download",
-        "expires": "Expires",
-        "expired": "Expired",
+        "expires": "Expires {{time}}",
+        "expired": "Expired {{time}}",
         "fileExpired": "File expired.",
         "fileModified": "File was modified.",
         "couldNotGetFile": "Could not get file.",

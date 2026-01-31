@@ -960,7 +960,7 @@ const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
   };
   return (
     <VideoEmbed
-      error={isExpired() ? t("fileEmbed.expired") : undefined}
+      error={isExpired() ? t("fileEmbed.fileExpired") : undefined}
       file={{
         name: decodeURIComponent(
           props.attachment.path?.split("/").reverse()[0]!
@@ -981,7 +981,7 @@ const LocalFileEmbed = (props: { attachment: RawAttachment }) => {
 
   return (
     <FileEmbed
-      error={isExpired() ? t("fileEmbed.expired") : undefined}
+      error={isExpired() ? t("fileEmbed.fileExpired") : undefined}
       file={{
         name: decodeURIComponent(
           props.attachment.path?.split("/").reverse()[0]!
@@ -1112,13 +1112,13 @@ const GoogleDriveVideoEmbed = (props: { attachment: RawAttachment }) => {
       "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata"
     ).catch((e) => console.log(e));
 
-    if (!file) return setError(t("videoEmbed.couldNotGetVideo"));
+    if (!file) return setError(t("fileEmbed.videoEmbed.couldNotGetVideo"));
     if (file.mimeType !== props.attachment.mime)
-      return setError(t("videoEmbed.videoModified"));
+      return setError(t("fileEmbed.videoEmbed.videoModified"));
 
     const fileTime = new Date(file.modifiedTime!).getTime();
     const diff = fileTime - props.attachment.createdAt!;
-    if (diff >= 5000) return setError(t("videoEmbed.videoModified"));
+    if (diff >= 5000) return setError(t("fileEmbed.videoEmbed.videoModified"));
 
     setFile(file);
   });
@@ -1165,7 +1165,7 @@ const VideoEmbed = (props: {
         !electronWindowAPI()?.isElectron &&
         !reactNativeAPI()?.isReactNative
       ) {
-        toast(t("videoEmbed.googleDrivePolicy"));
+        toast(t("fileEmbed.videoEmbed.googleDrivePolicy"));
       }
     }
     setPlayVideo(!playVideo());
@@ -1174,8 +1174,8 @@ const VideoEmbed = (props: {
   const alertExpiredOrModified = () =>
     toast(
       props.file?.expireAt
-        ? t("videoEmbed.videoExpired") // Can probably move all "expired" to use a central expired string in future
-        : t("videoEmbed.modifiedOrDeleted")
+        ? t("fileEmbed.videoEmbed.videoExpired") // Can probably move all "expired" to use a central expired string in future
+        : t("fileEmbed.videoEmbed.modifiedOrDeleted")
     );
 
   return (
@@ -1220,9 +1220,8 @@ const VideoEmbed = (props: {
             color={props.error ? "var(--alert-color)" : "var(--primary-color)"}
           />
           {props.error
-            ? t("fileEmbed.expired") + " "
-            : t("fileEmbed.expires") + " "}
-          {timeSinceMentions(props.file?.expireAt!)}
+            ? t("fileEmbed.expired", { time: timeSinceMentions(props.file?.expireAt!) })
+            : t("fileEmbed.expires", { time: timeSinceMentions(props.file?.expireAt!) })}
         </div>
       </Show>
 
@@ -1299,7 +1298,7 @@ const FileEmbed = (props: {
   const alertExpired = () =>
     toast(
       props.file?.expireAt
-        ? t("fileEmbed.expired")
+        ? t("fileEmbed.fileExpired")
         : t("fileEmbed.modifiedOrDeleted")
     );
 
@@ -1362,9 +1361,8 @@ const FileEmbed = (props: {
             color={props.error ? "var(--alert-color)" : "var(--primary-color)"}
           />
           {props.error
-            ? t("fileEmbed.expired") + " "
-            : t("fileEmbed.expires") + " "}
-          {timeSinceMentions(props.file?.expireAt!)}
+            ? t("fileEmbed.expired", { time: timeSinceMentions(props.file?.expireAt!) })
+            : t("fileEmbed.expires", { time: timeSinceMentions(props.file?.expireAt!) })}
         </div>
       </Show>
     </div>
@@ -1377,6 +1375,7 @@ const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
   onMount(async () => {
     await initializeGoogleDrive();
   });
+  const [t] = useTransContext();
 
   const previewUrl = () => file()?.thumbnailLink?.slice(0, -5);
   const originalPreview = () =>
@@ -1389,14 +1388,14 @@ const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
       "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink"
     ).catch((e) => console.log(e));
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
-    if (!file) return setError("Could not get file.");
+    if (!file) return setError(t("fileEmbed.couldNotGetFile"));
 
     if (file.mimeType !== props.attachment.mime)
-      return setError("File was modified.");
+      return setError(t("fileEmbed.fileModified"));
 
     const fileTime = new Date(file.modifiedTime!).getTime();
     const diff = fileTime - props.attachment.createdAt!;
-    if (diff >= 5000) return setError("File was modified.");
+    if (diff >= 5000) return setError(t("fileEmbed.fileModified"));
     setFile(file);
   });
 

@@ -36,7 +36,7 @@ export const LocalAudioEmbed = (props: { attachment: RawAttachment }) => {
 
   return (
     <AudioEmbed
-      error={isExpired() ? t("fileEmbed.expired") : undefined}
+      error={isExpired() ? t("fileEmbed.fileExpired") : undefined}
       file={{
         duration: props.attachment.duration,
         name: fileName,
