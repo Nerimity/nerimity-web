@@ -5,12 +5,12 @@ import {
   ChannelType,
   RawCustomEmoji,
   RawServer,
-  ServerNotificationPingMode,
+  ServerNotificationPingMode
 } from "../RawData";
 import {
   deleteServer,
   getServerBotCommands,
-  leaveServer,
+  leaveServer
 } from "../services/ServerService";
 import useAccount from "./useAccount";
 import useChannels from "./useChannels";
@@ -47,7 +47,7 @@ const set = (server: RawServer) => {
     mentionCount,
     avatarUrl: function () {
       return avatarUrl(this);
-    },
+    }
   };
 
   setServers(server.id, newServer);
@@ -116,7 +116,7 @@ const validServerFolders = createMemo(() => {
   return account.user()?.serverFolders?.map((f) => {
     return {
       ...f,
-      serverIds: f.serverIds.filter((s) => get(s)),
+      serverIds: f.serverIds.filter((s) => get(s))
     };
   });
 });
@@ -134,7 +134,7 @@ const orderedArray = (includeFolders = false) => {
     .map((s) => ({ ...s, type: "server" as const }));
   const folders = validServerFolders()?.map((f) => ({
     ...f,
-    type: "folder" as const,
+    type: "folder" as const
   }))!;
 
   const serversAndFolders = includeFolders
@@ -157,50 +157,60 @@ const orderedArray = (includeFolders = false) => {
 const hasAllNotifications = () => {
   return array().find((s) => s?.hasNotifications());
 };
-const emojis = createRoot(() =>
-  createMemo(() =>
-    orderedArray()
-      .map((s) => s.customEmojis.map((emoji) => ({ ...emoji, serverId: s.id })))
-      .flat()
-  )
-);
+const emojis = createMemo(() => {
+  const arr = orderedArray(true);
+  const serverIdsInFolder = new Set<string>();
+  const servers: Server[] = [];
 
-const emojisUpdatedDupName = createRoot(() =>
-  createMemo(() => {
-    const uniqueNamedEmojis: RawCustomEmoji[] = [];
-    const counts: { [key: string]: number } = {};
-
-    for (let i = 0; i < emojis().length; i++) {
-      const emoji = emojis()[i];
-      let count = counts[emoji.name] || 0;
-      const hasEmojiShortcode = emojiShortcodeToUnicode(emoji.name);
-      if (hasEmojiShortcode) count++;
-      const newName = count ? `${emoji.name}-${count}` : emoji.name;
-      if (!hasEmojiShortcode) count++;
-      counts[emoji.name] = count;
-      uniqueNamedEmojis.push({ ...emoji, name: newName });
+  for (const item of arr) {
+    if (item.type === "folder") {
+      for (const id of item.serverIds) {
+        serverIdsInFolder.add(id);
+        const server = get(id);
+        if (server) servers.push(server);
+      }
+    } else if (!serverIdsInFolder.has(item.id)) {
+      servers.push(item);
     }
-    return uniqueNamedEmojis;
-  })
-);
+  }
 
-const customEmojiNamesToEmoji = createRoot(() =>
-  createMemo(() => {
-    const obj: { [key: string]: RawCustomEmoji } = {};
+  return servers.flatMap((server) =>
+    server.customEmojis.map((emoji) => ({ ...emoji, serverId: server.id }))
+  );
+});
 
-    for (let index = 0; index < emojisUpdatedDupName().length; index++) {
-      const emoji = emojisUpdatedDupName()[index];
-      obj[emoji.name] = emoji;
-    }
-    return obj;
-  })
-);
+const emojisUpdatedDupName = createMemo(() => {
+  const uniqueNamedEmojis: RawCustomEmoji[] = [];
+  const counts: { [key: string]: number } = {};
+
+  for (let i = 0; i < emojis().length; i++) {
+    const emoji = emojis()[i]!;
+    let count = counts[emoji.name] || 0;
+    const hasEmojiShortcode = emojiShortcodeToUnicode(emoji.name);
+    if (hasEmojiShortcode) count++;
+    const newName = count ? `${emoji.name}-${count}` : emoji.name;
+    if (!hasEmojiShortcode) count++;
+    counts[emoji.name] = count;
+    uniqueNamedEmojis.push({ ...emoji, name: newName });
+  }
+  return uniqueNamedEmojis;
+});
+
+const customEmojiNamesToEmoji = createMemo(() => {
+  const obj: { [key: string]: RawCustomEmoji } = {};
+
+  for (let index = 0; index < emojisUpdatedDupName().length; index++) {
+    const emoji = emojisUpdatedDupName()[index]!;
+    obj[emoji.name] = emoji;
+  }
+  return obj;
+});
 
 const fetchAndStoreServerBotCommands = async (serverId: string) => {
   const server = servers[serverId];
   if (server?.botCommands) return;
   const result = await getServerBotCommands(serverId).catch(() => ({
-    commands: [],
+    commands: []
   }));
 
   setServers(serverId, "botCommands", result.commands);
@@ -218,6 +228,6 @@ export default function useServers() {
     orderedArray,
     validServerFolders,
     remove,
-    fetchAndStoreServerBotCommands,
+    fetchAndStoreServerBotCommands
   };
 }
