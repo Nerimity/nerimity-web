@@ -46,7 +46,7 @@ export function CreateTicketModal(props: {
     { id: "QUESTION", label: "Question" },
     { id: "ACCOUNT", label: "Account" },
     { id: "ABUSE", label: "Abuse" },
-    { id: "OTHER", label: "Other" },
+    { id: "OTHER", label: "Other" }
   ];
 
   const hasProblem = () =>
@@ -68,8 +68,8 @@ export function CreateTicketModal(props: {
     }
 
     if (hasProblem()) {
-      if (body().length < 100) {
-        setError("Description must be at least 200 characters.");
+      if (body().length < 50) {
+        setError("Description must be at least 50 characters.");
         return;
       }
     }
@@ -117,7 +117,7 @@ export function CreateTicketModal(props: {
       body: customBody,
       category:
         TicketCategory[selectedCategoryId() as keyof typeof TicketCategory],
-      title: title(),
+      title: title()
     }).catch((err) => {
       setError(err.message);
       setRequestSent(false);
@@ -159,7 +159,7 @@ export function CreateTicketModal(props: {
             style={{ "margin-left": "12px", "margin-right": "12px" }}
             description={[
               "Tickets must be written in ENGLISH. Tickets that are not written in English will be closed.",
-              "Creating multiple false tickets may affect your account.",
+              "Creating multiple false tickets may affect your account."
             ]}
             type="warn"
           />
