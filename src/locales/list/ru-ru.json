@@ -1020,15 +1020,6 @@
         "download": "Скачать",
         "expires": "Исчезнет"
     },
-    "videoEmbed": {
-        "couldNotGetVideo": "Не удалось подучить видео.",
-        "videoModified": "Видео было изменено.",
-        "googleDrivePolicy": "Из-за новой политики Google Drive, видео можно проигрывать только в приложении Nerimity для ПК.",
-        "videoExpired": "Видео истекло.",
-        "modifiedOrDeleted": "Это видео было изменёно/удалёно создателем на их Google Drive.",
-        "expires": "Исчезнет",
-        "expired": "Истекло"
-    },
     "addFriendModal": {
         "title": "Добавление друга",
         "description": "Введите имя пользователя и тег, чтобы добавить друга.",

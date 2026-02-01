@@ -936,15 +936,6 @@
         "download": "Herunterladen",
         "expires": "Läuft ab"
     },
-    "videoEmbed": {
-        "couldNotGetVideo": "Video konnte nicht geladen werden.",
-        "videoModified": "Video wurde geändert.",
-        "googleDrivePolicy": "Aufgrund einer neuen Google-Drive-Richtlinie kannst du Videos nur in der Nerimity-Desktop-App abspielen.",
-        "videoExpired": "Video ist abgelaufen.",
-        "modifiedOrDeleted": "Dieses Video wurde vom Ersteller in Google Drive geändert oder gelöscht.",
-        "expires": "Läuft ab",
-        "expired": "Abgelaufen"
-    },
     "addFriendModal": {
         "title": "Freund hinzufügen",
         "description": "Gib den Benutzernamen und Tag deines Freundes ein, um ihn hinzuzufügen.",

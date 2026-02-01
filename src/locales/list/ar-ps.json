@@ -497,15 +497,6 @@
         "download": "تحميل",
         "expires": "ينتهي"
     },
-    "videoEmbed": {
-        "couldNotGetVideo": "تعذّر الحصول على الفيديو.",
-        "videoModified": "تم تعديل الفيديو.",
-        "googleDrivePolicy": "‫بسبب سياسة Google Drive الجديدة، يمكنك تشغيل الفيديوهات فقط من تطبيق Nerimity لسطح المكتب.‬",
-        "videoExpired": "انتهت صلاحية الفيديو.",
-        "modifiedOrDeleted": "‫تم تعديل/حذف هذا الفيديو بواسطة المنشئ في Google Drive.‬",
-        "expires": "ينتهي",
-        "expired": "منتهي الصلاحية"
-    },
     "message": {
         "badge": {
             "bot": "بوت",

@@ -1134,15 +1134,6 @@
         "linking": "Association de votre compte à Google…",
         "success": "Compte lié ! Vous pouvez maintenant fermer cette fenêtre."
     },
-    "videoEmbed": {
-        "couldNotGetVideo": "Impossible d'obtenir la vidéo.",
-        "videoModified": "La vidéo a été modifiée.",
-        "googleDrivePolicy": "En raison de la nouvelle politique de Google Drive, vous ne pouvez lire les vidéos que depuis l'application de bureau Nerimity.",
-        "videoExpired": "La vidéo a expiré.",
-        "modifiedOrDeleted": "Cette vidéo a été modifiée/supprimée par son créateur sur son Google Drive.",
-        "expires": "Expire",
-        "expired": "a Expiré"
-    },
     "deleteMessageModal": {
         "title": "Supprimer le message ?",
         "body": "Souhaitez-vous supprimer ce message ?",

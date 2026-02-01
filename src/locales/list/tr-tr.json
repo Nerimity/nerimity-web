@@ -801,15 +801,6 @@
         "editedAt": "Şu saatte düzenlendi: {{time}}",
         "imageMessage": "Görüntü mesajı"
     },
-    "videoEmbed": {
-        "expired": "Süresi dolmuş",
-        "expires": "Süresi dolacak",
-        "videoModified": "Bu video değiştirilmiş.",
-        "videoExpired": "Bu videonun süresi dolmuş.",
-        "googleDrivePolicy": "Yeni Google Drive politikaları yüzünden, videoları sadece Nerimity'nin masaüstü uygulamasından oynatabilirsiniz.",
-        "couldNotGetVideo": "Video alınamıyor.",
-        "modifiedOrDeleted": "Bu video Google Drive'da yaratıcısı tarafından değiştirildi/silindi."
-    },
     "statusHeader": {
         "connected": "Bağlandı!",
         "authenticationError": "Kimlik doğrulama hatası",

@@ -936,15 +936,6 @@
         "modifiedOrDeleted": "Este archivo fue modificado/eliminado por el creador en su Google Drive.",
         "expires": "Expira"
     },
-    "videoEmbed": {
-        "couldNotGetVideo": "No se ha podido obtener el video.",
-        "videoModified": "El video ha sido modificado.",
-        "videoExpired": "Video expirado.",
-        "googleDrivePolicy": "Debido a la nueva política de Google Drive, solo puedes reproducir vídeos desde la aplicación de escritorio de Nerimity.",
-        "modifiedOrDeleted": "Este vídeo fue modificado/eliminado por el creador en su Google Drive.",
-        "expires": "Expira",
-        "expired": "Expirado"
-    },
     "addFriendModal": {
         "title": "Añadir amigo",
         "placeholder": "Usuario:ABC1",

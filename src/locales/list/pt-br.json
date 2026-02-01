@@ -733,15 +733,6 @@
             "webhook": "Gancho web"
         }
     },
-    "videoEmbed": {
-        "expires": "Expira",
-        "expired": "Expirou",
-        "modifiedOrDeleted": "Este vídeo foi modificado ou excluído pelo(a) criador(a) em seu Google Drive.",
-        "videoExpired": "Vídeo expirado.",
-        "videoModified": "Vídeo foi modificado.",
-        "couldNotGetVideo": "Não foi possível obter vídeo.",
-        "googleDrivePolicy": "Devido a nova política do Google Drive, você só pode reproduzir vídeos pelo aplicativo Nerimity externo."
-    },
     "fileEmbed": {
         "download": "Baixar",
         "viewImage": "Ver imagem",

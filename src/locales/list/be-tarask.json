@@ -940,15 +940,6 @@
         "download": "Спампаваць",
         "expires": "Канчаецца"
     },
-    "videoEmbed": {
-        "couldNotGetVideo": "Не ўдалося атрымаць відэа.",
-        "videoModified": "Відэа было зьмененае.",
-        "googleDrivePolicy": "Праз новую палітыку Google Drive, вы можаце прайгрываць відэа толькі ў аплікацыйі Nerimity для ПК.",
-        "videoExpired": "Відэа скончылася.",
-        "modifiedOrDeleted": "Гэта відэа было зьменена/выдалена стваральнікам на йх Google Drive.",
-        "expires": "Канчаецца",
-        "expired": "Скончылася"
-    },
     "addFriendModal": {
         "title": "Дадаць сябра",
         "description": "Увядзіце ймя карыстача й and тэґ, каб дадаць іх.",
