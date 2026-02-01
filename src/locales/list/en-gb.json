@@ -964,6 +964,10 @@
     "posts": {
         "title": "Post",
         "viewCount": "Estimated Views",
+        "replying": "Replying to <1>{{username}}</1>",
+        "pinned": "Pinned",
+        "reposted": "Reposted",
+        "repostedBy": "Reposted by",
         "voteButton": "Vote",
         "voteCount": "{{count}} vote(s)",
         "copyPostButton": "Copy Post",
@@ -1138,7 +1142,8 @@
         "blocked": "You have blocked this user. Click to show.",
         "translationError": "Could not translate this message.",
         "translation": {
-            "title": "Translation"
+            "title": "Translation",
+            "error": "Translation failed"
         }
     },
     "colorPickerModal": {
