@@ -1146,6 +1146,11 @@
             "error": "Translation failed"
         }
     },
+    "botButtonModal": {
+        "title": "Response from {{botName}}",
+        "dataReceiver": "Data is sent to {{botName}}",
+        "notice": "Never share sensitive information"
+    },
     "colorPickerModal": {
         "title": "Colour Picker"
     },
