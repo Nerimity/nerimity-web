@@ -49,6 +49,7 @@ import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
 import { toast } from "../ui/custom-portal/CustomPortal";
 import { CreateTicketModal } from "@/components/CreateTicketModal";
 import { Fonts, getFont } from "@/common/fonts";
+import { Trans } from "@nerimity/solid-i18lite";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -106,7 +107,7 @@ export function PostItem(props: {
       if (!props.post.content) return;
       fetchTranslation(props.post.content)
         .then(setTranslatedContent)
-        .catch(() => toast("Translation failed"));
+        .catch(() => toast(t("message.translation.error")));
     }
   });
 
@@ -186,7 +187,7 @@ export function PostItem(props: {
         <Text>{t("posts.postWasDeleted")}</Text>
       </Show>
       <Show when={props.post.block}>
-        <Text>This user has blocked you.</Text>
+        <Text>{t("profile.blockedDescription")}</Text>
       </Show>
       <Show when={!props.post.deleted && !props.post.block}>
         <Show when={pinned()}>
@@ -307,7 +308,7 @@ const Content = (props: {
           name="edit"
           class={style.editIconStyles}
           size={14}
-          title={`Edited at ${formatTimestamp(props.post.editedAt)}`}
+          title={t("message.editedAt", { time: formatTimestamp(props.post.editedAt) })}
         />
       </Show>
 
@@ -788,15 +789,22 @@ const ReplyTo = (props: { user: RawUser }) => {
   return (
     <div class={style.replyToContainer}>
       <Text size={14} style={{ "margin-right": "5px" }}>
-        Replying to
+        <Trans
+          key="posts.replying"
+          options={{
+            username: props.user?.username
+          }}
+        >
+          Replying to
+          <CustomLink
+            decoration
+            style={{ "font-size": "14px", "line-height": "1" }}
+            href={RouterEndpoints.PROFILE(props.user?.id!)}
+          >
+            {"username"}
+          </CustomLink>
+        </Trans>
       </Text>
-      <CustomLink
-        decoration
-        style={{ "font-size": "14px", "line-height": "1" }}
-        href={RouterEndpoints.PROFILE(props.user?.id!)}
-      >
-        {props.user?.username}
-      </CustomLink>
     </div>
   );
 };
@@ -805,7 +813,7 @@ const Pinned = () => {
     <div class={style.pinnedContainer}>
       <Icon name="keep" color="var(--primary-color)" size={16} />
       <Text size={14} style={{ "margin-right": "5px" }}>
-        Pinned
+        {t("posts.pinned")}
       </Text>
     </div>
   );
@@ -818,9 +826,9 @@ const Reposted = (props: { post: Post; showRepostsAsSelf: boolean | any }) => {
     <div class={style.pinnedContainer}>
       <Icon name="repeat" color="var(--success-color)" size={16} />
       <Text size={14} style={{ "margin-right": "5px" }}>
-        <Show when={props.showRepostsAsSelf}>Reposted</Show>
+        <Show when={props.showRepostsAsSelf}>{t("posts.reposted")}</Show>
         <Show when={!props.showRepostsAsSelf}>
-          Reposted by{" "}
+          {t("posts.repostedBy")}{" "}
           <For each={repostUsers()}>
             {(user, i) => (
               <>
