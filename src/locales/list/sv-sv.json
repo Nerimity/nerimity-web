@@ -519,7 +519,16 @@
         "notifications": {
             "message": "Meddelande",
             "mention": "Nämn",
-            "mentionDescription": "Ljudet som spelas när du nämns."
+            "mentionDescription": "Ljudet som spelas när du nämns.",
+            "sounds": "Ljud",
+            "soundsDescription": "Om aviseringsljuden är för irriterande så kan du stänga av de.",
+            "volume": "Volym",
+            "volumeDescription": "Ändra volym på aviseringsljuden.",
+            "changeSoundsDescription": "Ändra ljudet på dina aviseringar med dessa royalty-free ljuden.",
+            "messageDescription": "Ljudet när du får ett meddelande.",
+            "reminder": "Påminnelse",
+            "reminderDescription": "Aviseringar för påminnelser.",
+            "inAppPreview": "Förhandsvisning i appen"
         }
     }
 }
