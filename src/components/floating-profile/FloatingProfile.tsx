@@ -421,7 +421,11 @@ const DesktopProfileFlyout = (props: {
               hideActivity
               animate
               userId={props.userId}
-              customStatusOverride={stickyProps.customStatus}
+              customStatusOverride={
+                stickyProps.customStatus.trim()
+                  ? formatMessage(stickyProps.customStatus.trim() || "")
+                  : undefined
+              }
               showOffline
             />
             <Show when={!details()}>
