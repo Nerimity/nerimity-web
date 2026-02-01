@@ -14,6 +14,7 @@ import DropDown from "@/components/ui/drop-down/DropDown";
 import Text from "@/components/ui/Text";
 import { Notice } from "@/components/ui/Notice/Notice";
 import Input from "@/components/ui/input/Input";
+import { t } from "@nerimity/i18lite";
 
 export function ButtonsEmbed(props: { message: RawMessage }) {
   const buttons = () => props.message.buttons || [];
@@ -159,7 +160,7 @@ const ResponseModal = (props: {
   const title = () =>
     props.payload.title
       ? `${props.payload.title} (${props.message.createdBy.username})`
-      : `Response from ${props.message.createdBy.username}`;
+      : t("botButtonModal.title", { botName: props.message.createdBy.username });
 
   const onCloseClick = async () => {
     if (requestSent()) return;
@@ -183,7 +184,7 @@ const ResponseModal = (props: {
       title={title()}
       icon="robot"
       actionButtonsArr={[
-        { label: props.payload.buttonLabel || "Close", onClick: onCloseClick },
+        { label: props.payload.buttonLabel || t("general.closeButton"), onClick: onCloseClick },
       ]}
     >
       <div class={style.modalContent}>
@@ -191,8 +192,8 @@ const ResponseModal = (props: {
           <Notice
             type="caution"
             description={[
-              `Data is sent to ${props.message.createdBy.username}`,
-              "Never share sensitive information",
+              t("botButtonModal.dataReceiver", { botName: props.message.createdBy.username }),
+              t("botButtonModal.notice"),
             ]}
           />
         </Show>
