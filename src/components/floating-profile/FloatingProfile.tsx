@@ -11,7 +11,7 @@ import {
   createSignal,
   on,
   onCleanup,
-  onMount,
+  onMount
 } from "solid-js";
 import Icon from "../ui/icon/Icon";
 import Text from "../ui/Text";
@@ -48,7 +48,7 @@ import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import Input from "../ui/input/Input";
 import { formatMessage } from "../message-pane/MessagePane";
-import {  DefaultTheme, defaultThemeCSSVars } from "@/common/themes";
+import { DefaultTheme, defaultThemeCSSVars } from "@/common/themes";
 import { userDetailsPreloader } from "@/common/createPreloader";
 import { UserActivity } from "../user-activity/UserActivity";
 import { Fonts } from "@/common/fonts";
@@ -167,6 +167,7 @@ const DesktopProfileFlyout = (props: {
   const { height } = useWindowProperties();
   const isMe = () => account.user()?.id === props.userId;
   const { isMobileWidth } = useWindowProperties();
+  const [customStatus, setCustomStatus] = createSignal("");
 
   const isMobileWidthMemo = createMemo(() => isMobileWidth());
   createEffect(
@@ -198,7 +199,7 @@ const DesktopProfileFlyout = (props: {
     try {
       return average([
         colors().bg?.[0] || DefaultTheme["pane-color"],
-        colors().bg?.[1] || DefaultTheme["pane-color"],
+        colors().bg?.[1] || DefaultTheme["pane-color"]
       ])
         .luminance(0.01)
         .alpha(0.9)
@@ -314,7 +315,7 @@ const DesktopProfileFlyout = (props: {
   const onMouseDown = (event: MouseEvent) => {
     startClick = {
       x: event.clientX,
-      y: event.clientY,
+      y: event.clientY
     };
     textSelected = !!window.getSelection()?.toString();
   };
@@ -332,10 +333,10 @@ const DesktopProfileFlyout = (props: {
             position: "relative",
             width: "initial",
             height: "initial",
-            "z-index": 1,
+            "z-index": 1
           }
-        : undefined),
-    } as JSX.CSSProperties);
+        : undefined)
+    }) as JSX.CSSProperties;
 
   const showRoleModal = () => {
     createPortal?.((close) => (
@@ -360,7 +361,7 @@ const DesktopProfileFlyout = (props: {
       ]
   );
 
-  const StickyArea = () => {
+  const StickyArea = (stickyProps: { customStatus: string }) => {
     return (
       <Show when={user()}>
         <Banner
@@ -402,7 +403,7 @@ const DesktopProfileFlyout = (props: {
                     "--font": `'${font()?.name}'`,
                     "--lh": font()?.lineHeight,
                     "--scale": font()?.scale,
-                    "--ls": font()?.letterSpacing,
+                    "--ls": font()?.letterSpacing
                   }}
                   class={styles.username}
                 >
@@ -420,6 +421,7 @@ const DesktopProfileFlyout = (props: {
               hideActivity
               animate
               userId={props.userId}
+              customStatusOverride={stickyProps.customStatus}
               showOffline
             />
             <Show when={!details()}>
@@ -427,7 +429,7 @@ const DesktopProfileFlyout = (props: {
                 height="20px"
                 style={{
                   "margin-top": "5px",
-                  "border-radius": "4px",
+                  "border-radius": "4px"
                 }}
               />
             </Show>
@@ -531,7 +533,7 @@ const DesktopProfileFlyout = (props: {
                       class={styles.roleName}
                       style={{
                         "--gradient": role.gradient || role.hexColor,
-                        "--color": role.hexColor || "#fff",
+                        "--color": role.hexColor || "#fff"
                       }}
                       size={12}
                     >
@@ -690,7 +692,7 @@ const DesktopProfileFlyout = (props: {
         ...props.style,
         ...defaultThemeCSSVars,
         "--floating-bg-color": bgColor(),
-        "--floating-primary-color": colors()?.primary || "var(--primary-color)",
+        "--floating-primary-color": colors()?.primary || "var(--primary-color)"
       }}
     >
       <div
@@ -698,15 +700,19 @@ const DesktopProfileFlyout = (props: {
         style={{
           background: `linear-gradient(180deg, ${
             colors()?.bg?.[0] || DefaultTheme["pane-color"]
-          }, ${colors()?.bg?.[1] || DefaultTheme["pane-color"]})`,
+          }, ${colors()?.bg?.[1] || DefaultTheme["pane-color"]})`
         }}
         classList={{
-          [styles.dmPane]: props.dmPane,
+          [styles.dmPane]: props.dmPane
         }}
       >
-        <StickyArea />
+        <StickyArea customStatus={customStatus()} />
         <Show when={isMe() && props.showProfileSettings}>
-          <SelfArea bg={bgColor()} />
+          <SelfArea
+            bg={bgColor()}
+            customStatus={customStatus()}
+            setCustomStatus={setCustomStatus}
+          />
         </Show>
         <div
           style={{ background: bgColor() }}
@@ -764,7 +770,7 @@ function MobileFlyout(props: {
     const top = height() - flyoutHeight();
     const res = flyoutHeight() > seventyPercentOfHeight ? "70%" : `${top}px`;
     return {
-      "margin-top": res,
+      "margin-top": res
     } as JSX.CSSProperties;
   };
   return (
@@ -809,7 +815,11 @@ function FlyoutTitle(props: {
   );
 }
 
-function SelfArea(props: { bg: string }) {
+function SelfArea(props: {
+  bg: string;
+  customStatus: string;
+  setCustomStatus: Setter<string>;
+}) {
   const store = useStore();
   const navigate = useNavigate();
   const { createPortal } = useCustomPortal();
@@ -834,7 +844,10 @@ function SelfArea(props: { bg: string }) {
   return (
     <>
       <PresenceDropDown />
-      <CustomStatus />
+      <CustomStatus
+        customStatus={props.customStatus}
+        setCustomStatus={props.setCustomStatus}
+      />
       <div class={styles.selfArea} style={{ background: props.bg }}>
         <SelfAreaButton
           onClick={navigateToProfile}
@@ -875,7 +888,7 @@ const SelfAreaButton = (props: {
       <Icon name={props.icon} size={20} color={color()} />
       <div
         style={{
-          color: color(),
+          color: color()
         }}
       >
         {props.label}
@@ -902,9 +915,9 @@ function PresenceDropDown() {
       index: i,
       onClick: (item) => {
         updatePresence({
-          status: item.index,
+          status: item.index
         });
-      },
+      }
     } satisfies DropDownItem;
   });
   // move invisible to the bottom.
@@ -920,30 +933,32 @@ function PresenceDropDown() {
   );
 }
 
-function CustomStatus() {
+function CustomStatus(props: {
+  customStatus: string;
+  setCustomStatus: Setter<string>;
+}) {
   const { account, users } = useStore();
-  const [customStatus, setCustomStatus] = createSignal("");
   const [inputRef, setInputRef] = createSignal<HTMLInputElement>();
 
   createEffect(
     on(
       () => account.user()?.customStatus,
       (custom) => {
-        setCustomStatus(custom || "");
+        props.setCustomStatus(custom || "");
       }
     )
   );
 
   const save = (event: FocusEvent) => {
     console.log(event);
-    const formattedStatus = formatMessage(customStatus().trim() || "");
+    const formattedStatus = formatMessage(props.customStatus.trim() || "");
     updatePresence({
-      custom: customStatus().trim() ? formattedStatus : null,
+      custom: props.customStatus.trim() ? formattedStatus : null
     });
   };
 
   const changes = () => {
-    return (customStatus() || "") !== (account.user()?.customStatus || "");
+    return props.customStatus !== (account.user()?.customStatus || "");
   };
 
   return (
@@ -955,7 +970,7 @@ function CustomStatus() {
         <AdvancedMarkupOptions
           class="advancedMarkupOptions"
           inputElement={inputRef()!}
-          updateText={setCustomStatus}
+          updateText={props.setCustomStatus}
           zeroBottomBorderRadius
         />
         <Input
@@ -964,8 +979,8 @@ function CustomStatus() {
           ref={setInputRef}
           class={styles.customStatusInput}
           placeholder=""
-          onText={setCustomStatus}
-          value={customStatus()}
+          onText={props.setCustomStatus}
+          value={props.customStatus}
         />
         <Show when={changes()}>
           <Button

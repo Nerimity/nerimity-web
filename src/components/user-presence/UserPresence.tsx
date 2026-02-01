@@ -22,6 +22,7 @@ const UserPresence = (props: {
   hideAction?: boolean;
   useTitle?: boolean;
   class?: string;
+  customStatusOverride?: string;
 }) => {
   const { users } = useStore();
   const user = () => users.get(props.userId);
@@ -84,11 +85,11 @@ const UserPresence = (props: {
             <span class={styles.activityName}> {activityName()}</span>
           </span>
         </Match>
-        <Match when={user()?.presence()?.custom}>
+        <Match when={props.customStatusOverride || user()?.presence()?.custom}>
           <Markup
             animateEmoji={props.animate}
             inline
-            text={user()?.presence()?.custom!}
+            text={props.customStatusOverride || user()?.presence()?.custom!}
           />
         </Match>
       </Switch>
