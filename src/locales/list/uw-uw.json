@@ -529,15 +529,6 @@
         "download": "Downwoad~",
         "expires": "Expiwes"
     },
-    "videoEmbed": {
-        "couldNotGetVideo": "Couwd not get video >.<",
-        "videoModified": "Video was modiwfied~",
-        "googleDrivePolicy": "Due to new Google Dwive powicy, u can onwy pway videos fwom da Nerimity Desktop App uwu",
-        "videoExpired": "Video expwied~",
-        "modifiedOrDeleted": "This video was modiwfied/deweted by da cweatow in deir Google Dwive~",
-        "expires": "Expiwes",
-        "expired": "Expwied"
-    },
     "message": {
         "badge": {
             "bot": "Clanker",

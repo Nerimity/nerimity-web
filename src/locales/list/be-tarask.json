@@ -934,20 +934,24 @@
         "members": "удзельніка(ў)"
     },
     "fileEmbed": {
-        "expired": "Скончыўся",
+        "expired": "Мінуў {{time}}",
         "modifiedOrDeleted": "Гэты файл быў зьменены/выдалены стваральнікам на йх Google Drive.",
         "viewImage": "Праглядзець відарыс",
         "download": "Спампаваць",
-        "expires": "Канчаецца"
-    },
-    "videoEmbed": {
-        "couldNotGetVideo": "Не ўдалося атрымаць відэа.",
-        "videoModified": "Відэа было зьмененае.",
-        "googleDrivePolicy": "Праз новую палітыку Google Drive, вы можаце прайгрываць відэа толькі ў аплікацыйі Nerimity для ПК.",
-        "videoExpired": "Відэа скончылася.",
-        "modifiedOrDeleted": "Гэта відэа было зьменена/выдалена стваральнікам на йх Google Drive.",
-        "expires": "Канчаецца",
-        "expired": "Скончылася"
+        "expires": "Мінуе {{time}}",
+        "fileExpired": "Файл мінуў.",
+        "fileModified": "Файл быў зьменены.",
+        "couldNotGetFile": "Не ўдалося атрымаць файл.",
+        "videoEmbed": {
+            "videoExpired": "Відэа мінула.",
+            "videoModified": "Відэа было зьмененае.",
+            "couldNotGetVideo": "Не ўдалося атрымаць відэа.",
+            "modifiedOrDeleted": "Гэтае відэа было зьмененае/выдаленае стваральнікам на йх Google Drive.",
+            "googleDrivePolicy": "Праз новую палітыку Google Drive, вы можаце прайграваць відэа толькі ў аплікацыйі Nerimity на камп’ютары."
+        },
+        "audioEmbed": {
+            "googleDrivePolicy": "Праз новую палітыку Google Drive, вы можаце прайграваць аўдыа толькі ў аплікацыйі Nerimity на камп’ютары."
+        }
     },
     "addFriendModal": {
         "title": "Дадаць сябра",
@@ -1238,5 +1242,10 @@
         "selectItem": "Абярыце элэмэнт",
         "selectItemMultiple": "Абярыце элэмэнт(ы)",
         "itemsSelected": "Абрана {{count}} элэмэнтаў"
+    },
+    "botButtonModal": {
+        "title": "Адказ ад {{botName}}",
+        "dataReceiver": "Даныя адсылаюцца {{botName}}",
+        "notice": "Не абагульвайце сакрэтную йнфармацыю"
     }
 }

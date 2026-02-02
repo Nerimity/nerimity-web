@@ -857,15 +857,6 @@
         "download": "Pobierz",
         "expires": "Wygasa"
     },
-    "videoEmbed": {
-        "couldNotGetVideo": "Nie udało się pobrać filmu.",
-        "videoModified": "Film został zmodyfikowany.",
-        "googleDrivePolicy": "W związku z nową polityką Google Drive, filmy można wyświetlać tylko z aplikacji Nerimity na komputery.",
-        "videoExpired": "Film wygasł.",
-        "modifiedOrDeleted": "Ten film został zmodyfikowany/usunięty przez autora na Google Drive.",
-        "expires": "Wygasa",
-        "expired": "Wygasł"
-    },
     "message": {
         "badge": {
             "bot": "Bot",

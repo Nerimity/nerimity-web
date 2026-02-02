@@ -893,7 +893,11 @@
             "mostLiked30Days": "Meiste Likes (30 Tage)",
             "mostLikedAllTime": "Meiste Likes (aller Zeiten)"
         },
-        "postWarning": "Inhalte, die Selbstverletzung thematisieren, sind nicht erlaubt; es werden Maßnahmen gegen das Konto ergriffen."
+        "postWarning": "Inhalte, die Selbstverletzung thematisieren, sind nicht erlaubt; es werden Maßnahmen gegen das Konto ergriffen.",
+        "replying": "Antwort an <1>{{username}}</1>",
+        "pinned": "Gepint",
+        "reposted": "Neuveröffentlicht",
+        "repostedBy": "Neuveröffentlicht von"
     },
     "informationDrawer": {
         "channelNotice": "Kanalhinweis",
@@ -930,20 +934,24 @@
         "members": "Mitglieder"
     },
     "fileEmbed": {
-        "expired": "Abgelaufen",
+        "expired": "Abgelaufen {{time}}",
         "modifiedOrDeleted": "Diese Datei wurde vom Ersteller in Google Drive geändert oder gelöscht.",
         "viewImage": "Bild ansehen",
         "download": "Herunterladen",
-        "expires": "Läuft ab"
-    },
-    "videoEmbed": {
-        "couldNotGetVideo": "Video konnte nicht geladen werden.",
-        "videoModified": "Video wurde geändert.",
-        "googleDrivePolicy": "Aufgrund einer neuen Google-Drive-Richtlinie kannst du Videos nur in der Nerimity-Desktop-App abspielen.",
-        "videoExpired": "Video ist abgelaufen.",
-        "modifiedOrDeleted": "Dieses Video wurde vom Ersteller in Google Drive geändert oder gelöscht.",
-        "expires": "Läuft ab",
-        "expired": "Abgelaufen"
+        "expires": "Läuft ab {{time}}",
+        "fileExpired": "Datei abgelaufen.",
+        "fileModified": "Datei wurde modifiziert.",
+        "couldNotGetFile": "Die Datei konnte nicht abgerufen werden.",
+        "videoEmbed": {
+            "videoExpired": "Video abgelaufen.",
+            "videoModified": "Video wurde modifiziert.",
+            "couldNotGetVideo": "Das Video konnte nicht abgerufen werden.",
+            "modifiedOrDeleted": "Dieses Video wurde vom Ersteller in dessen Google Drive geändert/gelöscht.",
+            "googleDrivePolicy": "Aufgrund neuer Google Drive-Richtlinien können Videos nur noch über die Nerimity Desktop-App abgespielt werden."
+        },
+        "audioEmbed": {
+            "googleDrivePolicy": "Aufgrund neuer Google Drive-Richtlinien kannst du Audio nur noch über die Nerimity Desktop-App abspielen."
+        }
     },
     "addFriendModal": {
         "title": "Freund hinzufügen",
@@ -986,7 +994,8 @@
         "blocked": "Du hast diesen Nutzer blockiert. Klicke zum Anzeigen.",
         "translationError": "Diese Nachricht konnte nicht übersetzt werden.",
         "translation": {
-            "title": "Übersetzung"
+            "title": "Übersetzung",
+            "error": "Übersetzung fehlgeschlagen"
         },
         "imageMessage": "Bild Nachricht"
     },
@@ -1233,5 +1242,10 @@
         "selectItem": "Element auswählen",
         "selectItemMultiple": "Element(e) auswählen",
         "itemsSelected": "{{count}} Element(e) ausgewählt"
+    },
+    "botButtonModal": {
+        "notice": "Teile niemals sensible Daten",
+        "title": "Antwort von {{botName}}",
+        "dataReceiver": "Daten werden an {{botName}} gesendet"
     }
 }
