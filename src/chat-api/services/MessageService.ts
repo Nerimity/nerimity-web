@@ -22,9 +22,9 @@ export const fetchMessages = async (
       limit: opts?.limit || env.MESSAGE_LIMIT,
       ...(opts?.afterMessageId ? { after: opts.afterMessageId } : undefined),
       ...(opts?.beforeMessageId ? { before: opts.beforeMessageId } : undefined),
-      ...(opts?.aroundMessageId ? { around: opts.aroundMessageId } : undefined),
+      ...(opts?.aroundMessageId ? { around: opts.aroundMessageId } : undefined)
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -52,9 +52,9 @@ export const searchMessages = async (
       ...(opts?.order ? { order: opts.order } : undefined),
       ...(query.trim() ? { query } : undefined),
       ...(opts?.userIds?.length ? { user_id: opts.userIds } : undefined),
-      ...(opts?.order ? { order: opts.order } : undefined),
+      ...(opts?.order ? { order: opts.order } : undefined)
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -68,7 +68,7 @@ export const pinMessage = async (channelId: string, messageId: string) => {
       Endpoints.messages(channelId) +
       `/pins/${messageId}`,
 
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -81,7 +81,7 @@ export const unpinMessage = async (channelId: string, messageId: string) => {
       Endpoints.messages(channelId) +
       `/pins/${messageId}`,
 
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -90,7 +90,7 @@ export const fetchPinnedMessages = async (channelId: string) => {
     method: "GET",
     url: env.SERVER_URL + "/api" + Endpoints.messages(channelId) + "/pins",
 
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -107,9 +107,9 @@ export const fetchChannelAttachments = async (
     params: {
       limit,
       ...(afterAttachmentId ? { after: afterAttachmentId } : undefined),
-      ...(beforeAttachmentId ? { before: beforeAttachmentId } : undefined),
+      ...(beforeAttachmentId ? { before: beforeAttachmentId } : undefined)
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -139,7 +139,7 @@ export const postMessage = async (opts: PostMessageOpts) => {
     ...(opts.replyToMessageIds?.length
       ? {
           replyToMessageIds: opts.replyToMessageIds,
-          mentionReplies: opts.mentionReplies,
+          mentionReplies: opts.mentionReplies
         }
       : {}),
 
@@ -150,14 +150,14 @@ export const postMessage = async (opts: PostMessageOpts) => {
     ...(opts.googleDriveAttachment
       ? { googleDriveAttachment: opts.googleDriveAttachment }
       : {}),
-    ...(opts.socketId ? { socketId: opts.socketId } : {}),
+    ...(opts.socketId ? { socketId: opts.socketId } : {})
   };
 
   const data = await request<RawMessage>({
     method: "POST",
     url: env.SERVER_URL + "/api" + Endpoints.messages(opts.channelId),
     useToken: true,
-    body,
+    body
   });
   return data;
 };
@@ -180,7 +180,7 @@ export const markMessageUnread = async (opts: MarkMessageUnreadOpts) => {
       "/api" +
       Endpoints.message(opts.channelId, opts.messageId) +
       "/mark-unread",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -193,8 +193,8 @@ export const updateMessage = async (opts: UpdateMessageOpts) => {
       Endpoints.message(opts.channelId, opts.messageId),
     useToken: true,
     body: {
-      content: opts.content,
-    },
+      content: opts.content
+    }
   });
   return data;
 };
@@ -204,7 +204,7 @@ export const postChannelTyping = async (channelId: string) => {
     method: "POST",
     url: env.SERVER_URL + "/api" + Endpoints.channelTyping(channelId),
     useToken: true,
-    notJSON: true,
+    notJSON: true
   });
   return data;
 };
@@ -221,7 +221,7 @@ export const deleteMessage = async (opts: DeleteMessageOpts) => {
       env.SERVER_URL +
       "/api" +
       Endpoints.message(opts.channelId, opts.messageId),
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -231,6 +231,7 @@ export const addMessageReaction = async (opts: {
   name: string;
   emojiId?: string | null;
   gif?: boolean;
+  webp?: boolean;
 }) => {
   const data = await request<any>({
     method: "POST",
@@ -243,8 +244,9 @@ export const addMessageReaction = async (opts: {
       name: opts.name,
       emojiId: opts.emojiId,
       gif: opts.gif,
+      webp: opts.webp
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -263,9 +265,9 @@ export const removeMessageReaction = async (opts: {
       "/reactions/remove",
     body: {
       name: opts.name,
-      emojiId: opts.emojiId,
+      emojiId: opts.emojiId
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -292,9 +294,9 @@ export const fetchMessageReactedUsers = async (opts: {
     params: {
       name: opts.name,
       ...(opts.limit ? { limit: opts.limit } : undefined),
-      ...(opts.emojiId ? { emojiId: opts.emojiId } : undefined),
+      ...(opts.emojiId ? { emojiId: opts.emojiId } : undefined)
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -314,11 +316,11 @@ export const messageButtonClick = async (
       "/buttons/" +
       buttonId,
     params: {
-      type: inputs ? "modal_click" : "button_click",
+      type: inputs ? "modal_click" : "button_click"
     },
     body: inputs,
     useToken: true,
-    notJSON: true,
+    notJSON: true
   });
   return data;
 };

@@ -30,8 +30,8 @@ export function onMessageCreated(payload: {
       const attachmentCount = channelAttachments || 0;
       channel?.update({
         _count: {
-          attachments: attachmentCount + attachmentCreatedCount,
-        },
+          attachments: attachmentCount + attachmentCreatedCount
+        }
       });
     }
   });
@@ -84,11 +84,11 @@ export function onMessageCreated(payload: {
         if (hasPerm) return true;
       }
       const mention = payload.message.mentions?.find(
-        (u) => u.id === accountUser?.id,
+        (u) => u.id === accountUser?.id
       );
       if (mention) return true;
       const quoteMention = payload.message.quotedMessages?.find(
-        (m) => m.createdBy?.id === accountUser?.id,
+        (m) => m.createdBy?.id === accountUser?.id
       );
 
       if (quoteMention) return true;
@@ -96,7 +96,7 @@ export function onMessageCreated(payload: {
       const isRoleMentioned =
         member?.hasPermission(ROLE_PERMISSIONS.MENTION_ROLES) &&
         payload.message.roleMentions.find(
-          (r) => server?.defaultRoleId !== r.id && selfMember?.hasRole(r.id),
+          (r) => server?.defaultRoleId !== r.id && selfMember?.hasRole(r.id)
         );
 
       if (isRoleMentioned) return true;
@@ -104,7 +104,7 @@ export function onMessageCreated(payload: {
       const replyMention =
         payload.message.mentionReplies &&
         payload.message.replyMessages.find(
-          (m) => m.replyToMessage?.createdBy?.id === accountUser?.id,
+          (m) => m.replyToMessage?.createdBy?.id === accountUser?.id
         );
 
       return replyMention;
@@ -116,7 +116,7 @@ export function onMessageCreated(payload: {
           channelId: payload.message.channelId,
           userId: payload.message.createdBy.id,
           count: mentionCount() + 1,
-          serverId: channel?.serverId,
+          serverId: channel?.serverId
         });
       }
     }
@@ -135,7 +135,7 @@ export function onMessageCreated(payload: {
     if (hasFocus() && isChannelSelected) return;
     playMessageNotification({
       message: payload.message,
-      serverId: channel?.serverId,
+      serverId: channel?.serverId
     });
     createDesktopNotification(payload.message);
     pushMessageNotification(payload.message);
@@ -151,7 +151,7 @@ export function onMessageUpdated(payload: {
   messages.updateLocalMessage(
     { ...payload.updated, sentStatus: undefined },
     payload.channelId,
-    payload.messageId,
+    payload.messageId
   );
 }
 
@@ -171,8 +171,8 @@ export function onMessageDeleted(payload: {
     const attachmentCount = channelAttachments || attachmentDeletedCount;
     channel?.update({
       _count: {
-        attachments: attachmentCount - attachmentDeletedCount,
-      },
+        attachments: attachmentCount - attachmentDeletedCount
+      }
     });
   }
 }
@@ -193,7 +193,7 @@ export function onMessageMarkUnread(payload: {
       channelId: channel.id,
       userId: channel.recipientId!,
       count: 1,
-      serverId: channel.serverId,
+      serverId: channel.serverId
     });
   }
 }
@@ -216,6 +216,7 @@ interface ReactionAddedPayload {
   emojiId?: string;
   name: string;
   gif?: boolean;
+  webp?: boolean;
 }
 
 export function onMessageReactionAdded(payload: ReactionAddedPayload) {
@@ -228,7 +229,8 @@ export function onMessageReactionAdded(payload: ReactionAddedPayload) {
     name: payload.name,
     emojiId: payload.emojiId || null,
     gif: payload.gif,
-    ...(reactedByMe ? { reacted: true } : undefined),
+    webp: payload.webp,
+    ...(reactedByMe ? { reacted: true } : undefined)
   });
 }
 interface ReactionRemovedPayload {
@@ -249,6 +251,6 @@ export function onMessageReactionRemoved(payload: ReactionRemovedPayload) {
     count: payload.count,
     name: payload.name,
     emojiId: payload.emojiId,
-    ...(reactionRemovedByMe ? { reacted: false } : undefined),
+    ...(reactionRemovedByMe ? { reacted: false } : undefined)
   });
 }

@@ -44,7 +44,7 @@ export enum MessageType {
   BAN_USER = 4,
   CALL_STARTED = 5,
   BUMP_SERVER = 6,
-  PINNED_MESSAGE = 7,
+  PINNED_MESSAGE = 7
 }
 
 export interface HtmlEmbedItem {
@@ -123,6 +123,7 @@ export interface RawMessageReaction {
   name: string;
   emojiId?: string | null;
   gif?: boolean;
+  webp?: boolean;
 
   reacted: boolean;
   count: number;
@@ -179,12 +180,12 @@ export interface RawUserConnection {
 export enum ServerNotificationSoundMode {
   ALL = 0,
   MENTIONS_ONLY = 1,
-  MUTE = 2,
+  MUTE = 2
 }
 export enum ServerNotificationPingMode {
   ALL = 0,
   MENTIONS_ONLY = 1,
-  MUTE = 2,
+  MUTE = 2
 }
 export interface RawUserNotificationSettings {
   notificationSoundMode: ServerNotificationSoundMode;
@@ -204,19 +205,19 @@ export interface RawServerMember {
 export enum ChannelType {
   DM_TEXT = 0,
   SERVER_TEXT = 1,
-  CATEGORY = 2,
+  CATEGORY = 2
 }
 
 export enum TicketStatus {
   WAITING_FOR_MODERATOR_RESPONSE = 0,
   WAITING_FOR_USER_RESPONSE = 1,
   CLOSED_AS_DONE = 2,
-  CLOSED_AS_INVALID = 3,
+  CLOSED_AS_INVALID = 3
 }
 
 export const CloseTicketStatuses = [
   TicketStatus.CLOSED_AS_DONE,
-  TicketStatus.CLOSED_AS_INVALID,
+  TicketStatus.CLOSED_AS_INVALID
 ];
 
 export interface RawTicket {
@@ -281,7 +282,7 @@ export enum FriendStatus {
   SENT = 0,
   PENDING = 1,
   FRIENDS = 2,
-  BLOCKED = 3,
+  BLOCKED = 3
 }
 
 export enum TicketCategory {
@@ -289,7 +290,7 @@ export enum TicketCategory {
   ACCOUNT = 1,
   ABUSE = 2,
   OTHER = 3,
-  SERVER_VERIFICATION = 4,
+  SERVER_VERIFICATION = 4
 }
 
 export interface RawFriend {
@@ -396,7 +397,7 @@ export interface RawPostPoll {
     | [
         {
           pollChoiceId: string;
-        },
+        }
       ]
     | [];
 }
@@ -411,7 +412,7 @@ export enum PostNotificationType {
   REPLIED = 1,
   FOLLOWED = 2,
   REPOSTED = 3,
-  MENTIONED = 4,
+  MENTIONED = 4
 }
 
 export interface RawPostNotification {

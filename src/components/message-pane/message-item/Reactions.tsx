@@ -49,12 +49,31 @@ function ReactionItem(props: ReactionItemProps) {
       ? props.reaction.name
       : emojiUnicodeToShortcode(props.reaction.name);
 
+  const shouldBeStatic = () => {
+    const isGif = props.reaction.gif;
+    const isAnimatedWebp = props.reaction.webp;
+
+    if (!isAnimatedWebp && !isGif) {
+      return false;
+    }
+
+    return !hasFocus();
+  };
+
   const url = () => {
     if (!props.reaction.emojiId)
       return unicodeToTwemojiUrl(props.reaction.name);
-    return `${env.NERIMITY_CDN}/emojis/${props.reaction.emojiId}.${
-      props.reaction.gif ? "gif" : "webp"
-    }${props.reaction.gif ? (!hasFocus() ? "?type=webp" : "") : ""}`;
+
+    const e = props.reaction;
+    const ext = e.gif && !e.webp ? "gif" : "webp";
+    const url = new URL(
+      `${env.NERIMITY_CDN}emojis/${props.reaction.emojiId}.${ext}`
+    );
+    url.searchParams.set("size", "60");
+    if (shouldBeStatic()) {
+      url.searchParams.set("type", "webp");
+    }
+    return url.href;
   };
 
   const addReaction = () => {

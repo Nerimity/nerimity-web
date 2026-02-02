@@ -5,7 +5,7 @@ import {
   MessageType,
   RawMessage,
   RawMessageReaction,
-  RawUser,
+  RawUser
 } from "@/chat-api/RawData";
 import {
   ReactedUser,
@@ -13,32 +13,32 @@ import {
   fetchMessageReactedUsers,
   markMessageUnread,
   pinMessage,
-  unpinMessage,
+  unpinMessage
 } from "@/chat-api/services/MessageService";
 import socketClient from "@/chat-api/socketClient";
 import { Message } from "@/chat-api/store/useMessages";
 import useStore from "@/chat-api/store/useStore";
 import {
   emitScrollToMessage,
-  useScrollToMessageListener,
+  useScrollToMessageListener
 } from "@/common/GlobalEvents";
 import { playMessageNotification } from "@/common/Sound";
 import { createDesktopNotification } from "@/common/desktopNotification";
 import env from "@/common/env";
 import {
   useMutationObserver,
-  useResizeObserver,
+  useResizeObserver
 } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import ContextMenu, {
-  ContextMenuProps,
+  ContextMenuProps
 } from "@/components/ui/context-menu/ContextMenu";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import {
   emojiShortcodeToUnicode,
   emojiUnicodeToShortcode,
-  unicodeToTwemojiUrl,
+  unicodeToTwemojiUrl
 } from "@/emoji";
 import { useParams, useSearchParams } from "solid-navigator";
 import {
@@ -52,7 +52,7 @@ import {
   lazy,
   on,
   onCleanup,
-  onMount,
+  onMount
 } from "solid-js";
 import { createStore } from "solid-js/store";
 import MessageItem from "../message-item/MessageItem";
@@ -79,10 +79,10 @@ import { unzipJson } from "@/common/zip";
 import { rightDrawerMode } from "@/common/localStorage";
 
 const DeleteMessageModal = lazy(
-  () => import("../message-delete-modal/MessageDeleteModal"),
+  () => import("../message-delete-modal/MessageDeleteModal")
 );
 const PinConfirmModal = lazy(
-  () => import("../pin-confirm-modal/PinConfirmModal"),
+  () => import("../pin-confirm-modal/PinConfirmModal")
 );
 
 export const MessageLogArea = (props: {
@@ -111,7 +111,7 @@ export const MessageLogArea = (props: {
   const { channels, messages, account, channelProperties, servers } =
     useStore();
   const channelMessages = createMemo(() =>
-    messages.getMessagesByChannelId(params.channelId!),
+    messages.getMessagesByChannelId(params.channelId!)
   );
   const [unreadMarker, setUnreadMarker] = createStore<{
     lastSeenAt: number | null;
@@ -134,7 +134,7 @@ export const MessageLogArea = (props: {
   const scrollTracker = createScrollTracker(
     props.mainPaneEl,
     topSkeletonHeight,
-    bottomSkeletonHeight,
+    bottomSkeletonHeight
   );
 
   const channel = createMemo(() => channels.get(params.channelId!));
@@ -144,7 +144,7 @@ export const MessageLogArea = (props: {
   const scrollToMessageListener = useScrollToMessageListener();
   const scrollPositionRetainer = useScrollPositionRetainer(
     () => props.mainPaneEl!,
-    () => messageLogElement!,
+    () => messageLogElement!
   );
 
   const isStale = () => properties()?.stale;
@@ -163,7 +163,7 @@ export const MessageLogArea = (props: {
         setAreMessagesLoading(false);
         channelProperties.updateStale(params.channelId, false);
       }
-    }),
+    })
   );
 
   scrollToMessageListener(async (event) => {
@@ -171,13 +171,13 @@ export const MessageLogArea = (props: {
     drawer?.goToMain();
     setAreMessagesLoading(true);
     let messageEl = messageLogElement?.querySelector(
-      `#message-${event.messageId}`,
+      `#message-${event.messageId}`
     ) as HTMLDivElement;
     if (!messageEl) {
       await messages.loadAroundAndStoreMessages(channel().id, event.messageId);
 
       messageEl = messageLogElement?.querySelector(
-        `#message-${event.messageId}`,
+        `#message-${event.messageId}`
       ) as HTMLDivElement;
       setTimeout(() => {
         scrollTracker.setLoadMoreBottom(false);
@@ -196,7 +196,7 @@ export const MessageLogArea = (props: {
       messageEl?.scrollIntoView({
         behavior: "smooth",
         inline: "nearest",
-        block: "center",
+        block: "center"
       });
     }, 500);
     setTimeout(() => {
@@ -219,17 +219,17 @@ export const MessageLogArea = (props: {
         const floatingOptionsHovered = mutations.find((e) => {
           if (e.type !== "childList") return;
           const addedFloating = [...e.addedNodes].find(
-            (e) => e instanceof HTMLElement && e.closest(".floatOptions"),
+            (e) => e instanceof HTMLElement && e.closest(".floatOptions")
           );
           const removedFloating = [...e.removedNodes].find(
-            (e) => e instanceof HTMLElement && e.closest(".floatOptions"),
+            (e) => e instanceof HTMLElement && e.closest(".floatOptions")
           );
           return addedFloating || removedFloating;
         });
         if (floatingOptionsHovered) return;
         props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
       }
-    },
+    }
   );
 
   createRenderEffect(
@@ -237,18 +237,18 @@ export const MessageLogArea = (props: {
       if (scrollTracker.scrolledBottom()) {
         props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
       }
-    }),
+    })
   );
 
   const updateUnreadMarker = (ignoreFocus = false) => {
     if (!ignoreFocus && hasFocus()) return;
     const lastSeenAt = channel()?.lastSeen || -1;
     const message = channelMessages()?.find(
-      (m) => m.createdAt - lastSeenAt >= 0,
+      (m) => m.createdAt - lastSeenAt >= 0
     );
     setUnreadMarker({
       lastSeenAt,
-      messageId: message?.id || null,
+      messageId: message?.id || null
     });
   };
 
@@ -264,8 +264,8 @@ export const MessageLogArea = (props: {
         if (!prevLastSeen) return;
         if (nowLastSeen >= prevLastSeen) return;
         updateUnreadMarker(true);
-      },
-    ),
+      }
+    )
   );
   createRenderEffect(
     on(
@@ -275,8 +275,8 @@ export const MessageLogArea = (props: {
         updateUnreadMarker(prevLength === undefined);
         if (prevLength === undefined) return;
         dismissNotification();
-      },
-    ),
+      }
+    )
   );
 
   createEffect(
@@ -285,8 +285,8 @@ export const MessageLogArea = (props: {
       () => {
         dismissNotification();
       },
-      { defer: true },
-    ),
+      { defer: true }
+    )
   );
 
   const dismissNotification = () => {
@@ -311,7 +311,7 @@ export const MessageLogArea = (props: {
         if (!hasFocus()) return;
         playMessageNotification({
           message: payload.message,
-          serverId: channel().serverId,
+          serverId: channel().serverId
         });
         createDesktopNotification(payload.message);
         pushMessageNotification(payload.message);
@@ -333,7 +333,7 @@ export const MessageLogArea = (props: {
   // }, 5000);
 
   const { height: textAreaHeight } = useResizeObserver(
-    () => props.textAreaEl?.parentElement?.parentElement,
+    () => props.textAreaEl?.parentElement?.parentElement
   );
 
   createEffect(
@@ -341,7 +341,7 @@ export const MessageLogArea = (props: {
       if (scrollTracker.scrolledBottom()) {
         props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
       }
-    }),
+    })
   );
 
   createEffect(
@@ -351,8 +351,8 @@ export const MessageLogArea = (props: {
         if (scrollTracker.scrolledBottom()) {
           props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
         }
-      },
-    ),
+      }
+    )
   );
 
   createEffect(
@@ -373,7 +373,7 @@ export const MessageLogArea = (props: {
         if (searchParams.messageId) return;
         setAreMessagesLoading(false);
       }, 100);
-    }),
+    })
   );
 
   createEffect(
@@ -381,9 +381,9 @@ export const MessageLogArea = (props: {
       dismissNotification();
       channelProperties.setScrolledBottom(
         params.channelId,
-        scrollTracker.scrolledBottom(),
+        scrollTracker.scrolledBottom()
       );
-    }),
+    })
   );
 
   createEffect(
@@ -398,8 +398,8 @@ export const MessageLogArea = (props: {
           return;
         }
       },
-      { defer: true },
-    ),
+      { defer: true }
+    )
   );
 
   onMount(async () => {
@@ -423,7 +423,7 @@ export const MessageLogArea = (props: {
         }
 
         await fetchMessages();
-      }),
+      })
     );
 
     const channelId = params.channelId;
@@ -439,7 +439,7 @@ export const MessageLogArea = (props: {
       batch(() => {
         channelProperties.setScrolledBottom(
           channelId,
-          scrollTracker.scrolledBottom(),
+          scrollTracker.scrolledBottom()
         );
         channelProperties.setScrollTop(channelId, scrollTracker.scrollTop());
       });
@@ -489,7 +489,7 @@ export const MessageLogArea = (props: {
 
         const afterSet = ({
           hasMore,
-          data,
+          data
         }: {
           hasMore: boolean;
           data: RawMessage[];
@@ -506,7 +506,7 @@ export const MessageLogArea = (props: {
           scrollPositionRetainer.load();
           channelProperties.setMoreBottomToLoad(
             params.channelId,
-            channelMessages()?.length! >= env.MESSAGE_LIMIT,
+            channelMessages()?.length! >= env.MESSAGE_LIMIT
           );
           channelProperties.setMoreTopToLoad(params.channelId, hasMore);
           scrollTracker.forceUpdate();
@@ -515,10 +515,10 @@ export const MessageLogArea = (props: {
         messages.loadMoreTopAndStoreMessages(
           params.channelId,
           beforeSet,
-          afterSet,
+          afterSet
         );
-      },
-    ),
+      }
+    )
   );
 
   // Load more bottom when scrolled to the bottom
@@ -541,7 +541,7 @@ export const MessageLogArea = (props: {
           scrollPositionRetainer.load();
           channelProperties.setMoreTopToLoad(
             params.channelId,
-            channelMessages()?.length! >= env.MESSAGE_LIMIT,
+            channelMessages()?.length! >= env.MESSAGE_LIMIT
           );
           channelProperties.setMoreBottomToLoad(params.channelId, hasMore);
           scrollTracker.forceUpdate();
@@ -550,10 +550,10 @@ export const MessageLogArea = (props: {
         messages.loadMoreBottomAndStoreMessages(
           params.channelId,
           beforeSet,
-          afterSet,
+          afterSet
         );
-      },
-    ),
+      }
+    )
   );
 
   const removeUnreadMarker = () => {
@@ -567,8 +567,8 @@ export const MessageLogArea = (props: {
       clickEvent: event,
       position: {
         x: event.clientX,
-        y: event.clientY,
-      },
+        y: event.clientY
+      }
     });
   };
   const onUserContextMenu = (event: MouseEvent, message: Message) => {
@@ -579,8 +579,8 @@ export const MessageLogArea = (props: {
       message,
       position: {
         x: event.clientX,
-        y: event.clientY,
-      },
+        y: event.clientY
+      }
     });
   };
 
@@ -591,7 +591,7 @@ export const MessageLogArea = (props: {
       `[q:${message.id}]`,
       props.textAreaEl!.selectionStart,
       props.textAreaEl.selectionEnd,
-      "end",
+      "end"
     );
     channelProperties.updateContent(params.channelId, props.textAreaEl.value);
   };
@@ -611,6 +611,7 @@ export const MessageLogArea = (props: {
       name: !customEmoji ? emojiShortcodeToUnicode(shortcode) : shortcode,
       emojiId: customEmoji?.id,
       gif: customEmoji?.gif,
+      webp: customEmoji?.webp
     });
   };
 
@@ -626,7 +627,7 @@ export const MessageLogArea = (props: {
   };
 
   const [translateMessageIds, setTranslateMessageIds] = createSignal<string[]>(
-    [],
+    []
   );
   const translateMessage = async () => {
     const messageId = messageContextDetails()?.message.id;
@@ -654,7 +655,7 @@ export const MessageLogArea = (props: {
           onClose={() =>
             setUserContextMenuDetails({
               position: undefined,
-              message: userContextMenuDetails()?.message,
+              message: userContextMenuDetails()?.message
             })
           }
         />
@@ -748,7 +749,7 @@ const MessageSkeleton = () => {
 
 const useScrollPositionRetainer = (
   scrollElement: () => HTMLDivElement,
-  logElement: () => HTMLDivElement,
+  logElement: () => HTMLDivElement
 ) => {
   let el: HTMLDivElement | undefined;
 
@@ -781,7 +782,7 @@ const useScrollPositionRetainer = (
 function createScrollTracker(
   scrollElement: HTMLElement,
   topSkeletonHeight: () => number,
-  bottomSkeletonHeight: () => number,
+  bottomSkeletonHeight: () => number
 ) {
   const [loadMoreTop, setLoadMoreTop] = createSignal(false);
   const [loadMoreBottom, setLoadMoreBottom] = createSignal(true);
@@ -817,7 +818,7 @@ function createScrollTracker(
     scrolledBottom,
     scrollTop,
     forceUpdate: onScroll,
-    setLoadMoreBottom,
+    setLoadMoreBottom
   };
 }
 
@@ -874,7 +875,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
         ticket={{
           id: "ABUSE",
           userId: props.message.createdBy.id,
-          messageId: props.message.id,
+          messageId: props.message.id
         }}
       />
     ));
@@ -910,7 +911,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
   const onMarkUnreadClick = () => {
     markMessageUnread({
       channelId: props.message.channelId,
-      messageId: props.message.id,
+      messageId: props.message.id
     });
   };
 
@@ -970,20 +971,20 @@ function MessageContextMenu(props: MessageContextMenuProps) {
               {
                 icon: "face",
                 label: t("messageContextMenu.viewReactions"),
-                onClick: onViewReactionsClick,
-              },
+                onClick: onViewReactionsClick
+              }
             ]
           : []),
 
         {
           icon: "translate",
           label: t("messageContextMenu.translateMessage"),
-          onClick: onTranslateClick,
+          onClick: onTranslateClick
         },
         {
           icon: "mark_chat_unread",
           label: t("messageContextMenu.markUnread"),
-          onClick: onMarkUnreadClick,
+          onClick: onMarkUnreadClick
         },
         showPin()
           ? {
@@ -992,7 +993,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
                 ? t("messageContextMenu.unpinMessage")
                 : t("messageContextMenu.pinMessage"),
               alert: props.message.pinned,
-              onClick: onPinClick,
+              onClick: onPinClick
             }
           : {},
         ...(showQuote()
@@ -1000,8 +1001,8 @@ function MessageContextMenu(props: MessageContextMenuProps) {
               {
                 icon: "format_quote",
                 label: t("messageContextMenu.quoteMessage"),
-                onClick: props.quoteMessage,
-              },
+                onClick: props.quoteMessage
+              }
             ]
           : []),
         ...(showReply()
@@ -1009,8 +1010,8 @@ function MessageContextMenu(props: MessageContextMenuProps) {
               {
                 icon: "reply",
                 label: t("messageContextMenu.reply"),
-                onClick: props.replyMessage,
-              },
+                onClick: props.replyMessage
+              }
             ]
           : []),
         ...(showEdit()
@@ -1018,8 +1019,8 @@ function MessageContextMenu(props: MessageContextMenuProps) {
               {
                 icon: "edit",
                 label: t("messageContextMenu.editMessage")!,
-                onClick: onEditClick,
-              },
+                onClick: onEditClick
+              }
             ]
           : []),
         ...(showDelete()
@@ -1028,8 +1029,8 @@ function MessageContextMenu(props: MessageContextMenuProps) {
                 icon: "delete",
                 label: t("messageContextMenu.deleteMessage")!,
                 onClick: onDeleteClick,
-                alert: true,
-              },
+                alert: true
+              }
             ]
           : []),
         ...(showReportMessage()
@@ -1038,8 +1039,8 @@ function MessageContextMenu(props: MessageContextMenuProps) {
                 icon: "flag",
                 label: t("messageContextMenu.reportMessage")!,
                 onClick: onReportClick,
-                alert: true,
-              },
+                alert: true
+              }
             ]
           : []),
 
@@ -1051,13 +1052,13 @@ function MessageContextMenu(props: MessageContextMenuProps) {
             const channel = channels.get(props.message.channelId!);
             if (channel?.serverId) {
               return copyToClipboard(
-                `${env.APP_URL}/app/servers/${channel.serverId}/${channel.id}?messageId=${props.message.id}`,
+                `${env.APP_URL}/app/servers/${channel.serverId}/${channel.id}?messageId=${props.message.id}`
               );
             }
             return copyToClipboard(
-              `${env.APP_URL}/app/inbox/${channel?.id}?messageId=${props.message.id}`,
+              `${env.APP_URL}/app/inbox/${channel?.id}?messageId=${props.message.id}`
             );
-          },
+          }
         },
 
         ...(hasContent()
@@ -1065,8 +1066,8 @@ function MessageContextMenu(props: MessageContextMenuProps) {
               {
                 icon: "content_copy",
                 label: t("messageContextMenu.copyMessage")!,
-                onClick: () => copyToClipboard(props.message.content!),
-              },
+                onClick: () => copyToClipboard(props.message.content!)
+              }
             ]
           : []),
         ...(props.message.htmlEmbed
@@ -1076,16 +1077,16 @@ function MessageContextMenu(props: MessageContextMenuProps) {
                 label: t("messageContextMenu.copyHTML"),
                 onClick: () =>
                   copyToClipboard(
-                    renderHtml(unzipJson(props.message.htmlEmbed!)),
-                  ),
-              },
+                    renderHtml(unzipJson(props.message.htmlEmbed!))
+                  )
+              }
             ]
           : []),
         {
           icon: "content_copy",
           label: t("general.copyID")!,
-          onClick: () => copyToClipboard(props.message.id!),
-        },
+          onClick: () => copyToClipboard(props.message.id!)
+        }
       ]}
     />
   );
@@ -1105,10 +1106,10 @@ const ViewReactionsModal = (props: { close: () => void; message: Message }) => {
         messageId: props.message.id,
         name: selectedReaction().name,
         emojiId: selectedReaction().emojiId,
-        limit: 50,
+        limit: 50
       });
       setReactedUsers(reactedUsers);
-    }),
+    })
   );
 
   return (
@@ -1164,12 +1165,31 @@ const ReactionItem = (props: {
       ? props.reaction.name
       : emojiUnicodeToShortcode(props.reaction.name);
 
+  const shouldBeStatic = () => {
+    const isGif = props.reaction.gif;
+    const isAnimatedWebp = props.reaction.webp;
+
+    if (!isAnimatedWebp && !isGif) {
+      return false;
+    }
+
+    return !hasFocus();
+  };
+
   const url = () => {
     if (!props.reaction.emojiId)
       return unicodeToTwemojiUrl(props.reaction.name);
-    return `${env.NERIMITY_CDN}/emojis/${props.reaction.emojiId}.${
-      props.reaction.gif ? "gif" : "webp"
-    }${props.reaction.gif ? (!hasFocus() ? "?type=webp" : "") : ""}`;
+
+    const e = props.reaction;
+    const ext = e.gif && !e.webp ? "gif" : "webp";
+    const url = new URL(
+      `${env.NERIMITY_CDN}emojis/${props.reaction.emojiId}.${ext}`
+    );
+    url.searchParams.set("size", "60");
+    if (shouldBeStatic()) {
+      url.searchParams.set("type", "webp");
+    }
+    return url.href;
   };
 
   return (
