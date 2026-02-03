@@ -812,6 +812,12 @@
         "watching": "Watching",
         "listening": "Listening to"
     },
+    "logoutModal": {
+        "title": "Logout?",
+        "body": "Are you sure you want to log out?",
+        "clearSettings": "Clear Local Settings",
+        "cancelButton": "Don't Logout"
+    },
     "supportBlock": {
         "support": "Support Me",
         "supportDescription": "Donate to get a supporter badge!"
