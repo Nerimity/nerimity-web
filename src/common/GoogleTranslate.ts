@@ -10,6 +10,7 @@ export interface TranslateRes {
 
 const GOOGLE_LANGUAGE_MAP: Record<string, string> = {
   "en-gb": "en",
+  "en-us": "en",
   "af-za": "af",
   "ar-ps": "ar",
   "be-tarask": "be",
@@ -20,6 +21,7 @@ const GOOGLE_LANGUAGE_MAP: Record<string, string> = {
   "fr-fr": "fr",
   "de-de": "de",
   "hu-hu": "hu",
+  "ja-jp": "ja",
   "fil-ph": "tl",
   "pl-pl": "pl",
   "ro-ro": "ro",
@@ -27,6 +29,8 @@ const GOOGLE_LANGUAGE_MAP: Record<string, string> = {
   "es-es": "es",
   "th-th": "th",
   "tr-tr": "tr",
+  "sv-sv": "sv",
+  "uk": "uk",
   "uw-uw": "en",
 };
 
