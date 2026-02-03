@@ -92,7 +92,8 @@ function ReactionItem(props: ReactionItemProps) {
       messageId: props.message.id,
       name: props.reaction.name,
       emojiId: props.reaction.emojiId,
-      gif: props.reaction.gif
+      gif: props.reaction.gif,
+      webp: props.reaction.webp
     });
   };
 
