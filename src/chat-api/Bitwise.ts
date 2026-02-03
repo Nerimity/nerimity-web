@@ -37,7 +37,7 @@ const USER_BADGE_BITS = {
   DEER_EARS_HORNS_DARK: 1048576,
   CAT_EARS_MAID: 2097152,
   CAT_EARS_PURPLE: 4194304,
-  DEER_EARS_WHITE: 8388608,
+  DEER_EARS_WHITE: 8388608
 } as const;
 
 export interface UserBadge {
@@ -48,6 +48,8 @@ export interface UserBadge {
   description: () => string;
   textColor?: string;
   credit?: () => string;
+  type?: "earned";
+  icon?: string;
 }
 
 export const USER_BADGES = {
@@ -58,7 +60,7 @@ export const USER_BADGES = {
     color: "linear-gradient(273deg, #fb83a7, #ffffff)",
     textColor: "#2a1d1d",
     overlay: true,
-    description: () => t("badges.deer.deerWhiteDescription"),
+    description: () => t("badges.deer.deerWhiteDescription")
   },
   DEER_EARS_HORNS_DARK: {
     name: () => t("badges.deer.name"),
@@ -66,7 +68,7 @@ export const USER_BADGES = {
     color: "linear-gradient(267deg, #8f8f8f, #090a25)",
     textColor: "#ffffff",
     overlay: true,
-    description: () => t("badges.deer.deerDarkDescription"),
+    description: () => t("badges.deer.deerDarkDescription")
   },
   DEER_EARS_HORNS: {
     name: () => t("badges.deer.name"),
@@ -74,14 +76,14 @@ export const USER_BADGES = {
     color: "linear-gradient(270deg, #aa4908, #ffd894)",
     textColor: "#321515",
     overlay: true,
-    description: () => t("badges.deer.deerDescription"),
+    description: () => t("badges.deer.deerDescription")
   },
   GOAT_HORNS: {
     name: () => t("badges.goat.name"),
     bit: USER_BADGE_BITS.GOAT_HORNS,
     color: "linear-gradient(268deg, #cb75d7, #390a8f)",
     overlay: true,
-    description: () => t("badges.goat.goatHornDescription"),
+    description: () => t("badges.goat.goatHornDescription")
   },
   GOAT_EARS_WHITE: {
     name: () => t("badges.goat.name"),
@@ -89,7 +91,7 @@ export const USER_BADGES = {
     color: "linear-gradient(89deg, #ffecc2, #94e4ff)",
     textColor: "#503030",
     overlay: true,
-    description: () => t("badges.goat.goatDescription"),
+    description: () => t("badges.goat.goatDescription")
   },
   WOLF_EARS: {
     name: () => t("badges.wolf.name"),
@@ -97,7 +99,7 @@ export const USER_BADGES = {
     color: "linear-gradient(90deg, #585858ff 0%, #252525ff 100%)",
     textColor: "#ffffff",
     overlay: true,
-    description: () => t("badges.wolf.wolfDescription"),
+    description: () => t("badges.wolf.wolfDescription")
   },
   DOG_SHIBA: {
     name: () => t("badges.dog.name"),
@@ -105,14 +107,14 @@ export const USER_BADGES = {
     color: "linear-gradient(261deg, #ffeeb3, #9e7aff)",
     textColor: "#2e1919",
     overlay: true,
-    description: () => t("badges.dog.shibaDescription"),
+    description: () => t("badges.dog.shibaDescription")
   },
   DOG_EARS_BROWN: {
     name: () => t("badges.dog.name"),
     bit: USER_BADGE_BITS.DOG_EARS_BROWN,
     color: "linear-gradient(90deg, #bb7435 0%, #ffbd67ff 100%)",
     overlay: true,
-    description: () => t("badges.dog.dogDescription"),
+    description: () => t("badges.dog.dogDescription")
   },
   BUNNY_EARS_MAID: {
     name: () => t("badges.bunny.name"),
@@ -120,7 +122,7 @@ export const USER_BADGES = {
     color: "linear-gradient(100deg, #ff94e2, #ffffff)",
     textColor: "#2a1d1d",
     overlay: true,
-    description: () => t("badges.bunny.maidDescription"),
+    description: () => t("badges.bunny.maidDescription")
   },
   BUNNY_EARS_BLACK: {
     name: () => t("badges.bunny.name"),
@@ -128,7 +130,7 @@ export const USER_BADGES = {
     color: "linear-gradient(90deg, #585858ff 0%, #252525ff 100%)",
     textColor: "#ffffff",
     overlay: true,
-    description: () => t("badges.bunny.bunnyDescription"),
+    description: () => t("badges.bunny.bunnyDescription")
   },
   CAT_EARS_MAID: {
     name: () => t("badges.kitty.name"),
@@ -136,7 +138,7 @@ export const USER_BADGES = {
     color: "linear-gradient(100deg, #ff94e2, #ffffff)",
     textColor: "#2a1d1d",
     overlay: true,
-    description: () => t("badges.kitty.maidDescription"),
+    description: () => t("badges.kitty.maidDescription")
   },
   CAT_EARS_PURPLE: {
     name: () => t("badges.kitty.name"),
@@ -144,14 +146,14 @@ export const USER_BADGES = {
     color: "linear-gradient(268deg, #cb75d7, #390a8f)",
     textColor: "#ffffff",
     overlay: true,
-    description: () => t("badges.kitty.purpleDescription"),
+    description: () => t("badges.kitty.purpleDescription")
   },
   CAT_EARS_BLUE: {
     name: () => t("badges.kitty.name"),
     bit: USER_BADGE_BITS.CAT_EARS_BLUE,
     color: "linear-gradient(90deg, #78a5ff 0%, #ffffff 100%)",
     overlay: true,
-    description: () => t("badges.kitty.blueDescription"),
+    description: () => t("badges.kitty.blueDescription")
   },
 
   CAT_EARS_WHITE: {
@@ -159,7 +161,7 @@ export const USER_BADGES = {
     bit: USER_BADGE_BITS.CAT_EARS_WHITE,
     color: "linear-gradient(90deg, #ffa761 0%, #ffffff 100%)",
     overlay: true,
-    description: () => t("badges.kitty.whiteDescription"),
+    description: () => t("badges.kitty.whiteDescription")
   },
 
   FOX_EARS_GOLD: {
@@ -167,7 +169,7 @@ export const USER_BADGES = {
     bit: USER_BADGE_BITS.FOX_EARS_GOLD,
     color: "linear-gradient(90deg, #ffb100 0%, #ffffff 100%)",
     overlay: true,
-    description: () => t("badges.foxy.foxyGoldDescription"),
+    description: () => t("badges.foxy.foxyGoldDescription")
   },
 
   FOX_EARS_BROWN: {
@@ -175,7 +177,7 @@ export const USER_BADGES = {
     bit: USER_BADGE_BITS.FOX_EARS_BROWN,
     color: "linear-gradient(90deg, #bb7435 0%, #ffffff 100%)",
     overlay: true,
-    description: () => t("badges.foxy.foxyBrownDescription"),
+    description: () => t("badges.foxy.foxyBrownDescription")
   },
 
   FOUNDER: {
@@ -186,8 +188,10 @@ export const USER_BADGES = {
     credit: () =>
       t("badges.credit.avatarBorder", {
         author: "upklyak",
-        platform: "Freepik",
+        platform: "Freepik"
       }),
+    type: "earned",
+    icon: "crown"
   },
 
   ADMIN: {
@@ -200,8 +204,10 @@ export const USER_BADGES = {
       t("badges.credit.avatarBorderEdited", {
         author: "upklyak",
         platform: "Freepik",
-        editor: "Supertiger",
+        editor: "Supertiger"
       }),
+    type: "earned",
+    icon: "verified_user"
   },
 
   MOD: {
@@ -212,8 +218,10 @@ export const USER_BADGES = {
     credit: () =>
       t("badges.credit.avatarBorder", {
         author: "upklyak",
-        platform: "Freepik",
+        platform: "Freepik"
       }),
+    type: "earned",
+    icon: "shield"
   },
 
   EMO_SUPPORTER: {
@@ -226,8 +234,10 @@ export const USER_BADGES = {
       t("badges.credit.avatarBorderEdited", {
         author: "upklyak",
         platform: "Freepik",
-        editor: "Supertiger",
+        editor: "Supertiger"
       }),
+    type: "earned",
+    icon: "favorite"
   },
 
   SUPPORTER: {
@@ -239,8 +249,10 @@ export const USER_BADGES = {
     credit: () =>
       t("badges.credit.avatarBorder", {
         author: "upklyak",
-        platform: "Freepik",
+        platform: "Freepik"
       }),
+    type: "earned",
+    icon: "favorite"
   },
 
   CONTRIBUTOR: {
@@ -248,6 +260,7 @@ export const USER_BADGES = {
     description: () => t("badges.contributor.description"),
     bit: USER_BADGE_BITS.CONTRIBUTOR,
     color: "#ffffff",
+    type: "earned"
   },
 
   PALESTINE: {
@@ -260,8 +273,9 @@ export const USER_BADGES = {
       t("badges.credit.avatarBorderEdited", {
         author: "upklyak",
         platform: "Freepik",
-        editor: "Supertiger",
+        editor: "Supertiger"
       }),
+    icon: "volunteer_activism"
   },
 
   BOT: {
@@ -269,7 +283,9 @@ export const USER_BADGES = {
     description: () => t("badges.bot.description"),
     bit: USER_BADGE_BITS.BOT,
     color: "var(--primary-color)",
-  },
+    type: "earned",
+    icon: "robot_2"
+  }
 } satisfies Record<string, UserBadge>;
 
 export const USER_BADGES_VALUES = Object.values(USER_BADGES) as UserBadge[];
@@ -279,20 +295,20 @@ export const CHANNEL_PERMISSIONS = {
     name: () => t("servers.channelPermissions.publicChannel"),
     description: () => t("servers.channelPermissions.publicChannelDescription"),
     bit: 1,
-    icon: "public",
+    icon: "public"
   },
   SEND_MESSAGE: {
     name: () => t("servers.channelPermissions.sendMessage"),
     description: () => t("servers.channelPermissions.sendMessageDescription"),
     bit: 2,
-    icon: "mail",
+    icon: "mail"
   },
   JOIN_VOICE: {
     name: () => t("servers.channelPermissions.joinVoice"),
     description: () => t("servers.channelPermissions.joinVoiceDescription"),
     bit: 4,
-    icon: "call",
-  },
+    icon: "call"
+  }
 };
 
 export const ROLE_PERMISSIONS = {
@@ -301,60 +317,60 @@ export const ROLE_PERMISSIONS = {
     description: () => t("servers.rolePermissions.adminDescription"),
     bit: 1,
     // icon: 'mail',  // looks good even without icon
-    showSettings: true,
+    showSettings: true
   },
   SEND_MESSAGE: {
     name: () => t("servers.rolePermissions.sendMessage"),
     description: () => t("servers.rolePermissions.sendMessageDescription"),
     bit: 2,
-    icon: "mail",
+    icon: "mail"
   },
   MANAGE_ROLES: {
     name: () => t("servers.rolePermissions.manageRoles"),
     description: () => t("servers.rolePermissions.manageRolesDescription"),
     icon: "leaderboard",
     bit: 4,
-    showSettings: true,
+    showSettings: true
   },
   MANAGE_CHANNELS: {
     name: () => t("servers.rolePermissions.manageChannels"),
     description: () => t("servers.rolePermissions.manageChannelsDescription"),
     icon: "storage",
     bit: 8,
-    showSettings: true,
+    showSettings: true
   },
   KICK: {
     name: () => t("servers.rolePermissions.kick"),
     description: () => t("servers.rolePermissions.kickDescription"),
     bit: 16,
     icon: "logout",
-    showSettings: true,
+    showSettings: true
   },
   BAN: {
     name: () => t("servers.rolePermissions.ban"),
     description: () => t("servers.rolePermissions.banDescription"),
     bit: 32,
     showSettings: true,
-    icon: "block",
+    icon: "block"
   },
   MENTION_EVERYONE: {
     name: () => t("servers.rolePermissions.mentionEveryone"),
     description: () => t("servers.rolePermissions.mentionEveryoneDescription"),
     bit: 64,
-    icon: "alternate_email",
+    icon: "alternate_email"
   },
   NICKNAME_MEMBER: {
     name: () => t("servers.rolePermissions.nicknameMember"),
     description: () => t("servers.rolePermissions.nicknameMemberDescription"),
     bit: 128,
-    icon: "edit",
+    icon: "edit"
   },
   MENTION_ROLES: {
     name: () => "Mention Roles",
     bit: 256,
     description: () => "Allow users to mention roles",
-    icon: "alternate_email",
-  },
+    icon: "alternate_email"
+  }
 };
 
 export const APPLICATION_SCOPES = {
@@ -362,14 +378,14 @@ export const APPLICATION_SCOPES = {
     name: () => "User Info",
     description: () => "Access to your user information.",
     bit: 1,
-    icon: "person",
+    icon: "person"
   },
   USER_EMAIL: {
     name: () => "User Email",
     description: () => "Access to your email address",
     bit: 2,
-    icon: "mail",
-  },
+    icon: "mail"
+  }
 };
 
 export const hasBit = (permissions: number, bit: number) => {
@@ -391,7 +407,7 @@ export const getAllPermissions = (
     const hasPerm = hasBit(permissions, permission.bit);
     return {
       ...permission,
-      hasPerm,
+      hasPerm
     };
   });
 };

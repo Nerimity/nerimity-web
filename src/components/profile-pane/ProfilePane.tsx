@@ -10,7 +10,7 @@ import {
   onCleanup,
   onMount,
   Show,
-  untrack,
+  untrack
 } from "solid-js";
 import { FriendStatus, RawBotCommand, RawUser } from "@/chat-api/RawData";
 import {
@@ -21,14 +21,14 @@ import {
   getUserDetailsRequest,
   unblockUser,
   unfollowUser,
-  UserDetails,
+  UserDetails
 } from "@/chat-api/services/UserService";
 import useStore from "@/chat-api/store/useStore";
 import { bannerUrl, User } from "@/chat-api/store/useUsers";
 import {
   calculateTimeElapsedForActivityStatus,
   formatTimestamp,
-  getDaysAgo,
+  getDaysAgo
 } from "../../common/date";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import Avatar from "@/components/ui/Avatar";
@@ -50,7 +50,7 @@ import {
   hasBit,
   USER_BADGES,
   USER_BADGES_VALUES,
-  UserBadge,
+  UserBadge
 } from "@/chat-api/Bitwise";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
@@ -58,21 +58,25 @@ import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel"
 import ItemContainer from "../ui/LegacyItem";
 import ContextMenu, {
   ContextMenuItem,
-  ContextMenuProps,
+  ContextMenuProps
 } from "../ui/context-menu/ContextMenu";
 import { copyToClipboard } from "@/common/clipboard";
 import { Notice } from "../ui/Notice/Notice";
 import env from "@/common/env";
 import {
   RichProgressBar,
-  getActivityIconName,
+  getActivityIconName
 } from "@/components/activity/Activity";
 import { CreateTicketModal } from "../CreateTicketModal";
 import { MetaTitle } from "@/common/MetaTitle";
 import average from "@/common/chromaJS";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { emojiToUrl } from "@/common/emojiToUrl";
-import { currentTheme, DefaultTheme, defaultThemeCSSVars } from "@/common/themes";
+import {
+  currentTheme,
+  DefaultTheme,
+  defaultThemeCSSVars
+} from "@/common/themes";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 import { getActivityType } from "@/common/activityType";
 import { Fonts, getFont } from "@/common/fonts";
@@ -160,7 +164,7 @@ export default function ProfilePane() {
     try {
       return average([
         userDetails()?.profile?.bgColorOne! || DefaultTheme["pane-color"],
-        userDetails()?.profile?.bgColorTwo! || DefaultTheme["pane-color"],
+        userDetails()?.profile?.bgColorTwo! || DefaultTheme["pane-color"]
       ])
         .luminance(0.01)
         .alpha(0.9)
@@ -202,14 +206,12 @@ export default function ProfilePane() {
       header.updateHeader({
         subName: t("settings.account.profile"),
         title: user()!.username,
-        iconName: "person",
+        iconName: "person"
       });
     })
   );
 
   const font = createMemo(() => getFont(userDetails()?.profile?.font || 0));
-
-
 
   return (
     <>
@@ -281,7 +283,7 @@ export default function ProfilePane() {
                             "--font": `'${font()?.name}'`,
                             "--lh": font()?.lineHeight,
                             "--ls": font()?.letterSpacing,
-                            "--scale": font()?.scale,
+                            "--scale": font()?.scale
                           }}
                         >
                           {user()!.username}
@@ -347,7 +349,7 @@ export default function ProfilePane() {
                   "margin-bottom": "4px",
                   "margin-right": "0",
                   "margin-top": "-6px",
-                  "margin-left": "4px",
+                  "margin-left": "4px"
                 }}
               >
                 <ActionButtons
@@ -399,7 +401,7 @@ const BotCommands = (props: {
     <div
       class={styles.botCommandsContainer}
       style={{
-        background: props.paneBgColor,
+        background: props.paneBgColor
       }}
     >
       <div class={styles.botCommandsTitle}>
@@ -476,7 +478,7 @@ const ActionButtons = (props: {
       <DeleteConfirmModal
         buttonText={{
           loading: t("removeFriendModal.removing"),
-          main: t("profile.removeFriendButton"),
+          main: t("profile.removeFriendButton")
         }}
         onDeleteClick={removeFriend}
         title={t("removeFriendModal.title", { username: recipient?.username })}
@@ -499,7 +501,7 @@ const ActionButtons = (props: {
     if (!props.user) return;
     addFriend({
       username: props.user.username,
-      tag: props.user.tag,
+      tag: props.user.tag
     }).catch((err) => {
       toast(err.message);
     });
@@ -632,8 +634,8 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
         id: "message",
         label: isMe() ? t("inbox.drawer.notes") : t("profile.messageButton"),
         icon: isMe() ? "note_alt" : "mail",
-        onClick: onMessageClicked,
-      },
+        onClick: onMessageClicked
+      }
     ];
 
     if (isBlocked()) {
@@ -643,7 +645,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
           label: t("profile.unblockButton"),
           icon: "block",
           alert: true,
-          onClick: unblockClicked,
+          onClick: unblockClicked
         }
       );
     } else {
@@ -652,7 +654,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
           label: t("profile.blockButton"),
           icon: "block",
           alert: true,
-          onClick: blockClicked,
+          onClick: blockClicked
         });
       }
     }
@@ -663,7 +665,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
         label: t("profile.reportButton"),
         icon: "flag",
         alert: true,
-        onClick: reportClicked,
+        onClick: reportClicked
       });
     }
     items.push(
@@ -671,12 +673,12 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
       {
         label: t("general.copyLink"),
         icon: "content_copy",
-        onClick: copyProfileClick,
+        onClick: copyProfileClick
       },
       {
         label: t("general.copyID"),
         icon: "content_copy",
-        onClick: copyIdClick,
+        onClick: copyIdClick
       }
     );
     return items;
@@ -775,7 +777,7 @@ function SideBar(props: {
             !props.user.suspensionExpiresAt
               ? t("profile.expiresNever")
               : t("profile.expires", {
-                  time: getDaysAgo(props.user.suspensionExpiresAt!),
+                  time: getDaysAgo(props.user.suspensionExpiresAt!)
                 })
           }
         />
@@ -924,14 +926,14 @@ const UserActivity = (props: {
             <div
               class={styles.backgroundImage}
               style={{
-                "background-image": `url(${imgSrc()})`,
+                "background-image": `url(${imgSrc()})`
               }}
             />
             <img
               src={imgSrc()}
               class={styles.activityImg}
               classList={{
-                [styles.videoActivityImg!]: isVideo() || isLiveStream(),
+                [styles.videoActivityImg!]: isVideo() || isLiveStream()
               }}
             />
           </Show>
@@ -1189,7 +1191,7 @@ function PostsContainer(props: { user: UserDetails; paneBgColor: string }) {
     <div
       class={styles.postsContainer}
       style={{
-        background: props.paneBgColor,
+        background: props.paneBgColor
       }}
     >
       <FlexRow gap={5} style={{ "margin-bottom": "10px", "flex-wrap": "wrap" }}>
@@ -1219,7 +1221,7 @@ function PostsContainer(props: { user: UserDetails; paneBgColor: string }) {
             color={currentPage() === 1 ? "white" : "rgba(255,255,255,0.6)"}
           >
             {t("profile.postsAndRepliesTab", {
-              count: postCount() as unknown as number,
+              count: postCount() as unknown as number
             })}
           </Text>
         </ItemContainer>
@@ -1235,7 +1237,7 @@ function PostsContainer(props: { user: UserDetails; paneBgColor: string }) {
             color={currentPage() === 2 ? "white" : "rgba(255,255,255,0.6)"}
           >
             {t("profile.likedPostsTab", {
-              count: likeCount() as unknown as number,
+              count: likeCount() as unknown as number
             })}
           </Text>
         </ItemContainer>
@@ -1392,16 +1394,33 @@ function Badge(props: { badge: UserBadge; user: UserDetails }) {
       textColor={props.badge.textColor}
       color={props.badge.color!}
     >
+      <Show when={props.badge.icon}>
+        <Icon
+          name={props.badge.icon!}
+          size={14}
+          color={props.badge.textColor || "rgba(0, 0, 0, 0.7)"}
+          style={{ "margin-right": "4px", "vertical-align": "middle" }}
+        />
+      </Show>
       {props.badge.name()}
     </BadgeContainer>
   );
 }
 
 const BadgesContainer = styled(FlexRow)`
-  flex-wrap: wrap;
   margin-top: 5px;
+  flex-wrap: wrap;
 `;
 
+const Separator = styled("div")`
+  width: 6px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.2);
+  align-self: center;
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 2px;
+`;
 function Badges(props: { user: UserDetails }) {
   const allBadges = USER_BADGES_VALUES;
 
@@ -1410,15 +1429,43 @@ function Badges(props: { user: UserDetails }) {
   const hasBadges = () =>
     allBadges.filter((badge) => hasBit(props.user.user.badges || 0, badge.bit));
 
+  const categorizedBadges = () => {
+    const badges = hasBadges();
+    const categories: Record<"other" | "earned", UserBadge[]> = {
+      other: [],
+      earned: []
+    };
+    badges.forEach((badge) => {
+      const type = badge.type || "other";
+      if (!categories[type]) {
+        categories[type] = [];
+      }
+      categories[type].push(badge);
+    });
+    return categories;
+  };
+
   return (
     <Show when={hasBadges().length || isBot()}>
-      <BadgesContainer gap={3}>
-        <For each={hasBadges()}>
-          {(badge) => <Badge {...{ badge }} {...props} />}
-        </For>
+      <BadgesContainer gap={4}>
         <Show when={isBot()}>
           <Badge badge={USER_BADGES.BOT} {...props} />
         </Show>
+
+        <For each={categorizedBadges().earned}>
+          {(badge) => <Badge {...{ badge }} {...props} />}
+        </For>
+        <Show
+          when={
+            categorizedBadges().earned.length > 0 &&
+            categorizedBadges().other.length > 0
+          }
+        >
+          <Separator />
+        </Show>
+        <For each={categorizedBadges().other}>
+          {(badge) => <Badge {...{ badge }} {...props} />}
+        </For>
       </BadgesContainer>
     </Show>
   );

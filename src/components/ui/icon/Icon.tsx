@@ -67,10 +67,10 @@ export default function Icon(props: IconProps) {
       {...(env.DEV_MODE ? { "data-icon": props.name } : undefined)}
       class={classNames("icon", styles.icon, props.class)}
       style={{
-        color: props.color,
         ...props.style,
+        "--icon-color": props.color,
         width: (props.size || 24) + "px",
-        height: (props.size || 24) + "px",
+        height: (props.size || 24) + "px"
       }}
       title={props.title}
       onClick={props.onClick}

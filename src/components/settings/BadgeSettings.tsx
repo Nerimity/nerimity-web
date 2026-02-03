@@ -14,6 +14,7 @@ import { SelfUser } from "@/chat-api/events/connectionEventTypes";
 import Avatar from "../ui/Avatar";
 import { Notice } from "../ui/Notice/Notice";
 import { cn } from "@/common/classNames";
+import Icon from "../ui/icon/Icon";
 
 const Container = styled("div")`
   display: flex;
@@ -29,7 +30,7 @@ export default function BadgeSettings() {
   createEffect(() => {
     header.updateHeader({
       title: t("settings.drawer.title") + " - " + t("settings.drawer.badges"),
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -49,7 +50,7 @@ export default function BadgeSettings() {
     USER_BADGES.CAT_EARS_WHITE,
     USER_BADGES.CAT_EARS_MAID,
     USER_BADGES.FOX_EARS_GOLD,
-    USER_BADGES.FOX_EARS_BROWN,
+    USER_BADGES.FOX_EARS_BROWN
   ];
 
   const palestineDescription = () => {
@@ -57,7 +58,7 @@ export default function BadgeSettings() {
     const profile = t("settings.drawer.profile");
     return t("settings.badges.palestineDescription", {
       account,
-      profile,
+      profile
     });
   };
 
@@ -81,8 +82,8 @@ export default function BadgeSettings() {
         badges={[
           {
             ...USER_BADGES.PALESTINE,
-            description: palestineDescription,
-          },
+            description: palestineDescription
+          }
         ]}
         price={0}
       />
@@ -184,10 +185,18 @@ const BadgeItem = (props: {
           "font-weight": "bold",
           "font-size": "12px",
           background: props.badge.color,
-          color: props.badge.textColor || "rgba(0, 0, 0, 0.7)",
+          color: props.badge.textColor || "rgba(0, 0, 0, 0.7)"
         }}
         class="badge-name"
       >
+        <Show when={props.badge.icon}>
+          <Icon
+            name={props.badge.icon!}
+            size={14}
+            color={props.badge.textColor || "rgba(0, 0, 0, 0.7)"}
+            style={{ "margin-right": "4px", "vertical-align": "middle" }}
+          />
+        </Show>
         {props.badge.name()}
       </div>
       <div class="badge-desc">{props.badge.description?.()}</div>
