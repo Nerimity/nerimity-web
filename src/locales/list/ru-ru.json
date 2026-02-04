@@ -423,7 +423,8 @@
             "postsAndMessagesNotice": "Удаление ваших постов и сообщений может занимать до нескольких недель.",
             "deleteCheckbox": "Удалить мои посты и сообщения",
             "usernameFont": "Шрифт имени пользователя",
-            "default": "Стандартный"
+            "default": "Стандартный",
+            "confirmPasswordToContinue": "Подтвердите ваш пароль, чтобы продолжить"
         },
         "privacy": {
             "lastOnline": {
@@ -462,7 +463,7 @@
         "badges": {
             "noticeTitle": "Пожертвования",
             "notice": "Поддержите проект финансово.",
-            "palestineDescription": "Можно получить на странице {{account}} -> {{profile}}",
+            "palestineDescription": "Можно надеть на странице настроек профиля",
             "price": "Значки за {{price}}",
             "supportMethods": "Способы поддержки"
         },
@@ -544,7 +545,12 @@
             "exportButton": "Экспорт",
             "importButton": "Импорт",
             "exportModal": "Тема скопирована в буфер обмена.",
-            "importModal": "Вставьте тему сюда:"
+            "importModal": "Вставьте тему сюда:",
+            "rightDrawerMode": "Режим правого выдвижного меню",
+            "swipeToOpen": "Смахните пальцем для открытия",
+            "swipeToOpenDescription": "Смахивание для открытия правого меню вместо быстрого ответа на сообщение.",
+            "headerTapToOpen": "Нажмите на заголовок для открытия",
+            "headerTapToOpenDescription": "Открытие правого меню нажатием на заголовок и смахивание для быстрого ответа на сообщение."
         },
         "window": {
             "downloadAppNotice": "Чтобы изменить эти настройки, скачайте приложение Nerimity на ПК.",
@@ -774,7 +780,11 @@
             "mostLiked30Days": "Топ по лайкам (за 30 дней)",
             "mostLikedAllTime": "Топ по лайкам (за всё время)"
         },
-        "postWarning": "Контент о вреде самому себе запрещен, в отношении аккаунта могут быть приняты меры."
+        "postWarning": "Контент о вреде самому себе запрещен, в отношении аккаунта могут быть приняты меры.",
+        "replying": "Отвечая на пост <1>{{username}}</1>",
+        "pinned": "Закреплено",
+        "reposted": "Переслал(а) пост",
+        "repostedBy": "Переслано"
     },
     "informationDrawer": {
         "channelNotice": "Примечание канала",
@@ -1014,11 +1024,24 @@
         "members": "участника(ов)"
     },
     "fileEmbed": {
-        "expired": "Истёк",
+        "expired": "Истёк {{time}}",
         "modifiedOrDeleted": "Этот файл был изменён/удалён создателем на их Google Drive.",
         "viewImage": "Просмотреть изображение",
         "download": "Скачать",
-        "expires": "Исчезнет"
+        "expires": "Исчезнет через {{time}}",
+        "fileExpired": "Файл истёк.",
+        "fileModified": "Файл был изменён.",
+        "couldNotGetFile": "Не удалось получить файл.",
+        "videoEmbed": {
+            "videoExpired": "Видео истекло.",
+            "videoModified": "Видео было изменено.",
+            "couldNotGetVideo": "Не удалось получить видео.",
+            "modifiedOrDeleted": "Это видео было изменено/удалено автором на его Google Drive.",
+            "googleDrivePolicy": "Из-за новой политики Google Drive вы можете воспроизводить видео оттуда только в настольном приложения Nerimity."
+        },
+        "audioEmbed": {
+            "googleDrivePolicy": "Из-за новой политики Google Drive вы можете воспроизводить аудио оттуда только в настольном приложения Nerimity."
+        }
     },
     "addFriendModal": {
         "title": "Добавление друга",
@@ -1066,7 +1089,8 @@
         "blocked": "Вы заблокировали этого пользователя. Нажмите, чтобы показать.",
         "translationError": "Не удалось перевести это сообщение.",
         "translation": {
-            "title": "Перевод"
+            "title": "Перевод",
+            "error": "Не удалось выполнить перевод"
         },
         "imageMessage": "Изображение в сообщении"
     },
@@ -1186,7 +1210,7 @@
             "avatar": "Аватар",
             "banner": "Баннер",
             "supportedFileTypes": "Поддерживаются: {{extensions}}, Максимум {{size}}",
-            "browse": "Выбрать"
+            "browse": "Выбрать файл"
         },
         "closeButton": "Закрыть",
         "editButton": "Редактировать",
@@ -1206,5 +1230,22 @@
         "cancelButton": "Не передавать",
         "transferButton": "Передать",
         "transferring": "Передача…"
+    },
+    "welcomePopup": {
+        "subtitle": "Спасибо, что пробуете Nerimity!",
+        "joinServer": "Присоединиться к официальному серверу Nerimity",
+        "editProfile": "Отредактировать мой профиль",
+        "support": "Поддержать меня на {{platform}}",
+        "contribute": "Участвовать в разработке Nerimity на GitHub"
+    },
+    "dropDown": {
+        "selectItem": "Выбрать",
+        "selectItemMultiple": "Выбрать несколько",
+        "itemsSelected": "{{count}} выбран(о)"
+    },
+    "botButtonModal": {
+        "title": "Ответ от {{botName}}",
+        "dataReceiver": "Данные отправляются к {{botName}}",
+        "notice": "Никогда не делитесь конфиденциальной информацией"
     }
 }
