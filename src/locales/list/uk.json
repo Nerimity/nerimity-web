@@ -706,6 +706,37 @@
             "timeTitle": "Перемикання формату часу",
             "12HourFormatDescription": "Показувати час у 12-годинному формату, з AM/PM.",
             "24HourFormatDescription": "Показувати час у 24-годинному формату."
+        },
+        "window": {
+            "downloadAppNotice": "Для змінення цих налаштувань вам потрібно завантажувати Nerimity для стільниці.",
+            "startupOptions": "Опції запуску",
+            "openOnStartup": "Відкривати Nerimity при запуску",
+            "startMinimized": "Запускати згортаною",
+            "startMinimizedDescription": "Автоматично згортувати Nerimity до таці.",
+            "disableHardwareAcceleration": "Вимкнути апаратне прискорення",
+            "disableCustomTitlebar": "Вимкнути назамовний заголовок",
+            "reopenAppNotice": "Вам треба перезавантажувати застосунок, щоб дії набули ефект."
+        },
+        "activity": {
+            "extension": "Розширення для переглядача",
+            "extensionDescription": "Наше RPC-розширення дозволяє вам ділитися вашою активністю зі Spotify та YouTube з користувачами Nerimity!",
+            "visitButton": "Дивитися {{store}}",
+            "activityStatus": "Статус активности",
+            "activityStatusDescription": "Ділитися зі всіма, що ви робите",
+            "activityStatusModal": {
+                "title": "Редагувати статус активности",
+                "executable": "Викональний файл",
+                "action": "Дія",
+                "name": "Назва",
+                "emoji": "Емодзі"
+            },
+            "discordActivity": "Активність Discord",
+            "discordActivityDescription": "Ділитися своєю активністю Discord з користувачами Nerimity",
+            "idPlaceholder": "ID користувача Discord",
+            "serverModal": {
+                "text": "Будь ласка, долучися до сервера Discord, щоб ввімкнути ділення активністю.",
+                "doneButton": "Я вже там"
+            }
         }
     },
     "welcomePopup": {
