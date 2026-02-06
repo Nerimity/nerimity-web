@@ -273,7 +273,7 @@ const EmailUnconfirmedNotice = () => {
     <div class={styles.emailUnconfirmedNotice}>
       <div class={styles.text}>{t("messageArea.emailNotice")}</div>
       <A href="/app/settings/account">
-        <Button label={t("settings.account.confirmButton")} primary />
+        <Button label={t("general.confirmButton")} primary />
       </A>
     </div>
   );
