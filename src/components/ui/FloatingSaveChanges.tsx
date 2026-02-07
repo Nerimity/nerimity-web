@@ -22,7 +22,7 @@ export const FloatingSaveChanges = (props: {
       <div class={style.buttons}>
         <Show when={props.onUndo}>
           <Button
-            label="Undo"
+            label={t("general.undoButton")}
             iconName="undo"
             type="hover_border"
             alert
