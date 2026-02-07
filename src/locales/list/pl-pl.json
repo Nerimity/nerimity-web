@@ -746,7 +746,11 @@
             "mostLiked30Days": "Najwięcej polubień (30 dni)",
             "mostLikedAllTime": "Najwięcej polubień (ogółem)"
         },
-        "postWarning": "Treści dotyczące samookaleczania są niedozwolone, zostaną podjęte działania wobec konta."
+        "postWarning": "Treści dotyczące samookaleczania są niedozwolone, zostaną podjęte działania wobec konta.",
+        "replying": "Odpowiadasz <1>{{username}}</1>",
+        "pinned": "Przypięte",
+        "reposted": "Podano dalej",
+        "repostedBy": "Ponownie podano przez"
     },
     "resetPassword": {
         "title": "Zresetuj hasło",
@@ -851,11 +855,24 @@
         "members": "członkowie"
     },
     "fileEmbed": {
-        "expired": "Wygasł",
+        "expired": "Wygasł {{time}}",
         "modifiedOrDeleted": "Ten plik został zmodyfikowany/usunięty przez autora na Google Drive.",
         "viewImage": "Pokaż zdjęcie",
         "download": "Pobierz",
-        "expires": "Wygasa"
+        "expires": "Wygasa {{time}}",
+        "fileExpired": "Plik wygasł.",
+        "fileModified": "Plik został zmodyfikowany.",
+        "couldNotGetFile": "Nie udało się pobrać pliku.",
+        "videoEmbed": {
+            "videoExpired": "Film wygasł.",
+            "videoModified": "Film został zmodyfikowany.",
+            "couldNotGetVideo": "Nie udało się pobrać filmu.",
+            "modifiedOrDeleted": "Ten film został zmodyfikowany/usunięty przez autora w jego usłudze Google Drive.",
+            "googleDrivePolicy": "Zgodnie z nową polityką Google Drive, filmy można odtwarzać wyłącznie za pomocą aplikacji Nerimity."
+        },
+        "audioEmbed": {
+            "googleDrivePolicy": "Zgodnie z nową polityką Google Drive, pliki audio można odtwarzać wyłącznie za pomocą aplikacji Nerimity."
+        }
     },
     "message": {
         "badge": {
@@ -881,7 +898,8 @@
         "blocked": "Ten użytkownik został przez ciebie zablokowany. Kliknij, aby pokazać.",
         "translationError": "Nie udało się przetłumaczyć tej wiadomości.",
         "translation": {
-            "title": "Tłumaczenie"
+            "title": "Tłumaczenie",
+            "error": "Tłumaczenie nieudane"
         },
         "imageMessage": "Wiadomość ze zdjęciem"
     },
@@ -1224,5 +1242,16 @@
         "selectItem": "Wybierz element",
         "selectItemMultiple": "Wybierz element(y)",
         "itemsSelected": "{{count}} wybranych elementów"
+    },
+    "logoutModal": {
+        "title": "Czy chcesz się wylogować?",
+        "body": "Czy masz pewność, że chcesz się wylogować?",
+        "clearSettings": "Wyczyść ustawienia lokalne",
+        "cancelButton": "Nie wylogowuj się"
+    },
+    "botButtonModal": {
+        "title": "Odpowiedź od {{botName}}",
+        "dataReceiver": "Dane zostaną wysłane do {{botName}}",
+        "notice": "Nigdy nie udostępniaj wrażliwych danych"
     }
 }
