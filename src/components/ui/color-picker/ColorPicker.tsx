@@ -15,57 +15,6 @@ import { Item } from "../Item";
 
 init();
 
-function toHex(color: string): string {
-  const ctx = document.createElement("canvas").getContext("2d");
-  if (!ctx) return color;
-
-  ctx.fillStyle = color;
-  const computed = ctx.fillStyle;
-
-  if (computed.startsWith("#")) {
-    return computed.length === 4
-      ? "#" +
-          computed[1] +
-          computed[1] +
-          computed[2] +
-          computed[2] +
-          computed[3] +
-          computed[3]
-      : computed;
-  }
-
-  const rgbaMatch = computed.match(
-    /^rgba?\(\s*(\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d*\.?\d+))?\)$/
-  );
-  if (rgbaMatch) {
-    const r = parseInt(rgbaMatch[1], 10);
-    const g = parseInt(rgbaMatch[2], 10);
-    const b = parseInt(rgbaMatch[3], 10);
-    const a =
-      rgbaMatch[4] !== undefined
-        ? Math.round(parseFloat(rgbaMatch[4]) * 255)
-        : 255;
-
-    return (
-      "#" +
-      r.toString(16).padStart(2, "0") +
-      g.toString(16).padStart(2, "0") +
-      b.toString(16).padStart(2, "0") +
-      (a < 255 ? a.toString(16).padStart(2, "0") : "")
-    );
-  }
-  return computed;
-}
-
-function normalizeColor(input: string): string {
-  const val = input.trim();
-  if (!val) return "#000000";
-
-  if (/^[0-9a-fA-F]{3,8}$/.test(val)) return "#" + val;
-
-  return toHex(val) || "#000000";
-}
-
 export interface ColorPickerRef {
   openModal: () => void;
 }
@@ -77,6 +26,7 @@ export function ColorPicker(props: {
   hide?: boolean;
   ref?: ColorPickerRef | undefined;
   alpha?: boolean;
+  tabs?: ("gradient" | "solid")[];
 }) {
   const { createPortal } = useCustomPortal();
 
@@ -85,7 +35,7 @@ export function ColorPicker(props: {
   const onChange = (color: string) => {
     clearTimeout(timeout || 0);
     timeout = window.setTimeout(() => {
-      props.onChange?.(normalizeColor(color));
+      props.onChange?.(color);
     }, 10);
   };
 
@@ -96,13 +46,14 @@ export function ColorPicker(props: {
         color={props.color}
         close={close}
         onChange={onChange}
+        tabs={props.tabs}
         done={props.onDone}
       />
     ));
   };
 
   props.ref?.({
-    openModal: onClicked,
+    openModal: onClicked
   });
 
   return (
@@ -129,7 +80,7 @@ export const ColorPickerModal = (props: {
 }) => {
   let inputRef: HTMLInputElement | undefined;
   const { isMobileWidth, width } = useWindowProperties();
-  let color = normalizeColor(props.color || "#000000");
+  let color = props.color || "#000000";
   const [currentTab, setCurrentTab] = createSignal<"gradient" | "solid">(
     props.color?.startsWith("linear-gradient") ? "gradient" : "solid"
   );
@@ -161,17 +112,18 @@ export const ColorPickerModal = (props: {
       props.onChange(newGradient);
       return;
     }
-    const normalized = normalizeColor(newVal);
-    props.onChange(normalized);
-    color = normalized;
+    props.onChange(newVal);
+    color = newVal;
   };
 
   createEffect(
     on(selectedGradientIndex, () => {
       color = stops()[selectedGradientIndex()]?.color!;
+      onChange(color);
       initColoris();
     })
   );
+
   createEffect(
     on(currentTab, () => {
       if (currentTab() === "gradient") {
@@ -179,9 +131,7 @@ export const ColorPickerModal = (props: {
         initColoris();
         onChange(color);
       } else {
-        color =
-          parsedGradient().stops[0]?.color ||
-          normalizeColor(props.color || "#000000");
+        color = parsedGradient().stops[0]?.color || props.color || "#000000";
         initColoris();
         onChange(color);
       }
@@ -197,7 +147,7 @@ export const ColorPickerModal = (props: {
 
       defaultColor: color,
       inline: true,
-      onChange,
+      onChange
     });
 
   onMount(() => {
@@ -220,7 +170,10 @@ export const ColorPickerModal = (props: {
         .map((s) => `${s.color} ${s.percent}%`)
         .join(", ")})`;
 
-      props.done?.(newGradient, stops().map((s) => s.color));
+      props.done?.(
+        newGradient,
+        stops().map((s) => s.color)
+      );
       return;
     }
     props.done?.(color!, [color]);
@@ -269,6 +222,11 @@ export const ColorPickerModal = (props: {
                   setSelectedGradientIndex(index);
                 }
                 setStops(stops);
+                props.onChange(
+                  `linear-gradient(90deg, ${stops
+                    .map((s) => `${s.color} ${s.percent}%`)
+                    .join(", ")})`
+                );
               }}
             />
           </Show>
@@ -316,7 +274,7 @@ const GradientSlider = (props: {
     const newStops = [...props.stops];
     newStops[draggingIndex] = {
       ...newStops[draggingIndex]!,
-      percent: percent,
+      percent: percent
     };
 
     props.onChange(newStops);
@@ -389,7 +347,7 @@ const GradientSlider = (props: {
               left: `${stop.percent}%`,
               background: stop.color,
               position: "absolute",
-              transform: "translateX(-50%)",
+              transform: "translateX(-50%)"
             }}
             onPointerDown={(e) => handleClick(e, i())}
           >

@@ -148,7 +148,7 @@ const badgeItemStyle = css`
     content: "";
     position: absolute;
     inset: 0;
-    background-color: var(--background-color);
+    background: var(--background-color);
     opacity: 0.2;
     z-index: -1;
     border-radius: 8px;

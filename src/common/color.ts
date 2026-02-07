@@ -44,7 +44,7 @@ export const convertShorthandToLinearGradient = (shorthand: string) => {
 
   return [
     { gradient: `linear-gradient(${degree}deg, ${cssStops})`, colors },
-    null,
+    null
   ] as const;
 };
 
@@ -58,6 +58,37 @@ interface GradientData {
   stops: ColorStop[];
 }
 
+const splitGradientParts = (value: string) => {
+  const parts: string[] = [];
+  let current = "";
+  let depth = 0;
+
+  for (let i = 0; i < value.length; i++) {
+    const char = value[i]!;
+    if (char === "(") depth += 1;
+    if (char === ")") depth = Math.max(0, depth - 1);
+
+    if (char === "," && depth === 0) {
+      parts.push(current.trim());
+      current = "";
+      continue;
+    }
+
+    current += char;
+  }
+
+  if (current.trim()) {
+    parts.push(current.trim());
+  }
+
+  return parts;
+};
+
+const isSupportedColorStop = (value: string) =>
+  /^#([a-f0-9]{3,4}|[a-f0-9]{6}|[a-f0-9]{8})$/i.test(value) ||
+  /^rgba?\(/i.test(value) ||
+  /^hsla?\(/i.test(value);
+
 export const parseGradient = (str: string): GradientData => {
   const match = str.match(/linear-gradient\((.*)\)/i)?.[1] ?? "";
 
@@ -65,7 +96,7 @@ export const parseGradient = (str: string): GradientData => {
     return { angle: 180, stops: [] };
   }
 
-  const parts = match.split(",").map((p) => p.trim());
+  const parts = splitGradientParts(match);
 
   let angle = 180;
   const firstPart = parts[0] ?? "";
@@ -79,12 +110,14 @@ export const parseGradient = (str: string): GradientData => {
   }
 
   const stops = parts.reduce((acc: ColorStop[], part) => {
-    const stopMatch = part.match(/^(#[a-f0-9]{3,6})\s*(\d+)%$/i);
+    const stopMatch = part.match(/^(.+?)\s+(\d+(?:\.\d+)?)%$/);
+    const color = stopMatch?.[1]?.trim();
+    const percent = stopMatch?.[2];
 
-    if (stopMatch?.[1] && stopMatch?.[2]) {
+    if (color && percent && isSupportedColorStop(color)) {
       acc.push({
-        color: stopMatch[1],
-        percent: parseInt(stopMatch[2], 10),
+        color,
+        percent: parseFloat(percent)
       });
     }
 

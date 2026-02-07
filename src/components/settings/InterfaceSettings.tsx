@@ -5,7 +5,7 @@ import {
   rightDrawerMode,
   StorageKeys,
   useChatBarOptions,
-  useLocalStorage,
+  useLocalStorage
 } from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
@@ -21,7 +21,7 @@ import {
   DefaultTheme,
   setCustomColors,
   updateTheme,
-  ThemeTokens,
+  ThemeTokens
 } from "@/common/themes";
 import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import Button from "../ui/Button";
@@ -41,7 +41,7 @@ export default function InterfaceSettings() {
     header.updateHeader({
       title:
         t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -91,7 +91,7 @@ export function ThemesBlock() {
                 class={style.themeCard}
                 style={{
                   "background-color": colors["pane-color"],
-                  color: colors["text-color"] || DefaultTheme["text-color"],
+                  color: colors["text-color"] || DefaultTheme["text-color"]
                 }}
               >
                 <div class={style.themeName}>{name}</div>
@@ -131,7 +131,7 @@ export function ThemesBlock() {
             "align-items": "center",
             position: "relative",
             transition: "transform 0.2s, opacity 0.2s",
-            border: "1px dashed rgba(255, 255, 255, 0.3)",
+            border: "1px dashed rgba(255, 255, 255, 0.3)"
           }}
           onMouseEnter={(e) =>
             ((e.currentTarget as HTMLDivElement).style.transform =
@@ -146,7 +146,7 @@ export function ThemesBlock() {
             style={{
               "font-weight": "bold",
               "font-size": "1rem",
-              "text-align": "center",
+              "text-align": "center"
             }}
           >
             {t("explore.drawer.title")}
@@ -155,7 +155,7 @@ export function ThemesBlock() {
             style={{
               "text-align": "center",
               "margin-top": "4px",
-              "font-size": "0.75rem",
+              "font-size": "0.75rem"
             }}
           >
             {t("explore.themes.unlockDescription")}
@@ -171,7 +171,7 @@ export function ThemesBlock() {
               opacity: 0,
               border: "none",
               background: "transparent",
-              cursor: "pointer",
+              cursor: "pointer"
             }}
             onClick={() => navigate("/app/explore/themes")}
             iconName="explore"
@@ -194,7 +194,7 @@ function TimeFormatSetting() {
       description={t(
         timeFormat() === "24hr"
           ? t("settings.interface.24HourFormatDescription")
-          : t("settings.interface.12HourFormatDescription"),
+          : t("settings.interface.12HourFormatDescription")
       )}
     >
       <Checkbox checked={timeFormat() === "12hr"} onChange={toggleTimeFormat} />
@@ -207,33 +207,33 @@ function ChatBar() {
   const [chatBarOptions, setChatBarOptions] = useChatBarOptions();
   const [enabled, setEnabled] = useLocalStorage(
     StorageKeys.DISABLED_ADVANCED_MARKUP,
-    false,
+    false
   );
   const options = [
     {
       id: "vm",
       icon: "mic",
-      label: t("settings.interface.voiceMessage"),
+      label: t("settings.interface.voiceMessage")
     },
     {
       id: "gif",
       icon: "gif",
-      label: t("settings.interface.gifPicker"),
+      label: t("settings.interface.gifPicker")
     },
     {
       id: "emoji",
       icon: "face",
-      label: t("settings.interface.emojiPicker"),
+      label: t("settings.interface.emojiPicker")
     },
     ...(!isMobileAgent()
       ? [
           {
             id: "send",
             icon: "send",
-            label: t("settings.interface.sendButton"),
-          } as const,
+            label: t("settings.interface.sendButton")
+          } as const
         ]
-      : []),
+      : [])
   ] as const;
 
   type OptionIds = ["vm", "gif", "emoji", "send"];
@@ -257,13 +257,13 @@ function ChatBar() {
               if (chatBarOptions().includes(id)) {
                 setChatBarOptions(
                   options.filter(
-                    (i) => i !== (id as unknown as OptionIds),
-                  ) as unknown as OptionIds,
+                    (i) => i !== (id as unknown as OptionIds)
+                  ) as unknown as OptionIds
                 );
               } else {
                 setChatBarOptions([
                   ...chatBarOptions(),
-                  id,
+                  id
                 ] as unknown as OptionIds);
               }
             }}
@@ -276,7 +276,7 @@ function ChatBar() {
         icon="mobile_dots"
         label={t("settings.interface.disableAdvancedMarkupBar")}
         description={t(
-          "settings.interface.disableAdvancedMarkupBarDescription",
+          "settings.interface.disableAdvancedMarkupBarDescription"
         )}
         borderTopRadius={false}
       >
@@ -327,7 +327,7 @@ function CustomizeColors() {
 
   const importTheme = () => {
     const theme = JSON.parse(
-      prompt(t("settings.interface.importModal"))! as string,
+      prompt(t("settings.interface.importModal"))! as string
     ) as Theme;
     setCustomColors(theme);
     updateTheme();
@@ -385,6 +385,9 @@ function CustomizeColors() {
               </Show>
               <ColorPicker
                 alpha
+                tabs={
+                  "allowGradient" in token ? ["gradient", "solid"] : ["solid"]
+                }
                 color={currentTheme()[token.key]}
                 onChange={(v) => setThemeColor(token.key, v)}
               />
@@ -400,7 +403,11 @@ function RightDrawerModeBlock() {
   const [mode, setMode] = rightDrawerMode;
   return (
     <FlexColumn>
-      <SettingsBlock icon="right_panel_open" label={t("settings.interface.rightDrawerMode")} header />
+      <SettingsBlock
+        icon="right_panel_open"
+        label={t("settings.interface.rightDrawerMode")}
+        header
+      />
 
       <SettingsBlock
         label={t("settings.interface.swipeToOpen")}

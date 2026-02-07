@@ -13,7 +13,7 @@ export const ThemeCategory = {
   Status: "Status",
   Text: "Text",
   Markup: "Markup",
-  Drawer: "Drawer",
+  Drawer: "Drawer"
 } as const;
 
 const ThemeTokensBase = [
@@ -22,69 +22,72 @@ const ThemeTokensBase = [
     key: "background-color",
     category: ThemeCategory.Surface,
     value: "hsl(216deg 9% 8%)",
+    allowGradient: true
   },
   {
     key: "pane-color",
     category: ThemeCategory.Surface,
     value: "hsl(216deg 8% 15%)",
+    allowGradient: true
   },
   {
     key: "side-pane-color",
     category: ThemeCategory.Surface,
     value: "hsl(216deg 7.82% 12.55%)",
+    allowGradient: true
   },
 
   // Overlays
   {
     key: "header-background-color",
     category: ThemeCategory.Overlays,
-    value: "hsla(216deg 8% 15% / 80%)",
+    value: "hsla(216deg 8% 15% / 80%)"
   },
   {
     key: "header-background-color-blur-disabled",
     category: ThemeCategory.Overlays,
-    value: "hsl(216deg 8% 15%)",
+    value: "hsl(216deg 8% 15%)"
   },
   {
     key: "tooltip-background-color",
     category: ThemeCategory.Overlays,
-    value: "rgb(40, 40, 40)",
+    value: "rgb(40, 40, 40)"
   },
 
   // Input
   {
     key: "chat-input-background-color",
     category: ThemeCategory.Input,
-    value: "rgba(0, 0, 0, 0.86)",
+    value: "rgba(0, 0, 0, 0.86)"
   },
   {
     key: "chat-input-background-color-blur-disabled",
     category: ThemeCategory.Input,
-    value: "black",
+    value: "black"
   },
 
   // Markup bar
   {
     key: "chat-markup-bar-background-color",
     category: ThemeCategory.MarkupBar,
-    value: "rgba(0, 0, 0, 0.86)",
+    value: "rgba(0, 0, 0, 0.86)"
   },
   {
     key: "chat-markup-bar-background-color-blur-disabled",
     category: ThemeCategory.MarkupBar,
-    value: "black",
+    value: "black"
   },
 
   // Message
   {
     key: "message-hover-background-color",
     category: ThemeCategory.Message,
-    value: "rgba(255, 255, 255, 0.03)",
+    value: "rgba(255, 255, 255, 0.03)"
   },
   {
     key: "message-floating-options-background-color",
     category: ThemeCategory.Message,
-    value: "rgb(40, 40, 40)",
+    value: "rgb(40, 40, 40)"
   },
 
   // Accent (Primary)
@@ -92,7 +95,7 @@ const ThemeTokensBase = [
   {
     key: "primary-color-dark",
     category: ThemeCategory.Accent,
-    value: "#2d3746",
+    value: "#2d3746"
   },
 
   // Alert
@@ -108,7 +111,7 @@ const ThemeTokensBase = [
   {
     key: "success-color-dark",
     category: ThemeCategory.Success,
-    value: "#1c221d",
+    value: "#1c221d"
   },
 
   // Status
@@ -117,17 +120,17 @@ const ThemeTokensBase = [
   {
     key: "status-looking-to-play",
     category: ThemeCategory.Status,
-    value: "#78a5e3",
+    value: "#78a5e3"
   },
   {
     key: "status-away-from-keyboard",
     category: ThemeCategory.Status,
-    value: "#e3a878",
+    value: "#e3a878"
   },
   {
     key: "status-do-not-disturb",
     category: ThemeCategory.Status,
-    value: "#e37878",
+    value: "#e37878"
   },
 
   // Text
@@ -135,63 +138,63 @@ const ThemeTokensBase = [
   {
     key: "content-color",
     category: ThemeCategory.Text,
-    value: "rgba(255, 255, 255, 0.8)",
+    value: "rgba(255, 255, 255, 0.8)"
   },
   { key: "side-pane-text-color", category: ThemeCategory.Text, value: "white" },
   {
     key: "typing-indicator-color",
     category: ThemeCategory.Text,
-    value: "white",
+    value: "white"
   },
   {
     key: "typing-indicator-secondary-color",
     category: ThemeCategory.Text,
-    value: "rgba(255, 255, 255, 0.7)",
+    value: "rgba(255, 255, 255, 0.7)"
   },
 
   // Markup
   {
     key: "markup-code-background-color",
     category: ThemeCategory.Markup,
-    value: "rgba(0, 0, 0, 0.6)",
+    value: "rgba(0, 0, 0, 0.6)"
   },
   {
     key: "markup-mention-background-color",
     category: ThemeCategory.Markup,
-    value: "rgba(0, 0, 0, 0.2)",
+    value: "rgba(0, 0, 0, 0.2)"
   },
   {
     key: "markup-mention-background-color-hover",
     category: ThemeCategory.Markup,
-    value: "rgba(0, 0, 0, 0.6)",
+    value: "rgba(0, 0, 0, 0.6)"
   },
   {
     key: "markup-codeblock-background-color",
     category: ThemeCategory.Markup,
-    value: "rgba(0, 0, 0, 0.6)",
+    value: "rgba(0, 0, 0, 0.6)"
   },
   {
     key: "markup-spoiler-background-color",
     category: ThemeCategory.Markup,
-    value: "#0e0f10",
+    value: "#0e0f10"
   },
   {
     key: "markup-spoiler-background-color-hover",
     category: ThemeCategory.Markup,
-    value: "#1c1e20",
+    value: "#1c1e20"
   },
 
   // Drawer
   {
     key: "drawer-item-background-color",
     category: ThemeCategory.Drawer,
-    value: "rgba(66, 70, 76, 0.6)",
+    value: "rgba(66, 70, 76, 0.6)"
   },
   {
     key: "drawer-item-hover-background-color",
     category: ThemeCategory.Drawer,
-    value: "rgba(66, 70, 76, 0.4)",
-  },
+    value: "rgba(66, 70, 76, 0.4)"
+  }
 ] as const;
 
 // Get the order of categories as defined in ThemeCategory
@@ -210,7 +213,7 @@ export const DefaultTheme = ThemeTokens.reduce(
     acc[token.key] = token.value;
     return acc;
   },
-  {} as Record<ThemeKey, string>,
+  {} as Record<ThemeKey, string>
 );
 
 const [customColors, setCustomColors] = useLocalStorage<
@@ -224,7 +227,7 @@ export const updateTheme = () => {
   for (const key in newTheme) {
     document.documentElement.style.setProperty(
       `--${key}`,
-      newTheme[key as ThemeKey],
+      newTheme[key as ThemeKey]
     );
   }
 };
@@ -249,7 +252,7 @@ export type ThemePreset = {
 export const themePresets: Record<string, ThemePreset> = {
   Default: {
     colors: DefaultTheme,
-    maintainers: ["Superkitten", "Asraye"],
+    maintainers: ["Superkitten", "Asraye"]
   },
   AMOLED: {
     colors: {
@@ -268,10 +271,10 @@ export const themePresets: Record<string, ThemePreset> = {
       "message-floating-options-background-color": "rgba(15, 15, 15, 1)",
 
       "markup-spoiler-background-color": "#1d1f20ff",
-      "markup-spoiler-background-color-hover": "#2b2e30ff",
+      "markup-spoiler-background-color-hover": "#2b2e30ff"
     },
-    maintainers: ["Asraye"],
-  },
+    maintainers: ["Asraye"]
+  }
 };
 
 // Apply a preset
@@ -281,12 +284,12 @@ export const applyTheme = (name: string, themeObj?: ThemePreset) => {
 
   // Clear previous
   Object.keys(customColors()).forEach((key) =>
-    setThemeColor(key as ThemeKey, undefined),
+    setThemeColor(key as ThemeKey, undefined)
   );
 
   // Apply
   Object.entries(preset.colors).forEach(([key, value]) =>
-    setThemeColor(key as ThemeKey, value),
+    setThemeColor(key as ThemeKey, value)
   );
 
   // Persist
@@ -300,7 +303,7 @@ export const defaultThemeCSSVars = Object.keys(DefaultTheme).reduce(
     map[`--${key}`] = DefaultTheme[key as keyof typeof DefaultTheme];
     return map;
   },
-  {} as Record<string, string>,
+  {} as Record<string, string>
 );
 
 export { DefaultTheme as theme, currentTheme, customColors, setCustomColors };
