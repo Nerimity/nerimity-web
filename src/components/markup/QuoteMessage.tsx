@@ -16,6 +16,7 @@ import {
   emitScrollToMessage,
 } from "@/common/GlobalEvents";
 import { Embeds } from "../message-pane/message-item/MessageItem";
+import { t } from "@nerimity/i18lite";
 
 export function QuoteMessage(props: {
   message: Message;
@@ -79,7 +80,7 @@ export function QuoteMessage(props: {
 
   const editedAt = () => {
     if (!props.quote.editedAt) return;
-    return "Edited at " + formatTimestamp(props.quote.editedAt);
+    return t("message.editedAt", { time: formatTimestamp(props.quote.editedAt) });
   };
 
   const jumpToLink = () => {
@@ -161,7 +162,7 @@ export function QuoteMessage(props: {
           iconName="visibility"
           padding={4}
           iconSize={14}
-          title="View Messages"
+          title={t("message.viewMessages")}
           onClick={() =>
             emitModerationShowMessages({
               messageId: props.quote.id!,
@@ -198,9 +199,9 @@ export function QuoteMessage(props: {
 }
 
 export function QuoteMessageInvalid() {
-  return <div class="quoteContainer">Deleted Or Invalid Quote.</div>;
+  return <div class="quoteContainer">{t("message.quote.invalid")}</div>;
 }
 
 export function QuoteMessageHidden() {
-  return <span class="hiddenQuote">Nested Quote</span>;
+  return <span class="hiddenQuote">{t("message.quote.nested")}</span>;
 }
