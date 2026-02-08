@@ -63,7 +63,6 @@ const close = css`
 
 const IconImage = styled("img")`
   height: 20px;
-  border-radius: 50%;
   margin-left: 10px;
   pointer-events: none;
   background-color: rgb(38, 38, 38);
