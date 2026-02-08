@@ -893,7 +893,11 @@
             "mostLiked30Days": "Más gustados (30 días)",
             "mostLikedAllTime": "Más gustados (Histórico)"
         },
-        "postWarning": "No se permite la publicación de contenido relacionado con la autolesión. El incumplimiento de esta norma podrá dar lugar a medidas sobre la cuenta."
+        "postWarning": "No se permite la publicación de contenido relacionado con la autolesión. El incumplimiento de esta norma podrá dar lugar a medidas sobre la cuenta.",
+        "replying": "Respondiendo a <1>{{username}}</1>",
+        "pinned": "Fijado",
+        "reposted": "Republicado",
+        "repostedBy": "Republicado por"
     },
     "informationDrawer": {
         "channelNotice": "Información",
@@ -934,7 +938,20 @@
         "viewImage": "Ver imagen",
         "download": "Descargar",
         "modifiedOrDeleted": "Este archivo fue modificado/eliminado por el creador en su Google Drive.",
-        "expires": "Expira en {{time}}"
+        "expires": "Expira en {{time}}",
+        "fileExpired": "Archivo expirado.",
+        "fileModified": "El archivo fue modificado.",
+        "couldNotGetFile": "No se pudo obtener el archivo.",
+        "videoEmbed": {
+            "videoExpired": "Video expirado.",
+            "videoModified": "El video fue modificado.",
+            "couldNotGetVideo": "No se pudo obtener el video.",
+            "modifiedOrDeleted": "Este vídeo ha sido modificado o eliminado por su creador en su Google Drive.",
+            "googleDrivePolicy": "Debido a la nueva política de Google Drive, solo es posible reproducir vídeos desde la aplicación de escritorio de Nerimity."
+        },
+        "audioEmbed": {
+            "googleDrivePolicy": "Debido a la nueva política de Google Drive, solo es posible reproducir audio desde la aplicación de escritorio de Nerimity."
+        }
     },
     "addFriendModal": {
         "title": "Añadir amigo",
@@ -977,7 +994,8 @@
         "blocked": "Has bloqueado a este usuario. Haz clic para mostrar.",
         "translationError": "No se ha podido traducir este mensaje.",
         "translation": {
-            "title": "traducción"
+            "title": "traducción",
+            "error": "Traducción fallida"
         },
         "imageMessage": "Mensaje de imagen"
     },
@@ -1224,5 +1242,16 @@
         "selectItem": "Seleccionar elemento",
         "selectItemMultiple": "Seleccionar elemento(s)",
         "itemsSelected": "{{count}} elemento(s) seleccionado(s)"
+    },
+    "logoutModal": {
+        "title": "Cerrar sesión?",
+        "body": "¿Está seguro de que desea cerrar sesión?",
+        "clearSettings": "Borrar la configuración local",
+        "cancelButton": "No cierres sesión"
+    },
+    "botButtonModal": {
+        "title": "Respuesta de {{botName}}",
+        "dataReceiver": "Los datos se envían a {{botName}}",
+        "notice": "Nunca compartas información sensible"
     }
 }
