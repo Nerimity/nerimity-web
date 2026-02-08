@@ -66,7 +66,6 @@ const Title = styled("div")`
 const Logo = styled("img")`
   width: 30px;
   height: 30px;
-  border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.86);
   backdrop-filter: blur(34px);
 `;
@@ -189,7 +188,7 @@ function LogInLogOutSkeleton() {
         style={{
           "border-radius": "50%",
           "margin-left": "6px",
-          "margin-right": "6px",
+          "margin-right": "6px"
         }}
       />
     </>

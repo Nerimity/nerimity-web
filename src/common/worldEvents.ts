@@ -1,6 +1,6 @@
 interface Event {
-  start: { day: number; month: number; },
-  dayDuration: number
+  start: { day: number; month: number };
+  dayDuration: number;
 }
 
 const halloween = {
@@ -17,7 +17,7 @@ const now = Date.now();
 export const isHalloween = isEventActive(halloween);
 export const isChristmas = false;
 
-function isEventActive({start, dayDuration}: Event) {
+function isEventActive({ start, dayDuration }: Event) {
   const startDate = new Date();
   startDate.setDate(start.day);
   startDate.setMonth(start.month - 1);
@@ -29,7 +29,6 @@ function isEventActive({start, dayDuration}: Event) {
   endDate.setHours(23);
   endDate.setMinutes(59);
 
-
   if (startDate.getFullYear() !== endDate.getFullYear()) {
     endDate.setFullYear(startDate.getFullYear());
     startDate.setFullYear(startDate.getFullYear() - 1);
@@ -39,7 +38,7 @@ function isEventActive({start, dayDuration}: Event) {
 }
 
 export const appLogoUrl = () => {
-  if (isHalloween) return "/assets/halloween-logo.png";
-  if (isChristmas) return "/assets/christmas-logo.png";
+  // if (isHalloween) return "/assets/halloween-logo.png";
+  // if (isChristmas) return "/assets/christmas-logo.png";
   return "/assets/logo.png";
-}; 
+};

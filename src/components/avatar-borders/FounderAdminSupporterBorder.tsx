@@ -64,12 +64,7 @@ function RawAvatar(props: {
           </Show>
 
           <Show when={props.url} fallback={<FirstLetterAvatar {...props} />}>
-            <img
-              src={props.url || "/assets/profile.png"}
-              width="100%"
-              height="100%"
-              loading="lazy"
-            />
+            <img src={props.url} width="100%" height="100%" loading="lazy" />
           </Show>
         </Match>
         <Match when={props.children}>{props.children}</Match>
