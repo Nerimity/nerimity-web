@@ -201,14 +201,14 @@ export const ColorPickerModal = (props: {
                 selected={currentTab() === "solid"}
                 onClick={() => setCurrentTab("solid")}
               >
-                <Item.Label>Solid</Item.Label>
+                <Item.Label>{t("colorPickerModal.solid")}</Item.Label>
               </Item.Root>
               <Item.Root
                 handlePosition="bottom"
                 selected={currentTab() === "gradient"}
                 onClick={() => setCurrentTab("gradient")}
               >
-                <Item.Label>Gradient</Item.Label>
+                <Item.Label>{t("colorPickerModal.gradient")}</Item.Label>
               </Item.Root>
             </div>
           </Show>
