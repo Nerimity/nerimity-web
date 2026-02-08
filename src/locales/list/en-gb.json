@@ -1162,7 +1162,9 @@
         "notice": "Never share sensitive information"
     },
     "colorPickerModal": {
-        "title": "Colour Picker"
+        "title": "Colour Picker",
+        "solid": "Solid",
+        "gradient": "Gradient"
     },
     "photoEditor": {
         "title": "Photo Editor",
