@@ -1130,7 +1130,12 @@
         "reactions": {
             "more": "{{count}} more"
         },
+        "viewMessages": "View Messages",
         "imageMessage": "Image message",
+        "quote": {
+            "invalid": "Deleted or invalid quote.",
+            "nested": "Nested quote"
+        },
         "deletedMessage": "Message was deleted.",
         "dismissButton": "Dismiss",
         "editedAt": "Edited at {{time}}",
