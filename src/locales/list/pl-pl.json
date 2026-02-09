@@ -901,7 +901,12 @@
             "title": "Tłumaczenie",
             "error": "Tłumaczenie nieudane"
         },
-        "imageMessage": "Wiadomość ze zdjęciem"
+        "imageMessage": "Wiadomość ze zdjęciem",
+        "viewMessages": "Pokaż wiadomości",
+        "quote": {
+            "invalid": "Usunięty lub nieprawidłowy cytat.",
+            "nested": "Cytat zagnieżdżony"
+        }
     },
     "typing": {
         "single": "<1>{{username}}</1> pisze…",
@@ -957,7 +962,9 @@
         "cancelButton": "Nie usuwaj"
     },
     "colorPickerModal": {
-        "title": "Próbnik kolorów"
+        "title": "Próbnik kolorów",
+        "solid": "Jednolity",
+        "gradient": "Gradient"
     },
     "photoEditor": {
         "title": "Edytor obrazów",
