@@ -2,18 +2,35 @@
     "header": {
         "openAppButton": "Alkalmazás Kinyítása",
         "loginButton": "Bejelentkezés",
-        "joinNowButton": "Csatlakozás"
+        "joinNowButton": "Csatlakozás",
+        "logoutButton": "Kijelentkezés"
     },
     "homePage": {
         "slogan": "Egy modern, elegáns chat alkalmazás.",
-        "viewGitHubButton": "GitHub Adattár Megtekíntése"
+        "viewGitHubButton": "GitHub-on megtekíntés",
+        "subslogan": "A Nerimite egy elegáns és funkciókban-gazdag tapasztalatot ajáln ami megkülönbözteti a többiektől.",
+        "getStarted": "Kezdd el",
+        "availableOn": "Elérhető",
+        "browser": "Böngésző",
+        "featureList": {
+            "feature1": "Ingyenes animált avatárok és emojik",
+            "feature2": "Elegáns dizájn",
+            "feature3": "Cseréld ki a tag-ed ingyen",
+            "feature4": "Készits posztokat a profilodra",
+            "feature5": "Készitsd el a saját közösséged",
+            "feature6": "Találj új közösségeket",
+            "feature7": "Adományokból működik",
+            "feature8": "Teljes forráskód Github-on",
+            "feature9": "Fejezd ki magad határok nélkül"
+        }
     },
     "loginPage": {
         "title": "Jelentkezz be a folytatáshoz",
         "password": "Jelszó",
         "login": "Bejelentkezés",
         "createAccountInstead": "Fiók készítése inkább",
-        "loggingIn": "Bejelentkezés folyamatban..."
+        "loggingIn": "Bejelentkezés folyamatban…",
+        "emailOrUsernameAndTag": "Email / felhasználó:tag"
     },
     "registerPage": {
         "title": "Üdvözlünk {{appName}}-n",
@@ -22,35 +39,80 @@
         "password": "Jelszó",
         "confirmPassword": "Jelszó Megerősítése",
         "registerButton": "Regisztrálás",
-        "registering": "Regisztrálás folyamatban...",
-        "loginInstead": "Fiókba belépés inkább"
+        "registering": "Regisztrálás folyamatban…",
+        "loginInstead": "Fiókba belépés inkább",
+        "header": "Regisztrálás",
+        "notices": {
+            "title": "Értesítések",
+            "toxic": "Ne légy toxikus.",
+            "nsfw": "Nincs NFSW tartalom.",
+            "age": "14 vagy idősebb kell legyél."
+        },
+        "agreement": "Azzal hogy fiókot készítész elfogadod a felhasználási feltételeket és az adatvédelmi irányelveket."
     },
     "inbox": {
         "drawer": {
-            "addFriendButton": "Barát Hozzáadása",
-            "friendsButton": "Barátok"
+            "addFriendButton": "Barátnak jelölés",
+            "friendsButton": "Barátok",
+            "searchBarPlaceholder": "Keresés",
+            "friendRequests": "{{count}} barátnak jelölés",
+            "onlineFriends": "{{count}} online barát",
+            "offlineFriends": "{{count}} offline barát",
+            "notes": "Jegyzetek",
+            "blockedUsersButton": "Tiltva",
+            "inboxTitle": "Postaláda",
+            "viewAll": "Összes megtekintése"
+        },
+        "blockedUsersModal": {
+            "title": "Tiltott felhasználok"
         }
     },
     "explore": {
         "drawer": {
             "title": "Felfedezés",
-            "servers": "Szerverek"
+            "servers": "Szerverek",
+            "bots": "Botok",
+            "themes": "Témák"
         },
         "servers": {
             "title": "Felfedezés - Szerverek",
-            "noticeMessage": "Egy szervert lehet előretolhatsz {{hours}} óránként. Mindegyik előretolás a következő dátumon visszaállítódnak: {{date}}.",
-            "sortMostBumps": "Legtöbb Elöretolás",
+            "noticeMessage": "Egy szervert lehet bump-olhatsz {{hours}} óránként. Mindegyik bump a következő dátumon visszaállítódik: {{date}}.",
+            "sortMostBumps": "Legtöbb Bump",
             "sortMostMembers": "Legtöbb Tag",
             "sortRecentlyAdded": "Nemrég Létrehozott",
-            "sortRecentlyBumped": "Nemrég Elöretolt",
+            "sortRecentlyBumped": "Nemrég Bump-olt",
             "filterAll": "Összes",
             "filterVerified": "Ellenőrzött",
             "memberCount": "{{count}} tag",
-            "lifetimeBumpCount": "{{count}} összes elöretolás",
+            "lifetimeBumpCount": "{{count}} összes bump",
             "visitServerButton": "Meglátogatás",
             "joinServerButton": "Csatlakozás",
-            "bumpButton": "Elöretolások: ({{count}})"
-        }
+            "bumpButton": "Bumpok ({{count}})",
+            "moderationNotice": "A szervereket a Nerimity nem moderálja. Kérünk jeletsd azon szervereket melyek megszegik a TOS-t.",
+            "sortMostActive": "Legaktívabb (Beta)",
+            "pinnedServers": "Kitűzött szerverek",
+            "recentlyBumped": "Nem rég bump-olt szerverek"
+        },
+        "bots": {
+            "title": "Felfedezés - Botok",
+            "noticeMessage": "Egy botot minden {{hours}} órában lehet bump-olni. Az összes bump visszaállítódik minden {{date}}-kor.",
+            "moderationNotice": "A botokat a Nerimity nem moderálja. Kérjük jelentsd azon botokat melyek megszegik a TOS-t.",
+            "inviteButton": "Meghívás",
+            "serverCount": "{{count}} szerverben"
+        },
+        "themes": {
+            "title": "Felfedezés - Témák",
+            "themesHeaderDescription": "Sajátosítsd a Nerimity-t egy személyesített témával.",
+            "officialThemes": "Hivatalos témák",
+            "communityThemes": "Közösségi témák",
+            "noCommunityThemes": "Közösségí téma nincs találva.",
+            "fetchThemesError": "Témák keresése nem sikerült. Kérlek próbáld újra később.",
+            "unlockDescription": "Clickelj az összes közösségi téma felfedezéséhez"
+        },
+        "sort": "Szortálás",
+        "filter": "Filter",
+        "by": "Eddig",
+        "bumped": "Bump-olva"
     },
     "servers": {
         "settings": {
@@ -58,22 +120,29 @@
                 "general": "Átlagos",
                 "roles": "Rangok",
                 "channels": "Csatornák",
-                "bans": "Bannok",
+                "bans": "Kitiltások",
                 "invites": "Meghívók",
                 "publishServer": "Szerver Közzetétele",
-                "verify": "Ellenörzés",
+                "verify": "Hitelesítés",
                 "role": "Rang",
-                "channel": "Csatorna"
+                "channel": "Csatorna",
+                "audit-logs": "Audit Log-ok",
+                "welcome-screen": "Üdvözlőképernyő",
+                "permissions": "Engedélyek",
+                "emoji": "Emoji",
+                "notifications": "Értesítések",
+                "external-embed": "Külső csatolmány"
             },
             "general": {
-                "serverRenameNotice": "Elveszted az összes ellenörzés által kapott kedvezményt ha átnevezed a szervered.",
+                "serverRenameNotice": "Elveszted az összes hitelesítés által kapott kedvezményt ha átnevezed a szervered.",
                 "serverName": "Szerver Név",
                 "defaultChannel": "Alapértelmezett Csatorna",
                 "defaultChannelDescription": "Az új tagok ide lesznek irányítva.",
                 "systemMessages": "Rendszer Üzenetek",
                 "systemMessagesDescription": "Itt jelennek meg a rendszer üzenetek.",
                 "deleteThisServer": "Szerver törlése",
-                "deleteServerButton": "Szerver törlése"
+                "deleteServerButton": "Szerver törlése",
+                "none": "Semmi"
             },
             "roles": {
                 "addNewRole": "Új rang hozzáadása",
@@ -84,8 +153,14 @@
                 "roleColor": "Rang Szín",
                 "hideRole": "Rang Elrejtése",
                 "hideRoleDescription": "Ezzel a ranggal rendelkező felhasználokat az alapértelmezett tagokkal eggyütt való megjenítése",
-                "permissionsDescription": "Eme rang engedélyeinek kezelése.",
-                "deleteRoleButton": "Rang törlése"
+                "permissionsDescription": "Rang engedélyeinek kezelése.",
+                "deleteRoleButton": "Rang törlése",
+                "clear": "Törlés",
+                "roleIcon": "Rang Ikon",
+                "managedByBot": "Ezt a rangot {{botName}} kezeli. Nem törölhetsz vagy adhatsz hozzá felhasználókat. A rang eltávolításához rúgd ki ezt a botot.",
+                "applyOnJoin": "Alkalmazás csatlakozáskor",
+                "applyOnJoinDescription": "Ezt a rangot a felhasználokra alkalmazd, amikor csatlakoznak a szerverhez.",
+                "deleteRoleTitle": "{{roleName}} törlése"
             },
             "header": {
                 "editServer": "Szerver Szerkesztése",
@@ -93,14 +168,18 @@
             },
             "channel": {
                 "channelName": "Csatorna Neve",
-                "permissionsDescription": "Eme csatorna engedélyeinek kezelése.",
+                "permissionsDescription": "Csatorna engedélyeinek kezelése.",
                 "deleteThisChannel": "Csatorna törlése",
-                "deleteChannelButton": "Csatorna Törlése"
+                "deleteChannelButton": "Csatorna Törlése",
+                "channelIcon": "Csatorna Ikon",
+                "slowModeDescription": "Add meg, hogy mennyi ideig kell várnia a felhasználónak, mielőtt üzenetet küldhet.",
+                "deleteChannelTitle": "{{channelName}} törlése",
+                "removeNoticeButton": "Értesítés eltávolítása"
             },
             "invites": {
                 "createInviteButton": "Meghívó Készítése",
                 "serverInvites": "Szerver Meghívok",
-                "serverInvitesDescription": "Hívd meg a barátaid eme szerverbe.",
+                "serverInvitesDescription": "Hívd meg a barátaid ebbe a szerverbe.",
                 "customInviteVerifiedOnlyNotice": "Sajátosított linkek csak ellenőrzött szervereknek elérhető.",
                 "customLink": "Sajátosított Link"
             },
@@ -112,6 +191,66 @@
                 "bumpServerDescription": "Told előre ezt a szervert hogy érje el a toppot.",
                 "publishServerButton": "Szerver Közzetétele",
                 "unpublishServerButton": "Szerver Közzetételének Visszavonása"
+            },
+            "bans": {
+                "sort": {
+                    "alphabetical": "ABC-sorrendű",
+                    "unsorted": "Szortáltalan"
+                },
+                "noResults": "Nincs találat.",
+                "reason": "Ok",
+                "noReason": "Nincs ok megadva",
+                "bannedAt": "Kitiltva ekkor",
+                "unknown": "Ismeretlen",
+                "unban": "Kitiltás feloldása",
+                "unbanning": "Kitiltása feloldása…"
+            },
+            "webhook": {
+                "title": "Webhookok",
+                "name": "Webhook neve",
+                "link": "Webhook URL",
+                "linkDescription": "Műveletek végrehajtása ezen a linken keresztül",
+                "delete": "Webhook törlése"
+            },
+            "welcomeScreen": {
+                "title": "Kérdések",
+                "description": "Állíts be kérdéseket. Engedd a felhasználókat, hogy rangokat adjanak maguknak.",
+                "questions": {
+                    "addButton": "Kérdés hozzáadása",
+                    "question": "Kérdés",
+                    "questionPlaceholder": "Macskák vagy kutyák?",
+                    "multiselect": "Több választásos"
+                },
+                "answers": {
+                    "title": "Válaszok",
+                    "addButton": "Válasz hozzáadása",
+                    "editModal": {
+                        "title": "Válasz szerkesztése",
+                        "answer": "Válasz",
+                        "placeholder": "Macskák",
+                        "selectRoles": "Rangok választása"
+                    }
+                }
+            },
+            "channels": {
+                "createButton": "Készítés",
+                "createNewDescription": "Készíts új csatornát vagy kategóriát",
+                "textChannel": "Szöveges csatorna",
+                "category": "Kategóría"
+            },
+            "notifications": {
+                "notice": "Ezek a beállítások csak neked fognak változni.",
+                "ping": "Értesítés ping",
+                "pingDescription": "Mutass értesítés indikátort.",
+                "sound": "Értesítés hang",
+                "soundDescription": "Csinálj egy hangot mikor értesítést kapsz.",
+                "channelsDescription": "Értesítések kezelése csatornánként.",
+                "resetButton": "Felülbírálások visszaállítása ({{count}})"
+            },
+            "emoji": {
+                "title": "Sajátosított emoji",
+                "description": "Add hozzá a saját emoji-dat.",
+                "addButton": "Emoji hozzáadása"
             }
         },
         "rolePermissions": {
@@ -166,7 +305,161 @@
         "avatarAndBanner": {
             "avatar": "Profil kép",
             "banner": "Szalaghirdetés",
-            "browse": "Böngészés"
+            "browse": "Böngészés",
+            "supportedFileTypes": "Támogatott: {{extensions}}, Max. {{size}}"
+        },
+        "nothingSelected": "Semmi Kiválasztva",
+        "closeButton": "Bezárás",
+        "editButton": "Szerkesztés",
+        "undoButton": "Vissza",
+        "cannotBeUndone": "Ez nem vonható vissza!"
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<User/><2> be lett téve a szerverbe.</2>",
+            "user": "<User/><2> belépett a szerverbe.</2>"
+        },
+        "leaveServer": "<User/><2> kilépett a szerverből.</2>",
+        "kickUser": "<User/><2> ki lett rúgva.</2>",
+        "banUser": "<User/><2> ki lett tiltva.</2>",
+        "callStarted": "<User/><2> elindított egy hívást.</2>",
+        "bumpServer": "<User/><2> bump-olta a szervert.</2>",
+        "pinnedMessage": "<User/><2> kitűzött egy üzenetet.</2>",
+        "unsupported": "<User/><2> Nem támogatott üzenet.</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "Hitelesítési hiba",
+        "connecting": "Csatlakozás…",
+        "reconnecting": "Újracsatlakozás…",
+        "inQueue": "Sorban vagy: {{count}} felhasználó van előtted",
+        "authenticating": "Hitelesítés…",
+        "connected": "Csatlakozva!"
+    },
+    "dangerousLinkModal": {
+        "title": "Sajátosított Link",
+        "message": "Ez a link el fog vezetni",
+        "cancelButton": "Ne Látogasd Meg",
+        "visitButton": "Látogatás"
+    },
+    "connectionErrorModal": {
+        "title": "Csatlakozási Hiba",
+        "ok": "OK",
+        "noToken": "Nincs token megadva.",
+        "suspended": "Fel vagy függesztve.",
+        "reason": "Ok",
+        "defaultReason": "A TOS megszegése",
+        "until": "Eddig",
+        "never": "soha",
+        "by": "Addig",
+        "deletionNotice": "A fiókod és adatod 15 napon belül törölve lesz",
+        "ipBanned": "Az IP-d ki van tiltva.",
+        "ipBanNotice": "Valaki a te IP-ddel ki lett tiltva a Nerimity-röl. Ennek nincs hatása a te fiókodra."
+    },
+    "resetPassword": {
+        "title": "Jelszó visszaállítása",
+        "resetSuccessful": "Jelszó sikeresen visszaállítva.",
+        "passwordsDoNotMatch": "Legyél biztos hogy jelszó nem egyezik meg a régivel.",
+        "passwordTooLong": "A jelszavad kevesebb mint 72 karakterből kell álljón.",
+        "resetPasswordButton": "Jelszó visszaállítása",
+        "resetting": "Visszaállítás…",
+        "email": "Email",
+        "sendEmailButton": "Email küldése",
+        "sending": "Email küldése…"
+    },
+    "welcomePopup": {
+        "subtitle": "Köszönjük hogy kipróbálod a Nerimity-t!",
+        "joinServer": "Csatlakozz a hivatalos Nerimity szerverbe",
+        "editProfile": "Profil szerkesztése",
+        "support": "Támogass {{platform}}-on",
+        "contribute": "Segítsd a Nerimity-t GitHub-on"
+    },
+    "dashboard": {
+        "title": "Kezelőpanel",
+        "activeUsers": "Aktív felhasználók",
+        "noActiveUsers": "Nincs aktív felhasználó",
+        "servers": "Szerverek",
+        "posts": "Posztok",
+        "feed": "Hírfolyam",
+        "discover": "Felfedezz",
+        "notifications": "Értesítések"
+    },
+    "status": {
+        "online": "Online",
+        "ltp": "Játszani szeretne",
+        "afk": "Távol a billentyűzettől",
+        "dnd": "Ne Zavarj",
+        "offline": "Offline",
+        "appearAsOffline": "Tünj offline-nak"
+    },
+    "sidePane": {
+        "home": "Otthon",
+        "homeShort": "Otthon",
+        "moderation": "Moderáció panel",
+        "moderationShort": "Moderátor",
+        "addServer": "Szerver hozzáadása"
+    },
+    "updateModal": {
+        "title": "Frissítés elérhető",
+        "updateButton": "Frissítsd most",
+        "laterButton": "Később",
+        "releasedAt": "Kiadva"
+    },
+    "messageArea": {
+        "messageBoxPlaceholder": "Üzenet {{username}}",
+        "messageBoxChannelPlaceholder": "Üzenet a {{channelName}} csatornában",
+        "replying": "Válaszolsz {{count}} üzenetnek",
+        "mention": "Említés",
+        "dropFile": "Fájl bedobása",
+        "uploadTo": "Feltöltés a",
+        "channelNotice": {
+            "title": "Mielött chattel-nél…",
+            "understoodButton": "Megértve"
+        },
+        "specialMentions": {
+            "everyone": "Mindenkit megemlít",
+            "someone": "Megemlít egy véletlenszerű felhasználót",
+            "silent": "Csendes üzenet"
+        },
+        "linkToGoogleDrive": {
+            "body": "Nagy képek, videók vagy fájlok feltöltéséhez össze kell kapcsolnia fiókját a Google Drive-val",
+            "linkButton": "Kapcsold össze most",
+            "cancelButton": "Ne csatlakoztasd"
+        },
+        "emailNotice": "Erősítsd meg az emailed hogy küldj üzeneteket."
+    },
+    "inputFieldActions": {
+        "copy": "Másolás",
+        "cut": "Kivágás",
+        "paste": "Beillesztés"
+    },
+    "dropDown": {
+        "selectItem": "Elem kiválasztása",
+        "selectItemMultiple": "Elemek kiválasztása",
+        "itemsSelected": "{{count}} elem kiválasztva"
+    },
+    "markup": {
+        "bold": "Félkövér",
+        "italic": "Dőlt",
+        "strikethrough": "Áthúzott",
+        "header": "Fejléc",
+        "namedLink": "Nevezett link",
+        "spoiler": "Szpoiler",
+        "timestamp": "Időbélyeg",
+        "color": "Szín",
+        "html": "HTML Mód",
+        "emojiPicker": "Emoji választó",
+        "timestampModal": {
+            "title": "Időjelölés",
+            "relative": "Relatív",
+            "offset": "Eltolás"
+        },
+        "checkbox": "Jelölőnégyzet"
+    },
+    "editFolderModal": {
+        "title": "Folder szerkesztése",
+        "placeholder": "Folder neve",
+        "errors": {
+            "emptyName": "Kérünk adj meg egy folder nevet."
         }
     }
 }
