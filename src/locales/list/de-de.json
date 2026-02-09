@@ -997,7 +997,12 @@
             "title": "Übersetzung",
             "error": "Übersetzung fehlgeschlagen"
         },
-        "imageMessage": "Bild Nachricht"
+        "imageMessage": "Bild Nachricht",
+        "viewMessages": "Nachrichten ansehen",
+        "quote": {
+            "invalid": "Gelöschte oder ungültige Quote.",
+            "nested": "Verschachtelte Quote"
+        }
     },
     "colorPickerModal": {
         "title": "Farbauswähler",
