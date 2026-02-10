@@ -1,12 +1,28 @@
 {
     "header": {
-        "openAppButton": "",
+        "openAppButton": "App openen",
         "loginButton": "Log in",
-        "joinNowButton": "Join Nu"
+        "joinNowButton": "Join Nu",
+        "logoutButton": "Afmelden"
     },
     "homePage": {
         "slogan": "Een moderne en strakke chat app.",
-        "viewGitHubButton": "Github bekijken"
+        "viewGitHubButton": "Github bekijken",
+        "subslogan": "Nerimity geeft een elegant en functie-rijke ervaring dat het apart zet.",
+        "getStarted": "Beginnen",
+        "availableOn": "Bereikbaar om",
+        "browser": "Browser",
+        "featureList": {
+            "feature1": "Gratis geanimeerde avatars & emojis",
+            "feature2": "Elegante design",
+            "feature3": "Verander je tag gratis",
+            "feature4": "Maak posts op je profiel",
+            "feature5": "Creëer je eigen community",
+            "feature6": "Vind nieuwe communities",
+            "feature7": "Gefinancierd door donaties",
+            "feature8": "Volle source code op GitHub",
+            "feature9": "Druk jezelf uit met borders"
+        }
     },
     "loginPage": {
         "title": "Log in om verder te gaan",
@@ -14,7 +30,7 @@
         "password": "Wachtwoord",
         "login": "Log in",
         "createAccountInstead": "Maak in plaats daarvan een account aan",
-        "loggingIn": "Inloggen..."
+        "loggingIn": "Inloggen…"
     },
     "registerPage": {
         "title": "Welkom bij {{appName}}",
@@ -23,19 +39,40 @@
         "password": "Wachtwoord",
         "confirmPassword": "Bevestig Wachtwoord",
         "registerButton": "Registreren",
-        "registering": "Registreren...",
-        "loginInstead": "Log in plaats daarvan in"
+        "registering": "Registreren…",
+        "loginInstead": "Log in plaats daarvan in",
+        "header": "Registreren",
+        "notices": {
+            "title": "Notities",
+            "toxic": "Wees niet toxic.",
+            "nsfw": "Geen NSFW-inhouden.",
+            "age": "Je moet 14 of ouder zijn."
+        },
+        "agreement": "Door een account te creëren, hou je je aan de Algemene Voorwaarden."
     },
     "inbox": {
         "drawer": {
             "addFriendButton": "Vriend Toevoegen",
-            "friendsButton": "Vrienden"
+            "friendsButton": "Vrienden",
+            "searchBarPlaceholder": "Zoeken",
+            "friendRequests": "{{count}} Vriendschapsverzoeken",
+            "onlineFriends": "{{count}} Vrienden online",
+            "offlineFriends": "{{count}} Vrienden offline",
+            "notes": "Notities",
+            "blockedUsersButton": "Geblokkeerd",
+            "inboxTitle": "Postvak",
+            "viewAll": "Alles zien"
+        },
+        "blockedUsersModal": {
+            "title": "Geblokkeerde Gebruikers"
         }
     },
     "explore": {
         "drawer": {
             "title": "Verken",
-            "servers": "Servers"
+            "servers": "Servers",
+            "bots": "Bots",
+            "themes": "Thema's"
         },
         "servers": {
             "title": "Verkennen - Servers",
@@ -50,8 +87,32 @@
             "lifetimeBumpCount": "{{count}} in totale bumps",
             "visitServerButton": "Bezoek",
             "joinServerButton": "Meedoen",
-            "bumpButton": "Bump ({{count}})"
-        }
+            "bumpButton": "Bump ({{count}})",
+            "moderationNotice": "Servers worden niet gemodereerd door Nerimity. Report alle servers die de Algemene Voorwaarden breken.",
+            "sortMostActive": "Meeste activiteit (Beta)",
+            "pinnedServers": "Vastgezette Servers",
+            "recentlyBumped": "Recentelijk Gebumpte Servers"
+        },
+        "bots": {
+            "noticeMessage": "Een bot kan worden gebumpt een keer per {{hours}} uren. Alle bumps resetten elke dag om {{date}}.",
+            "moderationNotice": "Bots worden niet bijgehouden door Nerimity. Rapporteer alle bots die kwaadwillig zijn of de Algemene Voorwaarden breken.",
+            "inviteButton": "Uitnodigen",
+            "serverCount": "In {{count}} servers",
+            "title": "Ontdekken - Bots"
+        },
+        "themes": {
+            "title": "Ontdekken - Thema's",
+            "themesHeaderDescription": "Personaliseer Nerimity met een aangepaste thema.",
+            "officialThemes": "Officiële Thema's",
+            "communityThemes": "Gemeenschappelijke Thema's",
+            "noCommunityThemes": "Geen gemeenschappelijke thema's gevonden.",
+            "fetchThemesError": "Kon thema's niet laden. Probeer later opnieuw.",
+            "unlockDescription": "Klik om alle gemeenschappelijke thema's te ontdekken"
+        },
+        "sort": "Sorteren",
+        "filter": "Filteren",
+        "by": "Door",
+        "bumped": "Gebumpt"
     },
     "servers": {
         "settings": {
@@ -65,7 +126,12 @@
                 "verify": "Verifiëren",
                 "role": "Rol",
                 "channel": "Kanaal",
-                "notifications": "Meldingen"
+                "notifications": "Meldingen",
+                "audit-logs": "Audit Logs",
+                "welcome-screen": "Welkomstscherm",
+                "permissions": "Toestemmingen",
+                "emoji": "Emoji",
+                "external-embed": "Externe Embed"
             },
             "general": {
                 "serverRenameNotice": "U verliest alle perks van het laten verifiëren van uw server als u deze een andere naam geeft.",
@@ -75,7 +141,8 @@
                 "systemMessages": "Systeem berichten",
                 "systemMessagesDescription": "Waar systeemberichten moeten verschijnen.",
                 "deleteThisServer": "Verwijder deze server",
-                "deleteServerButton": "Verwijder deze server"
+                "deleteServerButton": "Verwijder deze server",
+                "none": "Geen"
             },
             "roles": {
                 "addNewRole": "Voeg een nieuwe rol toe",
@@ -83,11 +150,17 @@
             },
             "role": {
                 "roleName": "Rol Naam",
-                "roleColor": "Role Kleur",
+                "roleColor": "Rol Kleur",
                 "hideRole": "Rol verbergen",
                 "hideRoleDescription": "Toon leden met deze rol samen met alle standaardleden.",
                 "permissionsDescription": "Beheer machtigingen voor deze rol.",
-                "deleteRoleButton": "Verwijder deze rol"
+                "deleteRoleButton": "Verwijder deze rol",
+                "clear": "Opnieuw instellen",
+                "roleIcon": "Rol Icoon",
+                "managedByBot": "Deze rol wordt beheerd door {{botName}}. Je kan niet gebruikers verwijder of bij deze rol doen. Verwijder deze bot om deze rol ook te verwijderen.",
+                "applyOnJoin": "Toepassen wanneer je meedoet",
+                "applyOnJoinDescription": "Pas deze rol aan gebruikers wanneer ze bij de server meedoen.",
+                "deleteRoleTitle": "Verwijder {{roleName}}"
             },
             "header": {
                 "editServer": "Server bewerken",
@@ -95,20 +168,27 @@
             },
             "channels": {
                 "createButton": "Maken",
-                "createNewDescription": "Maak een nieuw kanaal of categorie aan"
+                "createNewDescription": "Maak een nieuw kanaal of categorie aan",
+                "textChannel": "Tekstkanaal",
+                "category": "Categorie"
             },
             "channel": {
                 "channelName": "Kanaal Naam",
                 "permissionsDescription": "Beheer machtigingen voor dit Kanaal",
                 "deleteThisChannel": "Verwijder dit kanaal",
-                "deleteChannelButton": "Kanaal verwijderen"
+                "deleteChannelButton": "Kanaal verwijderen",
+                "channelIcon": "Kanaal Icoon",
+                "slowModeDescription": "Leg vast hoe lang een gebruiker moet wachten tot ze een bericht kunnen sturen.",
+                "deleteChannelTitle": "Verwijder {{channelName}}",
+                "removeNoticeButton": "Verwijder notitie"
             },
             "invites": {
                 "createInviteButton": "Uitnodiging maken",
                 "serverInvites": "Serveruitnodigingen",
                 "serverInvitesDescription": "Nodig je vrienden uit voor deze server.",
                 "customInviteVerifiedOnlyNotice": "Aangepaste uitnodigingslinks zijn alleen beschikbaar voor geverifieerde servers.",
-                "customLink": "Aangepaste link"
+                "customLink": "Aangepaste link",
+                "uses": "{{count}} use(s)"
             },
             "publishServer": {
                 "publishNotice": "Als u uw server publiceert, wordt deze beschikbaar op de pagina <1>explore</1>.",
@@ -116,8 +196,115 @@
                 "publicDescription": "Maak deze server openbaar.",
                 "bumpServer": "Bump Server",
                 "bumpServerDescription": "Bump deze server om de top te bereiken.",
-                "publishServerButton": "Publiceer server",
-                "unpublishServerButton": "Publicatie server ongedaan maken"
+                "publishServerButton": "Server publiceren",
+                "unpublishServerButton": "Server publicatie ongedaan maken",
+                "bumpButton": "Bump ({{count}})",
+                "descriptionLabel": "Server-beschrijving ({{current}}/{{max}})",
+                "bumpCooldown": "Je moet {{hours}} uren, {{minutes}} minuten, en {{seconds}} seconden wachten om deze server te bumpen."
+            },
+            "bans": {
+                "sort": {
+                    "alphabetical": "Alphabetisch",
+                    "unsorted": "Niet gesorteerd"
+                },
+                "noResults": "Geen resultaten gevonden.",
+                "reason": "Reden",
+                "noReason": "Geen reden gegeven",
+                "bannedAt": "Verbannen om",
+                "unknown": "Onbekend",
+                "unban": "Ontgrendelen",
+                "unbanning": "Wordt ontgrendelt…"
+            },
+            "webhook": {
+                "title": "Webhooks",
+                "name": "Webhook Naam",
+                "link": "Webhook URL",
+                "linkDescription": "Voer acties uit met deze link",
+                "delete": "Webhook verwijderen"
+            },
+            "welcomeScreen": {
+                "title": "Vragen",
+                "description": "Zet vragen op. Laat gebruikers rollen kiezen.",
+                "questions": {
+                    "addButton": "Vraag toevoegen",
+                    "question": "Vraag",
+                    "questionPlaceholder": "Katten of honden?",
+                    "multiselect": "Meervoudig selecteren"
+                },
+                "answers": {
+                    "title": "Antwoorden",
+                    "addButton": "Voeg antwoord toe",
+                    "editModal": {
+                        "title": "Werk antwoord bij",
+                        "answer": "Antwoord",
+                        "placeholder": "Katten",
+                        "selectRoles": "Rollen selecteren"
+                    }
+                }
+            },
+            "notifications": {
+                "notice": "Deze instellingen veranderen alleen voor jou.",
+                "ping": "Notificatie Ping",
+                "pingDescription": "Laat een notificatie-indicator zien.",
+                "sound": "Notificatie geluid",
+                "soundDescription": "Maak een geluid wanneer je een notificatie krijgt.",
+                "channelsDescription": "Beheer notificaties per kanaal.",
+                "resetButton": "Overschrijvingen opnieuw instellen({{count}})"
+            },
+            "emoji": {
+                "title": "Aangepaste Emoji",
+                "description": "Voeg je eigen emoji toe.",
+                "addButton": "Emoji toevoegen"
+            },
+            "verify": {
+                "alreadyVerified": "Je server is al geverifieerd!",
+                "insufficientMembers": "Je moet nog {{count}} gebruikers hebben om aan te vragen voor verificatie.",
+                "verifiable": "Klaar om te verifiëren",
+                "verifiableDescription": "Je hebt genoeg gebruikers om je server te verifiëren!",
+                "verifyButton": "Verifieer",
+                "requirements": {
+                    "title": "Vereisten",
+                    "englishOnly": "Alleen Engels",
+                    "englishOnlyDescription": "Servers die niet Engels zijn, zijn moelijker om te modereren.",
+                    "oneMonthOrSupporter": "Tenminste 1 maand OF Supporter Badge",
+                    "oneMonthOrSupporterDescription": "Je server moet tenminste 1 maand oud zijn OF de eigenaar van de server moet de Supporter badge hebben.",
+                    "members": "{{count}} of meer gebruikers",
+                    "membersDescription": "Je server moet tenminste {{count}} members hebben.",
+                    "profanityFree": "Vrij van vulgair taalgebruik",
+                    "profanityFreeDescription": "Server naam, avatar en banner moeten vrij zijn van vulgair taalgebruik.",
+                    "avatarAndBanner": "Avatar & Banner",
+                    "avatarAndBannerDescription": "Server moet een avatar en banner hebben.",
+                    "rules": "Server regels",
+                    "rulesDescription": "Server moet een regels-kanaal hebben."
+                },
+                "perks": {
+                    "title": "Voordelen",
+                    "badge": "Geverifieerd Badge",
+                    "badgeDescription": "Een badge om te laten zien dat je server speciaal is.",
+                    "explore": "Hoogtepunt in Ontdekking",
+                    "exploreDescription": "Je server wordt weergegeven in een andere sectie op de ontdek-pagina.",
+                    "customInvite": "Aangepaste uitnodiging link",
+                    "customInviteDescription": "Creëer je eigen uitnodiging link via de uitnodiging pagina.",
+                    "emojiSlots": "Meer emoji slots",
+                    "emojiSlotsDescription": "200 emoji slots voor je server.",
+                    "hdScreenshare": "1080p@60fps schermdelen",
+                    "hdScreenshareDescription": "Deel je scherm in 1080p met 60fps."
+                }
+            },
+            "externalEmbed": {
+                "noInvites": {
+                    "title": "Geen uitnodigingen gemaakt",
+                    "description": "Je moet een uitnodiging maken voordat je een externe embed link kan maken.",
+                    "createButton": "Maak Uitnodiging"
+                },
+                "title": "Maak Externe Embed Link",
+                "description": "Maak een externe IFrame embed voor je website.",
+                "dropdownPlaceholder": "Selecteer Uitnodiging",
+                "options": {
+                    "hideHeader": "Header Verbergen",
+                    "hideMembers": "Gebruikerslijst Verbergen",
+                    "hideActivities": "Activiteitenlijst Verbergen"
+                }
             }
         },
         "rolePermissions": {
@@ -132,11 +319,29 @@
             "kick": "Kick",
             "kickDescription": "Toestemming om gebruikers te kicken.",
             "ban": "Ban",
-            "banDescription": "Toestemming om gebruikers te verbannen."
+            "banDescription": "Toestemming om gebruikers te verbannen.",
+            "mentionEveryone": "Iedereen Noemen",
+            "mentionEveryoneDescription": "Schakel @everyone noemen in. Server admins kunnen nog steeds @everyone noemen.",
+            "nicknameMember": "Bijnaam Gebruiker",
+            "nicknameMemberDescription": "Toestaan dat gebruikers hun bijnaam kunnen veranderen in de server."
         },
         "channelPermissions": {
             "sendMessage": "Bericht versturen",
-            "sendMessageDescription": "Schakel het verzenden van berichten in het kanaal in. Serverbeheerders kunnen nog steeds berichten verzenden."
+            "sendMessageDescription": "Schakel het verzenden van berichten in het kanaal in. Serverbeheerders kunnen nog steeds berichten verzenden.",
+            "hiddenChannel": "Veborgen Kanaal",
+            "publicChannel": "Publieke Kanaal",
+            "publicChannelDescription": "Geeft toegang tot het kanaal. Server admins kunnen elk kanaal zien.",
+            "joinVoice": "Meedoen aan voice-kanaal",
+            "joinVoiceDescription": "Geeft toegang aan voice-kanalen in het kanaal. Server admins kunnen altijd meedoen aan voice-kanalen."
+        },
+        "leaveModal": {
+            "title": "Server verlaten?",
+            "body": {
+                "part1": "Ben je zeker dat je <1>{{serverName}}</1>? wil verlaten?",
+                "part2": "Je kan altijd terugkomen!"
+            },
+            "cancelButton": "Niet Verlaten",
+            "confirmButton": "Verlaten"
         }
     },
     "settings": {
@@ -146,21 +351,301 @@
             "language": "Taal",
             "notifications": "Meldingen",
             "viewSource": "View Source",
-            "changelog": "Wijzigingenlijst"
+            "changelog": "Wijzigingenlijst",
+            "interface": "Interface",
+            "developer": "Ontwikkellaar",
+            "applications": "Applicaties",
+            "experiments": "Experimenten",
+            "badges": "Badges",
+            "window-settings": "Venster Instellingen",
+            "call-settings": "Oproep Instellingen",
+            "activity-status": "Activiteitsstatus",
+            "tickets": "Tickets",
+            "privacy": "Privacy",
+            "connections": "Verbindingen",
+            "profile": "Profiel"
+        },
+        "language": {
+            "reloadNotice": "Je moet de app opnieuw opstarten om de nieuwe taal compleet toe te passen.",
+            "reloadButton": "Opnieuw laden",
+            "searchNotice": "Vertalingen worden onderhoudt door de community. Rapport alle vertalingen die verkeerd of vulgair zijn naar Nerimity.",
+            "contributors": "Bijdragers"
+        },
+        "header": {
+            "servers": "servers",
+            "friends": "vrienden",
+            "manageAccount": "Account beheren"
+        },
+        "account": {
+            "tag": "Tag",
+            "botID": "Bot ID",
+            "profile": "Profiel",
+            "profileDescription": "Verander je bio of kleuren",
+            "palestineBorder": "Voeg de Palestijnse border toe bij je avatar.",
+            "bio": "Bio",
+            "bioDescription": "Meerdere-regels en opmaak steun",
+            "gradientColor1": "Gradiënt Kleur 1",
+            "gradientColor2": "Gradiënt Kleur 2",
+            "primaryColor": "Primaire Kleur",
+            "usernameFont": "Gebruikersnaam lettertype",
+            "default": "App-standaard",
+            "preview": "Voorbeeld",
+            "changePassword": "Wachtwoord Veranderen",
+            "forgotPassword": "Wachtwoord Vergeten",
+            "newPassword": "Nieuw Wachtwoord",
+            "newPasswordDescription": "Je wachtwoord veranderen betekent dat je wordt uitgelogd overal anders.",
+            "confirmNewPassword": "Nieuw Wachtwoord Bevestigen",
+            "confirmNewPasswordDescription": "Bevestig je nieuw wacthwoord",
+            "confirmCurrentPassword": "Bevestig Huidig Wachtwoord",
+            "confirmPasswordToContinue": "Bevestig je wachtwoord om vooruit te gaan",
+            "confirmEmail": "Bevestig je e-mail",
+            "enterCode": "Voer je 5-nummer code in die naar je e-mail is gestuurd:",
+            "sendCodeButton": "Code sturen",
+            "resendIn": "Opnieuw sturen in {{time}}",
+            "channelNotice": "Kanaal Notitie",
+            "channelNoticeDescription": "Laat zien wanneer de gebruiker begint met chatten voor de eerste keer. Veranderingen passen toe na opnieuw laden.",
+            "channelNoticeTooLong": "Kanaal notitie kan niet langer dan 300 karakters zijn.",
+            "deleteAccount": "Verwijder Mijn Account",
+            "deleteAccountDescription": "Dit kan niet ongedaan worden gemaakt!",
+            "deleteAccountNotice": "Je moet alle servers verlaten/verwijderen voordat je uw account kan verwijderen.",
+            "understoodButton": "Begrepen",
+            "deletionNotice": "We zijn verdrietig om te zien dat je weggaat :( Als je iets niet leuk vond, laat ons weten in de officiële Nerimity server.",
+            "deletedInfo": {
+                "title": "Wat wordt verwijderd",
+                "email": "• E-mail",
+                "username": "• Gebruikersnaam",
+                "ip": "• IP-Adres",
+                "bio": "• Bio",
+                "messages": "• Je Berichten",
+                "posts": "• Je Posts"
+            },
+            "postsAndMessagesNotice": "• Je posts en berichten nemen misschien weken om te verwijderen.",
+            "deleteCheckbox": "• Verwijder mijn posts en berichten"
+        },
+        "badges": {
+            "noticeTitle": "Donaties",
+            "notice": "Steun dit project door geld te doneren.",
+            "palestineDescription": "Kan worden uitgerust door naar je profiel-instellingen te gaan",
+            "price": "{{price}} Insignes",
+            "supportMethods": "Steunmethoden"
+        },
+        "privacy": {
+            "lastOnline": {
+                "title": "Laatst Online Tijd",
+                "description": "Zet wie kan zien wanneer je laatst online was."
+            },
+            "directMessage": {
+                "title": "Direct Bericht",
+                "description": "Zet wie je directe berichten kan sturen."
+            },
+            "friendRequest": {
+                "title": "Vriendschapsverzoek",
+                "description": "Zet wie je vriendschapsverzoeken kan sturen."
+            },
+            "options": {
+                "anybody": "Iedereen",
+                "friendsOnly": "Alleen vrienden",
+                "serversOnly": "Alleen servers",
+                "friendsAndServers": "Vrienden en servers",
+                "nobody": "Niemand"
+            },
+            "profileOptions": {
+                "title": "Profielopties",
+                "hideFollowers": "Volgers verbergen",
+                "hideFollowersDescription": "Verberg je volgers van je profiel.",
+                "hideFollowing": "Verberg Volgers",
+                "hideFollowingDescription": "Verberg gebruikers die je volgt van je profiel."
+            }
+        },
+        "notifications": {
+            "desktopNotifications": "Desktop-notificaties",
+            "testNotification": {
+                "title": "Het is gelukt!",
+                "body": "Desktop-notificaties zijn geactiveerd."
+            },
+            "desktopNotificationsDescription": "Laat desktop-notificaties zien, zelfs wanneer de app geminimaliseerd is.",
+            "sounds": "Geluiden",
+            "soundsDescription": "Als de notificatiegeluiden vervelend zijn, kan je ze uit doen.",
+            "volume": "Volume",
+            "volumeDescription": "Verander de volume van de notificatiegeluiden.",
+            "changeSoundsDescription": "Verander de geluiden van notificaties met deze royalty-free geluiden.",
+            "message": "Bericht",
+            "messageDescription": "Geluid wanneer je een bericht krijgt.",
+            "mention": "Noemen",
+            "mentionDescription": "Geluid wanneer je wordt genoemd.",
+            "reminder": "Herinnerring",
+            "reminderDescription": "Notificaties voor herinnerringen.",
+            "inAppPreview": "In-App-Voorbeeld",
+            "inAppPreviewDescription": "Weergave van In-App Notificatie pop-ups.",
+            "mute": "Stom",
+            "inAppPreviewModes": {
+                "off": "Uit",
+                "inheritFromPingSettings": "Erven van Ping Instellingen"
+            }
+        },
+        "call": {
+            "nextCallNotice": "Veranderingen worden toegepast op je volgende oproep.",
+            "leaveCall": "Je moet eerst de oproep verlaten",
+            "inputDevices": "Invoer Apparaten",
+            "outputDevices": "Uitvoer Apparaten",
+            "default": "Systeem Standaard",
+            "inputMode": "Invoer Mode",
+            "openMic": "Open Microfoon",
+            "voiceActivity": "Spraakactiviteit",
+            "pushToTalk": "Push-to-Talk",
+            "bindButton": "Binden",
+            "stopButton": "Stop",
+            "downloadAppNotice": "Download de Nerimity desktop app om deze functie te gebruiken zonder Venster/Tab focus."
+        },
+        "connections": {
+            "thirdParty": {
+                "title": "Derde-partij Verbindingen",
+                "connectionCount": "{{count}} Verbinding(en)",
+                "unauthorizeButton": "Ongeautoriseerd",
+                "unauthorizing": "Ongeautoriseren…"
+            },
+            "googleDescription": "Je Google account linken laat je bestanden uploaden in Nerimity. Bestanden worden opgeslagen in je Google Drive.",
+            "linkButton": "Link",
+            "unlinkButton": "Ontkoppelen"
+        },
+        "interface": {
+            "customCSS": "Aangepaste CSS",
+            "customCSSWarning": "Plak niet code van mensen die je niet vertrouwt.",
+            "saveAndApply": "Behouden & Toepassen",
+            "themesDescription": "Kies een voorinstelde thema of reset naar Standaard.",
+            "maintainers": "Bijdragers",
+            "apply": "Toepassen",
+            "enableEruda": "Eruda Inschakelen",
+            "enableErudaDescription": "Schakel Eruda in voor debuggen. Deel niet details met anderen.",
+            "enableOnce": "Eenmaal Inschakelen",
+            "blurEffect": "Vervagen-effect",
+            "blurEffectDescription": "Pas vervagen-effect op interface-elementen. (Kan Prestatie Verminderen)",
+            "disableAdvancedMarkupBar": "Zet de Geavanceerde Opmaak Bar uit",
+            "disableAdvancedMarkupBarDescription": "Voorkomen dat de geavanceerde opmaak bar verschijnt.",
+            "rightDrawerMode": "Rechter Drawer-Mode",
+            "swipeToOpen": "Veeg om te openen",
+            "swipeToOpenDescription": "Open de rechter drawer door te vegen van de rechter rand. Dit zet Vaag om te antwoorden uit.",
+            "headerTapToOpen": "Header Tik om te openen",
+            "headerTapToOpenDescription": "Open de rechter drawer door op de header te klikken. Dit zet Veeg om te antwoorden aan.",
+            "customizeColors": "Kleuren Aanpassen",
+            "customizeColorsDescription": "Pas de kleuren aan voor het huidige thema.",
+            "exportButton": "Exporteren",
+            "importButton": "Importeren",
+            "exportModal": "Thema gekopieerd naar klembord.",
+            "importModal": "Plak thema hier:",
+            "chatBarOptions": "Chat-bar Opties",
+            "voiceMessage": "Stembericht",
+            "gifPicker": "GIF-Kiezer",
+            "emojiPicker": "Emoji-Kiezer",
+            "sendButton": "Bericht Sturen",
+            "timeTitle": "Tijd-formaat Schakelen",
+            "12HourFormatDescription": "Tijd weergeven in de 12-uur formaat met AM/PM.",
+            "24HourFormatDescription": "Tijd weergeven in de 24-uur formaat."
+        },
+        "window": {
+            "downloadAppNotice": "Om deze instellingen te bewerken, moet je de Nerimity desktop app downloaden.",
+            "startupOptions": "Startup-opties",
+            "openOnStartup": "Open Nerimity op startup",
+            "startMinimized": "Start Geminimaliseerd",
+            "startMinimizedDescription": "Minimaliseer Nerimity naar het dienblad automatisch.",
+            "disableHardwareAcceleration": "Zet hardware-acceleratie uit",
+            "disableCustomTitlebar": "Zet aangepaste titelbalk uit",
+            "reopenAppNotice": "Je moet de app opnieuw openen voordat de verandering werken."
+        },
+        "activity": {
+            "extension": "Browser-uitbreiding",
+            "extensionDescription": "Onze RPC-uitbreiding laat je uw activiteit van Spotify en YouTube met gebruikers op Nerimity!",
+            "visitButton": "{{store}} bezoeken",
+            "activityStatus": "Activiteits-status",
+            "activityStatusDescription": "Deel wat je doet met iedereen",
+            "activityStatusModal": {
+                "title": "Verander Activiteits-status",
+                "executable": "Uitvoerbaar",
+                "action": "Actie",
+                "name": "Naam",
+                "emoji": "Emoji"
+            },
+            "discordActivity": "Discord Activiteit",
+            "discordActivityDescription": "Deel je Discord activiteit met gebruikers op Nerimity",
+            "idPlaceholder": "Discord Gebruikers-ID",
+            "serverModal": {
+                "text": "Neem deel aan de Discord server om Activiteits-deling aan te doen.",
+                "doneButton": "Ik heb deelgenomen"
+            }
+        },
+        "developer": {
+            "applicationsDescription": "Maak Nerimity Bots.",
+            "apiDocumentation": "API Documentatie (incompleet)",
+            "addButton": "App bijvoegen",
+            "name": "Applicatie Naam",
+            "appClientId": "App/Client-ID",
+            "botUser": "Bot Gebruiker",
+            "createBotUser": "Maak een nieuwe bot gebruiker",
+            "editBotUser": "Verander bot",
+            "createBotUserButton": "Maak Gebruiker",
+            "refreshButton": "Vernieuwen",
+            "bot": {
+                "createInvite": "Maak Uitnodigingslink",
+                "createLinkButton": "Link Creëren",
+                "token": "Token",
+                "tokenRefreshed": "Token vernieuwd.",
+                "tokenCopied": "Token gekopieerd naar plakbord.",
+                "permissionsDescription": "Beheer machtigingen voor deze link.",
+                "publishBot": "Bot publiceren",
+                "publishBotDescription": "Publiceer je bot naar de Ontdek-pagina zodat andere gebruikers het kunnen vinden.",
+                "publishNotice": "Je bot publiceren laat het beschikbaar worden in de <1>explore</1> pagina.",
+                "bumpBot": "Bump Bot",
+                "bumpBotDescription": "Bump deze bot om het naar de top te brengen",
+                "bumpBotCooldown": "Je moet {{hours}} uren, {{minutes}} minuten, en {{seconds}} seconden wachten om deze bot te bumpen.",
+                "publicDescription": "Publiceer deze bot.",
+                "botDescription": "Bot Beschrijving ({{current}})/{{max}})"
+            },
+            "oauth2": {
+                "description": "OAuth2 beheren",
+                "documentation": "OAuth2 Documentatie",
+                "clientId": "Client-ID",
+                "clientSecret": "Client-Geheim",
+                "secretRefreshed": "Client-geheim vernieuwd.",
+                "secretCopied": "Client-geheim gekopieerd naar klembord.",
+                "redirectUris": "URIs Omleiden",
+                "uri": "URI {{count}}",
+                "generateLink": "Link genereren",
+                "redirectUri": "Omleid URI"
+            },
+            "deleteApplication": {
+                "title": "Applicatie verwijderen",
+                "willNotGetDeleted": "Wat niet wordt verwijdert:",
+                "andMore": "• En Meer",
+                "willNotGetDeletedDescription": "Je moet ze misschien handmatig verwijderen voordat je uw app verwijdert.",
+                "deleteAppButton": "Verwijder deze app"
+            }
+        },
+        "experiments": {
+            "noExperiments": "Er zijn nu geen experimenten beschikbaar.",
+            "reloadRequired": {
+                "title": "Herladen is nodig",
+                "body": "Nerimity moet opnieuw worden gestart voordat veranderingen kunnen worden gemaakt.",
+                "restartNow": "Nu Opnieuw Opstarten",
+                "restartLater": "Later Opnieuw Opstarten"
+            }
         }
     },
     "supportBlock": {
-        "support": "Support Me"
+        "support": "Support Me",
+        "supportDescription": "Doneer om een Supporter badge te krijgen!"
     },
     "userContextMenu": {
         "viewProfile": "Profiel bekijken",
         "sendMessage": "Bericht versturen",
-        "editRoles": "Rollen bewerken"
+        "editRoles": "Rollen bewerken",
+        "changeNickname": "Bijnaam veranderen",
+        "transferOwnership": "Eigendom Veranderen",
+        "callVolume": "Oproepvolume"
     },
     "kickServerMemberModal": {
         "title": "Kick {{username}}",
         "kickButton": "Kick",
-        "kicking": "Kicking...",
+        "kicking": "Kicking…",
         "message": "Weet je zeker dat je <1>{{username}}</1> wilt kicken?"
     },
     "editServerRolesModal": {
@@ -171,12 +656,24 @@
         "message": "Weet je zeker dat je <1>{{username}}</1> wilt verbannen.",
         "deletePastMessagesCheckbox": "Verwijder berichten die in de afgelopen 7 uur zijn verzonden.",
         "banButton": "Verban",
-        "banning": "Verbannen..."
+        "banning": "Verbannen…",
+        "reasonLabel": "Reden (optioneel)",
+        "reasonPlaceholder": "Voer een reden in…"
     },
     "messageContextMenu": {
         "editMessage": "Bericht bewerken",
         "deleteMessage": "Verwijder bericht",
-        "copyMessage": "Bericht kopiëren"
+        "copyMessage": "Bericht kopiëren",
+        "translateMessage": "Vertalen",
+        "copyHTML": "HTML Kopieren",
+        "viewReactions": "Reacties bekijken",
+        "quoteMessage": "Bericht Citeren",
+        "reportMessage": "Bericht Rapporteren",
+        "reply": "Antwoorden",
+        "markUnread": "Als ongelezen markeren",
+        "pinMessage": "Vastzetten",
+        "unpinMessage": "Losmaken",
+        "copyMessageLink": "Kopieer berichtlink"
     },
     "profile": {
         "followButton": "Volgen",
@@ -192,20 +689,68 @@
         "followersTab": "Volgers",
         "followingTab": "Volgend",
         "postsAndRepliesTab": "Berichten en reacties ({{count}})",
-        "likedPostsTab": "Gelikete berichten ({{count}})"
+        "likedPostsTab": "Gelikete berichten ({{count}})",
+        "followerCount": "{{count}} Volgers",
+        "followingCount": "{{count}} Volgen",
+        "fullProfile": "Heel profiel",
+        "followsYou": "Volgt jou",
+        "badge": "{{badgeName}} Insigne",
+        "blockButton": "Blokkeren",
+        "unblockButton": "Blokkeren ongedaan maken",
+        "reportButton": "Rapporteren",
+        "latestPost": "Nieuwste post",
+        "availableCommands": "Beschikbare Opdrachten",
+        "botCreator": "Bot Ontwikkelaar",
+        "suspended": "Deze gebruiker is verbannen",
+        "expires": "Verloopt in {{time}}.",
+        "expiresNever": "Verloopt nooit.",
+        "blocked": "Jij bent geblokkeerd",
+        "blockedDescription": "Deze gebruiker heeft jou geblokkeerd.",
+        "privateList": "Alleen jij kan deze lijst zien.",
+        "personal": {
+            "editProfile": "Profiel veranderen",
+            "presence": "Aanwezigheid",
+            "customStatus": "Aangepaste Status"
+        }
     },
     "posts": {
         "deletePostModal": {
-            "message": "Weet je zeker dat je dit bericht wilt verwijderen?"
+            "message": "Weet je zeker dat je dit bericht wilt verwijderen?",
+            "title": "Post verwijderen?"
         },
         "postWasDeleted": "Dit bericht is verwijderd!",
         "someoneLikedYourPost": "<1>{{username}}</1> vond je post leuk!",
         "someoneFollowedYou": "<1>{{username}}</1> volgt je!",
         "someoneRepliedToPost": "<1>{{username}}</1> reageerde op je bericht!",
-        "createAPostInputPlaceholder": "Maak een bericht...",
-        "replyInputPlaceholder": "Antwoord...",
+        "createAPostInputPlaceholder": "Maak een bericht…",
+        "replyInputPlaceholder": "Antwoord…",
         "replyButton": "Antwoord",
-        "createButton": "Maak"
+        "createButton": "Maak",
+        "title": "Post",
+        "viewCount": "Geschatte kijkers",
+        "replying": "Antwoorden aan <1>{{username}}</1>",
+        "pinned": "Vastgezet",
+        "reposted": "Opnieuw gepost",
+        "repostedBy": "Opnieuw gepost door",
+        "voteButton": "Stemmen",
+        "voteCount": "{{count}} stem(men)",
+        "copyPostButton": "Post kopieren",
+        "sections": {
+            "replies": "Antwoorden ({{count}})",
+            "likes": "Likes ({{count}})",
+            "reposts": "Opnieuw gepost ({{count}})"
+        },
+        "editPostModalTitle": "Post veranderen",
+        "sort": {
+            "latest": "Nieuwste",
+            "mostLiked7Days": "Meest geliket (7 dagen)",
+            "mostLiked30Days": "Meest geliket (30 dagen)",
+            "mostLikedAllTime": "Meest Geliket (Aller Tijde)"
+        },
+        "someoneRepostedYourPost": "<1>{{username}}</1> heeft je post opnieuw gepost!",
+        "postWarning": "Inhoud van zelfbeschadiging wordt niet toegestaan; actie op de account wordt genomen.",
+        "pollOptions": "Peiling opties",
+        "optionNumberPlaceholder": "Optie {{number}}"
     },
     "general": {
         "searchPlaceholder": "Zoeken",
@@ -227,7 +772,493 @@
         "avatarAndBanner": {
             "avatar": "Avatar",
             "banner": "Banner",
-            "browse": "Bekijken"
+            "browse": "Bekijken",
+            "supportedFileTypes": "Ondersteunt: {{extensions}}, max. {{size}}"
+        },
+        "nothingSelected": "Niets geselecteerd",
+        "editButton": "Bijwerken",
+        "closeButton": "Dichtmaken",
+        "undoButton": "Ongedaan maken",
+        "cannotBeUndone": "Dit kan niet ongedaan!"
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<User/><2> was bij de server toegevoegd.</2>",
+            "user": "<User/><2> heeft de server gejoined.</>"
+        },
+        "leaveServer": "<User/><2> heeft de server verlaten.</2>",
+        "kickUser": "<User/><2> was gekickt.</2>",
+        "banUser": "<User/><2> was verbannen.</2>",
+        "callStarted": "<User/><2> heeft een oproep gestart.</2>",
+        "bumpServer": "<User/><2> heeft de server gebumpt.</2>",
+        "pinnedMessage": "<User/><2> heeft een bericht gepinned.</2>",
+        "unsupported": "<User/><2> Bericht wordt niet ondersteund.</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "Authenticatie error",
+        "connecting": "Verbinden…",
+        "reconnecting": "Opnieuw verbinden…",
+        "inQueue": "In Wachtlijst: {{count}} Gebruiker(s) Voor Jou",
+        "authenticating": "Authenticeren…",
+        "connected": "Verbonden!"
+    },
+    "dangerousLinkModal": {
+        "title": "Aangepaste Link",
+        "message": "Dit link brengt je naar",
+        "cancelButton": "Niet Bezoeken",
+        "visitButton": "Bezoeken"
+    },
+    "connectionErrorModal": {
+        "title": "Verbindingserror",
+        "ok": "Ok",
+        "noToken": "Geen token aangegeven.",
+        "suspended": "Jij bent verbannen.",
+        "reason": "Reden",
+        "defaultReason": "Violatie van de Algemene Voorwaarden",
+        "until": "Tot",
+        "never": "nooit",
+        "by": "Voor",
+        "deletionNotice": "Jouw account en data worden verwijderd in 15 dagen",
+        "ipBanned": "Jouw IP-Adres is verbannen.",
+        "ipBanNotice": "Iemand met de zelfde IP-adres werd verbannen van Nerimity. Jouw account is niet betroffen."
+    },
+    "resetPassword": {
+        "title": "Wachtwoord resetten",
+        "resetSuccessful": "Wachtwoord resetten was succesvol.",
+        "passwordsDoNotMatch": "Confirmatie wachtwoord is niet hetzelfde.",
+        "passwordTooLong": "Wachtwoord moet minder dan 72 karakters zijn.",
+        "resetPasswordButton": "Wachtwoord resetten",
+        "resetting": "Resetten…",
+        "email": "E-mail",
+        "sendEmailButton": "E-mail sturen",
+        "sending": "E=mail wordt gestuurd…"
+    },
+    "welcomePopup": {
+        "subtitle": "Dankjewel voor Nerimity uitproberen!",
+        "joinServer": "Neem deel aan de officiële Nerimity server",
+        "editProfile": "Verander mijn profiel",
+        "support": "Ondersteun mij op {{platform}}",
+        "contribute": "Draag bij aan Nerimity op GitHub"
+    },
+    "dashboard": {
+        "title": "Overzicht",
+        "activeUsers": "Actieve gebruikers",
+        "noActiveUsers": "Geen actieve gebruikers",
+        "servers": "Servers",
+        "posts": "Berichten",
+        "feed": "Startpagina",
+        "discover": "Ontdekken",
+        "notifications": "Notificaties"
+    },
+    "status": {
+        "online": "Online",
+        "ltp": "Zoeken voor spelers",
+        "afk": "Absent van toetsenbord",
+        "dnd": "Niet storen",
+        "offline": "Offline",
+        "appearAsOffline": "Onzichtbaar gaan"
+    },
+    "sidePane": {
+        "home": "Start",
+        "homeShort": "Start",
+        "moderation": "Moderatie-paneel",
+        "moderationShort": "Mod",
+        "addServer": "Server bijvoegen"
+    },
+    "updateModal": {
+        "title": "Update beschikbaar",
+        "updateButton": "Update nu",
+        "laterButton": "Later",
+        "releasedAt": "Uitgegeven om"
+    },
+    "messageArea": {
+        "messageBoxPlaceholder": "Stuur een bericht naar {{username}}",
+        "messageBoxChannelPlaceholder": "Stuur een bericht in {{channelName}}",
+        "replying": "Antwoord geven aan {{count}} bericht(en)",
+        "mention": "Noemen",
+        "dropFile": "Bestand neerzetten",
+        "uploadTo": "Uploaden naar",
+        "channelNotice": {
+            "title": "Voordat je chat…",
+            "understoodButton": "Begrepen"
+        },
+        "specialMentions": {
+            "everyone": "Noemt iedereen",
+            "someone": "Noemt een willekeurig gebruiker",
+            "silent": "Stil bericht"
+        },
+        "linkToGoogleDrive": {
+            "body": "Je moet je account linken aan Google Drive om grote foto's, video's of bestanden te uploaden",
+            "linkButton": "Link nu",
+            "cancelButton": "Niet linken"
+        },
+        "emailNotice": "Bevestig je e-mail om berichten te sturen."
+    },
+    "inputFieldActions": {
+        "copy": "Kopiëren",
+        "cut": "Afsnijden",
+        "paste": "Plakken"
+    },
+    "dropDown": {
+        "selectItem": "Bestand selecteren",
+        "selectItemMultiple": "Selecteer bestand(en)",
+        "itemsSelected": "{{count}} bestand(en) geselecteerd"
+    },
+    "markup": {
+        "bold": "Vet",
+        "italic": "Cursief",
+        "strikethrough": "Doorgestreept",
+        "header": "Koptekst",
+        "namedLink": "Benoemde link",
+        "spoiler": "Spoiler",
+        "timestamp": "Tijdstempel",
+        "color": "Kleur",
+        "html": "HTML-Modus",
+        "emojiPicker": "Emoji Kiezer",
+        "timestampModal": {
+            "title": "Tijd Markup",
+            "relative": "Relatief",
+            "offset": "Offset"
+        },
+        "checkbox": "Checkbox"
+    },
+    "editFolderModal": {
+        "title": "Folder bijwerken",
+        "placeholder": "Folder naam",
+        "errors": {
+            "emptyName": "Geef de folder een naam."
+        }
+    },
+    "activityNames": {
+        "playing": "Speelt",
+        "watching": "Kijkt naar",
+        "listening": "Luistert naar"
+    },
+    "logoutModal": {
+        "title": "Uitloggen?",
+        "body": "Ben je zeker dat je wil uitloggen?",
+        "clearSettings": "Lokale instellingen vrijmaken",
+        "cancelButton": "Niet Uitloggen"
+    },
+    "createServerModal": {
+        "title": "Server maken",
+        "notice": "NSFW-Inhoud wordt niet toegestaan.",
+        "serverName": "Servernaam",
+        "placeholder": "Mein Fantastische Server",
+        "createServerButton": "Server maken",
+        "creating": "Creëren…",
+        "tabLabel": "Maken"
+    },
+    "joinServerModal": {
+        "title": "Deelnemen aan server",
+        "notice": "Als je servers wil ontdekken, ga naar de Ontdek-Pagina.",
+        "exploreButton": "Servers Ontdekken",
+        "inviteCode": "Uitnodigingscode",
+        "continueButton": "Doorgaan",
+        "missingInvite": "Voer een server uitnodigingscode in.",
+        "tabLabel": "Deelnemen"
+    },
+    "serverContextMenu": {
+        "markAsRead": "Markeer als gelezen",
+        "leave": "Verlaten",
+        "channelSettings": "Kanaal Instellingen",
+        "notificationOptions": {
+            "sections": {
+                "ping": "Ping",
+                "sound": "Geluid"
+            },
+            "initial": "Standaard",
+            "everything": "Alles",
+            "mentionsOnly": "Allen noemen",
+            "mute": "Stom"
+        }
+    },
+    "messageView": {
+        "noMessages": "Geen berichten",
+        "noMessagesDescription": "Er zijn geen berichten in dit kanaal.",
+        "newMessages": "Nieuwe berichten",
+        "slowMode": "Slowmode",
+        "flaggedServer": {
+            "title": "Schema Verwijderen",
+            "description": "Deze server heeft niet voldoen aan de Algemene Voorwaarden en wordt straks verwijdert.",
+            "deleteButton": "Nu Verwijderen",
+            "leaveButton": "Server verlaten"
+        }
+    },
+    "typing": {
+        "single": "<1>{{username}}</1> is aan het typen…",
+        "multiple": "<1>{{username}}</1> en <2>{{username2}}</2> zijn aan het typen…",
+        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> en <3>{{username3}}</3> zijn aan het typen…",
+        "andOthers": "<1>{{count}}</1> gebruikers zijn aan het typen…"
+    },
+    "nicknameChangeModal": {
+        "title": "Server Profiel Updaten",
+        "description": "Iedereen in deze server kan deze bijnaam zien.",
+        "inputLabel": "Bijnaam"
+    },
+    "transferOwnershipModal": {
+        "title": "Eigendom Veranderen",
+        "description": "Dit verandert eigendom naar een nieuwe eigenaar.",
+        "ifVerified": "Deze server wordt niet geverifieerd.",
+        "server": "Server:",
+        "newOwner": "Nieuwe Eigenaar:",
+        "cancelButton": "Niet Veranderen",
+        "transferButton": "Veranderen",
+        "transferring": "Veranderen…"
+    },
+    "mainPaneHeader": {
+        "mentions": {
+            "noMentions": "Niet Genoemd"
+        },
+        "pins": {
+            "noPins": "Geen Berichten Vastgezet"
+        },
+        "jump": "Springen",
+        "voice": {
+            "join": "Deelnemen",
+            "leave": "Verlaten",
+            "muted": "Gedempt",
+            "deafened": "Doof",
+            "fullscreen": "Volscherm"
+        }
+    },
+    "channelDrawer": {
+        "customize": {
+            "title": "Personalizeren",
+            "subtitle": "Beantwoord deze vragen:",
+            "continueButton": "Verdergaan naar {{channel}}"
+        },
+        "members": {
+            "filter": {
+                "header": "Filteren met",
+                "24hours": "24 Uren"
+            },
+            "sort": {
+                "header": "Sorteer door",
+                "member": "Lid",
+                "joined": "Deelgenomen",
+                "joinedNerimity": "Deelgenomen aan Nerimity"
+            },
+            "order": {
+                "header": "Sorteren door",
+                "ascending": "Oplopend",
+                "descending": "Aflopend"
+            }
+        },
+        "addChannel": "Kanaal bijvoegen",
+        "inVoice": "In oproep"
+    },
+    "inVoiceActions": {
+        "connectedFor": "Verbonden voor"
+    },
+    "informationDrawer": {
+        "info": "Info",
+        "files": "Bestanden",
+        "searchBarPlaceholder": "Zoek {{username}}",
+        "searchBarChannelPlaceholder": "Zoeken in {{channelName}}",
+        "sortLatest": "Nieuwste",
+        "sortOldest": "Oudste",
+        "channelNotice": "Kanaal Notitie",
+        "attachments": "Bijlage",
+        "members": "Leden",
+        "creator": "Ontwikkelaar",
+        "admin": "Admin"
+    },
+    "botInvite": {
+        "title": "Bot uitnodigen",
+        "serverSelect": "Selecteer een server!",
+        "creator": "Gemaakt door ",
+        "selectButton": "Server selecteren",
+        "addButton": "Bot toevoegen",
+        "permissions": "Bot machtigingen"
+    },
+    "googleAccountLink": {
+        "linking": "Je account linken met Google…",
+        "success": "Account gelinkt! Je kan nu deze venster dichtmaken."
+    },
+    "invite": {
+        "loading": "Uitnodiging laden…",
+        "invalid": "Ongeldige Uitnodigingscode",
+        "joinButton": "Deelnemen",
+        "joiningButton": "Deelnemen…",
+        "visitButton": "Bezoeken",
+        "member": "Lid",
+        "members": "Leden"
+    },
+    "fileEmbed": {
+        "viewImage": "Afbeelding bekijken",
+        "download": "Downloaden",
+        "expires": "Verloopt {{time}}",
+        "expired": "Verlopen {{time}}",
+        "fileExpired": "Bestand verlopen.",
+        "fileModified": "Bestand was gewijzigd.",
+        "couldNotGetFile": "Kon niet het bestand krijgen.",
+        "modifiedOrDeleted": "Dit bestand was gewijzigd/verwijdert door de ontwikkelaar in hun Google Drive.",
+        "videoEmbed": {
+            "videoExpired": "Video verlopen.",
+            "videoModified": "Video was gewijzigd.",
+            "couldNotGetVideo": "Kon de video niet krijgen.",
+            "modifiedOrDeleted": "Deze video was gewijzigd/verwijdert door de ontwikkelaar in hun Google Drive.",
+            "googleDrivePolicy": "Door de nieuwe Google Drive beleid, je kan alleen video's spelen vanaf de Nerimity Desktop App."
+        },
+        "audioEmbed": {
+            "googleDrivePolicy": "Door de nieuwe Google Drive beleid, je kan alleen audio spelen vanaf de Nerimity Desktop App."
+        }
+    },
+    "addFriendModal": {
+        "title": "Vriend toevoegen",
+        "description": "Voer de gebruikersnaam en tag van je vriend om een vriendschapsverzoek te sturen.",
+        "placeholder": "Gebruikersnaam:ABC1",
+        "requestSent": "Verzoek gestuurd!",
+        "sendRequest": "Verzoek Sturen",
+        "sending": "Sturen…",
+        "errors": {
+            "missingTag": "Voer een gebruikersnaam:tag in.",
+            "colonInUsername": "Gebruikersnaam moet niet een dubbele punt hebben."
+        }
+    },
+    "removeFriendModal": {
+        "title": "Ontvriend {{username}}",
+        "body": "Ben je zeker dat je deze gebruiker wil ontvrienden?",
+        "removing": "Verwijderen…"
+    },
+    "deleteMessageModal": {
+        "title": "Bericht verwijderen?",
+        "body": "Wil je deze bericht verwijderen?",
+        "cancelButton": "Niet Verwijderen"
+    },
+    "message": {
+        "badge": {
+            "bot": "Bot",
+            "webhook": "Webhook",
+            "owner": "Eigenaar"
+        },
+        "reactions": {
+            "more": "{{count}} meer"
+        },
+        "viewMessages": "Berichten bekijken",
+        "imageMessage": "Foto bericht",
+        "quote": {
+            "invalid": "Verwijdert of ongeldige citatie.",
+            "nested": "Geneste citatie"
+        },
+        "deletedMessage": "Bericht was verwijdert.",
+        "dismissButton": "Afwijzen",
+        "editedAt": "Bewerkt om {{time}}",
+        "twitterEmbed": {
+            "modalTitle": "Gedetailleerd Twitter Embed",
+            "modalDescription": "Wanneer je de officiële Twitter embed gebruikt, wordt je data verzameld door Elmo \"Niet Cool Genoeg Voor Epstein's Eiland\" Musk.",
+            "doNotShowAgain": "Laat dit niet opnieuw zien.",
+            "closeButton": "Niet laten zien",
+            "showButton": "Laten zien",
+            "basicEmbed": "Eenvoudige Embed",
+            "detailedEmbed": "Gedetailleerde Embed"
+        },
+        "blocked": "Jij hebt deze gebruiker geblokkeerd. Klik om te laten zien.",
+        "translationError": "Kon dit bericht niet vertalen.",
+        "translation": {
+            "title": "Vertaling",
+            "error": "Vertaling mislukt"
+        }
+    },
+    "botButtonModal": {
+        "title": "Antwoord van {{botName}}",
+        "dataReceiver": "Data wordt gestuurd naar {{botName}}",
+        "notice": "Deel nooit sensitieve informatie"
+    },
+    "colorPickerModal": {
+        "title": "Kleur-kiezer",
+        "solid": "Solide",
+        "gradient": "Gradiënt"
+    },
+    "photoEditor": {
+        "title": "Foto-editor",
+        "brush": "Borstel",
+        "erase": "Wissen",
+        "strokeWidth": "Streek breedte: {{width}}",
+        "mobileNotice": "Kneep om in te zoomen/sleuren",
+        "desktopMove": "Spatie + Sleur om te bewegen",
+        "desktopZoom": "Scroll om in te zoomen"
+    },
+    "imageCropModal": {
+        "title": "Foto afknippen"
+    },
+    "oauth2": {
+        "AuthorizeButton": "Autoriseren",
+        "permissions": "Machtigingen"
+    },
+    "badges": {
+        "kitty": {
+            "name": "Kitty",
+            "blueDescription": "Arctische Kitty Oren",
+            "whiteDescription": "Calico Kitty Oren",
+            "maidDescription": "Kitty Dienstmeis Oren (nee, serieus)",
+            "purpleDescription": "Cheshire Kitty Oren"
+        },
+        "foxy": {
+            "name": "Foxy",
+            "foxyGoldDescription": "Goude-Foxy Oren",
+            "foxyBrownDescription": "Bruine Foxy Oren"
+        },
+        "founder": {
+            "name": "Oprichter",
+            "description": "Ontwikkelaar van Nerimity"
+        },
+        "admin": {
+            "name": "Admin",
+            "description": "Admin van Nerimity"
+        },
+        "mod": {
+            "name": "Moderator",
+            "description": "Moderator van Nerimity"
+        },
+        "supporter": {
+            "name": "Supporter",
+            "description": "Heeft dit project gesteund door geld te doneren"
+        },
+        "emoSupporter": {
+            "name": "Emo Steuner",
+            "description": "Heeft dit project gesteund door geld te doneren"
+        },
+        "contributor": {
+            "name": "Bijdrager",
+            "description": "Heeft geholpen met dit project in ene of andere manier"
+        },
+        "palestine": {
+            "name": "Palestina"
+        },
+        "bot": {
+            "name": "Bot Gebruiker",
+            "description": "Deze gebruiker is een bot"
+        },
+        "credit": {
+            "avatarBorder": "Avatar Border van {{author}} op {{platform}}",
+            "avatarBorderEdited": "Avatar Border van {{author}} op {{platform}}, gewijzigd door {{editor}}"
+        },
+        "bunny": {
+            "name": "Konijntje",
+            "bunnyDescription": "Slappe Konijn Oren",
+            "maidDescription": "Dienstmeid Konijn Oren (ja, serieus)"
+        },
+        "dog": {
+            "name": "Hondje",
+            "dogDescription": "Goed Hondje Oren",
+            "shibaDescription": "Shiba Inu Hondje"
+        },
+        "wolf": {
+            "name": "Wolf",
+            "wolfDescription": "Wolf Oren"
+        },
+        "goat": {
+            "name": "Geit",
+            "goatDescription": "Kawaii Geit Oren",
+            "goatHornDescription": "Geit Hoorns"
+        },
+        "deer": {
+            "name": "Hert",
+            "deerDescription": "Schattige Hert Gewei",
+            "deerDarkDescription": "Emo Hert Gewei",
+            "deerWhiteDescription": "Kawaii Roze Hert"
         }
     }
 }
