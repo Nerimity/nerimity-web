@@ -15,64 +15,67 @@ export const languages: Record<string, Language> = {
     contributors: [
       "https://github.com/SupertigerDev",
       "Asraye",
-      "https://github.com/1enify",
-    ],
+      "https://github.com/1enify"
+    ]
   },
   "en-us": {
     name: "English (American)",
     emoji: "🇺🇸",
     contributors: [
       "https://github.com/SupertigerDev",
-      "https://github.com/1enify",
-    ],
+      "https://github.com/1enify"
+    ]
   },
   "af-za": {
     name: "Afrikaans",
     emoji: "🇿🇦",
-    contributors: ["https://github.com/mooocksadev"],
+    contributors: ["https://github.com/mooocksadev"]
   },
   "ar-ps": {
     name: "Arabic",
     nativeName: "العربية",
     emoji: "🇵🇸",
     contributors: ["TrueLuna"],
-    rtl: true, // not really used since I manually implemented it in the code. But might be useful in the future.
+    rtl: true // not really used since I manually implemented it in the code. But might be useful in the future.
   },
   "be-tarask": {
     name: "Belarusian (Traditional)",
     nativeName: "Беларуская (тарашкевіца)",
     emoji: "🇧🇾",
-    contributors: ["https://github.com/Dzi-Mieha", "https://github.com/1enify"],
+    contributors: ["https://github.com/Dzi-Mieha", "https://github.com/1enify"]
   },
   "pt-br": {
     name: "Brazilian Portuguese",
     nativeName: "Português (Brasil)",
     emoji: "🇧🇷",
-    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Cirnos"],
+    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Cirnos"]
   },
   "zh-hans": {
     name: "Chinese (Simplified)",
     nativeName: "简体中文",
     emoji: "🇨🇳",
-    contributors: ["https://github.com/Coolsigh"],
+    contributors: ["https://github.com/Coolsigh"]
   },
   "zh-hant": {
     name: "Chinese (Traditional)",
     nativeName: "繁體中文",
     emoji: "🇹🇼",
-    contributors: ["Dsiahrz"],
+    contributors: ["Dsiahrz"]
   },
   "nl-nl": {
     name: "Dutch",
     nativeName: "Nederlands",
     emoji: "🇳🇱",
-    contributors: ["https://github.com/captainqdev", "https://github.com/sunmoonrbx"],
+    contributors: [
+      "https://github.com/captainqdev",
+      "https://github.com/sunmoonrbx"
+    ]
   },
   "fr-FR": {
     name: "French",
     nativeName: "Français",
     emoji: "🇫🇷",
-    contributors: ["https://github.com/guiguitator"],
+    contributors: ["https://github.com/guiguitator"]
   },
   "de-de": {
     name: "German",
@@ -81,37 +84,37 @@ export const languages: Record<string, Language> = {
     contributors: [
       "https://github.com/F-iiral",
       "https://github.com/Deutscher775",
-      "https://github.com/mathiiiiiis",
-    ],
+      "https://github.com/mathiiiiiis"
+    ]
   },
   "hu-hu": {
     name: "Hungarian",
     nativeName: "Magyar",
     emoji: "🇭🇺",
-    contributors: ["https://github.com/andrasdaradici"],
+    contributors: ["https://github.com/andrasdaradici"]
   },
   "ja-jp": {
     name: "Japanese",
     nativeName: "日本語",
     emoji: "🇯🇵",
-    contributors: ["https://github.com/ch3rryc0l4xd"],
+    contributors: ["https://github.com/ch3rryc0l4xd"]
   },
   "fil-ph": {
     name: "Filipino",
     emoji: "🇵🇭",
-    contributors: ["https://github.com/serenemm"],
+    contributors: ["https://github.com/serenemm"]
   },
   "pl-pl": {
     name: "Polish",
     nativeName: "Polski",
     emoji: "🇵🇱",
-    contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"],
+    contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"]
   },
   "ro-ro": {
     name: "Romanian",
     nativeName: "Română",
     emoji: "🇷🇴",
-    contributors: ["GNU/Alex"],
+    contributors: ["GNU/Alex"]
   },
   "ru-ru": {
     name: "Russian",
@@ -120,32 +123,32 @@ export const languages: Record<string, Language> = {
     contributors: [
       "FAYSi223",
       "https://github.com/eshkq",
-      "https://github.com/Effently",
-    ],
+      "https://github.com/Effently"
+    ]
   },
   "es-es": {
     name: "Spanish",
     nativeName: "Español",
     emoji: "🇪🇸",
-    contributors: ["https://github.com/World170", "Linterna001"],
+    contributors: ["https://github.com/World170", "Linterna001"]
   },
   "sv-sv": {
     name: "Swedish",
     nativeName: "Svenska",
     emoji: "🇸🇪",
-    contributors: ["Hyruled", "reks"],
+    contributors: ["Hyruled", "reks"]
   },
   uk: {
     name: "Ukrainian",
     nativeName: "Українська",
     emoji: "🇺🇦",
-    contributors: ["https://github.com/1enify", "Shiroi karasu"],
+    contributors: ["https://github.com/1enify", "Shiroi karasu", "rkxd"]
   },
   "th-th": {
     name: "Thai",
     nativeName: "ไทย",
     emoji: "🇹🇭",
-    contributors: ["https://github.com/CCSleep"],
+    contributors: ["https://github.com/CCSleep"]
   },
   "tr-tr": {
     name: "Turkish",
@@ -155,14 +158,14 @@ export const languages: Record<string, Language> = {
       "https://github.com/M0nsterKitty",
       "https://github.com/balitorius",
       "https://github.com/lexerotk",
-      "https://github.com/slideglide",
-    ],
+      "https://github.com/slideglide"
+    ]
   },
   "uw-uw": {
     name: "UwU",
     emoji: "🐱",
-    contributors: ["Berry", "Asraye"],
-  },
+    contributors: ["Berry", "Asraye"]
+  }
 };
 
 const detectDefaultLanguage = (): string => {
