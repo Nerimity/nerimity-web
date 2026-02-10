@@ -1,14 +1,14 @@
 {
     "general": {
-        "nothingSelected": "Нічого ні обрано",
+        "nothingSelected": "Нічого не обрано",
         "searchPlaceholder": "Пошук",
         "backButton": "Назад",
         "cancelButton": "Скасувати",
         "closeButton": "Закрити",
         "editButton": "Редагувати",
-        "undoButton": "Відробити",
+        "undoButton": "Відмінити",
         "deleteButton": "Видалити",
-        "cannotBeUndone": "Це неможливо відробити!",
+        "cannotBeUndone": "Це неможливо відмінити!",
         "confirmButton": "Підтвердити",
         "doneButton": "Готово",
         "saveButton": "Зберегти",
@@ -31,21 +31,21 @@
     "header": {
         "logoutButton": "Вийти",
         "openAppButton": "Відкрити застосунок",
-        "loginButton": "Війти",
+        "loginButton": "Увійти",
         "joinNowButton": "Долучитися зараз"
     },
     "systemMessages": {
         "joinServer": {
-            "bot": "<User/><2> додано на сервер.</2>",
+            "bot": "<User/><2> був доданий до серверу.</2>",
             "user": "<User/><2> приєднався до сервера.</2>"
         },
         "leaveServer": "<User/><2> вийшов з серверу.</2>",
         "kickUser": "<User/><2> був вигнаний.</2>",
-        "banUser": "<User/><2> був забанены.</2>",
+        "banUser": "<User/><2> був забанений.</2>",
         "callStarted": "<User/><2> розпочав виклик.</2>",
         "bumpServer": "<User/><2> підняв сервер.</2>",
-        "pinnedMessage": "<User/><2> закріпити повідомлення.</2>",
-        "unsupported": "<User/><2> Повідомлення не підтримано.</2>"
+        "pinnedMessage": "<User/><2> закріпили повідомлення.</2>",
+        "unsupported": "<User/><2> Повідомлення не підтримується.</2>"
     },
     "statusHeader": {
         "authenticationError": "Помилка аутентифікації",
@@ -58,45 +58,45 @@
     "dangerousLinkModal": {
         "title": "Користувацьке посилання",
         "message": "Це посилання приведе вас до",
-        "cancelButton": "Не навідувати",
-        "visitButton": "Навідати"
+        "cancelButton": "Не переходити",
+        "visitButton": "Перейти"
     },
     "connectionErrorModal": {
-        "title": "Помилка підключення",
+        "title": "Помилка при підключенні",
         "ok": "ОК",
         "noToken": "Токену не дано.",
-        "suspended": "Ви призупинене.",
+        "suspended": "Ваш акаунт був призупинений.",
         "reason": "Причина",
         "defaultReason": "Порушення УВ",
         "until": "До",
         "never": "ніколи",
         "by": "Призупинено",
-        "deletionNotice": "Ваш акаунт та дані будуть видалено через 15 днів",
+        "deletionNotice": "Ваш акаунт і дані будуть видалені через 15 днів",
         "ipBanned": "Ваш IP забанено.",
-        "ipBanNotice": "Хтось з тим же IP був призупинений на Nerimity. Ваш акаунт не змінився."
+        "ipBanNotice": "Хтось з тим же IP був відсторонений від Nerimity. Ваш акаунт не піддався змінам."
     },
     "homePage": {
         "slogan": "Сучасний та стильний застосунок для спілкування.",
-        "subslogan": "Nerimity пропонує елегантний та багатий на функції досвід, що робить платформу незвичайною.",
-        "viewGitHubButton": "Дивитися GitHub",
+        "subslogan": "Nerimity пропонує елегантність та великий асортимент фіч, які відрізняють її від інших платформ.",
+        "viewGitHubButton": "Дивитися на GitHub",
         "getStarted": "Розпочати",
         "availableOn": "Доступний на",
         "browser": "Браузер",
         "featureList": {
-            "feature1": "Безплатні анімовані аватари та емодзі",
-            "feature2": "Вишуканий дизайн",
-            "feature3": "Безплатне змінення теґу",
-            "feature4": "Створення дописів на вашому профілю",
-            "feature5": "Створить свою спільноту",
+            "feature1": "Безкоштовні анімовані аватарки та емодзі",
+            "feature2": "Елегантний дизайн",
+            "feature3": "Безкоштовне змінення тегу",
+            "feature4": "Створення дописів на вашому профілі",
+            "feature5": "Створіть свою спільноту",
             "feature6": "Знайдіть нові спільноти",
-            "feature7": "Працює з данків",
-            "feature8": "Повний вихідний код на GitHub",
-            "feature9": "Виражайте себе за допомогою облямівок"
+            "feature7": "Оперує від донатів",
+            "feature8": "Повний східний код на GitHub",
+            "feature9": "Виражайте себе за допомогою рамок"
         }
     },
     "loginPage": {
-        "title": "Ввійдіть, щоб протягнути",
-        "emailOrUsernameAndTag": "Ел. адреса / ім'я користувача:теґ",
+        "title": "Ввійдіть, щоб продовжити",
+        "emailOrUsernameAndTag": "Ел.адреса / нікнейм:тег",
         "password": "Пароль",
         "login": "Ввійти",
         "createAccountInstead": "Замість цього створити акаунт",
@@ -106,30 +106,30 @@
         "header": "Реєстрація",
         "notices": {
             "title": "Зауваження",
-            "toxic": "Не будь токсичними.",
-            "nsfw": "18+ контент заборонений.",
-            "age": "Вам мусить бути 14 або більше років."
+            "toxic": "Не будьте токсичними.",
+            "nsfw": "NSFW (18+) контент - заборонений.",
+            "age": "Вам мусить бути 14 років або більше."
         },
         "title": "Вітаємо у {{appName}}",
         "email": "Електронна адреса",
         "username": "Ім'я користувача",
         "password": "Пароль",
         "confirmPassword": "Підтвердити пароль",
-        "agreement": "Сотворяючи акаунт, ви погоджуйтеся Умовив Використання та Політики Приватности.",
-        "registerButton": "Зареєструвати",
+        "agreement": "Створюючи акаунт, ви погоджуютеся на Умови Використання та Політику Конфіденційності.",
+        "registerButton": "Зареєструватися",
         "registering": "Реєстрування…",
         "loginInstead": "Замість цього ввійти"
     },
     "resetPassword": {
         "title": "Скид пароля",
-        "resetSuccessful": "Пароль був скинути.",
-        "passwordsDoNotMatch": "Паролі не відповідають.",
-        "passwordTooLong": "Пароль не може бути більш за 72 символі.",
+        "resetSuccessful": "Пароль був скинутий.",
+        "passwordsDoNotMatch": "Паролі не співпадають.",
+        "passwordTooLong": "Пароль не може перевищувати 72 символи.",
         "resetPasswordButton": "Скинути пароль",
         "resetting": "Скидування…",
         "email": "Електронна адреса",
-        "sendEmailButton": "Дослати лист",
-        "sending": "Досилання…"
+        "sendEmailButton": "Надіслати на пошту",
+        "sending": "Надсилання імейлу…"
     },
     "dashboard": {
         "title": "Стіннівка",
@@ -696,7 +696,7 @@
             "customizeColorsDescription": "Редагування кілерів теперішньої теми.",
             "exportButton": "Експорт",
             "importButton": "Імпорт",
-            "exportModal": "Тема скопіювалася до буфера.",
+            "exportModal": "Тему скопійовано до буфера обміну.",
             "importModal": "Вставить тему сюди:",
             "chatBarOptions": "Опції панелі повідомлень",
             "voiceMessage": "Голосове повідомлення",
@@ -715,7 +715,7 @@
             "startMinimizedDescription": "Автоматично згортувати Nerimity до таці.",
             "disableHardwareAcceleration": "Вимкнути апаратне прискорення",
             "disableCustomTitlebar": "Вимкнути назамовний заголовок",
-            "reopenAppNotice": "Вам треба перезавантажувати застосунок, щоб дії набули ефект."
+            "reopenAppNotice": "Вам треба перезавантажити застосунок, щоб дії набули ефект."
         },
         "activity": {
             "extension": "Розширення для переглядача",
@@ -737,10 +737,66 @@
                 "text": "Будь ласка, долучися до сервера Discord, щоб ввімкнути ділення активністю.",
                 "doneButton": "Я вже там"
             }
+        },
+        "developer": {
+            "applicationsDescription": "Створюйте ботів для Nerimity.",
+            "apiDocumentation": "Документація API (незакінчена)",
+            "addButton": "Створити додаток/бота",
+            "name": "Назва додатку",
+            "appClientId": "ID додатку",
+            "botUser": "Назва боту",
+            "createBotUser": "Створити нового бота",
+            "editBotUser": "Відредагувати бота",
+            "createBotUserButton": "Створити користувача",
+            "refreshButton": "Відновити",
+            "bot": {
+                "createInvite": "Створити посилання-запрошення",
+                "createLinkButton": "Створити посилання",
+                "token": "Токен",
+                "tokenRefreshed": "Токен був відновлений.",
+                "tokenCopied": "Токен скопійовано в буфер обміну.",
+                "permissionsDescription": "Керувати дозволами для цього посилання.",
+                "publishBot": "Опублікувати бота",
+                "publishBotDescription": "Опублікуйте свого бота, щоб інші користувачі змогли його знайти.",
+                "publishNotice": "Публікація вашого бота зробить його доступним на сторінці \"Знайомство\".",
+                "bumpBot": "Підняти бота",
+                "bumpBotDescription": "Підніміть бота, щоб вивести його в топи",
+                "bumpBotCooldown": "Вам треба зачекати {{hours}} годин, {{minutes}} хвилин і {{seconds}} секунд, щоб підняти вашого бота.",
+                "publicDescription": "Зробіть цього бота публічним.",
+                "botDescription": "Опис бота ({{current}}/{{max}})"
+            },
+            "oauth2": {
+                "description": "Керувати OAuth2",
+                "documentation": "Документація OAuth2",
+                "clientId": "ID клієнту",
+                "clientSecret": "Секретний ключ клієнту",
+                "secretRefreshed": "Секретний ключ клієнту був відновлений.",
+                "secretCopied": "Секретний ключ клієнту скопійовано в буфер обміну.",
+                "uri": "URI {{count}}",
+                "generateLink": "Згенерувати посилання",
+                "redirectUris": "Перенаправлення декілька URI",
+                "redirectUri": "Перенаправлення URI"
+            },
+            "deleteApplication": {
+                "title": "Видалити додаток",
+                "willNotGetDeleted": "Що не буде вилучено:",
+                "andMore": "• і більше",
+                "willNotGetDeletedDescription": "Ви можете вручну видалити їх перш ніж видалити ваш додаток.",
+                "deleteAppButton": "Видалити додаток"
+            }
+        },
+        "experiments": {
+            "noExperiments": "Зараз поки немає доступних експериментів.",
+            "reloadRequired": {
+                "title": "Перезавантаження потрібне",
+                "body": "Nerimity треба перезавантажити, щоб прийняти зміни.",
+                "restartNow": "Перезавантажити зараз",
+                "restartLater": "Перезавантажити пізніше"
+            }
         }
     },
     "welcomePopup": {
-        "subtitle": "Дякуємо за пробування Nerimity!",
+        "subtitle": "Дякуємо за те, що спробували Nerimity!",
         "joinServer": "Приєднуйтеся до офіційного сервера Nerimity",
         "editProfile": "Редагуйте свій профіль",
         "support": "Підтримайте мені на {{platform}}",
@@ -750,5 +806,459 @@
         "selectItem": "Оберіть елемент",
         "selectItemMultiple": "Оберіть елемент(и)",
         "itemsSelected": "Обрано {{count}} елемент(а/ів)"
+    },
+    "activityNames": {
+        "playing": "Грає",
+        "watching": "Дивиться",
+        "listening": "Слухає"
+    },
+    "logoutModal": {
+        "title": "Вийти?",
+        "body": "Ви впевнені, що хочете вийти?",
+        "clearSettings": "Очистити локальні налаштування",
+        "cancelButton": "Не виходити"
+    },
+    "supportBlock": {
+        "support": "Підтримайте мене",
+        "supportDescription": "Задонатьте, щоб отримати бейдж сапортеру!"
+    },
+    "createServerModal": {
+        "title": "Створити сервер",
+        "notice": "NSFW контент заборонений.",
+        "serverName": "Назва серверу",
+        "placeholder": "Мій Класний Сервер",
+        "createServerButton": "Створити сервер",
+        "creating": "Створення…",
+        "tabLabel": "Створити"
+    },
+    "joinServerModal": {
+        "title": "Приєднатися до серверу",
+        "notice": "Якщо ви хочете познаходити серверів, краще подивіться сторінку \"Знайомство\" тут.",
+        "exploreButton": "Знайти сервера",
+        "inviteCode": "Код запрошення",
+        "continueButton": "Продовжити",
+        "missingInvite": "Будь ласка, введіть код запрошення на сервер.",
+        "tabLabel": "Приєднатися"
+    },
+    "serverContextMenu": {
+        "markAsRead": "Позначити як прочитане",
+        "leave": "Покинути",
+        "channelSettings": "Налаштування каналу",
+        "notificationOptions": {
+            "sections": {
+                "ping": "Пінги",
+                "sound": "Звук"
+            },
+            "initial": "Початкове",
+            "everything": "Все",
+            "mentionsOnly": "Лише згадування",
+            "mute": "Мут"
+        }
+    },
+    "messageView": {
+        "noMessages": "Нема сповіщень",
+        "noMessagesDescription": "Якось порожньо тут...",
+        "newMessages": "Нові повідомлення",
+        "slowMode": "Повільний режим",
+        "flaggedServer": {
+            "title": "Запланувати видалення",
+            "description": "Цей сервер порушив правила сервісу і буде скоро вилучений.",
+            "deleteButton": "Видалити зараз",
+            "leaveButton": "Покинути сервер"
+        }
+    },
+    "typing": {
+        "single": "<1>{{username}}</1> пише…",
+        "multiple": "<1>{{username}}</1> and <2>{{username2}}</2> пишуть…",
+        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> і <3>{{username3}}</3> пишуть…",
+        "andOthers": "<1>{{count}}</1> користувача пишуть…"
+    },
+    "userContextMenu": {
+        "viewProfile": "Відкрити профіль",
+        "sendMessage": "Надіслати повідомлення",
+        "editRoles": "Змінити ролі",
+        "changeNickname": "Змінити нік",
+        "transferOwnership": "Передати права власника",
+        "callVolume": "Гучність дзвінка"
+    },
+    "nicknameChangeModal": {
+        "title": "Відновити серверний профіль",
+        "description": "Всі на сервері побачять цей нікнейм.",
+        "inputLabel": "Нікнейм"
+    },
+    "transferOwnershipModal": {
+        "title": "Передати права власника",
+        "description": "Це передасть всі права новому власнику.",
+        "ifVerified": "Цей сервер буде непідтвердженим.",
+        "server": "Сервер:",
+        "newOwner": "Новий власник:",
+        "cancelButton": "Не передавати",
+        "transferButton": "Передати",
+        "transferring": "Передача…"
+    },
+    "kickServerMemberModal": {
+        "title": "Вигнати {{username}}",
+        "kickButton": "Вигнати",
+        "kicking": "Виженяємо…",
+        "message": "Ви точно хочете вигнати <1>{{username}}</1>?"
+    },
+    "editServerRolesModal": {
+        "title": "Змінити ролі"
+    },
+    "banModal": {
+        "title": "Забанити {{username}}?",
+        "message": "Ви точно хочете забанити <1>{{username}}</1>?",
+        "deletePastMessagesCheckbox": "Видалити повідомлення за останні 7 годин.",
+        "banButton": "Забанити",
+        "banning": "Банимо…",
+        "reasonLabel": "Причина (необов‘язково)",
+        "reasonPlaceholder": "Введіть причину…"
+    },
+    "messageContextMenu": {
+        "editMessage": "Редагувати повідомлення",
+        "deleteMessage": "Видалити повідомлення",
+        "translateMessage": "Перекласти",
+        "copyMessage": "Скопіювати повідомлення",
+        "copyHTML": "Скопіювати HTML",
+        "viewReactions": "Реакції",
+        "quoteMessage": "Цитувати повідомлення",
+        "reportMessage": "Поскаржитися на повідомлення",
+        "reply": "Відповісти",
+        "markUnread": "Помітити як непрочитане",
+        "pinMessage": "Закріпити",
+        "unpinMessage": "Відкріпити",
+        "copyMessageLink": "Скопіювати посилання на повідомлення"
+    },
+    "profile": {
+        "followerCount": "{{count}} читачів",
+        "followingCount": "{{count}} читає",
+        "fullProfile": "Повний профіль",
+        "followsYou": "Читає вас",
+        "badge": "Бейдж {{badgeName}}",
+        "followButton": "Читати",
+        "unfollowButton": "Не читати",
+        "removeFriendButton": "Вилучити друга",
+        "addFriendButton": "Додати друга",
+        "pendingRequest": "Запит очікує розгляду",
+        "acceptRequestButton": "Прийняти запит",
+        "messageButton": "Повідомлення",
+        "blockButton": "Заблокувати",
+        "unblockButton": "Розблокувати",
+        "reportButton": "Поскаржитися",
+        "mutualFriends": "Спільні друзі ({{count}})",
+        "mutualServers": "Спільні сервера ({{count}})",
+        "latestPost": "Останній пост",
+        "postsTab": "Пости",
+        "postsAndRepliesTab": "Пости і відповіді ({{count}})",
+        "likedPostsTab": "Вподобання ({{count}})",
+        "followersTab": "Читачі",
+        "followingTab": "Читає",
+        "availableCommands": "Доступні команди",
+        "botCreator": "Власник боту",
+        "suspended": "Цей користувач відсторонений від платформи",
+        "expires": "Минає {{time}}.",
+        "expiresNever": "Назавжди.",
+        "blocked": "Ви були заблоковані",
+        "blockedDescription": "Цей користувач кинув вас в чорний список.",
+        "privateList": "Тільки ви можете бачити цей список.",
+        "personal": {
+            "editProfile": "Редагувати профіль",
+            "customStatus": "Особистий статус",
+            "presence": "Статус"
+        }
+    },
+    "posts": {
+        "title": "Запостити",
+        "viewCount": "Очікувані перегляди",
+        "replying": "Відповідь <1>{{username}}</1>",
+        "pinned": "Закріплені",
+        "reposted": "Репостнуті",
+        "repostedBy": "Ким репостнутий",
+        "voteButton": "Проголосувати",
+        "voteCount": "{{count}} голос(-ів)",
+        "copyPostButton": "Скопіювати пост",
+        "sections": {
+            "replies": "Відповіді ({{count}})",
+            "likes": "Вподобання ({{count}})",
+            "reposts": "Репости ({{count}})"
+        },
+        "deletePostModal": {
+            "title": "Видалити пост?",
+            "message": "Ви впевнені що хочете видалити цей пост?"
+        },
+        "editPostModalTitle": "Відредагувати пост",
+        "postWasDeleted": "Цей пост був видалений!",
+        "sort": {
+            "latest": "Останні",
+            "mostLiked7Days": "Найбільш вподобанні (за останні 7 днів)",
+            "mostLiked30Days": "Найбільш вподобанні (за останні 30 днів)",
+            "mostLikedAllTime": "Найбільш вподобанні (за увесь час)"
+        },
+        "someoneLikedYourPost": "<1>{{username}}</1> вподобав ваш пост!",
+        "someoneRepostedYourPost": "<1>{{username}}</1> репостнув ваш пост!",
+        "someoneFollowedYou": "<1>{{username}}</1> тепер читає вас!",
+        "someoneRepliedToPost": "<1>{{username}}</1> відповів на ваш пост!",
+        "postWarning": "Селф-харм пости не дозволені. В противному разі заходи щодо акаунту будуть вжиті.",
+        "createAPostInputPlaceholder": "Створити пост…",
+        "replyInputPlaceholder": "Відповісти…",
+        "replyButton": "Відповісти",
+        "createButton": "Створити",
+        "pollOptions": "Опції опитування",
+        "optionNumberPlaceholder": "Опція {{number}}"
+    },
+    "mainPaneHeader": {
+        "mentions": {
+            "noMentions": "Нема згадок"
+        },
+        "pins": {
+            "noPins": "Нема закріплених повідомлень"
+        },
+        "jump": "Перейти",
+        "voice": {
+            "join": "Приєднатися",
+            "leave": "Від‘єднатися",
+            "muted": "Мікро вимкнено",
+            "deafened": "Заглушений",
+            "fullscreen": "На повний екран"
+        }
+    },
+    "channelDrawer": {
+        "customize": {
+            "title": "Кастомізувати",
+            "subtitle": "Пройдіть ці питання:",
+            "continueButton": "Перейти далі до {{channel}}"
+        },
+        "members": {
+            "filter": {
+                "header": "Фільтрувати за",
+                "24hours": "24 години"
+            },
+            "sort": {
+                "header": "Сортувати за",
+                "member": "Учасник",
+                "joined": "Приєднався",
+                "joinedNerimity": "Приєднався до Nerimity"
+            },
+            "order": {
+                "header": "Упорядкувати за",
+                "ascending": "Зростаючи",
+                "descending": "Спадаючи"
+            }
+        },
+        "addChannel": "Додати канал",
+        "inVoice": "В голосовому чаті"
+    },
+    "inVoiceActions": {
+        "connectedFor": "В войсі вже"
+    },
+    "informationDrawer": {
+        "info": "Інфо",
+        "files": "Файли",
+        "searchBarPlaceholder": "Шукати {{username}}",
+        "searchBarChannelPlaceholder": "Шукати в {{channelName}}",
+        "sortLatest": "Найновіші",
+        "sortOldest": "Найстаріші",
+        "attachments": "Вкладення",
+        "members": "Учасники",
+        "creator": "Власник",
+        "admin": "Адмін",
+        "channelNotice": "Повідомлення про канал"
+    },
+    "botInvite": {
+        "title": "Пригласити бота",
+        "serverSelect": "Будь ласка, оберіть сервер!",
+        "creator": "Створено ",
+        "selectButton": "Обрати сервер",
+        "addButton": "Додати бота",
+        "permissions": "Дозволи бота"
+    },
+    "googleAccountLink": {
+        "linking": "Прив‘язуємо ваш акаунт з Google…",
+        "success": "Акаунт був успішно прив‘язаним! Ви можете тепер закрити це вікно."
+    },
+    "invite": {
+        "loading": "Завантажуємо запрошення…",
+        "invalid": "Недійсне запрошення",
+        "joinButton": "Приєднатися",
+        "joiningButton": "Приєднуємо…",
+        "visitButton": "Оглянути",
+        "member": "учасник",
+        "members": "учасників"
+    },
+    "fileEmbed": {
+        "viewImage": "Переглянути зображення",
+        "download": "Завантажити",
+        "expires": "Минає {{time}}",
+        "expired": "Минув {{time}}",
+        "fileExpired": "Посилання на файл вже недійсне.",
+        "fileModified": "Файл був модифікованим.",
+        "couldNotGetFile": "Не вдалося отримати файл.",
+        "modifiedOrDeleted": "Цей файл був модифікованим/видаленим власником на їх Google Диску.",
+        "videoEmbed": {
+            "videoExpired": "Посилання на відео вже недійсне.",
+            "videoModified": "Відео було модифіковане.",
+            "couldNotGetVideo": "Не вдалося отримати відео.",
+            "modifiedOrDeleted": "Це відео було модифіковане/видалене власником на їх Google Диску.",
+            "googleDrivePolicy": "Через нові правила Google Диску, відео можна програвати тільки з ПК клієнту Nerimity."
+        },
+        "audioEmbed": {
+            "googleDrivePolicy": "Через нові правила Google Диску, аудіо можна програвати тільки з ПК клієнту Nerimity."
+        }
+    },
+    "addFriendModal": {
+        "title": "Додати друга",
+        "description": "Введіть нік і тег вашого друга, щоб їх додати.",
+        "placeholder": "Нікнейм:ABC1",
+        "requestSent": "Запит надісланий!",
+        "sendRequest": "Надіслати запит",
+        "sending": "Надсилаємо…",
+        "errors": {
+            "missingTag": "Будь ласка введіть нікнейм:тег.",
+            "colonInUsername": "Нікнейм не повинен мати двокрапку."
+        }
+    },
+    "removeFriendModal": {
+        "title": "Видалити {{username}} зі списку друзів",
+        "body": "Ви точно хочете вилучити цього користувача з друзів?",
+        "removing": "Видаляємо…"
+    },
+    "deleteMessageModal": {
+        "title": "Видалити повідомлення?",
+        "body": "Ви хочете видалити це повідомлення?",
+        "cancelButton": "Не видаляти"
+    },
+    "message": {
+        "badge": {
+            "bot": "Бот",
+            "webhook": "Вебхук",
+            "owner": "Власник"
+        },
+        "reactions": {
+            "more": "ще {{count}}"
+        },
+        "viewMessages": "Переглянути повідомлення",
+        "quote": {
+            "invalid": "Видалена чи недійсна цитата.",
+            "nested": "Вкладена цитата"
+        },
+        "deletedMessage": "Повідомлення було видалено.",
+        "dismissButton": "Проігнорувати",
+        "editedAt": "Змінено о {{time}}",
+        "twitterEmbed": {
+            "modalTitle": "Детальне вкладення з Твітеру",
+            "modalDescription": "При використанні офіційного ембеду Твітеру, знайте що ваші дані будуть відправлені до Ілюхи Маска))0",
+            "doNotShowAgain": "Більше не показувати.",
+            "closeButton": "Не показувати",
+            "showButton": "Показати",
+            "basicEmbed": "Базове вкладення",
+            "detailedEmbed": "Детальне вкладення"
+        },
+        "blocked": "Ви заблокували цього користувача. Натисніть, щоб показати.",
+        "translationError": "Не вдалося перекласти це повідомлення.",
+        "translation": {
+            "title": "Переклад",
+            "error": "Переклад не вдався"
+        },
+        "imageMessage": "Повідомлення із зображенням"
+    },
+    "botButtonModal": {
+        "title": "Відповідь від {{botName}}",
+        "dataReceiver": "Дані були відправлені {{botName}}",
+        "notice": "Ніколи не відправляйте конфіденційну інфу"
+    },
+    "colorPickerModal": {
+        "title": "Піпетка",
+        "solid": "Одноколірний",
+        "gradient": "Градієнт"
+    },
+    "photoEditor": {
+        "title": "Редагувач фото",
+        "brush": "Щітка",
+        "erase": "Стирачка",
+        "strokeWidth": "Товщина: {{width}}",
+        "mobileNotice": "Щипніть двома пальцями, щоб рухатися/зумитися",
+        "desktopMove": "Пробіл + зажати ЛКМ, щоб рухати",
+        "desktopZoom": "Колесико миші для масштабу"
+    },
+    "imageCropModal": {
+        "title": "Обрізати зображення"
+    },
+    "oauth2": {
+        "AuthorizeButton": "Авторизувати",
+        "permissions": "Дозволи"
+    },
+    "badges": {
+        "kitty": {
+            "name": "Кітик",
+            "blueDescription": "Арктичні Котячі Вуха",
+            "whiteDescription": "Вуха Каліко",
+            "maidDescription": "Котячі Мейд Вуха",
+            "purpleDescription": "Чеширські Котячі Вуха"
+        },
+        "foxy": {
+            "name": "Лис",
+            "foxyGoldDescription": "Золоті Лисячі Вуха",
+            "foxyBrownDescription": "Коричневі Лисячі Вуха"
+        },
+        "founder": {
+            "name": "Засновник",
+            "description": "Автор Nerimity"
+        },
+        "admin": {
+            "name": "Адмін",
+            "description": "Адмін Nerimity"
+        },
+        "mod": {
+            "name": "Модератор",
+            "description": "Модератор Nerimity"
+        },
+        "supporter": {
+            "name": "Сапортер",
+            "description": "Підтримав цей проект, задонативши"
+        },
+        "emoSupporter": {
+            "name": "Емо Сапортер",
+            "description": "Підтримав цей проект, задонативши"
+        },
+        "contributor": {
+            "name": "Вкладник",
+            "description": "Допоміг цьому проекту певною мірою"
+        },
+        "palestine": {
+            "name": "Палестина"
+        },
+        "bot": {
+            "name": "Бот",
+            "description": "Цей користувач є ботом"
+        },
+        "credit": {
+            "avatarBorder": "Рамка аватару створена {{author}} на {{platform}}",
+            "avatarBorderEdited": "Рамка аватару створена {{author}} на {{platform}}, відредагована {{editor}}"
+        },
+        "bunny": {
+            "name": "Заєць",
+            "bunnyDescription": "Висячі Зайчикові Вуха",
+            "maidDescription": "Зайчикові Мейд Вуха"
+        },
+        "dog": {
+            "name": "Песик",
+            "dogDescription": "Гарні Собачі Вуха",
+            "shibaDescription": "Шиба Іну"
+        },
+        "wolf": {
+            "name": "Вовченя",
+            "wolfDescription": "Вовчі вуха"
+        },
+        "goat": {
+            "name": "Коза",
+            "goatDescription": "Кавайні Козлячі Вуха",
+            "goatHornDescription": "Козлячі Роги"
+        },
+        "deer": {
+            "name": "Олень",
+            "deerDescription": "Милі Оленеві Роги",
+            "deerDarkDescription": "Емо Оленеві Роги",
+            "deerWhiteDescription": "Кавайний Рожевий Олень"
+        }
     }
 }
