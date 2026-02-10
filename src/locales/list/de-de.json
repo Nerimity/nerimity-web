@@ -997,10 +997,17 @@
             "title": "Übersetzung",
             "error": "Übersetzung fehlgeschlagen"
         },
-        "imageMessage": "Bild Nachricht"
+        "imageMessage": "Bild Nachricht",
+        "viewMessages": "Nachrichten ansehen",
+        "quote": {
+            "invalid": "Gelöschte oder ungültige Quote.",
+            "nested": "Verschachtelte Quote"
+        }
     },
     "colorPickerModal": {
-        "title": "Farbauswähler"
+        "title": "Farbauswähler",
+        "solid": "Solide",
+        "gradient": "Gradient"
     },
     "photoEditor": {
         "title": "Foto-Editor",
@@ -1247,5 +1254,11 @@
         "notice": "Teile niemals sensible Daten",
         "title": "Antwort von {{botName}}",
         "dataReceiver": "Daten werden an {{botName}} gesendet"
+    },
+    "logoutModal": {
+        "title": "Ausloggen?",
+        "body": "Bist du dir sicher, dass du dich ausloggen möchtest?",
+        "clearSettings": "Lösche Lokale Einstellungen",
+        "cancelButton": "Nicht ausloggen"
     }
 }

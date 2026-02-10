@@ -199,8 +199,8 @@
             "officialThemes": "Офіційні теми",
             "communityThemes": "Теми від спільноти",
             "noCommunityThemes": "Тем від спільноти не знайдено.",
-            "fetchThemesError": "Не вдалося завантажити теми. Попробуйте ще раз.",
-            "unlockDescription": "Натисніть, щоб досліджувати теми від спільноти"
+            "fetchThemesError": "Не вдалося завантажити теми. Спробуйте ще раз.",
+            "unlockDescription": "Натисніть, щоб знайти теми від спільноти"
         },
         "drawer": {
             "title": "Дослідування",
@@ -209,22 +209,22 @@
             "themes": "Теми"
         },
         "servers": {
-            "title": "Дослідування - Сервери",
+            "title": "Знайомство - Сервери",
             "noticeMessage": "Сервер можливо підняти раз о {{hours}} години. Всі піднятті скидуються кожні {{date}}.",
-            "moderationNotice": "Сервери не модеруються Nerimity. Доповість на сервери, що порушають УВ.",
+            "moderationNotice": "Сервери не модеруються Nerimity. Будь ласка, кидайте скаргу на сервери, що порушають правила.",
             "sortMostBumps": "Найбільш підняттів",
-            "sortMostMembers": "Найбільш спільників",
-            "sortRecentlyAdded": "Недавно додано",
-            "sortRecentlyBumped": "Недавно піднято",
-            "sortMostActive": "Самі активні (Бета)",
+            "sortMostMembers": "Найбільш учасників",
+            "sortRecentlyAdded": "Нещодавно додано",
+            "sortRecentlyBumped": "Нещодавно піднято",
+            "sortMostActive": "Найактивніші (Бета)",
             "filterAll": "Всі",
             "filterVerified": "Верифіковані",
             "pinnedServers": "Закріплені сервери",
-            "recentlyBumped": "Недавно підняті сервери",
-            "memberCount": "{{count}} спільників",
+            "recentlyBumped": "Нещодавно підняті сервери",
+            "memberCount": "{{count}} учасників",
             "lifetimeBumpCount": "{{count}} підняттів за весь час",
             "visitServerButton": "Зайти",
-            "joinServerButton": "Вступити",
+            "joinServerButton": "Приєднатися",
             "bumpButton": "Підняти ({{count}})"
         },
         "sort": "Сортування",
@@ -282,7 +282,7 @@
     "servers": {
         "settings": {
             "drawer": {
-                "general": "Огульні",
+                "general": "Загальні",
                 "audit-logs": "Журнал аудиту",
                 "roles": "Ролі",
                 "channels": "Канали",
@@ -290,12 +290,12 @@
                 "invites": "Запрошенні",
                 "publishServer": "Публікування",
                 "verify": "Верифікування",
-                "role": "Роля",
+                "role": "Ролі",
                 "welcome-screen": "Екран привітання",
                 "channel": "Канал",
                 "permissions": "Дозволи",
                 "emoji": "Емодзі",
-                "notifications": "Оповіщенні",
+                "notifications": "Оповіщення",
                 "external-embed": "Зовнішній ембед"
             },
             "bans": {
@@ -307,24 +307,24 @@
                 "reason": "Причина",
                 "noReason": "Причини не надано",
                 "bannedAt": "Забанено о",
-                "unknown": "Невідома",
+                "unknown": "Невідомо",
                 "unban": "Розбанити",
-                "unbanning": "Розбання…"
+                "unbanning": "Розбанення…"
             },
             "webhook": {
                 "title": "Вебхуки",
                 "name": "Назва вебхуку",
-                "link": "Посилання вебхуку",
-                "linkDescription": "Виконувати діяння через це посилання",
+                "link": "Посилання на вебхук",
+                "linkDescription": "Виконувати дії через це посилання",
                 "delete": "Видалити вебхук"
             },
             "general": {
-                "serverRenameNotice": "Ви стратьте всі переваги верифікованого сервера, коли переназвіть його.",
+                "serverRenameNotice": "Ви втратите всі переваги верифікованого сервера, якщо перейменуєте його.",
                 "serverName": "Назва сервера",
-                "defaultChannel": "Передвизначений канал",
-                "defaultChannelDescription": "Нові спільники будуть накеровано до цього каналу.",
+                "defaultChannel": "Канал за замовчуванням",
+                "defaultChannelDescription": "Нові учасники будуть направлені до цього каналу.",
                 "systemMessages": "Системні повідомлення",
-                "systemMessagesDescription": "Тут мусять з'являтися системні повідомлення.",
+                "systemMessagesDescription": "Тут з'являтимуться системні повідомлення.",
                 "deleteThisServer": "Видалити цей сервер",
                 "deleteServerButton": "Видалити сервер",
                 "none": "Нічого"
@@ -335,30 +335,30 @@
             },
             "role": {
                 "roleName": "Назва ролі",
-                "roleColor": "Колер ролі",
+                "roleColor": "Колір ролі",
                 "clear": "Скинути",
                 "roleIcon": "Значок ролі",
                 "managedByBot": "Ця роль керується {{botName}}. Ви не можете видалити або додати спільників до цієї ролі. Виженіть бота, щоб позбавиться від цієї ролі.",
-                "hideRole": "Ховати роль",
-                "hideRoleDescription": "Показувати спільників з цією роллю разом зі звичайними",
-                "applyOnJoin": "Уживати при приєднанні",
-                "applyOnJoinDescription": "Давати цю роль спільникам, колі вони заходять на сервер.",
+                "hideRole": "Сховати роль",
+                "hideRoleDescription": "Показувати учасників з цією роллю разом зі звичайними",
+                "applyOnJoin": "Автоматично додати роль при приєднанні",
+                "applyOnJoinDescription": "Давати цю роль учасникам, коли вони заходять на сервер.",
                 "permissionsDescription": "Керувати дозволами цієї ролі.",
                 "deleteRoleTitle": "Видалити {{roleName}}",
                 "deleteRoleButton": "Видалити цю роль"
             },
             "header": {
                 "editServer": "Редагувати сервер",
-                "serverMemberCount": "{{count}} спільників"
+                "serverMemberCount": "{{count}} учасників"
             },
             "welcomeScreen": {
                 "title": "Питання",
-                "description": "Наладь питання. Дати користувачам обрати ролі.",
+                "description": "Налаштувати питання. Дати користувачам обрати ролі.",
                 "questions": {
                     "addButton": "Додати питання",
                     "question": "Питання",
                     "questionPlaceholder": "Котки чи собаки?",
-                    "multiselect": "Множний вибір"
+                    "multiselect": "Множинний вибір"
                 },
                 "answers": {
                     "title": "Відповіді",
@@ -366,14 +366,14 @@
                     "editModal": {
                         "title": "Редагування відповіді",
                         "answer": "Відповідь",
-                        "placeholder": "Котки",
+                        "placeholder": "Коти",
                         "selectRoles": "Обрати ролі"
                     }
                 }
             },
             "channels": {
-                "createButton": "Сотворити",
-                "createNewDescription": "Сотворити новий канал чи розділ",
+                "createButton": "Створити",
+                "createNewDescription": "Створити новий канал чи розділ",
                 "textChannel": "Текстовий канал",
                 "category": "Розділ"
             },
@@ -381,7 +381,7 @@
                 "channelName": "Назва каналу",
                 "channelIcon": "Значок каналу",
                 "permissionsDescription": "Керувати дозволами цього каналу.",
-                "slowModeDescription": "Укажіть, скільки користувач мусить почекати до того, як дослати повідомлення.",
+                "slowModeDescription": "Укажіть, скільки користувач мусить чекати до того, як надіслати повідомлення.",
                 "deleteThisChannel": "Видалити цей канал",
                 "deleteChannelTitle": "Видалити {{channelName}}",
                 "deleteChannelButton": "Видалити канал",
@@ -390,123 +390,123 @@
             "notifications": {
                 "notice": "Ці налаштування зміняться тільки для вас.",
                 "ping": "Познака сповіщення",
-                "pingDescription": "Показувати вказівник при сповіщенні.",
-                "sound": "Гук сповіщення",
-                "soundDescription": "Програвати гук при отриманні сповіщення.",
-                "channelsDescription": "Керування сповіщеннями осібних каналів.",
-                "resetButton": "Скинути передвизначення({{count}})"
+                "pingDescription": "Показувати індикатор при сповіщенні.",
+                "sound": "Звук сповіщення",
+                "soundDescription": "Програвати звук при отриманні сповіщення.",
+                "channelsDescription": "Керування сповіщеннями для кожного каналу особисто.",
+                "resetButton": "Скинути переназначення({{count}})"
             },
             "emoji": {
-                "title": "Власні емодзі",
-                "description": "Додати ваші особісти емодзі.",
+                "title": "Користувацькі емодзі",
+                "description": "Додати ваші емодзі.",
                 "addButton": "Додати емодзі"
             },
             "invites": {
-                "createInviteButton": "Сотворити запрошення",
-                "serverInvites": "Серверні запрошення",
+                "createInviteButton": "Створити запрошення",
+                "serverInvites": "Запрошення на сервер",
                 "serverInvitesDescription": "Запросіть ваших друзів до цього серверу.",
                 "customInviteVerifiedOnlyNotice": "Користувацькі запрошення доступні тільки для верифікованих серверів.",
                 "customLink": "Користувацьке посилання",
-                "uses": "{{count}} використання(ів)"
+                "uses": "{{count}} використання(нь)"
             },
             "publishServer": {
-                "publishNotice": "Публікування сервера зробіть його доступнім зі сторінки <1>дослідування</1>.",
-                "public": "Публічній",
-                "publicDescription": "Зробити цей сервер публічнім.",
+                "publishNotice": "Публікування сервера зробить його доступним на сторінці <1>дослідування</1>.",
+                "public": "Публічний",
+                "publicDescription": "Зробити цей сервер публічним.",
                 "bumpServer": "Підняти сервер",
-                "bumpServerDescription": "Підніміть сервер, щоб він піднявся по щабельнику.",
+                "bumpServerDescription": "Підніміть сервер, щоб він піднявся в топ.",
                 "bumpButton": "Підняти ({{count}})",
-                "descriptionLabel": "Описання сервера ({{current}}/{{max}})",
+                "descriptionLabel": "Опис сервера ({{current}}/{{max}})",
                 "publishServerButton": "Опублікувати",
-                "unpublishServerButton": "Приватизувати",
-                "bumpCooldown": "Ви мусите почекати {{hours}} годин, {{minutes}} хвилин та {{seconds}} секунд, щоб підняти сервер."
+                "unpublishServerButton": "Заприватити",
+                "bumpCooldown": "Вам треба почекати ще {{hours}} годин, {{minutes}} хвилин та {{seconds}} секунд, щоб підняти сервер."
             },
             "verify": {
                 "alreadyVerified": "Ваш сервер вже верифікований!",
-                "insufficientMembers": "Вам потрібно ще {{count}} спільників, щоб подати на верифікацію.",
-                "verifiable": "Готово до верифікування",
-                "verifiableDescription": "У вас досить спільників, щоб подати на верифікацію!",
+                "insufficientMembers": "Вам потрібно ще {{count}} учасників, щоб подати заявку на верифікацію.",
+                "verifiable": "Готове до верифікування",
+                "verifiableDescription": "У вас достатньо учасників, щоб подати на верифікацію!",
                 "verifyButton": "Верифікувати",
                 "requirements": {
-                    "title": "Вимаганні",
+                    "title": "Вимоги",
                     "englishOnly": "Тільки англійська",
-                    "englishOnlyDescription": "Сервери не на англійській тяжче модерувати.",
+                    "englishOnlyDescription": "Неанглійські сервера складніше модерувати.",
                     "oneMonthOrSupporter": "Принаймні 1 місяць АБО значок підтримки",
-                    "oneMonthOrSupporterDescription": "Серверу мусить бути принаймні один місяць АБО у владарі мусить бути облямівка прибічнику.",
-                    "members": "{{count}} або більш спільників",
-                    "membersDescription": "На вашому серверу мусить бути принаймні {{count}} спільників.",
-                    "profanityFree": "Без неповаги",
+                    "oneMonthOrSupporterDescription": "Серверу мусить бути принаймні один місяць АБО у власника серверу мусить бути бейдж сапортеру.",
+                    "members": "{{count}} або більше учасників",
+                    "membersDescription": "На вашому серверу мусить бути принаймні {{count}} учасників.",
+                    "profanityFree": "Без ненормативної лексики",
                     "profanityFreeDescription": "Назва, аватар та банер сервера мусять бути без вульгарності.",
                     "avatarAndBanner": "Аватар та банер",
-                    "avatarAndBannerDescription": "У серверу мусять бути аватар з банером.",
-                    "rules": "Правили серверу",
-                    "rulesDescription": "На сервери мусить бути канал з правилами."
+                    "avatarAndBannerDescription": "Сервер мусить мати аватар з банером.",
+                    "rules": "Правила серверу",
+                    "rulesDescription": "На сервері мусить бути канал з правилами."
                 },
                 "perks": {
-                    "title": "Переваги",
+                    "title": "Привілеї",
                     "badge": "Значок верифікації",
-                    "badgeDescription": "Значок, щоб показати, що ваш сервер особливий.",
-                    "explore": "Вилучення в дослідування",
-                    "exploreDescription": "Ваш сервер буде відображатися в осібнім відділі на сторінці дослідування.",
+                    "badgeDescription": "Значок, щоб показати, що ваш сервер унікальний.",
+                    "explore": "Хайлайт в сторінці \"Знайомство\"",
+                    "exploreDescription": "Ваш сервер буде відображатися в окремій секції сторінки \"Знайомство\".",
                     "customInvite": "Користувацьке посилання-запрошення",
-                    "customInviteDescription": "Створить вашу особисте посилання-запрошення у налаштуваннях.",
+                    "customInviteDescription": "Створіть ваше особисте посилання-запрошення у налаштуваннях.",
                     "emojiSlots": "Більше слотів для емодзі",
                     "emojiSlotsDescription": "200 слотів емодзі для вашого сервера.",
-                    "hdScreenshare": "Показ екрана 1080p@60fps",
-                    "hdScreenshareDescription": "Транслювання екрана у 1080p, 60fps."
+                    "hdScreenshare": "Показ екрана у 1080p@60fps",
+                    "hdScreenshareDescription": "Транслюйте екран у 1080p, 60fps."
                 }
             },
             "externalEmbed": {
                 "noInvites": {
-                    "title": "Запрошень не сотворено",
-                    "description": "Ви мусите сотворити посилання-запрошення перед тим, як сотворити зовнішній ембед.",
-                    "createButton": "Сотворити посилання"
+                    "title": "Запрошень ще не створено",
+                    "description": "Ви мусите створити посилання-запрошення перед тим, як створити зовнішній ембед.",
+                    "createButton": "Створити посилання-запрошення"
                 },
-                "title": "Сотворити зовнішній ембед",
-                "description": "Сотворить зовнішній ембед для вашого вебсайту.",
+                "title": "Створити зовнішній ембед",
+                "description": "Створити зовнішній ембед для вашого сайту.",
                 "dropdownPlaceholder": "Обрати запрошення",
                 "options": {
-                    "hideHeader": "Заховати заголовок",
-                    "hideMembers": "Заховати спис спільників",
-                    "hideActivities": "Заховати спис діяльностей"
+                    "hideHeader": "Сховати заголовок",
+                    "hideMembers": "Сховати список учасників",
+                    "hideActivities": "Сховати список активностей"
                 }
             }
         },
         "rolePermissions": {
-            "admin": "Розпорядник",
-            "adminDescription": "Включає всі дозволи.",
-            "sendMessage": "Досилати повідомлення",
-            "sendMessageDescription": "Включити досилання повідомлень на цім сервері. Розпорядники можуть досилати повідомлення незалежно від цього дозволу.",
+            "admin": "Адмін",
+            "adminDescription": "Включає в себе всі дозволи.",
+            "sendMessage": "Надіслати сповіщення",
+            "sendMessageDescription": "Включити надіслання сповіщень на цьому сервері. Адміни все одно зможуть надсилати їх незалежно від ролі.",
             "manageRoles": "Керувати ролями",
-            "manageRolesDescription": "Дозвіл на редагування або видалення ролів.",
+            "manageRolesDescription": "Дозвіл на редагування або видалення ролей.",
             "manageChannels": "Керувати каналами",
             "manageChannelsDescription": "Дозвіл на редагування або видалення каналів.",
             "kick": "Виганяти",
-            "kickDescription": "Дозвіл на виганяння користувачів.",
+            "kickDescription": "Дозвіл на вигнання користувачів.",
             "ban": "Банити",
             "banDescription": "Дозвіл на бан користувачів.",
             "mentionEveryone": "Згадувати всіх",
-            "mentionEveryoneDescription": "Включити згадування @everyone. Розпорядники можуть згадувати всіх незалежно від цього дозволу.",
-            "nicknameMember": "Давати прозивки",
-            "nicknameMemberDescription": "Дозволяти користувачам міняти їх прозивку на сервери."
+            "mentionEveryoneDescription": "Включити згадування @everyone. Адміни можуть згадувати всіх незалежно від цього дозволу.",
+            "nicknameMember": "Давати нік",
+            "nicknameMemberDescription": "Дозволяти користувачам міняти їх нік на сервері."
         },
         "leaveModal": {
             "title": "Покинути сервер?",
             "body": {
-                "part1": "Ви впевнено, що хочете покинути <1>{{serverName}}</1>?",
-                "part2": "Ви можете приєднатися знову коли завгодно!"
+                "part1": "Ви впевнені, що хочете покинути <1>{{serverName}}</1>?",
+                "part2": "Ви можете знову приєднатися до серверу коли завгодно!"
             },
             "cancelButton": "Не покидати",
             "confirmButton": "Покинути"
         },
         "channelPermissions": {
-            "hiddenChannel": "Захований канал",
+            "hiddenChannel": "Прихований канал",
             "publicChannel": "Публічний канал",
-            "publicChannelDescription": "Уключити доступ до каналу. Розпорядники сервера мають доступ до всіх каналів.",
-            "sendMessage": "Досилати повідомлення",
-            "sendMessageDescription": "Уключити досилання повідомлень у цім каналу. Розпорядники сервера можуть досилати повідомлення незалежно від цього дозволу.",
+            "publicChannelDescription": "Дати доступ до каналу. Адміни сервера мають доступ до всіх каналів.",
+            "sendMessage": "Надсилати сповіщення",
+            "sendMessageDescription": "Включити надсилання повідомлень в цьому каналі. Розпорядники сервера можуть досилати повідомлення незалежно від цього дозволу.",
             "joinVoice": "Долучатися до виклику",
-            "joinVoiceDescription": "Уключити виклики у цім каналу. Розпорядники сервера можуть долучатися до викликів незалежно від цього дозволу."
+            "joinVoiceDescription": "Включити виклики в цьому каналі. Адміни сервера можуть долучатися до викликів незалежно від цього дозволу."
         }
     },
     "settings": {
@@ -519,9 +519,9 @@
             "developer": "Для розробників",
             "applications": "Застосунки",
             "experiments": "Експерименти",
-            "badges": "Облямівки",
+            "badges": "Бейджи",
             "viewSource": "Дивитися вихідний код",
-            "changelog": "Спис змін",
+            "changelog": "Лог змін",
             "window-settings": "Налаштуванні вікна",
             "call-settings": "Налаштуванні виклику",
             "activity-status": "Статус діяльности",
