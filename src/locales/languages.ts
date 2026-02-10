@@ -66,10 +66,7 @@ export const languages: Record<string, Language> = {
     name: "Dutch",
     nativeName: "Nederlands",
     emoji: "🇳🇱",
-    contributors: [
-      "https://github.com/captainqdev",
-      "https://github.com/sunmoonrbx"
-    ]
+    contributors: ["https://github.com/captainqdev", "Smoonium"]
   },
   "fr-FR": {
     name: "French",
