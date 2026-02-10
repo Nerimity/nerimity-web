@@ -782,7 +782,7 @@
                 "willNotGetDeleted": "Що не буде вилучено:",
                 "andMore": "• і більше",
                 "willNotGetDeletedDescription": "Ви можете вручну видалити їх перш ніж видалити ваш додаток.",
-                "deleteAppButton": "Видалити додаток"
+                "deleteAppButton": "Видалити цей додаток"
             }
         },
         "experiments": {
