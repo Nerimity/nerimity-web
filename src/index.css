@@ -15,6 +15,11 @@ body {
   overscroll-behavior: none;
 }
 
+:root {
+  --header-height: 50px;
+  --bottom-pane-gap: 70px;
+}
+
 #root.mobileAgent {
   -webkit-user-select: none;
 }
