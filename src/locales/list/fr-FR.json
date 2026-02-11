@@ -1206,5 +1206,16 @@
         "cancelButton": "Ne pas transférer",
         "transferButton": "Transfert",
         "transferring": "Transfert…"
+    },
+    "welcomePopup": {
+        "subtitle": "Merci d'avoir essayé Nerimity !",
+        "joinServer": "Rejoindre le serveur officiel Nerimity",
+        "editProfile": "Modifier mon profil",
+        "support": "Soutenez-moi sur {{platform}}",
+        "contribute": "Contribuez à Nerimity sur Github"
+    },
+    "logoutModal": {
+        "title": "Déconnexion ?",
+        "body": "Êtes-vous vraiment sûr de vous vouloir déconnecter ?"
     }
 }

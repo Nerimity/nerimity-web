@@ -997,10 +997,17 @@
             "title": "traducción",
             "error": "Traducción fallida"
         },
-        "imageMessage": "Mensaje de imagen"
+        "imageMessage": "Mensaje de imagen",
+        "viewMessages": "Ver Mensajes",
+        "quote": {
+            "invalid": "Cita eliminada o no válida.",
+            "nested": "Cita anidada"
+        }
     },
     "colorPickerModal": {
-        "title": "Selector de color"
+        "title": "Selector de color",
+        "solid": "Solido",
+        "gradient": "Gradiente"
     },
     "photoEditor": {
         "title": "Editor de fotos",
