@@ -30,7 +30,7 @@
         "password": "كلمة المرور",
         "login": "تسجيل الدخول",
         "createAccountInstead": "إنشاء حساب بدلاً من ذلك",
-        "loggingIn": "جارٍ تسجيل الدخول..."
+        "loggingIn": "جارٍ تسجيل الدخول. . ."
     },
     "registerPage": {
         "header": "التسجيل",
@@ -38,7 +38,7 @@
             "title": "ملاحظات",
             "toxic": "لا تكن توكسيك.",
             "nsfw": "ممنوع المحتوى الإباحي.",
-            "age": "يجب أن يكون عمرك أكثر من 14 سنة."
+            "age": "يجب أن يكون عمرك 14 سنة أو أكثر."
         },
         "title": "‫مرحباً بك في {{appName}}‬",
         "email": "البريد الإلكتروني",
@@ -47,7 +47,7 @@
         "confirmPassword": "تأكيد كلمة المرور",
         "agreement": "بإنشاء حساب، أنت توافق على الشروط والأحكام وسياسة الخصوصية.",
         "registerButton": "تسجيل",
-        "registering": "جارٍ التسجيل...",
+        "registering": "جارٍ التسجيل…",
         "loginInstead": "تسجيل الدخول بدلاً من ذلك"
     },
     "resetPassword": {
@@ -56,10 +56,10 @@
         "passwordsDoNotMatch": "كلمة المرور غير متطابقة.",
         "passwordTooLong": "يجب أن تكون كلمة المرور أقل من 72 حرفاً.",
         "resetPasswordButton": "إعادة تعيين كلمة المرور",
-        "resetting": "جارٍ إعادة التعيين...",
+        "resetting": "جارٍ إعادة التعيين…",
         "email": "البريد الإلكتروني",
         "sendEmailButton": "إرسال البريد",
-        "sending": "جارٍ إرسال البريد..."
+        "sending": "جارٍ إرسال البريد الإلكتروني…"
     },
     "dashboard": {
         "title": "لوحة التحكم",
@@ -73,7 +73,26 @@
     },
     "messageArea": {
         "messageBoxPlaceholder": "‫أرسل رسالة إلى {{username}}‬",
-        "messageBoxChannelPlaceholder": "‫أرسل رسالة في {{channelName}}‬"
+        "messageBoxChannelPlaceholder": "‫أرسل رسالة في {{channelName}}‬",
+        "replying": "الرد على {{count}} رسائل",
+        "mention": "يذكر",
+        "dropFile": "رفع الملف",
+        "uploadTo": "رفع إلى",
+        "channelNotice": {
+            "title": "قبل أن تدردش…",
+            "understoodButton": "مفهوم"
+        },
+        "specialMentions": {
+            "everyone": "يذكر الجميع",
+            "someone": "يذكر مستخدم عشوائي",
+            "silent": "رسالة صامتة"
+        },
+        "linkToGoogleDrive": {
+            "body": "يجب عليك ربط حسابك ب Google Drive من أجل رفع صور، فيديوهات، أو ملفات ذات حجم أكبر",
+            "linkButton": "اربط الآن",
+            "cancelButton": "لا تربط"
+        },
+        "emailNotice": "قم بتأكيد بريدك الإلكتروني لإرسال الرسائل."
     },
     "inbox": {
         "blockedUsersModal": {
@@ -545,6 +564,85 @@
             "avatar": "الصورة الرمزية",
             "banner": "الغلاف",
             "browse": "تصفح"
+        },
+        "nothingSelected": "لا شيء محدد",
+        "closeButton": "إغلاق",
+        "editButton": "تعديل",
+        "undoButton": "تراجع",
+        "cannotBeUndone": "غير قابل للتراجع!"
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "</2> تمت إضافته إلى السيرفر. <2><User/>"
         }
+    },
+    "statusHeader": {
+        "authenticationError": "خطأ في المصادقة",
+        "connecting": "جارٍ الإتصال…",
+        "reconnecting": "إعادة الإتصال…",
+        "authenticating": "يتم المصادقة…",
+        "connected": "تم الإتصال!"
+    },
+    "dangerousLinkModal": {
+        "title": "رابط مخصص",
+        "message": "سينقلك الرابط إلى",
+        "cancelButton": "لا تزر",
+        "visitButton": "زر"
+    },
+    "connectionErrorModal": {
+        "title": "خطأ في الإتصال",
+        "ok": "حسنا",
+        "noToken": "رمز مميز غير متوفر.",
+        "suspended": "أنت موقوف.",
+        "reason": "السبب",
+        "until": "إلى",
+        "never": "أبدا",
+        "by": "من طرف",
+        "deletionNotice": "حسابك ومعلوماتك سيتم خذفها خلال 15 يوما",
+        "ipBanned": "تم حظر IP الخاص بك.",
+        "ipBanNotice": "تم توقبف شخص بنفس IP من Nerimity. حسابك لم يتأثر."
+    },
+    "welcomePopup": {
+        "subtitle": "نشكرك على تجربة Nerimity!",
+        "joinServer": "انضم إلى سيرفر Nerimity الرسمي",
+        "editProfile": "تعديل الملف الشخصي",
+        "support": "ادعمي في {{platform}}",
+        "contribute": "ساهم في Nerimity على GitHub"
+    },
+    "status": {
+        "online": "متصل",
+        "ltp": "يتطلع إلى لعب",
+        "afk": "بعيد عن لوحة المفاتيح",
+        "dnd": "عدم الإزعاج",
+        "offline": "غير متصل",
+        "appearAsOffline": "ظهور كغير متصل"
+    },
+    "sidePane": {
+        "home": "الرئيسبة",
+        "homeShort": "الرئيسية",
+        "moderation": "قسم الإشراف",
+        "moderationShort": "المشرف",
+        "addServer": "إضافة سيرفر"
+    },
+    "updateModal": {
+        "title": "تحديث متوفر",
+        "updateButton": "تحديث الآن",
+        "laterButton": "لاحقا",
+        "releasedAt": "تم إطلاقه في"
+    },
+    "inputFieldActions": {
+        "copy": "نسخ",
+        "cut": "قص",
+        "paste": "لصق"
+    },
+    "dropDown": {
+        "selectItem": "حدد عنصر",
+        "selectItemMultiple": "حدد عنصر/عناصر",
+        "itemsSelected": "{{count}} عنصر/عناصر محدد(ة)"
+    },
+    "markup": {
+        "bold": "سميك",
+        "italic": "إيطالي",
+        "strikethrough": "خط في الوسط"
     }
 }
