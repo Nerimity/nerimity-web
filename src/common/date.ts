@@ -227,7 +227,7 @@ function convertSecondsForActivityStatus(totalSecs: number) {
 
   const hours = totalHours % 24;
   const mins = totalMins % 60;
-  const secs = totalSecs % 60;
+  const secs = Math.floor(totalSecs % 60);
 
   const values = [];
 
