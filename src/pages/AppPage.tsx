@@ -83,6 +83,9 @@ const MainPaneContainer = styled("div")<MainPaneContainerProps>`
   flex-shrink: 0;
   background: var(--pane-color);
 
+  /* Account for header height in children's scroll targets */
+  scroll-padding-top: var(--header-height);
+
   &[data-is-mobile-agent="false"] {
     &:-webkit-scrollbar {
       display: none;
@@ -240,6 +243,7 @@ function RightDrawer() {
         "flex-direction": "column",
         gap: "4px",
         overflow: "auto",
+        "scroll-padding-top": "var(--header-height)",
         height: "100%"
       }}
     >
@@ -270,6 +274,7 @@ function LeftDrawer() {
         "flex-direction": "column",
         gap: "4px",
         overflow: "auto",
+        "scroll-padding-top": "var(--header-height)",
         height: "100%"
       }}
     >
