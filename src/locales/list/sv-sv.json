@@ -565,6 +565,11 @@
             "notice": "Stötta detta projekt genom att skänka pengar.",
             "palestineDescription": "Kan sättas på genom profilinställningar",
             "price": "{{price}} Emblem"
+        },
+        "privacy": {
+            "friendRequest": {
+                "title": "Vänförfrågan"
+            }
         }
     },
     "welcomePopup": {
