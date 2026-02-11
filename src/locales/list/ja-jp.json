@@ -59,6 +59,48 @@
         }
     },
     "general": {
-        "nothingSelected": ""
+        "nothingSelected": "",
+        "searchPlaceholder": "検索",
+        "backButton": "戻り",
+        "cancelButton": "キャンセル",
+        "closeButton": "閉じる",
+        "editButton": "編集",
+        "undoButton": "元に戻す",
+        "deleteButton": "削除",
+        "cannotBeUndone": "この操作は元に戻せません!",
+        "confirmButton": "確認",
+        "doneButton": "完了",
+        "saveButton": "保存",
+        "saveChangesButton": "変更を保存",
+        "saving": "保存中…",
+        "copyLink": "リンクをコピー",
+        "copyID": "IDをコピ",
+        "accountData": {
+            "email": "メールアドレス",
+            "username": "ユーザー名",
+            "password": "パスワード"
+        },
+        "avatarAndBanner": {
+            "avatar": "アバター",
+            "banner": "ヘッダー画像",
+            "supportedFileTypes": "対応形式:{{extensions}} ,最大{{size}}",
+            "browse": "参照"
+        }
+    },
+    "header": {
+        "logoutButton": "ログアウト",
+        "openAppButton": "アプリを開く",
+        "loginButton": "ログイン",
+        "joinNowButton": "今すぐ参加"
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<User/><2> がサーバーに追加されました。</2>",
+            "user": "<User/><2> がサーバーに参加しました。</2>"
+        },
+        "leaveServer": "<User/><2> がサーバーを退出しました。</2>",
+        "kickUser": "<User/><2> がキックされました。</2>",
+        "banUser": "<User/><2> が禁止されました。</2>",
+        "callStarted": "<User/><2> が通話を開始しました。</2>"
     }
 }
