@@ -9,9 +9,6 @@ export const [timeFormat, setTimeFormat] = useLocalStorage<"12hr" | "24hr">(
   true    
 );
 
-// Weeks are not working as intended. update package when this gets merged.
-// https://github.com/iamkun/dayjs/pull/2811
-
 // make a function where if the number is less than 10, it will add a 0 in front of it
 
 function pad(num: number) {
@@ -214,87 +211,109 @@ export function calculateTimeElapsedForActivityStatus(
   return convertSecondsForActivityStatus(timeElapsedInSeconds);
 }
 
-function convertSecondsForActivityStatus(totalSeconds: number) {
-  const secondsToMs = totalSeconds * 1000;
-  const duration = dayjs.duration(secondsToMs);
+function convertSecondsForActivityStatus(totalSecs: number) {
+  const monthLength = 30;
 
-  const yrs = duration.years();
-  const mnts = duration.months();
-  const wks = duration.weeks();
-  const days = duration.days();
-  const hrs = duration.hours();
-  const mins = duration.minutes();
-  const secs = duration.seconds();
+  const totalMins = Math.floor(totalSecs / 60);
+  const totalHours = Math.floor(totalMins / 60);
+  const totalDays = Math.floor(totalHours / 24);
+
+  const years = Math.floor(totalDays / 365);
+  const yearRemaining = totalDays % 365;
+  const months = Math.floor(yearRemaining / monthLength);
+  const monthRemaining = yearRemaining % monthLength;
+  const weeks = Math.floor(monthRemaining / 7);
+  const days = monthRemaining % 7;
+
+  const hours = totalHours % 24;
+  const mins = totalMins % 60;
+  const secs = totalSecs % 60;
 
   const values = [];
-  if (yrs) {
-    values.push(yrs + "y");
-  }
-  if (mnts) {
-    values.push(mnts + "m");
-  }
-  if (wks) {
-    values.push(wks + "w");
-  }
-  if (days) {
-    values.push(days + "d");
-  }
-  if (hrs) {
-    values.push(hrs + "h");
-  }
-  if (mins) {
-    values.push(mins + "m");
-  }
-  if (secs) {
-    values.push(secs + "s");
+
+  if (totalSecs < 1) {
+    values.push("0s");
+  } else if (totalHours < 1) {
+    if (mins) values.push(mins + "m");
+    if (secs) values.push(secs + "s");
+  } else if (totalDays < 1) {
+    if (hours) values.push(hours + "h");
+    if (mins) values.push(mins + "m");
+  } else if (totalDays < 7) {
+    if (days) values.push(days + "d");
+    if (hours) values.push(hours + "h");
+  } else if (totalDays < monthLength) {
+    if (weeks) values.push(weeks + "w");
+    if (days) values.push(days + "d");
+  } else if (totalDays < 365) {
+    if (months) values.push(months + "mo");
+    if (weeks) values.push(weeks + "w");
+    if (days && weeks === 0 && months < 2) {
+      values.push(days + "d");
+    }
+  } else {
+    if (years) values.push(years + "y");
+    if (months) values.push(months + "mo");
   }
 
-  return values.slice(0, 2).join(" ");
+  return values.join(" ");
 }
 
 export function timeSinceMentions(timestamp: number) {
-  const duration = dayjs.duration(Math.abs(Date.now() - timestamp));
-  const now = new Date();
-
-  const rawSecondsPast = (now.getTime() - timestamp) / 1000;
+  const rawDuration = Date.now() - timestamp;
+  const duration = Math.abs(rawDuration);
 
   const text = (...values: string[]) => {
     const value = values.filter(Boolean).join(" ");
-    return rawSecondsPast < 0 ? `In ${value}` : `${value} ago`;
+    return rawDuration < 0 ? `In ${value}` : `${value} ago`;
   };
 
-  const yrs = duration.years();
-  const mnts = duration.months();
-  const wks = duration.weeks();
-  const days = duration.days();
-  const hrs = duration.hours();
-  const mins = duration.minutes();
-  const secs = duration.seconds();
+  const monthLength = 30;
+
+  const totalSecs = Math.floor(duration / 1000);
+  const totalMins = Math.floor(totalSecs / 60);
+  const totalHours = Math.floor(totalMins / 60);
+  const totalDays = Math.floor(totalHours / 24);
+
+  const years = Math.floor(totalDays / 365);
+  const yearRemaining = totalDays % 365;
+  const months = Math.floor(yearRemaining / monthLength);
+  const monthRemaining = yearRemaining % monthLength;
+  const weeks = Math.floor(monthRemaining / 7);
+  const days = monthRemaining % 7;
+
+  const hours = totalHours % 24;
+  const mins = totalMins % 60;
+  const secs = totalSecs % 60;
 
   const values = [];
-  if (yrs) {
-    values.push(pluralize(yrs, "year"));
-  }
-  if (mnts) {
-    values.push(pluralize(mnts, "month"));
-  }
-  if (wks) {
-    values.push(pluralize(wks, "week"));
-  }
-  if (days) {
-    values.push(pluralize(days, "day"));
-  }
-  if (hrs) {
-    values.push(pluralize(hrs, "hour"));
-  }
-  if (mins) {
-    values.push(pluralize(mins, "minute"));
-  }
-  if (secs) {
-    values.push(pluralize(secs, "second"));
+
+  if (totalSecs < 1) {
+    values.push("0 seconds");
+  } else if (totalHours < 1) {
+    if (mins) values.push(pluralize(mins, "minute"));
+    if (secs) values.push(pluralize(secs, "second"));
+  } else if (totalDays < 1) {
+    if (hours) values.push(pluralize(hours, "hour"));
+    if (mins) values.push(pluralize(mins, "minute"));
+  } else if (totalDays < 7) {
+    if (days) values.push(pluralize(days, "day"));
+    if (hours) values.push(pluralize(hours, "hour"));
+  } else if (totalDays < monthLength) {
+    if (weeks) values.push(pluralize(weeks, "week"));
+    if (days) values.push(pluralize(days, "day"));
+  } else if (totalDays < 365) {
+    if (months) values.push(pluralize(months, "month"));
+    if (weeks) values.push(pluralize(weeks, "week"));
+    if (days && weeks === 0 && months < 2) {
+      values.push(pluralize(days, "day"));
+    }
+  } else {
+    if (years) values.push(pluralize(years, "year"));
+    if (months) values.push(pluralize(months, "month"));
   }
 
-  return text(values.slice(0, 2).join(" "));
+  return text(values.join(" "));
 }
 
 function pluralize(
