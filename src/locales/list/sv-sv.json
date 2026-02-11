@@ -393,7 +393,8 @@
                 "pingDescription": "Visa en aviseringsindikator.",
                 "sound": "Aviseringsljud",
                 "soundDescription": "Gör ett ljud när du får en avisering.",
-                "channelsDescription": "Hantera aviseringar per kanal."
+                "channelsDescription": "Hantera aviseringar per kanal.",
+                "resetButton": "Återställ Överskridningar({{count}})"
             },
             "emoji": {
                 "title": "Egen Emoji",
@@ -414,7 +415,11 @@
                 "publicDescription": "Gör denna server offentlig.",
                 "bumpServer": "Bumpa servern",
                 "bumpServerDescription": "Bumpa servern till toppen.",
-                "bumpButton": "Bump ({{count}})"
+                "bumpButton": "Bump ({{count}})",
+                "descriptionLabel": "Serverbeskrivning ({{current}}/{{max}})",
+                "publishServerButton": "Publicera",
+                "unpublishServerButton": "Avpublicera",
+                "bumpCooldown": "Du måste vänta {{hours}} timmar, {{minutes}} minuter, och {{seconds}} sekunder för att bumpa denna server."
             },
             "verify": {
                 "requirements": {
@@ -424,7 +429,11 @@
                     "avatarAndBanner": "Bild & Bakgrund",
                     "avatarAndBannerDescription": "Servern måste ha en bild och bakgrund.",
                     "rules": "Serverregler",
-                    "rulesDescription": "Servern måste ha en kanal med regler."
+                    "rulesDescription": "Servern måste ha en kanal med regler.",
+                    "title": "Krav",
+                    "englishOnly": "Endast engelska",
+                    "englishOnlyDescription": "Servrar som inte är på engelska är svårare att moderera.",
+                    "oneMonthOrSupporter": "Minst 1 månad ELLER supporter emblem"
                 },
                 "perks": {
                     "title": "Förmåner",
@@ -437,7 +446,12 @@
                     "emojiSlots": "Mer platser för emojis",
                     "emojiSlotsDescription": "200st emojis till din server.",
                     "hdScreenshare": "1080p@60fps skärmdelning"
-                }
+                },
+                "alreadyVerified": "Din server är redan verifierad!",
+                "insufficientMembers": "Du behöver {{count}} mer medlem/medlemmar för att ansöka om verifiering.",
+                "verifiable": "Redo för verifiering",
+                "verifiableDescription": "Du har nog med medlemmar för att verifiera din server!",
+                "verifyButton": "Verifiera"
             }
         },
         "rolePermissions": {
@@ -471,7 +485,18 @@
         "drawer": {
             "privacy": "Sekretess",
             "connections": "Anslutningar",
-            "profile": "Profil"
+            "profile": "Profil",
+            "title": "Inställningar",
+            "account": "Konto",
+            "interface": "Gränssnitt",
+            "language": "Språk",
+            "notifications": "Aviseringar",
+            "developer": "Utvecklare",
+            "applications": "Applikationer",
+            "experiments": "Experiment",
+            "badges": "Emblemer",
+            "viewSource": "Visa Källa",
+            "changelog": "Ändringslogg"
         },
         "language": {
             "reloadNotice": "Starta om appen för att applicera översättningen helt.",
@@ -514,7 +539,12 @@
             "deleteAccount": "Radera mitt konto",
             "deleteAccountDescription": "Detta kan ej ångras!",
             "deleteAccountNotice": "Du måste lämna/radera alla dina servrar innan du kan radera ditt konto.",
-            "understoodButton": "Jag förstår"
+            "understoodButton": "Jag förstår",
+            "deletedInfo": {
+                "bio": "• Beskrivning",
+                "messages": "• Dina meddelanden"
+            },
+            "deleteCheckbox": "Radera mina inlägg och meddelanden"
         },
         "notifications": {
             "message": "Meddelande",
@@ -529,6 +559,24 @@
             "reminder": "Påminnelse",
             "reminderDescription": "Aviseringar för påminnelser.",
             "inAppPreview": "Förhandsvisning i appen"
+        },
+        "badges": {
+            "noticeTitle": "Donationer",
+            "notice": "Stötta detta projekt genom att skänka pengar.",
+            "palestineDescription": "Kan sättas på genom profilinställningar",
+            "price": "{{price}} Emblem"
         }
+    },
+    "welcomePopup": {
+        "subtitle": "Tack för att du provar på Nerimity!",
+        "joinServer": "Gå med i den officiella Nerimity servern",
+        "editProfile": "Redigera min profil",
+        "support": "Stötta mig på {{platform}}",
+        "contribute": "Bidra till Nerimity på GitHub"
+    },
+    "dropDown": {
+        "selectItem": "Markera Objekt",
+        "selectItemMultiple": "Markera Objekt",
+        "itemsSelected": "{{count}} objekt markerade"
     }
 }
