@@ -36,7 +36,7 @@
 .roleTitle {
   position: sticky;
   z-index: 11111;
-  top: 56px;
+  top: calc(var(--header-height) + 6px);
   display: flex;
   align-items: center;
   padding: 4px;

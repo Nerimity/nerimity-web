@@ -15,6 +15,10 @@ body {
   overscroll-behavior: none;
 }
 
+:root {
+  --header-height: 50px;
+}
+
 #root.mobileAgent {
   -webkit-user-select: none;
 }
