@@ -228,7 +228,7 @@
                 "publicDescription": "Bu sunucuyu herkese açık yap.",
                 "bumpServer": "Sunucuyu Öne Çıkar",
                 "bumpServerDescription": "Sunucuyu üste çıkartmak için sunucuyu öne çıkar.",
-                "publishServerButton": "Sunucuyu yayınla",
+                "publishServerButton": "Yayınla",
                 "unpublishServerButton": "Sunucuyu yayından kaldır",
                 "bumpButton": "Öne Çıkar ({{count}})",
                 "descriptionLabel": "Sunucu Açıklaması ({{current}}/{{max}})",
@@ -303,13 +303,16 @@
                     "editModal": {
                         "title": "Cevabı Düzenle",
                         "answer": "Cevap",
-                        "placeholder": "Kediler"
+                        "placeholder": "Kediler",
+                        "selectRoles": "Rolleri seç"
                     }
-                }
+                },
+                "description": "Sorular hazırla. Kullanıcıların roller atamasına izin ver."
             },
             "notifications": {
                 "sound": "Bildirim Sesi",
-                "soundDescription": "Bildirim aldığında bir ses çıkarır."
+                "soundDescription": "Bildirim aldığında bir ses çıkarır.",
+                "channelsDescription": "Bildirimleri kanal başına düzenleyin."
             },
             "emoji": {
                 "title": "Özel Emoji",
@@ -318,7 +321,8 @@
             },
             "externalEmbed": {
                 "noInvites": {
-                    "createButton": "Davet Oluştur"
+                    "createButton": "Davet Oluştur",
+                    "title": "Hiç Davet Oluşturulmadı"
                 },
                 "title": "Harici Gömülü Bağlantı Oluştur",
                 "dropdownPlaceholder": "Daveti Seç",
@@ -326,7 +330,8 @@
                     "hideHeader": "Başlığı Gizle",
                     "hideMembers": "Üye Listesini Gizle",
                     "hideActivities": "Aktivite Listesini Gizle"
-                }
+                },
+                "description": "Websiteniz için harici IFrame yerleştirmesi oluşturun."
             }
         },
         "rolePermissions": {
@@ -435,7 +440,8 @@
             "resendIn": "{{time}} içinde tekrar gönder",
             "bioDescription": "Çok satırlı ve biçimlendirme desteği",
             "usernameFont": "Kullanıcı adı yazı tipi",
-            "default": "Uygulama varsayılanı"
+            "default": "Uygulama varsayılanı",
+            "confirmPasswordToContinue": "Devam etmek için şifrenizi doğrulayın"
         },
         "privacy": {
             "lastOnline": {
@@ -528,7 +534,12 @@
             "sendButton": "Mesaj Gönder",
             "timeTitle": "Saat Biçimini Değiştir",
             "12HourFormatDescription": "Zamanı AM/PM ile 12 saat biçiminde görüntüle.",
-            "24HourFormatDescription": "Zamanı 24 saat biçiminde görüntüle."
+            "24HourFormatDescription": "Zamanı 24 saat biçiminde görüntüle.",
+            "swipeToOpen": "",
+            "exportButton": "Dışa Aktar",
+            "importButton": "İçe Aktar",
+            "exportModal": "Tema panoya kopyalandı.",
+            "importModal": "Temayı buraya yapıştırın:"
         },
         "window": {
             "openOnStartup": "Başlangıçta Nerimity'i aç",
@@ -588,7 +599,40 @@
         "developer": {
             "oauth2": {
                 "description": "OAuth2'yi Yönet",
-                "generateLink": "Bağlantı Oluştur"
+                "generateLink": "Bağlantı Oluştur",
+                "documentation": "OAuth2 Dökümantasyonu",
+                "clientId": "İstemci ID",
+                "uri": "URI {{count}}"
+            },
+            "applicationsDescription": "Nerimity Botları Oluştur.",
+            "apiDocumentation": "API Dökümantasyonu (tamamlanmadı)",
+            "addButton": "Uygulama ekle",
+            "name": "Uygulama İsmi",
+            "botUser": "Bot Kullanıcı",
+            "createBotUser": "",
+            "editBotUser": "Botu Düzenle",
+            "createBotUserButton": "Kullanıcı Oluştur",
+            "refreshButton": "Yenile",
+            "bot": {
+                "createInvite": "Davet Bağlantısı Oluştur",
+                "createLinkButton": "Bağlantı Oluştur",
+                "token": "Token",
+                "tokenRefreshed": "Token yenilendi.",
+                "tokenCopied": "Token panoya kopyalandı.",
+                "permissionsDescription": "Bu bağlantı için izinleri düzenleyin.",
+                "publishBot": "Botu Yayınla",
+                "publishBotDescription": "Botunuzun diğer kullanıcılar tarafından bulunması için keşfet sayfasında yayınlayın.",
+                "publishNotice": "Botunuzu yayınlamak <1>keşfet</1> sayfasında bulunabilir yapacak.",
+                "bumpBot": "Botu Öne Çıkar",
+                "bumpBotCooldown": "Bu botu öne çıkartmak için {{hours}} saat, {{minutes}} dakika ve {{seconds}} saniye beklemeniz gerekiyor.",
+                "publicDescription": "Bu botu herkese açık yap.",
+                "botDescription": "Bot Açıklaması ({{current}}/{{max}})"
+            },
+            "deleteApplication": {
+                "title": "Uygulamayı Sil",
+                "andMore": "• Ve Daha Fazlası",
+                "willNotGetDeletedDescription": "Uygulamayı silmeden önce bunları manuel olarak silebilirsiniz.",
+                "deleteAppButton": "Bu uygulamayı sil"
             }
         },
         "experiments": {
@@ -666,7 +710,8 @@
         "markUnread": "Okunmamış Olarak İşaretle",
         "pinMessage": "Sabitle",
         "unpinMessage": "Sabitlemeyi Kaldır",
-        "copyHTML": "HTML Kopyala"
+        "copyHTML": "HTML Kopyala",
+        "copyMessageLink": "Mesaj Bağlantısını Kopyala"
     },
     "profile": {
         "followButton": "Takip Et",
@@ -697,11 +742,14 @@
             "editProfile": "Profili Düzenle",
             "customStatus": "Durum"
         },
-        "badge": "{{badgeName}} Rozet"
+        "badge": "{{badgeName}} Rozet",
+        "fullProfile": "Tam Profil",
+        "expiresNever": "Süresi asla dolmaz."
     },
     "posts": {
         "deletePostModal": {
-            "message": "Bu gönderiyi silmek istediğinden emin misin?"
+            "message": "Bu gönderiyi silmek istediğinden emin misin?",
+            "title": "Gönderiyi sil?"
         },
         "postWasDeleted": "Bu gönderi silindi!",
         "someoneLikedYourPost": "<1>{{username}}</1> gönderini beğendi!",
@@ -713,7 +761,22 @@
         "replyButton": "Yanıtla",
         "createButton": "Oluştur",
         "pollOptions": "Anket Seçenekleri",
-        "optionNumberPlaceholder": "Seçenek {{number}}"
+        "optionNumberPlaceholder": "Seçenek {{number}}",
+        "title": "Gönderi",
+        "viewCount": "Tahmini Görüntülenme Sayısı",
+        "pinned": "Sabitlenmiş",
+        "voteButton": "Oyla",
+        "voteCount": "{{count}} Oy(lar)",
+        "copyPostButton": "Gönderiyi Kopyala",
+        "sections": {
+            "replies": "Yanıtlar ({{count}})",
+            "likes": "Beğeniler ({{count}})"
+        },
+        "editPostModalTitle": "Gönderiyi düzenle",
+        "sort": {
+            "latest": "En Son",
+            "mostLiked7Days": ""
+        }
     },
     "informationDrawer": {
         "channelNotice": "Kanal Hatırlatması",
@@ -755,7 +818,7 @@
     },
     "googleAccountLink": {
         "success": "Hesabın Google ile bağlandı! Bu pencereyi artık kapatabilirsin.",
-        "linking": "Google Hesabın bağlanıyor…"
+        "linking": "Google Hesabı bağlanıyor…"
     },
     "invite": {
         "joinButton": "Katıl",
@@ -769,8 +832,8 @@
     "fileEmbed": {
         "viewImage": "Fotoğrafı Görüntüle",
         "download": "Yükle",
-        "expires": "Süresi dolacak",
-        "expired": "Tarihi geçmiş",
+        "expires": "",
+        "expired": "",
         "modifiedOrDeleted": "Bu dosya Google Drive'da yaratıcısı tarafından değiştirildi/silindi."
     },
     "message": {
@@ -919,7 +982,8 @@
         "cancelButton": "Silme"
     },
     "colorPickerModal": {
-        "title": "Renk Seçici"
+        "title": "Renk Seçici",
+        "gradient": "Gradyan"
     },
     "photoEditor": {
         "title": "Fotoğraf Düzenleyici",
@@ -978,7 +1042,7 @@
         },
         "bot": {
             "name": "Bot Kullanıcı",
-            "description": "Bot Kullanıcı"
+            "description": "Bu kullanıcı bir bot"
         },
         "credit": {
             "avatarBorder": "{{platform}}'da {{author}} tarafından Avatar Çerçevesi",
@@ -1108,5 +1172,21 @@
         "title": "{{username}} kullanıcısını arkadaşlıktan çıkar",
         "body": "Bu kullanıcıyı arkadaşlıktan çıkarmak istediğine emin misin?",
         "removing": "Kaldırılıyor…"
+    },
+    "welcomePopup": {
+        "subtitle": "Nerimity'i denediğiniz için teşekkürler!",
+        "joinServer": "Resmi Nerimity sunucusuna katıl",
+        "editProfile": "Profilimi düzenle",
+        "support": "Beni {{platform}} üzerinden destekle",
+        "contribute": "GitHub'da Nerimity'ye katkıda bulunun"
+    },
+    "logoutModal": {
+        "title": "Çıkış Yap?",
+        "body": "Çıkış yapmak istediğine emin misin?",
+        "clearSettings": "Yerel Ayarları Temizle",
+        "cancelButton": "Çıkış Yapma"
+    },
+    "botButtonModal": {
+        "notice": "Hassas bilgilerinizi asla paylaşmayın"
     }
 }
