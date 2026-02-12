@@ -602,6 +602,7 @@ function RoleItem(props: {
         <Show when={props.roleIcon}>
           <Emoji
             hovered={hovered()}
+            defaultPaused={true}
             size={16}
             resize={26}
             icon={props.roleIcon}

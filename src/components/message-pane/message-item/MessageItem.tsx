@@ -260,6 +260,7 @@ const Details = (props: DetailsProps) => {
             title={role().name}
             size={16}
             icon={role().icon}
+            defaultPaused={true}
             hovered={props.hovered}
             resize={26}
           />

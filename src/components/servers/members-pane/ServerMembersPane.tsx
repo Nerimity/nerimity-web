@@ -240,23 +240,30 @@ export default function Pane() {
                   <Table.Field>
                     <div class={style.rolesList}>
                       <For each={roles().slice(0, 3)}>
-                        {(role) => (
-                          <div class={style.nerimityRoleBadge}>
-                            <Show when={role?.icon}>
-                              <Emoji size={14} icon={role.icon} hovered />
-                            </Show>
-                            <span
-                              class={style.roleCircle}
-                              style={{
-                                background:
-                                  role.gradient || role.hexColor || "#fff",
-                              }}
-                            />
-                            <span style={{ color: role.hexColor || "inherit" }}>
-                              {role.name}
-                            </span>
-                          </div>
-                        )}
+                        {(role) => {
+                          const [hovered, setHovered] = createSignal(false);
+                          return (
+                            <div
+                              class={style.nerimityRoleBadge}
+                              onMouseEnter={() => setHovered(true)}
+                              onMouseLeave={() => setHovered(false)}
+                            >
+                              <Show when={role?.icon}>
+                                <Emoji size={14} icon={role.icon} hovered={hovered()} />
+                              </Show>
+                              <span
+                                class={style.roleCircle}
+                                style={{
+                                  background:
+                                    role.gradient || role.hexColor || "#fff",
+                                }}
+                              />
+                              <span style={{ color: role.hexColor || "inherit" }}>
+                                {role.name}
+                              </span>
+                            </div>
+                          );
+                        }}
                       </For>
 
                       <Show when={roles().length > 3}>

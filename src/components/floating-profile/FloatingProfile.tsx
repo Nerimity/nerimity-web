@@ -528,23 +528,30 @@ const DesktopProfileFlyout = (props: {
             />
             <div class={styles.rolesContainer}>
               <For each={member()?.roles(true)!}>
-                {(role) => (
-                  <div class={styles.roleContainer}>
-                    <Show when={role?.icon}>
-                      <Emoji size={16} resize={26} icon={role?.icon} hovered />
-                    </Show>
-                    <Text
-                      class={styles.roleName}
-                      style={{
-                        "--gradient": role.gradient || role.hexColor,
-                        "--color": role.hexColor || "#fff"
-                      }}
-                      size={12}
+                {(role) => {
+                  const [hovered, setHovered] = createSignal(false);
+                  return (
+                    <div
+                      class={styles.roleContainer}
+                      onMouseEnter={() => setHovered(true)}
+                      onMouseLeave={() => setHovered(false)}
                     >
-                      {role?.name}
-                    </Text>
-                  </div>
-                )}
+                      <Show when={role?.icon}>
+                        <Emoji size={16} resize={26} icon={role?.icon} hovered={hovered()} />
+                      </Show>
+                      <Text
+                        class={styles.roleName}
+                        style={{
+                          "--gradient": role.gradient || role.hexColor,
+                          "--color": role.hexColor || "#fff"
+                        }}
+                        size={12}
+                      >
+                        {role?.name}
+                      </Text>
+                    </div>
+                  );
+                }}
               </For>
             </div>
             <Show

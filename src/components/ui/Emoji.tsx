@@ -25,8 +25,9 @@ export const Emoji = (props: {
   size: number;
   resize?: number;
   hovered?: boolean;
+  defaultPaused?: boolean;
 }) => {
-  const { hasFocus } = useWindowProperties();
+  const { hasFocus, shouldAnimate } = useWindowProperties();
   const url = () => {
     if (props.icon!.includes(".")) {
       const shouldBeStatic = () => {
@@ -37,7 +38,7 @@ export const Emoji = (props: {
           return false;
         }
 
-        return !props.hovered || !hasFocus();
+        return props.defaultPaused ? !(props.hovered && hasFocus()) : !shouldAnimate(props.hovered);
       };
 
       const url = new URL(`${env.NERIMITY_CDN}emojis/${props.icon}`);
