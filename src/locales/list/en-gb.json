@@ -916,7 +916,7 @@
   },
   "muteModal": {
     "title": "Mute {{username}}?",
-    "message": "<1>{{username}}</1> will not be able to talk in this server for:",
+    "message": "<1>{{username}}</1> will not be able to talk in this server for: <2>{{duration}}</2>",
     "banButton": "Mute",
     "banning": "Muting…",
     "reasonLabel": "Reason (optional)",

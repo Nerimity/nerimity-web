@@ -41,6 +41,7 @@ import {
   setCachedVolumes
 } from "@/chat-api/store/useVoiceUsers";
 import { RadioBox } from "../ui/RadioBox";
+import { SteppedSlider, SteppedSliderStep } from "../ui/stepped-slider/SteppedSlider";
 type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string;
   userId: string;
@@ -218,13 +219,13 @@ export default function MemberContextMenu(props: Props) {
           { separator: true },
           ...(account.hasModeratorPerm(true)
             ? [
-                {
-                  label: "Moderation Pane",
-                  onClick: () =>
-                    navigate("/app/moderation/users/" + props.userId),
-                  icon: "security"
-                }
-              ]
+              {
+                label: "Moderation Pane",
+                onClick: () =>
+                  navigate("/app/moderation/users/" + props.userId),
+                icon: "security"
+              }
+            ]
             : []),
           {
             icon: "content_copy",
@@ -606,7 +607,7 @@ function MuteModal(props: {
   close: () => void;
 }) {
   const [requestSent, setRequestSent] = createSignal(false);
-  const [selectedDuration, setSelectedDuration] = createSignal(10 * 60000);
+  const [selectedDuration, setSelectedDuration] = createSignal<SteppedSliderStep>({ fullLabel: "10 minutes", label: "10m", value: 10 * 60000 });
 
   const [reason, setReason] = createSignal("");
 
@@ -614,9 +615,9 @@ function MuteModal(props: {
     if (requestSent()) return;
     setRequestSent(true);
 
-    let expireAt = new Date(Date.now() + selectedDuration()).getTime();
+    let expireAt = new Date(Date.now() + selectedDuration()?.value || 0).getTime();
 
-    if (selectedDuration() === 0) {
+    if (selectedDuration()?.value === 0) {
       // set expireAt to 2099
       const date = new Date();
       date.setFullYear(2099);
@@ -645,26 +646,26 @@ function MuteModal(props: {
         <div>
           <Trans
             key="muteModal.message"
-            options={{ username: props.user.username }}
+            options={{ username: props.user.username, duration: selectedDuration()?.fullLabel }}
           >
             <b>{"username"}</b> will not be able to talk in this server for:
+            <b>{"duration"}</b>
           </Trans>
         </div>
 
-        <RadioBox
-          items={[
-            { id: 10 * 60000, label: "10 Minutes" },
-            { id: 60 * 60000, label: "60 Minutes" },
-            { id: 12 * 3600000, label: "12 Hours" },
-            { id: 24 * 3600000, label: "24 Hours" },
-            { id: 7 * 86400000, label: "7 Days" },
-            { id: 30 * 86400000, label: "30 Days" },
-            { id: 0, label: "Forever" }
+        <SteppedSlider
+          steps={[
+            { fullLabel: "10 minutes", label: "10m", value: 10 * 60000 },
+            { fullLabel: "60 minutes", label: "60m", value: 60 * 60000 },
+            { fullLabel: "12 hours", label: "12h", value: 12 * 3600000 },
+            { fullLabel: "24 hours", label: "24h", value: 24 * 3600000 },
+            { fullLabel: "7 days", label: "7d", value: 7 * 86400000 },
+            { fullLabel: "30 days", label: "30d", value: 30 * 86400000 },
+            { fullLabel: "Never", label: "Never", value: 0 }
           ]}
-          initialId={selectedDuration()}
-          onChange={(item) => setSelectedDuration(item.id)}
+          currentValue={selectedDuration().value}
+          onChange={(step) => setSelectedDuration(step)}
         />
-
         <FlexColumn style={{ width: "100%" }}>
           <Text size={13} opacity={0.8} style={{ "margin-bottom": "6px" }}>
             {t("muteModal.reasonLabel") || "Reason (optional)"}
