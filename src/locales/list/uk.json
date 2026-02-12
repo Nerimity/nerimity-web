@@ -357,7 +357,7 @@
                 "questions": {
                     "addButton": "Додати питання",
                     "question": "Питання",
-                    "questionPlaceholder": "Котки чи собаки?",
+                    "questionPlaceholder": "Коти чи собаки?",
                     "multiselect": "Множинний вибір"
                 },
                 "answers": {
