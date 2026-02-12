@@ -29,8 +29,8 @@ export const useResizeBar = (opts: ResizeBarOpts) => {
     if (opts.invert) {
       newWidth = startWidth - (event.clientX - startX);
     }
-    if (newWidth < opts.minWidth) return;
-    if (newWidth >= opts.maxWidth) return;
+    if (newWidth < opts.minWidth) newWidth = opts.minWidth;
+    if (newWidth >= opts.maxWidth) newWidth = opts.maxWidth;
     if (opts.element()) {
       setWidth(newWidth);
     }
