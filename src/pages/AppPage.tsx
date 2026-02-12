@@ -70,6 +70,7 @@ const OuterMainPaneContainer = styled("div")`
   display: flex;
   flex-direction: column;
   flex: 1;
+  translate: 0; /* Create a new stacking context for fixed position elems */
 `;
 
 const MainPaneContainer = styled("div")<MainPaneContainerProps>`
@@ -79,6 +80,7 @@ const MainPaneContainer = styled("div")<MainPaneContainerProps>`
   flex: 1;
   flex-shrink: 0;
   background: var(--pane-color);
+  padding-top: var(--header-offset);
 
   &[data-is-mobile-agent="false"] {
     &:-webkit-scrollbar {
