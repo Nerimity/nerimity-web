@@ -9,6 +9,7 @@ export interface FavoriteGif {
   previewUrl: string;
   previewHeight: number;
   previewWidth: number;
+  tags?: string[];
 }
 
 // Map of URL -> FavoriteGif
@@ -21,7 +22,17 @@ export const [favorites, setFavorites] = makePersisted(
 
 export const favoritesStore = {
   add: (gif: FavoriteGif) => {
-    setFavorites(gif.url, gif);
+    setFavorites(gif.url, (prev) => {
+      const tags = [...(prev?.tags || [])];
+      if (gif.tags) {
+        for (const tag of gif.tags) {
+          if (tag && !tags.includes(tag)) {
+            tags.push(tag);
+          }
+        }
+      }
+      return { ...gif, tags };
+    });
   },
   remove: (url: string) => {
     setFavorites(produce((s) => {

@@ -186,6 +186,15 @@
   margin-left: 2px;
   margin-right: 8px;
   gap: 6px;
+
+  .no-favorites {
+    width: 100%;
+    text-align: center;
+    padding: 40px 20px;
+    color: rgb(255 255 255 / 50%);
+    font-size: 14px;
+    grid-column: 1 / -1;
+  }
 }
 
 .gifSearchItem {

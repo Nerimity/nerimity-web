@@ -114,7 +114,7 @@ export function EmojiPicker(props: {
             url: url,
             customElement: url
               ? undefined
-              : (size) =>
+              : (size: number) =>
                   Avatar({ size, server: { ...server, verified: false } }),
           },
           name: e.name,
@@ -229,7 +229,7 @@ const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
       <Show when={gifPickerSearch().trim() && !favoritesMode()}>
         <GifPickerImages
 
-          scrollElement={scrollElement}
+          scrollElement={scrollElement()}
           gifPicked={props.gifPicked}
           query={gifPickerSearch().trim()}
         />
@@ -239,7 +239,10 @@ const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
         onPick={(c) => setGifPickerSearch(c.searchterm)}
       />
       <Show when={favoritesMode()}>
-           <GifFavorites gifPicked={props.gifPicked} />
+           <GifFavorites 
+             query={gifPickerSearch().trim()} 
+             gifPicked={props.gifPicked} 
+           />
       </Show>
 
     </div>
@@ -255,7 +258,7 @@ const GifPickerSearchBar = (props: {
 
   const { isMobileAgent } = useWindowProperties();
 
-  const [inputRef] = createSignal<HTMLInputElement | null>(null);
+  const [inputRef, setInputRef] = createSignal<HTMLInputElement | null>(null);
   let timeout: null | number = null;
   const onInput = (e: InputEvent) => {
     if (timeout) {
@@ -276,8 +279,8 @@ const GifPickerSearchBar = (props: {
   return (
     <div class={styles.gifPickerSearchBar}>
       <Input
-        ref={inputRef}
-        placeholder="Search KLIPY"
+        ref={setInputRef}
+        placeholder={props.favoritesMode ? "Search favorites..." : "Search KLIPY"}
         value={gifPickerSearch()}
         onInput={onInput}
         class={styles.gifPickerSearchBarInput}
@@ -302,13 +305,27 @@ const GifPickerSearchBar = (props: {
   );
 };
 
-const GifFavorites = (props: { gifPicked?: (gif: TenorImage) => void }) => {
-    const favs = favoritesStore.getFavorites;
+const GifFavorites = (props: { 
+    gifPicked?: (gif: TenorImage) => void,
+    query?: string 
+}) => {
+    const allFavs = favoritesStore.getFavorites;
+    const favs = () => {
+        const q = props.query?.toLowerCase();
+        if (!q) return allFavs();
+        return allFavs().filter(f => 
+            f.url.toLowerCase().includes(q) || 
+            f.gifUrl.toLowerCase().includes(q) ||
+            f.tags?.some(tag => tag.toLowerCase().includes(q))
+        );
+    };
 
     return (
         <div class={styles.gifPickerSearches}>
             <Show when={favs().length === 0}>
-                <div class={styles.noFavorites}>No favorites yet</div>
+                <div class={styles["no-favorites"]}>
+                    {props.query ? "No results found" : "No favorites yet"}
+                </div>
             </Show>
             <For each={favs()}>
                 {(gif, index) => (
@@ -487,7 +504,8 @@ const GifPickerImageItem = (props: {
                     gifUrl: props.gifUrl || props.url,
                     previewUrl: props.url,
                     previewWidth: props.dimensions?.width || 0,
-                    previewHeight: props.dimensions?.height || 0
+                    previewHeight: props.dimensions?.height || 0,
+                    tags: gifPickerSearch().trim() ? [gifPickerSearch().trim()] : []
                 });
             }
         }}
