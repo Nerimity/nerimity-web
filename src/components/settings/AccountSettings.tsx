@@ -118,6 +118,7 @@ export function EditAccountPage(props: {
 
   const user = () => props.bot || account.user();
 
+
   const defaultInput = () => ({
     email: user()?.email || "",
     username: user()?.username || "",
@@ -490,13 +491,22 @@ export function EditAccountPage(props: {
         />
       </SettingsBlock>
 
-      <SettingsBlock
-        icon="info"
-        label="Looking for Profile Settings?"
-        description="Profile Settings has been moved to the settings drawer on the left."
-        href="/app/settings/profile"
-      />
+
+      <Show when={props.bot}>
+        <SettingsBlock
+          icon="person"
+          label={t("settings.account.profile")}
+          href="./profile"
+        />
+      </Show>
+
       <Show when={!props.bot}>
+        <SettingsBlock
+          icon="info"
+          label="Looking for Profile Settings?"
+          description="Profile Settings has been moved to the settings drawer on the left."
+          href="/app/settings/profile"
+        />
         <ChangePasswordButton
           onClick={onChangePasswordClick}
           style={{ "margin-bottom": "5px" }}
