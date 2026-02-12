@@ -127,7 +127,7 @@ export default function DeveloperApplicationBotSettings() {
         <SettingsBlock
           icon="link"
           label={t("settings.developer.bot.createInvite")}
-          href="./create-link"
+          href={`./${!showBotPage() ? "../" : ""}create-link`}
         >
           <Icon name="keyboard_arrow_right" />
         </SettingsBlock>
