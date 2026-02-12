@@ -25,8 +25,9 @@ export function Emoji(props: {
   animated?: boolean;
   resize?: number;
 }) {
-  const { hasFocus } = useWindowProperties();
+  const { shouldAnimate } = useWindowProperties();
   const { createPortal } = useCustomPortal();
+  const [hovered, setHovered] = createSignal(false);
 
   const click = () => {
     createPortal((close) => <EmojiDetailsModal close={close} {...props} />);
@@ -36,7 +37,7 @@ export function Emoji(props: {
     if (!props.custom) return props.url;
 
     const url = new URL(props.url);
-    if (!hasFocus() && props.animated) {
+    if (!shouldAnimate(hovered()) && props.animated) {
       url.searchParams.set("type", "webp");
     }
     if (props.resize) {
@@ -48,6 +49,8 @@ export function Emoji(props: {
   return (
     <img
       onClick={props.clickable ? click : undefined}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       loading="lazy"
       class={classNames(props.class, "emoji")}
       src={src()}
@@ -101,7 +104,8 @@ function EmojiDetailsModal(props: {
   const [publicServer, setPublicServer] = createSignal<RawExploreItem | null>(
     null
   );
-  const { hasFocus } = useWindowProperties();
+  const { shouldAnimate } = useWindowProperties();
+  const [hovered, setHovered] = createSignal(false);
 
   onMount(() => {
     if (!props.custom || !props.id) return;
@@ -116,6 +120,8 @@ function EmojiDetailsModal(props: {
       <EmojiDetailsContainer>
         <MainEmojiContainer>
           <img
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
             loading="lazy"
             style={{
               "object-fit": "contain",
@@ -124,7 +130,7 @@ function EmojiDetailsModal(props: {
               "border-radius": "6px",
             }}
             src={
-              props.url + (props.animated && !hasFocus() ? "?type=webp" : "")
+              props.url + (props.animated && !shouldAnimate(hovered()) ? "?type=webp" : "")
             }
             alt={props.name}
             title={props.name}

@@ -56,6 +56,7 @@ export default function ServerSettingsRole() {
     x: number;
     y: number;
   }>(null);
+  const [emojiHovered, setEmojiHovered] = createSignal(false);
 
   const { createPortal } = useCustomPortal();
 
@@ -267,9 +268,11 @@ export default function ServerSettingsRole() {
         <Button
           margin={0}
           onClick={openIconPicker}
+          onMouseEnter={() => setEmojiHovered(true)}
+          onMouseLeave={() => setEmojiHovered(false)}
           customChildren={
             inputValues().icon ? (
-              <Emoji size={18} icon={inputValues().icon} hovered />
+              <Emoji size={18} icon={inputValues().icon} hovered={emojiHovered()} />
             ) : (
               <Icon name="face" size={18} />
             )

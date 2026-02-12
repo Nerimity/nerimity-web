@@ -260,6 +260,7 @@ const Details = (props: DetailsProps) => {
             title={role().name}
             size={16}
             icon={role().icon}
+            defaultPaused={true}
             hovered={props.hovered}
             resize={26}
           />
@@ -1633,8 +1634,9 @@ const NormalEmbed = (props: {
   message: { embed?: RawEmbed | null };
   containerWidth?: number;
 }) => {
-  const { hasFocus } = useWindowProperties();
+  const { shouldAnimate } = useWindowProperties();
   const { createPortal } = useCustomPortal();
+  const [hovered, setHovered] = createSignal(false);
 
   const embed = () => props.message.embed!;
 
@@ -1651,11 +1653,12 @@ const NormalEmbed = (props: {
     }`;
   const isGif = () => imageUrl().endsWith(".gif");
 
-  const url = (ignoreFocus?: boolean) => {
+  const url = (alwaysPlay?: boolean) => {
     const url = new URL(imageUrl());
-    if (ignoreFocus) return url.href;
+    if (alwaysPlay) return url.href;
     if (!isGif()) return url.href;
-    if (!hasFocus()) {
+
+    if (!shouldAnimate(hovered())) {
       url.searchParams.set("type", "webp");
     }
     return url.href;
@@ -1681,6 +1684,8 @@ const NormalEmbed = (props: {
 
   return (
     <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       class={classNames(
         styles.ogEmbedContainer,
         conditionalClass(largeImage(), styles.largeImage)
@@ -1733,7 +1738,7 @@ const NormalEmbed = (props: {
   );
 };
 
-const replaceImageUrl = (val: string, hasFocus: boolean) => {
+const replaceImageUrl = (val: string, shouldAnimate: boolean) => {
   const regex = /url\((.*?)\)/gim;
   const regex2 = /url\((.*?)\)/im;
 
@@ -1748,7 +1753,7 @@ const replaceImageUrl = (val: string, hasFocus: boolean) => {
       "proxy/" +
       encodeURIComponent(url) +
       "/b" +
-      (hasFocus ? "" : "?type=webp")
+      (shouldAnimate ? "" : "?type=webp")
     }")`;
   });
 };
@@ -1765,7 +1770,8 @@ function HTMLEmbed(props: { message: RawMessage }) {
   const embed = createMemo<HtmlEmbedItem | HtmlEmbedItem[]>(() =>
     unzipJson(props.message.htmlEmbed!)
   );
-  const { hasFocus } = useWindowProperties();
+  const { shouldAnimate } = useWindowProperties();
+  const [hovered, setHovered] = createSignal(false);
 
   const styleItem = createMemo(
     () =>
@@ -1776,10 +1782,13 @@ function HTMLEmbed(props: { message: RawMessage }) {
   return (
     <ShadowRoot>
       <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         class={classNames(`htmlEmbed${id}`)}
         style={htmlEmbedContainerStyles}
       >
         <HTMLEmbedItem
+          animate={shouldAnimate(hovered())}
           items={
             Array.isArray(embed())
               ? (embed() as HtmlEmbedItem[])
@@ -1791,7 +1800,7 @@ function HTMLEmbed(props: { message: RawMessage }) {
           <style>
             {`
             .htmlEmbed${id} {
-              ${replaceImageUrl(styleItem()!, hasFocus())}
+              ${replaceImageUrl(styleItem()!, shouldAnimate(hovered()))}
             }
           `}
           </style>
@@ -1801,9 +1810,10 @@ function HTMLEmbed(props: { message: RawMessage }) {
   );
 }
 
-function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
+function HTMLEmbedItem(
+  props: { items: HtmlEmbedItem[] | string[], animate: boolean },
+) {
   const { createPortal } = useCustomPortal();
-  const { hasFocus } = useWindowProperties();
 
   const onLinkClick = (e: MouseEvent) => {
     const href = (e.currentTarget as HTMLAnchorElement).href;
@@ -1828,7 +1838,7 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
       }
     }
     if (attributes.style) {
-      attributes.style = replaceImageUrl(attributes.style, hasFocus());
+      attributes.style = replaceImageUrl(attributes.style, props.animate);
     }
     if (attributes.src) {
       attributes.src =
@@ -1836,7 +1846,7 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
         "proxy/" +
         encodeURIComponent(attributes.src) +
         "/b" +
-        (hasFocus() ? "" : "?type=webp");
+        (props.animate ? "" : "?type=webp");
     }
     return attributes;
   };
@@ -1865,7 +1875,7 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
                 {(content) => (
                   <Switch
                     fallback={
-                      <HTMLEmbedItem items={[content as HtmlEmbedItem]} />
+                      <HTMLEmbedItem animate={props.animate} items={[content as HtmlEmbedItem]} />
                     }
                   >
                     <Match when={typeof content === "string"}>

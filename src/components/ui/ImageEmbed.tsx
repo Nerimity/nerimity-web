@@ -52,18 +52,21 @@ interface ImageEmbedProps {
 }
 
 export function ImageEmbed(props: ImageEmbedProps) {
-  const { paneWidth, height, hasFocus } = useWindowProperties();
+  const { paneWidth, height, shouldAnimate } = useWindowProperties();
   const { createPortal } = useCustomPortal();
   const [previewModalOpened, setPreviewModalOpened] = createSignal(false);
+  const [hovered, setHovered] = createSignal(false);
 
   const isGif = () =>
     props.attachment.path?.endsWith(".gif") ||
     props.attachment.path?.endsWith("#a");
+
   const url = (ignoreFocus?: boolean) => {
     const url = new URL(`${env.NERIMITY_CDN}${props.attachment.path}`);
     if (ignoreFocus) return url.href;
     if (!isGif()) return url.href;
-    if (!hasFocus()) {
+
+    if (!shouldAnimate(hovered())) {
       url.searchParams.set("type", "webp");
     }
     return url.href;
@@ -127,9 +130,11 @@ export function ImageEmbed(props: ImageEmbedProps) {
   return (
     <ImageEmbedContainer
       onclick={onClicked}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       class={classNames(
         "imageEmbedContainer",
-        conditionalClass(isGif() && !hasFocus(), "gif"),
+        conditionalClass(isGif() && !shouldAnimate(hovered()), "gif"),
       )}
     >
       <img

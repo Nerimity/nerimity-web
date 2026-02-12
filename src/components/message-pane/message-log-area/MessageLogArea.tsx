@@ -1158,7 +1158,8 @@ const ReactionItem = (props: {
   selected: boolean;
   onClick?: () => void;
 }) => {
-  const { hasFocus } = useWindowProperties();
+  const { shouldAnimate } = useWindowProperties();
+  const [hovered, setHovered] = createSignal(false);
 
   const name = () =>
     props.reaction.emojiId
@@ -1173,7 +1174,7 @@ const ReactionItem = (props: {
       return false;
     }
 
-    return !hasFocus();
+    return !shouldAnimate(hovered());
   };
 
   const url = () => {
@@ -1198,6 +1199,8 @@ const ReactionItem = (props: {
       selected={props.selected}
       handlePosition="bottom"
       onClick={props.onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <Emoji
         class={styles.emoji}

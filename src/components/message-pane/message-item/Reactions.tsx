@@ -27,21 +27,20 @@ interface ReactionItemProps {
 }
 
 function ReactionItem(props: ReactionItemProps) {
-  const { hasFocus } = useWindowProperties();
-
-  let isHovering = false;
+  const { shouldAnimate } = useWindowProperties();
+  const [hovered, setHovered] = createSignal(false);
 
   const onMouseEnter = (e: MouseEvent) => {
-    isHovering = true;
+    setHovered(true);
     props.onMouseEnter?.(e);
   };
 
   const onMouseLeave = (e: MouseEvent) => {
-    isHovering = false;
+    setHovered(false);
     props.onMouseLeave?.(e);
   };
   onCleanup(() => {
-    if (isHovering) props.onMouseLeave?.();
+    if (hovered()) props.onMouseLeave?.();
   });
 
   const name = () =>
@@ -57,7 +56,7 @@ function ReactionItem(props: ReactionItemProps) {
       return false;
     }
 
-    return !hasFocus();
+    return !shouldAnimate(hovered());
   };
 
   const url = () => {

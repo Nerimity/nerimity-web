@@ -1,4 +1,4 @@
-import { JSX, JSXElement, Show, createMemo } from "solid-js";
+import { JSX, JSXElement, Show, createMemo, createSignal } from "solid-js";
 import { FlexColumn } from "./Flexbox";
 import { styled } from "solid-styled-components";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -54,7 +54,8 @@ export function Banner(props: {
   animate?: boolean;
   children?: JSXElement;
 }) {
-  const { hasFocus } = useWindowProperties();
+  const { shouldAnimate } = useWindowProperties();
+  const [hovered, setHovered] = createSignal(false);
 
   const url = () => {
     if (!props.url) return;
@@ -67,7 +68,7 @@ export function Banner(props: {
     if (!props.url?.endsWith(".gif") && !props.url.endsWith("#a"))
       return url.href;
 
-    if (!hasFocus() || !props.animate) {
+    if (!shouldAnimate(hovered()) || !props.animate) {
       url.searchParams.set("type", "webp");
     }
 
@@ -98,6 +99,8 @@ export function Banner(props: {
   return (
     <div style={getOuterStyles()}>
       <BannerContainer
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         radius={props.radius || 8}
         class={props.class}
         style={getStyles()}

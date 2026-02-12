@@ -25,7 +25,7 @@ const SkeletonItem = (props: {
   onInView?: () => void;
   class?: string;
 }) => {
-  const { hasFocus } = useWindowProperties();
+  const { shouldAnimate } = useWindowProperties();
   let element: HTMLDivElement | undefined;
 
   const handleIntersection = (entries: IntersectionObserverEntry[]) => {
@@ -58,7 +58,7 @@ const SkeletonItem = (props: {
       class={classNames(
         styles.skeletonItem,
         props.class,
-        conditionalClass(!hasFocus(), styles.stopAnimate)
+        conditionalClass(!shouldAnimate(), styles.stopAnimate)
       )}
     />
   );
