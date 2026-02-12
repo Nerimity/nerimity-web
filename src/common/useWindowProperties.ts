@@ -3,11 +3,14 @@ import env from "./env";
 import { createSignal } from "solid-js";
 import { StorageKeys, useLocalStorage } from "./localStorage";
 
+const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
 const [windowProperties, setWindowProperties] = createStore({
   width: window.innerWidth,
   height: window.innerHeight,
   paneWidth: null as null | number,
   hasFocus: document.hasFocus(),
+  reduceMotion: motionQuery.matches,
 });
 
 window.addEventListener("resize", () => {
@@ -20,6 +23,10 @@ window.addEventListener("focus", () => {
 });
 window.addEventListener("blur", () => {
   setWindowProperties("hasFocus", false);
+});
+
+motionQuery.addEventListener("change", () => {
+  setWindowProperties("reduceMotion", motionQuery.matches);
 });
 
 function setPaneWidth(val: number) {
@@ -58,6 +65,9 @@ export function useWindowProperties() {
       (windowProperties.paneWidth || windowProperties.width) <= 600,
     paneWidth: () => windowProperties.paneWidth,
     hasFocus: () => windowProperties.hasFocus,
+    shouldAnimate: (hover: boolean = false) => {
+      return windowProperties.hasFocus && (hover || !windowProperties.reduceMotion)
+    },
     isMobileAgent: () => isMobileAgent,
     isSafari,
     paneBackgroundColor,

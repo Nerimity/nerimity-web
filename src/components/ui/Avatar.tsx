@@ -4,6 +4,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import {
   createEffect,
   createMemo,
+  createSignal,
   JSXElement,
   Match,
   Show,
@@ -70,7 +71,8 @@ function getFirstLetters(str: string) {
 }
 
 export default function Avatar(props: Props) {
-  const { hasFocus } = useWindowProperties();
+  const { shouldAnimate } = useWindowProperties();
+  const [hovered, setHovered] = createSignal(false);
 
   const serverOrUser = () => (props.server || props.user) as ServerOrUserAvatar;
 
@@ -86,7 +88,7 @@ export default function Avatar(props: Props) {
 
     if (!rawUrl?.endsWith(".gif") && !rawUrl.endsWith("#a")) return url.href;
 
-    if (!hasFocus() || !props.animate) {
+    if (!shouldAnimate(hovered()) || !props.animate) {
       url.searchParams.set("type", "webp");
     }
 
@@ -115,7 +117,7 @@ export default function Avatar(props: Props) {
       )
         return proxyUrl.href;
 
-      if (!hasFocus() || !props.animate) {
+      if (!shouldAnimate(hovered()) || !props.animate) {
         proxyUrl.searchParams.set("type", "webp");
       }
 
@@ -136,6 +138,8 @@ export default function Avatar(props: Props) {
     <div
       style={{ width: props.size + "px", height: props.size + "px" }}
       class={classNames(style.avatarContainer, "avatar-container", props.class)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <Switch
         fallback={
