@@ -521,12 +521,12 @@
             "badges": "Бейджи",
             "viewSource": "Дивитися вихідний код",
             "changelog": "Лог змін",
-            "window-settings": "Налаштуванні вікна",
-            "call-settings": "Налаштуванні виклику",
-            "activity-status": "Статус діяльности",
+            "window-settings": "Налаштування вікна",
+            "call-settings": "Налаштування викликів",
+            "activity-status": "Активності",
             "tickets": "Квитки",
             "privacy": "Приватність",
-            "connections": "Приєднанні",
+            "connections": "З'єднання",
             "profile": "Профіль"
         },
         "language": {
@@ -547,11 +547,11 @@
             "profileDescription": "Редагування описання та кілерів",
             "palestineBorder": "Додати палестинську облямівку до вашого аватара.",
             "bio": "Про мене",
-            "bioDescription": "Ви можете записати текст в декілька рядків і форматувати його",
-            "gradientColor1": "Колер градієнту 1",
-            "gradientColor2": "Колер градієнту 2",
+            "bioDescription": "Ви можете написати текст в декілька рядків і відформатувати його",
+            "gradientColor1": "Колір градієнту 1",
+            "gradientColor2": "Колір градієнту 2",
             "primaryColor": "Основний колір",
-            "usernameFont": "Шрифт ім'ї користувача",
+            "usernameFont": "Шрифт імені користувача",
             "default": "Як в застосунку",
             "preview": "Перегляд",
             "changePassword": "Змінити пароль",
@@ -566,7 +566,7 @@
             "sendCodeButton": "Дослати код",
             "resendIn": "Дослати знову через {{time}}",
             "channelNotice": "Попередження каналу",
-            "channelNoticeDescription": "Показується, коли користувач пише вам перши раз. Зміни вживаються після перезавантажування.",
+            "channelNoticeDescription": "Показується, коли користувач пише вам в перший раз. Зміни вживаються після перезавантажування.",
             "channelNoticeTooLong": "Попередження каналу не може бути більш за 300 символів.",
             "deleteAccount": "Видалити мій акаунт",
             "deleteAccountDescription": "Це неможливо відробити!",
@@ -588,10 +588,10 @@
         },
         "badges": {
             "noticeTitle": "Пожертвування",
-            "notice": "Підтримати цей проєкт грошима.",
+            "notice": "Підтримайте цей проєкт грошима.",
             "palestineDescription": "Можливо отримати у налаштуваннях профілю",
             "price": "Облямівки за {{price}}",
-            "supportMethods": "Методі підтримки"
+            "supportMethods": "Методи підтримки"
         },
         "privacy": {
             "lastOnline": {
@@ -648,7 +648,7 @@
             }
         },
         "call": {
-            "nextCallNotice": "Зміні будуть вжити в ваших наступних викликах.",
+            "nextCallNotice": "Зміни будуть вжиті при наступних викликах.",
             "leaveCall": "Спочатку залишить виклик",
             "inputDevices": "Пристрої вводу",
             "outputDevices": "Пристрої виводу",
@@ -663,7 +663,7 @@
         },
         "connections": {
             "thirdParty": {
-                "title": "Сторонні під'єднанні",
+                "title": "Сторонні з'єднання",
                 "connectionCount": "{{count}} під'єднання(ів)",
                 "unauthorizeButton": "Деавторізувати",
                 "unauthorizing": "Деавторізування…"
@@ -713,14 +713,14 @@
             "startMinimized": "Запускати згортаною",
             "startMinimizedDescription": "Автоматично згортувати Nerimity до таці.",
             "disableHardwareAcceleration": "Вимкнути апаратне прискорення",
-            "disableCustomTitlebar": "Вимкнути назамовний заголовок",
+            "disableCustomTitlebar": "Вимкнути кастомний заголовок вікна",
             "reopenAppNotice": "Вам треба перезавантажити застосунок, щоб дії набули ефект."
         },
         "activity": {
             "extension": "Розширення для переглядача",
             "extensionDescription": "Наше RPC-розширення дозволяє вам ділитися вашою активністю зі Spotify та YouTube з користувачами Nerimity!",
             "visitButton": "Дивитися {{store}}",
-            "activityStatus": "Статус активности",
+            "activityStatus": "Статус активностей",
             "activityStatusDescription": "Ділитися зі всіма, що ви робите",
             "activityStatusModal": {
                 "title": "Редагувати статус активности",
