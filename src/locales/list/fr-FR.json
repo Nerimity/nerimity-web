@@ -731,7 +731,7 @@
         "sections": {
             "replies": "Réponses ({{count}})",
             "likes": "Likes ({{count}})",
-            "reposts": "Reposts ({{count}})"
+            "reposts": "({{count}}) Républications"
         },
         "editPostModalTitle": "Modifier le post",
         "sort": {
@@ -740,7 +740,9 @@
             "mostLiked30Days": "Les plus appréciés (30 jours)",
             "mostLikedAllTime": "Les plus appréciés (de tous les temps)"
         },
-        "postWarning": "Les contenus faisant l'apologie de l'automutilation sont interdits, des mesures seront prises à l'encontre du compte."
+        "postWarning": "Les contenus faisant l'apologie de l'automutilation sont interdits, des mesures seront prises à l'encontre du compte.",
+        "reposted": "Républié",
+        "repostedBy": "Républié par"
     },
     "systemMessages": {
         "joinServer": {
