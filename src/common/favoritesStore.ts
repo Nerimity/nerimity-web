@@ -1,7 +1,6 @@
-import { makePersisted } from "@solid-primitives/storage";
+import { createEffect } from "solid-js";
 import { createStore, produce } from "solid-js/store";
-
-const STORAGE_KEY = "nerimity_favorite_gifs";
+import { getStorageObject, setStorageObject, StorageKeys } from "./localStorage";
 
 export interface FavoriteGif {
   url: string; 
@@ -15,10 +14,13 @@ export interface FavoriteGif {
 // Map of URL -> FavoriteGif
 type FavoritesMap = Record<string, FavoriteGif>;
 
-export const [favorites, setFavorites] = makePersisted(
-  createStore<FavoritesMap>({}),
-  { name: STORAGE_KEY }
+export const [favorites, setFavorites] = createStore<FavoritesMap>(
+  getStorageObject(StorageKeys.FAVORITE_GIFS, {})
 );
+
+createEffect(() => {
+  setStorageObject(StorageKeys.FAVORITE_GIFS, favorites);
+});
 
 export const favoritesStore = {
   add: (gif: FavoriteGif) => {
