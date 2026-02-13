@@ -598,7 +598,7 @@
             "customizeColors": "Дапасаваньне колераў",
             "customizeColorsDescription": "Адрэдагуйце колеры бягучае тэмы.",
             "chatBarOptions": "Парамэтры панэлі паведамленьняў",
-            "timeTitle": "Пераключыць фармат часу",
+            "timeTitle": "Перамкнуць фармат часу",
             "12HourFormatDescription": "Адлюстроўваць час у 12-гадзінным фармаце, зь AM/PM.",
             "24HourFormatDescription": "Адлюстроўваць час у 24-гадзінным фармаце.",
             "voiceMessage": "Галасавое паведамленьне",
@@ -1002,6 +1002,10 @@
         "quote": {
             "invalid": "Выдаленая альбо памылковая цытата.",
             "nested": "Укладзеная цытата"
+        },
+        "codeBlock": {
+            "text": "Звычайны тэкст",
+            "toggleWrapButton": "Перамкнуць абгортку"
         }
     },
     "colorPickerModal": {
@@ -1164,7 +1168,8 @@
         "members": {
             "filter": {
                 "header": "Фільтраваць",
-                "24hours": "24 гадзіны"
+                "24hours": "24 гадзіны",
+                "muted": "Заглушаны"
             },
             "sort": {
                 "header": "Сартаваць",
@@ -1179,7 +1184,8 @@
             }
         },
         "inVoice": "Выклік ідзе",
-        "addChannel": "Дадаць канал"
+        "addChannel": "Дадаць канал",
+        "verified": "Гэты сэрвэр вэрыфікаваны."
     },
     "inVoiceActions": {
         "connectedFor": "У выкліку"
@@ -1259,5 +1265,16 @@
         "body": "Вы ўпэўненыя, што хочаце выйсьці?",
         "clearSettings": "Скінуць лякальныя налады",
         "cancelButton": "Не выхадзіць"
+    },
+    "muteModal": {
+        "title": "Заглушыць {{username}}?",
+        "message": "<1>{{username}}</1> ня зможа пісаць паведамленьні на сэрвэры <2>{{duration}}</2>",
+        "banButton": "Заглушыць",
+        "banning": "Глушым…",
+        "reasonLabel": "Прычына (неабавязкова)",
+        "reasonPlaceholder": "Увядзіце прычыну…",
+        "muteButton": "Заглушыць",
+        "unmuteButton": "Скасаваць заглушэньне",
+        "cancelMute": "Не глушыць"
     }
 }
