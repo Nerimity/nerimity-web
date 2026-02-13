@@ -621,7 +621,6 @@
             "browse": "تصفح",
             "supportedFileTypes": "يدعم: {{extensions}}، حد أقصى {{size}}"
         },
-        "nothingSelected": "لا شيء محدد",
         "closeButton": "إغلاق",
         "editButton": "تعديل",
         "undoButton": "تراجع",
