@@ -1,6 +1,5 @@
 {
   "general": {
-    "nothingSelected": "Nothing Selected",
     "searchPlaceholder": "Search",
     "backButton": "Back",
     "cancelButton": "Cancel",
@@ -1057,6 +1056,7 @@
         "descending": "Descending"
       }
     },
+    "verified": "This server is verified.",
     "addChannel": "Add Channel",
     "inVoice": "In voice"
   },
@@ -1157,6 +1157,10 @@
     "deletedMessage": "Message was deleted.",
     "dismissButton": "Dismiss",
     "editedAt": "Edited at {{time}}",
+    "codeBlock": {
+      "text": "Plain Text",
+      "toggleWrapButton": "Toggle Wrap"
+    },
     "twitterEmbed": {
       "modalTitle": "Detailed Twitter Embed",
       "modalDescription": "When using the official Twitter embed, your data will be collected by Elmo Musk.",

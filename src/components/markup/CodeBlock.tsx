@@ -2,6 +2,7 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { copyToClipboard } from "@/common/clipboard";
 import type { HLJSApi } from "highlight.js";
 import "highlight.js/styles/felipec.css";
+import { t } from "@nerimity/i18lite";
 
 import { createEffect, createSignal, Show } from "solid-js";
 import Icon from "../ui/icon/Icon";
@@ -84,18 +85,18 @@ export default function CodeBlock(props: Props) {
       <div class="header">
         <img src={getLanguageIcon()} class="lang-icon" alt="" />
         <span class="lang-name">
-          {` ${languageName() || props.lang || "Text"}`}
+          {` ${languageName() || props.lang || t("message.codeBlock.text")}`}
         </span>
         <Icon
           onClick={toggleWrap}
-          title="Toggle Wrap"
+          title={t("message.codeBlock.toggleWrapButton")}
           name="wrap_text"
           class={classNames("button", conditionalClass(wrap(), "active"))}
           size={18}
         />
         <Icon
           onClick={copy}
-          title="Copy"
+          title={t("inputFieldActions.copy")}
           name="content_copy"
           class="button copyButton"
           size={16}
