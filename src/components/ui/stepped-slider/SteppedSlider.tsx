@@ -1,5 +1,5 @@
-import { createEffect, createSignal } from 'solid-js';
-import style from './SteppedSlider.module.css';
+import { createEffect, createSignal } from "solid-js";
+import style from "./SteppedSlider.module.css";
 
 export interface SteppedSliderStep {
   label: string;
@@ -7,25 +7,27 @@ export interface SteppedSliderStep {
   [key: string]: unknown;
 }
 interface SteppedSlider {
-    steps: SteppedSliderStep[];
-    currentValue: number;
-    onChange?: (step: SteppedSliderStep) => void;
+  steps: SteppedSliderStep[];
+  currentValue: number;
+  onChange?: (step: SteppedSliderStep) => void;
 }
 export const SteppedSlider = (props: SteppedSlider) => {
   const [currentValue, setCurrentValue] = createSignal(props.currentValue);
   let sliderBarEl: HTMLDivElement | undefined;
-  const edgeMarginPercent = 2;
+  const edgeMarginPercent = 4;
 
   createEffect(() => {
     setCurrentValue(props.currentValue);
-  })
+  });
 
   createEffect(() => {
-    const currentStep = props.steps.find(step => step.value === currentValue());
+    const currentStep = props.steps.find(
+      (step) => step.value === currentValue()
+    );
     if (currentStep && props.onChange) {
       props.onChange(currentStep);
     }
-  })
+  });
 
   const updateCurrentValue = (event: MouseEvent) => {
     const sliderRect = sliderBarEl!.getBoundingClientRect();
@@ -42,26 +44,24 @@ export const SteppedSlider = (props: SteppedSlider) => {
     const clickedStep = props.steps[clickedStepIndex];
     if (!clickedStep) return;
     setCurrentValue(clickedStep.value);
-
-  }
+  };
 
   let isDragging = false;
   const handleMouseDown = (event: MouseEvent) => {
     isDragging = true;
     updateCurrentValue(event);
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  }
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
   const handleMouseUp = () => {
     isDragging = false;
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
-  }
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+  };
   const handleMouseMove = (event: MouseEvent) => {
     if (!isDragging) return;
     updateCurrentValue(event);
-  }
-
+  };
 
   const positionPercent = (index: number) => {
     const stepsCount = props.steps.length;
@@ -70,23 +70,33 @@ export const SteppedSlider = (props: SteppedSlider) => {
     return edgeMarginPercent + ratio * (100 - edgeMarginPercent * 2);
   };
 
-  const fillWidth = () => positionPercent(props.steps.findIndex(step => step.value === currentValue()));
+  const fillWidth = () =>
+    positionPercent(
+      props.steps.findIndex((step) => step.value === currentValue())
+    );
 
   return (
     <div class={style.slider}>
-        <div class={style.sliderBar} ref={sliderBarEl} onMouseDown={handleMouseDown}>
-            <div class={style.sliderFill} style={{ width: `${fillWidth()}%` }}>
-              <div class={style.sliderThumb} />
-            </div>
+      <div
+        class={style.sliderBar}
+        ref={sliderBarEl}
+        onMouseDown={handleMouseDown}
+      >
+        <div class={style.sliderFill} style={{ width: `${fillWidth()}%` }}>
+          <div class={style.sliderThumb} />
         </div>
-        <div class={style.labels}>
-            {props.steps.map((step, index) => (
-              <div class={style.label} style={{ left: `${positionPercent(index)}%` }}>
-                  <div class={style.markers}></div>
-                    {step.label}
-                </div>
-            ))}
-        </div>
+      </div>
+      <div class={style.labels}>
+        {props.steps.map((step, index) => (
+          <div
+            class={style.label}
+            style={{ left: `${positionPercent(index)}%` }}
+          >
+            <div class={style.markers}></div>
+            {step.label}
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
+};
