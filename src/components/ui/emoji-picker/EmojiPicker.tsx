@@ -363,9 +363,6 @@ const GifPickerImages = (props: {
     if (!loadMore) setTenorResponse(null);
     setLoading(true);
 
-    const previousHeight = props.scrollElement.scrollHeight;
-    const previousScrollTop = props.scrollElement.scrollTop;
-
     const res = await getTenorImages(
       props.query,
       loadMore ? tenorResponse()?.next : undefined,
@@ -383,15 +380,6 @@ const GifPickerImages = (props: {
         ...res,
         results: [...prev!.results, ...res.results],
       }));
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          if (!props.scrollElement) return;
-          const newHeight = props.scrollElement.scrollHeight;
-          props.scrollElement.scrollTop =
-            previousScrollTop + (newHeight - previousHeight);
-        });
-      });
     }
     setLoading(false);
   };

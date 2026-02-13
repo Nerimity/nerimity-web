@@ -129,25 +129,27 @@
 
   .favorite-toggle {
     border: none;
-    background: transparent;
+    background-color: rgb(37 37 37);
     cursor: pointer;
     color: rgb(255 255 255 / 50%);
     transition: all 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px;
+    padding: 6px;
     border-radius: 4px;
     flex-shrink: 0;
 
     &:hover {
       color: var(--primary-color);
-      background-color: rgb(255 255 255 / 10%);
+      background-image: linear-gradient(rgb(255 255 255 / 10%), rgb(255 255 255 / 10%));
+      background-color: rgb(37 37 37);
     }
 
     &.active {
       color: var(--primary-color);
-      background-color: rgb(88 101 242 / 15%); // Fallback light blueish
+      background-image: linear-gradient(rgb(88 101 242 / 15%), rgb(88 101 242 / 15%));
+      background-color: rgb(37 37 37);
     }
   }
 }
@@ -193,7 +195,6 @@
     padding: 40px 20px;
     color: rgb(255 255 255 / 50%);
     font-size: 14px;
-    grid-column: 1 / -1;
   }
 }
 
