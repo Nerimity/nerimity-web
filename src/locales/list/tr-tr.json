@@ -1153,8 +1153,7 @@
             "banner": "Afiş",
             "browse": "Göz At",
             "supportedFileTypes": "Desteklenen:{{extensions}}, Maks. {{size}}"
-        },
-        "nothingSelected": "Hiçbir şey seçilmedi"
+        }
     },
     "nicknameChangeModal": {
         "title": "Sunucu Profilini Güncelle",

@@ -1040,7 +1040,6 @@
         "ipBanNotice": "Jemand mit der gleichen IP-Adresse wurde bei Nerimity gesperrt. Dein Konto ist davon nicht betroffen."
     },
     "general": {
-        "nothingSelected": "Nichts ausgewählt",
         "searchPlaceholder": "Suchen",
         "backButton": "Zurück",
         "cancelButton": "Abbrechen",

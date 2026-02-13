@@ -59,7 +59,6 @@
         }
     },
     "general": {
-        "nothingSelected": "",
         "searchPlaceholder": "検索",
         "backButton": "戻り",
         "cancelButton": "キャンセル",
