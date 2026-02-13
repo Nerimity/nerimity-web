@@ -41,7 +41,10 @@ import {
   setCachedVolumes
 } from "@/chat-api/store/useVoiceUsers";
 import { RadioBox } from "../ui/RadioBox";
-import { SteppedSlider, SteppedSliderStep } from "../ui/stepped-slider/SteppedSlider";
+import {
+  SteppedSlider,
+  SteppedSliderStep
+} from "../ui/stepped-slider/SteppedSlider";
 type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string;
   userId: string;
@@ -219,13 +222,13 @@ export default function MemberContextMenu(props: Props) {
           { separator: true },
           ...(account.hasModeratorPerm(true)
             ? [
-              {
-                label: "Moderation Pane",
-                onClick: () =>
-                  navigate("/app/moderation/users/" + props.userId),
-                icon: "security"
-              }
-            ]
+                {
+                  label: "Moderation Pane",
+                  onClick: () =>
+                    navigate("/app/moderation/users/" + props.userId),
+                  icon: "security"
+                }
+              ]
             : []),
           {
             icon: "content_copy",
@@ -607,7 +610,12 @@ function MuteModal(props: {
   close: () => void;
 }) {
   const [requestSent, setRequestSent] = createSignal(false);
-  const [selectedDuration, setSelectedDuration] = createSignal<SteppedSliderStep>({ fullLabel: "10 minutes", label: "10m", value: 10 * 60000 });
+  const [selectedDuration, setSelectedDuration] =
+    createSignal<SteppedSliderStep>({
+      fullLabel: "10 minutes",
+      label: "10m",
+      value: 10 * 60000
+    });
 
   const [reason, setReason] = createSignal("");
 
@@ -615,7 +623,9 @@ function MuteModal(props: {
     if (requestSent()) return;
     setRequestSent(true);
 
-    let expireAt = new Date(Date.now() + selectedDuration()?.value || 0).getTime();
+    let expireAt = new Date(
+      Date.now() + selectedDuration()?.value || 0
+    ).getTime();
 
     if (selectedDuration()?.value === 0) {
       // set expireAt to 2099
@@ -646,7 +656,10 @@ function MuteModal(props: {
         <div>
           <Trans
             key="muteModal.message"
-            options={{ username: props.user.username, duration: selectedDuration()?.fullLabel }}
+            options={{
+              username: props.user.username,
+              duration: selectedDuration()?.fullLabel
+            }}
           >
             <b>{"username"}</b> will not be able to talk in this server for:
             <b>{"duration"}</b>
@@ -657,6 +670,7 @@ function MuteModal(props: {
           steps={[
             { fullLabel: "10 minutes", label: "10m", value: 10 * 60000 },
             { fullLabel: "60 minutes", label: "60m", value: 60 * 60000 },
+            { fullLabel: "6 hours", label: "6h", value: 6 * 3600000 },
             { fullLabel: "12 hours", label: "12h", value: 12 * 3600000 },
             { fullLabel: "24 hours", label: "24h", value: 24 * 3600000 },
             { fullLabel: "7 days", label: "7d", value: 7 * 86400000 },
