@@ -11,6 +11,7 @@ interface Props {
   onDeleteClick?: (value?: string) => Promise<string | undefined | void> | void;
   close: () => void;
   password?: boolean;
+  icon?: string;
   buttonText?: {
     main: string;
     loading: string;
@@ -65,7 +66,7 @@ export default function DeleteConfirmModal(props: Props) {
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button
         class={styles.button}
-        iconName="delete"
+        iconName={props.icon || "delete"}
         label={buttonMessage()}
         color="var(--alert-color)"
         primary
@@ -78,7 +79,7 @@ export default function DeleteConfirmModal(props: Props) {
     <LegacyModal
       close={props.close}
       title={props.title}
-      icon="delete"
+      icon={props.icon || "delete"}
       color="var(--alert-color)"
       actionButtons={ActionButtons}
       maxWidth={400}

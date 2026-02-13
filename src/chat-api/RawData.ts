@@ -200,6 +200,7 @@ export interface RawServerMember {
   joinedAt: number;
   nickname?: string | null;
   roleIds: string[];
+  muteExpireAt?: number;
 }
 
 export enum ChannelType {
