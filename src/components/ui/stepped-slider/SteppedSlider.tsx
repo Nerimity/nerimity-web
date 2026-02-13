@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, For } from "solid-js";
 import style from "./SteppedSlider.module.css";
 
 export interface SteppedSliderStep {
@@ -87,15 +87,17 @@ export const SteppedSlider = (props: SteppedSlider) => {
         </div>
       </div>
       <div class={style.labels}>
-        {props.steps.map((step, index) => (
-          <div
-            class={style.label}
-            style={{ left: `${positionPercent(index)}%` }}
-          >
-            <div class={style.markers}></div>
-            {step.label}
-          </div>
-        ))}
+        <For each={props.steps}>
+          {(step, index) => (
+            <div
+              class={style.label}
+              style={{ left: `${positionPercent(index())}%` }}
+            >
+              <div class={style.markers} />
+              {step.label}
+            </div>
+          )}
+        </For>
       </div>
     </div>
   );
