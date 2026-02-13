@@ -30,8 +30,9 @@
   bottom: 10px;
   display: flex;
   align-items: center;
-  padding: 5px;
-  padding-left: 20px;
+  height: 50px;
+  padding-right: 6px;
+  padding-left: 14px;
   margin: 10px;
   margin-bottom: 0;
   border-radius: 8px;
@@ -41,6 +42,35 @@
   backdrop-filter: blur(34px);
   .text {
     flex: 1;
+  }
+}
+.mutedNotice {
+  position: sticky;
+  z-index: 111;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 6px;
+  padding-right: 6px;
+  padding-bottom: 6px;
+  padding-left: 14px;
+  margin: 10px;
+  margin-bottom: 0;
+  border-radius: 8px;
+
+  background-color: rgba(0, 0, 0, 0.86);
+  font-size: 14px;
+  gap: 6px;
+  backdrop-filter: blur(34px);
+  .text {
+  }
+  .expireDuration {
+    padding: 10px;
+    margin-left: auto;
+    border-radius: 4px;
+    background-color: rgba(51, 51, 51, 0.86);
+    font-variant-numeric: tabular-nums;
   }
 }
 

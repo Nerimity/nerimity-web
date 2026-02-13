@@ -7,7 +7,7 @@ import {
   For,
   on,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { Table, TableSort } from "@/components/ui/table/Table";
@@ -15,7 +15,7 @@ import { formatTimestamp } from "@/common/date";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
 import Avatar from "@/components/ui/Avatar";
 import MemberContextMenu, {
-  ServerMemberRoleModal,
+  ServerMemberRoleModal
 } from "@/components/member-context-menu/MemberContextMenu";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
@@ -33,9 +33,9 @@ export default function Pane() {
     createRegisteredPortal,
     openedPortals,
     closePortalById,
-    createPortal,
+    createPortal
   } = useCustomPortal();
-  const [filter, setFilter] = createSignal<"ALL" | "24H">("ALL");
+  const [filter, setFilter] = createSignal<"ALL" | "24H" | "MUTE">("ALL");
   const [itemsPerPage, setItemsPerPage] = createSignal(25);
   const [currentPage, setCurrentPage] = createSignal(1);
   const [contextMenu, setContextMenu] = createSignal<{
@@ -48,7 +48,7 @@ export default function Pane() {
 
   const [sort, setSort] = createSignal<TableSort>({
     headerId: "joined",
-    mode: "desc",
+    mode: "desc"
   });
 
   createEffect(on([filter, search, sort], () => setCurrentPage(1)));
@@ -83,6 +83,11 @@ export default function Pane() {
         if (filter() === "24H") {
           if (m?.joinedAt < Date.now() - 86400000) return false;
         }
+        if (filter() === "MUTE") {
+          const muteExpireAt = m?.muteExpireAt;
+          if (!muteExpireAt) return false;
+          if (muteExpireAt < Date.now()) return false;
+        }
         if (!search().trim()) return true;
         const nickname = m?.nickname;
         const username = m?.user().username;
@@ -109,7 +114,7 @@ export default function Pane() {
     header.updateHeader({
       title: t("informationDrawer.members"),
       serverId: params.serverId!,
-      iconName: "group",
+      iconName: "group"
     });
   });
 
@@ -139,7 +144,7 @@ export default function Pane() {
         position: { left: e.clientX, top: e.clientY },
         serverId: member.serverId,
         close: close,
-        userId: member.userId,
+        userId: member.userId
       },
       "profile-pane-flyout-" + member.userId,
       true
@@ -158,7 +163,9 @@ export default function Pane() {
       <div class={style.pane}>
         <div class={style.actionBar}>
           <div class={style.searchContainer}>
-            <span class={style.filterLabel}>{t("general.searchPlaceholder")}</span>
+            <span class={style.filterLabel}>
+              {t("general.searchPlaceholder")}
+            </span>
             <Input
               placeholder={t("general.searchPlaceholder")}
               class={style.search}
@@ -190,6 +197,16 @@ export default function Pane() {
                   {t("channelDrawer.members.filter.24hours")}
                 </Item.Label>
               </Item.Root>
+              <Item.Root
+                handlePosition="bottom"
+                selected={filter() === "MUTE"}
+                onClick={() => setFilter("MUTE")}
+              >
+                <Item.Icon>volume_off</Item.Icon>
+                <Item.Label>
+                  {t("channelDrawer.members.filter.muted")}
+                </Item.Label>
+              </Item.Root>
             </div>
           </div>
         </div>
@@ -200,9 +217,9 @@ export default function Pane() {
             { title: t("channelDrawer.members.sort.joined"), id: "joined" },
             {
               title: t("channelDrawer.members.sort.joinedNerimity"),
-              id: "joinedNerimity",
+              id: "joinedNerimity"
             },
-            { title: t("servers.settings.drawer.roles"), id: "roles" },
+            { title: t("servers.settings.drawer.roles"), id: "roles" }
           ]}
           sortableHeaderIds={["member", "joined", "joinedNerimity"]}
           onHeaderClick={(s) => setSort(s)}
@@ -221,7 +238,7 @@ export default function Pane() {
                     setContextMenu({
                       position: { x: e.clientX, y: e.clientY },
                       serverId: params.serverId!,
-                      userId: member.userId,
+                      userId: member.userId
                     });
                   }}
                 >
@@ -249,16 +266,22 @@ export default function Pane() {
                               onMouseLeave={() => setHovered(false)}
                             >
                               <Show when={role?.icon}>
-                                <Emoji size={14} icon={role.icon} hovered={hovered()} />
+                                <Emoji
+                                  size={14}
+                                  icon={role.icon}
+                                  hovered={hovered()}
+                                />
                               </Show>
                               <span
                                 class={style.roleCircle}
                                 style={{
                                   background:
-                                    role.gradient || role.hexColor || "#fff",
+                                    role.gradient || role.hexColor || "#fff"
                                 }}
                               />
-                              <span style={{ color: role.hexColor || "inherit" }}>
+                              <span
+                                style={{ color: role.hexColor || "inherit" }}
+                              >
                                 {role.name}
                               </span>
                             </div>
@@ -336,7 +359,7 @@ function MemberField(props: { member: ServerMember }) {
         background: role.gradient,
         "-webkit-background-clip": "text",
         "-webkit-text-fill-color": "transparent",
-        "background-clip": "text",
+        "background-clip": "text"
       };
     return { color: role.hexColor || "inherit" };
   };

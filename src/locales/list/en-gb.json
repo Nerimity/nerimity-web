@@ -922,6 +922,7 @@
     "reasonLabel": "Reason (optional)",
     "reasonPlaceholder": "Enter a reason…",
     "muteButton": "Mute",
+    "unmuteButton": "Unmute",
     "cancelMute": "Don't Mute"
   },
   "messageContextMenu": {
@@ -1041,7 +1042,8 @@
     "members": {
       "filter": {
         "header": "Filter by",
-        "24hours": "24 Hours"
+        "24hours": "24 Hours",
+        "muted": "Muted"
       },
       "sort": {
         "header": "Sort by",

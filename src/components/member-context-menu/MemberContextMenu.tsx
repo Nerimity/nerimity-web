@@ -12,11 +12,15 @@ import {
   BanServerMember,
   kickServerMember,
   muteServerMember,
+  removeMuteServerMember,
   transferOwnership,
   updateServerMember,
   updateServerMemberProfile
 } from "@/chat-api/services/ServerService";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal
+} from "@/components/ui/custom-portal/CustomPortal";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
 import Button from "@/components/ui/Button";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
@@ -45,6 +49,7 @@ import {
   SteppedSlider,
   SteppedSliderStep
 } from "../ui/stepped-slider/SteppedSlider";
+import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string;
   userId: string;
@@ -67,6 +72,9 @@ export default function MemberContextMenu(props: Props) {
       : undefined;
   const server = () =>
     props.serverId ? servers.get(props.serverId) : undefined;
+
+  const muted = () =>
+    member()?.muteExpireAt && member()?.muteExpireAt! > Date.now();
 
   const adminItems = () => {
     if (!props.serverId) return [];
@@ -94,6 +102,12 @@ export default function MemberContextMenu(props: Props) {
       alert: true,
       icon: "volume_off",
       onClick: onMuteClick
+    };
+    const unmute = {
+      label: t("muteModal.unmuteButton"),
+      alert: true,
+      icon: "volume_up",
+      onClick: onUnmuteClick
     };
     const nickname = {
       label: t("userContextMenu.changeNickname"),
@@ -141,7 +155,7 @@ export default function MemberContextMenu(props: Props) {
         separator,
         ...(member() ? [kick] : []),
         ban,
-        mute,
+        ...(muted() ? [unmute] : [mute]),
         ...(member() && !isBot ? [separator] : []),
         ...(member() && !isBot ? [transferOwnership] : [])
       ];
@@ -166,7 +180,7 @@ export default function MemberContextMenu(props: Props) {
     }
     hasKickPermission && createArr.push(kick);
     hasBanPermission && createArr.push(ban);
-    hasAdminPermission && createArr.push(mute);
+    hasAdminPermission && createArr.push(muted() ? unmute : mute);
     return createArr;
   };
 
@@ -183,6 +197,26 @@ export default function MemberContextMenu(props: Props) {
     const user = props.user! || member()?.user();
     createPortal?.((close) => (
       <BanModal close={close} user={user} serverId={props.serverId!} />
+    ));
+  };
+
+  const onUnmuteClick = () => {
+    const user = props.user! || member()?.user();
+    createPortal?.((close) => (
+      <DeleteConfirmModal
+        close={close}
+        title="Unmute"
+        icon="volume_up"
+        onDeleteClick={async () => {
+          await removeMuteServerMember(props.serverId!, user.id).catch(
+            (err) => {
+              toast("Failed to unmute member: " + err.message);
+            }
+          );
+        }}
+        custom="Are you sure you want to unmute this user?"
+        buttonText={{ main: "Unmute", loading: "Unmuting..." }}
+      />
     ));
   };
   const onMuteClick = () => {

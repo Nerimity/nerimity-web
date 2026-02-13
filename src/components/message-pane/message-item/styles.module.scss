@@ -388,6 +388,14 @@
   gap: 5px;
 }
 
+.details .muted {
+  color: var(--alert-color);
+}
+.details .mutedTooltip {
+  display: flex;
+  align-items: center;
+}
+
 .details .ownerBadge {
   padding: 2px;
   border-radius: 4px;
