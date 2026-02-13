@@ -1,4 +1,4 @@
-import { createEffect } from "solid-js";
+import { createEffect, on } from "solid-js";
 import { createStore, produce } from "solid-js/store";
 import { getStorageObject, setStorageObject, StorageKeys } from "./localStorage";
 
@@ -18,9 +18,11 @@ export const [favorites, setFavorites] = createStore<FavoritesMap>(
   getStorageObject(StorageKeys.FAVORITE_GIFS, {})
 );
 
-createEffect(() => {
-  setStorageObject(StorageKeys.FAVORITE_GIFS, favorites);
-});
+createEffect(on(
+  () => JSON.stringify(favorites),
+  () => setStorageObject(StorageKeys.FAVORITE_GIFS, favorites),
+  { defer: true }
+));
 
 export const favoritesStore = {
   add: (gif: FavoriteGif) => {
