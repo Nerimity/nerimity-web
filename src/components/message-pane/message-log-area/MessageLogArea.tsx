@@ -1193,7 +1193,7 @@ const MessageReactHeader = (props: {
         class={cn(styles.reaction, styles.reactionPicker)}
         onClick={props.openReactPicker}
       >
-        <Icon size={iconSize()} name="more_horiz" class={styles.icon} />
+        <Icon size={iconSize()} name="more_horiz" />
       </div>
     </div>
   );
