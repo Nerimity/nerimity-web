@@ -1002,6 +1002,10 @@
         "quote": {
             "invalid": "Gelöschte oder ungültige Quote.",
             "nested": "Verschachtelte Quote"
+        },
+        "codeBlock": {
+            "text": "Klartext",
+            "toggleWrapButton": "Zeilenumbruch ein-/ausschalten"
         }
     },
     "colorPickerModal": {
@@ -1138,7 +1142,8 @@
         "members": {
             "filter": {
                 "header": "Filtern nach",
-                "24hours": "24 Stunden"
+                "24hours": "24 Stunden",
+                "muted": "Gestummt"
             },
             "sort": {
                 "header": "Sortieren nach",
@@ -1153,7 +1158,8 @@
             }
         },
         "addChannel": "Kanal hinzufügen",
-        "inVoice": "Im Sprachchat"
+        "inVoice": "Im Sprachchat",
+        "verified": "Dieser Server ist verifiziert."
     },
     "inVoiceActions": {
         "connectedFor": "Verbunden seit"
@@ -1259,5 +1265,33 @@
         "body": "Bist du dir sicher, dass du dich ausloggen möchtest?",
         "clearSettings": "Lösche Lokale Einstellungen",
         "cancelButton": "Nicht ausloggen"
+    },
+    "remindersModal": {
+        "title": "Erinnerungen",
+        "showAllButton": "Zeige alle Erinnerungen an",
+        "viewButton": "Ansehen",
+        "dismissing": "Wird verworfen…",
+        "deleting": "Wird gelöscht…",
+        "snoozeFor5Minutes": "Für 5 Minuten schlummern",
+        "snoozeFor1Day": "Für 1 Tag schlummern",
+        "deletedItem": "Gelöschte Posts oder Nachrichten.",
+        "closeNotice": "Du musst zuerst alle aktiven Erinnerungen verwerfen."
+    },
+    "muteModal": {
+        "title": "{{username}} stummschalten?",
+        "message": "<1>{{username}}</1> kann auf diesem Server für <2>{{duration}}</2> nicht sprechen können.",
+        "banButton": "Stummschalten",
+        "banning": "Wird stummgeschalten…",
+        "reasonLabel": "Grund (optional)",
+        "reasonPlaceholder": "Gebe einen Grund ein…",
+        "muteButton": "Stummschalten",
+        "unmuteButton": "Entstummen",
+        "cancelMute": "Nicht stummschalten"
+    },
+    "addReminderModal": {
+        "title": "Erinnerung",
+        "message": "Erinnerung setzen für",
+        "setReminderButton": "Erinnerung setzen",
+        "adding": "Wird hinzugefügt…"
     }
 }
