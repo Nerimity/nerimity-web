@@ -1276,5 +1276,22 @@
         "muteButton": "Замутить",
         "unmuteButton": "Размутить",
         "cancelMute": "Не мутить"
+    },
+    "remindersModal": {
+        "title": "Напоминания",
+        "showAllButton": "Показать все напоминания",
+        "viewButton": "Посмотреть",
+        "dismissing": "Отмена…",
+        "deleting": "Удаление…",
+        "snoozeFor5Minutes": "Отложить на 5 минут",
+        "snoozeFor1Day": "Отложить на 1 день",
+        "deletedItem": "Удалённый пост или сообщение.",
+        "closeNotice": "Сначала отмените все активные напоминания."
+    },
+    "addReminderModal": {
+        "title": "Напоминание",
+        "message": "Установить напоминание на",
+        "setReminderButton": "Установить",
+        "adding": "Сохранение…"
     }
 }
