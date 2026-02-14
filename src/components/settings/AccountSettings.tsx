@@ -385,7 +385,7 @@ export function EditAccountPage(props: {
               onText={(v) => setInputValue("email", v)}
               suffix={
                 <Show when={!showEmail()}>
-                  <Button label="Edit" />
+                  <Button iconName="edit" iconSize={16} />
                 </Show>
               }
             />
