@@ -83,6 +83,8 @@ export default function DeleteAnnouncePostsModal(props: Props) {
           type="password"
           value={password()}
           onText={setPassword}
+          onEnter={onDeleteClicked}
+          autofocus
         />
 
         <Show when={error()}>

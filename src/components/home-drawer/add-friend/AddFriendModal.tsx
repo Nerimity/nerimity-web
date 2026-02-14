@@ -20,6 +20,8 @@ export default function AddFriendModal(props: { close: () => void }) {
           onText={controller.setUserTag}
           value={controller.userTag()}
           success={controller.success() && t("addFriendModal.requestSent")}
+          onEnter={controller.onSendClick}
+          autofocus
         />
       </Modal.Body>
       <Modal.Footer>

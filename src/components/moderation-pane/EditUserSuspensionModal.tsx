@@ -174,6 +174,7 @@ export default function EditUserSuspensionModal(props: Props) {
           type="password"
           value={password()}
           onText={setPassword}
+          onEnter={onSuspendClicked}
         />
 
         <Show when={error()}>

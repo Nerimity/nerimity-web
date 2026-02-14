@@ -78,6 +78,8 @@ export default function UnsuspendUsersModal(props: Props) {
           type="password"
           value={password()}
           onText={setPassword}
+          onEnter={onUnsuspendClicked}
+          autofocus
         />
         <Show when={error()}>
           <Text color="var(--alert-color)" size={12}>

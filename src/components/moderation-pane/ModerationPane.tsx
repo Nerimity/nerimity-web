@@ -1620,6 +1620,7 @@ export function Post(props: {
                   placeholder="Reason"
                   onText={setReason}
                   value={reason()}
+                  onEnter={onSuggestClick}
                 />
               </Show>
             </FlexColumn>

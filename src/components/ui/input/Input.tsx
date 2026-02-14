@@ -23,9 +23,6 @@ interface Props {
   label?: string;
   type?: string;
   value?: string;
-  onText?: (value: string) => void;
-  onBlur?(event: FocusEvent): void;
-  onFocus?(event: FocusEvent): void;
   error?: Error | string | null;
   success?: string | false;
   errorName?: string | string[];
@@ -38,11 +35,16 @@ interface Props {
   ref?: (el: HTMLInputElement | HTMLTextAreaElement) => void;
   margin?: number | number[];
   maxLength?: number;
-  onInput?: (event: InputEvent) => void;
   primaryColor?: string;
-  onChange?: JSX.ChangeEventHandlerUnion<HTMLInputElement, Event>;
   disabled?: boolean;
+  autofocus?: boolean;
+  onBlur?(event: FocusEvent): void;
+  onFocus?(event: FocusEvent): void;
   onClick?: (event: MouseEvent) => void;
+  onInput?: (event: InputEvent) => void;
+  onText?: (value: string) => void;
+  onChange?: JSX.ChangeEventHandlerUnion<HTMLInputElement, Event>;
+  onEnter?: (event: KeyboardEvent) => void;
 }
 
 const Base = styled("div")<{ margin?: number | number[] }>`
@@ -136,6 +138,9 @@ export default function Input(props: Props) {
 
   onMount(() => {
     props.ref?.(inputEl as HTMLInputElement | HTMLTextAreaElement);
+    if (props.autofocus) {
+      focus();
+    }
   });
 
   const error = () => {
@@ -194,6 +199,17 @@ export default function Input(props: Props) {
     setFocused(true);
     props.onFocus?.(event);
   };
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      if (event.shiftKey) return;
+      if (props.onEnter) {
+        event.preventDefault();
+        props.onEnter(event);
+      }
+    }
+  };
+
   return (
     <Base margin={props.margin} class={props.class}>
       <Show when={props.label}>
@@ -221,6 +237,7 @@ export default function Input(props: Props) {
             onfocus={onFocus}
             onblur={onBlur}
             onInput={onChange}
+            onkeydown={onKeyDown}
             value={props.value || ""}
           />
         </Show>
@@ -234,6 +251,7 @@ export default function Input(props: Props) {
             onfocus={onFocus}
             onblur={onBlur}
             onInput={onChange}
+            onkeydown={onKeyDown}
             type={props.type || "text"}
             value={props.value || ""}
             onClick={props.onClick}

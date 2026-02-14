@@ -81,6 +81,8 @@ export default function UndoServerDeleteModal(props: Props) {
           type="password"
           value={password()}
           onText={setPassword}
+          onEnter={onRestoreClick}
+          autofocus
         />
 
         <Show when={error()}>

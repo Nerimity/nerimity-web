@@ -90,13 +90,14 @@ export default function ShadowBanUserModal(props: Props) {
             ]}
           />
         </div>
-        <Input label="Reason" value={reason()} onText={setReason} />
+        <Input label="Reason" value={reason()} onText={setReason} autofocus />
 
         <Input
           label="Confirm Password"
           type="password"
           value={password()}
           onText={setPassword}
+          onEnter={onWarnClick}
         />
 
         <Show when={error()}>

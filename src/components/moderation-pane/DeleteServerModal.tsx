@@ -64,6 +64,8 @@ export default function DeleteServerModal(props: Props) {
           type="password"
           value={password()}
           onText={setPassword}
+          onEnter={onDeleteClick}
+          autofocus
         />
         <Show when={error()}>
           <Text color="var(--alert-color)" size={12}>
