@@ -79,6 +79,7 @@ import { messagesPreloader } from "@/common/createPreloader";
 import { unzipJson } from "@/common/zip";
 import { rightDrawerMode } from "@/common/localStorage";
 import { cn } from "@/common/classNames";
+import { addToHistory } from "@nerimity/solid-emoji-picker";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -607,10 +608,13 @@ export const MessageLogArea = (props: {
   const addReaction = async (shortcode: string, message: Message) => {
     props.textAreaEl?.focus();
     const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
+    const name = !customEmoji ? emojiShortcodeToUnicode(shortcode) : shortcode;
+
+    addToHistory(shortcode, 20);
     await addMessageReaction({
       channelId: message.channelId,
       messageId: message.id,
-      name: !customEmoji ? emojiShortcodeToUnicode(shortcode) : shortcode,
+      name: name!,
       emojiId: customEmoji?.id,
       gif: customEmoji?.gif,
       webp: customEmoji?.webp
@@ -645,7 +649,9 @@ export const MessageLogArea = (props: {
           replyMessage={() => replyMessage(messageContextDetails()?.message!)}
           quoteMessage={() => quoteMessage(messageContextDetails()?.message!)}
           translateMessage={translateMessage}
-          addReaction={(shortcode: string, message: Message) => addReaction(shortcode, message)}
+          addReaction={(shortcode: string, message: Message) =>
+            addReaction(shortcode, message)
+          }
           onClose={() => setMessageContextDetails(undefined)}
         />
       </Show>
@@ -1119,7 +1125,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
 
 const MessageReactHeader = (props: {
   addReaction: (shortcode: string) => void;
-  openReactPicker: (event: MouseEvent) => void
+  openReactPicker: (event: MouseEvent) => void;
 }) => {
   const { isMobileWidth, width } = useWindowProperties();
   const store = useStore();
@@ -1128,11 +1134,12 @@ const MessageReactHeader = (props: {
     const customEmoji = store.servers.customEmojiNamesToEmoji()[shortcode];
     const unicode = emojiShortcodeToUnicode(shortcode);
     const icon =
-      unicode || (customEmoji && `${customEmoji.id}.${customEmoji.gif ? "gif" : "webp"}`);
+      unicode ||
+      (customEmoji && `${customEmoji.id}.${customEmoji.gif ? "gif" : "webp"}`);
     return icon;
-  }
+  };
 
-  const iconSize = () => isMobileWidth() ? 32 : 20;
+  const iconSize = () => (isMobileWidth() ? 32 : 20);
 
   const emojiSlots = () => {
     if (!isMobileWidth()) {
@@ -1144,7 +1151,10 @@ const MessageReactHeader = (props: {
 
       // usable space left after removing menu padding & the picker button
       const remainingSpace = width() - menuPadding - paddedIconSize;
-      return Math.max(Math.floor(remainingSpace / (paddedIconSize + iconGap)), 0);
+      return Math.max(
+        Math.floor(remainingSpace / (paddedIconSize + iconGap)),
+        0
+      );
     }
   };
 
@@ -1165,7 +1175,10 @@ const MessageReactHeader = (props: {
     <div class={styles.reactSuggestionList}>
       <For each={suggestions()}>
         {(shortcode, i) => (
-          <div class={styles.reaction} onClick={() => props.addReaction(shortcode)}>
+          <div
+            class={styles.reaction}
+            onClick={() => props.addReaction(shortcode)}
+          >
             <UiEmoji
               size={iconSize()}
               icon={emojiIcon(shortcode)}
@@ -1176,11 +1189,14 @@ const MessageReactHeader = (props: {
           </div>
         )}
       </For>
-      <div class={cn(styles.reaction, styles.reactionPicker)} onClick={props.openReactPicker}>
+      <div
+        class={cn(styles.reaction, styles.reactionPicker)}
+        onClick={props.openReactPicker}
+      >
         <Icon size={iconSize()} name="more_horiz" class={styles.icon} />
       </div>
     </div>
-  )
+  );
 };
 
 const ViewReactionsModal = (props: { close: () => void; message: Message }) => {
