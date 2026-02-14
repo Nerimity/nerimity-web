@@ -96,7 +96,6 @@ function Footer() {
     const electronVersion = await electronWindowAPI()?.getAppVersion();
     return [
       `App ${appVersion}`,
-      "Version: v1.0",
       reactVersion ? `React Native ${reactVersion}` : undefined,
       electronVersion ? `Electron v${electronVersion}` : undefined,
     ]
