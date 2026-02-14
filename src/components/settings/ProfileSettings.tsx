@@ -49,7 +49,7 @@ export default function ProfileSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.account"),
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.profile"),
       iconName: "settings",
     });
   });
@@ -62,7 +62,6 @@ export default function ProfileSettings() {
     <Container>
       <Breadcrumb>
         <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
-        <BreadcrumbItem title={t("settings.drawer.account")} href="../" />
         <BreadcrumbItem title={t("settings.drawer.profile")} />
       </Breadcrumb>
       <PalestineBorder />
