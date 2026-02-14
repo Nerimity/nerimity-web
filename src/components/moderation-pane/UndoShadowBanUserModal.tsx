@@ -85,6 +85,8 @@ export default function UndoShadowBanUserModal(props: Props) {
           type="password"
           value={password()}
           onText={setPassword}
+          onEnter={onWarnClick}
+          autofocus
         />
 
         <Show when={error()}>

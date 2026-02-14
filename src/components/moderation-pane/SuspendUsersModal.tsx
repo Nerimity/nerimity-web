@@ -227,6 +227,7 @@ export default function SuspendUsersModal(props: Props) {
           type="password"
           value={password()}
           onText={setPassword}
+          onEnter={onSuspendClicked}
         />
 
         <Show when={error()}>

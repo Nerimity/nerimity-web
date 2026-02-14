@@ -122,6 +122,8 @@ export default function WarnUserModal(props: Props) {
           type="password"
           value={password()}
           onText={setPassword}
+          onEnter={onWarnClick}
+          autofocus
         />
 
         <Show when={error()}>

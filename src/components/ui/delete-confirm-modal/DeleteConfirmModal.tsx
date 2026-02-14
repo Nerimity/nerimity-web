@@ -103,6 +103,8 @@ export default function DeleteConfirmModal(props: Props) {
             type={props.password ? "password" : "text"}
             error={error()}
             onText={(v) => setConfirmInput(v)}
+            onEnter={onDeleteClick}
+            autofocus
           />
         </Show>
       </div>

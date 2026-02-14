@@ -405,6 +405,7 @@ const SuggestBlock = (props: { serverId: string }) => {
                   placeholder="Reason"
                   onText={setReason}
                   value={reason()}
+                  onEnter={onSuggestClick}
                 />
               </Show>
             </FlexColumn>

@@ -66,6 +66,8 @@ const CreateServerModal = (props: { close: () => void }) => {
           value={controller.name()}
           error={controller.error().message}
           placeholder={t("createServerModal.placeholder")}
+          onEnter={controller.onCreateClick}
+          autofocus
         />
       </Modal.Body>
       <Modal.Footer>
@@ -100,6 +102,7 @@ function sanitizeInviteInput(value: string): string {
 const JoinServerModal = (props: { close: () => void }) => {
   const controller = useAddServerModalController();
   const [rawInvite, setRawInvite] = createSignal(controller.name());
+  const [buttonRef, setButtonRef] = createSignal<HTMLButtonElement>();
 
   return (
     <>
@@ -124,6 +127,8 @@ const JoinServerModal = (props: { close: () => void }) => {
           onText={setRawInvite}
           value={rawInvite()}
           error={controller.error().message}
+          onEnter={() => buttonRef()?.click()}
+          autofocus
         />
       </Modal.Body>
       <Modal.Footer>
@@ -134,7 +139,8 @@ const JoinServerModal = (props: { close: () => void }) => {
           onClick={props.close}
         />
         <Modal.Button
-          onClick={(e) => {
+          ref={setButtonRef}
+          onClick={(e: Event) => {
             const cleaned = sanitizeInviteInput(rawInvite());
             controller.setName(cleaned);
             controller.onJoinClick(e);

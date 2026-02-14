@@ -33,7 +33,7 @@ export default function AnnouncePostsModal(props: Props) {
   } | null>(null);
   const [requestSent, setRequestSent] = createSignal(false);
 
-  const onDeleteClicked = () => {
+  const onAnnounceClicked = () => {
     if (requestSent()) return;
     setRequestSent(true);
     setError(null);
@@ -57,7 +57,7 @@ export default function AnnouncePostsModal(props: Props) {
       }}
     >
       <Button
-        onClick={onDeleteClicked}
+        onClick={onAnnounceClicked}
         margin={0}
         label={requestSent() ? "Announcing..." : "Announce"}
         color="var(--primary-color)"
@@ -82,6 +82,8 @@ export default function AnnouncePostsModal(props: Props) {
           type="password"
           value={password()}
           onText={setPassword}
+          onEnter={onAnnounceClicked}
+          autofocus
         />
 
         <Show when={error()}>

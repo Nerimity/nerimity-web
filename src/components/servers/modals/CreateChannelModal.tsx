@@ -51,6 +51,8 @@ export function CreateChannelModal(props: {
           onText={setName}
           value={name()}
           error={error().message}
+          onEnter={onCreateClick}
+          autofocus
         />
       </Modal.Body>
       <Modal.Footer>

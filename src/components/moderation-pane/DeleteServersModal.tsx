@@ -164,6 +164,7 @@ export default function DeleteServersModal(props: Props) {
           type="password"
           value={password()}
           onText={setPassword}
+          onEnter={onSuspendClicked}
         />
 
         <Show when={error()}>

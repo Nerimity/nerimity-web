@@ -32,7 +32,7 @@ const useController = (close: () => void) => {
     }, 1000);
   };
 
-  const onJoinClick = async (event: MouseEvent) => {
+  const onJoinClick = async (event: Event) => {
     if (!name().trim()) {
       event.stopPropagation();
       event.preventDefault();
