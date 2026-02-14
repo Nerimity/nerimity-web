@@ -283,6 +283,17 @@
     "by": "By",
     "bumped": "Bumped"
   },
+  "remindersModal": {
+    "title": "Reminders",
+    "showAllButton": "Show All Reminders",
+    "viewButton": "View",
+    "dismissing": "Dismissing…",
+    "deleting": "Deleting…",
+    "snoozeFor5Minutes": "Snooze for 5 minutes",
+    "snoozeFor1Day": "Snooze for 1 day",
+    "deletedItem": "Deleted post or message.",
+    "closeNotice": "You must dismiss all active reminders first."
+  },
   "editFolderModal": {
     "title": "Edit Folder",
     "placeholder": "Folder Name",
@@ -1176,6 +1187,12 @@
       "title": "Translation",
       "error": "Translation failed"
     }
+  },
+  "addReminderModal": {
+    "title": "Reminder",
+    "message": "Set a reminder for",
+    "setReminderButton": "Set Reminder",
+    "adding": "Adding…"
   },
   "botButtonModal": {
     "title": "Response from {{botName}}",
