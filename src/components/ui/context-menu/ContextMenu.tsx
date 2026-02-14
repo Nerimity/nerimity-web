@@ -174,29 +174,22 @@ export default function ContextMenu(props: ContextMenuProps) {
   const left = () => {
     if (!props.position) return;
     if (!contextMenuEl()) return;
+    let x = props.position.x;
     // move the context menu to the left if it's off the screen.
-    if (props.position.x + width() > window.innerWidth) {
-      return props.position.x - width() + "px";
+    if (x + width() > window.innerWidth) {
+      x = Math.max(x - width(), 0);
     }
-
-    return props.position.x + "px";
+    return x + "px";
   };
 
   const top = () => {
     if (!props.position) return;
     if (!contextMenuEl()) return;
-
     let y = props.position.y;
     // move the context menu to the top if it's off the screen.
-    if (props.position.y + height() > window.innerHeight) {
-      y = props.position.y - height();
+    if (y + height() > window.innerHeight) {
+      y = Math.max(y - height(), 0);
     }
-
-    // move the context menu to the bottom if it's off the screen.
-    if (props.position.y + height() > window.innerHeight) {
-      y = props.position.y - height();
-    }
-
     return y + "px";
   };
 
