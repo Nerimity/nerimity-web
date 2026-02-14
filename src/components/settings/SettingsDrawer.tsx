@@ -1,6 +1,6 @@
 import Icon from "@/components/ui/icon/Icon";
 import { A, useMatch, useNavigate, useParams } from "solid-navigator";
-import { For, JSXElement, Match, Show, Switch } from "solid-js";
+import { createSignal, For, JSXElement, Match, onMount, Show, Switch } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import settings from "@/common/Settings";
@@ -26,6 +26,8 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { Rerun } from "@solid-primitives/keyed";
 import { getCurrentLanguage } from "@/locales/languages";
 import { LogoutModal } from "./LogoutModal";
+import { reactNativeAPI } from "@/common/ReactNative";
+import { electronWindowAPI } from "@/common/Electron";
 
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;
@@ -40,7 +42,7 @@ const SettingsListContainer = styled("div")`
   flex: 1;
 `;
 
-const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
+const SettingItemContainer = styled(ItemContainer) <{ nested?: boolean }>`
   height: 32px;
   gap: 5px;
   padding-left: ${(props) => (props.nested ? "25px" : "10px")};
@@ -70,10 +72,16 @@ const FooterContainer = styled(FlexColumn)`
   }
 `;
 
+const VersionsContainer = styled(FlexColumn)`
+  margin-left: 3px;
+  margin-right: 3px;
+`;
+
 function Footer() {
   const [t] = useTransContext();
   const { createPortal } = useCustomPortal();
   const { isMobileWidth } = useWindowProperties();
+  const [versions, setVersions] = createSignal<string[]>();
 
   const onChangelogClick = () =>
     createPortal?.((close) => <ChangelogModal close={close} />);
@@ -82,27 +90,53 @@ function Footer() {
     createPortal((close) => <LogoutModal close={close} />);
   };
 
+  const fetchVersions = async () => {
+    const appVersion = env.APP_VERSION || "Unknown";
+    const reactVersion = reactNativeAPI()?.version;
+    const electronVersion = await electronWindowAPI()?.getAppVersion();
+    return [
+      `App ${appVersion}`,
+      "Version: v1.0",
+      reactVersion ? `React Native ${reactVersion}` : undefined,
+      electronVersion ? `Electron v${electronVersion}` : undefined,
+    ]
+  }
+  onMount(() => {
+    fetchVersions().then(setVersions);
+  });
+
   return (
     <FooterContainer gap={2} data-mobile-width={isMobileWidth()}>
+      <VersionsContainer>
+        <For each={versions()}>
+          {(version) => (
+            <Text size={12} color="rgba(255,255,255,0.4)" style={{ "user-select": "none" }}>
+              {version}
+            </Text>
+          )}
+        </For>
+      </VersionsContainer>
+
       <SupportBlock />
-      <FooterItem
-        href="https://github.com/Nerimity/Nerimity-Web"
-        external
-        icon="code"
-        label={t("settings.drawer.viewSource")}
-      />
-      <FooterItem
-        icon="description"
-        label={t("settings.drawer.changelog")}
-        subLabel={env.APP_VERSION || "Unknown"}
-        onClick={onChangelogClick}
-      />
-      <FooterItem
-        color="var(--alert-color)"
-        icon="logout"
-        label={t("header.logoutButton")}
-        onClick={onLogoutClick}
-      />
+      <FlexRow gap={4} style={{"margin-left": "2px", "margin": "4px"}}>
+        <FooterItem
+          href="https://github.com/Nerimity/Nerimity-Web"
+          external
+          icon="code"
+          label={t("settings.drawer.source")}
+        />
+        <FooterItem
+          icon="description"
+          label={t("settings.drawer.changes")}
+          onClick={onChangelogClick}
+        />
+        <FooterItem
+          color="var(--alert-color)"
+          icon="logout"
+          label={t("header.logoutButton")}
+          onClick={onLogoutClick}
+        />
+      </FlexRow>
       <InVoiceActions />
     </FooterContainer>
   );
@@ -203,55 +237,48 @@ interface FooterItemProps {
   color?: string;
 }
 
+
+const FooterItemStyle = css`
+  display: flex;
+  padding: 5px;
+  flex-direction: column;
+  border-radius: 5px;
+  transition: 0.2s;
+  cursor: pointer;
+  align-items: center;
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.05);
+  text-align: center;
+  justify-content: center;
+  gap: 4px;
+`
 function FooterItem(props: FooterItemProps) {
-  const Content = () => (
-    <>
-      <SettingItemContainer>
-        <Icon name={props.icon} color={props.color} size={18} />
-        <Text
-          class={css`
-            margin-right: auto;
-          `}
-          size={14}
-        >
-          {props.label}
-        </Text>
-        <Text
-          size={14}
-          color="rgba(255,255,255,0.4)"
-          class={css`
+
+  return (
+    <Dynamic component={props.href ? A : "div"} href={props.href!}
+      class={FooterItemStyle}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={props.onClick}
+      style={{ "text-decoration": "none" }}
+    >
+      <Icon name={props.icon} color={props.color} size={18} />
+      <Text
+        size={14}
+      >
+        {props.label}
+      </Text>
+      <Text
+        size={14}
+        color="rgba(255,255,255,0.4)"
+        class={css`
             margin-right: 5px;
           `}
-        >
-          {props.subLabel}
-        </Text>
-        <Show when={props.external}>
-          <Icon
-            class={css`
-              margin-right: 5px;
-            `}
-            color="rgba(255,255,255,0.6)"
-            name="open_in_new"
-            size={16}
-          />
-        </Show>
-      </SettingItemContainer>
-    </>
-  );
-  return (
-    <Switch>
-      <Match when={props.href}>
-        <A
-          href={props.href!}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ "text-decoration": "none" }}
-          children={Content}
-        />
-      </Match>
-      <Match when={!props.href}>
-        <div children={Content} onClick={props.onClick} />
-      </Match>
-    </Switch>
+      >
+        {props.subLabel}
+      </Text>
+    </Dynamic>
+
+
   );
 }

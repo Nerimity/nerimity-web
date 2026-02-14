@@ -550,7 +550,9 @@
       "tickets": "Tickets",
       "privacy": "Privacy",
       "connections": "Connections",
-      "profile": "Profile"
+      "profile": "Profile",
+      "source": "Source",
+      "changes": "Changes"
     },
     "language": {
       "reloadNotice": "You must reload the app to fully apply the new language.",
