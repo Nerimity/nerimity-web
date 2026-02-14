@@ -27,6 +27,7 @@ import {
 import { PostItem } from "../post-area/PostItem";
 import { formatTimestamp } from "@/common/date";
 import { toast } from "../ui/custom-portal/CustomPortal";
+import { t } from "@nerimity/i18lite";
 
 export default function RemindersModal(props: {
   channelId?: string;
@@ -58,7 +59,7 @@ export default function RemindersModal(props: {
   );
 
   const closeNotice = () =>
-    toast("You must dismiss all active reminders first.");
+    toast(t("remindersModal.closeNotice"));
 
   const close = () => {
     if (hasActiveReminders()) {
@@ -69,7 +70,7 @@ export default function RemindersModal(props: {
   };
   return (
     <Modal.Root close={close} class={style.remindersModalRoot}>
-      <Modal.Header title="Reminders" alert={!!hasActiveReminders()} />
+      <Modal.Header title={t("remindersModal.title")} alert={!!hasActiveReminders()} />
       <Modal.Body class={style.remindersModalBody}>
         <div class={style.reminderList}>
           <For each={reminders()}>
@@ -83,7 +84,7 @@ export default function RemindersModal(props: {
       <Show when={props.channelId && !showAll()}>
         <Modal.Footer>
           <Modal.Button
-            label="Show All Reminders"
+            label={t("remindersModal.showAllButton")}
             iconName="filter_alt_off"
             primary
             onClick={() => setShowAll(true)}
@@ -158,7 +159,7 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
       </div>
       <Switch
         fallback={
-          <div class={style.reminderDeleted}>Deleted Post Or Message</div>
+          <div class={style.reminderDeleted}>{t("remindersModal.deletedItem")}</div>
         }
       >
         <Match when={props.reminder.message}>
@@ -179,11 +180,11 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
           label={
             isActive()
               ? deleteClicked()
-                ? "Dismissing"
-                : "Dismiss"
+                ? t("remindersModal.dismissing")
+                : t("message.dismissButton")
               : deleteClicked()
-              ? "Deleting..."
-              : "Delete"
+              ? t("remindersModal.deleting")
+              : t("general.deleteButton")
           }
           alert={!isActive()}
           color={isActive() ? "var(--success-color)" : undefined}
@@ -199,7 +200,7 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
             padding={4}
             margin={0}
             onclick={() => handleSnoozeClick("5m")}
-            label="Snooze for 5 minutes"
+            label={t("remindersModal.snoozeFor5Minutes")}
             iconName="timer"
             class={style.button}
           />
@@ -207,7 +208,7 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
             iconSize={20}
             padding={4}
             margin={0}
-            label="Snooze for 1 day"
+            label={t("remindersModal.snoozeFor1Day")}
             onclick={() => handleSnoozeClick("24h")}
             iconName="timer"
             class={style.button}
@@ -216,7 +217,7 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
         <Show when={!isActive()}>
           <Button
             iconName="visibility"
-            label="View"
+            label={t("remindersModal.viewButton")}
             onClick={onViewClick}
             iconSize={20}
             padding={4}

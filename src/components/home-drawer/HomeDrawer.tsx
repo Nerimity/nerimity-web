@@ -110,7 +110,7 @@ const Items = () => {
       />
       <Show when={controller?.hasReminders()}>
         <Item
-          label="Reminders"
+          label={t("remindersModal.title")}
           icon="calendar_month"
           onClick={controller?.openReminders}
         />

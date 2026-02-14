@@ -15,6 +15,7 @@ import { addReminder } from "@/chat-api/services/ReminderService";
 import { Message } from "@/chat-api/store/useMessages";
 import Text from "../ui/Text";
 import { WorldTimezones } from "@/common/WorldTimezones";
+import { t } from "@nerimity/i18lite";
 
 export enum TimestampType {
   RELATIVE = "tr",
@@ -109,9 +110,9 @@ export function TimestampMention(props: {
       };
       return (
         <Modal.Root close={close}>
-          <Modal.Header title="Reminder" />
+          <Modal.Header title={t("addReminderModal.title")} />
           <Modal.Body>
-            <div>Set A Reminder For</div>
+            <div>{t("addReminderModal.message")}</div>
             <div
               style={{
                 "font-weight": "bold",
@@ -130,14 +131,14 @@ export function TimestampMention(props: {
           </Modal.Body>
           <Modal.Footer>
             <Modal.Button
-              label="Close"
+              label={t("general.closeButton")}
               iconName="close"
               alert
               onClick={close}
             />
             <Modal.Button
               primary
-              label={requestSent() ? "Creating..." : "Set Reminder"}
+              label={requestSent() ? t("addReminderModal.adding") : t("addReminderModal.setReminderButton")}
               iconName="schedule"
               onClick={setReminder}
             />
