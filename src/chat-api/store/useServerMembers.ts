@@ -26,7 +26,7 @@ export type ServerMember = Omit<RawServerMember, "user"> & {
     bitwise: { bit: number },
     ignoreAdmin?: boolean,
     ignoreCreator?: boolean
-  ) => boolean | void;
+  ) => boolean;
   topRole: () => ServerRole;
   topRoleWithIcon: () => ServerRole | undefined;
   unhiddenRole: () => ServerRole | undefined;
