@@ -12,7 +12,7 @@ import env from "@/common/env";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { formatTimestamp } from "@/common/date";
 import Icon from "@/components/ui/icon/Icon";
-import { A, useParams } from "solid-navigator";
+import { A, useNavigate, useParams } from "solid-navigator";
 import { createEffect, createSignal, For, on, onMount, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -229,6 +229,7 @@ function CustomInvite(props: { invites: any[]; onUpdate: () => void }) {
 
 const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
   const [t] = useTransContext();
+  const navigate = useNavigate();
   const url =
     env.APP_URL +
     RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(props.invite.code);
@@ -247,6 +248,12 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
             href={RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(
               props.invite.code,
             )}
+            onclick={(e) => {
+              e.preventDefault();
+              navigate(RouterEndpoints.EXPLORE_SERVER_INVITE(
+                props.invite.code,
+              ));
+            }}
             class={styles.url}
           >
             {url}
