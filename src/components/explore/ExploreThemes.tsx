@@ -93,10 +93,6 @@ export default function ExploreThemes() {
 
   return (
     <Container>
-      <FlexRow style={{ "margin-bottom": "10px" }}>
-        <Button margin={0} href="/app" label={t("general.backButton")} iconName="arrow_back" />
-      </FlexRow>
-
       <Notice type="info">{t("explore.themes.themesHeaderDescription")}</Notice>
 
       <FlexRow

@@ -147,18 +147,6 @@ export default function ExploreServers() {
   return (
     <Container>
       <MetaTitle>Explore Servers</MetaTitle>
-      <div
-        class={css`
-          display: flex;
-        `}
-      >
-        <Button
-          margin={0}
-          href="/app"
-          label={t("general.backButton")}
-          iconName="arrow_back"
-        />
-      </div>
       <FlexRow
         gap={10}
         wrap

@@ -19,6 +19,7 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { QuickTravel } from "../QuickTravel";
 import InVoiceActions from "../InVoiceActions";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import exploreRoutes from "@/common/exploreRoutes";
 
 export default function HomeDrawer() {
   const { isMobileWidth } = useWindowProperties();
@@ -99,6 +100,7 @@ const HorizontalItem = (props: {
 
 const Items = () => {
   const controller = useHomeDrawerController();
+  const inExplore = useMatch(() => "/app/explore/*");
 
   return (
     <div class={style.items}>
@@ -107,7 +109,24 @@ const Items = () => {
         label={t("explore.drawer.title")}
         icon="explore"
         href="/app/explore/servers"
+        match="/app/explore/*"
       />
+      <Show when={inExplore()}>
+        <div class={style.exploreSublist}>
+          <For each={exploreRoutes}>
+            {(setting) => (
+              <Item
+                href={"/app/explore" + setting.routePath}
+                match={
+                  setting.match ? "/app/explore" + setting.match : undefined
+                }
+                icon={setting.icon}
+                label={setting.name()}
+              />
+            )}
+          </For>
+        </div>
+      </Show>
       <Show when={controller?.hasReminders()}>
         <Item
           label={t("remindersModal.title")}

@@ -127,18 +127,6 @@ export default function ExploreBots() {
   return (
     <Container>
       <MetaTitle>Explore Bots</MetaTitle>
-      <div
-        class={css`
-          display: flex;
-        `}
-      >
-        <Button
-          margin={0}
-          href="/app"
-          label={t("general.backButton")}
-          iconName="arrow_back"
-        />
-      </div>
       <FlexRow
         gap={10}
         wrap
