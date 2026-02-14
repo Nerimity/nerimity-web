@@ -114,7 +114,7 @@ interface FloatingOptionsProps {
 
 function FloatOptions(props: FloatingOptionsProps) {
   const params = useParams<{ serverId: string }>();
-  const { account, serverMembers, channelProperties } = useStore();
+  const { account, serverMembers, channelProperties, channels } = useStore();
   const { createPortal } = useCustomPortal();
 
   const replyClick = () => {
@@ -146,7 +146,11 @@ function FloatOptions(props: FloatingOptionsProps) {
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   };
 
-  const isContentType = () => props.message.type === MessageType.CONTENT;
+  const showReply = () => {
+    if (props.message.type !== MessageType.CONTENT) return false;
+    const channel = channels.get(props.message.channelId!);
+    return channel?.canSendMessage(account.user()?.id!);
+  }
 
   return (
     <div class={cn(styles.floatOptions, "floatOptions")}>
@@ -158,7 +162,7 @@ function FloatOptions(props: FloatingOptionsProps) {
       <div class={styles.item} onClick={props.reactionPickerClick}>
         <Icon size={18} name="face" class={styles.icon} />
       </div>
-      <Show when={isContentType()}>
+      <Show when={showReply()}>
         <div class={styles.item} onClick={replyClick}>
           <Icon size={18} name="reply" class={styles.icon} />
         </div>

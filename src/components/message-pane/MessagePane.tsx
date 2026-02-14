@@ -230,22 +230,7 @@ function MessagePane() {
   const muted = () =>
     member()?.muteExpireAt && new Date(member()?.muteExpireAt!) > new Date();
 
-  const canSendMessage = () => {
-    if (isEmailNotConfirmed()) {
-      return false;
-    }
-    if (!channel()?.serverId) return true;
-    if (!member()) return false;
-    if (member()?.hasPermission(ROLE_PERMISSIONS.ADMIN)) return true;
-
-    if (muted()) return false;
-
-    if (!channel()?.hasPermission(CHANNEL_PERMISSIONS.SEND_MESSAGE)) {
-      return false;
-    }
-
-    return member()?.hasPermission(ROLE_PERMISSIONS.SEND_MESSAGE);
-  };
+  const canSendMessage = () => channel()?.canSendMessage(account.user()?.id!);
 
   const server = () => servers.get(channel()?.serverId!);
 

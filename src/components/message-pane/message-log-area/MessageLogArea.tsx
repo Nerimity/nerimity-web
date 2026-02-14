@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { ServerEvents } from "@/chat-api/EventNames";
 import {
   MessageType,
@@ -861,6 +861,9 @@ function MessageContextMenu(props: MessageContextMenuProps) {
   const params = useParams<{ serverId?: string }>();
   const { createPortal } = useCustomPortal();
   const { account, serverMembers, channels } = useStore();
+
+  const channel = () => channels.get(props.message.channelId!);
+
   const onDeleteClick = () => {
     createPortal?.((close) => (
       <DeleteMessageModal close={close} message={props.message} />
@@ -910,8 +913,14 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   };
 
-  const showQuote = () => props.message.type === MessageType.CONTENT;
-  const showReply = () => props.message.type === MessageType.CONTENT;
+  const showQuote = () => {
+    if (props.message.type !== MessageType.CONTENT) return false;
+    return channel()?.canSendMessage(account.user()?.id!);
+  };
+  const showReply = () => {
+    if (props.message.type !== MessageType.CONTENT) return false;
+    return channel()?.canSendMessage(account.user()?.id!);
+  };
 
   const hasReactions = () => props.message?.reactions.length;
   const hasContent = () => props.message.content;

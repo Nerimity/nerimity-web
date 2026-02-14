@@ -47,11 +47,20 @@ export type Channel = Omit<RawChannel, "recipient"> & {
   leaveCall: () => void;
   callJoinedAt?: number;
   setCallJoinedAt: (this: Channel, joinedAt: number | undefined) => void;
+  permissionBits:(
+    this: Channel,
+    defaultRoleOnly?: boolean,
+    userId?: string
+  ) => number;
   hasPermission: (
     this: Channel,
     bitwise: Bitwise,
     defaultRoleOnly?: boolean,
     userId?: string
+  ) => boolean;
+  canSendMessage: (
+    this: Channel,
+    userId: string
   ) => boolean;
 };
 
@@ -75,7 +84,9 @@ const set = (channel: RawChannel & { lastSeen?: number }) => {
     update,
     joinCall,
     leaveCall,
+    permissionBits,
     hasPermission,
+    canSendMessage,
   };
 
   setChannels(channel.id, newChannel);
@@ -87,13 +98,12 @@ function permissionList(this: Channel) {
   return getAllPermissions(CHANNEL_PERMISSIONS, permissions);
 }
 
-function hasPermission(
+function permissionBits(
   this: Channel,
-  bitwise: Bitwise,
   defaultRoleOnly = false,
   userId?: string
-) {
-  if (!this.serverId) return false;
+): number {
+  if (!this.serverId) return 0;
 
   const account = useAccount();
   const serverMembers = useServerMembers();
@@ -108,7 +118,7 @@ function hasPermission(
     const permissions = this.permissions?.find(
       (p) => p.roleId === defaultRoleId!
     )?.permissions;
-    return hasBit(permissions || 0, bitwise.bit);
+    return permissions || 0;
   }
 
   const roleIds = [...(member?.roleIds || []), defaultRoleId];
@@ -120,7 +130,45 @@ function hasPermission(
     }
   }
 
+  return permissions;
+}
+
+function hasPermission(
+  this: Channel,
+  bitwise: Bitwise,
+  defaultRoleOnly = false,
+  userId?: string
+) {
+  if (!this.serverId) return false;
+  const permissions = this.permissionBits(defaultRoleOnly, userId);
   return hasBit(permissions, bitwise.bit);
+}
+
+function canSendMessage(
+  this: Channel,
+  userId: string
+) {
+  const serverMembers = useServerMembers();
+  const account = useAccount();
+
+  const member = this.serverId ? serverMembers.get(this.serverId, userId) : undefined;
+  const muted = member?.muteExpireAt && new Date(member?.muteExpireAt) > new Date();
+  const emailConfirmed = account.user()?.id != userId || account.user()?.emailConfirmed;
+
+  if (!emailConfirmed) {
+    return false;
+  }
+  if (!this.serverId) return true;
+  if (!member) return false;
+  if (member?.hasPermission(ROLE_PERMISSIONS.ADMIN)) return true;
+
+  if (muted) return false;
+
+  if (!this.hasPermission(CHANNEL_PERMISSIONS.SEND_MESSAGE, false, userId)) {
+    return false;
+  }
+
+  return member?.hasPermission(ROLE_PERMISSIONS.SEND_MESSAGE);
 }
 
 function mentionCount(this: Channel) {
@@ -215,7 +263,7 @@ const deleteChannel = (channelId: string, serverId?: string) =>
   runWithContext(() => {
     const messages = useMessages();
     const voice = useVoiceUsers();
-    const voiceChannelId = voice.currentUser();
+    const voiceChannelId = voice.currentUser()?.channelId;
     if (serverId) {
       const servers = useServers();
       const defaultChannelId = servers.get(serverId)?.defaultChannelId;
