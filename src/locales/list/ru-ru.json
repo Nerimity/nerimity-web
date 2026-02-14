@@ -982,7 +982,8 @@
         "members": {
             "filter": {
                 "header": "Фильтровать",
-                "24hours": "24 часа"
+                "24hours": "24 часа",
+                "muted": "В муте"
             },
             "sort": {
                 "header": "Сортировать",
@@ -997,7 +998,8 @@
             }
         },
         "inVoice": "В звонке",
-        "addChannel": "Добавить канал"
+        "addChannel": "Добавить канал",
+        "verified": "Этот сервер верифицирован."
     },
     "inVoiceActions": {
         "connectedFor": "Звонок идёт"
@@ -1097,6 +1099,10 @@
         "quote": {
             "invalid": "Цитата недействительна или удалена.",
             "nested": "Вложенная цитата"
+        },
+        "codeBlock": {
+            "text": "Обычный текст",
+            "toggleWrapButton": "Переключить перенос строк"
         }
     },
     "colorPickerModal": {
@@ -1259,5 +1265,16 @@
         "body": "Вы уверены, что хотите выйти из аккаунта?",
         "clearSettings": "Сбросить локальные настройки",
         "cancelButton": "Не выходить"
+    },
+    "muteModal": {
+        "title": "Замутить {{username}}?",
+        "message": "<1>{{username}}</1> не может общаться на этом сервере в течение: <2>{{duration}}</2>",
+        "banButton": "Замутить",
+        "banning": "Выдача мута…",
+        "reasonLabel": "Причина (необязательно)",
+        "reasonPlaceholder": "Укажите причину…",
+        "muteButton": "Замутить",
+        "unmuteButton": "Размутить",
+        "cancelMute": "Не мутить"
     }
 }
