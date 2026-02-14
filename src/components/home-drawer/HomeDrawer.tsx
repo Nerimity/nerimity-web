@@ -1,5 +1,6 @@
 import { useLocation, useMatch } from "solid-navigator";
 import ItemContainer from "../ui/LegacyItem";
+import { Item as UiItem } from "../ui/Item";
 import style from "./HomeDrawer.module.scss";
 import Icon from "../ui/icon/Icon";
 import { t } from "@nerimity/i18lite";
@@ -152,13 +153,14 @@ function Item(props: ItemProps) {
 
   return (
     <CustomLink href={props.href} onClick={props.onClick}>
-      <ItemContainer
-        class={cn(style.item, (selected() || props.selected) && style.selected)}
-        selected={props.selected || selected()}
+      <UiItem.Root
+        class={style.item}
+        selected={props.selected || !!selected()}
+        handlePosition="left"
       >
-        <Icon name={props.icon} size={18} />
-        <div class={style.label}>{props.label}</div>
-      </ItemContainer>
+        <UiItem.Icon>{props.icon}</UiItem.Icon>
+        <UiItem.Label>{props.label}</UiItem.Label>
+      </UiItem.Root>
     </CustomLink>
   );
 }

@@ -7,7 +7,6 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  justify-content: center;
   border-radius: 8px;
   cursor: pointer;
   user-select: none;
@@ -35,7 +34,8 @@
     transition: 0.2s;
   }
   
-  &[data-handle-position="bottom"]{
+  &[data-handle-position="bottom"] {
+    justify-content: center;
     &::after {
       bottom: 0;
       left: initial;
@@ -70,13 +70,14 @@
 }
 
 
-.itemRoot[data-handle-position="bottom"]{
+.itemRoot[data-handle-position="bottom"] {
   .itemContent {
     padding-left: 6px;
   }
 }
 .itemContent {
   display: flex;
+  align-items: center;
   padding: 6px;
   padding-left: 10px;
   gap: 4px;
