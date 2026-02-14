@@ -462,7 +462,7 @@
                 "off": "Wyłączony",
                 "inheritFromPingSettings": "Dziedzicz z ustawień pingów"
             },
-            "reminder": "Przypomnienia",
+            "reminder": "Przypomnienie",
             "reminderDescription": "Powiadomienia dla przypomnień.",
             "mute": "Wyciszone",
             "testNotification": {
@@ -906,6 +906,10 @@
         "quote": {
             "invalid": "Usunięty lub nieprawidłowy cytat.",
             "nested": "Cytat zagnieżdżony"
+        },
+        "codeBlock": {
+            "text": "Zwykły tekst",
+            "toggleWrapButton": "Zawijanie tekstu"
         }
     },
     "typing": {
@@ -1164,7 +1168,8 @@
         "members": {
             "filter": {
                 "header": "Filtruj",
-                "24hours": "Ostatnie 24h"
+                "24hours": "Ostatnie 24h",
+                "muted": "Wyciszeni"
             },
             "sort": {
                 "header": "Sortuj wg",
@@ -1179,7 +1184,8 @@
             }
         },
         "inVoice": "Rozmowa głosowa",
-        "addChannel": "Dodaj kanał"
+        "addChannel": "Dodaj kanał",
+        "verified": "Ten serwer został zweryfikowany."
     },
     "inVoiceActions": {
         "connectedFor": "Czas połączenia"
@@ -1259,5 +1265,33 @@
         "title": "Odpowiedź od {{botName}}",
         "dataReceiver": "Dane zostaną wysłane do {{botName}}",
         "notice": "Nigdy nie udostępniaj wrażliwych danych"
+    },
+    "remindersModal": {
+        "title": "Przypomnienia",
+        "showAllButton": "Pokaż wszystkie przypomnienia",
+        "viewButton": "Przejdź",
+        "dismissing": "Odrzucanie…",
+        "deleting": "Usuwanie…",
+        "snoozeFor5Minutes": "Przypomnij za 5 minut",
+        "snoozeFor1Day": "Przypomnij za 1 dzień",
+        "deletedItem": "Usunięty post lub wiadomość.",
+        "closeNotice": "Najpierw należy usunąć wszystkie aktywne przypomnienia."
+    },
+    "muteModal": {
+        "title": "Wyciszyć {{username}}?",
+        "message": "{{username}} nie będzie mógł rozmawiać na tym serwerze przez: <2>{{duration}}</2>",
+        "banButton": "Wycisz",
+        "banning": "Wyciszanie…",
+        "reasonLabel": "Powód (opcjonalnie)",
+        "reasonPlaceholder": "Wprowadź powód…",
+        "muteButton": "Wycisz",
+        "unmuteButton": "Usuń wyciszenie",
+        "cancelMute": "Nie wyciszaj"
+    },
+    "addReminderModal": {
+        "title": "Przypomnienie",
+        "message": "Ustaw przypomnienie na",
+        "setReminderButton": "Ustaw przypomnienie",
+        "adding": "Dodawanie…"
     }
 }
