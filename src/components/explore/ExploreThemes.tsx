@@ -9,13 +9,8 @@ import { FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import { Notice } from "../ui/Notice/Notice";
 import ThemeCard from "./ThemeCard";
-
-const Container = styled("div")`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 10px;
-`;
+import { ExplorePageContainer, SearchHeader } from "./ExplorePane";
+import { MetaTitle } from "@/common/MetaTitle";
 
 const GridLayout = styled("div")`
   display: grid;
@@ -92,13 +87,9 @@ export default function ExploreThemes() {
   );
 
   return (
-    <Container>
-      <Notice type="info">{t("explore.themes.themesHeaderDescription")}</Notice>
-
-      <FlexRow
-        style={{ "justify-content": "space-between", "margin-bottom": "10px" }}
-        wrap
-      >
+    <ExplorePageContainer>
+      <MetaTitle>Explore Themes</MetaTitle>
+      <SearchHeader>
         <Input
           label={t("general.searchPlaceholder")}
           onText={setSearch}
@@ -106,17 +97,25 @@ export default function ExploreThemes() {
           class={css`
             flex: 1;
             min-width: 200px;
+            span {
+              margin-bottom: 2px;
+            }
           `}
         />
         <GitHubButton
           label="GitHub"
           iconName="code"
-          margin={[0, 0, 0, 4]}
-          onClick={() =>
-            window.open("https://github.com/Nerimity/themes", "_blank")
-          }
+          margin={[19, 0, 0, 0]}
+          href="https://github.com/Nerimity/themes"
+          target="_blank"
+          class={css`align-self: stretch;`}
         />
-      </FlexRow>
+      </SearchHeader>
+
+      <Notice
+        type="info"
+        description={t("explore.themes.themesHeaderDescription")}
+      />
 
       <Show when={officialThemes().length}>
         <SectionTitle>{t("explore.themes.officialThemes")}</SectionTitle>
@@ -149,6 +148,6 @@ export default function ExploreThemes() {
           <div>{t("explore.themes.noCommunityThemes")}</div>
         </Show>
       </GridLayout>
-    </Container>
+    </ExplorePageContainer>
   );
 }
