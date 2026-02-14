@@ -27,7 +27,7 @@ export default function MobileBottomPane() {
       class={classNames(
         "mobileBottomPane",
         style.container,
-        showPane() ? style.show : undefined,
+        showPane() ? style.show : undefined
       )}
     >
       <HomeItem />
@@ -40,9 +40,8 @@ export default function MobileBottomPane() {
 }
 
 function HomeItem() {
-  const { inbox, friends, servers, mentions } = useStore();
+  const { friends } = useStore();
   const [t] = useTransContext();
-  const { hasActiveReminder } = useReminders();
 
   const location = useLocation();
   const isSelected = () => {
@@ -52,21 +51,11 @@ function HomeItem() {
     return false;
   };
 
-  const notificationCount = () => inbox.notificationCount();
   const friendRequestCount = () =>
     friends.array().filter((friend) => friend.status === FriendStatus.PENDING)
       .length;
 
-  const count = () => notificationCount() + friendRequestCount();
-
-  createEffect(() => {
-    updateTitleAlert(
-      hasActiveReminder() || count() || servers.hasNotifications()
-        ? true
-        : false,
-      count() + mentions.count(),
-    );
-  });
+  const count = () => friendRequestCount();
 
   return (
     <AnchorItem
@@ -160,7 +149,7 @@ function Notify(props: { notify?: ItemProps["notify"] }) {
         class={style.notify}
         style={{
           top: `${props.notify!.top}px`,
-          right: `${props.notify!.right}px`,
+          right: `${props.notify!.right}px`
         }}
       >
         {props.notify?.count || "!"}
@@ -199,10 +188,10 @@ function UserItem() {
         hideLatestPost: true,
         showProfileSettings: true,
         close: close,
-        userId: userId(),
+        userId: userId()
       },
       "profile-pane-flyout-" + userId(),
-      true,
+      true
     );
   };
 
@@ -224,7 +213,7 @@ function UserItem() {
             name="autorenew"
             class={cn(
               style.connectingIcon,
-              isAuthenticating() ? style.authenticatingIcon : undefined,
+              isAuthenticating() ? style.authenticatingIcon : undefined
             )}
             size={24}
           />
