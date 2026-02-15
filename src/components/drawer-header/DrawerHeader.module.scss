@@ -8,7 +8,7 @@
 }
 
 .drawerHeaderContainer {
-  position: sticky;
+  position: fixed;
   z-index: 111111;
   top: 0;
   right: 0;
@@ -18,7 +18,7 @@
   align-items: center;
   flex-shrink: 0;
   width: 100%;
-  height: 50px;
+  height: var(--header-height);
   box-sizing: border-box;
 
   padding: 6px;

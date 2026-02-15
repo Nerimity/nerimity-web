@@ -94,14 +94,16 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
     if (!scrollElement()) return;
     if (!scrollBarEl) return;
 
+    const viewportHeight = scrollElement()!.clientHeight;
+    const contentHeight = scrollElement()!.scrollHeight;
     const scrollbarHeight = scrollBarEl.clientHeight;
 
-    const thumbHeightRatio =
-      scrollbarHeight * (height() / scrollElement()!.scrollHeight);
+    const thumbHeight = Math.max(
+      (viewportHeight / contentHeight) * scrollbarHeight,
+      15
+    );
 
-    if (thumbHeightRatio < 15) return 15;
-
-    return thumbHeightRatio;
+    return thumbHeight;
   };
 
   function calculateThumbTopPosition() {
@@ -114,7 +116,10 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
 
     const scrollableDistance = contentHeight - viewportHeight;
 
-    const thumbHeight = (viewportHeight / contentHeight) * scrollbarHeight;
+    const thumbHeight = Math.max(
+      (viewportHeight / contentHeight) * scrollbarHeight,
+      15
+    );
 
     const scrollPosition = scrollElement()!.scrollTop;
     const thumbTopPosition =

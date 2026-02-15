@@ -15,6 +15,12 @@ body {
   overscroll-behavior: none;
 }
 
+:root {
+  --header-height: 50px;
+  --header-gap: 3px;
+  --header-offset: calc(var(--header-height) + var(--header-gap));
+}
+
 #root.mobileAgent {
   -webkit-user-select: none;
 }
