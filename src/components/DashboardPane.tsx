@@ -386,6 +386,7 @@ const ActivityList = () => {
     if (!activityListEl) return;
     event.preventDefault();
     activityListEl.scrollLeft += event.deltaY;
+    activityListEl.scrollLeft += event.deltaX;
   };
 
   const activities = () => {
@@ -478,6 +479,7 @@ const textOverflowHiddenStyles = css`
 const activityImageStyles = css`
   aspect-ratio: 1/1;
   height: 100%;
+  max-width: 100px;
   object-fit: contain;
   border-radius: 6px;
 
