@@ -41,17 +41,17 @@ export default function PageFooter() {
         Terms And Conditions
       </CustomLink>
       <LanguageDropdown />
-      <CustomLink href="/i/nerimity">
-        <SocialLink src={appLogoUrl()} />
+      <CustomLink href="/i/nerimity" target="_blank" rel="noopener noreferrer" >
+        <SocialLink src={appLogoUrl()} alt="nerimity"/>
       </CustomLink>
-      <CustomLink href="https://discord.gg/7PXjkSd">
-        <SocialLink src={"/assets/discord.svg"} />
+      <CustomLink href="https://discord.gg/7PXjkSd" target="_blank" rel="noopener noreferrer">
+        <SocialLink src={"/assets/discord.svg"} alt="discord"/>
       </CustomLink>
-      <CustomLink href="https://twitter.com/nerimity">
-        <SocialLink src={"/assets/twitter.svg"} />
+      <CustomLink href="https://twitter.com/nerimity" target="_blank" rel="noopener noreferrer">
+        <SocialLink src={"/assets/twitter.svg"} alt="twitter"/>
       </CustomLink>
-      <CustomLink href="https://ko-fi.com/supertiger">
-        <SocialLink src={"/assets/kofi.svg"} />
+      <CustomLink href="https://ko-fi.com/supertiger" target="_blank" rel="noopener noreferrer">
+        <SocialLink src={"/assets/kofi.svg"} alt="ko-fi"/>
       </CustomLink>
     </FooterContainer>
   );
