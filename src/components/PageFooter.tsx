@@ -45,13 +45,13 @@ export default function PageFooter() {
         <SocialLink src={appLogoUrl()} />
       </CustomLink>
       <CustomLink href="https://discord.gg/7PXjkSd">
-        <SocialLink src={"/public/assets/discord.svg"} />
+        <SocialLink src={"/assets/discord.svg"} />
       </CustomLink>
       <CustomLink href="https://twitter.com/nerimity">
-        <SocialLink src={"/public/assets/twitter.svg"} />
+        <SocialLink src={"/assets/twitter.svg"} />
       </CustomLink>
       <CustomLink href="https://ko-fi.com/supertiger">
-        <SocialLink src={"/public/assets/kofi.svg"} />
+        <SocialLink src={"/assets/kofi.svg"} />
       </CustomLink>
     </FooterContainer>
   );
