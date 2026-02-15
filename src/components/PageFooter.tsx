@@ -9,6 +9,7 @@ import {
   setCurrentLanguage,
 } from "@/locales/languages";
 import { useTransContext } from "@nerimity/solid-i18lite";
+import { appLogoUrl } from "@/common/worldEvents";
 
 const FooterContainer = styled(FlexRow)`
   gap: 10px;
@@ -17,6 +18,13 @@ const FooterContainer = styled(FlexRow)`
   flex-shrink: 0;
   border-top: solid 1px rgba(255, 255, 255, 0.2);
   padding: 18px;
+`;
+
+const SocialLink = styled("img")`
+  width: 36px;
+  height: 36px;
+  filter: grayscale(100%);
+  opacity: 65%;
 `;
 
 export default function PageFooter() {
@@ -29,6 +37,18 @@ export default function PageFooter() {
         Terms And Conditions
       </CustomLink>
       <LanguageDropdown />
+      <CustomLink href="/i/nerimity">
+        <SocialLink src={appLogoUrl()} />
+      </CustomLink>
+      <CustomLink href="https://discord.gg/7PXjkSd">
+        <SocialLink src={"/public/assets/discord.svg"} />
+      </CustomLink>
+      <CustomLink href="https://twitter.com/nerimity">
+        <SocialLink src={"/public/assets/twitter.svg"} />
+      </CustomLink>
+      <CustomLink href="https://ko-fi.com/supertiger">
+        <SocialLink src={"/public/assets/kofi.svg"} />
+      </CustomLink>
     </FooterContainer>
   );
 }
