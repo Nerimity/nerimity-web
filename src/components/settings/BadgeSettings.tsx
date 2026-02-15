@@ -216,7 +216,7 @@ const SupportMethodBlock = () => {
         label="Ko-Fi"
         borderBottomRadius={false}
         borderTopRadius={false}
-        iconSrc="/assets/kofi.png"
+        iconSrc="/assets/kofi.svg"
         href="https://ko-fi.com/supertiger"
         hrefBlank
       />
