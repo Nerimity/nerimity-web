@@ -1,1 +1,36 @@
-{}
+{
+    "general": {
+        "searchPlaceholder": "Buscar",
+        "backButton": "Enrere",
+        "cancelButton": "Cancel·la",
+        "closeButton": "Tancar",
+        "editButton": "Editar",
+        "undoButton": "Desfer",
+        "deleteButton": "Suprimeix",
+        "cannotBeUndone": "Això no es pot desfer!",
+        "confirmButton": "Confirmar",
+        "doneButton": "Fet",
+        "saveButton": "Desar",
+        "saveChangesButton": "Desa els canvis",
+        "saving": "S'està desant…",
+        "copyLink": "Copia l'enllaç",
+        "copyID": "Copia l'ID",
+        "accountData": {
+            "email": "Correu electrònic",
+            "username": "Nom d'usuari",
+            "password": "Contrasenya"
+        },
+        "avatarAndBanner": {
+            "avatar": "Avatar",
+            "banner": "Banner",
+            "supportedFileTypes": "Formats admesos: {{extensions}}, màx. {{size}}",
+            "browse": "Explora"
+        }
+    },
+    "header": {
+        "logoutButton": "Tanca la sessió",
+        "openAppButton": "Obrir aplicació",
+        "loginButton": "Inciar sessió",
+        "joinNowButton": "Uneix-t’hi ara"
+    }
+}
