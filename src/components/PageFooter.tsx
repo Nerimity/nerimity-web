@@ -25,6 +25,10 @@ const SocialLink = styled("img")`
   height: 36px;
   filter: grayscale(100%);
   opacity: 65%;
+  &:hover {
+    filter: grayscale(15%);
+    opacity: 100%;
+  }
 `;
 
 export default function PageFooter() {
