@@ -280,9 +280,16 @@ body .floating.floatingSlowModeIndicator {
       padding-right: 4px;
       padding-bottom: 2px;
       padding-left: 4px;
-      .replyIndicatorTitle {
-        margin-bottom: 4px;
+      .replyIndicatorHeader {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 6px;
         margin-left: 2px;
+        margin-right: 2px;
+      }
+      .replyIndicatorTitle {
+        margin-right: auto;
       }
       .replyIndicatorInner {
         display: flex;

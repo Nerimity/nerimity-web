@@ -1222,19 +1222,25 @@ function FloatingReply() {
   return (
     <Show when={messages().length}>
       <Floating class={styles.replyIndicator}>
-        <Text class={styles.replyIndicatorTitle} size={12} opacity={0.6}>
-          {t("messageArea.replying", { count: messages().length })}
-        </Text>
-
+        <div class={styles.replyIndicatorHeader}>
+          <Text class={styles.replyIndicatorTitle} size={12} opacity={0.6}>
+            {t("messageArea.replying", { count: messages().length })}
+          </Text>
+          <Checkbox
+            checked={globalMention()}
+            onChange={toggleMention}
+            style={{gap: "4px"}}
+            boxStyles={{ "font-size": "8px", "border-radius": "4px" }}
+            label={t("messageArea.mention")}
+            labelSize={12}
+          />
+        </div>
         <For each={messages()}>
           {(message, i) => (
             <div
               class={styles.replyIndicatorInner}
               style={{
-                "border-bottom": "solid 1px rgba(255, 255, 255, 0.1)",
-                ...(i() === 0
-                  ? { "border-top": "solid 1px rgba(255, 255, 255, 0.1)" }
-                  : {})
+                "border-top": "solid 1px rgba(255, 255, 255, 0.1)",
               }}
             >
               <Icon
@@ -1258,20 +1264,6 @@ function FloatingReply() {
             </div>
           )}
         </For>
-
-        <Checkbox
-          checked={globalMention()}
-          onChange={toggleMention}
-          style={{
-            gap: "4px",
-            "padding-top": "4px",
-            "padding-bottom": "4px",
-            "justify-content": "end"
-          }}
-          boxStyles={{ "font-size": "8px", "border-radius": "4px" }}
-          label={t("messageArea.mention")}
-          labelSize={12}
-        />
       </Floating>
     </Show>
   );
