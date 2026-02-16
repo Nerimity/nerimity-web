@@ -1,11 +1,9 @@
-import { For, Show, createSignal, onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup, onMount } from "solid-js";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Button from "../ui/Button";
 import { styled } from "solid-styled-components";
-import { FlexColumn, FlexRow } from "../ui/Flexbox";
-import Text from "../ui/Text";
+import { FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
-import { ElectronCaptureSource, electronWindowAPI } from "@/common/Electron";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { toast } from "../ui/custom-portal/CustomPortal";
 
@@ -54,11 +52,11 @@ export function WebcamModal(props: { close: () => void }) {
           deviceId: selectedId(),
           frameRate: 30,
           width: 1280,
-          height: 720,
-        },
+          height: 720
+        }
       })
       .catch((err) => {
-        console.error(err)
+        console.error(err);
         toast("Failed to share camera");
       });
     if (!stream) return;
@@ -77,8 +75,8 @@ export function WebcamModal(props: { close: () => void }) {
     { id: "default", label: "Default" },
     ...devices().map((device) => ({
       id: device.deviceId,
-      label: device.label,
-    })),
+      label: device.label
+    }))
   ];
 
   return (
