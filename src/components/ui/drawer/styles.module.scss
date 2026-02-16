@@ -75,7 +75,11 @@ body .mobile {
   width: 100%;
   overflow: hidden;
   position: relative;
+  translate: 0; /* Create a new stacking context for fixed header */
 
+  & > div {
+    padding-top: var(--header-offset);
+  }
 }
 
 .rightPane {
@@ -87,8 +91,11 @@ body .mobile {
 
   overflow: hidden;
   position: relative;
+  translate: 0; /* Create a new stacking context for fixed header */
 
-
+  & > div {
+    padding-top: var(--header-offset);
+  }
 }
 
 .mobile .leftDrawer {
