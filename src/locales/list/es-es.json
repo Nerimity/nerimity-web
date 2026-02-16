@@ -454,7 +454,9 @@
             "tickets": "Ayuda y soporte",
             "privacy": "Privacidad",
             "connections": "Conexiones",
-            "profile": "Perfil"
+            "profile": "Perfil",
+            "source": "Código fuente",
+            "changes": "Cambios"
         },
         "language": {
             "reloadNotice": "Debes recargar la aplicación para aplicar completamente el nuevo idioma.",

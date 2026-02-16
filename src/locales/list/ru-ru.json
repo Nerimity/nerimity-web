@@ -373,7 +373,9 @@
             "privacy": "Конфиденциальность",
             "connections": "Подключения",
             "profile": "Профиль",
-            "badges": "Значки"
+            "badges": "Значки",
+            "source": "Код",
+            "changes": "Изменения"
         },
         "header": {
             "servers": "сервера(ов)",

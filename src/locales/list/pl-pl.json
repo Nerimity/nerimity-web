@@ -363,7 +363,9 @@
             "connections": "Połączenia",
             "badges": "Odznaki",
             "call-settings": "Ustawienia połączeń",
-            "profile": "Profil"
+            "profile": "Profil",
+            "source": "Źródło",
+            "changes": "Zmiany"
         },
         "header": {
             "servers": "serwery",

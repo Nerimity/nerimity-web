@@ -454,7 +454,9 @@
             "tickets": "Tickets",
             "privacy": "Datenschutz",
             "connections": "Verbindungen",
-            "profile": "Profil"
+            "profile": "Profil",
+            "source": "Code",
+            "changes": "Neu"
         },
         "language": {
             "reloadNotice": "Du musst die App neu laden, damit die neue Sprache vollständig angewendet wird.",

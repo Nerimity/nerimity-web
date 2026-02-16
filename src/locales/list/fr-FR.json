@@ -363,7 +363,9 @@
             "activity-status": "Statut d'activité",
             "tickets": "Billets",
             "connections": "Relations",
-            "profile": "Profil"
+            "profile": "Profil",
+            "source": "Source",
+            "changes": "Changements"
         },
         "header": {
             "servers": "serveurs",
@@ -419,7 +421,8 @@
             "postsAndMessagesNotice": "La suppression de vos publications et messages peut prendre des semaines.",
             "deleteCheckbox": "Supprimez mes publications et messages",
             "usernameFont": "Police du Nom d'Utilisateur",
-            "default": "Application par défaut"
+            "default": "Application par défaut",
+            "confirmPasswordToContinue": "Confirmez votre mot de passe pour continuer"
         },
         "notifications": {
             "sounds": "Sons",
@@ -450,7 +453,7 @@
         "badges": {
             "noticeTitle": "Dons",
             "notice": "Soutenez ce projet en faisant un don.",
-            "palestineDescription": "Peut être obtenu en allant dans {{account}} -> {{profile}}",
+            "palestineDescription": "Peut être équipé en allant dans les paramètres de profil",
             "price": "{{price}} Badges",
             "supportMethods": "Méthodes d'assistance"
         },
@@ -534,7 +537,12 @@
             "exportButton": "Exporter",
             "importButton": "Importer",
             "exportModal": "Thème copié dans le presse-papiers.",
-            "importModal": "Collez le thème ici :"
+            "importModal": "Collez le thème ici :",
+            "rightDrawerMode": "Mode tiroir droit",
+            "swipeToOpen": "Glissez pour ouvrir",
+            "swipeToOpenDescription": "Ouvrez le tiroir de droite en balayant depuis le bord droit. Cela désactivera la fonction « balayer pour répondre ».",
+            "headerTapToOpen": "Appuyez sur l'en-tête pour ouvrir",
+            "headerTapToOpenDescription": "Ouvrez le tiroir de droite en cliquant sur l'en-tête. Cela vous permettra de balayer pour répondre."
         },
         "window": {
             "downloadAppNotice": "Pour modifier ces paramètres, vous devez télécharger l'application de bureau Nerimity.",
@@ -742,7 +750,9 @@
         },
         "postWarning": "Les contenus faisant l'apologie de l'automutilation sont interdits, des mesures seront prises à l'encontre du compte.",
         "reposted": "Républié",
-        "repostedBy": "Républié par"
+        "repostedBy": "Républié par",
+        "replying": "Répondant à <1>{{username}}</1>",
+        "pinned": "Épinglé"
     },
     "systemMessages": {
         "joinServer": {
@@ -982,7 +992,8 @@
         "members": {
             "filter": {
                 "header": "Filtrer par",
-                "24hours": "24 heures"
+                "24hours": "24 heures",
+                "muted": "Masqué"
             },
             "sort": {
                 "header": "Trier par",
@@ -997,7 +1008,8 @@
             }
         },
         "inVoice": "En appel vocal",
-        "addChannel": "Ajouter une chaîne"
+        "addChannel": "Ajouter une chaîne",
+        "verified": "Ce serveur est vérifié."
     },
     "message": {
         "twitterEmbed": {
@@ -1023,9 +1035,19 @@
         "blocked": "Vous avez bloqué cet utilisateur. Cliquez pour afficher.",
         "translationError": "Impossible de traduire ce message.",
         "translation": {
-            "title": "Traduction"
+            "title": "Traduction",
+            "error": "Traduction échouée"
         },
-        "imageMessage": "Message illustré"
+        "imageMessage": "Message illustré",
+        "viewMessages": "Voir les messages",
+        "quote": {
+            "invalid": "Citation invalide ou supprimée.",
+            "nested": "Citation imbriquée"
+        },
+        "codeBlock": {
+            "text": "Texte brut",
+            "toggleWrapButton": "Basculer l'enveloppement"
+        }
     },
     "messageView": {
         "flaggedServer": {
@@ -1067,11 +1089,24 @@
         "visitButton": "Visiter"
     },
     "fileEmbed": {
-        "expired": "Éxpiré",
+        "expired": "Éxpiré {{time}}",
         "viewImage": "Voir l'Image",
         "download": "Télécharger",
         "modifiedOrDeleted": "Ce fichier a été modifié/supprimé par son créateur dans son Google Drive.",
-        "expires": "Expire"
+        "expires": "Expire {{time}}",
+        "fileExpired": "Fichier expiré.",
+        "fileModified": "Le fichier a été modifié.",
+        "couldNotGetFile": "Impossible d'obtenir le fichier.",
+        "videoEmbed": {
+            "videoExpired": "La vidéo a expirée.",
+            "videoModified": "La vidéo a été modifiée.",
+            "couldNotGetVideo": "Impossible d'obtenir la vidéo.",
+            "modifiedOrDeleted": "Cette vidéo a été modifiée/supprimée par son créateur dans son Google Drive.",
+            "googleDrivePolicy": "En raison de la nouvelle politique de Google Drive, vous ne pouvez lire les vidéos qu'à partir de l'application Nerimity Desktop."
+        },
+        "audioEmbed": {
+            "googleDrivePolicy": "En raison de la nouvelle politique de Google Drive, vous ne pouvez lire les fichiers audio qu'à partir de l'application Nerimity Desktop."
+        }
     },
     "editFolderModal": {
         "title": "Modifier le Dossier",
@@ -1142,7 +1177,9 @@
         "cancelButton": "Ne pas supprimer"
     },
     "colorPickerModal": {
-        "title": "Sélecteur de couleurs"
+        "title": "Sélecteur de couleurs",
+        "solid": "Solide",
+        "gradient": "Dégradé"
     },
     "photoEditor": {
         "title": "Éditeur de photos",
@@ -1217,6 +1254,46 @@
     },
     "logoutModal": {
         "title": "Déconnexion ?",
-        "body": "Êtes-vous vraiment sûr de vous vouloir déconnecter ?"
+        "body": "Êtes-vous vraiment sûr de vous vouloir déconnecter ?",
+        "clearSettings": "Effacer les paramètres locaux",
+        "cancelButton": "Ne pas se déconnecter"
+    },
+    "dropDown": {
+        "selectItem": "Sélectionner un élément",
+        "selectItemMultiple": "Sélectionner le ou les éléments",
+        "itemsSelected": "{{count}} élément(s) séléctionné(s)"
+    },
+    "remindersModal": {
+        "title": "Rappels",
+        "showAllButton": "Afficher tous les rappels",
+        "viewButton": "Voir",
+        "dismissing": "Rejeté…",
+        "deleting": "Suppression…",
+        "snoozeFor5Minutes": "Répéter l'alarme pendant 5 minutes",
+        "snoozeFor1Day": "Répéter l'alarme pendant 1 jour",
+        "deletedItem": "Post ou message supprimé.",
+        "closeNotice": "Vous devez supprimer tous les rappels actifs avant."
+    },
+    "muteModal": {
+        "title": "Masquer {{username}} ?",
+        "message": "<1>{{username}}</1> ne pourra pas parler sur ce serveur pendant : <2>{{duration}}</2>",
+        "banButton": "Masquer",
+        "banning": "Masquage…",
+        "reasonLabel": "Raison (optionnel)",
+        "reasonPlaceholder": "Entrez une raison…",
+        "muteButton": "Masquer",
+        "unmuteButton": "Démasquer",
+        "cancelMute": "Ne pas masquer"
+    },
+    "addReminderModal": {
+        "title": "Rappel",
+        "message": "Mettre un rappel pour",
+        "setReminderButton": "Mettre un rappel",
+        "adding": "Ajout…"
+    },
+    "botButtonModal": {
+        "title": "Réponse de {{botName}}",
+        "dataReceiver": "Les données sont envoyées à {{botName}}",
+        "notice": "Ne partagez jamais d'informations sensibles"
     }
 }
