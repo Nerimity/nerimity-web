@@ -8,12 +8,14 @@ import { cn } from "@/common/classNames";
 interface RootProps {
   children?: JSXElement;
   selected?: boolean;
+  alert?: boolean;
   handlePosition?: "bottom" | "left";
   onClick?: (e?: MouseEvent) => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   href?: string;
   handleColor?: string;
+  alertColor?: string;
   gap?: number;
   class?: string;
 }
@@ -23,7 +25,11 @@ const Root = (props: RootProps) => (
     href={props.href}
     class={cn(style.itemRoot, props.class)}
     data-selected={props.selected}
-    style={{ "--handle-color": props.handleColor }}
+    data-alert={props.alert}
+    style={{
+      "--handle-color": props.handleColor,
+      "--alert-color": props.alertColor,
+    }}
     onClick={props.onClick}
     data-handle-position={props.handlePosition || "left"}
     onMouseEnter={props.onMouseEnter}
