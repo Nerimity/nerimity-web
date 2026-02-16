@@ -1,0 +1,173 @@
+:global body.disableBlur {
+  :local {
+    .headerVoiceParticipants {
+      background-color: var(--header-background-color-blur-disabled);
+      backdrop-filter: none;
+    }
+  }
+}
+
+.headerVoiceParticipants {
+  position: sticky;
+  z-index: 11111;
+  top: 46px;
+  right: 0;
+  left: 0;
+  display: flex;
+  overflow: auto;
+  align-items: center;
+  flex-direction: column;
+  flex-shrink: 0;
+  min-height: 100px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-left: 10px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+  background-color: var(--header-background-color);
+  resize: vertical;
+  user-select: none;
+  backdrop-filter: blur(34px);
+  &.videoStream {
+    display: flex;
+    height: 60vh;
+    padding-right: 0;
+    padding-left: 0;
+    .voiceParticipants {
+      align-self: flex-start;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: start;
+      width: 80px;
+      height: 100%;
+      box-sizing: border-box;
+      margin-left: 5px;
+    }
+    .voiceParticipantItem {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      border-radius: 6px;
+      transition: 0.2s;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      .muteIcon {
+        right: 0px;
+        bottom: 0px;
+        padding: 3px;
+      }
+      .videoStreamIcon {
+        bottom: 0px;
+        left: 0px;
+        padding: 3px;
+      }
+    }
+  }
+
+  &.miniView {
+    height: initial;
+    min-height: initial;
+    resize: none;
+  }
+
+  .voiceParticipantItem {
+    position: relative;
+    &.disconnected {
+      opacity: 0.2;
+    }
+    &.selected {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .muteIcon {
+      position: absolute;
+      z-index: 111111;
+      right: -3px;
+      bottom: -3px;
+      padding: 5px;
+      border-radius: 50%;
+      background-color: var(--alert-color);
+    }
+    .videoStreamIcon {
+      position: absolute;
+      z-index: 11111;
+      bottom: -10px;
+      left: -10px;
+      padding: 3px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+    }
+  }
+
+  .top {
+    display: flex;
+    overflow: hidden;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+  }
+  .voiceParticipants {
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: auto;
+    align-items: center;
+    align-self: center;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    height: 20vh;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    gap: 10px;
+  }
+
+  .videoContainer {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 5px;
+    border-radius: 8px;
+    background-color: black;
+    &:hover {
+      .videoOverlay {
+        transform: translateY(0);
+      }
+    }
+    video {
+      width: 100%;
+      height: 100%;
+    }
+    .videoOverlay {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      justify-content: flex-end;
+      padding: 6px;
+      background-color: rgba(0, 0, 0, 0.8);
+      transition: 0.2s;
+      transform: translateY(100%);
+      gap: 4px;
+    }
+    .volumeSlider {
+      display: flex;
+      padding-right: 6px;
+      border-radius: 6px;
+      background-color: rgba(255, 255, 255, 0.1);
+      gap: 2px;
+
+      button {
+        border: none;
+        background-color: transparent;
+      }
+    }
+  }
+  .voiceActions {
+    display: flex;
+    flex-shrink: 0;
+  }
+}
