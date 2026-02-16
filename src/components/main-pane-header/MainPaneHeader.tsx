@@ -13,7 +13,7 @@ import {
   on,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useMatch, useNavigate, useParams } from "solid-navigator";
@@ -22,7 +22,7 @@ import { VoiceUser } from "@/chat-api/store/useVoiceUsers";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import {
   RawNotification,
-  getUserNotificationsRequest,
+  getUserNotificationsRequest
 } from "@/chat-api/services/UserService";
 import { FriendStatus, RawMessage } from "@/chat-api/RawData";
 import MessageItem from "../message-pane/message-item/MessageItem";
@@ -48,7 +48,7 @@ export default function MainPaneHeader() {
     account,
     mentions,
     tickets,
-    friends,
+    friends
   } = useStore();
   const { hasRightDrawer, ...drawer } = useDrawer();
 
@@ -79,7 +79,7 @@ export default function MainPaneHeader() {
       subName = server()?.name;
     }
     if (user()) {
-      title = user().username;
+      title = user()!.username;
     }
 
     if (header.details().title) {
@@ -100,7 +100,7 @@ export default function MainPaneHeader() {
   const [showMentionList, setShowMentionList] = createSignal<boolean>(false);
   const [showPinsList, setShowPinsList] = createSignal<boolean>(false);
 
-  const onMentionButtonClick = (event: MouseEvent) => {
+  const onMentionButtonClick = () => {
     setShowPinsList(false);
     setShowMentionList(!showMentionList());
   };
@@ -178,7 +178,7 @@ export default function MainPaneHeader() {
           )}
           {user() && (
             <UserPresence
-              userId={user()?.id}
+              userId={user()?.id!}
               showOffline={true}
               animate={hovered()}
               hideAction
@@ -260,9 +260,12 @@ const MentionListPopup = (props: { close: () => void }) => {
     });
   });
 
-  const onDocClick = (event: any) => {
-    if (event.target.closest(".mentionListIcon")) return;
-    if (!event.target.closest(`.${styles.mentionListContainer}`)) props.close();
+  const onDocClick = (event: MouseEvent) => {
+    if (event.target instanceof HTMLElement) {
+      if (event.target.closest(".mentionListIcon")) return;
+      if (!event.target.closest(`.${styles.mentionListContainer}`))
+        props.close();
+    }
   };
 
   const onJump = (notification: RawNotification) => {
@@ -303,7 +306,9 @@ const MentionListPopup = (props: { close: () => void }) => {
                   onClick={() => onJump(notification)}
                   class={styles.messageOverlay}
                 >
-                  <div class={styles.jumpToMessage}>{t("mainPaneHeader.jump")}</div>
+                  <div class={styles.jumpToMessage}>
+                    {t("mainPaneHeader.jump")}
+                  </div>
                 </div>
 
                 <MessageItem
@@ -342,9 +347,12 @@ const PinsListPopup = (props: { close: () => void }) => {
     });
   });
 
-  const onDocClick = (event: any) => {
-    if (event.target.closest(".mentionListIcon")) return;
-    if (!event.target.closest(`.${styles.mentionListContainer}`)) props.close();
+  const onDocClick = (event: MouseEvent) => {
+    if (event.target instanceof HTMLElement) {
+      if (event.target.closest(".mentionListIcon")) return;
+      if (!event.target.closest(`.${styles.mentionListContainer}`))
+        props.close();
+    }
   };
 
   const onJump = (message: RawMessage) => {
@@ -386,7 +394,9 @@ const PinsListPopup = (props: { close: () => void }) => {
                   onClick={() => onJump(message)}
                   class={styles.messageOverlay}
                 >
-                  <div class={styles.jumpToMessage}>{t("mainPaneHeader.jump")}</div>
+                  <div class={styles.jumpToMessage}>
+                    {t("mainPaneHeader.jump")}
+                  </div>
                 </div>
 
                 <MessageItem
@@ -442,7 +452,7 @@ function VoiceHeader(props: { channelId?: string }) {
     on(videoStreamingUsers, (now, prev) => {
       if (!now?.length) setSelectedUserId(null);
       if (!prev?.length && now.length) {
-        setSelectedUserId(now[0].userId);
+        setSelectedUserId(now[0]!.userId);
       }
     })
   );
@@ -588,7 +598,7 @@ function VoiceParticipantItem(props: {
     const pos = {
       left: rect.left + 40,
       top: rect.top,
-      anchor: "left",
+      anchor: "left"
     } as const;
 
     createRegisteredPortal(
@@ -598,7 +608,7 @@ function VoiceParticipantItem(props: {
         position: pos,
         serverId: params.serverId,
         close: close,
-        userId: props.voiceUser.userId,
+        userId: props.voiceUser.userId
       },
       "profile-pane-flyout-" + props.voiceUser.userId,
       true
@@ -753,8 +763,8 @@ function VoiceActions(props: { channelId: string }) {
             color="var(--alert-color)"
           />
         </Show>
-        <VoiceDeafenActions channelId={props.channelId} />
-        <VoiceMicActions channelId={props.channelId} />
+        <VoiceDeafenActions />
+        <VoiceMicActions />
         <Button
           iconName="call_end"
           color="var(--alert-color)"
@@ -766,9 +776,9 @@ function VoiceActions(props: { channelId: string }) {
   );
 }
 
-function VoiceMicActions(props: { channelId: string }) {
+function VoiceMicActions() {
   const {
-    voiceUsers: { isLocalMicMuted, toggleMic, deafened },
+    voiceUsers: { isLocalMicMuted, toggleMic, deafened }
   } = useStore();
 
   return (
@@ -791,7 +801,7 @@ function VoiceMicActions(props: { channelId: string }) {
     </Show>
   );
 }
-function VoiceDeafenActions(props: { channelId: string }) {
+function VoiceDeafenActions() {
   const { voiceUsers } = useStore();
 
   const isDeafened = () => voiceUsers.deafened.enabled;
