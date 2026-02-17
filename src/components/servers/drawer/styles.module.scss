@@ -16,7 +16,7 @@
   .mobileWidth {
     :local {
       .serverDrawerInner {
-        padding-bottom: 60px;
+        padding-bottom: var(--bottom-pane-gap);
       }
     }
   }

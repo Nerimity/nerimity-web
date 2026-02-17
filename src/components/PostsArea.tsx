@@ -758,7 +758,6 @@ function AttachFileItem(props: {
 }
 
 const PostOuterContainer = styled(FlexColumn)`
-  scroll-margin-top: 50px;
   padding: 10px;
 
   border-bottom: solid 1px rgba(255, 255, 255, 0.2);
