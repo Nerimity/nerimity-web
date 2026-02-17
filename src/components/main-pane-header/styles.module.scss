@@ -25,17 +25,6 @@
   user-select: none;
   transition: 0.2s;
   backdrop-filter: blur(34px);
-  .avatar {
-    position: relative;
-    z-index: 1;
-  }
-  .icon {
-    position: relative;
-    z-index: 1111111111111111111111111111111111111;
-  }
-  .icon.hasAvatar {
-    left: 70px;
-  }
 }
 
 .toggleLeftDrawerContainer {
@@ -80,14 +69,17 @@
   font-size: 12px;
 }
 
+.iconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 .icon.hasAvatar {
   position: absolute;
   z-index: 1;
-  z-index: 1111;
-  top: 26px;
-  left: 25px;
-  text-shadow: 0px 0px 5px black;
-  font-size: 11px;
+  right: -8px;
+  bottom: -8px;
+  filter: drop-shadow(0px 0px 5px black);
 }
 
 .rightIcons {
