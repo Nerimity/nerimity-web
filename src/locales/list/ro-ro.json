@@ -7,29 +7,51 @@
     },
     "homePage": {
         "slogan": "O aplicație de chat modernă și elegantă.",
-        "viewGitHubButton": "Vedeți codul sursa"
+        "viewGitHubButton": "Vedeți pe GitHub",
+        "subslogan": "Nerimity îți oferă o experiență elegantă și plină de funcționalități, care o scoate în evidență.",
+        "getStarted": "începe",
+        "availableOn": "Disponibil pentru",
+        "browser": "Browser",
+        "featureList": {
+            "feature1": "Avatare animate & emoji gratuite",
+            "feature2": "Design elegant",
+            "feature3": "Schimbăți tag-ul gratuit",
+            "feature4": "Crează postări pe profil-ul tău",
+            "feature5": "Crează propia ta communitate",
+            "feature6": "Găseste communitați noi",
+            "feature7": "Se finanțează din donații",
+            "feature8": "Tot codul de sursă pe GitHub"
+        }
     },
     "loginPage": {
         "title": "Conectați-vă pentru a continua",
-        "emailOrUsernameAndTag": "Email / nume de utilisator:tag",
-        "password": "Parola",
+        "emailOrUsernameAndTag": "Email / nume de utilizator:tag",
+        "password": "Parolă",
         "login": "Conectare",
         "createAccountInstead": "Creați un cont în schimb",
-        "loggingIn": "Conectarea..."
+        "loggingIn": "Conectare…"
     },
     "registerPage": {
         "title": "Bine ați venit la {{appName}}",
         "email": "Email",
-        "username": "Nume de utilisator",
-        "password": "Parola",
+        "username": "Nume de utilizator",
+        "password": "Parolă",
         "confirmPassword": "Confirmați parola",
         "registerButton": "Înregistrare",
-        "registering": "Înregistrare...",
-        "loginInstead": "Conectați-vă în schimb"
+        "registering": "Înregistrare…",
+        "loginInstead": "Conectați-vă în schimb",
+        "header": "Înregistreazate",
+        "notices": {
+            "title": "observă",
+            "toxic": "Nu fi Toxic.",
+            "nsfw": "Fără conținut NSFW.",
+            "age": "Trebuie să ai vărsta de 14 ani sau mai mare."
+        },
+        "agreement": "Prin crearea unui cont, acceptați Termenii și Condițiile precum și Politica de Confidențialitate."
     },
     "dashboard": {
         "title": "Tablou de bord",
-        "activeUsers": "Utilisatorii activi",
+        "activeUsers": "Utilizatorii activi",
         "noActiveUsers": "Niciun utilizator activ",
         "servers": "Servere",
         "posts": "Postări",
@@ -39,14 +61,27 @@
     },
     "inbox": {
         "drawer": {
-            "addFriendButton": "Adaugare prieten",
-            "friendsButton": "Prieteni"
+            "addFriendButton": "Adaugă Prieten",
+            "friendsButton": "Prieteni",
+            "searchBarPlaceholder": "Căutare",
+            "friendRequests": "{{count}} Cereri de Prietenie",
+            "onlineFriends": "{{count}} Prieteni Online",
+            "offlineFriends": "{{count}} Prieteni Offline",
+            "notes": "Notițe",
+            "blockedUsersButton": "Blocat",
+            "inboxTitle": "Inbox",
+            "viewAll": "Vezi Toate"
+        },
+        "blockedUsersModal": {
+            "title": "Utilizatori Blocați"
         }
     },
     "explore": {
         "drawer": {
             "title": "Explorează",
-            "servers": "Servere"
+            "servers": "Servere",
+            "bots": "Bots",
+            "themes": "Tematice"
         },
         "servers": {
             "title": "Explorează - Servere",
@@ -62,6 +97,19 @@
             "visitServerButton": "Visitează",
             "joinServerButton": "Alătură-te",
             "bumpButton": "Boost : ({{count}})"
+        },
+        "bots": {
+            "title": "Explorează - Bots",
+            "moderationNotice": "Bots nu sunt moderați de Nerimity. Raportați bots care sunt malițios sau încalcă Termenii și Condițiile.",
+            "inviteButton": "învită",
+            "serverCount": "în {{count}} servere"
+        },
+        "themes": {
+            "title": "Explorează - Tematice",
+            "themesHeaderDescription": "Personalisează Nerimity cu o tematica personalizată.",
+            "officialThemes": "Termatice Oficiale",
+            "communityThemes": "Termatice din communitate",
+            "noCommunityThemes": "Nici o Tematică din communitate nu a putut fi găsită."
         }
     },
     "servers": {
@@ -263,5 +311,119 @@
         "channelNotice": "Anunț de canal",
         "attachments": "Atașamente",
         "members": "Membri"
+    },
+    "general": {
+        "accountData": {
+            "password": "Parolă"
+        },
+        "avatarAndBanner": {
+            "avatar": "Avatar",
+            "banner": "Banner"
+        }
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<Utilizatorul/><2> A fosat adaugat în server.</2>",
+            "user": "<Utilizatorul/><2> A întrat în server.</2>"
+        },
+        "leaveServer": "<Utilizatorul/><2> A îesit din server.</2>",
+        "kickUser": "<Utilizatorul/><2> A fost scos.</2>",
+        "banUser": "<Utilizatorul/><2> a fost banat.</2>",
+        "callStarted": "<Utilizatorul/><2> A început un apel.</2>",
+        "pinnedMessage": "<Utilizatorul/><2> A fixat un mesaj.</2>",
+        "unsupported": "<Utilizatorul/><2> Mesaj neacceptabil.</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "Eroare la autentificare",
+        "connecting": "Se Conectează…",
+        "reconnecting": "Reconectare…",
+        "authenticating": "Se autentifică…",
+        "connected": "Conectat/ă!"
+    },
+    "dangerousLinkModal": {
+        "title": "Link Personalizat",
+        "message": "Acest link te va redirecționa",
+        "cancelButton": "Nu vizita",
+        "visitButton": "Vizitează"
+    },
+    "connectionErrorModal": {
+        "title": "Eroare de Conexiune",
+        "ok": "OK",
+        "suspended": "Ești Suspendat/ă",
+        "reason": "Motiv",
+        "defaultReason": "Încălcarea Termenilor și Condițiilor",
+        "until": "pănă",
+        "never": "Niciodată",
+        "by": "De",
+        "deletionNotice": "Contul și datele tale vor fi șterse în 15 zile",
+        "ipBanned": "IP-ul tău este banat.",
+        "ipBanNotice": "Cineva cu același IP ca tine este suspendat pe Nerimity. Contul tău nu este afectat."
+    },
+    "resetPassword": {
+        "title": "Resetează Parola",
+        "resetSuccessful": "Parola a fost resetată cu succes.",
+        "passwordTooLong": "Parola trebuie sa aibe mai puțin de 72 de caractere.",
+        "resetPasswordButton": "Resetează Parola",
+        "email": "Email",
+        "sendEmailButton": "Trimite Email",
+        "sending": "Email se Trimite…",
+        "passwordsDoNotMatch": "Parola de confimare nu se potrivește."
+    },
+    "welcomePopup": {
+        "subtitle": "Vă mulțumim pentru că ați încercat Nerimity!",
+        "editProfile": "Editează Profil-ul",
+        "joinServer": "Alătură-te comunității oficiale Nerimity"
+    },
+    "status": {
+        "online": "Online",
+        "offline": "Offline",
+        "afk": "Departe de tastatură",
+        "dnd": "Nu deranja",
+        "ltp": "în cautare de a se juca",
+        "appearAsOffline": "Arată ca și Offline"
+    },
+    "sidePane": {
+        "home": "Acasă",
+        "homeShort": "Acasă",
+        "moderationShort": "Moderator",
+        "addServer": "Adaugă Server",
+        "moderation": "Panou de Moderațiune"
+    },
+    "updateModal": {
+        "title": "Actualizare disponibilă",
+        "updateButton": "Actualizează Acum",
+        "laterButton": "Mai târziu",
+        "releasedAt": "Publicat la"
+    },
+    "messageArea": {
+        "messageBoxPlaceholder": "Mesaj {{username}}",
+        "messageBoxChannelPlaceholder": "Mesaj în {{channelName}}",
+        "replying": "Răspunde la {{count}} mesaj(e)",
+        "mention": "Menționează",
+        "channelNotice": {
+            "title": "înainte de a scrie…",
+            "understoodButton": "Am Înțeles"
+        },
+        "specialMentions": {
+            "everyone": "Menționează pe toată lumea",
+            "someone": "Menționează un Utilizator la întamplare",
+            "silent": "Mesaj Silențios"
+        },
+        "emailNotice": "Confimează Email-ul pentru a trimite mesaje.",
+        "uploadTo": "încarcă în"
+    },
+    "inputFieldActions": {
+        "copy": "Copiază",
+        "cut": "Taie",
+        "paste": "Lipește"
+    },
+    "dropDown": {
+        "selectItem": "Selectează elementul",
+        "selectItemMultiple": "Selectează element(ele)",
+        "itemsSelected": "{{count}} Elemente selectate"
+    },
+    "markup": {
+        "color": "Culoare",
+        "html": "Modul HTML"
     }
 }
