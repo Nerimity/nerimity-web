@@ -327,7 +327,8 @@ const GifFavorites = (props: {
                     {props.query ? "No results found" : "No favorites yet"}
                 </div>
             </Show>
-            <For each={favs()}>
+            <Rerun on={favs}>
+              <For each={favs()}>
                 {(gif, index) => (
                     <GifPickerImageItem
                         index={index()}
@@ -338,6 +339,7 @@ const GifFavorites = (props: {
                     />
                 )}
             </For>
+            </Rerun>
         </div>
     );
 };
