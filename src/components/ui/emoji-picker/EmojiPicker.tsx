@@ -332,7 +332,6 @@ const GifFavorites = (props: {
                     <GifPickerImageItem
                         index={index()}
                         url={gif.url}
-                        gifUrl={gif.gifUrl}
                         onClick={() => props.gifPicked?.(gif)}
                         dimensions={{ width: gif.previewWidth, height: gif.previewHeight }}
                         isFavorite={true}
@@ -487,7 +486,7 @@ const GifPickerImageItem = (props: {
             } else {
                 favoritesStore.add({
                     url: props.url,
-                    gifUrl: props.gifUrl || props.url,
+                    gifUrl: props.url,
                     previewUrl: props.url,
                     previewWidth: props.dimensions?.width || 0,
                     previewHeight: props.dimensions?.height || 0,
