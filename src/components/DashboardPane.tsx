@@ -1,13 +1,13 @@
+import style from "./DashboardPane.module.css";
 import { RawPost } from "@/chat-api/RawData";
 import {
   getAnnouncementPosts,
   getPostNotificationCount,
-  getPostNotificationDismiss,
+  getPostNotificationDismiss
 } from "@/chat-api/services/PostService";
 import useStore from "@/chat-api/store/useStore";
-import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { useNavigate, useSearchParams } from "solid-navigator";
+import { useNavigate } from "solid-navigator";
 import {
   createEffect,
   createMemo,
@@ -16,14 +16,12 @@ import {
   JSXElement,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
-import { css, styled } from "solid-styled-components";
-import { Markup } from "./Markup";
 import { PostNotificationsArea, PostsArea } from "./PostsArea";
 import Avatar from "./ui/Avatar";
 import Button from "./ui/Button";
-import { FlexColumn, FlexRow } from "./ui/Flexbox";
+import { FlexColumn } from "./ui/Flexbox";
 
 import Text from "./ui/Text";
 import { Delay } from "@/common/Delay";
@@ -34,47 +32,31 @@ import { getActivityIconName } from "@/components/activity/Activity";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import { t } from "@nerimity/i18lite";
 import { MetaTitle } from "@/common/MetaTitle";
-import { MentionUser } from "./markup/MentionUser";
 import { Item } from "./ui/Item";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import { useLocalStorage } from "@/common/localStorage";
 import { getActivityType } from "@/common/activityType";
 import { PostItem } from "./post-area/PostItem";
-import { Post } from "@/chat-api/store/usePosts";
-const DashboardPaneContainer = styled(FlexColumn)`
-  justify-content: center;
-  align-items: center;
-`;
-
-const DashboardPaneContent = styled(FlexColumn)`
-  place-self: stretch;
-  border-radius: 8px;
-  flex: 1;
-  margin: 30px;
-  width: 100%;
-  max-width: 700px;
-  align-self: center;
-`;
 
 export default function DashboardPane() {
   const { header, account } = useStore();
   createEffect(() => {
     header.updateHeader({
       title: t("dashboard.title"),
-      iconName: "dashboard",
+      iconName: "dashboard"
     });
   });
   return (
-    <DashboardPaneContainer>
+    <div class={style.dashboardPaneContainer}>
       <MetaTitle>Dashboard</MetaTitle>
-      <DashboardPaneContent gap={10}>
+      <div class={style.dashboardPaneContent}>
         <Show when={account.user()}>
           <Announcements />
           <ActivityList />
           <PostsContainer />
         </Show>
-      </DashboardPaneContent>
-    </DashboardPaneContainer>
+      </div>
+    </div>
   );
 }
 
@@ -131,24 +113,7 @@ const AnnouncementItem = (props: { post: RawPost }) => {
 
   return (
     <Show when={post()}>
-      <FlexColumn
-        gap={6}
-        class={css`
-          position: relative;
-          background: rgba(255, 255, 255, 0.06);
-          border-radius: 8px;
-          overflow: hidden;
-
-          && {
-            .announcementPostInner {
-              border: none;
-              &:before {
-                border: none;
-              }
-            }
-          }
-        `}
-      >
+      <FlexColumn gap={6} class={style.announcementPostContainer}>
         <Button
           onclick={(e) => {
             e.stopPropagation();
@@ -158,47 +123,25 @@ const AnnouncementItem = (props: { post: RawPost }) => {
             );
           }}
           iconName="close"
-          class={css`
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            z-index: 1;
-          `}
+          class={style.closeButton}
           alert
           padding={4}
           iconSize={14}
           margin={0}
         />
 
-        <PostItem post={post()!} class="announcementPostInner" />
+        <PostItem post={post()!} class={style.announcementPostInner} />
       </FlexColumn>
     </Show>
   );
 };
-
-const NotificationCountContainer = styled(FlexRow)<{ selected: boolean }>`
-  align-items: center;
-  justify-content: center;
-  background: var(--primary-color);
-  border-radius: 50%;
-  height: 18px;
-  width: 18px;
-  font-size: 12px;
-  ${(props) =>
-    props.selected
-      ? `
-    background: white;
-    color: var(--primary-color);  
-  `
-      : ""}
-`;
 
 const PostTabItem = (props: {
   label: string;
   selected: boolean;
   onClick?: () => void;
   suffix?: JSXElement;
-  icon?: JSXElement;
+  icon?: string;
 }) => {
   return (
     <Item.Root
@@ -228,49 +171,26 @@ function PostsContainer() {
   const NotificationIndicator = () => {
     return (
       <Show when={notificationCount()}>
-        <NotificationCountContainer
-          selected={selectedTab() === "NOTIFICATIONS"}
-        >
+        <div class={style.postTabNotificationContainer}>
           {notificationCount()}
-        </NotificationCountContainer>
+        </div>
       </Show>
     );
   };
 
-  createEffect(async () => {
-    if (selectedTab() !== "NOTIFICATIONS") return;
+  const dismissNotifications = async () => {
     await getPostNotificationDismiss();
     setNotificationCount(0);
+  };
+
+  createEffect(() => {
+    if (selectedTab() !== "NOTIFICATIONS") return;
+    dismissNotifications();
   });
 
   return (
-    <FlexColumn
-      class={css`
-        background-color: rgba(255, 255, 255, 0.07);
-        border-radius: 8px;
-        margin-left: 6px;
-        margin-right: 6px;
-      `}
-    >
-      {/* <Text
-        size={18}
-        style={{
-          "margin-left": "5px",
-          "margin-bottom": "5px",
-          "margin-top": "4px",
-        }}
-      >
-        {t("dashboard.posts")}
-      </Text> */}
-      <FlexRow
-        gap={5}
-        style={{
-          "margin-bottom": "5px",
-          "margin-left": "5px",
-          height: "28px",
-          "margin-top": "6px",
-        }}
-      >
+    <FlexColumn class={style.postsContainer}>
+      <div class={style.postTabsContainer}>
         <PostTabItem
           label={t("dashboard.feed")}
           selected={selectedTab() === "FEED"}
@@ -291,7 +211,7 @@ function PostsContainer() {
           icon="notifications"
           suffix={<NotificationIndicator />}
         />
-      </FlexRow>
+      </div>
       <Delay>
         <>
           <Show when={selectedTab() === "FEED"}>
@@ -318,19 +238,6 @@ function PostsContainer() {
     </FlexColumn>
   );
 }
-
-const ActivityListContainer = styled(FlexRow)`
-  display: flex;
-  gap: 8px;
-  height: 80px;
-  margin-left: 5px;
-  margin-right: 5px;
-  overflow: auto;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
 
 const ActivityList = () => {
   const { account, users } = useStore();
@@ -412,10 +319,11 @@ const ActivityList = () => {
   });
 
   return (
-    <ActivityListContainer
+    <div
+      class={style.activityListContainer}
       ref={activityListEl}
-      onwheel={onWheel}
-      onmousedown={onMouseDown}
+      onWheel={onWheel}
+      onMouseDown={onMouseDown}
     >
       <Show when={!authenticatedInPast()}>
         <Skeleton.List count={5} style={{ "flex-direction": "row" }}>
@@ -424,19 +332,7 @@ const ActivityList = () => {
       </Show>
 
       <Show when={authenticatedInPast() && !activities().length}>
-        <div
-          style={{
-            display: "flex",
-            "text-align": "center",
-            "flex-direction": "column",
-            "align-items": "center",
-            "justify-content": "center",
-            background: "rgba(255,255,255,0.04)",
-            width: "100%",
-            height: "100%",
-            "border-radius": "8px",
-          }}
-        >
+        <div class={style.noActivity}>
           <Text size={14} opacity={0.6}>
             {t("dashboard.noActiveUsers")}
           </Text>
@@ -448,70 +344,9 @@ const ActivityList = () => {
           {(activity) => <PresenceItem presence={activity} />}
         </For>
       </Show>
-    </ActivityListContainer>
+    </div>
   );
 };
-
-const PresenceItemContainer = styled(FlexRow)`
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 8px;
-  display: flex;
-  padding: 4px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 11;
-
-  overflow: hidden;
-
-  cursor: pointer;
-  user-select: none;
-  transition: 0.2s;
-  &:hover {
-    background: rgba(255, 255, 255, 0.15);
-  }
-`;
-
-const textOverflowHiddenStyles = css`
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-`;
-const activityImageStyles = css`
-  aspect-ratio: 1/1;
-  height: 100%;
-  max-width: 100px;
-  object-fit: contain;
-  border-radius: 6px;
-
-  &.videoActivityImg {
-    object-fit: contain;
-    aspect-ratio: 16/9;
-    flex-shrink: 0;
-  }
-`;
-
-const activityDetailsStyles = css`
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-top: 4px;
-  max-width: 180px;
-  overflow: hidden;
-  padding-top: 2px;
-  padding-bottom: 2px;
-`;
-
-const presenceBackgroundImageStyles = css`
-  position: absolute;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
-  filter: blur(50px) brightness(0.6);
-  z-index: -1;
-  inset: -20px;
-`;
 
 const PresenceItem = (props: { presence: Presence }) => {
   const navigate = useNavigate();
@@ -543,51 +378,40 @@ const PresenceItem = (props: { presence: Presence }) => {
     !!activityType().isVideo && !!activity()?.startedAt && !!activity()?.endsAt;
 
   return (
-    <PresenceItemContainer
+    <div
+      class={style.presenceItemContainer}
       onClick={() => navigate(RouterEndpoints.PROFILE(props.presence.userId))}
     >
       <Show when={imgSrc()}>
         <div
-          class={presenceBackgroundImageStyles}
+          class={style.activityBackdrop}
           style={{
-            "background-image": `url(${imgSrc()})`,
-            "pointer-events": "none",
+            "background-image": `url(${imgSrc()})`
           }}
         />
         <img
           src={imgSrc()}
           draggable={false}
-          classList={{
-            videoActivityImg: isLiveStream() || isVideo(),
-          }}
-          class={activityImageStyles}
-          style={{
-            "background-color": isEmoji() ? "transparent" : "black",
-          }}
+          data-isWide={isLiveStream() || isVideo()}
+          data-isEmoji={isEmoji()}
+          class={style.activityImage}
+          style={{}}
         />
       </Show>
 
-      <div class={activityDetailsStyles}>
-        <div
-          class={css`
-            display: flex;
-            gap: 8px;
-            align-items: center;
-          `}
-        >
+      <div class={style.activityDetails}>
+        <div class={style.userHeader}>
           <Avatar user={user()} size={20} />
-          <Text class={textOverflowHiddenStyles} size={14} bold>
+          <Text class={style.ellipsis} size={14} bold>
             {user()?.username}
           </Text>
         </div>
 
-        <span class={textOverflowHiddenStyles}>
+        <span class={style.ellipsis}>
           <Icon
             name={getActivityIconName(activity())}
             size={14}
-            class={css`
-              vertical-align: -2px;
-            `}
+            class={style.activityIcon}
             color="var(--primary-color)"
           />
           <Text size={14} opacity={0.7}>
@@ -597,12 +421,12 @@ const PresenceItem = (props: { presence: Presence }) => {
         </span>
 
         <Show when={activity().title}>
-          <Text size={12} opacity={0.7} class={textOverflowHiddenStyles}>
+          <Text size={12} opacity={0.7} class={style.ellipsis}>
             {" "}
             {activity().title}
           </Text>
         </Show>
       </div>
-    </PresenceItemContainer>
+    </div>
   );
 };
