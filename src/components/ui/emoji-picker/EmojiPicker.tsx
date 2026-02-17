@@ -1,7 +1,6 @@
 import styles from "./EmojiPicker.module.scss";
 import env from "@/common/env";
 import {
-  Category,
   CustomEmoji,
   EmojiPicker as EmojiPickerComponent,
 } from "@nerimity/solid-emoji-picker";
@@ -35,9 +34,10 @@ import { useParams } from "solid-navigator";
 import { cn } from "@/common/classNames";
 import { useDocumentListener } from "@/common/useDocumentListener";
 import { emojis, lazyLoadEmojis } from "@/emoji";
-import { Delay } from "@/common/Delay";
 import { Rerun } from "@solid-primitives/keyed";
 import Input from "../input/Input";
+
+import { favoritesStore } from "@/common/favoritesStore";
 
 const [gifPickerSearch, setGifPickerSearch] = createSignal("");
 
@@ -62,6 +62,8 @@ export function EmojiPicker(props: {
       () => setSelectedTab(props.tab ?? "EMOJI"),
     ),
   );
+  
+
 
   useDocumentListener("keydown", (e) => {
     if (e.key === "Escape") {
@@ -88,13 +90,14 @@ export function EmojiPicker(props: {
     if (e.key === "Shift") setShiftDown(false);
   };
 
-  const handleClickOutside = (e: MouseEvent & { target: any }) => {
-    if (e.target.closest(`.${styles.outerEmojiPicker}`)) return;
-    if (e.target.closest(".emojiPickerButton")) return;
+  const handleClickOutside = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest(`.${styles.outerEmojiPicker}`)) return;
+    if (target.closest(".emojiPickerButton")) return;
     props.close();
   };
 
-  createEffect(on(width, props.close, { defer: true }));
+  createEffect(on(width, () => props.close(), { defer: true }));
 
   const customEmojis = () => {
     return servers
@@ -111,7 +114,7 @@ export function EmojiPicker(props: {
             url: url,
             customElement: url
               ? undefined
-              : (size) =>
+              : (size: number) =>
                   Avatar({ size, server: { ...server, verified: false } }),
           },
           name: e.name,
@@ -160,8 +163,8 @@ export function EmojiPicker(props: {
           spriteUrl="/assets/emojiSprites-16.png"
           emojis={emojis()}
           customEmojis={customEmojis()}
-          onEmojiClick={(e: any) =>
-            props.onClick(e.name || e.short_names[0], shiftDown())
+          onEmojiClick={(e: { name?: string; short_names?: string[] }) =>
+            props.onClick(e.name || e.short_names?.[0] || "", shiftDown())
           }
           primaryColor="var(--primary-color)"
           maxRecent={20}
@@ -171,6 +174,7 @@ export function EmojiPicker(props: {
       <Show when={selectedTab() === "GIF"}>
         <GifPicker gifPicked={props.gifPicked} />
       </Show>
+
       <Show when={props.showGifPicker}>
         <div class={styles.tabs}>
           <Show when={gifPickerSearch().trim()}>
@@ -200,6 +204,8 @@ export function EmojiPicker(props: {
 }
 
 const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
+  const [favoritesMode, setFavoritesMode] = createSignal(false);
+
   const [scrollElement, setScrollElement] = createSignal<HTMLElement | null>(
     null,
   );
@@ -216,23 +222,40 @@ const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
 
   return (
     <div class={styles.gifPickerContainer} ref={setScrollElement}>
-      <GifPickerSearchBar />
-      <Show when={gifPickerSearch().trim()}>
+      <GifPickerSearchBar 
+        favoritesMode={favoritesMode()} 
+        setFavoritesMode={setFavoritesMode} 
+      />
+      <Show when={gifPickerSearch().trim() && !favoritesMode()}>
         <GifPickerImages
-          scrollElement={scrollElement}
+
+          scrollElement={scrollElement()}
           gifPicked={props.gifPicked}
           query={gifPickerSearch().trim()}
         />
       </Show>
       <GifPickerCategories
-        hide={!!gifPickerSearch().trim()}
+        hide={!!gifPickerSearch().trim() || favoritesMode()}
         onPick={(c) => setGifPickerSearch(c.searchterm)}
       />
+      <Show when={favoritesMode()}>
+           <GifFavorites 
+             query={gifPickerSearch().trim()} 
+             gifPicked={props.gifPicked} 
+           />
+      </Show>
+
     </div>
   );
 };
 
-const GifPickerSearchBar = () => {
+
+const GifPickerSearchBar = (props: { 
+    favoritesMode: boolean, 
+    setFavoritesMode: (v: boolean) => void 
+}) => {
+
+
   const { isMobileAgent } = useWindowProperties();
 
   const [inputRef, setInputRef] = createSignal<HTMLInputElement | null>(null);
@@ -256,8 +279,8 @@ const GifPickerSearchBar = () => {
   return (
     <div class={styles.gifPickerSearchBar}>
       <Input
-        ref={inputRef}
-        placeholder="Search KLIPY"
+        ref={setInputRef}
+        placeholder={props.favoritesMode ? "Search favorites..." : "Search KLIPY"}
         value={gifPickerSearch()}
         onInput={onInput}
         class={styles.gifPickerSearchBarInput}
@@ -268,9 +291,59 @@ const GifPickerSearchBar = () => {
           />
         }
       />
+
+       <div 
+          class={cn(styles["favorite-toggle"], props.favoritesMode && styles.active)}
+          onClick={() => props.setFavoritesMode(!props.favoritesMode)}
+          title="Favorites"
+       >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+             <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+       </div>
     </div>
   );
 };
+
+const GifFavorites = (props: { 
+    gifPicked?: (gif: TenorImage) => void,
+    query?: string 
+}) => {
+    const allFavs = favoritesStore.getFavorites;
+    const favs = () => {
+        const q = props.query?.toLowerCase();
+        if (!q) return allFavs();
+        return allFavs().filter(f => 
+            f.url.toLowerCase().includes(q) || 
+            f.gifUrl.toLowerCase().includes(q) ||
+            f.tags?.some(tag => tag.toLowerCase().includes(q))
+        );
+    };
+
+    return (
+        <div class={styles.gifPickerSearches}>
+            <Show when={favs().length === 0}>
+                <div class={styles["no-favorites"]}>
+                    {props.query ? "No results found" : "No favorites yet"}
+                </div>
+            </Show>
+            <Rerun on={favs}>
+              <For each={favs()}>
+                {(gif, index) => (
+                    <GifPickerImageItem
+                        index={index()}
+                        url={gif.url}
+                        onClick={() => props.gifPicked?.(gif)}
+                        dimensions={{ width: gif.previewWidth, height: gif.previewHeight }}
+                        isFavorite={true}
+                    />
+                )}
+            </For>
+            </Rerun>
+        </div>
+    );
+};
+
 
 const GifPickerImages = (props: {
   query: string;
@@ -291,9 +364,6 @@ const GifPickerImages = (props: {
     if (!loadMore) setTenorResponse(null);
     setLoading(true);
 
-    const previousHeight = props.scrollElement.scrollHeight;
-    const previousScrollTop = props.scrollElement.scrollTop;
-
     const res = await getTenorImages(
       props.query,
       loadMore ? tenorResponse()?.next : undefined,
@@ -311,15 +381,6 @@ const GifPickerImages = (props: {
         ...res,
         results: [...prev!.results, ...res.results],
       }));
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          if (!props.scrollElement) return;
-          const newHeight = props.scrollElement.scrollHeight;
-          props.scrollElement.scrollTop =
-            previousScrollTop + (newHeight - previousHeight);
-        });
-      });
     }
     setLoading(false);
   };
@@ -346,7 +407,10 @@ const GifPickerImages = (props: {
                 ? { width: gif.previewWidth, height: gif.previewHeight }
                 : undefined
             }
+            isFavorite={favoritesStore.isFavorite(gif.previewUrl)}
           />
+
+
         )}
       </For>
       <Rerun on={tenorResponse}>
@@ -368,7 +432,9 @@ const GifPickerImageItem = (props: {
   dimensions?: { width: number; height: number };
   index?: number;
   style?: JSX.CSSProperties;
+  isFavorite?: boolean;
 }) => {
+
   const containerStyle = () =>
     props.dimensions
       ? ({
@@ -411,8 +477,31 @@ const GifPickerImageItem = (props: {
         style={imageStyle()}
         src={props.url}
         loading="lazy"
-        onClick={props.onClick}
+        onClick={() => props.onClick?.()}
       />
+      <div
+        class={cn(styles["star-overlay"], (props.isFavorite || favoritesStore.isFavorite(props.url)) && styles.active)}
+        onClick={(e) => {
+            e.stopPropagation();
+            if (favoritesStore.isFavorite(props.url)) {
+                favoritesStore.remove(props.url);
+            } else {
+                favoritesStore.add({
+                    url: props.url,
+                    gifUrl: props.url,
+                    previewUrl: props.url,
+                    previewWidth: props.dimensions?.width || 0,
+                    previewHeight: props.dimensions?.height || 0,
+                    tags: gifPickerSearch().trim() ? [gifPickerSearch().trim()] : []
+                });
+            }
+        }}
+      >
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+             <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+        </svg>
+      </div>
+
     </div>
   );
 };
@@ -521,7 +610,7 @@ const GifCategoryItem = (props: {
     <div
       class={cn(styles.gifCategoryItem, props.class)}
       tabIndex={0}
-      onClick={props.onClick}
+      onClick={() => props.onClick?.()}
     >
       <img
         class={styles.image}
@@ -597,8 +686,9 @@ const FloatingInScreen = (props: {
     return _styles;
   };
 
-  const onMouseDown = (event: any) => {
-    if (!event.target.classList.contains("floatingInScreenBGContainer")) return;
+  const onMouseDown = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+    if (!target.classList.contains("floatingInScreenBGContainer")) return;
     props.close();
   };
 
