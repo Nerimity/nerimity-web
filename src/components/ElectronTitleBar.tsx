@@ -1,105 +1,36 @@
-import { css, styled } from "solid-styled-components";
-import { FlexRow } from "./ui/Flexbox";
-import Text from "./ui/Text";
-import Button from "./ui/Button";
+import style from "./ElectronTitleBar.module.css";
 import { electronWindowAPI } from "@/common/Electron";
 import Icon from "./ui/icon/Icon";
-import { classNames } from "@/common/classNames";
+import { cn } from "@/common/classNames";
 import { createSignal } from "solid-js";
-
-const BarContainer = styled(FlexRow)`
-  height: 35px;
-  align-items: center;
-  user-select: none;
-  -webkit-app-region: drag;
-`;
-
-const WindowControlButtonsContainer = styled(FlexRow)`
-  margin-left: auto;
-  margin-right: 4px;
-  -webkit-app-region: no-drag;
-`;
-
-const windowControlButtonStyles = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 20px;
-  padding: 5px;
-  border-radius: 8px;
-  background-color: transparent;
-  border: none;
-  color: white;
-  transition: 0.1s;
-`;
-
-const minimize = css`
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--warn-color);
-  }
-`;
-const copyLink = css`
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--primary-color);
-  }
-`;
-
-const full = css`
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--success-color);
-  }
-`;
-
-const close = css`
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--alert-color);
-  }
-`;
-
-const IconImage = styled("img")`
-  height: 20px;
-  margin-left: 10px;
-  pointer-events: none;
-  background-color: rgb(38, 38, 38);
-`;
-
-const TitleText = styled(Text)`
-  font-size: 12px;
-  margin-left: 5px;
-`;
 
 export function ElectronTitleBar() {
   return (
-    <BarContainer>
-      <IconImage src="/assets/logo.png" />
-      <TitleText>Nerimity</TitleText>
-      <WindowControlButtonsContainer>
+    <div class={style.barContainer}>
+      <img class={style.nerimityLogo} src="/assets/logo.png" />
+      <span class={style.nerimityTitle}>Nerimity</span>
+      <div class={style.windowControlButtonsContainer}>
         <CopyLinkButton />
         <Icon
           onClick={electronWindowAPI()?.minimize}
-          class={classNames(windowControlButtonStyles, minimize)}
+          class={cn(style.windowControlButton, style.minimize)}
           name="horizontal_rule"
           size={16}
         />
         <Icon
           onClick={electronWindowAPI()?.toggleMaximize}
-          class={classNames(windowControlButtonStyles, full)}
+          class={cn(style.windowControlButton, style.full)}
           name="check_box_outline_blank"
           size={16}
         />
         <Icon
           onClick={electronWindowAPI()?.close}
-          class={classNames(windowControlButtonStyles, close)}
+          class={cn(style.windowControlButton, style.close)}
           name="close"
           size={18}
         />
-      </WindowControlButtonsContainer>
-    </BarContainer>
+      </div>
+    </div>
   );
 }
 
@@ -114,18 +45,10 @@ const CopyLinkButton = () => {
     <Icon
       onClick={copyLinkClick}
       title="Copy Page URL"
-      class={classNames(
-        windowControlButtonStyles,
-        copyLink,
-        clicked()
-          ? css`
-              background: var(--success-color);
-              &:hover {
-                background: var(--success-color);
-                color: white;
-              }
-            `
-          : undefined
+      class={cn(
+        style.windowControlButton,
+        style.copyLink,
+        clicked() && style.clicked
       )}
       name="link"
       size={16}
