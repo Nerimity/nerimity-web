@@ -152,18 +152,20 @@ export default function MainPaneHeader() {
             onClick={toggleLeftDrawer}
           />
         </div>
-        {header.details().iconName && (
-          <Icon
-            size={24}
-            name={header.details().iconName}
-            class={classNames(
-              styles.icon,
-              conditionalClass(server() || user(), styles.hasAvatar)
-            )}
-          />
-        )}
-        {server() && <Avatar size={28} server={server()} />}
-        {user() && <Avatar class={styles.avatar} size={28} user={user()} />}
+        <div class={styles.iconContainer}>
+          {server() && <Avatar size={28} server={server()} />}
+          {user() && <Avatar class={styles.avatar} size={28} user={user()} />}
+          {header.details().iconName && (
+            <Icon
+              size={24}
+              name={header.details().iconName}
+              class={classNames(
+                styles.icon,
+                conditionalClass(server() || user(), styles.hasAvatar)
+              )}
+            />
+          )}
+        </div>
         <div class={styles.details}>
           <div class={styles.title}>{details().title}</div>
           {details().subName && (
