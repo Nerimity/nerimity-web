@@ -108,9 +108,10 @@ const Items = () => {
       <Item label={t("dashboard.title")} icon="dashboard" href="/app" />
       <Item
         label={t("explore.drawer.title")}
-        icon="explore"
+        icon={inExplore() ? "keyboard_arrow_down" : "explore"}
         href="/app/explore/servers"
-        match="/app/explore/*"
+        match="/app/explore"
+        class={style.exploreHeader}
       />
       <Show when={inExplore()}>
         <div class={style.exploreSublist}>
@@ -144,6 +145,7 @@ interface ItemProps {
   href?: string;
   icon?: string;
   match?: string;
+  class?: string;
   selected?: boolean;
   onClick?: () => void;
 }
@@ -154,7 +156,7 @@ function Item(props: ItemProps) {
   return (
     <CustomLink href={props.href} onClick={props.onClick}>
       <UiItem.Root
-        class={style.item}
+        class={cn(style.item, props.class)}
         selected={props.selected || !!selected()}
         handlePosition="left"
       >
