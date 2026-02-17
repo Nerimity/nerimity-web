@@ -99,9 +99,7 @@ export default function HomeDrawerFriendItem(props: {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         selected={props.isInboxTab && !isBlocked() && isSelected()}
-        handleColor={
-          mentionCount() || showAccept() ? "var(--alert-color)" : undefined
-        }
+        alert={mentionCount() > 0 || showAccept()}
         onClick={onFriendClick}
       >
         <A href={RouterEndpoints.PROFILE(user().id)} class="link">

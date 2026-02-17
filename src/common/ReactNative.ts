@@ -14,6 +14,7 @@ type EventByType<T extends CustomEventMap> = {
 
 interface WindowAPI {
   isReactNative: boolean;
+  version?: string;
   playVideo(url: string): void;
   playAudio(url?: string): void;
   pauseAudio(): void;

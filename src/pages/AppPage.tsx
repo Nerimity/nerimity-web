@@ -5,14 +5,14 @@ import {
   on,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import MainPaneHeader from "../components/main-pane-header/MainPaneHeader";
 
 import {
   getStorageString,
   removeStorage,
-  StorageKeys,
+  StorageKeys
 } from "../common/localStorage";
 import socketClient from "../chat-api/socketClient";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -25,7 +25,7 @@ import {
   useSearchParams,
   Outlet,
   useNavigate,
-  useLocation,
+  useLocation
 } from "solid-navigator";
 import { css, styled } from "solid-styled-components";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
@@ -48,9 +48,12 @@ import { applyCustomCss } from "@/common/customCss";
 import {
   CustomScrollbar,
   CustomScrollbarProvider,
-  useCustomScrollbar,
+  useCustomScrollbar
 } from "@/components/custom-scrollbar/CustomScrollbar";
 import { lazyLoadEmojis } from "@/emoji";
+import { useReminders } from "@/components/useReminders";
+import { FriendStatus } from "@/chat-api/RawData";
+import { updateTitleAlert } from "@/common/BrowserTitle";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -79,6 +82,9 @@ const MainPaneContainer = styled("div")<MainPaneContainerProps>`
   flex: 1;
   flex-shrink: 0;
   background: var(--pane-color);
+
+  /* Account for header height in children's scroll targets */
+  scroll-padding-top: var(--header-height);
 
   &[data-is-mobile-agent="false"] {
     &:-webkit-scrollbar {
@@ -111,13 +117,13 @@ export default function AppPage() {
   const navigate = useNavigate();
   const location = useLocation();
   useGoogleApi();
-
+  useAlertUpdater();
   useQuickTravel();
 
   const { createPortal, closePortalById } = useCustomPortal();
 
   navigate(location.pathname + location.search, {
-    replace: true,
+    replace: true
   });
 
   useReactNativeEvent(["registerFCM", "openChannel"], (e) => {
@@ -202,7 +208,7 @@ export default function AppPage() {
       socketId: null,
       socketConnected: false,
       socketAuthenticated: false,
-      authenticationError: null,
+      authenticationError: null
     });
   });
 
@@ -237,7 +243,8 @@ function RightDrawer() {
         "flex-direction": "column",
         gap: "4px",
         overflow: "auto",
-        height: "100%",
+        "scroll-padding-top": "var(--header-height)",
+        height: "100%"
       }}
     >
       <Outlet name="rightDrawer" />
@@ -247,8 +254,8 @@ function RightDrawer() {
           class={css`
             position: absolute;
             right: 2px;
-            top: 54px;
-            bottom: 6px;
+            top: calc(var(--header-height) + 4px);
+            bottom: 12px;
           `}
         />
       </Show>
@@ -267,7 +274,8 @@ function LeftDrawer() {
         "flex-direction": "column",
         gap: "4px",
         overflow: "auto",
-        height: "100%",
+        "scroll-padding-top": "var(--header-height)",
+        height: "100%"
       }}
     >
       <Outlet name="leftDrawer" />
@@ -277,8 +285,8 @@ function LeftDrawer() {
           class={css`
             position: absolute;
             right: 2px;
-            top: 54px;
-            bottom: ${isMobileWidth() ? "56px" : "4px"};
+            top: calc(var(--header-height) + 4px);
+            bottom: ${isMobileWidth() ? "calc(var(--bottom-pane-gap) + 4px)" : "4px"};
           `}
         />
       </Show>
@@ -337,7 +345,7 @@ function MainPane() {
                 position: absolute;
                 right: 2px;
                 bottom: ${windowProperties.isMobileWidth() ? "4px" : "14px"};
-                top: 54px;
+                top: calc(var(--header-height) + 4px);
               `}
             />
           </Show>
@@ -420,3 +428,22 @@ function useGoogleApi() {
     document.body.appendChild(script);
   });
 }
+
+const useAlertUpdater = () => {
+  const store = useStore();
+  const { hasActiveReminder } = useReminders();
+
+  const friendRequestCount = () =>
+    store.friends
+      .array()
+      .filter((friend) => friend.status === FriendStatus.PENDING).length;
+
+  const count = () => friendRequestCount() + store.mentions.count();
+
+  const hasNotification = () =>
+    hasActiveReminder() || count() || store.servers.hasNotifications();
+
+  createEffect(() => {
+    updateTitleAlert(hasNotification() ? true : false, count());
+  });
+};

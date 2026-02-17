@@ -50,6 +50,34 @@
   }
 }
 
+.reactSuggestionList {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 3px;
+  gap: 6px;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+
+  .reaction {
+    display: flex;
+    background: #FFF1;
+    border-radius: 25%;
+    padding: 6px;
+    aspect-ratio: 1;
+    cursor: pointer;
+
+    &:hover {
+      background: #FFF3;
+    }
+  }
+  .reactionPicker {
+    margin-left: auto;
+  }
+}
+
 .viewReactionsModal {
   display: flex;
   flex-direction: column;

@@ -250,7 +250,9 @@ function WhoReactedModal(props: {
           )}
         </For>
         <Show when={plusCount()}>
-          {t("message.reactions.more", { count: plusCount() })}
+          <div class={style.whoReactedPlusCount}>
+            {t("message.reactions.more", { count: plusCount() })}
+          </div>
         </Show>
       </div>
     </Show>

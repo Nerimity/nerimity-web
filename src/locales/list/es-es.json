@@ -454,7 +454,9 @@
             "tickets": "Ayuda y soporte",
             "privacy": "Privacidad",
             "connections": "Conexiones",
-            "profile": "Perfil"
+            "profile": "Perfil",
+            "source": "Código fuente",
+            "changes": "Cambios"
         },
         "language": {
             "reloadNotice": "Debes recargar la aplicación para aplicar completamente el nuevo idioma.",
@@ -1002,6 +1004,10 @@
         "quote": {
             "invalid": "Cita eliminada o no válida.",
             "nested": "Cita anidada"
+        },
+        "codeBlock": {
+            "text": "Texto sin formato",
+            "toggleWrapButton": "Alternar ajuste de línea"
         }
     },
     "colorPickerModal": {
@@ -1164,7 +1170,8 @@
         "members": {
             "filter": {
                 "header": "Filtrar por",
-                "24hours": "24 horas"
+                "24hours": "24 horas",
+                "muted": "Silenciado"
             },
             "sort": {
                 "header": "Ordenar",
@@ -1179,7 +1186,8 @@
             }
         },
         "inVoice": "En voz",
-        "addChannel": "Añadir canal"
+        "addChannel": "Añadir canal",
+        "verified": "Este servidor está verificado."
     },
     "inVoiceActions": {
         "connectedFor": "Conectado por"
@@ -1195,7 +1203,6 @@
         "removing": "Desagregando…"
     },
     "general": {
-        "nothingSelected": "Nada seleccionado",
         "searchPlaceholder": "Buscar",
         "backButton": "Atrás",
         "cancelButton": "Cancelar",
@@ -1260,5 +1267,33 @@
         "title": "Respuesta de {{botName}}",
         "dataReceiver": "Los datos se envían a {{botName}}",
         "notice": "Nunca compartas información sensible"
+    },
+    "remindersModal": {
+        "title": "Recordatorios",
+        "showAllButton": "Mostrar todos los recordatorios",
+        "viewButton": "Ver",
+        "dismissing": "Descartando…",
+        "deleting": "Eliminando…",
+        "snoozeFor5Minutes": "Posponer 5 minutos",
+        "snoozeFor1Day": "Posponer 1 día",
+        "deletedItem": "Publicación o mensaje eliminado.",
+        "closeNotice": "Debes descartar todos los recordatorios activos primero."
+    },
+    "muteModal": {
+        "title": "¿Silenciar a {{username}}?",
+        "message": "<1>{{username}}</1> no podrá hablar en este servidor durante: <2>{{duration}}</2>",
+        "banButton": "Silenciar",
+        "banning": "Silenciando…",
+        "reasonLabel": "Razón (opcional)",
+        "reasonPlaceholder": "Escribe una razón…",
+        "muteButton": "Silenciar",
+        "unmuteButton": "Desilenciar",
+        "cancelMute": "No silencies"
+    },
+    "addReminderModal": {
+        "title": "Recordatorio",
+        "message": "Establecer un recordatorio para",
+        "setReminderButton": "Establecer recordatorio",
+        "adding": "Añadiendo…"
     }
 }

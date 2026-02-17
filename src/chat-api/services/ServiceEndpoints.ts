@@ -24,6 +24,8 @@ export default {
     `/servers/${serverId}/members/${userId}/kick`,
   serverMemberBan: (serverId: string, userId: string) =>
     `/servers/${serverId}/bans/${userId}`,
+  serverMemberMute: (serverId: string, userId: string) =>
+    `/servers/${serverId}/mutes/${userId}`,
 
   exploreServer: (serverId: string) => `/explore/servers/${serverId}`,
   explore: (id: string) => `/explore/${id}`,
@@ -71,5 +73,5 @@ export default {
   unlikePost: (postId: string) => `/posts/${postId}/unlike`,
   feedPosts: () => "/posts/feed",
 
-  userFollow: (userId: string) => `/users/${userId}/follow`,
+  userFollow: (userId: string) => `/users/${userId}/follow`
 };

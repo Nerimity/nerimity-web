@@ -454,7 +454,9 @@
             "tickets": "Квіткі",
             "privacy": "Прыватнасьць",
             "connections": "Злучэньні",
-            "profile": "Профіль"
+            "profile": "Профіль",
+            "source": "Код",
+            "changes": "Зьмены"
         },
         "language": {
             "reloadNotice": "Вы мусіце перазагрузіць аплікацыю каб поўнасьцю ўжыць новую мову.",
@@ -598,7 +600,7 @@
             "customizeColors": "Дапасаваньне колераў",
             "customizeColorsDescription": "Адрэдагуйце колеры бягучае тэмы.",
             "chatBarOptions": "Парамэтры панэлі паведамленьняў",
-            "timeTitle": "Пераключыць фармат часу",
+            "timeTitle": "Перамкнуць фармат часу",
             "12HourFormatDescription": "Адлюстроўваць час у 12-гадзінным фармаце, зь AM/PM.",
             "24HourFormatDescription": "Адлюстроўваць час у 24-гадзінным фармаце.",
             "voiceMessage": "Галасавое паведамленьне",
@@ -754,7 +756,7 @@
         "notificationOptions": {
             "everything": "Усё",
             "mentionsOnly": "Толькі згадваньні",
-            "mute": "Заглушаныя",
+            "mute": "Без гуку",
             "sections": {
                 "ping": "Пазнака",
                 "sound": "Гук"
@@ -979,7 +981,7 @@
         "reactions": {
             "more": "і яшчэ {{count}}"
         },
-        "deletedMessage": "Паведамленьне было выдалена.",
+        "deletedMessage": "Паведамленьне было выдаленае.",
         "dismissButton": "Адхіліць",
         "editedAt": "Адрэдагавана а {{time}}",
         "twitterEmbed": {
@@ -997,11 +999,15 @@
             "title": "Пераклад",
             "error": "Памылка пераклада"
         },
-        "imageMessage": "Паведамленьне з відарысам",
+        "imageMessage": "Паведамленьне зь відарысам",
         "viewMessages": "Праглядзець паведамленьні",
         "quote": {
             "invalid": "Выдаленая альбо памылковая цытата.",
             "nested": "Укладзеная цытата"
+        },
+        "codeBlock": {
+            "text": "Звычайны тэкст",
+            "toggleWrapButton": "Перамкнуць абгортку"
         }
     },
     "colorPickerModal": {
@@ -1164,7 +1170,8 @@
         "members": {
             "filter": {
                 "header": "Фільтраваць",
-                "24hours": "24 гадзіны"
+                "24hours": "24 гадзіны",
+                "muted": "Заглушаныя"
             },
             "sort": {
                 "header": "Сартаваць",
@@ -1179,7 +1186,8 @@
             }
         },
         "inVoice": "Выклік ідзе",
-        "addChannel": "Дадаць канал"
+        "addChannel": "Дадаць канал",
+        "verified": "Гэты сэрвэр вэрыфікаваны."
     },
     "inVoiceActions": {
         "connectedFor": "У выкліку"
@@ -1195,7 +1203,6 @@
         "removing": "Выдаляем…"
     },
     "general": {
-        "nothingSelected": "Нічога ня выбрана",
         "searchPlaceholder": "Пошук",
         "backButton": "Назад",
         "cancelButton": "Скасаваць",
@@ -1260,5 +1267,33 @@
         "body": "Вы ўпэўненыя, што хочаце выйсьці?",
         "clearSettings": "Скінуць лякальныя налады",
         "cancelButton": "Не выхадзіць"
+    },
+    "muteModal": {
+        "title": "Заглушыць {{username}}?",
+        "message": "<1>{{username}}</1> ня зможа пісаць паведамленьні на сэрвэры <2>{{duration}}</2>",
+        "banButton": "Заглушыць",
+        "banning": "Глушым…",
+        "reasonLabel": "Прычына (неабавязкова)",
+        "reasonPlaceholder": "Увядзіце прычыну…",
+        "muteButton": "Заглушыць",
+        "unmuteButton": "Скасаваць заглушэньне",
+        "cancelMute": "Не глушыць"
+    },
+    "remindersModal": {
+        "title": "Напаміны",
+        "showAllButton": "Паказаць усе напаміны",
+        "viewButton": "Праглядзець",
+        "dismissing": "Адхіляем…",
+        "deleting": "Прыбіраем…",
+        "snoozeFor5Minutes": "Адкласьці на 5 хвілін",
+        "snoozeFor1Day": "Адкласьці на 1 дзень",
+        "deletedItem": "Выдалены допіс альбо паведамленьне.",
+        "closeNotice": "Спачатку адхіліце ўсе актыўныя напаміны."
+    },
+    "addReminderModal": {
+        "title": "Напамін",
+        "message": "Паставіць напамін на",
+        "setReminderButton": "Паставіць",
+        "adding": "Дадаем…"
     }
 }

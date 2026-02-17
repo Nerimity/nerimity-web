@@ -84,6 +84,7 @@ interface WindowAPI {
   appLoopbackStart: (captureSourceId: string) => void;
   appLoopbackReset: () => void;
   appLoopbackData: (callback: (data: Uint8Array) => void) => void;
+  getAppVersion: () => Promise<string>;
 }
 
 export function electronWindowAPI(): WindowAPI | undefined {

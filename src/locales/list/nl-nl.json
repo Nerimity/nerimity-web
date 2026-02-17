@@ -775,7 +775,6 @@
             "browse": "Bekijken",
             "supportedFileTypes": "Ondersteunt: {{extensions}}, max. {{size}}"
         },
-        "nothingSelected": "Niets geselecteerd",
         "editButton": "Bijwerken",
         "closeButton": "Dichtmaken",
         "undoButton": "Ongedaan maken",

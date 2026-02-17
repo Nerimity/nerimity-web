@@ -12,7 +12,7 @@ import {
   onCleanup,
   onMount,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import { createStore, reconcile } from "solid-js/store";
 import { A, useNavigate, useParams } from "solid-navigator";
@@ -24,7 +24,7 @@ import {
   MessageType,
   RawBotCommand,
   RawCustomEmoji,
-  RawMessage,
+  RawMessage
 } from "../../chat-api/RawData";
 import socketClient from "../../chat-api/socketClient";
 import { ServerEvents } from "../../chat-api/EventNames";
@@ -35,14 +35,14 @@ import {
   emojis,
   emojiShortcodeToUnicode,
   lazyLoadEmojis,
-  unicodeToTwemojiUrl,
+  unicodeToTwemojiUrl
 } from "@/emoji";
 
 import env from "@/common/env";
 import Text from "../ui/Text";
 import useChannels, { Channel } from "@/chat-api/store/useChannels";
 import useServerMembers, {
-  ServerMember,
+  ServerMember
 } from "@/chat-api/store/useServerMembers";
 
 import { addToHistory } from "@nerimity/solid-emoji-picker";
@@ -59,7 +59,7 @@ import { css } from "solid-styled-components";
 import {
   CHANNEL_PERMISSIONS,
   hasBit,
-  ROLE_PERMISSIONS,
+  ROLE_PERMISSIONS
 } from "@/chat-api/Bitwise";
 import useAccount from "@/chat-api/store/useAccount";
 import useServers from "@/chat-api/store/useServers";
@@ -72,7 +72,7 @@ import { Markup } from "../Markup";
 import {
   getStorageBoolean,
   StorageKeys,
-  useChatBarOptions,
+  useChatBarOptions
 } from "@/common/localStorage";
 import { randomKaomoji } from "@/common/kaomoji";
 import { MessageLogArea } from "./message-log-area/MessageLogArea";
@@ -84,7 +84,7 @@ import { prettyBytes } from "@/common/prettyBytes";
 import Checkbox from "../ui/Checkbox";
 import { ChannelIcon } from "../ChannelIcon";
 import { MetaTitle } from "@/common/MetaTitle";
-import { millisecondsToReadable } from "@/common/date";
+import { millisecondsToReadable, timeSinceMentions } from "@/common/date";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
@@ -103,7 +103,7 @@ const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
 
 const DeleteMessageModal = lazy(
-  () => import("./message-delete-modal/MessageDeleteModal"),
+  () => import("./message-delete-modal/MessageDeleteModal")
 );
 const PhotoEditor = lazy(() => import("../ui/photo-editor/PhotoEditor"));
 
@@ -136,7 +136,7 @@ function MessagePane() {
     serverMembers,
     account,
     servers,
-    channelProperties,
+    channelProperties
   } = useStore();
   const { setMarginBottom, setMarginTop } = useCustomScrollbar();
   const [textAreaEl, setTextAreaEl] = createSignal<
@@ -175,7 +175,7 @@ function MessagePane() {
 
   const disabledAdvancedMarkup = getStorageBoolean(
     StorageKeys.DISABLED_ADVANCED_MARKUP,
-    false,
+    false
   );
 
   createEffect(
@@ -187,9 +187,9 @@ function MessagePane() {
             : 40
           : isMobileWidth()
             ? 84
-            : 74,
+            : 74
       );
-    }),
+    })
   );
 
   onMount(() => {
@@ -215,7 +215,7 @@ function MessagePane() {
       serverId: params.serverId!,
       channelId: params.channelId!,
       userId: userId,
-      id: "MessagePane",
+      id: "MessagePane"
     });
 
     if (params.serverId) {
@@ -223,23 +223,14 @@ function MessagePane() {
     }
   });
 
+  const member = () =>
+    serverMembers.get(channel()?.serverId!, account.user()?.id!);
   const isEmailNotConfirmed = () => !account.user()?.emailConfirmed;
 
-  const canSendMessage = () => {
-    if (isEmailNotConfirmed()) {
-      return false;
-    }
-    if (!channel()?.serverId) return true;
-    const member = serverMembers.get(channel()?.serverId!, account.user()?.id!);
-    if (!member) return false;
-    if (member.hasPermission(ROLE_PERMISSIONS.ADMIN)) return true;
+  const muted = () =>
+    member()?.muteExpireAt && new Date(member()?.muteExpireAt!) > new Date();
 
-    if (!channel()?.hasPermission(CHANNEL_PERMISSIONS.SEND_MESSAGE)) {
-      return false;
-    }
-
-    return member.hasPermission(ROLE_PERMISSIONS.SEND_MESSAGE);
-  };
+  const canSendMessage = () => channel()?.canSendMessage(account.user()?.id!);
 
   const server = () => servers.get(channel()?.serverId!);
 
@@ -257,6 +248,9 @@ function MessagePane() {
       <Rerun on={channel}>
         <MessageLogArea mainPaneEl={mainPaneEl} textAreaEl={textAreaEl()} />
       </Rerun>
+      <Show when={muted()}>
+        <MutedNotice member={member()!} />
+      </Show>
       <Show when={isEmailNotConfirmed()}>
         <EmailUnconfirmedNotice />
       </Show>
@@ -275,6 +269,37 @@ const EmailUnconfirmedNotice = () => {
       <A href="/app/settings/account">
         <Button label={t("general.confirmButton")} primary />
       </A>
+    </div>
+  );
+};
+const MutedNotice = (props: { member: ServerMember }) => {
+  const [expiresAt, setExpiresAt] = createSignal<string>("");
+
+  const updateExpiresAt = () => {
+    const text = timeSinceMentions(props.member.muteExpireAt!);
+
+    setExpiresAt(text.slice(3));
+  };
+
+  createEffect(
+    on(
+      () => props.member.muteExpireAt,
+      () => {
+        updateExpiresAt();
+        const interval = setInterval(() => {
+          updateExpiresAt();
+        }, 1000);
+
+        onCleanup(() => clearInterval(interval));
+      }
+    )
+  );
+
+  return (
+    <div class={styles.mutedNotice}>
+      <Icon name="volume_off" size={24} color="var(--alert-color)" />
+      <div class={styles.text}>You are muted.</div>
+      <div class={styles.expireDuration}>{expiresAt()}</div>
     </div>
   );
 };
@@ -303,7 +328,7 @@ function MessageArea(props: {
   createEffect(
     on(textAreaEl, () => {
       props.textAreaRef(textAreaEl());
-    }),
+    })
   );
 
   const channelProperty = () => channelProperties.get(params.channelId);
@@ -352,7 +377,7 @@ function MessageArea(props: {
           (m) =>
             m.type === MessageType.CONTENT &&
             m.createdBy.id === myId &&
-            m.sentStatus === undefined,
+            m.sentStatus === undefined
         );
       if (msg) {
         channelProperties.setEditMessage(params.channelId, msg);
@@ -402,7 +427,7 @@ function MessageArea(props: {
       trimmedMessage,
       params.serverId,
       params.channelId,
-      !!editMessageId(),
+      !!editMessageId()
     );
 
     if (editMessageId()) {
@@ -421,7 +446,7 @@ function MessageArea(props: {
       messages.editAndStoreMessage(
         params.channelId,
         editMessageId()!,
-        formattedMessage,
+        formattedMessage
       );
       cancelEdit();
     } else {
@@ -447,7 +472,7 @@ function MessageArea(props: {
   createEffect(
     on(paneWidth, () => {
       adjustHeight();
-    }),
+    })
   );
 
   const onInput = (event: any) => {
@@ -467,7 +492,7 @@ function MessageArea(props: {
       `:${shortcode}: `,
       textAreaEl()!.selectionStart,
       textAreaEl()!.selectionEnd,
-      "end",
+      "end"
     );
     setMessage(textAreaEl()!.value);
     if (!shiftDown) setShowEmojiPicker(false);
@@ -480,7 +505,7 @@ function MessageArea(props: {
       `${gif.gifUrl} `,
       textAreaEl()!.selectionStart,
       textAreaEl()!.selectionEnd,
-      "end",
+      "end"
     );
     setMessage(textAreaEl()!.value);
     setShowEmojiPicker(false);
@@ -496,7 +521,7 @@ function MessageArea(props: {
       class={classNames(
         "messageArea",
         styles.messageArea,
-        conditionalClass(editMessageId(), styles.editing),
+        conditionalClass(editMessageId(), styles.editing)
       )}
     >
       <Show when={showEmojiPicker()}>
@@ -544,12 +569,12 @@ function MessageArea(props: {
           channel()?.name
             ? t("messageArea.messageBoxChannelPlaceholder", {
                 channelName: channel()!.name,
-                interpolation: { escapeValue: false },
+                interpolation: { escapeValue: false }
               })
             : channel()?.recipient()?.username
               ? t("messageArea.messageBoxPlaceholder", {
                   username: channel()?.recipient()?.username,
-                  interpolation: { escapeValue: false },
+                  interpolation: { escapeValue: false }
                 })
               : ""
         }
@@ -640,7 +665,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
   const advancedMarkupShown = !getStorageBoolean(
     StorageKeys.DISABLED_ADVANCED_MARKUP,
-    false,
+    false
   );
 
   const reminders = createMemo(() => store.account.reminders(params.channelId));
@@ -648,7 +673,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
   const showRemindersModal = () => {
     createPortal(
       (close) => <RemindersModal close={close} channelId={params.channelId} />,
-      "reminders-modal",
+      "reminders-modal"
     );
   };
 
@@ -657,7 +682,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
       class={classNames(
         styles.textAreaContainer,
         conditionalClass(isFocused(), styles.focused),
-        conditionalClass(advancedMarkupShown, styles.advancedMarkupShown),
+        conditionalClass(advancedMarkupShown, styles.advancedMarkupShown)
       )}
     >
       <BeforeYouChatNotice
@@ -816,7 +841,7 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
     const myLocation = event.changedTouches[0];
     const realTarget = document.elementFromPoint(
       myLocation.clientX,
-      myLocation.clientY,
+      myLocation.clientY
     );
     setCancelRecording(!realTarget?.closest(".voice-recorder-button"));
   };
@@ -880,7 +905,7 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
         timer = null;
       }
       setDuration("0:00");
-    }),
+    })
   );
 
   return (
@@ -889,7 +914,7 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
         display: "flex",
         "align-items": "center",
         gap: "4px",
-        "align-self": "end",
+        "align-self": "end"
       }}
     >
       <Show when={isRecording()}>
@@ -947,7 +972,7 @@ function TypingIndicator() {
     }
     const timeoutId = window.setTimeout(
       () => setTypingUserIds(event.userId, undefined),
-      5000,
+      5000
     );
     setTypingUserIds(event.userId, timeoutId);
   };
@@ -969,11 +994,11 @@ function TypingIndicator() {
       () => params.channelId,
       () => {
         Object.values(typingUserIds).forEach((timeoutId) =>
-          clearTimeout(timeoutId),
+          clearTimeout(timeoutId)
         );
         setTypingUserIds(reconcile({}));
-      },
-    ),
+      }
+    )
   );
 
   onMount(() => {
@@ -991,7 +1016,7 @@ function TypingIndicator() {
   const typingUsers = createMemo(() =>
     Object.keys(typingUserIds)
       .filter((id) => !friends.hasBeenBlockedByMe(id))
-      .map((userId) => users.get(userId)!),
+      .map((userId) => users.get(userId)!)
   );
 
   const typingUserDisplayNames = createMemo(() => {
@@ -1013,7 +1038,7 @@ function TypingIndicator() {
         padding: "0px",
         "padding-left": "5px",
         "padding-right": "5px",
-        "z-index": "1",
+        "z-index": "1"
       }}
     >
       <Text
@@ -1035,7 +1060,7 @@ function TypingIndicator() {
               key="typing.multiple"
               options={{
                 username: typingUserDisplayNames()[0],
-                username2: typingUserDisplayNames()[1],
+                username2: typingUserDisplayNames()[1]
               }}
             >
               <strong class={styles.username} />a
@@ -1048,7 +1073,7 @@ function TypingIndicator() {
               options={{
                 username: typingUserDisplayNames()[0],
                 username2: typingUserDisplayNames()[1],
-                username3: typingUserDisplayNames()[2],
+                username3: typingUserDisplayNames()[2]
               }}
             >
               <strong class={styles.username} />,
@@ -1060,7 +1085,7 @@ function TypingIndicator() {
             <UnescapedTrans
               key="typing.andOthers"
               options={{
-                count: typingUserDisplayNames().length,
+                count: typingUserDisplayNames().length
               }}
             >
               <strong class={styles.username} />
@@ -1173,7 +1198,7 @@ function FloatingMessageEmojiPicker(props: {
 
 const [globalMention, setGlobalMention] = useLocalStorage<boolean>(
   StorageKeys.MENTION_REPLIES,
-  true,
+  true
 );
 
 function FloatingReply() {
@@ -1197,19 +1222,25 @@ function FloatingReply() {
   return (
     <Show when={messages().length}>
       <Floating class={styles.replyIndicator}>
-        <Text class={styles.replyIndicatorTitle} size={12} opacity={0.6}>
-          {t("messageArea.replying", { count: messages().length })}
-        </Text>
-
+        <div class={styles.replyIndicatorHeader}>
+          <Text class={styles.replyIndicatorTitle} size={12} opacity={0.6}>
+            {t("messageArea.replying", { count: messages().length })}
+          </Text>
+          <Checkbox
+            checked={globalMention()}
+            onChange={toggleMention}
+            style={{gap: "4px"}}
+            boxStyles={{ "font-size": "8px", "border-radius": "4px" }}
+            label={t("messageArea.mention")}
+            labelSize={12}
+          />
+        </div>
         <For each={messages()}>
           {(message, i) => (
             <div
               class={styles.replyIndicatorInner}
               style={{
-                "border-bottom": "solid 1px rgba(255, 255, 255, 0.1)",
-                ...(i() === 0
-                  ? { "border-top": "solid 1px rgba(255, 255, 255, 0.1)" }
-                  : {}),
+                "border-top": "solid 1px rgba(255, 255, 255, 0.1)",
               }}
             >
               <Icon
@@ -1233,20 +1264,6 @@ function FloatingReply() {
             </div>
           )}
         </For>
-
-        <Checkbox
-          checked={globalMention()}
-          onChange={toggleMention}
-          style={{
-            gap: "4px",
-            "padding-top": "4px",
-            "padding-bottom": "4px",
-            "justify-content": "end",
-          }}
-          boxStyles={{ "font-size": "8px", "border-radius": "4px" }}
-          label={t("messageArea.mention")}
-          labelSize={12}
-        />
       </Floating>
     </Show>
   );
@@ -1316,7 +1333,7 @@ function FloatingAttachment(props: {}) {
       ...(isMoreThan50MB()
         ? []
         : [{ id: "nerimity_cdn", label: "Nerimity CDN" }]),
-      { id: "google_drive", label: "Google Drive" },
+      { id: "google_drive", label: "Google Drive" }
     ] satisfies DropDownItem[];
   };
 
@@ -1362,7 +1379,7 @@ function FloatingAttachment(props: {}) {
               channelProperties.setAttachment(
                 params.channelId,
                 undefined,
-                item.id,
+                item.id
               )
             }
             items={uploadToOptions()}
@@ -1423,7 +1440,7 @@ export function formatMessage(
   message: string,
   serverId?: string,
   channelId?: string,
-  isEditing?: boolean,
+  isEditing?: boolean
 ): string {
   const isSomeoneMentioned =
     !isEditing && (message.includes("@someone") || false);
@@ -1468,11 +1485,11 @@ export function formatMessage(
         if (!dmUsers) return match;
 
         const user = dmUsers.find(
-          (user) => user?.username === username && user?.tag === tag,
+          (user) => user?.username === username && user?.tag === tag
         );
         if (!user) return match;
         return `[@:${user.id}]`;
-      },
+      }
     );
 
     if (isSomeoneMentioned) {
@@ -1481,7 +1498,7 @@ export function formatMessage(
         () =>
           `[@:s] **${randomKaomoji()} (${
             dmUsers[randomIndex(dmUsers.length)]?.username
-          })**`,
+          })**`
       );
     }
   }
@@ -1497,7 +1514,7 @@ export function formatMessage(
         });
         if (!member) return match;
         return `[@:${member.user().id}]`;
-      },
+      }
     );
     finalString = finalString.replace(roleMentionRegex, (match, group) => {
       const channel = serverRoles.find((c) => c!.name === group);
@@ -1511,7 +1528,7 @@ export function formatMessage(
         const channel = serverChannels.find((c) => c!.name === group);
         if (!channel) return match;
         return `[#:${channel.id}]`;
-      },
+      }
     );
 
     if (isSomeoneMentioned) {
@@ -1520,7 +1537,7 @@ export function formatMessage(
         () =>
           `[@:s] **${randomKaomoji()} (${
             members[randomIndex(members.length)]?.user().username
-          })**`,
+          })**`
       );
     }
   }
@@ -1539,7 +1556,7 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
     !properties()?.isScrolledBottom || properties()?.moreBottomToLoad;
 
   const newMessages = createMemo(() =>
-    channels.get(params.channelId)?.hasNotifications(),
+    channels.get(params.channelId)?.hasNotifications()
   );
 
   const onClick = async () => {
@@ -1584,7 +1601,7 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   const onClick = (e: any) => {
     setIsFocus(
       e.target.closest("." + styles.textArea) ||
-        e.target.closest(".clickableCommandSuggestionItem"),
+        e.target.closest(".clickableCommandSuggestionItem")
     );
   };
 
@@ -1669,12 +1686,12 @@ function FloatingChannelSuggestions(props: {
     () =>
       channels
         .getChannelsByServerId(params.serverId!, true)
-        .filter((c) => c?.type !== ChannelType.CATEGORY) as Channel[],
+        .filter((c) => c?.type !== ChannelType.CATEGORY) as Channel[]
   );
 
   const searchedChannels = () =>
     matchSorter(serverChannels(), normalizeText(props.search), {
-      keys: [(c) => normalizeText(c.name)],
+      keys: [(c) => normalizeText(c.name)]
     }).slice(0, 10);
 
   createEffect(on(searchedChannels, () => setCurrent(0)));
@@ -1685,7 +1702,7 @@ function FloatingChannelSuggestions(props: {
       params.channelId,
       props.textArea,
       props.search,
-      normalizeText(channel.name) + "# ",
+      normalizeText(channel.name) + "# "
     );
   };
 
@@ -1695,7 +1712,7 @@ function FloatingChannelSuggestions(props: {
     () => searchedChannels().length,
     () => props.textArea!,
     onEnterClick,
-    sendButtonRef,
+    sendButtonRef
   );
 
   return (
@@ -1786,34 +1803,34 @@ function FloatingUserSuggestions(props: {
                 user: () => ({
                   special: true,
                   id: "e",
-                  username: "everyone",
-                }),
-              },
+                  username: "everyone"
+                })
+              }
             ]
           : []),
         {
           user: () => ({
             special: true,
             id: "s",
-            username: "someone",
-          }),
+            username: "someone"
+          })
         },
         {
           user: () => ({
             special: true,
             id: "si",
-            username: "silent",
-          }),
-        },
+            username: "silent"
+          })
+        }
       ] as any[],
       normalizeText(props.search),
       {
         keys: [
           (e) => normalizeText(e.user?.().username),
           (e) => normalizeText(e.nickname),
-          (e) => normalizeText(e.name),
-        ],
-      },
+          (e) => normalizeText(e.name)
+        ]
+      }
     )
       .slice(0, 10)
       .sort((a, b) => {
@@ -1828,7 +1845,7 @@ function FloatingUserSuggestions(props: {
     !channel() ? [] : ([channel()?.recipient(), account.user()] as User[]);
   const searchedDMUsers = () =>
     matchSorter(DMUsers(), normalizeText(props.search), {
-      keys: [(u) => normalizeText(u.username)],
+      keys: [(u) => normalizeText(u.username)]
     }).slice(0, 10);
 
   const searched = () =>
@@ -1841,7 +1858,7 @@ function FloatingUserSuggestions(props: {
         params.channelId,
         props.textArea,
         props.search,
-        `${normalizeText(user.username || user.name)}${user.name ? "@" : ""} `,
+        `${normalizeText(user.username || user.name)}${user.name ? "@" : ""} `
       );
       return;
     }
@@ -1849,7 +1866,7 @@ function FloatingUserSuggestions(props: {
       params.channelId,
       props.textArea,
       props.search,
-      `${normalizeText(user.username)}:${normalizeText(user.tag)} `,
+      `${normalizeText(user.username)}:${normalizeText(user.tag)} `
     );
   };
 
@@ -1861,7 +1878,7 @@ function FloatingUserSuggestions(props: {
     () => searched().length,
     () => props.textArea!,
     onEnterClick,
-    sendButtonRef,
+    sendButtonRef
   );
 
   return (
@@ -1952,7 +1969,7 @@ function FloatingEmojiSuggestions(props: {
       keys: ["short_names.*", "name"],
       baseSort: (a, b) => {
         const recentlyUsed: string[] = JSON.parse(
-          localStorage["nerimity-solid-emoji-pane"] || "[]",
+          localStorage["nerimity-solid-emoji-pane"] || "[]"
         );
 
         const getName = (e: any): string => {
@@ -1978,7 +1995,7 @@ function FloatingEmojiSuggestions(props: {
         }
 
         return nameA.localeCompare(nameB);
-      },
+      }
     }).slice(0, 10);
 
   const onItemClick = (emoji: Emoji | RawCustomEmoji) => {
@@ -1990,7 +2007,7 @@ function FloatingEmojiSuggestions(props: {
       params.channelId,
       props.textArea,
       props.search,
-      normalizeText(name) + ": ",
+      normalizeText(name) + ": "
     );
   };
 
@@ -2000,7 +2017,7 @@ function FloatingEmojiSuggestions(props: {
     () => searchedEmojis().length,
     () => props.textArea!,
     onEnterClick,
-    sendButtonRef,
+    sendButtonRef
   );
 
   return (
@@ -2048,7 +2065,7 @@ function FloatingCommandSuggestions(props: {
         setTimeout(() => {
           channelProperties.updateSelectedBotCommand(
             params.channelId,
-            undefined,
+            undefined
           );
         });
       }
@@ -2057,7 +2074,7 @@ function FloatingCommandSuggestions(props: {
       setTimeout(() => {
         channelProperties.updateSelectedBotCommand(params.channelId, undefined);
       });
-    }),
+    })
   );
 
   const commands = () => {
@@ -2077,13 +2094,13 @@ function FloatingCommandSuggestions(props: {
 
   const searched = () =>
     matchSorter(commands(), props.search, {
-      keys: ["name"],
+      keys: ["name"]
     }).slice(0, 8);
 
   createEffect(
     on(searched, () => {
       setCurrent(0);
-    }),
+    })
   );
 
   const onItemClick = (cmd: RawBotCommand) => {
@@ -2105,7 +2122,7 @@ function FloatingCommandSuggestions(props: {
     () => searched().length,
     () => props.textArea!,
     onEnterClick,
-    sendButtonRef,
+    sendButtonRef
   );
 
   const onInput = (event: InputEvent) => {
@@ -2172,7 +2189,7 @@ function CommandSuggestionItem(props: {
       class={cn(
         styles.suggestionItem,
         styles.commandSuggestionItem,
-        props.class,
+        props.class
       )}
       onclick={() => props.onclick(props.cmd)}
     >
@@ -2246,7 +2263,7 @@ function appendText(
   channelId: string,
   textArea: HTMLTextAreaElement,
   query: string,
-  name: string,
+  name: string
 ) {
   const channelProperties = useChannelProperties();
   const content = channelProperties.get(channelId)?.content || "";
@@ -2255,7 +2272,7 @@ function appendText(
   const removeCurrentQuery = removeByIndex(
     content,
     cursorPosition - query.length,
-    query.length,
+    query.length
   );
   const result =
     removeCurrentQuery.slice(0, cursorPosition - query.length) +
@@ -2317,7 +2334,7 @@ function BeforeYouChatNotice(props: {
   textAreaEl(): HTMLInputElement | undefined;
 }) {
   const { notice, setNotice, hasAlreadySeenNotice, updateLastSeen } = useNotice(
-    () => props.channelId,
+    () => props.channelId
   );
   const [textAreaFocus, setTextAreaFocus] = createSignal(false);
   const { isMobileWidth } = useWindowProperties();
@@ -2350,7 +2367,7 @@ function BeforeYouChatNotice(props: {
           setButtonClickable(true);
         }, 1000);
       }
-    }),
+    })
   );
 
   createEffect(
@@ -2361,7 +2378,7 @@ function BeforeYouChatNotice(props: {
         document.removeEventListener("click", onDocClick);
         document.removeEventListener("keypress", onInput);
       });
-    }),
+    })
   );
 
   const understoodClick = () => {
@@ -2384,7 +2401,7 @@ function BeforeYouChatNotice(props: {
         <div
           class={classNames(
             styles.beforeYouChatNotice,
-            conditionalClass(isMobileWidth(), styles.mobile),
+            conditionalClass(isMobileWidth(), styles.mobile)
           )}
         >
           <div class={styles.title}>

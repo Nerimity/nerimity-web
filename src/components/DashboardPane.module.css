@@ -1,0 +1,166 @@
+.dashboardPaneContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboardPaneContent {
+  display: flex;
+  align-self: center;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+  margin: 30px;
+  border-radius: 8px;
+  place-self: stretch;
+  gap: 10px;
+}
+
+.announcementPostContainer {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+
+  && {
+    .announcementPostInner {
+      border: none;
+      &:before {
+        border: none;
+      }
+    }
+  }
+
+  .closeButton {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+.activityListContainer {
+  display: flex;
+  overflow: auto;
+  height: 80px;
+  margin-right: 5px;
+  margin-left: 5px;
+  gap: 8px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .noActivity {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    text-align: center;
+  }
+}
+
+.presenceItemContainer {
+  position: relative;
+  z-index: 11;
+  display: flex;
+
+  overflow: hidden;
+  flex-shrink: 0;
+  padding: 4px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .activityImage {
+    max-width: 100px;
+    height: 100%;
+    border-radius: 6px;
+    background-color: black;
+    object-fit: contain;
+    aspect-ratio: 1/1;
+
+    &[data-isEmoji="true"] {
+      background-color: transparent;
+    }
+
+    &[data-isWide="true"] {
+      flex-shrink: 0;
+      max-width: initial;
+      object-fit: contain;
+      aspect-ratio: 16/9;
+    }
+  }
+  .activityDetails {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    max-width: 180px;
+    padding-top: 2px;
+    padding-right: 10px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    margin-top: 4px;
+    gap: 2px;
+    .activityIcon {
+      vertical-align: -2px;
+    }
+    .userHeader {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+  .activityBackdrop {
+    position: absolute;
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    pointer-events: none;
+    filter: blur(50px) brightness(0.6);
+    inset: -20px;
+  }
+}
+
+.postsContainer {
+  margin-right: 6px;
+  margin-left: 6px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.07);
+}
+.postTabsContainer {
+  display: flex;
+  height: 28px;
+  margin-top: 6px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  gap: 6px;
+}
+
+.postTabNotificationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--primary-color);
+  font-size: 12px;
+}

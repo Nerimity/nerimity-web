@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { ServerEvents } from "@/chat-api/EventNames";
 import {
   MessageType,
@@ -66,6 +66,7 @@ import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { PhotoEditor } from "@/components/ui/photo-editor/PhotoEditor";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { FlexRow } from "@/components/ui/Flexbox";
+import { Emoji as UiEmoji } from "@/components/ui/Emoji";
 import { Emoji } from "@/components/markup/Emoji";
 import ItemContainer from "@/components/ui/LegacyItem";
 import Avatar from "@/components/ui/Avatar";
@@ -77,6 +78,8 @@ import { fetchTranslation } from "@/common/GoogleTranslate";
 import { messagesPreloader } from "@/common/createPreloader";
 import { unzipJson } from "@/common/zip";
 import { rightDrawerMode } from "@/common/localStorage";
+import { cn } from "@/common/classNames";
+import { addToHistory } from "@nerimity/solid-emoji-picker";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -605,10 +608,13 @@ export const MessageLogArea = (props: {
   const addReaction = async (shortcode: string, message: Message) => {
     props.textAreaEl?.focus();
     const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
+    const name = !customEmoji ? emojiShortcodeToUnicode(shortcode) : shortcode;
+
+    addToHistory(shortcode, 20);
     await addMessageReaction({
       channelId: message.channelId,
       messageId: message.id,
-      name: !customEmoji ? emojiShortcodeToUnicode(shortcode) : shortcode,
+      name: name!,
       emojiId: customEmoji?.id,
       gif: customEmoji?.gif,
       webp: customEmoji?.webp
@@ -643,6 +649,9 @@ export const MessageLogArea = (props: {
           replyMessage={() => replyMessage(messageContextDetails()?.message!)}
           quoteMessage={() => quoteMessage(messageContextDetails()?.message!)}
           translateMessage={translateMessage}
+          addReaction={(shortcode: string, message: Message) =>
+            addReaction(shortcode, message)
+          }
           onClose={() => setMessageContextDetails(undefined)}
         />
       </Show>
@@ -845,12 +854,16 @@ type MessageContextMenuProps = Omit<ContextMenuProps, "items"> & {
   quoteMessage(): void;
   replyMessage(): void;
   translateMessage?(): void;
+  addReaction(shortcode: string, message: Message): void;
 };
 
 function MessageContextMenu(props: MessageContextMenuProps) {
   const params = useParams<{ serverId?: string }>();
   const { createPortal } = useCustomPortal();
   const { account, serverMembers, channels } = useStore();
+
+  const channel = () => channels.get(props.message.channelId!);
+
   const onDeleteClick = () => {
     createPortal?.((close) => (
       <DeleteMessageModal close={close} message={props.message} />
@@ -900,8 +913,14 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   };
 
-  const showQuote = () => props.message.type === MessageType.CONTENT;
-  const showReply = () => props.message.type === MessageType.CONTENT;
+  const showQuote = () => {
+    if (props.message.type !== MessageType.CONTENT) return false;
+    return channel()?.canSendMessage(account.user()?.id!);
+  };
+  const showReply = () => {
+    if (props.message.type !== MessageType.CONTENT) return false;
+    return channel()?.canSendMessage(account.user()?.id!);
+  };
 
   const hasReactions = () => props.message?.reactions.length;
   const hasContent = () => props.message.content;
@@ -923,6 +942,18 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     createPortal?.((close) => (
       <PinConfirmModal close={close} message={props.message} />
     ));
+  };
+
+  const onReactPickerClick = (event: MouseEvent) => {
+    createPortal?.((close) => (
+      <FloatingEmojiPicker
+        onClick={(shortcode) => props.addReaction(shortcode, props.message)}
+        close={close}
+        x={event.clientX}
+        y={event.clientY}
+      />
+    ));
+    props.onClose?.();
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -965,6 +996,15 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     <ContextMenu
       triggerClassName="floatingShowMore"
       {...props}
+      header={
+        <MessageReactHeader
+          addReaction={(shortcode: string) => {
+            props.addReaction(shortcode, props.message);
+            props.onClose?.();
+          }}
+          openReactPicker={(ev: MouseEvent) => onReactPickerClick(ev)}
+        />
+      }
       items={[
         ...(hasReactions()
           ? [
@@ -1091,6 +1131,82 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     />
   );
 }
+
+const MessageReactHeader = (props: {
+  addReaction: (shortcode: string) => void;
+  openReactPicker: (event: MouseEvent) => void;
+}) => {
+  const { isMobileWidth, width } = useWindowProperties();
+  const store = useStore();
+
+  const emojiIcon = (shortcode: string) => {
+    const customEmoji = store.servers.customEmojiNamesToEmoji()[shortcode];
+    const unicode = emojiShortcodeToUnicode(shortcode);
+    const icon =
+      unicode ||
+      (customEmoji && `${customEmoji.id}.${customEmoji.gif ? "gif" : "webp"}`);
+    return icon;
+  };
+
+  const iconSize = () => (isMobileWidth() ? 32 : 20);
+
+  const emojiSlots = () => {
+    if (!isMobileWidth()) {
+      return 4;
+    } else {
+      const menuPadding = 2 * 7; // total menu padding from fullwidth context menu
+      const paddedIconSize = iconSize() + 2 * 6; // horizontal button padding
+      const iconGap = 6;
+
+      // usable space left after removing menu padding & the picker button
+      const remainingSpace = width() - menuPadding - paddedIconSize;
+      return Math.max(
+        Math.floor(remainingSpace / (paddedIconSize + iconGap)),
+        0
+      );
+    }
+  };
+
+  let recentlyUsed: string[];
+  try {
+    recentlyUsed = JSON.parse(
+      localStorage["nerimity-solid-emoji-pane"] || "[]"
+    );
+  } catch {
+    recentlyUsed = []; // ignore invalid data
+  }
+  const defaultEmojis = ["+1", "heart", "100", "tada", "smile"];
+  const dedupedEmojis = [...new Set([...recentlyUsed, ...defaultEmojis])];
+
+  const suggestions = () => dedupedEmojis.slice(0, emojiSlots());
+
+  return (
+    <div class={styles.reactSuggestionList}>
+      <For each={suggestions()}>
+        {(shortcode, i) => (
+          <div
+            class={styles.reaction}
+            onClick={() => props.addReaction(shortcode)}
+          >
+            <UiEmoji
+              size={iconSize()}
+              icon={emojiIcon(shortcode)}
+              defaultPaused={true}
+              hovered={false}
+              resize={60}
+            />
+          </div>
+        )}
+      </For>
+      <div
+        class={cn(styles.reaction, styles.reactionPicker)}
+        onClick={props.openReactPicker}
+      >
+        <Icon size={iconSize()} name="more_horiz" />
+      </div>
+    </div>
+  );
+};
 
 const ViewReactionsModal = (props: { close: () => void; message: Message }) => {
   const [selectedIndex, setSelectedIndex] = createSignal(0);

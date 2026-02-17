@@ -30,6 +30,7 @@ export default defineConfig({
   },
   server: {
     host: true,
+    allowedHosts: ["local.nerimity.com"],
     port: 3000,
     // open: true,
   },

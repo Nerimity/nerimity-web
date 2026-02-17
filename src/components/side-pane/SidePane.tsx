@@ -50,7 +50,7 @@ export default function SidePane(props: { class?: string }) {
     defaultWidth: 65,
     minWidth: 40,
     maxWidth: 65,
-    element: () => containerEl,
+    element: () => containerEl
   });
 
   return (
@@ -59,7 +59,7 @@ export default function SidePane(props: { class?: string }) {
       class={cn(
         style.sidePane,
         isMobileWidth() ? style.mobile : undefined,
-        props.class,
+        props.class
       )}
       style={
         isMobileWidth()
@@ -96,11 +96,10 @@ export default function SidePane(props: { class?: string }) {
 }
 
 function HomeItem(props: { size: number }) {
-  const { friends, servers, mentions } = useStore();
+  const { friends } = useStore();
   const [t] = useTransContext();
 
   const location = useLocation();
-  const { hasActiveReminder } = useReminders();
   const isSelected = () => {
     if (location.pathname === "/app") return true;
     if (location.pathname.startsWith(RouterEndpoints.INBOX())) return true;
@@ -113,15 +112,6 @@ function HomeItem(props: { size: number }) {
       .length;
 
   const count = () => friendRequestCount();
-
-  createEffect(() => {
-    updateTitleAlert(
-      hasActiveReminder() || count() || servers.hasNotifications()
-        ? true
-        : false,
-      count() + mentions.count(),
-    );
-  });
 
   return (
     <Tooltip tooltip={t("sidePane.home")}>
@@ -152,7 +142,7 @@ function UpdateItem(props: { size: number }) {
         lastChecked = now;
         checkForUpdate();
       }
-    }),
+    })
   );
 
   const showUpdateModal = () =>
@@ -250,7 +240,7 @@ const UserItem = (props: { size: number }) => {
       left: props.size + 6,
       top: rect.top + 10,
       bottom: 4,
-      anchor: "left",
+      anchor: "left"
     } as const;
 
     createRegisteredPortal(
@@ -261,10 +251,10 @@ const UserItem = (props: { size: number }) => {
         triggerEl: el,
         position: pos,
         close: close,
-        userId: userId(),
+        userId: userId()
       },
       "profile-pane-flyout-" + userId(),
-      true,
+      true
     );
   };
 
@@ -287,7 +277,7 @@ const UserItem = (props: { size: number }) => {
           class={classNames(
             style.user,
             "sidePaneUser",
-            "trigger-profile-flyout",
+            "trigger-profile-flyout"
           )}
           onclick={onClicked}
           selected={modalOpened()}
@@ -383,7 +373,7 @@ function UpdateModal(props: { close: () => void }) {
             "max-height": "400px",
             "max-width": "600px",
             overflow: "auto",
-            padding: "10px",
+            padding: "10px"
           }}
         >
           <Show when={isRelease}>

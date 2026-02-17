@@ -1,6 +1,5 @@
 {
     "general": {
-        "nothingSelected": "Inget valt",
         "searchPlaceholder": "Sök",
         "cancelButton": "Avbryt",
         "closeButton": "Stäng",
@@ -433,7 +432,9 @@
                     "title": "Krav",
                     "englishOnly": "Endast engelska",
                     "englishOnlyDescription": "Servrar som inte är på engelska är svårare att moderera.",
-                    "oneMonthOrSupporter": "Minst 1 månad ELLER supporter emblem"
+                    "oneMonthOrSupporter": "Minst 1 månad ELLER supporter emblem",
+                    "oneMonthOrSupporterDescription": "Din server måste vara minst 1 månad gammal ELLER ska ägaren av servern ha \"supporter\" emblemen.",
+                    "members": "{{count}} eller mer medlemmar"
                 },
                 "perks": {
                     "title": "Förmåner",
@@ -445,13 +446,19 @@
                     "customInviteDescription": "Skapa din egna inbjudningslänk från Inbjudningar-sidan.",
                     "emojiSlots": "Mer platser för emojis",
                     "emojiSlotsDescription": "200st emojis till din server.",
-                    "hdScreenshare": "1080p@60fps skärmdelning"
+                    "hdScreenshare": "1080p@60fps skärmdelning",
+                    "hdScreenshareDescription": "Dela din skärm i 1080p 60fps."
                 },
                 "alreadyVerified": "Din server är redan verifierad!",
                 "insufficientMembers": "Du behöver {{count}} mer medlem/medlemmar för att ansöka om verifiering.",
                 "verifiable": "Redo för verifiering",
                 "verifiableDescription": "Du har nog med medlemmar för att verifiera din server!",
                 "verifyButton": "Verifiera"
+            },
+            "externalEmbed": {
+                "noInvites": {
+                    "title": "Inga Inbjudningar Skapade"
+                }
             }
         },
         "rolePermissions": {
@@ -565,6 +572,11 @@
             "notice": "Stötta detta projekt genom att skänka pengar.",
             "palestineDescription": "Kan sättas på genom profilinställningar",
             "price": "{{price}} Emblem"
+        },
+        "privacy": {
+            "friendRequest": {
+                "title": "Vänförfrågan"
+            }
         }
     },
     "welcomePopup": {

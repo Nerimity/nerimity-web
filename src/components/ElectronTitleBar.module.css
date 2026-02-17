@@ -1,0 +1,64 @@
+.nerimityLogo {
+  height: 20px;
+  margin-left: 10px;
+  background-color: rgb(38, 38, 38);
+  pointer-events: none;
+}
+
+.nerimityTitle {
+  margin-left: 8px;
+  opacity: 0.8;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.barContainer {
+  display: flex;
+
+  align-items: center;
+  height: 35px;
+  user-select: none;
+  -webkit-app-region: drag;
+}
+
+.windowControlButtonsContainer {
+  display: flex;
+  margin-right: 4px;
+  margin-left: auto;
+  -webkit-app-region: no-drag;
+}
+.windowControlButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 20px;
+  padding: 5px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  background-color: transparent;
+  transition: 0.1s;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    &.minimize {
+      color: var(--warn-color);
+    }
+    &.full {
+      color: var(--success-color);
+    }
+    &.close {
+      color: var(--alert-color);
+    }
+    &.copyLink {
+      color: var(--primary-color);
+    }
+  }
+  &.copyLink.clicked {
+    background: var(--success-color);
+    &:hover {
+      color: white;
+      background: var(--success-color);
+    }
+  }
+}

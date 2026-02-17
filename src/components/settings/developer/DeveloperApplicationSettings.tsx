@@ -283,7 +283,7 @@ const EditApplicationOauth2 = (props: {
           margin-bottom: 20px;
         `}
       >
-        <Button onClick={onRefreshClick} label={t("settings.developer.oauth2.refreshButton")} iconName="refresh" />
+        <Button onClick={onRefreshClick} label={t("settings.developer.refreshButton")} iconName="refresh" />
         <Button onClick={copyToken} label={t("inputFieldActions.copy")} iconName="content_copy" />
       </SettingsBlock>
 

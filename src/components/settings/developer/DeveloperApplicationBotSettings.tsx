@@ -21,7 +21,7 @@ import {
   refreshAppBotToken,
 } from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";
-import { useLocation, useParams } from "solid-navigator";
+import { useLocation, useMatch, useParams } from "solid-navigator";
 import { EditAccountPage } from "../AccountSettings";
 import SettingsHeader from "../SettingsHeader";
 import { EditProfilePage } from "../ProfileSettings";
@@ -87,9 +87,11 @@ export default function DeveloperApplicationBotSettings() {
       });
   };
 
-  const showBotPage = () => location.pathname.endsWith("/bot");
-  const showProfilePage = () => location.pathname.endsWith("/profile");
-  const showPublishPage = () => location.pathname.endsWith("/publish");
+
+
+  const showBotPage = useMatch(() => "/app/settings/developer/applications/:id/bot");
+  const showProfilePage = useMatch(() => "/app/settings/developer/applications/:id/bot/profile");
+  const showPublishPage = useMatch(() => "/app/settings/developer/applications/:id/bot/publish");
 
   return (
     <Container>
@@ -125,7 +127,7 @@ export default function DeveloperApplicationBotSettings() {
         <SettingsBlock
           icon="link"
           label={t("settings.developer.bot.createInvite")}
-          href="./create-link"
+          href={`./${!showBotPage() ? "../" : ""}create-link`}
         >
           <Icon name="keyboard_arrow_right" />
         </SettingsBlock>

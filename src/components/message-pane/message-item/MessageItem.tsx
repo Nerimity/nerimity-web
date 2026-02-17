@@ -114,7 +114,7 @@ interface FloatingOptionsProps {
 
 function FloatOptions(props: FloatingOptionsProps) {
   const params = useParams<{ serverId: string }>();
-  const { account, serverMembers, channelProperties } = useStore();
+  const { account, serverMembers, channelProperties, channels } = useStore();
   const { createPortal } = useCustomPortal();
 
   const replyClick = () => {
@@ -146,7 +146,11 @@ function FloatOptions(props: FloatingOptionsProps) {
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   };
 
-  const isContentType = () => props.message.type === MessageType.CONTENT;
+  const showReply = () => {
+    if (props.message.type !== MessageType.CONTENT) return false;
+    const channel = channels.get(props.message.channelId!);
+    return channel?.canSendMessage(account.user()?.id!);
+  }
 
   return (
     <div class={cn(styles.floatOptions, "floatOptions")}>
@@ -158,7 +162,7 @@ function FloatOptions(props: FloatingOptionsProps) {
       <div class={styles.item} onClick={props.reactionPickerClick}>
         <Icon size={18} name="face" class={styles.icon} />
       </div>
-      <Show when={isContentType()}>
+      <Show when={showReply()}>
         <div class={styles.item} onClick={replyClick}>
           <Icon size={18} name="reply" class={styles.icon} />
         </div>
@@ -226,8 +230,22 @@ const Details = (props: DetailsProps) => {
     getFont(props.message.createdBy.profile?.font || 0)
   );
 
+  const muted = createMemo(() => {
+    if (!props.serverMember?.muteExpireAt) return;
+    return props.serverMember.muteExpireAt > Date.now();
+  });
+
   return (
     <div class={classNames(styles.details, "details")}>
+      <Show when={muted()}>
+        <Tooltip
+          tooltip={`Muted until ${formatTimestamp(props.serverMember?.muteExpireAt!)}`}
+          anchor="right"
+          class={styles.mutedTooltip}
+        >
+          <Icon size={18} name="volume_off" class={styles.muted} />
+        </Tooltip>
+      </Show>
       <CustomLink
         onClick={props.showProfileFlyout}
         decoration
@@ -253,7 +271,6 @@ const Details = (props: DetailsProps) => {
       >
         {props.serverMember?.nickname || props.message.createdBy.username}
       </CustomLink>
-
       <Show when={props.serverMember?.topRoleWithIcon()}>
         {(role) => (
           <RoleEmoji
@@ -266,7 +283,6 @@ const Details = (props: DetailsProps) => {
           />
         )}
       </Show>
-
       <Show when={props.isSystemMessage}>
         <SystemMessage
           message={props.message}
@@ -275,7 +291,6 @@ const Details = (props: DetailsProps) => {
           onUserContextMenu={props.userContextMenu}
         />
       </Show>
-
       <Show when={props.isServerCreator}>
         <div class={styles.ownerBadge}>{t("message.badge.owner")}</div>
       </Show>
@@ -284,7 +299,6 @@ const Details = (props: DetailsProps) => {
           <Icon name="keep" size={16} />
         </div>
       </Show>
-
       <Show when={props.message.createdBy.bot}>
         <div class={styles.ownerBadge}>
           {props.message.webhookId
@@ -292,9 +306,7 @@ const Details = (props: DetailsProps) => {
             : t("message.badge.bot")}
         </div>
       </Show>
-
       <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
-
       <Show when={props.message.silent}>
         <Tooltip tooltip="Silent" anchor="left">
           <Icon
@@ -1221,8 +1233,12 @@ const VideoEmbed = (props: {
             color={props.error ? "var(--alert-color)" : "var(--primary-color)"}
           />
           {props.error
-            ? t("fileEmbed.expired", { time: timeSinceMentions(props.file?.expireAt!) })
-            : t("fileEmbed.expires", { time: timeSinceMentions(props.file?.expireAt!) })}
+            ? t("fileEmbed.expired", {
+                time: timeSinceMentions(props.file?.expireAt!)
+              })
+            : t("fileEmbed.expires", {
+                time: timeSinceMentions(props.file?.expireAt!)
+              })}
         </div>
       </Show>
 
@@ -1362,8 +1378,12 @@ const FileEmbed = (props: {
             color={props.error ? "var(--alert-color)" : "var(--primary-color)"}
           />
           {props.error
-            ? t("fileEmbed.expired", { time: timeSinceMentions(props.file?.expireAt!) })
-            : t("fileEmbed.expires", { time: timeSinceMentions(props.file?.expireAt!) })}
+            ? t("fileEmbed.expired", {
+                time: timeSinceMentions(props.file?.expireAt!)
+              })
+            : t("fileEmbed.expires", {
+                time: timeSinceMentions(props.file?.expireAt!)
+              })}
         </div>
       </Show>
     </div>
@@ -1810,9 +1830,10 @@ function HTMLEmbed(props: { message: RawMessage }) {
   );
 }
 
-function HTMLEmbedItem(
-  props: { items: HtmlEmbedItem[] | string[], animate: boolean },
-) {
+function HTMLEmbedItem(props: {
+  items: HtmlEmbedItem[] | string[];
+  animate: boolean;
+}) {
   const { createPortal } = useCustomPortal();
 
   const onLinkClick = (e: MouseEvent) => {
@@ -1875,7 +1896,10 @@ function HTMLEmbedItem(
                 {(content) => (
                   <Switch
                     fallback={
-                      <HTMLEmbedItem animate={props.animate} items={[content as HtmlEmbedItem]} />
+                      <HTMLEmbedItem
+                        animate={props.animate}
+                        items={[content as HtmlEmbedItem]}
+                      />
                     }
                   >
                     <Match when={typeof content === "string"}>

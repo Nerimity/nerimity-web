@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 import { copyToClipboard } from "@/common/clipboard";
 import ContextMenu, {
-  ContextMenuProps,
+  ContextMenuProps
 } from "@/components/ui/context-menu/ContextMenu";
 import { createEffect, createSignal, For, on, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
@@ -11,11 +11,16 @@ import Checkbox from "@/components/ui/Checkbox";
 import {
   BanServerMember,
   kickServerMember,
+  muteServerMember,
+  removeMuteServerMember,
   transferOwnership,
   updateServerMember,
-  updateServerMemberProfile,
+  updateServerMemberProfile
 } from "@/chat-api/services/ServerService";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal
+} from "@/components/ui/custom-portal/CustomPortal";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
 import Button from "@/components/ui/Button";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
@@ -37,8 +42,14 @@ import { User } from "@/chat-api/store/useUsers";
 import { Server } from "@/chat-api/store/useServers";
 import {
   cachedVolumes,
-  setCachedVolumes,
+  setCachedVolumes
 } from "@/chat-api/store/useVoiceUsers";
+import { RadioBox } from "../ui/RadioBox";
+import {
+  SteppedSlider,
+  SteppedSliderStep
+} from "../ui/stepped-slider/SteppedSlider";
+import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string;
   userId: string;
@@ -62,37 +73,52 @@ export default function MemberContextMenu(props: Props) {
   const server = () =>
     props.serverId ? servers.get(props.serverId) : undefined;
 
+  const muted = () =>
+    member()?.muteExpireAt && member()?.muteExpireAt! > Date.now();
+
   const adminItems = () => {
     if (!props.serverId) return [];
 
     const editRoles = {
       label: t("userContextMenu.editRoles"),
       icon: "leaderboard",
-      onClick: onEditRoleClick,
+      onClick: onEditRoleClick
     };
     const separator = { separator: true };
     const kick = {
       label: t("kickServerMemberModal.kickButton"),
       alert: true,
       icon: "exit_to_app",
-      onClick: onKickClick,
+      onClick: onKickClick
     };
     const ban = {
       label: t("banModal.banButton"),
       alert: true,
       icon: "block",
-      onClick: onBanClick,
+      onClick: onBanClick
+    };
+    const mute = {
+      label: t("muteModal.muteButton"),
+      alert: true,
+      icon: "volume_off",
+      onClick: onMuteClick
+    };
+    const unmute = {
+      label: t("muteModal.unmuteButton"),
+      alert: true,
+      icon: "volume_up",
+      onClick: onUnmuteClick
     };
     const nickname = {
       label: t("userContextMenu.changeNickname"),
       icon: "edit",
-      onClick: onNicknameClick,
+      onClick: onNicknameClick
     };
     const transferOwnership = {
       label: t("userContextMenu.transferOwnership"),
       icon: "next_week",
       onClick: onTransferOwnershipClick,
-      alert: true,
+      alert: true
     };
 
     const isCurrentUserCreator = server()?.isCurrentUserCreator();
@@ -101,7 +127,7 @@ export default function MemberContextMenu(props: Props) {
 
     const hasNicknamePermission = (() => {
       const isAdmin = selfMember()?.hasPermission(ROLE_PERMISSIONS.ADMIN);
-      const result = (clickedOnMyself || isAdmin);
+      const result = clickedOnMyself || isAdmin;
       return result;
     })();
 
@@ -129,8 +155,9 @@ export default function MemberContextMenu(props: Props) {
         separator,
         ...(member() ? [kick] : []),
         ban,
+        ...(muted() ? [unmute] : [mute]),
         ...(member() && !isBot ? [separator] : []),
-        ...(member() && !isBot ? [transferOwnership] : []),
+        ...(member() && !isBot ? [transferOwnership] : [])
       ];
     }
 
@@ -138,6 +165,9 @@ export default function MemberContextMenu(props: Props) {
       ROLE_PERMISSIONS.KICK
     );
     const hasBanPermission = selfMember()?.hasPermission(ROLE_PERMISSIONS.BAN);
+    const hasAdminPermission = selfMember()?.hasPermission(
+      ROLE_PERMISSIONS.ADMIN
+    );
 
     const createArr = [];
 
@@ -150,6 +180,7 @@ export default function MemberContextMenu(props: Props) {
     }
     hasKickPermission && createArr.push(kick);
     hasBanPermission && createArr.push(ban);
+    hasAdminPermission && createArr.push(muted() ? unmute : mute);
     return createArr;
   };
 
@@ -166,6 +197,32 @@ export default function MemberContextMenu(props: Props) {
     const user = props.user! || member()?.user();
     createPortal?.((close) => (
       <BanModal close={close} user={user} serverId={props.serverId!} />
+    ));
+  };
+
+  const onUnmuteClick = () => {
+    const user = props.user! || member()?.user();
+    createPortal?.((close) => (
+      <DeleteConfirmModal
+        close={close}
+        title="Unmute"
+        icon="volume_up"
+        onDeleteClick={async () => {
+          await removeMuteServerMember(props.serverId!, user.id).catch(
+            (err) => {
+              toast("Failed to unmute member: " + err.message);
+            }
+          );
+        }}
+        custom="Are you sure you want to unmute this user?"
+        buttonText={{ main: "Unmute", loading: "Unmuting..." }}
+      />
+    ));
+  };
+  const onMuteClick = () => {
+    const user = props.user! || member()?.user();
+    createPortal?.((close) => (
+      <MuteModal close={close} user={user} serverId={props.serverId!} />
     ));
   };
   const onNicknameClick = () => {
@@ -188,12 +245,12 @@ export default function MemberContextMenu(props: Props) {
           {
             label: t("userContextMenu.viewProfile"),
             icon: "person",
-            onClick: () => navigate(RouterEndpoints.PROFILE(props.userId)),
+            onClick: () => navigate(RouterEndpoints.PROFILE(props.userId))
           },
           {
             label: t("userContextMenu.sendMessage"),
             icon: "comment",
-            onClick: () => users.openDM(props.userId),
+            onClick: () => users.openDM(props.userId)
           },
           ...adminItems(),
           { separator: true },
@@ -203,15 +260,15 @@ export default function MemberContextMenu(props: Props) {
                   label: "Moderation Pane",
                   onClick: () =>
                     navigate("/app/moderation/users/" + props.userId),
-                  icon: "security",
-                },
+                  icon: "security"
+                }
               ]
             : []),
           {
             icon: "content_copy",
             label: t("general.copyID"),
-            onClick: () => copyToClipboard(props.userId),
-          },
+            onClick: () => copyToClipboard(props.userId)
+          }
         ]}
       />
     </>
@@ -315,7 +372,7 @@ function KickModal(props: { member: ServerMember; close: () => void }) {
     <LegacyModal
       close={props.close}
       title={t("kickServerMemberModal.title", {
-        username: props.member?.user().username,
+        username: props.member?.user().username
       })}
       actionButtons={ActionButtons}
     >
@@ -347,7 +404,7 @@ function ServerNicknameModal(props: {
       props.member.serverId,
       props.member.userId,
       {
-        nickname: !nickname().trim() ? null : nickname().trim(),
+        nickname: !nickname().trim() ? null : nickname().trim()
       }
     )
       .then(() => {
@@ -367,7 +424,9 @@ function ServerNicknameModal(props: {
         onClick={props.close}
       />
       <Button
-        label={requestSent() ? t("general.saving") : t("general.saveChangesButton")}
+        label={
+          requestSent() ? t("general.saving") : t("general.saveChangesButton")
+        }
         iconName="save"
         primary
         onClick={onUpdate}
@@ -387,7 +446,11 @@ function ServerNicknameModal(props: {
           type="info"
           description={t("nicknameChangeModal.description")}
         />
-        <Input label={t("nicknameChangeModal.inputLabel")} value={nickname()} onText={setNickname} />
+        <Input
+          label={t("nicknameChangeModal.inputLabel")}
+          value={nickname()}
+          onText={setNickname}
+        />
         <Show when={error()}>
           <Text color="var(--alert-color)">{error()}</Text>
         </Show>
@@ -427,14 +490,20 @@ function TransferOwnershipModal(props: {
 
   return (
     <Modal.Root close={props.close} doNotCloseOnBackgroundClick>
-      <Modal.Header title={t("transferOwnershipModal.title")} icon="next_week" alert />
+      <Modal.Header
+        title={t("transferOwnershipModal.title")}
+        icon="next_week"
+        alert
+      />
       <Modal.Body>
         <Notice
           style={{ "margin-bottom": "10px" }}
           type="caution"
           description={[
             t("transferOwnershipModal.description"),
-            ...(server()?.verified ? [t("transferOwnershipModal.ifVerified")] : []),
+            ...(server()?.verified
+              ? [t("transferOwnershipModal.ifVerified")]
+              : [])
           ]}
         />
 
@@ -460,7 +529,11 @@ function TransferOwnershipModal(props: {
           onClick={props.close}
         />
         <Modal.Button
-          label={requestSent() ? t("transferOwnershipModal.transferring") : t("transferOwnershipModal.transferButton")}
+          label={
+            requestSent()
+              ? t("transferOwnershipModal.transferring")
+              : t("transferOwnershipModal.transferButton")
+          }
           alert
           iconName="next_week"
           primary
@@ -511,7 +584,11 @@ function BanModal(props: {
 
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button label={t("general.backButton")} iconName="arrow_back" onClick={props.close} />
+      <Button
+        label={t("general.backButton")}
+        iconName="arrow_back"
+        onClick={props.close}
+      />
       <Button
         label={requestSent() ? t("banModal.banning") : t("banModal.banButton")}
         iconName="block"
@@ -547,7 +624,7 @@ function BanModal(props: {
             onInput={(e) => setReason(e.currentTarget.value)}
             style={{
               width: "100%",
-              padding: "8px 10px",
+              padding: "8px 10px"
             }}
           />
         </FlexColumn>
@@ -559,6 +636,112 @@ function BanModal(props: {
         />
       </div>
     </LegacyModal>
+  );
+}
+function MuteModal(props: {
+  user: RawUser;
+  serverId: string;
+  close: () => void;
+}) {
+  const [requestSent, setRequestSent] = createSignal(false);
+  const [selectedDuration, setSelectedDuration] =
+    createSignal<SteppedSliderStep>({
+      fullLabel: "10 minutes",
+      label: "10m",
+      value: 10 * 60000
+    });
+
+  const [reason, setReason] = createSignal("");
+
+  const onMuteClick = async () => {
+    if (requestSent()) return;
+    setRequestSent(true);
+
+    let expireAt = new Date(
+      Date.now() + selectedDuration()?.value || 0
+    ).getTime();
+
+    if (selectedDuration()?.value === 0) {
+      // set expireAt to 2099
+      const date = new Date();
+      date.setFullYear(2099);
+      expireAt = date.getTime();
+    }
+
+    await muteServerMember(
+      props.serverId,
+      props.user.id,
+      expireAt,
+      reason() || undefined
+    ).finally(() => setRequestSent(false));
+
+    props.close();
+  };
+
+  return (
+    <Modal.Root close={props.close} desktopMaxWidth={300}>
+      <Modal.Header
+        alert
+        icon="volume_off"
+        title={t("muteModal.title", { username: props.user.username })}
+      />
+
+      <Modal.Body class={styles.muteModal}>
+        <div>
+          <Trans
+            key="muteModal.message"
+            options={{
+              username: props.user.username,
+              duration: selectedDuration()?.fullLabel
+            }}
+          >
+            <b>{"username"}</b> will not be able to talk in this server for:
+            <b>{"duration"}</b>
+          </Trans>
+        </div>
+
+        <SteppedSlider
+          steps={[
+            { fullLabel: "10 minutes", label: "10m", value: 10 * 60000 },
+            { fullLabel: "60 minutes", label: "60m", value: 60 * 60000 },
+            { fullLabel: "6 hours", label: "6h", value: 6 * 3600000 },
+            { fullLabel: "12 hours", label: "12h", value: 12 * 3600000 },
+            { fullLabel: "24 hours", label: "24h", value: 24 * 3600000 },
+            { fullLabel: "7 days", label: "7d", value: 7 * 86400000 },
+            { fullLabel: "30 days", label: "30d", value: 30 * 86400000 },
+            { fullLabel: "Never", label: "Never", value: 0 }
+          ]}
+          currentValue={selectedDuration().value}
+          onChange={(step) => setSelectedDuration(step)}
+        />
+        <FlexColumn style={{ width: "100%" }}>
+          <Text size={13} opacity={0.8} style={{ "margin-bottom": "6px" }}>
+            {t("muteModal.reasonLabel") || "Reason (optional)"}
+          </Text>
+          <Input
+            placeholder={t("muteModal.reasonPlaceholder")}
+            value={reason()}
+            onText={(val) => setReason(val)}
+          />
+        </FlexColumn>
+      </Modal.Body>
+      <Modal.Footer>
+        <Modal.Button
+          label={t("muteModal.cancelMute")}
+          iconName="close"
+          onClick={props.close}
+        />
+        <Modal.Button
+          label={
+            requestSent() ? t("muteModal.banning") : t("muteModal.banButton")
+          }
+          iconName="volume_off"
+          color="var(--alert-color)"
+          primary
+          onClick={onMuteClick}
+        />
+      </Modal.Footer>
+    </Modal.Root>
   );
 }
 
@@ -619,7 +802,7 @@ function RoleItem(props: { role: ServerRole; userId: string }) {
       newRoleIds = [...member()?.roleIds!, props.role.id];
     }
     await updateServerMember(props.role.serverId, props.userId, {
-      roleIds: newRoleIds,
+      roleIds: newRoleIds
     }).finally(() => setRequestSent(false));
   };
 

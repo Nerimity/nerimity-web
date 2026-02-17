@@ -1,30 +1,11 @@
-import { styled } from "solid-styled-components";
-import { FlexRow } from "@/components/ui/Flexbox";
+import style from "./ChannelIcon.module.css";
 import { ChannelType } from "@/chat-api/RawData";
 import { unicodeToTwemojiUrl } from "@/emoji";
 import { Show } from "solid-js";
 import Icon from "./ui/icon/Icon";
 import env from "@/common/env";
 import Text from "./ui/Text";
-
-const ChannelIconContainer = styled(FlexRow)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 18px;
-  width: 18px;
-  user-select: none;
-
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 4px;
-  border-radius: 4px;
-`;
-const ChannelIconImage = styled("img")`
-  border-radius: 4px;
-  height: 18px;
-  width: 18px;
-  object-fit: scale-down;
-`;
+import { cn } from "@/common/classNames";
 
 export const ChannelIcon = (props: {
   icon?: string;
@@ -60,7 +41,7 @@ export const ChannelIcon = (props: {
   };
 
   return (
-    <ChannelIconContainer class={props.class}>
+    <div class={cn(style.channelIconContainer, props.class)}>
       <Show when={!props.icon}>
         <Show
           when={props.type !== ChannelType.SERVER_TEXT}
@@ -70,8 +51,8 @@ export const ChannelIcon = (props: {
         </Show>
       </Show>
       <Show when={props.icon}>
-        <ChannelIconImage src={url()} />
+        <img class={style.channelIconImage} src={url()} />
       </Show>
-    </ChannelIconContainer>
+    </div>
   );
 };

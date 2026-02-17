@@ -308,7 +308,6 @@
             "browse": "Böngészés",
             "supportedFileTypes": "Támogatott: {{extensions}}, Max. {{size}}"
         },
-        "nothingSelected": "Semmi Kiválasztva",
         "closeButton": "Bezárás",
         "editButton": "Szerkesztés",
         "undoButton": "Vissza",

@@ -64,7 +64,7 @@ const ServerDrawer = () => {
             <CustomizeItem />
           </Show>
           <ChannelList />
-          <InVoiceActions style={isMobileWidth() ? { bottom: "76px" } : {}} />
+          <InVoiceActions style={isMobileWidth() ? { bottom: "calc(var(--bottom-pane-gap) + 6px)" } : {}} />
         </div>
       </div>
     </>

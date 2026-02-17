@@ -6,36 +6,29 @@ import useStore from "@/chat-api/store/useStore";
 import UserPresence from "@/components/user-presence/UserPresence";
 import { useDrawer } from "../ui/drawer/Drawer";
 import {
-  createEffect,
   createMemo,
   createSignal,
   For,
-  on,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useMatch, useNavigate, useParams } from "solid-navigator";
 import Button from "../ui/Button";
-import { VoiceUser } from "@/chat-api/store/useVoiceUsers";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import {
   RawNotification,
-  getUserNotificationsRequest,
+  getUserNotificationsRequest
 } from "@/chat-api/services/UserService";
 import { FriendStatus, RawMessage } from "@/chat-api/RawData";
 import MessageItem from "../message-pane/message-item/MessageItem";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import Text from "../ui/Text";
-import { CustomLink } from "../ui/CustomLink";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { ScreenShareModal } from "./ScreenShareModal";
 import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
-import { WebcamModal } from "./WebcamModal";
-import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 import { fetchPinnedMessages } from "@/chat-api/services/MessageService";
 import { t } from "@nerimity/i18lite";
+import { VoiceHeader } from "./voice-header/VoiceHeader";
 
 export default function MainPaneHeader() {
   const {
@@ -48,7 +41,7 @@ export default function MainPaneHeader() {
     account,
     mentions,
     tickets,
-    friends,
+    friends
   } = useStore();
   const { hasRightDrawer, ...drawer } = useDrawer();
 
@@ -79,7 +72,7 @@ export default function MainPaneHeader() {
       subName = server()?.name;
     }
     if (user()) {
-      title = user().username;
+      title = user()!.username;
     }
 
     if (header.details().title) {
@@ -100,7 +93,7 @@ export default function MainPaneHeader() {
   const [showMentionList, setShowMentionList] = createSignal<boolean>(false);
   const [showPinsList, setShowPinsList] = createSignal<boolean>(false);
 
-  const onMentionButtonClick = (event: MouseEvent) => {
+  const onMentionButtonClick = () => {
     setShowPinsList(false);
     setShowMentionList(!showMentionList());
   };
@@ -159,18 +152,20 @@ export default function MainPaneHeader() {
             onClick={toggleLeftDrawer}
           />
         </div>
-        {header.details().iconName && (
-          <Icon
-            size={24}
-            name={header.details().iconName}
-            class={classNames(
-              styles.icon,
-              conditionalClass(server() || user(), styles.hasAvatar)
-            )}
-          />
-        )}
-        {server() && <Avatar size={28} server={server()} />}
-        {user() && <Avatar class={styles.avatar} size={28} user={user()} />}
+        <div class={styles.iconContainer}>
+          {server() && <Avatar size={28} server={server()} />}
+          {user() && <Avatar class={styles.avatar} size={28} user={user()} />}
+          {header.details().iconName && (
+            <Icon
+              size={24}
+              name={header.details().iconName}
+              class={classNames(
+                styles.icon,
+                conditionalClass(server() || user(), styles.hasAvatar)
+              )}
+            />
+          )}
+        </div>
         <div class={styles.details}>
           <div class={styles.title}>{details().title}</div>
           {details().subName && (
@@ -178,7 +173,7 @@ export default function MainPaneHeader() {
           )}
           {user() && (
             <UserPresence
-              userId={user()?.id}
+              userId={user()?.id!}
               showOffline={true}
               animate={hovered()}
               hideAction
@@ -260,9 +255,12 @@ const MentionListPopup = (props: { close: () => void }) => {
     });
   });
 
-  const onDocClick = (event: any) => {
-    if (event.target.closest(".mentionListIcon")) return;
-    if (!event.target.closest(`.${styles.mentionListContainer}`)) props.close();
+  const onDocClick = (event: MouseEvent) => {
+    if (event.target instanceof HTMLElement) {
+      if (event.target.closest(".mentionListIcon")) return;
+      if (!event.target.closest(`.${styles.mentionListContainer}`))
+        props.close();
+    }
   };
 
   const onJump = (notification: RawNotification) => {
@@ -303,7 +301,9 @@ const MentionListPopup = (props: { close: () => void }) => {
                   onClick={() => onJump(notification)}
                   class={styles.messageOverlay}
                 >
-                  <div class={styles.jumpToMessage}>{t("mainPaneHeader.jump")}</div>
+                  <div class={styles.jumpToMessage}>
+                    {t("mainPaneHeader.jump")}
+                  </div>
                 </div>
 
                 <MessageItem
@@ -342,9 +342,12 @@ const PinsListPopup = (props: { close: () => void }) => {
     });
   });
 
-  const onDocClick = (event: any) => {
-    if (event.target.closest(".mentionListIcon")) return;
-    if (!event.target.closest(`.${styles.mentionListContainer}`)) props.close();
+  const onDocClick = (event: MouseEvent) => {
+    if (event.target instanceof HTMLElement) {
+      if (event.target.closest(".mentionListIcon")) return;
+      if (!event.target.closest(`.${styles.mentionListContainer}`))
+        props.close();
+    }
   };
 
   const onJump = (message: RawMessage) => {
@@ -386,7 +389,9 @@ const PinsListPopup = (props: { close: () => void }) => {
                   onClick={() => onJump(message)}
                   class={styles.messageOverlay}
                 >
-                  <div class={styles.jumpToMessage}>{t("mainPaneHeader.jump")}</div>
+                  <div class={styles.jumpToMessage}>
+                    {t("mainPaneHeader.jump")}
+                  </div>
                 </div>
 
                 <MessageItem
@@ -425,394 +430,3 @@ const MentionServerHeader = (props: {
     </div>
   );
 };
-
-const [showParticipants, setShowParticipants] = createSignal(true);
-
-function VoiceHeader(props: { channelId?: string }) {
-  const { voiceUsers, account } = useStore();
-
-  const [selectedUserId, setSelectedUserId] = createSignal<null | string>(null);
-
-  const channelVoiceUsers = () =>
-    voiceUsers.getVoiceUsersByChannelId(props.channelId!);
-  const videoStreamingUsers = () =>
-    channelVoiceUsers().filter((v) => voiceUsers.videoEnabled(v.userId));
-
-  createEffect(
-    on(videoStreamingUsers, (now, prev) => {
-      if (!now?.length) setSelectedUserId(null);
-      if (!prev?.length && now.length) {
-        setSelectedUserId(now[0].userId);
-      }
-    })
-  );
-
-  const selectedVoiceUser = () => {
-    if (!selectedUserId()) return null;
-    return videoStreamingUsers().find((v) => v.userId === selectedUserId());
-  };
-
-  const isSomeoneVideoStreaming = () =>
-    channelVoiceUsers().find((v) => voiceUsers.videoEnabled(v.userId));
-
-  return (
-    <Show when={channelVoiceUsers().length}>
-      <div
-        class={classNames(
-          styles.headerVoiceParticipants,
-          conditionalClass(isSomeoneVideoStreaming(), styles.videoStream),
-          conditionalClass(!showParticipants(), styles.miniView)
-        )}
-      >
-        <Show when={showParticipants()}>
-          <div class={styles.top}>
-            <VoiceParticipants
-              onClick={setSelectedUserId}
-              selectedUserId={selectedUserId()}
-              channelId={props.channelId!}
-              size={isSomeoneVideoStreaming() ? "small" : undefined}
-            />
-            <Show when={isSomeoneVideoStreaming()}>
-              <VideoStream
-                mediaStream={
-                  voiceUsers.videoEnabled(selectedVoiceUser()?.userId!)!
-                }
-                mute={selectedVoiceUser()?.userId === account.user()?.id}
-              />
-            </Show>
-          </div>
-        </Show>
-        <VoiceActions channelId={props.channelId!} />
-      </div>
-    </Show>
-  );
-}
-
-function VideoStream(props: { mediaStream: MediaStream; mute?: boolean }) {
-  let videoEl: HTMLVideoElement | undefined;
-
-  const [muted, setMuted] = createSignal(false);
-
-  const mediaStream = createMemo(() => props.mediaStream);
-
-  createEffect(() => {
-    if (!videoEl) return;
-    videoEl.srcObject = mediaStream();
-  });
-
-  return (
-    <div class={styles.videoContainer}>
-      <video ref={videoEl} autoplay muted={props.mute || muted()} />
-      <div class={styles.videoOverlay}>
-        <Show when={!props.mute}>
-          <div class={styles.volumeSlider}>
-            <Button
-              iconName={muted() ? "volume_off" : "volume_up"}
-              iconSize={18}
-              padding={6}
-              color={muted() ? "var(--alert-color)" : "var(--primary-color)"}
-              margin={0}
-              onClick={() => setMuted(!muted())}
-            />
-            <input
-              type="range"
-              min={0}
-              value={muted() ? 0 : videoEl!.volume}
-              max={1}
-              step={0.01}
-              onInput={(e) => {
-                videoEl!.volume = parseFloat(e.target.value);
-                setMuted(false);
-              }}
-            />
-          </div>
-        </Show>
-        <Button
-          iconName="fullscreen"
-          iconSize={18}
-          title={t("mainPaneHeader.voice.fullscreen")}
-          padding={6}
-          margin={0}
-          onClick={() => videoEl?.requestFullscreen({ navigationUI: "hide" })}
-        />
-      </div>
-    </div>
-  );
-}
-
-function VoiceParticipants(props: {
-  channelId: string;
-  selectedUserId?: string | null;
-  size?: "small";
-  onClick: (userId: string) => void;
-}) {
-  const { voiceUsers } = useStore();
-
-  const channelVoiceUsers = () =>
-    voiceUsers.getVoiceUsersByChannelId(props.channelId!);
-
-  return (
-    <div class={styles.voiceParticipants}>
-      <For each={channelVoiceUsers()}>
-        {(voiceUser) => (
-          <VoiceParticipantItem
-            onClick={() => props.onClick(voiceUser.userId)}
-            selected={voiceUser.userId === props.selectedUserId}
-            voiceUser={voiceUser!}
-            size={props.size}
-          />
-        )}
-      </For>
-    </div>
-  );
-}
-
-function VoiceParticipantItem(props: {
-  voiceUser: VoiceUser;
-  selected: boolean;
-  size?: "small";
-  onClick: () => void;
-}) {
-  const { createRegisteredPortal } = useCustomPortal();
-  const { voiceUsers, account } = useStore();
-  const params = useParams<{ serverId?: string; channelId?: string }>();
-  const [contextPosition, setContextPosition] = createSignal<null | {
-    x: number;
-    y: number;
-  }>(null);
-
-  const showProfileFlyout = (event: MouseEvent) => {
-    event.preventDefault();
-    const el = event.target as HTMLElement;
-    const rect = el?.getBoundingClientRect()!;
-    const pos = {
-      left: rect.left + 40,
-      top: rect.top,
-      anchor: "left",
-    } as const;
-
-    createRegisteredPortal(
-      "ProfileFlyout",
-      {
-        triggerEl: el,
-        position: pos,
-        serverId: params.serverId,
-        close: close,
-        userId: props.voiceUser.userId,
-      },
-      "profile-pane-flyout-" + props.voiceUser.userId,
-      true
-    );
-  };
-
-  const isMuted = () => {
-    return !voiceUsers.micEnabled(props.voiceUser.userId);
-  };
-
-  const connected = () => props.voiceUser.connectionStatus === "CONNECTED";
-
-  const isVideoStreaming = () =>
-    voiceUsers.videoEnabled(props.voiceUser.userId);
-
-  const isInCall = () =>
-    voiceUsers.currentUser()?.channelId === props.voiceUser.channelId;
-  const talking = () => props.voiceUser.voiceActivity;
-  const user = () => props.voiceUser.user()!;
-
-  const onClick = (event: MouseEvent) => {
-    if (props.size !== "small") return showProfileFlyout(event);
-    event.preventDefault();
-    if (!props.selected) {
-      props.onClick();
-      return;
-    }
-    showProfileFlyout(event);
-  };
-  const onContextMenu = (event: MouseEvent) => {
-    event.preventDefault();
-    setContextPosition({ x: event.clientX, y: event.clientY });
-  };
-
-  const isSelf = () => user().id === account.user()?.id;
-
-  return (
-    <>
-      <MemberContextMenu
-        position={contextPosition()}
-        serverId={params.serverId}
-        userId={user().id}
-        onClose={() => {
-          setContextPosition(null);
-        }}
-      />
-      <CustomLink
-        onContextMenu={onContextMenu}
-        onClick={onClick}
-        href={RouterEndpoints.PROFILE(user().id)}
-        class={classNames(
-          "trigger-profile-flyout",
-          styles.voiceParticipantItem,
-          !connected() && !isSelf() && isInCall() ? styles.disconnected : null,
-          conditionalClass(props.selected, styles.selected)
-        )}
-      >
-        <Avatar
-          user={user()}
-          size={props.size === "small" ? 40 : 60}
-          voiceIndicator
-          animate={talking()}
-        />
-        <Show when={isMuted() && isInCall()}>
-          <Icon
-            class={styles.muteIcon}
-            name="mic_off"
-            color="white"
-            size={16}
-          />
-        </Show>
-        <Show when={isVideoStreaming()}>
-          <Icon
-            class={styles.videoStreamIcon}
-            name="monitor"
-            color="white"
-            size={16}
-          />
-        </Show>
-      </CustomLink>
-    </>
-  );
-}
-
-function VoiceActions(props: { channelId: string }) {
-  const { voiceUsers, channels } = useStore();
-  const { createPortal } = useCustomPortal();
-  const { isMobileAgent } = useWindowProperties();
-
-  const currentVoiceUser = () => voiceUsers.currentUser();
-
-  const channel = () => channels.get(props.channelId);
-
-  const onCallClick = async () => {
-    channel()?.joinCall();
-  };
-
-  const onCallEndClick = async () => {
-    channel()?.leaveCall();
-  };
-
-  const isInCall = () =>
-    voiceUsers.currentUser()?.channelId === props.channelId;
-
-  const onScreenShareClick = () => {
-    createPortal((close) => <ScreenShareModal close={close} />);
-  };
-
-  const onWebCamClick = () => {
-    return createPortal((close) => <WebcamModal close={close} />);
-  };
-
-  const onStopScreenShareClick = () => {
-    voiceUsers.setVideoStream(null);
-  };
-
-  return (
-    <div class={styles.voiceActions}>
-      <Show when={showParticipants()}>
-        <Button
-          iconName="keyboard_arrow_up"
-          color="rgba(255,255,255,0.6)"
-          onClick={() => setShowParticipants(false)}
-        />
-      </Show>
-      <Show when={!showParticipants()}>
-        <Button
-          iconName="keyboard_arrow_down"
-          color="rgba(255,255,255,0.6)"
-          onClick={() => setShowParticipants(true)}
-        />
-      </Show>
-      <Show when={!isInCall()}>
-        <Button
-          iconName="call"
-          color="var(--success-color)"
-          onClick={onCallClick}
-          label={t("mainPaneHeader.voice.join")}
-        />
-      </Show>
-      <Show when={isInCall()}>
-        <Show when={!currentVoiceUser()?.videoStream && !isMobileAgent()}>
-          <Button iconName="monitor" onClick={onScreenShareClick} />
-        </Show>
-        <Show when={!currentVoiceUser()?.videoStream}>
-          <Button iconName="videocam" onClick={onWebCamClick} />
-        </Show>
-        <Show when={currentVoiceUser()?.videoStream}>
-          <Button
-            iconName="desktop_access_disabled"
-            onClick={onStopScreenShareClick}
-            color="var(--alert-color)"
-          />
-        </Show>
-        <VoiceDeafenActions channelId={props.channelId} />
-        <VoiceMicActions channelId={props.channelId} />
-        <Button
-          iconName="call_end"
-          color="var(--alert-color)"
-          onClick={onCallEndClick}
-          label={t("mainPaneHeader.voice.leave")}
-        />
-      </Show>
-    </div>
-  );
-}
-
-function VoiceMicActions(props: { channelId: string }) {
-  const {
-    voiceUsers: { isLocalMicMuted, toggleMic, deafened },
-  } = useStore();
-
-  return (
-    <Show when={!deafened.enabled}>
-      <Show when={isLocalMicMuted()}>
-        <Button
-          iconName="mic_off"
-          color="var(--alert-color)"
-          label={t("mainPaneHeader.voice.muted")}
-          onClick={toggleMic}
-        />
-      </Show>
-      <Show when={!isLocalMicMuted()}>
-        <Button
-          iconName="mic"
-          color="var(--success-color)"
-          onClick={toggleMic}
-        />
-      </Show>
-    </Show>
-  );
-}
-function VoiceDeafenActions(props: { channelId: string }) {
-  const { voiceUsers } = useStore();
-
-  const isDeafened = () => voiceUsers.deafened.enabled;
-
-  return (
-    <>
-      <Show when={isDeafened()}>
-        <Button
-          iconName="headset_off"
-          color="var(--alert-color)"
-          label={t("mainPaneHeader.voice.deafened")}
-          onClick={voiceUsers.toggleDeafen}
-        />
-      </Show>
-      <Show when={!isDeafened()}>
-        <Button
-          iconName="headset_mic"
-          color="var(--primary-color)"
-          onClick={voiceUsers.toggleDeafen}
-        />
-      </Show>
-    </>
-  );
-}

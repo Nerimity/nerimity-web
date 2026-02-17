@@ -11,7 +11,7 @@ import {
   RawServerWelcomeAnswer,
   RawServerWelcomeQuestion,
   RawUser,
-  RawServerFolder,
+  RawServerFolder
 } from "../RawData";
 import env from "../../common/env";
 import { uploadEmoji } from "./nerimityCDNService";
@@ -20,7 +20,7 @@ export async function getInvites(serverId: string): Promise<any> {
   return request({
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverInvites(serverId),
-    useToken: true,
+    useToken: true
   });
 }
 export async function transferOwnership(
@@ -36,7 +36,7 @@ export async function transferOwnership(
       ServiceEndpoints.server(serverId) +
       "/transfer-ownership",
     body: { password, newOwnerUserId },
-    useToken: true,
+    useToken: true
   });
 }
 export async function getServerBotCommands(
@@ -49,7 +49,7 @@ export async function getServerBotCommands(
       "/api" +
       ServiceEndpoints.server(serverId) +
       "/bot-commands",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -61,7 +61,7 @@ export async function updateServer(
     method: "POST",
     body: update,
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId),
-    useToken: true,
+    useToken: true
   });
 }
 export async function kickServerMember(
@@ -74,7 +74,7 @@ export async function kickServerMember(
       env.SERVER_URL +
       "/api" +
       ServiceEndpoints.serverMemberKick(serverId, userId),
-    useToken: true,
+    useToken: true
   });
 }
 export async function BanServerMember(
@@ -90,12 +90,12 @@ export async function BanServerMember(
       "/api" +
       ServiceEndpoints.serverMemberBan(serverId, userId),
     params: {
-      shouldDeleteRecentMessages,// delete messages sent in the last 7 hours.
+      shouldDeleteRecentMessages // delete messages sent in the last 7 hours.
     },
     body: {
-      reason, 
+      reason
     },
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -109,7 +109,42 @@ export async function removeBanServerMember(
       env.SERVER_URL +
       "/api" +
       ServiceEndpoints.serverMemberBan(serverId, userId),
-    useToken: true,
+    useToken: true
+  });
+}
+
+export async function muteServerMember(
+  serverId: string,
+  userId: string,
+  expireAt: number,
+  reason?: string
+): Promise<any> {
+  return request({
+    method: "POST",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      ServiceEndpoints.serverMemberMute(serverId, userId),
+
+    body: {
+      reason,
+      expireAt
+    },
+    useToken: true
+  });
+}
+
+export async function removeMuteServerMember(
+  serverId: string,
+  userId: string
+): Promise<any> {
+  return request({
+    method: "DELETE",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      ServiceEndpoints.serverMemberMute(serverId, userId),
+    useToken: true
   });
 }
 
@@ -123,7 +158,7 @@ export async function bannedMembersList(serverId: string): Promise<Ban[]> {
     method: "GET",
     url:
       env.SERVER_URL + "/api" + ServiceEndpoints.serverMemberBan(serverId, ""),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -141,9 +176,9 @@ export async function createServerChannel(
       env.SERVER_URL + "/api" + ServiceEndpoints.serverChannels(opts.serverId),
     body: {
       ...(opts.name ? { name: opts.name } : undefined),
-      ...(opts.type ? { type: opts.type } : undefined),
+      ...(opts.type ? { type: opts.type } : undefined)
     },
-    useToken: true,
+    useToken: true
   });
 }
 export async function createServerRole(
@@ -152,7 +187,7 @@ export async function createServerRole(
   return request({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverRoles(serverId),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -163,7 +198,7 @@ export async function updateServerOrder(
     method: "POST",
     body: { serverIds },
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverOrder(),
-    useToken: true,
+    useToken: true
   });
 }
 export async function createServerFolder(
@@ -173,7 +208,7 @@ export async function createServerFolder(
     method: "POST",
     body: { serverIds },
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server("folders"),
-    useToken: true,
+    useToken: true
   });
 }
 export async function updateServerFolder(
@@ -185,7 +220,7 @@ export async function updateServerFolder(
     body: { serverIds },
     url:
       env.SERVER_URL + "/api" + ServiceEndpoints.server("folders/" + folderId),
-    useToken: true,
+    useToken: true
   });
 }
 export async function updateServerFolderExtra(
@@ -197,7 +232,7 @@ export async function updateServerFolderExtra(
     body: { name: update.name, color: update.color },
     url:
       env.SERVER_URL + "/api" + ServiceEndpoints.server("folders/" + folderId),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -210,7 +245,7 @@ export async function updateServerChannelOrder(
     body: { channelIds: updated.channelIds, categoryId: updated.categoryId },
     url:
       env.SERVER_URL + "/api" + ServiceEndpoints.serverChannelOrder(serverId),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -224,7 +259,7 @@ export async function updateServerRole(
     body: update,
     url:
       env.SERVER_URL + "/api" + ServiceEndpoints.serverRole(serverId, roleId),
-    useToken: true,
+    useToken: true
   });
 }
 export async function updateServerRoleOrder(
@@ -235,7 +270,7 @@ export async function updateServerRoleOrder(
     method: "POST",
     body: { roleIds },
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverRolesOrder(serverId),
-    useToken: true,
+    useToken: true
   });
 }
 export async function deleteServerRole(
@@ -246,7 +281,7 @@ export async function deleteServerRole(
     method: "DELETE",
     url:
       env.SERVER_URL + "/api" + ServiceEndpoints.serverRole(serverId, roleId),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -263,7 +298,7 @@ export async function updateServerMemberProfile(
       "/api" +
       ServiceEndpoints.serverMember(serverId, userId) +
       "/profile",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -277,7 +312,7 @@ export async function updateServerMember(
     body: update,
     url:
       env.SERVER_URL + "/api" + ServiceEndpoints.serverMember(serverId, userId),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -295,7 +330,7 @@ export async function updateServerChannelPermissions(opts: {
       "/api" +
       ServiceEndpoints.serverChannel(opts.serverId, opts.channelId) +
       `/permissions/${opts.roleId}`,
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -311,7 +346,7 @@ export async function updateServerChannel(
       env.SERVER_URL +
       "/api" +
       ServiceEndpoints.serverChannel(serverId, channelId),
-    useToken: true,
+    useToken: true
   });
 }
 export async function deleteServerChannel(
@@ -324,7 +359,7 @@ export async function deleteServerChannel(
       env.SERVER_URL +
       "/api" +
       ServiceEndpoints.serverChannel(serverId, channelId),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -333,7 +368,7 @@ export async function createServer(serverName: string): Promise<RawServer> {
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.servers(),
     useToken: true,
-    body: { name: serverName },
+    body: { name: serverName }
   });
 }
 
@@ -341,7 +376,7 @@ export async function createInvite(serverId: string): Promise<any> {
   return request({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverInvites(serverId),
-    useToken: true,
+    useToken: true
   });
 }
 export async function deleteInvite(
@@ -355,7 +390,7 @@ export async function deleteInvite(
       "/api" +
       ServiceEndpoints.serverInvites(serverId) +
       `/${code}`,
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -371,7 +406,7 @@ export async function createCustomInvite(
       ServiceEndpoints.serverInvites(serverId) +
       "/custom",
     body: { code },
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -379,7 +414,7 @@ export async function deleteServer(serverId: string): Promise<RawServer> {
   return request({
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -387,7 +422,7 @@ export async function leaveServer(serverId: string): Promise<RawServer> {
   return request({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/leave",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -396,7 +431,7 @@ export async function joinServerByInviteCode(inviteCode: string) {
     method: "POST",
     url:
       env.SERVER_URL + "/api" + ServiceEndpoints.serverInviteCode(inviteCode),
-    useToken: true,
+    useToken: true
   });
 }
 export async function inviteBot(
@@ -410,7 +445,7 @@ export async function inviteBot(
       env.SERVER_URL +
       `/api/servers/${serverId}/invites/applications/${appId}/bot`,
     params: { permissions },
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -419,8 +454,7 @@ export type ServerWithMemberCount = RawServer & { memberCount: number };
 export async function serverDetailsByInviteCode(inviteCode: string) {
   return request<ServerWithMemberCount>({
     method: "GET",
-    url:
-      env.SERVER_URL + "/api" + ServiceEndpoints.serverInviteCode(inviteCode),
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverInviteCode(inviteCode)
   });
 }
 
@@ -428,7 +462,7 @@ export async function publicServerByEmojiId(id: string) {
   return request<RawExploreItem>({
     method: "GET",
     url: env.SERVER_URL + `/api/emojis/${id}/server`,
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -441,7 +475,7 @@ export async function joinPublicServer(serverId: string) {
       "/api" +
       ServiceEndpoints.exploreServer(serverId) +
       "/join",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -449,7 +483,7 @@ export async function getPublicServer(serverId: string) {
   return request<RawExploreItem>({
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -461,14 +495,14 @@ export async function updatePublicServer(
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
     body: { description },
-    useToken: true,
+    useToken: true
   });
 }
 export async function deleteExploreItem(id: string) {
   return request<{ status: boolean }>({
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.explore(id),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -478,7 +512,7 @@ export async function addServerEmoji(
   file: File
 ) {
   const { fileId } = await uploadEmoji({
-    file,
+    file
   });
 
   return request<RawCustomEmoji>({
@@ -487,9 +521,9 @@ export async function addServerEmoji(
       env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis",
     body: {
       name: emojiName,
-      fileId,
+      fileId
     },
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -502,7 +536,7 @@ export async function getServerEmojis(serverId: string) {
     method: "GET",
     url:
       env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -520,9 +554,9 @@ export async function updateServerEmoji(
       "/emojis/" +
       emojiId,
     body: {
-      name: newName,
+      name: newName
     },
-    useToken: true,
+    useToken: true
   });
 }
 export async function deleteServerEmoji(serverId: string, emojiId: string) {
@@ -535,7 +569,7 @@ export async function deleteServerEmoji(serverId: string, emojiId: string) {
       "/emojis/" +
       emojiId,
     notJSON: true,
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -561,7 +595,7 @@ export async function createWelcomeQuestion(
       ServiceEndpoints.server(serverId) +
       "/welcome/questions",
     body: question,
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -591,7 +625,7 @@ export async function updateWelcomeQuestion(
       "/welcome/questions/" +
       questionId,
     body: question,
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -603,7 +637,7 @@ export async function getWelcomeQuestions(serverId: string) {
       "/api" +
       ServiceEndpoints.server(serverId) +
       "/welcome/questions",
-    useToken: true,
+    useToken: true
   });
 }
 export async function getWelcomeQuestion(serverId: string, questionId: string) {
@@ -615,7 +649,7 @@ export async function getWelcomeQuestion(serverId: string, questionId: string) {
       ServiceEndpoints.server(serverId) +
       "/welcome/questions/" +
       questionId,
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -631,7 +665,7 @@ export async function deleteWelcomeQuestion(
       ServiceEndpoints.server(serverId) +
       "/welcome/questions/" +
       questionId,
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -645,7 +679,7 @@ export async function addAnswerToMember(serverId: string, answerId: string) {
       "/welcome/answers/" +
       answerId +
       "/answer",
-    useToken: true,
+    useToken: true
   });
 }
 export async function removeAnswerFromMember(
@@ -661,7 +695,7 @@ export async function removeAnswerFromMember(
       "/welcome/answers/" +
       answerId +
       "/answer",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -691,9 +725,9 @@ export const getServerAuditLogs = async (opts: {
       `/api/${ServiceEndpoints.server(opts.serverId)}/audit-logs`,
     params: {
       ...(opts.afterId ? { after: opts.afterId } : {}),
-      limit: opts.limit,
+      limit: opts.limit
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -710,7 +744,7 @@ export async function createServerExternalEmbed(
       "/api" +
       ServiceEndpoints.server(serverId) +
       "/external-embed",
-    useToken: true,
+    useToken: true
   });
 }
 export async function getServerExternalEmbed(
@@ -723,7 +757,7 @@ export async function getServerExternalEmbed(
       "/api" +
       ServiceEndpoints.server(serverId) +
       "/external-embed",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -737,6 +771,6 @@ export async function deleteServerExternalEmbed(
       "/api" +
       ServiceEndpoints.server(serverId) +
       "/external-embed",
-    useToken: true,
+    useToken: true
   });
 }

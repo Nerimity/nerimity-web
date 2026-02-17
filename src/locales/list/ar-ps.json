@@ -115,11 +115,15 @@
         "drawer": {
             "title": "استكشف",
             "servers": "السيرفرات",
-            "bots": "البوتات"
+            "bots": "البوتات",
+            "themes": "القوالب"
         },
         "bots": {
             "title": "استكشف - البوتات",
-            "noticeMessage": "يمكن الترويج للبوت مرة واحدة كل {{hours}} ساعة. جميع الترويجات تُعاد تعيينها كل {{date}}."
+            "noticeMessage": "يمكن الترويج للبوت مرة واحدة كل {{hours}} ساعة. جميع الترويجات تُعاد تعيينها كل {{date}}.",
+            "moderationNotice": "البوتات لا يتم الإشراف عليها من قبل Nerimity. المرجو الإبلاغ عن أي بوتات خبيثة أو منتهكة ل TOS.",
+            "inviteButton": "ادعو",
+            "serverCount": "في {{count}} من السيرفرات"
         },
         "servers": {
             "title": "استكشف - السيرفرات",
@@ -134,8 +138,25 @@
             "lifetimeBumpCount": "{{count}} ترويج إجمالي",
             "visitServerButton": "زيارة",
             "joinServerButton": "انضم",
-            "bumpButton": "ترويج ({{count}})"
-        }
+            "bumpButton": "ترويج ({{count}})",
+            "moderationNotice": "السيرفرات لا يتم الإشراف عليها من قبل Nerimity. المرجوا الإبلاغ عن السيرفرات المنتهكة ل TOS.",
+            "sortMostActive": "الأكثر نشاطا (تجريبي)",
+            "pinnedServers": "السيرفرات المثبتة",
+            "recentlyBumped": "السيرفرات المروجة مؤخرا"
+        },
+        "themes": {
+            "title": "اكتشف - القوالب",
+            "themesHeaderDescription": "قم بتشخيص Nerimity بقوالب مخصصة.",
+            "officialThemes": "قوالب رسمية",
+            "communityThemes": "قوالب المجتمع",
+            "noCommunityThemes": "لم يتم العثور على أي من قوالب المجتمع.",
+            "fetchThemesError": "فشل قي جلب القوالب. المرجوا المحاولة لاحقا.",
+            "unlockDescription": "اضغط لإكتشاف كل قوالب المجتمع"
+        },
+        "sort": "فرز",
+        "filter": "فلتر",
+        "by": "بواسطة",
+        "bumped": "روج"
     },
     "servers": {
         "settings": {
@@ -152,7 +173,9 @@
                 "welcome-screen": "شاشة الترحيب",
                 "channel": "القناة",
                 "notifications": "الإشعارات",
-                "external-embed": "التضمين الخارجي"
+                "external-embed": "التضمين الخارجي",
+                "permissions": "الصلاحيات",
+                "emoji": "الإيموجي"
             },
             "general": {
                 "serverRenameNotice": "ستفقد جميع مزايا السيرفر الموثّق إذا قمت بإعادة تسميته.",
@@ -162,7 +185,8 @@
                 "systemMessages": "رسائل النظام",
                 "systemMessagesDescription": "أين يجب أن تظهر رسائل النظام.",
                 "deleteThisServer": "حذف هذا السيرفر",
-                "deleteServerButton": "حذف السيرفر"
+                "deleteServerButton": "حذف السيرفر",
+                "none": "لا شيء"
             },
             "roles": {
                 "addNewRole": "إضافة دور جديد",
@@ -174,7 +198,13 @@
                 "hideRole": "إخفاء الدور",
                 "hideRoleDescription": "عرض الأعضاء بهذا الدور مع جميع الأعضاء الافتراضيين",
                 "permissionsDescription": "إدارة صلاحيات هذا الدور.",
-                "deleteRoleButton": "حذف هذا الدور"
+                "deleteRoleButton": "حذف هذا الدور",
+                "clear": "مسح",
+                "roleIcon": "أيقونة الدور",
+                "managedByBot": "هذا الدور مسير من طرف {{botName}}. لا يمكنك حذف أو إضافة أعضاء إلى هذا الدور. اطرد هذا البوت لحذف هذا الدور.",
+                "applyOnJoin": "التقديم على الإنضمام",
+                "applyOnJoinDescription": "تطبيق هذا الدور على الأعضاء عند الإنضمام إلى السيرفر.",
+                "deleteRoleTitle": "احذف {{roleName}}"
             },
             "header": {
                 "editServer": "تعديل السيرفر",
@@ -206,6 +236,31 @@
                 "bumpServerDescription": "روّج لهذا السيرفر للوصول إلى القمة.",
                 "publishServerButton": "نشر السيرفر",
                 "unpublishServerButton": "إلغاء نشر السيرفر"
+            },
+            "bans": {
+                "sort": {
+                    "alphabetical": "أبجدي",
+                    "unsorted": "غير مفرز"
+                },
+                "noResults": "عدم العثور على نتائج.",
+                "reason": "السبب",
+                "noReason": "عدم تقديم أي سبب",
+                "bannedAt": "تم الحظر في",
+                "unknown": "غير معروف",
+                "unban": "إلغاء الحظر",
+                "unbanning": "يتم إلغاء الحظر…"
+            },
+            "webhook": {
+                "linkDescription": "نفذ الإجراءات باستخدام هذا الرابط"
+            },
+            "welcomeScreen": {
+                "title": "الأسئلة",
+                "description": "قم بإعداد الأسئلة. السماح للمستخدمين بتعيين الأدوار.",
+                "questions": {
+                    "addButton": "إضافة سؤال",
+                    "question": "سؤال",
+                    "questionPlaceholder": "القطط أم الكلاب؟"
+                }
             }
         },
         "rolePermissions": {
@@ -563,9 +618,9 @@
         "avatarAndBanner": {
             "avatar": "الصورة الرمزية",
             "banner": "الغلاف",
-            "browse": "تصفح"
+            "browse": "تصفح",
+            "supportedFileTypes": "يدعم: {{extensions}}، حد أقصى {{size}}"
         },
-        "nothingSelected": "لا شيء محدد",
         "closeButton": "إغلاق",
         "editButton": "تعديل",
         "undoButton": "تراجع",
@@ -573,7 +628,8 @@
     },
     "systemMessages": {
         "joinServer": {
-            "bot": "</2> تمت إضافته إلى السيرفر. <2><User/>"
+            "bot": "</2> تمت إضافته إلى السيرفر. <2><User/>",
+            "user": "<2/> انضم إلى السيرفر.<2></User>"
         }
     },
     "statusHeader": {
@@ -643,6 +699,24 @@
     "markup": {
         "bold": "سميك",
         "italic": "إيطالي",
-        "strikethrough": "خط في الوسط"
+        "strikethrough": "خط في الوسط",
+        "spoiler": "حاجب",
+        "timestamp": "التسجيل الزمني",
+        "color": "اللون",
+        "html": "صيغة HTML",
+        "emojiPicker": "منتقي الإيموجي",
+        "timestampModal": {
+            "title": "تحديد الوقت",
+            "relative": "نسبي",
+            "offset": "توقيت"
+        },
+        "checkbox": "خانة التأكيد"
+    },
+    "editFolderModal": {
+        "title": "تعديل المجلد",
+        "placeholder": "اسم المجلد",
+        "errors": {
+            "emptyName": "المرجوا ادخال اسم المجلد."
+        }
     }
 }

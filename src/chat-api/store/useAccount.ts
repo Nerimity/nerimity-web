@@ -5,7 +5,7 @@ import {
   RawReminder,
   RawUserNotificationSettings,
   ServerNotificationPingMode,
-  ServerNotificationSoundMode,
+  ServerNotificationSoundMode
 } from "../RawData";
 import { USER_BADGES, hasBit } from "../Bitwise";
 import { updateNotificationSettings } from "../services/UserService";
@@ -30,7 +30,7 @@ const [account, setAccount] = createStore<Account>({
   socketAuthenticated: false,
   authenticationError: null,
   notificationSettings: {},
-  lastAuthenticatedAt: null,
+  lastAuthenticatedAt: null
 });
 
 const removeNotificationSettings = (channelOrServerId: string) => {
@@ -70,7 +70,7 @@ const getCombinedNotificationSettings = (
       serverNotification?.notificationPingMode,
     notificationSoundMode:
       channelNotification.notificationSoundMode ??
-      serverNotification?.notificationSoundMode,
+      serverNotification?.notificationSoundMode
   } as RawUserNotificationSettings;
 };
 
@@ -111,7 +111,7 @@ const hasOnlyModBadge = () => {
 };
 
 const updateUserNotificationSettings = (opts: {
-  serverId?: string;
+  serverId: string;
   channelId?: string;
   notificationPingMode?: number | null;
   notificationSoundMode?: number | null;
@@ -124,7 +124,7 @@ const updateUserNotificationSettings = (opts: {
     return updateNotificationSettings({
       serverId: opts.serverId,
       channelId: opts.channelId,
-      notificationSoundMode: opts.notificationSoundMode,
+      notificationSoundMode: opts.notificationSoundMode
     });
   }
 
@@ -150,7 +150,7 @@ const updateUserNotificationSettings = (opts: {
     notificationPingMode: opts.notificationPingMode,
     ...(notificationSoundMode !== null ? { notificationSoundMode } : undefined),
     serverId: opts.serverId,
-    channelId: opts.channelId,
+    channelId: opts.channelId
   });
 };
 
@@ -174,7 +174,7 @@ const updateReminder = (reminder: RawReminder) => {
   setUser({
     reminders: account.user.reminders.map((r) =>
       r.id === reminder.id ? reminder : r
-    ),
+    )
   });
 };
 const removeReminder = (reminderId: string) => {
@@ -204,6 +204,6 @@ export default function useAccount() {
     hasModeratorPerm,
     hasOnlyModBadge,
     lastAuthenticatedAt,
-    isMe,
+    isMe
   };
 }

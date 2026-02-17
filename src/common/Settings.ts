@@ -32,7 +32,7 @@ const settings: Setting[] = [
   },
 
   {
-    path: "/profile",
+    path: "profile",
     routePath: "/profile",
     name: () => t("settings.account.profile"),
     icon: "person",
