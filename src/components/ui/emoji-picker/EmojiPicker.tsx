@@ -407,7 +407,6 @@ const GifPickerImages = (props: {
                 : undefined
             }
             isFavorite={favoritesStore.isFavorite(gif.previewUrl)}
-            gifUrl={gif.gifUrl}
           />
 
 
@@ -428,7 +427,6 @@ const GifPickerImages = (props: {
 };
 const GifPickerImageItem = (props: {
   url: string;
-  gifUrl?: string;
   onClick?: () => void;
   dimensions?: { width: number; height: number };
   index?: number;
