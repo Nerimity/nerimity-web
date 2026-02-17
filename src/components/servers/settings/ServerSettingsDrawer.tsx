@@ -23,7 +23,6 @@ const MainContainer = styled(FlexColumn)`
   padding-right: 4px;
 `;
 const SettingsListContainer = styled("div")`
-  padding-top: 4px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -53,6 +52,7 @@ const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
 export default function ServerSettingsDrawer() {
   return (
     <>
+      <ServerDrawerHeader />
       <MainContainer>
         <SettingsList />
         <Footer />
@@ -75,29 +75,26 @@ function SettingsList() {
   };
 
   return (
-    <>
-      <ServerDrawerHeader />
-      <SettingsListContainer>
-        <For each={serverSettings}>
-          {(setting) => {
-            if (setting.hideDrawer) return null;
-            const selected = () => params.path === setting.path;
-            // const isChannels = () => setting.path === "channels";
-            return (
-              <Show when={hasPermission(setting.requiredRolePermission)}>
-                <Item
-                  path={setting.path || "#  "}
-                  icon={setting.icon}
-                  label={setting.name()}
-                  selected={selected()}
-                />
-                {/* <Show when={isChannels() && selected()}><ServerChannelsList/></Show> */}
-              </Show>
-            );
-          }}
-        </For>
-      </SettingsListContainer>
-    </>
+    <SettingsListContainer>
+      <For each={serverSettings}>
+        {(setting) => {
+          if (setting.hideDrawer) return null;
+          const selected = () => params.path === setting.path;
+          // const isChannels = () => setting.path === "channels";
+          return (
+            <Show when={hasPermission(setting.requiredRolePermission)}>
+              <Item
+                path={setting.path || "#  "}
+                icon={setting.icon}
+                label={setting.name()}
+                selected={selected()}
+              />
+              {/* <Show when={isChannels() && selected()}><ServerChannelsList/></Show> */}
+            </Show>
+          );
+        }}
+      </For>
+    </SettingsListContainer>
   );
 }
 
