@@ -127,7 +127,7 @@
     border-radius: 6px;
   }
 
-  .favorite-toggle {
+  .favoriteToggle {
     border: none;
     background-color: rgb(37 37 37);
     cursor: pointer;
@@ -141,14 +141,18 @@
     flex-shrink: 0;
 
     &:hover {
-      color: var(--primary-color);
-      background-image: linear-gradient(rgb(255 255 255 / 10%), rgb(255 255 255 / 10%));
+      background-image: linear-gradient(
+        rgb(255 255 255 / 10%),
+        rgb(255 255 255 / 10%)
+      );
       background-color: rgb(37 37 37);
     }
 
     &.active {
-      color: var(--primary-color);
-      background-image: linear-gradient(rgb(88 101 242 / 15%), rgb(88 101 242 / 15%));
+      background-image: linear-gradient(
+        rgb(88 101 242 / 15%),
+        rgb(88 101 242 / 15%)
+      );
       background-color: rgb(37 37 37);
     }
   }
@@ -236,12 +240,12 @@
 
   &:hover {
     outline: 2px var(--primary-color) solid;
-    .star-overlay {
+    .starOverlay {
       opacity: 1;
     }
   }
 
-  .star-overlay {
+  .starOverlay {
     position: absolute;
     top: 4px;
     right: 4px;
@@ -258,30 +262,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    svg {
-      fill: none;
-      stroke: currentcolor;
-      stroke-width: 2.2;
-      stroke-linejoin: round;
-      transition: all 0.2s;
-    }
-
     &:hover {
       transform: scale(1.05);
       background-color: rgb(30 30 30 / 100%);
-    }
-
-    &.active {
-      svg {
-        fill: currentcolor;
-        stroke: currentcolor;
-        stroke-width: 2.2;
-      }
-
-      &:hover {
-        transform: scale(1.1);
-      }
     }
   }
 }
