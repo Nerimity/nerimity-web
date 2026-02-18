@@ -1,8 +1,8 @@
+import style from "./HomePage.module.css";
 import env from "@/common/env";
 import Button from "@/components/ui/Button";
 import { useNavigate } from "solid-navigator";
 import PageHeader from "../components/PageHeader";
-import { css, styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Icon from "@/components/ui/icon/Icon";
@@ -15,84 +15,6 @@ import { createSignal } from "solid-js";
 import { toast } from "@/components/ui/custom-portal/CustomPortal";
 import { useTransContext } from "@nerimity/solid-i18lite";
 
-const HomePageContainer = styled("div")`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  flex: 1;
-  z-index: 1111;
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    max-width: 400px;
-    aspect-ratio: 1/1;
-    width: 50%;
-    background-color: var(--primary-color);
-    align-self: center;
-    border-radius: 9999px;
-    filter: blur(200px);
-    opacity: 0.6;
-    z-index: -1;
-  }
-`;
-
-const Content = styled("div")`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin: 8px;
-  margin-top: 0;
-  margin-bottom: 0;
-  border-radius: 8px;
-  flex: 1;
-`;
-
-const TopContainer = styled("div")`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 490px;
-  text-align: center;
-  flex-shrink: 0;
-  .slogan {
-    background: #4c93ff;
-    background: linear-gradient(to right, #4c93ff 0%, #6a5dff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-`;
-
-const ButtonsContainer = styled("div")`
-  margin-top: 10px;
-  display: flex;
-  margin-left: -5px;
-
-  a {
-    text-decoration: none;
-    div {
-      width: 130px;
-    }
-  }
-  .get-started-button {
-    background: #4c93ff;
-    background: linear-gradient(to right, #4c93ff 0%, #6a5dff 100%);
-  }
-`;
-
-const VersionAnchor = styled("a")`
-  margin-bottom: 26px;
-  border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--primary-color);
-  text-decoration: none;
-  padding: 6px;
-  font-size: 14px;
-  padding-left: 12px;
-  padding-right: 12px;
-`;
-
 export default function HomePage() {
   const [t] = useTransContext();
   const isRelease = env.APP_VERSION?.startsWith("v");
@@ -104,19 +26,20 @@ export default function HomePage() {
     : "https://github.com/Nerimity/nerimity-web/commits/main";
 
   return (
-    <HomePageContainer class="home-page-container">
+    <div class={style.homePageContainer}>
       <PageHeader />
-      <Content class="content">
-        <TopContainer class="top-container">
-          <VersionAnchor
+      <div class={style.content}>
+        <div class={style.topContainer}>
+          <a
+            class={style.versionAnchor}
             href={releaseLink}
             target="_blank"
             rel="noopener noreferrer"
           >
             {env.APP_VERSION || "Unknown Version"}
-          </VersionAnchor>
+          </a>
 
-          <Text class="slogan" size={36} bold>
+          <Text class={style.slogan} size={36} bold>
             {t("homePage.slogan")}
           </Text>
           <Text
@@ -126,10 +49,10 @@ export default function HomePage() {
           >
             {t("homePage.subslogan")}
           </Text>
-          <ButtonsContainer class="buttons-container">
+          <div class={style.buttonsContainer}>
             <a href="/register">
               <Button
-                class="get-started-button"
+                class={style.getStartedButton}
                 iconName="open_in_browser"
                 label={t("homePage.getStarted")!}
                 color={"white"}
@@ -146,24 +69,15 @@ export default function HomePage() {
                 label={t("homePage.viewGitHubButton")!}
               />
             </a>
-          </ButtonsContainer>
+          </div>
           <PlatformDownloadLinks />
-        </TopContainer>
+        </div>
         <FeatureList />
-      </Content>
+      </div>
       <PageFooter />
-    </HomePageContainer>
+    </div>
   );
 }
-
-const downloadButtonStyle = css`
-  :nth-child(2) {
-    margin-left: 0;
-    text-align: end;
-  }
-
-  text-align: start;
-`;
 
 const PlatformDownloadLinks = () => {
   const [t] = useTransContext();
@@ -274,7 +188,7 @@ const PlatformDownloadLinks = () => {
           onClick={() => navigate("/register")}
           color=""
           customChildren={
-            <FlexColumn class={downloadButtonStyle}>
+            <FlexColumn class={style.downloadButton}>
               <Text>{t("homePage.browser")}</Text>
               <Text opacity={0.8} size={12}>
                 web
@@ -288,7 +202,7 @@ const PlatformDownloadLinks = () => {
           onClick={() => onClick("windows")}
           color=""
           customChildren={
-            <FlexColumn class={downloadButtonStyle}>
+            <FlexColumn class={style.downloadButton}>
               <Text>Windows</Text>
               <Text opacity={0.8} size={12}>
                 exe
@@ -304,7 +218,7 @@ const PlatformDownloadLinks = () => {
           customChildren={
             <FlexRow itemsCenter>
               <img src="/assets/apple.svg" width={24} />
-              <FlexColumn class={downloadButtonStyle}>
+              <FlexColumn class={style.downloadButton}>
                 <Text>macOS</Text>
                 <Text opacity={0.8} size={12}>
                   dmg
@@ -318,7 +232,7 @@ const PlatformDownloadLinks = () => {
           onClick={() => onClick("android")}
           color="#31a952"
           customChildren={
-            <FlexColumn class={downloadButtonStyle}>
+            <FlexColumn class={style.downloadButton}>
               <Text>Android</Text>
               <Text opacity={0.8} size={12}>
                 apk
@@ -334,7 +248,7 @@ const PlatformDownloadLinks = () => {
           customChildren={
             <FlexRow itemsCenter>
               <img src="/assets/linux.svg" width={24} />
-              <FlexColumn class={downloadButtonStyle}>
+              <FlexColumn class={style.downloadButton}>
                 <Text>Linux</Text>
                 <Text opacity={0.8} size={12}>
                   deb / AppImage
@@ -359,32 +273,10 @@ const PlatformDownloadLinks = () => {
   );
 };
 
-const FeatureListContainer = styled("div")`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  max-width: 800px;
-  gap: 10px;
-  column-gap: 20px;
-  align-self: center;
-  margin-top: 100px;
-  padding: 10px;
-  z-index: 1111;
-  margin: 10px;
-
-  @media (max-width: 820px) {
-    grid-template-columns: 1fr 1fr;
-  }
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    max-width: 90%;
-    width: 100%;
-  }
-`;
-
 function FeatureList() {
   const [t] = useTransContext();
   return (
-    <FeatureListContainer>
+    <div class={style.featureListContainer}>
       <Feature icon="gif" label={t("homePage.featureList.feature1")} />
       <Feature icon="preview" label={t("homePage.featureList.feature2")} />
       <Feature icon="sell" label={t("homePage.featureList.feature3")} />
@@ -400,21 +292,13 @@ function FeatureList() {
         icon="account_circle"
         label={t("homePage.featureList.feature9")}
       />
-    </FeatureListContainer>
+    </div>
   );
 }
 
-const FeatureContainer = styled(FlexRow)`
-  align-items: center;
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 6px;
-  padding-right: 14px;
-`;
-
 function Feature(props: { icon: string; label: string }) {
   return (
-    <FeatureContainer gap={10}>
+    <div class={style.featureContainer}>
       <Icon
         style={{
           background: "rgba(255,255,255,0.06)",
@@ -427,6 +311,6 @@ function Feature(props: { icon: string; label: string }) {
       <Text size={14} opacity={0.7}>
         {props.label}
       </Text>
-    </FeatureContainer>
+    </div>
   );
 }
