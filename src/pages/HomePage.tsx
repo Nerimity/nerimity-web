@@ -4,7 +4,6 @@ import Button from "@/components/ui/Button";
 import { useNavigate } from "solid-navigator";
 import PageHeader from "../components/PageHeader";
 import Text from "@/components/ui/Text";
-import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Icon from "@/components/ui/icon/Icon";
 import PageFooter from "@/components/PageFooter";
 import { getPlatformDownloadLinks } from "@/github-api";
@@ -42,11 +41,7 @@ export default function HomePage() {
           <Text class={style.slogan} size={36} bold>
             {t("homePage.slogan")}
           </Text>
-          <Text
-            size={18}
-            opacity={0.7}
-            style={{ "margin-top": "10px", "margin-bottom": "10px" }}
-          >
+          <Text size={18} opacity={0.7} class={style.subslogan}>
             {t("homePage.subslogan")}
           </Text>
           <div class={style.buttonsContainer}>
@@ -179,21 +174,21 @@ const PlatformDownloadLinks = () => {
   ];
 
   return (
-    <FlexColumn gap={10} itemsCenter style={{ "margin-top": "10px" }}>
+    <div class={style.platformDownloadContainer}>
       <Text size={16} opacity={0.7}>
         {t("homePage.availableOn")}
       </Text>
-      <FlexRow wrap justifyCenter>
+      <div class={style.platformDownloadButtons}>
         <Button
           onClick={() => navigate("/register")}
           color=""
           customChildren={
-            <FlexColumn class={style.downloadButton}>
+            <div class={style.downloadButton}>
               <Text>{t("homePage.browser")}</Text>
               <Text opacity={0.8} size={12}>
                 web
               </Text>
-            </FlexColumn>
+            </div>
           }
           iconName="public"
           primary
@@ -202,12 +197,12 @@ const PlatformDownloadLinks = () => {
           onClick={() => onClick("windows")}
           color=""
           customChildren={
-            <FlexColumn class={style.downloadButton}>
+            <div class={style.downloadButton}>
               <Text>Windows</Text>
               <Text opacity={0.8} size={12}>
                 exe
               </Text>
-            </FlexColumn>
+            </div>
           }
           iconName="grid_view"
           primary
@@ -216,15 +211,15 @@ const PlatformDownloadLinks = () => {
           onClick={(e) => onMacOSButtonClick(e as MouseEvent)}
           color=""
           customChildren={
-            <FlexRow itemsCenter>
+            <div class={style.downloadButtonOuter}>
               <img src="/assets/apple.svg" width={24} />
-              <FlexColumn class={style.downloadButton}>
+              <div class={style.downloadButton}>
                 <Text>macOS</Text>
                 <Text opacity={0.8} size={12}>
                   dmg
                 </Text>
-              </FlexColumn>
-            </FlexRow>
+              </div>
+            </div>
           }
           primary
         />
@@ -232,12 +227,12 @@ const PlatformDownloadLinks = () => {
           onClick={() => onClick("android")}
           color="#31a952"
           customChildren={
-            <FlexColumn class={style.downloadButton}>
+            <div class={style.downloadButton}>
               <Text>Android</Text>
               <Text opacity={0.8} size={12}>
                 apk
               </Text>
-            </FlexColumn>
+            </div>
           }
           iconName="android"
           primary
@@ -246,19 +241,19 @@ const PlatformDownloadLinks = () => {
           onClick={(e) => onLinuxButtonClick(e as MouseEvent)}
           color="#db5c13"
           customChildren={
-            <FlexRow itemsCenter>
+            <div class={style.downloadButtonOuter}>
               <img src="/assets/linux.svg" width={24} />
-              <FlexColumn class={style.downloadButton}>
+              <div class={style.downloadButton}>
                 <Text>Linux</Text>
                 <Text opacity={0.8} size={12}>
                   deb / AppImage
                 </Text>
-              </FlexColumn>
-            </FlexRow>
+              </div>
+            </div>
           }
           primary
         />
-      </FlexRow>
+      </div>
       <ContextMenu
         items={macOSMenuItems}
         position={macOSMenuPos()}
@@ -269,7 +264,7 @@ const PlatformDownloadLinks = () => {
         position={linuxMenuPos()}
         onClose={() => setLinuxMenuPos(undefined)}
       />
-    </FlexColumn>
+    </div>
   );
 };
 
@@ -299,15 +294,7 @@ function FeatureList() {
 function Feature(props: { icon: string; label: string }) {
   return (
     <div class={style.featureContainer}>
-      <Icon
-        style={{
-          background: "rgba(255,255,255,0.06)",
-          padding: "10px",
-          "border-radius": "12px"
-        }}
-        name={props.icon}
-        size={26}
-      />
+      <Icon class={style.icon} name={props.icon} size={26} />
       <Text size={14} opacity={0.7}>
         {props.label}
       </Text>
