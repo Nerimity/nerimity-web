@@ -1,5 +1,5 @@
 import { Outlet, useLocation, useMatch } from "solid-navigator";
-import { Show, createEffect } from "solid-js";
+import { Show, createEffect, onMount } from "solid-js";
 import SettingsHeader from "./SettingsHeader";
 import useStore from "@/chat-api/store/useStore";
 import { styled } from "solid-styled-components";
@@ -18,6 +18,14 @@ const SettingsPaneContainer = styled("div")`
 export default function SettingsPane() {
   const { account } = useStore();
   const user = () => account.user();
+
+
+  onMount(async () => {
+    for (let i = 0; i < settings.length; i++) {
+      const setting = settings[i];
+      await setting?.element.preload(); 
+    }
+  });
 
   const matchingSettingsPane = () => {
     return settings.find((s) => {

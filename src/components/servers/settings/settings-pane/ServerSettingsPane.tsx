@@ -1,8 +1,9 @@
 import { Outlet, useParams } from "solid-navigator";
-import { Show } from "solid-js";
+import { onMount, Show } from "solid-js";
 import ServerSettingsHeader from "./ServerSettingsHeader";
 import useStore from "@/chat-api/store/useStore";
 import { styled } from "solid-styled-components";
+import serverSettings from "@/common/ServerSettings";
 
 const SettingsPaneContainer = styled("div")`
   display: flex;
@@ -18,6 +19,13 @@ export default function ServerSettingsPane() {
   const { servers } = useStore();
 
   const server = () => servers.get(params.serverId);
+
+  onMount(async () => {
+    for (let i = 0; i < serverSettings.length; i++) {
+      const setting = serverSettings[i];
+      await setting?.element.preload(); 
+    }
+  });
 
   return (
     <Show when={server()}>
