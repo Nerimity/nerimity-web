@@ -12,19 +12,19 @@ import {
   createMemo,
   on,
   onCleanup,
-  onMount,
+  onMount
 } from "solid-js";
 import { Channel } from "@/chat-api/store/useChannels";
 import ItemContainer from "@/components/ui/LegacyItem";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
-import { ChannelType } from "@/chat-api/RawData";
+import { ChannelType, ServerNotificationSoundMode } from "@/chat-api/RawData";
 import Icon from "@/components/ui/icon/Icon";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import {
   CHANNEL_PERMISSIONS,
   hasBit,
-  ROLE_PERMISSIONS,
+  ROLE_PERMISSIONS
 } from "@/chat-api/Bitwise";
 import env from "@/common/env";
 import { unicodeToTwemojiUrl } from "@/emoji";
@@ -59,12 +59,21 @@ const ServerDrawer = () => {
       <Header />
       <div class={styles.serverDrawer}>
         <div class={styles.serverDrawerInner}>
+          <Show when={server()?.joinedThisSession}>
+            <JoinedThisSessionNotificationNotice />
+          </Show>
           <MembersItem />
           <Show when={server()?._count?.welcomeQuestions}>
             <CustomizeItem />
           </Show>
           <ChannelList />
-          <InVoiceActions style={isMobileWidth() ? { bottom: "calc(var(--bottom-pane-gap) + 6px)" } : {}} />
+          <InVoiceActions
+            style={
+              isMobileWidth()
+                ? { bottom: "calc(var(--bottom-pane-gap) + 6px)" }
+                : {}
+            }
+          />
         </div>
       </div>
     </>
@@ -74,7 +83,7 @@ const ServerDrawer = () => {
 const CustomizeItem = () => {
   const params = useParams<{ serverId: string }>();
   const match = useMatch(() =>
-    RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome"),
+    RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome")
   );
   return (
     <div class={styles.welcomeItemContainer}>
@@ -93,7 +102,7 @@ const CustomizeItem = () => {
 const MembersItem = () => {
   const params = useParams<{ serverId: string }>();
   const match = useMatch(() =>
-    RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members"),
+    RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members")
   );
   return (
     <div class={styles.membersItemContainer}>
@@ -130,11 +139,11 @@ const ChannelList = () => {
     sortedChannels().filter((channel) => !channel?.categoryId);
   const channelsWithoutCategory = () =>
     sortedChannels().filter(
-      (channel) => channel?.type !== ChannelType.CATEGORY,
+      (channel) => channel?.type !== ChannelType.CATEGORY
     );
   const selectedChannelIndex = () =>
     channelsWithoutCategory().findIndex(
-      (channel) => channel?.id === params.channelId,
+      (channel) => channel?.id === params.channelId
     );
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -152,7 +161,7 @@ const ChannelList = () => {
       navigate(
         `/app/servers/${params.serverId}/${
           channelsWithoutCategory()[newIndex]?.id
-        }`,
+        }`
       );
     }
 
@@ -168,7 +177,7 @@ const ChannelList = () => {
       navigate(
         `/app/servers/${params.serverId}/${
           channelsWithoutCategory()[newIndex]?.id
-        }`,
+        }`
       );
     }
   };
@@ -185,7 +194,7 @@ const ChannelList = () => {
     setContextMenuDetails({
       position: { x: event.clientX, y: event.clientY },
       serverId: params.serverId!,
-      channelId,
+      channelId
     });
   };
 
@@ -279,7 +288,7 @@ function CategoryItem(props: {
   const sortedServerChannels = createMemo(() =>
     channels
       .getSortedChannelsByServerId(params.serverId, true)
-      .filter((channel) => channel?.categoryId === props.channel.id),
+      .filter((channel) => channel?.categoryId === props.channel.id)
   );
 
   const isPrivateCategory = () => {
@@ -290,7 +299,7 @@ function CategoryItem(props: {
 
     const noViewableChannels = sortedServerChannels().every(
       (channel) =>
-        !channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true),
+        !channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true)
     );
 
     return (
@@ -523,25 +532,70 @@ function CallTime(props: { channelId: string }) {
           setTime(timeElapsed(joinedAt));
           interval = window.setInterval(
             () => setTime(timeElapsed(joinedAt)),
-            1000,
+            1000
           );
         }
         onCleanup(() => {
           interval && clearInterval(interval);
         });
-      },
-    ),
+      }
+    )
   );
 
   return (
     <Show when={channel()?.callJoinedAt}>
-      <Text size={12} opacity={0.6} style={{
-        "margin-left": "auto",
-        "font-variant-numeric": "tabular-nums"
-      }}>
+      <Text
+        size={12}
+        opacity={0.6}
+        style={{
+          "margin-left": "auto",
+          "font-variant-numeric": "tabular-nums"
+        }}
+      >
         {time()}
       </Text>
     </Show>
+  );
+}
+
+function JoinedThisSessionNotificationNotice() {
+  const params = useParams<{ serverId: string }>();
+  const store = useStore();
+  const server = () => store.servers.get(params.serverId);
+
+  const dismiss = () => {
+    server()?.update({ joinedThisSession: false });
+  };
+
+  const handleSetToMentionsOnly = () => {
+    dismiss();
+    store.account.updateUserNotificationSettings({
+      notificationSoundMode: ServerNotificationSoundMode.MENTIONS_ONLY,
+      serverId: params.serverId
+    });
+  };
+
+  return (
+    <div class={styles.joinedThisSessionNotice}>
+      <Button
+        iconName="close"
+        iconSize={14}
+        class={styles.closeIcon}
+        onclick={dismiss}
+      />
+      <Icon name="notifications" size={30} />
+      <div class={styles.details}>
+        <div class={styles.text}>
+          {t("serverDrawer.joinedThisSessionNotice")}
+        </div>
+        <Button
+          label={t("serverDrawer.joinedThisSessionNoticeSetToMentionsOnly")}
+          iconName="alternate_email"
+          iconSize={16}
+          onClick={handleSetToMentionsOnly}
+        />
+      </div>
+    </div>
   );
 }
 

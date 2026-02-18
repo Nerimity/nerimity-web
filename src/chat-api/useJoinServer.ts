@@ -2,12 +2,10 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { createEffect, createSignal } from "solid-js";
 import { useNavigate } from "solid-navigator";
 import useStore from "./store/useStore";
-import {
-  toast,
-} from "@/components/ui/custom-portal/CustomPortal";
+import { toast } from "@/components/ui/custom-portal/CustomPortal";
 import {
   joinPublicServer,
-  joinServerByInviteCode,
+  joinServerByInviteCode
 } from "./services/ServerService";
 
 export const useJoinServer = () => {
@@ -22,16 +20,22 @@ export const useJoinServer = () => {
   };
 
   createEffect(() => {
-    if (joining() && cachedServer()) {
-      navigate(
-        RouterEndpoints.SERVER_MESSAGES(
-          cachedServer()!.id,
-          cachedServer()!._count?.welcomeQuestions
-            ? "welcome"
-            : cachedServer()!.defaultChannelId
-        )
-      );
-    }
+    const hasJoined = joining() && cachedServer();
+    if (!hasJoined) return;
+
+    cachedServer()?.update({
+      joinedThisSession: true
+    });
+
+    const hasWelcomeQuestions = cachedServer()!._count?.welcomeQuestions;
+    const defaultChannelId = cachedServer()!.defaultChannelId;
+
+    const route = RouterEndpoints.SERVER_MESSAGES(
+      cachedServer()!.id,
+      hasWelcomeQuestions ? "welcome" : defaultChannelId!
+    );
+
+    navigate(route);
   });
 
   const joinByInviteCode = async (code: string, serverId: string) => {

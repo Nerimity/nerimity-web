@@ -1295,5 +1295,9 @@
       "deerDarkDescription": "Emo Deer Antlers",
       "deerWhiteDescription": "Kawaii Pink Deer"
     }
+  },
+  "serverDrawer": {
+    "joinedThisSessionNotice": "You'll hear all notification sounds from this server.",
+    "joinedThisSessionNoticeSetToMentionsOnly": "Set to mentions only"
   }
 }

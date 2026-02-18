@@ -10,6 +10,8 @@ export interface RawServer {
   createdById: string;
   createdAt: number;
   verified: boolean;
+  // will be set to false after user dismisses notification notice on left drawer.
+  joinedThisSession?: boolean;
   customEmojis: RawCustomEmoji[];
   _count?: {
     welcomeQuestions: number;

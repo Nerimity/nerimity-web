@@ -14,7 +14,7 @@ import Avatar from "@/components/ui/Avatar";
 import {
   ChannelType,
   ServerNotificationPingMode,
-  ServerNotificationSoundMode,
+  ServerNotificationSoundMode
 } from "@/chat-api/RawData";
 import Button from "@/components/ui/Button";
 
@@ -42,9 +42,12 @@ export default function ServerNotificationSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.notifications"),
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("servers.settings.drawer.notifications"),
       serverId: params.serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -57,36 +60,53 @@ export default function ServerNotificationSettings() {
 
   const NotificationSoundItems: () => RadioBoxItem[] = () => [
     ...(currentNotificationPingMode() === null
-      ? [{ id: null, label: t("serverContextMenu.notificationOptions.initial") }]
+      ? [
+          {
+            id: null,
+            label: t("serverContextMenu.notificationOptions.initial")
+          }
+        ]
       : []),
     ...(currentNotificationPingMode() !==
     ServerNotificationPingMode.MENTIONS_ONLY
-      ? [{ id: 0, label: t("serverContextMenu.notificationOptions.everything") }]
+      ? [
+          {
+            id: 0,
+            label: t("serverContextMenu.notificationOptions.everything")
+          }
+        ]
       : []),
     { id: 1, label: t("serverContextMenu.notificationOptions.mentionsOnly") },
-    { id: 2, label: t("serverContextMenu.notificationOptions.mute") },
+    { id: 2, label: t("serverContextMenu.notificationOptions.mute") }
   ];
 
   const onNotificationSoundChange = (item: RadioBoxItem) => {
     account.updateUserNotificationSettings({
       notificationSoundMode: item.id,
       channelId: params.channelId,
-      serverId: params.serverId,
+      serverId: params.serverId
     });
   };
 
   const NotificationPingItems: RadioBoxItem[] = [
-    ...(channel()?.serverId ? [{ id: null, label: t("serverContextMenu.notificationOptions.initial") }] : []),
+    ...(channel()?.serverId
+      ? [
+          {
+            id: null,
+            label: t("serverContextMenu.notificationOptions.initial")
+          }
+        ]
+      : []),
     { id: 0, label: t("serverContextMenu.notificationOptions.everything") },
     { id: 1, label: t("serverContextMenu.notificationOptions.mentionsOnly") },
-    { id: 2, label: t("serverContextMenu.notificationOptions.mute") },
+    { id: 2, label: t("serverContextMenu.notificationOptions.mute") }
   ];
 
   const onNotificationPingChange = (item: RadioBoxItem) => {
     account.updateUserNotificationSettings({
       notificationPingMode: item.id,
       channelId: params.channelId,
-      serverId: params.serverId,
+      serverId: params.serverId
     });
   };
 
@@ -130,10 +150,7 @@ export default function ServerNotificationSettings() {
           }
           style={{ "padding-left": "10px", "pointer-events": "none" }}
         >
-          <Avatar
-            server={{ hexColor: "rgba(255,255,255)", verified: false }}
-            size={30}
-          />
+          <Avatar server={server()} size={30} />
         </ItemContainer>
       </SettingsBlock>
 
@@ -204,7 +221,7 @@ const ChannelNotificationsBlock = () => {
       await updateNotificationSettings({
         notificationPingMode: null,
         notificationSoundMode: null,
-        channelId: channel.id,
+        channelId: channel.id
       });
       await sleep(800);
     }
@@ -212,7 +229,7 @@ const ChannelNotificationsBlock = () => {
 
   const sortedChannels = () => [
     ...overrides(),
-    ...channels().filter((c) => !hasOverride(c.id)),
+    ...channels().filter((c) => !hasOverride(c.id))
   ];
 
   return (
@@ -230,7 +247,9 @@ const ChannelNotificationsBlock = () => {
           <Button
             onClick={resetOverrides}
             iconName="refresh"
-            label={t("servers.settings.notifications.resetButton", { count: overrides().length })}
+            label={t("servers.settings.notifications.resetButton", {
+              count: overrides().length
+            })}
           />
         </Show>
       </SettingsBlock>
