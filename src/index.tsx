@@ -50,6 +50,23 @@ import { Tool } from "eruda";
 import useAccount from "./chat-api/store/useAccount";
 import { MetaProvider, Title } from "@solidjs/meta";
 import { ReminderProvider } from "./components/useReminders";
+import env from "./common/env";
+
+
+if ("serviceWorker" in navigator) {
+  if (!env.DEV_MODE) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js", { scope: "/" })
+      .then((registration) => {
+        console.log("SW registered:", registration);
+      })
+      .catch((error) => {
+        console.error("SW registration failed:", error);
+      });
+    });
+  }
+}
+
 
 updateTheme();
 fixSafariMobileContextMenu();
