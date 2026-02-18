@@ -461,12 +461,21 @@ function MessageArea(props: {
   };
 
   const adjustHeight = () => {
+    const bottomMargin = 5;
+    const scrollEl = props.mainPaneEl;
+    const scrollMax = scrollEl.scrollHeight - scrollEl.clientHeight;
+    const wasAtBottom = scrollMax - scrollEl.scrollTop <= bottomMargin;
+
+    const el = textAreaEl()!;
     const MAX_HEIGHT = 100;
-    textAreaEl()!.style.height = "0px";
-    let newHeight = textAreaEl()!.scrollHeight - 22;
+    el.style.height = "0px";
+    let newHeight = el.scrollHeight - 22;
     if (newHeight > MAX_HEIGHT) newHeight = MAX_HEIGHT;
-    textAreaEl()!.style.height = newHeight + "px";
-    textAreaEl()!.scrollTop = textAreaEl()!.scrollHeight;
+    el.style.height = newHeight + "px";
+
+    if (wasAtBottom) {
+      scrollEl.scrollTop = scrollEl.scrollHeight;
+    }
   };
 
   createEffect(

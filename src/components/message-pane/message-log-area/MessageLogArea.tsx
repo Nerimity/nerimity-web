@@ -235,6 +235,12 @@ export const MessageLogArea = (props: {
     }
   );
 
+  const onWindowResize = () => {
+    if (scrollTracker.scrolledBottom()) {
+      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
+    }
+  };
+
   createRenderEffect(
     on(height, () => {
       if (scrollTracker.scrolledBottom()) {
@@ -431,11 +437,13 @@ export const MessageLogArea = (props: {
 
     const channelId = params.channelId;
 
+    window.addEventListener("resize", onWindowResize);
     document.addEventListener("paste", onPaste);
 
     socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
     document.addEventListener("keydown", handleKeyDown);
     onCleanup(() => {
+      window.removeEventListener("resize", onWindowResize);
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("paste", onPaste);
       scrollTracker.forceUpdate();
