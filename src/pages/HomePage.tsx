@@ -8,12 +8,12 @@ import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Icon from "@/components/ui/icon/Icon";
 import PageFooter from "@/components/PageFooter";
 import { getPlatformDownloadLinks } from "@/github-api";
-import ContextMenu, { ContextMenuItem } from "@/components/ui/context-menu/ContextMenu";
+import ContextMenu, {
+  ContextMenuItem
+} from "@/components/ui/context-menu/ContextMenu";
 import { createSignal } from "solid-js";
 import { toast } from "@/components/ui/custom-portal/CustomPortal";
-import { t } from "@nerimity/i18lite";
-import { Rerun } from "@solid-primitives/keyed";
-import { getCurrentLanguage } from "@/locales/languages";
+import { useTransContext } from "@nerimity/solid-i18lite";
 
 const HomePageContainer = styled("div")`
   display: flex;
@@ -94,6 +94,7 @@ const VersionAnchor = styled("a")`
 `;
 
 export default function HomePage() {
+  const [t] = useTransContext();
   const isRelease = env.APP_VERSION?.startsWith("v");
 
   const releaseLink = isRelease
@@ -103,57 +104,55 @@ export default function HomePage() {
     : "https://github.com/Nerimity/nerimity-web/commits/main";
 
   return (
-    <Rerun on={getCurrentLanguage}>
-      <HomePageContainer class="home-page-container">
-        <PageHeader />
-        <Content class="content">
-          <TopContainer class="top-container">
-            <VersionAnchor
-              href={releaseLink}
+    <HomePageContainer class="home-page-container">
+      <PageHeader />
+      <Content class="content">
+        <TopContainer class="top-container">
+          <VersionAnchor
+            href={releaseLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {env.APP_VERSION || "Unknown Version"}
+          </VersionAnchor>
+
+          <Text class="slogan" size={36} bold>
+            {t("homePage.slogan")}
+          </Text>
+          <Text
+            size={18}
+            opacity={0.7}
+            style={{ "margin-top": "10px", "margin-bottom": "10px" }}
+          >
+            {t("homePage.subslogan")}
+          </Text>
+          <ButtonsContainer class="buttons-container">
+            <a href="/register">
+              <Button
+                class="get-started-button"
+                iconName="open_in_browser"
+                label={t("homePage.getStarted")!}
+                color={"white"}
+              />
+            </a>
+            <a
+              href="https://github.com/Nerimity/nerimity-web"
               target="_blank"
               rel="noopener noreferrer"
             >
-              {env.APP_VERSION || "Unknown Version"}
-            </VersionAnchor>
-
-            <Text class="slogan" size={36} bold>
-              {t("homePage.slogan")}
-            </Text>
-            <Text
-              size={18}
-              opacity={0.7}
-              style={{ "margin-top": "10px", "margin-bottom": "10px" }}
-            >
-              {t("homePage.subslogan")}
-            </Text>
-            <ButtonsContainer class="buttons-container">
-              <a href="/register">
-                <Button
-                  class="get-started-button"
-                  iconName="open_in_browser"
-                  label={t("homePage.getStarted")!}
-                  color={"white"}
-                />
-              </a>
-              <a
-                href="https://github.com/Nerimity/nerimity-web"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button
-                  color="white"
-                  iconName="code"
-                  label={t("homePage.viewGitHubButton")!}
-                />
-              </a>
-            </ButtonsContainer>
-            <PlatformDownloadLinks />
-          </TopContainer>
-          <FeatureList />
-        </Content>
-        <PageFooter />
-      </HomePageContainer>
-    </Rerun>
+              <Button
+                color="white"
+                iconName="code"
+                label={t("homePage.viewGitHubButton")!}
+              />
+            </a>
+          </ButtonsContainer>
+          <PlatformDownloadLinks />
+        </TopContainer>
+        <FeatureList />
+      </Content>
+      <PageFooter />
+    </HomePageContainer>
   );
 }
 
@@ -167,9 +166,14 @@ const downloadButtonStyle = css`
 `;
 
 const PlatformDownloadLinks = () => {
+  const [t] = useTransContext();
   const navigate = useNavigate();
-  const [macOSMenuPos, setMacOSMenuPos] = createSignal<{ x: number; y: number } | undefined>();
-  const [linuxMenuPos, setLinuxMenuPos] = createSignal<{ x: number; y: number } | undefined>();
+  const [macOSMenuPos, setMacOSMenuPos] = createSignal<
+    { x: number; y: number } | undefined
+  >();
+  const [linuxMenuPos, setLinuxMenuPos] = createSignal<
+    { x: number; y: number } | undefined
+  >();
 
   const onClick = async (
     platform: "windows" | "linux" | "android" | "macos",
@@ -238,26 +242,26 @@ const PlatformDownloadLinks = () => {
     {
       label: "Intel",
       icon: "laptop_mac",
-      onClick: () => onClick("macos", "x64"),
+      onClick: () => onClick("macos", "x64")
     },
     {
       label: "Apple Silicon (M1/M2/M3/...)",
       icon: "laptop_mac",
-      onClick: () => onClick("macos", "arm64"),
-    },
+      onClick: () => onClick("macos", "arm64")
+    }
   ];
 
   const linuxMenuItems: ContextMenuItem[] = [
     {
       label: "Debian/Ubuntu (deb)",
       icon: "download",
-      onClick: () => onClick("linux", "deb"),
+      onClick: () => onClick("linux", "deb")
     },
     {
       label: "AppImage",
       icon: "download",
-      onClick: () => onClick("linux", "AppImage"),
-    },
+      onClick: () => onClick("linux", "AppImage")
+    }
   ];
 
   return (
@@ -378,6 +382,7 @@ const FeatureListContainer = styled("div")`
 `;
 
 function FeatureList() {
+  const [t] = useTransContext();
   return (
     <FeatureListContainer>
       <Feature icon="gif" label={t("homePage.featureList.feature1")} />
@@ -386,9 +391,15 @@ function FeatureList() {
       <Feature icon="add" label={t("homePage.featureList.feature4")} />
       <Feature icon="dns" label={t("homePage.featureList.feature5")} />
       <Feature icon="explore" label={t("homePage.featureList.feature6")} />
-      <Feature icon="volunteer_activism" label={t("homePage.featureList.feature7")} />
+      <Feature
+        icon="volunteer_activism"
+        label={t("homePage.featureList.feature7")}
+      />
       <Feature icon="code" label={t("homePage.featureList.feature8")} />
-      <Feature icon="account_circle" label={t("homePage.featureList.feature9")} />
+      <Feature
+        icon="account_circle"
+        label={t("homePage.featureList.feature9")}
+      />
     </FeatureListContainer>
   );
 }
@@ -408,7 +419,7 @@ function Feature(props: { icon: string; label: string }) {
         style={{
           background: "rgba(255,255,255,0.06)",
           padding: "10px",
-          "border-radius": "12px",
+          "border-radius": "12px"
         }}
         name={props.icon}
         size={26}
