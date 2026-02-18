@@ -1295,5 +1295,9 @@
         "message": "Ustaw przypomnienie na",
         "setReminderButton": "Ustaw przypomnienie",
         "adding": "Dodawanie…"
+    },
+    "serverDrawer": {
+        "joinedThisSessionNotice": "Usłyszysz wszystkie dźwięki powiadomień z tego serwera.",
+        "joinedThisSessionNoticeSetToMentionsOnly": "Ustaw na same wzmianki"
     }
 }
