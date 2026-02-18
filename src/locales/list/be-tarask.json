@@ -1295,5 +1295,9 @@
         "message": "Паставіць напамін на",
         "setReminderButton": "Паставіць",
         "adding": "Дадаем…"
+    },
+    "serverDrawer": {
+        "joinedThisSessionNotice": "Вы будзеце чуць усе абвесткі з гэтага сэрвэра.",
+        "joinedThisSessionNoticeSetToMentionsOnly": "Уключыць толькі для згадваньняў"
     }
 }
