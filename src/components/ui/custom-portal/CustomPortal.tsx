@@ -4,16 +4,17 @@ import {
   JSX,
   For,
   lazy,
-  ComponentProps,
+  ComponentProps
 } from "solid-js";
 import { createStore, produce, SetStoreFunction } from "solid-js/store";
 import { Dynamic, Portal } from "solid-js/web";
-import { ToastModal } from "../toasts/ToastModal";
+
+const ToastModal = lazy(() => import("../toasts/ToastModal"));
 
 const registeredPortals = {
   ProfileFlyout: lazy(
     () => import("@/components/floating-profile/FloatingProfile")
-  ),
+  )
 };
 
 type RegisteredPortal = typeof registeredPortals;
@@ -62,13 +63,23 @@ interface Item {
 const [elements, setElements] = createStore<Item[]>([]);
 
 export const toast = (body: string, title?: string, icon?: string) => {
-  setElements(e => [...e, { element: (close) => <ToastModal icon={icon} close={close} body={body} title={title || "Alert"} /> , id: 'toast-' + Math.random() }]);
-}
-
-
+  setElements((e) => [
+    ...e,
+    {
+      element: (close) => (
+        <ToastModal
+          icon={icon}
+          close={close}
+          body={body}
+          title={title || "Alert"}
+        />
+      ),
+      id: "toast-" + Math.random()
+    }
+  ]);
+};
 
 export function CustomPortalProvider(props: CustomPortalProps) {
-
   function createRegisteredPortal<T extends keyof RegisteredPortal>(
     component: T,
     props: ComponentProps<RegisteredPortal[T]>,
@@ -132,7 +143,7 @@ export function CustomPortalProvider(props: CustomPortalProps) {
     closePortalById,
     isPortalOpened,
     openedPortals,
-    createRegisteredPortal,
+    createRegisteredPortal
   };
 
   return (
@@ -142,7 +153,7 @@ export function CustomPortalProvider(props: CustomPortalProps) {
           display: "flex",
           "flex-direction": "column",
           height: "100%",
-          width: "100%",
+          width: "100%"
         }}
       >
         {props.children}
