@@ -17,11 +17,11 @@ self.addEventListener("fetch", async (event) => {
   const isSameOrigin = url.origin === location.origin;
   const isAssetsRequest = isSameOrigin && url.pathname.startsWith("/assets/");
 
+  if (!isAssetsRequest) {
+    return;
+  }
   event.respondWith(
     (async () => {
-      if (!isAssetsRequest) {
-        return fetch(event.request);
-      }
 
       const cache = await caches.open(CACHE_NAME);
       const cached = await cache.match(event.request);
