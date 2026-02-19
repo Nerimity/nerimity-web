@@ -20,7 +20,8 @@
             "feature5": "Crează propia ta communitate",
             "feature6": "Găseste communitați noi",
             "feature7": "Se finanțează din donații",
-            "feature8": "Tot codul de sursă pe GitHub"
+            "feature8": "Tot codul de sursă pe GitHub",
+            "feature9": "Exprimă-te cu borduri"
         }
     },
     "loginPage": {
@@ -85,32 +86,43 @@
         },
         "servers": {
             "title": "Explorează - Servere",
-            "noticeMessage": "Un server poate fi boostat la fiecare {{hours}} ora. Toate boost-urile se resetează la fiecare {{date}}.",
-            "sortMostBumps": "Cele mai multe boost-uri",
+            "noticeMessage": "Un server poate fi bump-uit la fiecare {{hours}} ora. Toate boost-urile se resetează la fiecare {{date}}.",
+            "sortMostBumps": "Cele mai multe Bump-uri",
             "sortMostMembers": "Cei mai mulți membri",
             "sortRecentlyAdded": "Adaugate recent",
-            "sortRecentlyBumped": "Boost-ate recent",
+            "sortRecentlyBumped": "Bump-uiți recent",
             "filterAll": "Toate",
             "filterVerified": "Verificate",
             "memberCount": "{{count}} Membri",
             "lifetimeBumpCount": "{{count}} lifetime bumps",
             "visitServerButton": "Visitează",
             "joinServerButton": "Alătură-te",
-            "bumpButton": "Boost : ({{count}})"
+            "bumpButton": "Bump-uri : ({{count}})",
+            "moderationNotice": "Serverele nu sunt moderate de Nerimity. Te rugăm să raportezi serverele care încalcă TOS-ul.",
+            "sortMostActive": "Cel mai activ (Beta)",
+            "pinnedServers": "Servere Fixate",
+            "recentlyBumped": "Servere Bump-uite Recent"
         },
         "bots": {
             "title": "Explorează - Bots",
             "moderationNotice": "Bots nu sunt moderați de Nerimity. Raportați bots care sunt malițios sau încalcă Termenii și Condițiile.",
             "inviteButton": "învită",
-            "serverCount": "în {{count}} servere"
+            "serverCount": "în {{count}} servere",
+            "noticeMessage": "Un bot poate fi bumped o dată la fiecare {{hours}} ore. Toate bump-urile se resetează la fiecare {{date}}."
         },
         "themes": {
             "title": "Explorează - Tematice",
             "themesHeaderDescription": "Personalisează Nerimity cu o tematica personalizată.",
             "officialThemes": "Termatice Oficiale",
             "communityThemes": "Termatice din communitate",
-            "noCommunityThemes": "Nici o Tematică din communitate nu a putut fi găsită."
-        }
+            "noCommunityThemes": "Nici o Tematică din communitate nu a putut fi găsită.",
+            "fetchThemesError": "Eroare la încărcarea tematicelor. Te rugăm să încerci din nou mai târziu.",
+            "unlockDescription": "Apasă pentru a explora toate temele comunității"
+        },
+        "sort": "Sortează",
+        "filter": "Filtru",
+        "by": "De",
+        "bumped": "Bump-uit"
     },
     "servers": {
         "settings": {
@@ -147,7 +159,7 @@
                 "hideRole": "Ascunde rolul",
                 "hideRoleDescription": "Afișați membrii cu acest rol împreună cu toți membrii implicițis",
                 "permissionsDescription": "Gestionați permisiunile pentru acest rol.",
-                "deleteRoleButton": "Sterge aces rol"
+                "deleteRoleButton": "Sterge acest rol"
             },
             "header": {
                 "editServer": "Editează server-ul",
@@ -175,7 +187,7 @@
                 "public": "Public",
                 "publicDescription": "Faceți acest server public.",
                 "bumpServer": "Bump Server",
-                "bumpServerDescription": "Boost-ati acestui server pentru a ajunge la partea de sus.",
+                "bumpServerDescription": "Bump-uiește acest server ca să ajungi în top.",
                 "publishServerButton": "Publică serverul",
                 "unpublishServerButton": "Anulați publicarea server-ului"
             }
@@ -253,7 +265,7 @@
         "viewProfile": "Vezi profil-ul",
         "sendMessage": "Trimite mesaj",
         "editRoles": "Editează Rolurile",
-        "changeNickname": "Schimbati Porecla"
+        "changeNickname": "Schimbați Porecla"
     },
     "kickServerMemberModal": {
         "title": "Explusare {{username}}",
@@ -314,31 +326,52 @@
     },
     "general": {
         "accountData": {
-            "password": "Parolă"
+            "password": "Parolă",
+            "email": "Email",
+            "username": "Nume de Utilizator"
         },
         "avatarAndBanner": {
             "avatar": "Avatar",
-            "banner": "Banner"
-        }
+            "banner": "Banner",
+            "browse": "Navighează",
+            "supportedFileTypes": "Suportat: {{extensions}}, Maxim {{size}}"
+        },
+        "searchPlaceholder": "Căutare",
+        "backButton": "Înapoi",
+        "cancelButton": "Anulează",
+        "closeButton": "Închide",
+        "editButton": "Editează",
+        "undoButton": "anulă",
+        "deleteButton": "Șterge",
+        "cannotBeUndone": "Asta nu poate fi anulat!",
+        "confirmButton": "Confirmă",
+        "doneButton": "Gata",
+        "saveButton": "Salvează",
+        "saveChangesButton": "Salvează Schimbările",
+        "saving": "Salvează…",
+        "copyLink": "Copiază Link-ul",
+        "copyID": "Copiază ID-ul"
     },
     "systemMessages": {
         "joinServer": {
-            "bot": "<Utilizatorul/><2> A fosat adaugat în server.</2>",
-            "user": "<Utilizatorul/><2> A întrat în server.</2>"
+            "bot": "<User/><2> A fosat adaugat în server.</2>",
+            "user": "<User/><2> A intrat în server.</2>"
         },
-        "leaveServer": "<Utilizatorul/><2> A îesit din server.</2>",
-        "kickUser": "<Utilizatorul/><2> A fost scos.</2>",
-        "banUser": "<Utilizatorul/><2> a fost banat.</2>",
-        "callStarted": "<Utilizatorul/><2> A început un apel.</2>",
-        "pinnedMessage": "<Utilizatorul/><2> A fixat un mesaj.</2>",
-        "unsupported": "<Utilizatorul/><2> Mesaj neacceptabil.</2>"
+        "leaveServer": "<User/><2> A îesit din server.</2>",
+        "kickUser": "<User/><2> A fost scos.</2>",
+        "banUser": "<User/><2> a fost banat.</2>",
+        "callStarted": "<User/><2> A început un apel.</2>",
+        "pinnedMessage": "<User/><2> A fixat un mesaj.</2>",
+        "unsupported": "<User/><2> Mesaj neacceptabil.</2>",
+        "bumpServer": "<2> a dat bump serverului.</2>"
     },
     "statusHeader": {
         "authenticationError": "Eroare la autentificare",
         "connecting": "Se Conectează…",
         "reconnecting": "Reconectare…",
         "authenticating": "Se autentifică…",
-        "connected": "Conectat/ă!"
+        "connected": "Conectat/ă!",
+        "inQueue": "În coadă: {{count}} utilizator(i) înaintea ta"
     },
     "dangerousLinkModal": {
         "title": "Link Personalizat",
@@ -357,7 +390,8 @@
         "by": "De",
         "deletionNotice": "Contul și datele tale vor fi șterse în 15 zile",
         "ipBanned": "IP-ul tău este banat.",
-        "ipBanNotice": "Cineva cu același IP ca tine este suspendat pe Nerimity. Contul tău nu este afectat."
+        "ipBanNotice": "Cineva cu același IP ca tine este suspendat pe Nerimity. Contul tău nu este afectat.",
+        "noToken": "Nu a fost furnizat niciun token."
     },
     "resetPassword": {
         "title": "Resetează Parola",
@@ -367,12 +401,15 @@
         "email": "Email",
         "sendEmailButton": "Trimite Email",
         "sending": "Email se Trimite…",
-        "passwordsDoNotMatch": "Parola de confimare nu se potrivește."
+        "passwordsDoNotMatch": "Parola de confimare nu se potrivește.",
+        "resetting": "Resetare…"
     },
     "welcomePopup": {
         "subtitle": "Vă mulțumim pentru că ați încercat Nerimity!",
         "editProfile": "Editează Profil-ul",
-        "joinServer": "Alătură-te comunității oficiale Nerimity"
+        "joinServer": "Alătură-te comunității oficiale Nerimity",
+        "support": "Susține-mă pe {{platform}}",
+        "contribute": "Contribuie la Nerimity pe GitHub"
     },
     "status": {
         "online": "Online",
@@ -410,7 +447,13 @@
             "silent": "Mesaj Silențios"
         },
         "emailNotice": "Confimează Email-ul pentru a trimite mesaje.",
-        "uploadTo": "încarcă în"
+        "uploadTo": "încarcă în",
+        "dropFile": "Aruncă fișierul",
+        "linkToGoogleDrive": {
+            "body": "Trebuie să-ți legi contul de Google Drive pentru a încărca imagini mari, videoclipuri sau fișiere",
+            "linkButton": "Leagă acum",
+            "cancelButton": "Nu Lega"
+        }
     },
     "inputFieldActions": {
         "copy": "Copiază",
@@ -424,6 +467,13 @@
     },
     "markup": {
         "color": "Culoare",
-        "html": "Modul HTML"
+        "html": "Modul HTML",
+        "spoiler": "Spoiler",
+        "emojiPicker": "Selector de emoji",
+        "timestampModal": {
+            "title": "Marcaj de timp",
+            "relative": "Relativ"
+        },
+        "checkbox": "Căsuță"
     }
 }
