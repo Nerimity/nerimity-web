@@ -29,7 +29,7 @@ self.addEventListener("fetch", async (event) => {
       if (cached) return cached;
 
       const response = await fetch(event.request);
-      if (response && response.ok) {
+      if (response && response.ok && response.status === 200) {
         cache.put(event.request, response.clone());
       }
       return response;
