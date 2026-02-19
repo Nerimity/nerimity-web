@@ -1,5 +1,6 @@
 .container {
   all: unset;
+  outline: revert; /* preserve browser focus styles */
   display: flex;
   align-items: center;
   flex-shrink: 0;

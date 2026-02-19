@@ -77,7 +77,7 @@ const NavigationContainer = styled("nav")`
   margin-left: auto;
   margin-right: 4px;
 
-  .register-button div {
+  .register-button {
     background: #4c93ff;
     background: linear-gradient(to right, #4c93ff 0%, #6a5dff 100%);
     margin-right: 8px;
@@ -87,7 +87,7 @@ const NavigationContainer = styled("nav")`
   }
 `;
 
-const LinkContainer = styled("div")<{ primary: boolean }>`
+const LinkContainer = styled("a")<{ primary: boolean }>`
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -254,21 +254,17 @@ function HeaderLink(props: {
   onClick?: () => void;
 }) {
   return (
-    <a
+    <LinkContainer
       href={props.href}
       onClick={props.onClick}
-      style={{ "text-decoration": "none" }}
       class={props.class}
+      primary={props.primary || false}
+      style={{ color: props.color }}
     >
-      <LinkContainer
-        primary={props.primary || false}
-        style={{ color: props.color }}
-      >
-        <Show when={props.icon}>
-          <Icon name={props.icon} color={props.color} class={linkIconStyle} />
-        </Show>
-        {props.label}
-      </LinkContainer>
-    </a>
+      <Show when={props.icon}>
+        <Icon name={props.icon} color={props.color} class={linkIconStyle} />
+      </Show>
+      {props.label}
+    </LinkContainer>
   );
 }
