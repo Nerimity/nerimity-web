@@ -70,5 +70,6 @@ jobs:
           password: ${{ secrets.PASS }}
           port: ${{ secrets.PORT }}
           script: |
+            find /var/www/latest.nerimity.com/dist/assets -type f -mtime +7 -delete
             unzip -o -DD /var/www/latest-chat-client.zip -d /var/www/latest.nerimity.com/dist
             rm -rf /var/www/latest-chat-client.zip
