@@ -72,6 +72,7 @@
     "dayjs": "^1.11.19",
     "eruda": "^3.4.3",
     "eventemitter3": "^5.0.4",
+    "fzstd": "^0.1.1",
     "highlight.js": "^11.11.1",
     "html-parse-string": "^0.0.9",
     "idb-keyval": "^6.2.2",

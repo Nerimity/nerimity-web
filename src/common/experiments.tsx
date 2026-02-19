@@ -12,12 +12,18 @@ export interface Experiment {
 }
 
 export const Experiments = [
-  // {
-  //   id: "DEVELOPER_OAUTH2_SETTINGS",
-  //   name: "Developer OAuth2 Settings",
-  //   description:
-  //     "Enable experimental OAuth2 settings for developer applications.",
-  // },
+  {
+    id: "WEBSOCKET_PARTIAL_AUTH",
+    name: "WebSocket Partial Authentication",
+    description:
+      "VERY BROKEN. Don't send all auth data when authenticating. This will be used in the future to speed up authentication, hopefully."
+  },
+  {
+    id: "WEBSOCKET_ZSTD",
+    name: "WebSocket Zstandard Compression",
+    description:
+      "Compress some events with Zstandard compression. This can reduce bandwidth usage."
+  }
 ] as const;
 
 export type ExperimentIds = (typeof Experiments)[number]["id"];
@@ -64,6 +70,6 @@ export const useExperiment = (experimentId: () => ExperimentIds) => {
 
   return {
     experiment,
-    toggleExperiment: toggle,
+    toggleExperiment: toggle
   };
 };

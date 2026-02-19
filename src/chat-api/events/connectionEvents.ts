@@ -9,7 +9,7 @@ import useVoiceUsers from "../store/useVoiceUsers";
 import {
   StorageKeys,
   getStorageObject,
-  useCollapsedServerCategories,
+  useCollapsedServerCategories
 } from "@/common/localStorage";
 import { ProgramWithExtras, electronWindowAPI } from "@/common/Electron";
 import { emitActivityStatus } from "../emits/userEmits";
@@ -18,15 +18,24 @@ import { reactNativeAPI } from "@/common/ReactNative";
 import useChannelProperties from "../store/useChannelProperties";
 import { useDiscordActivityTracker } from "@/common/useDiscordActivityTracker";
 import { type DisconnectDescription } from "socket.io-client/build/esm/socket";
+import { isExperimentEnabled } from "@/common/experiments";
+import { decompressObject } from "@/common/zstd";
+
+const partial = isExperimentEnabled("WEBSOCKET_PARTIAL_AUTH")();
+const zstd = isExperimentEnabled("WEBSOCKET_ZSTD")();
 
 export const onConnect = (socket: Socket, token?: string) => {
   const account = useAccount();
   account.setSocketDetails({
     socketId: socket.id,
     socketConnected: true,
-    socketAuthenticated: false,
+    socketAuthenticated: false
   });
-  socket.emit(ClientEvents.AUTHENTICATE, { token });
+  socket.emit(ClientEvents.AUTHENTICATE, {
+    token,
+    ...(partial ? { partial: true } : {}),
+    ...(zstd ? { compression: "zstd" } : {})
+  });
 };
 
 export const onDisconnect = (
@@ -41,7 +50,7 @@ export const onDisconnect = (
   account.setSocketDetails({
     socketId: null,
     socketConnected: false,
-    socketAuthenticated: false,
+    socketAuthenticated: false
   });
   channelProperties.staleAll();
   voiceUsers.resetAll();
@@ -53,7 +62,7 @@ export const onAuthenticateError = (error: { message: string; data: any }) => {
     socketId: null,
     socketConnected: false,
     socketAuthenticated: false,
-    authenticationError: error,
+    authenticationError: error
   });
 };
 
@@ -62,7 +71,7 @@ export const onReconnectAttempt = () => {
   account.setSocketDetails({
     socketId: null,
     socketConnected: false,
-    socketAuthenticated: false,
+    socketAuthenticated: false
   });
 };
 
@@ -86,7 +95,7 @@ electronWindowAPI()?.activityStatusChanged((window) => {
     action: program.action || "Playing",
     name: program.name,
     startedAt: window.createdAt,
-    emoji: program.emoji,
+    emoji: program.emoji
   });
 });
 
@@ -115,6 +124,12 @@ localRPC.onUpdateRPC = (data) => {
 };
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
+  if (payload instanceof ArrayBuffer) {
+    const t = performance.now();
+    payload = decompressObject<AuthenticatedPayload>(new Uint8Array(payload));
+    console.log("Decompression took", performance.now() - t, "ms");
+  }
+
   const {
     account,
     servers,
@@ -126,7 +141,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     mentions,
     serverRoles,
     voiceUsers,
-    tickets,
+    tickets
   } = useStore();
   console.log("[WS] Authenticated.");
 
@@ -147,7 +162,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     account.setSocketDetails({
       socketConnected: true,
       socketAuthenticated: true,
-      lastAuthenticatedAt: Date.now(),
+      lastAuthenticatedAt: Date.now()
     });
     users.set(payload.user);
     tickets.fetchUpdated();
@@ -175,7 +190,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     for (let i = 0; i < payload.inbox.length; i++) {
       const item = payload.inbox[i];
       if (item.lastSeen) {
-        channels.get(item.channelId)!.updateLastSeen(item.lastSeen);
+        channels.get(item.channelId)?.updateLastSeen(item.lastSeen);
       }
       inbox.set(item);
     }
@@ -200,7 +215,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
     for (const channelId in payload.lastSeenServerChannelIds) {
       const timestamp = payload.lastSeenServerChannelIds[channelId];
-      channels.get(channelId)!.updateLastSeen(timestamp);
+      channels.get(channelId)?.updateLastSeen(timestamp);
     }
 
     for (let i = 0; i < payload.messageMentions.length; i++) {
@@ -220,7 +235,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
         channelId: mention.channelId,
         userId: mention.mentionedById,
         count: mention.count,
-        serverId: mention.serverId,
+        serverId: mention.serverId
       });
     }
 
