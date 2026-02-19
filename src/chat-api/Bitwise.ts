@@ -402,6 +402,12 @@ export const APPLICATION_SCOPES = {
     description: () => "Access to your email address",
     bit: 2,
     icon: "mail"
+  },
+  USER_SERVERS: {
+    name: () => "User Servers",
+    description: () => "Get the list of servers you are in",
+    bit: 4,
+    icon: "server"
   }
 };
 
