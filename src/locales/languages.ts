@@ -111,7 +111,7 @@ export const languages: Record<string, Language> = {
     name: "Romanian",
     nativeName: "Română",
     emoji: "🇷🇴",
-    contributors: ["GNU/Alex"]
+    contributors: ["GNU/Alex", "Laums0"]
   },
   "ru-ru": {
     name: "Russian",
