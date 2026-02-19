@@ -82,6 +82,7 @@ export default function ContextMenuServer(props: Props) {
   };
 
   createEffect(() => {
+    if (!props.position) return;
     setExploreItem(null);
     if (props.serverId) {
       getPublicServer(props.serverId)
