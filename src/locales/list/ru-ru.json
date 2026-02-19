@@ -1295,5 +1295,9 @@
         "message": "Установить напоминание на",
         "setReminderButton": "Установить",
         "adding": "Сохранение…"
+    },
+    "serverDrawer": {
+        "joinedThisSessionNotice": "Вы будете слышать все уведомления с этого сервера.",
+        "joinedThisSessionNoticeSetToMentionsOnly": "Слышать только упоминания"
     }
 }
