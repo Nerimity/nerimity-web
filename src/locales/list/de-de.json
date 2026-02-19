@@ -1295,5 +1295,9 @@
         "message": "Erinnerung setzen für",
         "setReminderButton": "Erinnerung setzen",
         "adding": "Wird hinzugefügt…"
+    },
+    "serverDrawer": {
+        "joinedThisSessionNotice": "Du wirst alle Benachrichtigungstöne von diesem Server hören.",
+        "joinedThisSessionNoticeSetToMentionsOnly": "Nur bei Erwähnungen"
     }
 }
