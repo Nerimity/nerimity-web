@@ -38,6 +38,7 @@ const getDmCount = (userId: string) => {
   const channels = useChannels();
   return (
     array().find((m) => {
+      if (m?.serverId) return;
       const channel = channels.get(m?.channelId!);
       return m?.userId === userId && (!channel || channel.recipientId);
     })?.count || 0
@@ -58,6 +59,6 @@ export default function useMention() {
     count,
     get,
     getDmCount,
-    remove,
+    remove
   };
 }

@@ -55,8 +55,23 @@ const set = (server: RawServer) => {
 
 function hasNotifications(this: Server) {
   const channels = useChannels();
-
   const account = useAccount();
+  const mentions = useMention();
+
+  // needed when using partial auth.
+  if (
+    mentions.array().find((mention) => {
+      const notificationPingMode = account.getCombinedNotificationSettings(
+        this.id,
+        mention?.channelId
+      )?.notificationPingMode;
+      if (notificationPingMode === ServerNotificationPingMode.MUTE)
+        return false;
+
+      return mention?.serverId === this.id;
+    })
+  )
+    return true;
 
   return channels.getChannelsByServerId(this.id).some((channel) => {
     const notificationPingMode = account.getCombinedNotificationSettings(
@@ -76,15 +91,12 @@ function hasNotifications(this: Server) {
 
 function mentionCount(this: Server) {
   const mention = useMention();
-  const channels = useChannels();
   let count = 0;
   const mentions = mention
     .array()
     .filter((mention) => mention!.serverId === this.id);
   for (let i = 0; i < mentions.length; i++) {
     const mention = mentions[i];
-    const channel = channels.get(mention?.channelId!);
-    if (!channel?.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL)) continue;
     count += mention?.count || 0;
   }
   return count;

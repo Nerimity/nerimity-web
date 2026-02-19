@@ -58,8 +58,7 @@ export const InboxList = (props: { size: number }) => {
     return store.mentions
       .array()
       .filter((m) => {
-        const channel = store.channels.get(m?.channelId!);
-        return !channel?.serverId;
+        return !m?.serverId;
       })
       .map((m) => store.users.get(m?.userId!)!);
   });
@@ -70,7 +69,7 @@ export const InboxList = (props: { size: number }) => {
         <div
           class={cn(style.inboxList, isMobileWidth() && style.mobile)}
           style={{
-            "padding-bottom": mentionUsers().length ? "4px" : "0",
+            "padding-bottom": mentionUsers().length ? "4px" : "0"
           }}
         >
           <For each={mentionUsers()}>

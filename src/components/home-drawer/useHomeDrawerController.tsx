@@ -24,7 +24,7 @@ const useFriendsController = () => {
     return store.friends
       .array()
       .filter((friend) =>
-        [FriendStatus.PENDING, FriendStatus.SENT].includes(friend.status),
+        [FriendStatus.PENDING, FriendStatus.SENT].includes(friend.status)
       );
   });
   const hasFriendRequests = () => friendRequests().length > 0;
@@ -36,7 +36,7 @@ const useFriendsController = () => {
       return true;
     });
     const sorted = online.sort((x, y) =>
-      x.recipient()!.username.localeCompare(y.recipient()!.username),
+      x.recipient()!.username.localeCompare(y.recipient()!.username)
     );
     return sorted;
   });
@@ -85,7 +85,7 @@ const useFriendsController = () => {
     viewAllFriends,
     toggleViewAllFriends,
     blockedUsers,
-    showBlockedUsersModal,
+    showBlockedUsersModal
   };
 };
 
@@ -97,10 +97,11 @@ const useInboxController = () => {
     store.mentions
       .array()
       .filter((m) => {
+        if (m?.serverId) return;
         const channel = store.channels.get(m?.channelId!);
         return !channel?.serverId;
       })
-      .map((m) => store.users.get(m?.userId!)!),
+      .map((m) => store.users.get(m?.userId!)!)
   );
 
   const inboxUsers = createMemo(() => {
@@ -115,7 +116,7 @@ const useInboxController = () => {
     for (let i = 0; i < inboxArray.length; i++) {
       const inboxItem = inboxArray[i];
       const alreadyExists = mentionUsers.find(
-        (u) => u?.id === inboxItem?.channel().recipient()?.id,
+        (u) => u?.id === inboxItem?.channel().recipient()?.id
       );
       if (!alreadyExists) {
         mentionUsers.push(inboxItem?.channel().recipient()!);
@@ -143,7 +144,7 @@ const useInboxController = () => {
     inboxUsers,
     getMentionUsers,
     openSavedNotes,
-    isSavedNotesOpened,
+    isSavedNotesOpened
   };
 };
 
@@ -159,7 +160,7 @@ const [HomeDrawerControllerProvider, useHomeDrawerController] =
     const openReminders = () => {
       createPortal(
         (close) => <RemindersModal close={close} />,
-        "reminders-modal",
+        "reminders-modal"
       );
     };
 
@@ -167,7 +168,7 @@ const [HomeDrawerControllerProvider, useHomeDrawerController] =
       friends: friendsController,
       inbox: inboxController,
       hasReminders,
-      openReminders,
+      openReminders
     };
   });
 

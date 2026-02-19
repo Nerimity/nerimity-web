@@ -14,7 +14,7 @@ import {
   on,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
@@ -28,7 +28,7 @@ import Button from "@/components/ui/Button";
 import { Banner } from "@/components/ui/Banner";
 import {
   fetchChannelAttachments,
-  searchMessages,
+  searchMessages
 } from "@/chat-api/services/MessageService";
 import { ChannelType, RawAttachment, RawMessage } from "@/chat-api/RawData";
 import env from "@/common/env";
@@ -97,17 +97,17 @@ const MemberItem = (props: {
         position: { left: rect.left, top: rect.top },
         serverId: params.serverId,
         close: close,
-        userId: user().id,
+        userId: user().id
       },
       "profile-pane-flyout-" + user().id,
-      true,
+      true
     );
   };
 
   const topRoleWithColor = createMemo(() => props.member.topRoleWithColor());
 
   const font = createMemo(() =>
-    getFont(props.member.user().profile?.font || 0),
+    getFont(props.member.user().profile?.font || 0)
   );
 
   return (
@@ -147,7 +147,7 @@ const MemberItem = (props: {
               "--font": `'${font()?.name}'`,
               "--lh": font()?.lineHeight,
               "--ls": font()?.letterSpacing,
-              "--scale": font()?.scale,
+              "--scale": font()?.scale
             }}
           >
             {props.member.nickname || user().username}
@@ -221,7 +221,7 @@ const Header = (props: {
     >
       <Button
         class={classNames(
-          props.selectedPage === "info" && selectedHeaderButtonStyle,
+          props.selectedPage === "info" && selectedHeaderButtonStyle
         )}
         iconName="info"
         label={t("informationDrawer.info")}
@@ -232,7 +232,7 @@ const Header = (props: {
       />
       <Button
         class={classNames(
-          props.selectedPage === "attachments" && selectedHeaderButtonStyle,
+          props.selectedPage === "attachments" && selectedHeaderButtonStyle
         )}
         iconName="attach_file"
         type="hover_border"
@@ -243,7 +243,7 @@ const Header = (props: {
       />
       <Button
         class={classNames(
-          props.selectedPage === "search" && selectedHeaderButtonStyle,
+          props.selectedPage === "search" && selectedHeaderButtonStyle
         )}
         iconName="search"
         label={t("general.searchPlaceholder")}
@@ -266,8 +266,8 @@ const RightDrawer = () => {
       () => params.channelId,
       () => {
         setPage("info");
-      },
-    ),
+      }
+    )
   );
 
   return (
@@ -300,7 +300,7 @@ const AttachmentDrawer = () => {
   const { channels } = useStore();
 
   const [attachments, setAttachments] = createSignal<RawAttachment[] | null>(
-    null,
+    null
   );
   const channel = () => channels.get(params.channelId);
 
@@ -329,7 +329,7 @@ const AttachmentDrawer = () => {
     if (!attachment) return;
     setAttachments([
       { ...attachment, messageId: payload.message.id },
-      ...attachments()!,
+      ...attachments()!
     ]);
     incrAttachments(params.channelId);
   };
@@ -340,8 +340,8 @@ const AttachmentDrawer = () => {
     if (payload.channelId !== params.channelId) return;
     setAttachments(
       attachments()!.filter(
-        (attachment) => attachment.messageId !== payload.messageId,
-      ),
+        (attachment) => attachment.messageId !== payload.messageId
+      )
     );
     decrAttachments(params.channelId);
   };
@@ -353,7 +353,7 @@ const AttachmentDrawer = () => {
         style={{
           "margin-left": "8px",
           "margin-top": "8px",
-          display: "flex",
+          display: "flex"
         }}
       >
         <Text size={14}>{t("informationDrawer.attachments")}</Text>
@@ -394,7 +394,7 @@ const AttachmentImage = (props: { attachment: RawAttachment }) => {
   const onClicked = () => {
     if (!props.attachment.messageId) return;
     emitScrollToMessage({
-      messageId: props.attachment.messageId,
+      messageId: props.attachment.messageId
     });
   };
 
@@ -402,7 +402,7 @@ const AttachmentImage = (props: { attachment: RawAttachment }) => {
     <div
       class={classNames(
         styles.attachmentImageContainer,
-        conditionalClass(isGif(), styles.gif),
+        conditionalClass(isGif(), styles.gif)
       )}
     >
       <div class={styles.attachmentHover} onClick={onClicked}>
@@ -510,13 +510,17 @@ const BannerItem = (props: { hovered: boolean }) => {
 
 const ServerDrawer = () => {
   const params = useParams<{ serverId?: string; channelId?: string }>();
-  const { servers, serverRoles, channels } = useStore();
+  const { servers, serverRoles, channels, serverMembers } = useStore();
   const server = () => servers.get(params.serverId!);
   const channel = () => channels.get(params.channelId!);
 
   const roles = () => serverRoles.getAllByServerId(params.serverId!);
 
-  const members = createMemo(() => channel()?.membersWithChannelAccess() || []);
+  const members = createMemo(
+    () =>
+      channel()?.membersWithChannelAccess() ||
+      serverMembers.array(params.serverId!)
+  );
 
   const roleMembers = mapArray(roles, (role) => {
     const membersInThisRole = () =>
@@ -532,7 +536,7 @@ const ServerDrawer = () => {
   });
 
   const offlineMembers = createMemo(() =>
-    members().filter((member) => !member?.user().presence()?.status),
+    members().filter((member) => !member?.user().presence()?.status)
   );
   const defaultRole = () =>
     serverRoles.get(server()?.id!, server()?.defaultRoleId!);
@@ -544,7 +548,7 @@ const ServerDrawer = () => {
             style={{
               "margin-left": "8px",
               "margin-top": "8px",
-              display: "flex",
+              display: "flex"
             }}
           >
             <Text size={14}>{t("informationDrawer.members")}</Text>
@@ -560,7 +564,7 @@ const ServerDrawer = () => {
                     members={item
                       .members()
                       .sort((a, b) =>
-                        a?.user().username.localeCompare(b?.user().username),
+                        a?.user().username.localeCompare(b?.user().username)
                       )}
                     roleName={item.role?.name!}
                     roleIcon={item.role?.icon!}
@@ -572,7 +576,7 @@ const ServerDrawer = () => {
             {/* Offline */}
             <RoleItem
               members={offlineMembers().sort((a, b) =>
-                a?.user().username.localeCompare(b?.user().username),
+                a?.user().username.localeCompare(b?.user().username)
               )}
               roleName={t("status.offline")}
               roleIcon={defaultRole()?.icon}
@@ -627,7 +631,7 @@ function RoleItem(props: {
           items={props.members.map((m) => ({
             id: m.userId,
             height: 50,
-            element: (style) => <MemberItem member={m} style={style} />,
+            element: (style) => <MemberItem member={m} style={style} />
           }))}
         />
       </Show>
@@ -715,9 +719,9 @@ const SearchInputBox = (props: {
       {
         keys: [
           (e) => normalizeText(e?.user?.().username),
-          (e) => normalizeText(e?.nickname!),
-        ],
-      },
+          (e) => normalizeText(e?.nickname!)
+        ]
+      }
     ).slice(0, 10);
   });
 
@@ -753,12 +757,12 @@ const SearchInputBox = (props: {
           props.channel?.name
             ? t("informationDrawer.searchBarChannelPlaceholder", {
                 channelName: props.channel!.name,
-                interpolation: { escapeValue: false },
+                interpolation: { escapeValue: false }
               })
             : props.channel?.recipient()?.username
               ? t("informationDrawer.searchBarPlaceholder", {
                   username: props.channel?.recipient()?.username,
-                  interpolation: { escapeValue: false },
+                  interpolation: { escapeValue: false }
                 })
               : ""
         }
@@ -792,7 +796,7 @@ const SearchInputBox = (props: {
                 class={styles.searchSelectedUser}
                 onClick={() => {
                   props.setUsers(
-                    props.users.filter((u) => u.userId !== member.userId),
+                    props.users.filter((u) => u.userId !== member.userId)
                   );
                 }}
               >
@@ -837,13 +841,13 @@ const SearchDrawer = () => {
         const userIds = users().map((u) => u.userId);
         searchMessages(query(), params.channelId!, {
           order: order(),
-          userIds,
+          userIds
         }).then((res) => {
           if (order() === "desc") res.reverse();
           setResults(res);
         });
       }, 1000);
-    }),
+    })
   );
   onCleanup(() => window.clearTimeout(interval));
 
@@ -905,13 +909,13 @@ const SearchMessageItem = (props: {
       navigate(
         RouterEndpoints.SERVER_MESSAGES(params.serverId, channelId) +
           "?messageId=" +
-          props.message.id,
+          props.message.id
       );
     } else {
       navigate(
         RouterEndpoints.INBOX_MESSAGES(channelId) +
           "?messageId=" +
-          props.message.id,
+          props.message.id
       );
     }
   };

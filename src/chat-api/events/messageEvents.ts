@@ -11,13 +11,19 @@ import useUsers from "../store/useUsers";
 import socketClient from "../socketClient";
 import { createDesktopNotification } from "@/common/desktopNotification";
 import useServerMembers from "../store/useServerMembers";
-import { ROLE_PERMISSIONS } from "../Bitwise";
+import { hasBit, ROLE_PERMISSIONS } from "../Bitwise";
 import useFriends from "../store/useFriends";
 import { pushMessageNotification } from "@/components/in-app-notification-previews/useInAppNotificationPreviews";
 import useServers from "../store/useServers";
 
 export function onMessageCreated(payload: {
   socketId: string;
+  serverId?: string;
+  member?: {
+    id: string;
+    nickname?: string;
+    permissions: number;
+  };
   message: RawMessage;
 }) {
   const channels = useChannels();
@@ -51,9 +57,30 @@ export function onMessageCreated(payload: {
   const hasBlockedRecipient =
     friends.get(payload.message.createdBy.id)?.status === FriendStatus.BLOCKED;
 
-  const member = members.get(channel?.serverId!, payload.message.createdBy.id);
+  const server = servers.get(payload.serverId!);
+  const member = payload.member
+    ? {
+        isServerCreator: () => {
+          return server?.createdById === payload.message.createdBy.id;
+        },
+        hasPermission: (bitwise: { bit: number }) => {
+          const member = payload.member!;
+          const message = payload.message;
+          const isCreator = server?.createdById === message.createdBy.id;
+          if (isCreator) return true;
+
+          const isAdmin = hasBit(
+            member.permissions || 0,
+            ROLE_PERMISSIONS.ADMIN.bit
+          );
+
+          if (isAdmin) return true;
+          return hasBit(member.permissions || 0, bitwise.bit);
+        }
+      }
+    : null;
+
   const selfMember = members.get(channel?.serverId!, accountUser?.id!);
-  const server = servers.get(channel?.serverId!);
 
   const isSystemMessage = payload.message.type !== MessageType.CONTENT;
   const isSelf =
@@ -77,7 +104,7 @@ export function onMessageCreated(payload: {
     const isMentioned = () => {
       if (hasBlockedRecipient) return false;
       const everyoneMentioned = payload.message.content?.includes("[@:e]");
-      if (everyoneMentioned && channel?.serverId) {
+      if (everyoneMentioned && payload.serverId) {
         const hasPerm =
           member?.isServerCreator() ||
           member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
@@ -111,12 +138,12 @@ export function onMessageCreated(payload: {
     };
 
     if (!isSelf) {
-      if (!channel?.serverId || isMentioned()) {
+      if (!payload.serverId || isMentioned()) {
         mentions.set({
           channelId: payload.message.channelId,
           userId: payload.message.createdBy.id,
           count: mentionCount() + 1,
-          serverId: channel?.serverId
+          serverId: payload.serverId
         });
       }
     }
