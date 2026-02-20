@@ -1,7 +1,7 @@
 import { createEffect, createSignal, Show } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
-import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import { FlexColumn } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import {
   getStorageBoolean,
@@ -24,9 +24,7 @@ import {
 } from "@/common/Sound";
 import DropDown from "../ui/drop-down/DropDown";
 import Button from "../ui/Button";
-import ItemContainer from "../ui/LegacyItem";
 import { RadioBox, RadioBoxItem } from "../ui/RadioBox";
-import { isExperimentEnabled, useExperiment } from "@/common/experiments";
 
 const Container = styled("div")`
   display: flex;
