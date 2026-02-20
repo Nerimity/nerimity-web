@@ -254,7 +254,7 @@ export const themePresets: Record<string, ThemePreset> = {
     colors: DefaultTheme,
     maintainers: ["Superkitten", "Asraye"]
   },
-  CLASSIC: {
+  Classic: {
     colors: {
       "background-color": "hsl(216deg 9% 8%)",
       "pane-color": "hsl(216deg 8% 15%)",
