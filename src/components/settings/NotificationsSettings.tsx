@@ -174,6 +174,7 @@ function NotificationSoundSelection() {
         label={t("settings.notifications.reminder")}
         description={t("settings.notifications.reminderDescription")}
         borderTopRadius={false}
+        borderBottomRadius={false}
       >
         <NotificationSoundDropDown typeId="REMINDER" />
       </SettingsBlock>
@@ -181,6 +182,7 @@ function NotificationSoundSelection() {
         icon="call"
         label={t("settings.notifications.callJoin")}
         borderTopRadius={false}
+        borderBottomRadius={false}
       >
         <NotificationSoundDropDown typeId="CALL_JOIN" />
       </SettingsBlock>
