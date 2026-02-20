@@ -16,6 +16,7 @@ import { ElectronCaptureSource, electronWindowAPI } from "@/common/Electron";
 import { useParams } from "solid-navigator";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import Checkbox from "../ui/Checkbox";
+import { t } from "@nerimity/i18lite";
 
 const QualityOptions = ["480p", "720p", "1080p"] as const;
 const FramerateOptions = ["1fps 💀", "10fps", "30fps", "60fps"] as const;
@@ -135,18 +136,18 @@ export function ScreenShareModal(props: { close: () => void }) {
 
   const ActionButtons = (
     <ActionButtonsContainer>
-      <Button label="Back" color="var(--alert-color)" onClick={props.close} />
-      <Button label="Choose Window" onClick={chooseWindowClick} />
+      <Button label={t("general.backButton")} color="var(--alert-color)" onClick={props.close} />
+      <Button label={t("mainPaneHeader.voice.screenShareModal.chooseWindowButton")} onClick={chooseWindowClick} />
     </ActionButtonsContainer>
   );
 
   return (
     <LegacyModal
-      title="Screen Share"
+      title={t("mainPaneHeader.voice.screenShareModal.title")}
       close={props.close}
       actionButtons={ActionButtons}
     >
-      <OptionTitle>Quality</OptionTitle>
+      <OptionTitle>{t("mainPaneHeader.voice.screenShareModal.quality")}</OptionTitle>
       <OptionContainer>
         <For each={QualityOptions}>
           {(quality) => (
@@ -161,7 +162,7 @@ export function ScreenShareModal(props: { close: () => void }) {
         </For>
       </OptionContainer>
 
-      <OptionTitle>Framerate</OptionTitle>
+      <OptionTitle>{t("mainPaneHeader.voice.screenShareModal.framerate")}</OptionTitle>
       <OptionContainer>
         <For each={FramerateOptions}>
           {(framerate) => (
@@ -180,8 +181,8 @@ export function ScreenShareModal(props: { close: () => void }) {
           label={
             navigator?.userAgentData?.platform !== "Windows" ||
             electronSourceId()?.includes("screen")
-              ? "Share System Audio"
-              : "Share App Audio"
+              ? t("mainPaneHeader.voice.screenShareModal.shareSystemAudio")
+              : t("mainPaneHeader.voice.screenShareModal.shareAppAudio")
           }
           checked={shareSystemAudio()}
           onChange={setShareSystemAudio}
