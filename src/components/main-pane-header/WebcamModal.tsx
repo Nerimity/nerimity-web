@@ -6,6 +6,7 @@ import { FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { toast } from "../ui/custom-portal/CustomPortal";
+import { t } from "@nerimity/i18lite";
 
 const ActionButtonsContainer = styled(FlexRow)`
   justify-content: flex-end;
@@ -57,7 +58,7 @@ export function WebcamModal(props: { close: () => void }) {
       })
       .catch((err) => {
         console.error(err);
-        toast("Failed to share camera");
+        toast(t("mainPaneHeader.voice.webcamModal.error"));
       });
     if (!stream) return;
     voiceUsers.setVideoStream(stream);
@@ -66,13 +67,13 @@ export function WebcamModal(props: { close: () => void }) {
 
   const ActionButtons = (
     <ActionButtonsContainer>
-      <Button label="Back" color="var(--alert-color)" onClick={props.close} />
-      <Button label="Share Camera" onClick={shareCameraClick} />
+      <Button label={t("general.backButton")} color="var(--alert-color)" onClick={props.close} />
+      <Button label={t("mainPaneHeader.voice.webcamModal.shareCameraButton")} onClick={shareCameraClick} />
     </ActionButtonsContainer>
   );
 
   const dropdownItems: () => DropDownItem[] = () => [
-    { id: "default", label: "Default" },
+    { id: "default", label: t("settings.call.default") },
     ...devices().map((device) => ({
       id: device.deviceId,
       label: device.label
@@ -81,7 +82,7 @@ export function WebcamModal(props: { close: () => void }) {
 
   return (
     <LegacyModal
-      title="Share Webcam"
+      title={t("mainPaneHeader.voice.webcamModal.title")}
       close={props.close}
       actionButtons={ActionButtons}
     >

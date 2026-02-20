@@ -1044,7 +1044,20 @@
       "leave": "Leave",
       "muted": "Muted",
       "deafened": "Deafened",
-      "fullscreen": "Fullscreen"
+      "fullscreen": "Fullscreen",
+      "webcamModal": {
+        "title": "Webcam Share",
+        "error": "Failed to share camera",
+        "shareCameraButton": "Share Camera"
+      },
+      "screenShareModal": {
+        "title": "Screen Share",
+        "quality": "Quality",
+        "framerate": "Framerate",
+        "shareSystemAudio": "Share System Audio",
+        "shareAppAudio": "Share App Audio",
+        "chooseWindowButton": "Choose Window"
+      }
     }
   },
   "channelDrawer": {
