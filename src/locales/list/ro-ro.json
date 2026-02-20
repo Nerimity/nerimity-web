@@ -475,5 +475,20 @@
             "relative": "Relativ"
         },
         "checkbox": "Căsuță"
+    },
+    "remindersModal": {
+        "title": "Amintire",
+        "showAllButton": "Arată toate Amintirile",
+        "viewButton": "Vezi",
+        "dismissing": "Respingere…",
+        "deleting": "Sterge…",
+        "snoozeFor5Minutes": "Amânați timp de 5 minute",
+        "snoozeFor1Day": "Amânați timp de o zi",
+        "deletedItem": "Postare sau mesaj șters.",
+        "closeNotice": "Mai întâi trebuie să închideți toate amintirile active."
+    },
+    "editFolderModal": {
+        "title": "Editează Fișa",
+        "placeholder": "Numele Fișei"
     }
 }
