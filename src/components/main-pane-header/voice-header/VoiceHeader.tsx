@@ -26,6 +26,13 @@ import { t } from "@nerimity/i18lite";
 const [showParticipants, setShowParticipants] = createSignal(true);
 
 export function VoiceHeader(props: { channelId?: string }) {
+  let headerRef: HTMLDivElement | undefined;
+  createEffect(() => {
+    if (!showParticipants() && headerRef) {
+      headerRef.style.height = "";
+      headerRef.style.minHeight = "";
+    }
+  });
   const { voiceUsers, account } = useStore();
 
   const [selectedUserId, setSelectedUserId] = createSignal<null | string>(null);
@@ -55,6 +62,7 @@ export function VoiceHeader(props: { channelId?: string }) {
   return (
     <Show when={channelVoiceUsers().length}>
       <div
+        ref={headerRef}
         class={cn(
           style.headerVoiceParticipants,
           conditionalClass(isSomeoneVideoStreaming(), style.videoStream),
