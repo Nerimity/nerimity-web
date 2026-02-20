@@ -21,19 +21,19 @@ const ThemeTokensBase = [
   {
     key: "background-color",
     category: ThemeCategory.Surface,
-    value: "hsl(216deg 9% 8%)",
+    value: "#000000",
     allowGradient: true
   },
   {
     key: "pane-color",
     category: ThemeCategory.Surface,
-    value: "hsl(216deg 8% 15%)",
+    value: "#000000",
     allowGradient: true
   },
   {
     key: "side-pane-color",
     category: ThemeCategory.Surface,
-    value: "hsl(216deg 7.82% 12.55%)",
+    value: "#0f0f0f",
     allowGradient: true
   },
 
@@ -41,17 +41,17 @@ const ThemeTokensBase = [
   {
     key: "header-background-color",
     category: ThemeCategory.Overlays,
-    value: "hsla(216deg 8% 15% / 80%)"
+    value: "#111111cc"
   },
   {
     key: "header-background-color-blur-disabled",
     category: ThemeCategory.Overlays,
-    value: "hsl(216deg 8% 15%)"
+    value: "#000000"
   },
   {
     key: "tooltip-background-color",
     category: ThemeCategory.Overlays,
-    value: "rgb(40, 40, 40)"
+    value: "#0a0a0a"
   },
 
   // Input
@@ -82,12 +82,12 @@ const ThemeTokensBase = [
   {
     key: "message-hover-background-color",
     category: ThemeCategory.Message,
-    value: "rgba(255, 255, 255, 0.03)"
+    value: "rgba(255, 255, 255, 0.1)"
   },
   {
     key: "message-floating-options-background-color",
     category: ThemeCategory.Message,
-    value: "rgb(40, 40, 40)"
+    value: "rgba(15, 15, 15, 1)"
   },
 
   // Accent (Primary)
@@ -156,32 +156,32 @@ const ThemeTokensBase = [
   {
     key: "markup-code-background-color",
     category: ThemeCategory.Markup,
-    value: "rgba(0, 0, 0, 0.6)"
+    value: "rgba(255, 255, 255, 0.12)"
   },
   {
     key: "markup-mention-background-color",
     category: ThemeCategory.Markup,
-    value: "rgba(0, 0, 0, 0.2)"
+    value: "rgba(255, 255, 255, 0.1)"
   },
   {
     key: "markup-mention-background-color-hover",
     category: ThemeCategory.Markup,
-    value: "rgba(0, 0, 0, 0.6)"
+    value: "rgba(255, 255, 255, 0.12)"
   },
   {
     key: "markup-codeblock-background-color",
     category: ThemeCategory.Markup,
-    value: "rgba(0, 0, 0, 0.6)"
+    value: "rgba(255, 255, 255, 0.1)"
   },
   {
     key: "markup-spoiler-background-color",
     category: ThemeCategory.Markup,
-    value: "#0e0f10"
+    value: "#1d1f20ff"
   },
   {
     key: "markup-spoiler-background-color-hover",
     category: ThemeCategory.Markup,
-    value: "#1c1e20"
+    value: "#2b2e30ff"
   },
 
   // Drawer
@@ -254,26 +254,24 @@ export const themePresets: Record<string, ThemePreset> = {
     colors: DefaultTheme,
     maintainers: ["Superkitten", "Asraye"]
   },
-  AMOLED: {
+  CLASSIC: {
     colors: {
-      "background-color": "#000000",
-      "pane-color": "#000000",
-      "side-pane-color": "#0f0f0f",
-      "header-background-color": "#111111cc",
-      "header-background-color-blur-disabled": "#000000",
-      "tooltip-background-color": "#0a0a0a",
-      "markup-code-background-color": "rgba(255, 255, 255, 0.12)",
-      "markup-mention-background-color": "rgba(255, 255, 255, 0.1)",
-      "markup-mention-background-color-hover": "rgba(255, 255, 255, 0.12)",
-      "markup-codeblock-background-color": "rgba(255, 255, 255, 0.1)",
-      "message-hover-background-color": "rgba(255, 255, 255, 0.1)",
-
-      "message-floating-options-background-color": "rgba(15, 15, 15, 1)",
-
-      "markup-spoiler-background-color": "#1d1f20ff",
-      "markup-spoiler-background-color-hover": "#2b2e30ff"
+      "background-color": "hsl(216deg 9% 8%)",
+      "pane-color": "hsl(216deg 8% 15%)",
+      "side-pane-color": "hsl(216deg 7.82% 12.55%)",
+      "header-background-color": "hsla(216deg 8% 15% / 80%)",
+      "header-background-color-blur-disabled": "hsl(216deg 8% 15%)",
+      "tooltip-background-color": "rgb(40, 40, 40)",
+      "markup-code-background-color": "rgba(0, 0, 0, 0.6)",
+      "markup-mention-background-color": "rgba(0, 0, 0, 0.2)",
+      "markup-mention-background-color-hover": "rgba(0, 0, 0, 0.6)",
+      "markup-codeblock-background-color": "rgba(0, 0, 0, 0.6)",
+      "message-hover-background-color": "rgba(255, 255, 255, 0.03)",
+      "message-floating-options-background-color": "rgb(40, 40, 40)",
+      "markup-spoiler-background-color": "#0e0f10",
+      "markup-spoiler-background-color-hover": "#1c1e20"
     },
-    maintainers: ["Asraye"]
+    maintainers: ["Superkitten", "Asraye"]
   }
 };
 
