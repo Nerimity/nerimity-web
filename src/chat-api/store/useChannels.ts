@@ -9,7 +9,7 @@ import {
   Bitwise,
   hasBit,
   ROLE_PERMISSIONS,
-  addBit,
+  addBit
 } from "../Bitwise";
 import { ChannelType, RawChannel } from "../RawData";
 import useMessages from "./useMessages";
@@ -21,13 +21,14 @@ import socketClient from "../socketClient";
 import {
   postGenerateCredential,
   postJoinVoice,
-  postLeaveVoice,
+  postLeaveVoice
 } from "../services/VoiceService";
 import useVoiceUsers from "./useVoiceUsers";
 import { useMatch, useNavigate, useParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import useServers from "./useServers";
 import { loadSimplePeer } from "@/components/LazySimplePeer";
+import { getCustomSound, playSound } from "@/common/Sound";
 
 export type Channel = Omit<RawChannel, "recipient"> & {
   updateLastSeen(this: Channel, timestamp?: number): void;
@@ -47,7 +48,7 @@ export type Channel = Omit<RawChannel, "recipient"> & {
   leaveCall: () => void;
   callJoinedAt?: number;
   setCallJoinedAt: (this: Channel, joinedAt: number | undefined) => void;
-  permissionBits:(
+  permissionBits: (
     this: Channel,
     defaultRoleOnly?: boolean,
     userId?: string
@@ -58,10 +59,7 @@ export type Channel = Omit<RawChannel, "recipient"> & {
     defaultRoleOnly?: boolean,
     userId?: string
   ) => boolean;
-  canSendMessage: (
-    this: Channel,
-    userId: string
-  ) => boolean;
+  canSendMessage: (this: Channel, userId: string) => boolean;
 };
 
 const [channels, setChannels] = createStore<
@@ -86,7 +84,7 @@ const set = (channel: RawChannel & { lastSeen?: number }) => {
     leaveCall,
     permissionBits,
     hasPermission,
-    canSendMessage,
+    canSendMessage
   };
 
   setChannels(channel.id, newChannel);
@@ -144,16 +142,17 @@ function hasPermission(
   return hasBit(permissions, bitwise.bit);
 }
 
-function canSendMessage(
-  this: Channel,
-  userId: string
-) {
+function canSendMessage(this: Channel, userId: string) {
   const serverMembers = useServerMembers();
   const account = useAccount();
 
-  const member = this.serverId ? serverMembers.get(this.serverId, userId) : undefined;
-  const muted = member?.muteExpireAt && new Date(member?.muteExpireAt) > new Date();
-  const emailConfirmed = account.user()?.id != userId || account.user()?.emailConfirmed;
+  const member = this.serverId
+    ? serverMembers.get(this.serverId, userId)
+    : undefined;
+  const muted =
+    member?.muteExpireAt && new Date(member?.muteExpireAt) > new Date();
+  const emailConfirmed =
+    account.user()?.id != userId || account.user()?.emailConfirmed;
 
   if (!emailConfirmed) {
     return false;
@@ -228,6 +227,7 @@ function leaveCall(this: Channel) {
     return;
   }
   postLeaveVoice(this.id).then(() => {
+    playSound(getCustomSound("CALL_LEAVE"));
     setCurrentChannelId(null);
   });
 }
@@ -404,6 +404,6 @@ export default function useChannels() {
     get,
     set,
     removeAllServerChannels,
-    serverChannelsWithPerm,
+    serverChannelsWithPerm
   };
 }

@@ -670,7 +670,9 @@
       "inAppPreviewModes": {
         "off": "Off",
         "inheritFromPingSettings": "Inherit from Ping Settings"
-      }
+      },
+      "callJoin": "Call Join",
+      "callLeave": "Call Leave"
     },
     "call": {
       "nextCallNotice": "Changes will be applied on your next calls.",

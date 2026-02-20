@@ -2,9 +2,14 @@ import type SimplePeer from "simple-peer";
 import { RawVoice } from "../RawData";
 import useAccount from "../store/useAccount";
 import useVoiceUsers from "../store/useVoiceUsers";
+import { getCustomSound, playSound } from "@/common/Sound";
 
 export function onVoiceUserJoined(payload: RawVoice) {
-  const { createVoiceUser } = useVoiceUsers();
+  const { createVoiceUser, currentUser } = useVoiceUsers();
+
+  if (currentUser()?.channelId === payload.channelId) {
+    playSound(getCustomSound("CALL_JOIN"));
+  }
 
   createVoiceUser(payload);
 }
@@ -12,8 +17,12 @@ export function onVoiceUserLeft(payload: {
   userId: string;
   channelId: string;
 }) {
-  const { removeVoiceUser, setCurrentChannelId } = useVoiceUsers();
+  const { removeVoiceUser, setCurrentChannelId, currentUser } = useVoiceUsers();
   const { user } = useAccount();
+
+  if (currentUser()?.channelId === payload.channelId) {
+    playSound(getCustomSound("CALL_LEAVE"));
+  }
 
   if (user()?.id === payload.userId) {
     setCurrentChannelId(null);

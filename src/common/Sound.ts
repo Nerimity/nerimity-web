@@ -2,7 +2,7 @@ import {
   getStorageBoolean,
   getStorageNumber,
   getStorageObject,
-  StorageKeys,
+  StorageKeys
 } from "./localStorage";
 import useStore from "@/chat-api/store/useStore";
 import { UserStatus } from "@/chat-api/store/useUsers";
@@ -12,6 +12,8 @@ import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 export const Sounds = [
   "nerimity-mute",
   "default",
+  "default-call-join",
+  "default-call-leave",
   "a-sudden-appearance",
   "button",
   "ding",
@@ -27,7 +29,7 @@ export const Sounds = [
   "soft-notice",
   "start",
   "system-notification",
-  "the-notification-email",
+  "the-notification-email"
 ] as const;
 
 const audio = new Audio();
@@ -77,16 +79,18 @@ export function playMessageNotification(opts?: MessageNotificationOpts) {
 }
 
 const defaults: Record<
-  "MESSAGE" | "MESSAGE_MENTION" | "REMINDER",
+  "MESSAGE" | "MESSAGE_MENTION" | "REMINDER" | "CALL_JOIN" | "CALL_LEAVE",
   (typeof Sounds)[number]
 > = {
   MESSAGE: "default",
   MESSAGE_MENTION: "default",
   REMINDER: "level-up",
+  CALL_JOIN: "default-call-join",
+  CALL_LEAVE: "default-call-leave"
 };
 
 export function getCustomSound(
-  type: "MESSAGE" | "MESSAGE_MENTION" | "REMINDER"
+  type: "MESSAGE" | "MESSAGE_MENTION" | "REMINDER" | "CALL_JOIN" | "CALL_LEAVE"
 ) {
   const storage = getStorageObject<{
     [key: string]: (typeof Sounds)[number] | undefined;

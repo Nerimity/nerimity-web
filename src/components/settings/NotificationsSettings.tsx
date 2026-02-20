@@ -9,7 +9,7 @@ import {
   setStorageBoolean,
   setStorageNumber,
   StorageKeys,
-  useLocalStorage,
+  useLocalStorage
 } from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
@@ -20,7 +20,7 @@ import {
   getCustomSound,
   playMessageNotification,
   playSound,
-  Sounds,
+  Sounds
 } from "@/common/Sound";
 import DropDown from "../ui/drop-down/DropDown";
 import Button from "../ui/Button";
@@ -40,8 +40,9 @@ export default function NotificationsSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.notifications"),
-      iconName: "settings",
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.notifications"),
+      iconName: "settings"
     });
   });
 
@@ -74,7 +75,7 @@ function DesktopNotification() {
     isEnabled() &&
       new Notification(t("settings.notifications.testNotification.title"), {
         body: t("settings.notifications.testNotification.body"),
-        icon: "/assets/logo.png",
+        icon: "/assets/logo.png"
       });
   };
 
@@ -176,12 +177,31 @@ function NotificationSoundSelection() {
       >
         <NotificationSoundDropDown typeId="REMINDER" />
       </SettingsBlock>
+      <SettingsBlock
+        icon="call"
+        label={t("settings.notifications.callJoin")}
+        borderTopRadius={false}
+      >
+        <NotificationSoundDropDown typeId="CALL_JOIN" />
+      </SettingsBlock>
+      <SettingsBlock
+        icon="call_end"
+        label={t("settings.notifications.callLeave")}
+        borderTopRadius={false}
+      >
+        <NotificationSoundDropDown typeId="CALL_LEAVE" />
+      </SettingsBlock>
     </FlexColumn>
   );
 }
 
 function NotificationSoundDropDown(props: {
-  typeId: "MESSAGE" | "MESSAGE_MENTION" | "REMINDER";
+  typeId:
+    | "MESSAGE"
+    | "MESSAGE_MENTION"
+    | "REMINDER"
+    | "CALL_JOIN"
+    | "CALL_LEAVE";
 }) {
   const [selectedSounds, setSelectedSounds] = useLocalStorage<{
     [key: string]: (typeof Sounds)[number] | undefined;
@@ -222,7 +242,7 @@ function NotificationSoundDropDown(props: {
               />
             </div>
           </Show>
-        ),
+        )
       }))}
     />
   );
@@ -246,13 +266,15 @@ function InAppNotificationBlock() {
     { id: "OFF", label: t("settings.notifications.inAppPreviewModes.off") },
     {
       id: "MENTIONS_ONLY",
-      label: t("serverContextMenu.notificationOptions.mentionsOnly"),
+      label: t("serverContextMenu.notificationOptions.mentionsOnly")
     },
     {
       id: "INHERIT",
-      label: t("settings.notifications.inAppPreviewModes.inheritFromPingSettings"),
+      label: t(
+        "settings.notifications.inAppPreviewModes.inheritFromPingSettings"
+      )
     },
-    { id: "ALL", label: t("serverContextMenu.notificationOptions.everything") },
+    { id: "ALL", label: t("serverContextMenu.notificationOptions.everything") }
   ];
 
   return (
