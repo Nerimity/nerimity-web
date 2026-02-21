@@ -9,13 +9,13 @@ import {
   Match,
   Show,
   splitProps,
-  Switch,
+  Switch
 } from "solid-js";
 import {
   hasBit,
   USER_BADGES,
   USER_BADGES_VALUES,
-  UserBadge,
+  UserBadge
 } from "@/chat-api/Bitwise";
 import style from "./Avatar.module.css";
 import { CatEarsBorder } from "../avatar-borders/CatEarBorder";
@@ -105,8 +105,8 @@ export default function Avatar(props: Props) {
 
       const proxyUrl = new URL(
         `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
-          baseUrl.href,
-        )}/avatar.${ext}`,
+          baseUrl.href
+        )}/avatar.${ext}`
       );
 
       proxyUrl.searchParams.set("size", props.resize?.toString() || "500");
@@ -297,6 +297,7 @@ function AvatarBorder(props: {
 export const FirstLetterAvatar = (props: {
   size: number;
   serverOrUser?: ServerOrUserAvatar;
+  background?: string;
 }) => {
   const name = () => props.serverOrUser?.username || props.serverOrUser?.name;
   const firstLetters = () =>
@@ -310,7 +311,13 @@ export const FirstLetterAvatar = (props: {
           : 30) +
     "px";
   return (
-    <div style={{ "font-size": size() }} class={style.avatarText}>
+    <div
+      style={{
+        "font-size": size(),
+        "background-color": props.background
+      }}
+      class={style.avatarText}
+    >
       {firstLetters()}
     </div>
   );
@@ -375,7 +382,7 @@ function BasicBorder(props: {
             left: inset,
             top: inset,
             right: inset,
-            bottom: inset,
+            bottom: inset
           }}
         >
           <Show when={props.label && props.hovered}>
@@ -386,7 +393,7 @@ function BasicBorder(props: {
                 "border-radius": (props.size / 100) * 8 + "px",
                 bottom: -((props.size / 100) * 15) + "px",
                 padding: (props.size / 100) * 5 + "px",
-                background: props.color,
+                background: props.color
               }}
             >
               {props.label}
@@ -422,7 +429,7 @@ function UniversalBorder(props: UniversalBorderProps) {
     "type",
     "size",
     "badges",
-    "avatarUrl",
+    "avatarUrl"
   ]);
 
   return (

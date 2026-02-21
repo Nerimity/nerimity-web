@@ -13,7 +13,7 @@ interface BaseProps {
 
 interface PropsBase64 {
   base64: true
-  onChange?: (files: string[], rawFiles?: FileList) => void
+  onChange?: (files: string[], rawFiles: FileList) => void
 }
 interface PropsFileList {
   base64?: false
