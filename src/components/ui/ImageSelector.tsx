@@ -4,11 +4,11 @@ import { t } from "@nerimity/i18lite";
 import Button from "./Button";
 
 export default function ImageSelector(props: {
-  onChange?: (files: string[], rawFiles: FileList) => void,
-  onRevert?: () => void,
-  onDelete?: () => void,
-  hasExistingValue?: boolean,
-  newValue: () => any | null | undefined,
+  onChange?: (files: string[], rawFiles: FileList) => void;
+  onRevert?: () => void;
+  onDelete?: () => void;
+  hasExistingValue?: boolean;
+  newValue: () => any | null | undefined;
 }) {
   const [fileBrowserRef, setFileBrowserRef] = createSignal<
     undefined | FileBrowserRef
@@ -36,7 +36,7 @@ export default function ImageSelector(props: {
             color="var(--alert-color)"
             iconSize={18}
             iconName="undo"
-            label={t("general.avatarAndBanner.revert")}
+            title={t("general.avatarAndBanner.revert")}
             onClick={props.onRevert}
           />
         </Show>
@@ -46,7 +46,7 @@ export default function ImageSelector(props: {
             color="var(--alert-color)"
             iconSize={18}
             iconName="delete"
-            label={t("general.avatarAndBanner.remove")}
+            title={t("general.avatarAndBanner.remove")}
             onClick={props.onDelete}
           />
         </Show>
@@ -54,4 +54,3 @@ export default function ImageSelector(props: {
     </>
   );
 }
-
