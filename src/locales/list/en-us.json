@@ -27,6 +27,11 @@
             "inAppPreview": "In App Preview",
             "inAppPreviewDescription": "Display In App Notification popups."
         },
+        "call": {
+            "inputConstraints": {
+                "echoCancelation": "Echo Cancelation"
+            }
+        },
         "connections": {
             "thirdParty": {
                 "unauthorizeButton": "Unauthorize",

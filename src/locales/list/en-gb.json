@@ -682,12 +682,22 @@
       "inputDevices": "Input Devices",
       "outputDevices": "Output Devices",
       "default": "System Default",
+      "inputConstraints": {
+        "echoCancelation": "Echo Cancellation",
+        "echoCancelationDescription": "Prevents the microphone from picking up sound from the speakers.",
+        "noiseSuppression": "Noise Suppression",
+        "noiseSuppressionDescription": "Filters out constant background noise (fans, hums).",
+        "autoGainControl": "Auto Gain Control",
+        "autoGainControlDescription": "Automatically adjusts volume levels to maintain a consistent signal."
+      },
       "inputMode": "Input Mode",
       "openMic": "Open Mic",
       "voiceActivity": "Voice Activity",
       "pushToTalk": "Push to Talk",
       "bindButton": "Bind",
       "stopButton": "Stop",
+      "useTurn": "Use Cloudflare TURN Servers",
+      "useTurnDescription": "Use TURN servers for better connectivity",
       "downloadAppNotice": "Download the Nerimity desktop app to use this feature without window tab focus."
     },
     "connections": {
