@@ -2,11 +2,11 @@ import PageHeader from "../components/PageHeader";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { FlexColumn } from "@/components/ui/Flexbox";
-import { JSXElement, For } from "solid-js";
+import { JSXElement, For, createSignal } from "solid-js";
 import { CustomLink } from "@/components/ui/CustomLink";
 import PageFooter from "@/components/PageFooter";
 import { MetaTitle } from "@/common/MetaTitle";
-import { createSignal } from "solid-js";
+import Icon from "@/components/ui/icon/Icon";
 
 const PageContainer = styled("div")`
   display: flex;
@@ -69,7 +69,7 @@ export default function TermsAndConditionsPage() {
             </Text>
           </InformationContainer>
 
-          <Block title="Notes" important>
+          <Block title="0. Notes" icon="quick_reference" important>
             <ul>
               <li>
                 This is currently a hobby project, but it may grow and expand in
@@ -79,7 +79,7 @@ export default function TermsAndConditionsPage() {
             </ul>
           </Block>
 
-          <Block title="1. Terms">
+          <Block title="1. Terms" icon="contract">
             By accessing or using this website (https://nerimity.com), you
             acknowledge and agree to be bound by these Terms and Conditions of
             Use. You further agree that you are solely responsible for ensuring
@@ -94,7 +94,7 @@ export default function TermsAndConditionsPage() {
             We encourage users to review these Terms and Conditions regularly to
             remain informed of any updates or changes.
           </Block>
-          <Block title="2. Age Requirements">
+          <Block title="2. Age Requirements" icon="cake">
             To use Nerimity or any associated services, you must be at least{" "}
             <strong>14 years old</strong>, and meet the minimum age required by
             the laws in your country or region. Accounts reasonably believed to
@@ -113,7 +113,7 @@ export default function TermsAndConditionsPage() {
             </div>
           </Block>
 
-          <Block title="3. Behaviour">
+          <Block title="3. Behaviour" icon="sports">
             Racism, sexism, homophobia, targeted harassment, serious bullying or
             doxxing <strong>are prohibited</strong> on Nerimity. However, if
             someone has a different opinion from yours that isn't harming
@@ -135,21 +135,21 @@ export default function TermsAndConditionsPage() {
             </div>
           </Block>
 
-          <Block title="4. Servers">
+          <Block title="4. Servers" icon="storage">
             Creating a server on Nerimity that involves exploitation of any game
             or creating an NSFW-based server will cause your account to be
             suspended and the server deleted. This is to ensure our members have
             a comfortable environment to learn and have fun in.
           </Block>
 
-          <Block title="5. Links">
+          <Block title="5. Links" icon="link_2">
             Nerimity has not reviewed all sites connected to its Website and is
             not responsible for their contents. The presence of any link does
             not imply endorsement by Nerimity of the site. Any linked website is
             used at the user's own risk.
           </Block>
 
-          <Block title="6. Use Licence">
+          <Block title="6. Use Licence" icon="license">
             For details on usage rights, please refer to the licenses provided
             in each repository on our{" "}
             <a
@@ -163,7 +163,7 @@ export default function TermsAndConditionsPage() {
             materials.
           </Block>
 
-          <Block title="7. Disclaimer">
+          <Block title="7. Disclaimer" icon="warning">
             All Nerimity's Website materials are provided "as is". Nerimity
             makes no promises, expressly or impliedly, therefore negates all
             other warranties. Furthermore, Nerimity does not represent the
@@ -171,7 +171,7 @@ export default function TermsAndConditionsPage() {
             It does not represent any sites linked to this Website.
           </Block>
 
-          <Block title="8. Limitations">
+          <Block title="8. Limitations" icon="shield_locked">
             Nerimity or its suppliers will not be held accountable for any
             damages that arise from the use or inability to use the materials on
             Nerimity's Website. This is even if Nerimity or an authorised
@@ -181,7 +181,7 @@ export default function TermsAndConditionsPage() {
             incidental damages, so these limitations may not apply to you.
           </Block>
 
-          <Block title="9. Revisions and Errata">
+          <Block title="9. Revisions and Errata" icon="edit_document">
             Nerimity's Website may contain technical, typographical, or
             photographic errors. Nerimity does not promise that the materials on
             this Website are accurate, complete, or current. Nerimity may change
@@ -189,14 +189,14 @@ export default function TermsAndConditionsPage() {
             guarantee any updates.
           </Block>
 
-          <Block title="10. Your Privacy">
+          <Block title="10. Your Privacy" icon="lock">
             Please read our{" "}
             <CustomLink decoration href="/privacy">
               Privacy Policy.
             </CustomLink>
           </Block>
 
-          <Block title="11. Governing Law">
+          <Block title="11. Governing Law" icon="globe_uk">
             Any claim relating to Nerimity's Website shall be governed by the
             laws of GB without regard to its conflict of law provisions.
           </Block>
@@ -225,17 +225,27 @@ const BlockContainer = styled(FlexColumn)`
 const BlockTitle = styled(Text)`
   font-weight: bold;
   font-size: 18px;
+`;
+
+const TitleWithIcon = styled("div")`
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 10px;
 `;
 
 function Block(props: {
   title: string;
+  icon?: string;
   children: JSXElement;
   important?: boolean;
 }) {
   return (
     <BlockContainer data-important={props.important}>
-      <BlockTitle>{props.title}</BlockTitle>
+      <TitleWithIcon>
+        {props.icon && <Icon name={props.icon} size={24} />}
+        <BlockTitle>{props.title}</BlockTitle>
+      </TitleWithIcon>
       <Text size={14} opacity={0.8}>
         {props.children}
       </Text>
