@@ -2,12 +2,11 @@ import PageHeader from "../components/PageHeader";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { FlexColumn } from "@/components/ui/Flexbox";
-import { JSXElement, For } from "solid-js";
+import { JSXElement, For, createSignal } from "solid-js";
 import { CustomLink } from "@/components/ui/CustomLink";
 import PageFooter from "@/components/PageFooter";
 import { MetaTitle } from "@/common/MetaTitle";
 import Icon from "@/components/ui/icon/Icon";
-import { createSignal } from "solid-js";
 
 const PageContainer = styled("div")`
   display: flex;
