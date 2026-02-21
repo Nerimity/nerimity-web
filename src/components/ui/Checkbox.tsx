@@ -18,23 +18,31 @@ export interface CheckboxProps {
 
 export default function Checkbox(props: CheckboxProps) {
   const [checked, setChecked] = createSignal(props.checked || false);
+  let checkboxEl: undefined | HTMLInputElement;
 
   createEffect(
     on(
       () => props.checked,
-      () => setChecked(props.checked)
+      () => {
+        setChecked(props.checked)
+        checkboxEl!.checked = props.checked;
+      }
     )
   );
 
   const onClick = () => {
     if (props.disabled) return;
-    const newState = !checked();
-    !props.disableLocalUpdate && setChecked(newState);
+    const newState = checkboxEl!.checked;
+    if (props.disableLocalUpdate) {
+      checkboxEl!.checked = checked();
+    } else {
+      setChecked(newState);
+    }
     props.onChange?.(newState);
   };
 
   return (
-    <div
+    <label
       style={props.style}
       class={classNames(
         style.container,
@@ -42,14 +50,22 @@ export default function Checkbox(props: CheckboxProps) {
         props.class,
         conditionalClass(checked(), classNames(style.selected, "selected")),
       )}
-      onClick={onClick}
     >
-      <Icon size={13} style={props.boxStyles} class={style.boxStyle} name="check" />
+      <div style={props.boxStyles} class={style.checkbox}>
+        <input
+          ref={checkboxEl}
+          class={style.nativeCheckbox}
+          type="checkbox"
+          disabled={props.disabled}
+          onChange={onClick}
+        />
+        <Icon size={13} name="check" />
+      </div>
       <Show when={props.label}>
         <Text size={props.labelSize} style={{ "word-break": "break-word" }}>
           {props.label}
         </Text>
       </Show>
-    </div>
+    </label>
   );
 }
