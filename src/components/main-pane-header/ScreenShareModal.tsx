@@ -73,8 +73,16 @@ export function ScreenShareModal(props: { close: () => void }) {
   const isServerVerified = () => server()?.verified;
   const hasSupporterBadge = () =>
     hasBit(store.account.user()?.badges || 0, USER_BADGES.SUPPORTER.bit);
+  const hasModBadge = () =>
+    hasBit(store.account.user()?.badges || 0, USER_BADGES.MOD.bit);
+  const hasAdminBadge = () =>
+    hasBit(store.account.user()?.badges || 0, USER_BADGES.ADMIN.bit);
 
-  const premiumQuality = () => isServerVerified() || hasSupporterBadge();
+  const premiumQuality = () =>
+    isServerVerified() ||
+    hasSupporterBadge() ||
+    hasModBadge() ||
+    hasAdminBadge();
 
   const { voiceUsers } = useStore();
   const [selectedQuality, setSelectedQuality] =
