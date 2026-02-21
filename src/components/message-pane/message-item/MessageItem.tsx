@@ -50,6 +50,8 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { DangerousLinkModal } from "@/components/ui/DangerousLinkModal";
 import {
   ServerWithMemberCount,
+  getPublicServer,
+  publicServerByEmojiId,
   serverDetailsByInviteCode
 } from "@/chat-api/services/ServerService";
 import { ServerVerifiedIcon } from "@/components/servers/ServerVerifiedIcon";
@@ -1441,7 +1443,10 @@ const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
 
 const inviteCache = new Map<string, ServerWithMemberCount | false>();
 
-export function ServerInviteEmbed(props: { code: string }) {
+export function ServerInviteEmbed(props: {
+  code?: string;
+  emojiId?: string;
+}) {
   const navigate = useNavigate();
   const { servers } = useStore();
   const [t] = useTransContext();
@@ -1450,14 +1455,33 @@ export function ServerInviteEmbed(props: { code: string }) {
   >(null);
   const [hovered, setHovered] = createSignal(false);
 
-  const { joinByInviteCode, joining } = useJoinServer();
+  const { joinByInviteCode, joinPublicById, joining } = useJoinServer();
+
+  const cacheId = props.code ? `invite/${props.code}`
+    : props.emojiId ? `emoji/${props.emojiId}` : "";
+
+  const serverDetailsByEmoji = async (emojiId: string) => {
+    const exploreItem = await publicServerByEmojiId(emojiId).catch(() => {});
+    if (exploreItem && exploreItem.server) {
+      return {
+        memberCount: exploreItem.server._count?.serverMembers || 0,
+        ...exploreItem.server
+      };
+    }
+  };
 
   onMount(async () => {
-    if (inviteCache.has(props.code))
-      return setInvite(inviteCache.get(props.code)!);
-    const invite = await serverDetailsByInviteCode(props.code).catch(() => {});
+    if (inviteCache.has(cacheId))
+      return setInvite(inviteCache.get(cacheId)!);
+
+    let invite;
+    if (props.code) {
+      invite = await serverDetailsByInviteCode(props.code).catch(() => {});
+    } else if (props.emojiId) {
+      invite = await serverDetailsByEmoji(props.emojiId).catch(() => {});
+    }
     setInvite(invite || false);
-    inviteCache.set(props.code, invite || false);
+    inviteCache.set(cacheId, invite || false);
   });
 
   const cachedServer = () => {
@@ -1476,7 +1500,11 @@ export function ServerInviteEmbed(props: { code: string }) {
 
     if (joining()) return;
 
-    joinByInviteCode(props.code, _invite.id);
+    if (props.code) {
+      joinByInviteCode(props.code, _invite.id);
+    } else if (props.emojiId) {
+      joinPublicById(_invite.id);
+    }
   };
 
   return (
@@ -1489,10 +1517,15 @@ export function ServerInviteEmbed(props: { code: string }) {
         when={invite()}
         fallback={
           <div class={styles.serverInviteLoading}>
-            <Show when={invite() === false}>
-              <Icon name="error" color="var(--alert-color)" />
-            </Show>
-            {invite() === false ? t("invite.invalid") : t("invite.loading")}
+            <Switch fallback={t("invite.loading")}>
+              <Match when={invite() === false && props.emojiId}>
+                <span class={styles.serverInvitePrivate}>{t("invite.privateEmoji")}</span>
+              </Match>
+              <Match when={invite() === false}>
+                <Icon name="error" color="var(--alert-color)" />
+                {t("invite.invalid")}
+              </Match>
+            </Switch>
           </div>
         }
       >
