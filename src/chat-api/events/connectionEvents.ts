@@ -45,6 +45,7 @@ export const onDisconnect = (
   console.log("SOCKET DISCONNECTED", reason, details);
 
   const account = useAccount();
+  const voiceUsers = useVoiceUsers();
   const channelProperties = useChannelProperties();
   account.setSocketDetails({
     socketId: null,
@@ -52,6 +53,7 @@ export const onDisconnect = (
     socketAuthenticated: false
   });
   channelProperties.staleAll();
+  voiceUsers.resetAll();
 };
 
 export const onAuthenticateError = (error: { message: string; data: any }) => {
@@ -142,7 +144,6 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     tickets
   } = useStore();
   console.log("[WS] Authenticated.");
-  voiceUsers.resetAll();
 
   reactNativeAPI()?.authenticated(payload.user.id);
 
@@ -237,6 +238,15 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
         serverId: mention.serverId
       });
     }
+
+    const previousVoiceUserChannelId = voiceUsers.currentUser()?.channelId;
+    for (let i = 0; i < payload.voiceChannelUsers.length; i++) {
+      const voiceChannelUser = payload.voiceChannelUsers[i]!;
+      voiceUsers.createVoiceUser(
+        voiceChannelUser,
+        !!previousVoiceUserChannelId
+      );
+    }
   });
 
   const t1 = performance.now();
@@ -261,10 +271,6 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   setCollapsedServerCategories(newCollapsedCategories);
 
   const previousVoiceUserChannelId = voiceUsers.currentUser()?.channelId;
-  for (let i = 0; i < payload.voiceChannelUsers.length; i++) {
-    const voiceChannelUser = payload.voiceChannelUsers[i]!;
-    voiceUsers.createVoiceUser(voiceChannelUser, !!previousVoiceUserChannelId);
-  }
 
   if (previousVoiceUserChannelId) {
     channels.get(previousVoiceUserChannelId)?.joinCall(true);
