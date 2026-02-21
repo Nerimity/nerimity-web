@@ -4,14 +4,14 @@ import {
   on,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import useStore from "@/chat-api/store/useStore";
 import {
   StorageKeys,
   useLocalStorage,
-  useVoiceInputMode,
+  useVoiceInputMode
 } from "@/common/localStorage";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
@@ -38,8 +38,9 @@ export default function CallSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.call-settings"),
-      iconName: "settings",
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.call-settings"),
+      iconName: "settings"
     });
   });
 
@@ -60,6 +61,9 @@ export default function CallSettings() {
 
 function InputDevices() {
   const [devices, setDevices] = createSignal<MediaDeviceInfo[]>([]);
+  const [defaultDeviceId, setDefaultDeviceId] = createSignal<
+    string | undefined
+  >(undefined);
   const [inputDeviceId, setInputDeviceId] = useLocalStorage<string | undefined>(
     StorageKeys.inputDeviceId,
     undefined
@@ -68,14 +72,20 @@ function InputDevices() {
   const dropDownItem = () => {
     return devices().map((d) => ({
       id: d.deviceId,
-      label: d.label,
+      label: d.label
     })) satisfies DropDownItem[];
   };
 
   onMount(async () => {
-    await navigator.mediaDevices
-      .getUserMedia({ audio: true, video: false })
-      .then((s) => s.getAudioTracks()[0]?.stop());
+    const defaultStream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: false
+    });
+
+    setDefaultDeviceId(
+      defaultStream.getAudioTracks()[0]?.getSettings().deviceId
+    );
+
     navigator.mediaDevices.enumerateDevices().then((devices) => {
       setDevices(devices.filter((device) => device.kind === "audioinput"));
     });
@@ -85,7 +95,9 @@ function InputDevices() {
     <SettingsBlock icon="mic" label={t("settings.call.inputDevices")}>
       <DropDown
         items={dropDownItem()}
-        selectedId={inputDeviceId() || t("settings.call.default")}
+        selectedId={
+          inputDeviceId() || defaultDeviceId() || t("settings.call.default")
+        }
         onChange={(e) => setInputDeviceId(e.id)}
       />
     </SettingsBlock>
@@ -101,8 +113,16 @@ function OutputDevices() {
   const dropDownItem = () => {
     return devices().map((d) => ({
       id: d.deviceId,
-      label: d.label,
+      label: d.label
     })) satisfies DropDownItem[];
+  };
+
+  const defaultDeviceId = () => {
+    const defaultDevice = devices().find((d) => d.deviceId === "default");
+    if (defaultDevice) {
+      return defaultDevice.deviceId;
+    }
+    return devices()[0]?.deviceId;
   };
 
   onMount(async () => {
@@ -118,7 +138,9 @@ function OutputDevices() {
     <SettingsBlock icon="speaker" label={t("settings.call.outputDevices")}>
       <DropDown
         items={dropDownItem()}
-        selectedId={outputDeviceId() || t("settings.call.default")}
+        selectedId={
+          outputDeviceId() || defaultDeviceId() || t("settings.call.default")
+        }
         onChange={(e) => setOutputDeviceId(e.id)}
       />
     </SettingsBlock>
@@ -160,7 +182,7 @@ function InputMode() {
           items={[
             { id: "OPEN", label: t("settings.call.openMic") },
             { id: "VOICE_ACTIVITY", label: t("settings.call.voiceActivity") },
-            { id: "PTT", label: t("settings.call.pushToTalk") },
+            { id: "PTT", label: t("settings.call.pushToTalk") }
           ]}
         />
       </InputModeRadioBoxContainer>

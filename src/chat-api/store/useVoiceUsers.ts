@@ -10,42 +10,43 @@ import {
   getStorageObject,
   getStorageString,
   StorageKeys,
-  useVoiceInputMode,
+  useVoiceInputMode
 } from "@/common/localStorage";
 import useAccount from "./useAccount";
 import vad from "voice-activity-detection";
 import { downKeys, useGlobalKey } from "@/common/GlobalKey";
 import { arrayEquals } from "@/common/arrayEquals";
 import { LazySimplePeer } from "@/components/LazySimplePeer";
+import { log } from "@/common/logger";
 
 const createIceServers = () => [
   getCachedCredentials(),
   {
-    urls: ["stun:stun.l.google.com:19302"],
+    urls: ["stun:stun.l.google.com:19302"]
   },
   {
-    urls: "stun:stun.relay.metered.ca:80",
+    urls: "stun:stun.relay.metered.ca:80"
   },
   {
     urls: "turn:a.relay.metered.ca:80",
     username: "b9fafdffb3c428131bd9ae10",
-    credential: "DTk2mXfXv4kJYPvD",
+    credential: "DTk2mXfXv4kJYPvD"
   },
   {
     urls: "turn:a.relay.metered.ca:80?transport=tcp",
     username: "b9fafdffb3c428131bd9ae10",
-    credential: "DTk2mXfXv4kJYPvD",
+    credential: "DTk2mXfXv4kJYPvD"
   },
   {
     urls: "turn:a.relay.metered.ca:443",
     username: "b9fafdffb3c428131bd9ae10",
-    credential: "DTk2mXfXv4kJYPvD",
+    credential: "DTk2mXfXv4kJYPvD"
   },
   {
     urls: "turn:a.relay.metered.ca:443?transport=tcp",
     username: "b9fafdffb3c428131bd9ae10",
-    credential: "DTk2mXfXv4kJYPvD",
-  },
+    credential: "DTk2mXfXv4kJYPvD"
+  }
 ];
 
 type StreamWithTracks = {
@@ -76,7 +77,7 @@ type VoiceUsersMap = Record<string, ChannelUsersMap>;
 const [voiceUsers, setVoiceUsers] = createStore<VoiceUsersMap>({});
 const [deafened, setDeafened] = createStore({
   enabled: false,
-  wasMicEnabled: false,
+  wasMicEnabled: false
 });
 
 interface CurrentVoiceUser {
@@ -149,13 +150,13 @@ createEffect(
       if (!arrayEquals(downKeys, bound)) {
         mic.enabled = false;
         setVoiceUsers(current.channelId, useAccount().user()?.id!, {
-          voiceActivity: false,
+          voiceActivity: false
         });
         return;
       }
       mic.enabled = true;
       setVoiceUsers(current.channelId, useAccount().user()?.id!, {
-        voiceActivity: true,
+        voiceActivity: true
       });
     }
   )
@@ -172,7 +173,7 @@ const setCurrentChannelId = (channelId: string | null, reconnect = false) => {
         voiceUser.vadInstance?.destroy();
         setVoiceUsers(current.channelId, voiceUser.userId, {
           voiceActivity: false,
-          vadInstance: undefined,
+          vadInstance: undefined
         });
       });
     });
@@ -197,7 +198,7 @@ const setCurrentChannelId = (channelId: string | null, reconnect = false) => {
       videoStream: null,
       vadAudioStream: null,
       vadInstance: undefined,
-      micMuted: true,
+      micMuted: true
     });
   }
 };
@@ -272,7 +273,7 @@ const createVoiceUser = (rawVoice: RawVoice, reconnecting = false) => {
     connectionStatus: "CONNECTING",
     ...rawVoice,
     user,
-    streamWithTracks: [],
+    streamWithTracks: []
   };
 
   if (!reconnecting || rawVoice.userId !== account.user()?.id) {
@@ -333,23 +334,23 @@ const createPeer = (voiceUser: VoiceUser, signal?: SimplePeer.SignalData) => {
       initiator,
       trickle: true,
       config: {
-        iceServers: createIceServers(),
+        iceServers: createIceServers()
       },
-      streams,
+      streams
     });
 
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, "peer", peer);
 
   peer.on("connect", () => {
-    console.log("RTC> Connected to", voiceUser.user().username + "!");
+    log("RTC", "Connected to", voiceUser.user().username + "!");
     updateConnectionStatus(voiceUser, "CONNECTED");
   });
   peer.on("end", () => {
-    console.log("RTC> Disconnected from", voiceUser.user().username + ".");
+    log("RTC", "Disconnected from", voiceUser.user().username + ".");
     updateConnectionStatus(voiceUser, "DISCONNECTED");
   });
   peer.on("close", () => {
-    console.log("RTC>", voiceUser.user().username, "disconnected.");
+    log("RTC", voiceUser.user().username, "disconnected.");
     updateConnectionStatus(voiceUser, "DISCONNECTED");
   });
   peer.on("error", (err) => {
@@ -370,7 +371,7 @@ const createPeer = (voiceUser: VoiceUser, signal?: SimplePeer.SignalData) => {
         newVoiceUser?.vadInstance?.destroy();
         setVoiceUsers(channelId, userId, {
           voiceActivity: false,
-          vadInstance: undefined,
+          vadInstance: undefined
         });
       }
 
@@ -459,18 +460,18 @@ function createVadInstance(
     ...(!userId
       ? {
           minNoiseLevel: 0.15,
-          noiseCaptureDuration: 0,
+          noiseCaptureDuration: 0
         }
       : {
           minNoiseLevel: 0,
           noiseCaptureDuration: 100,
           avgNoiseMultiplier: 0.1,
-          maxNoiseLevel: 0.01,
+          maxNoiseLevel: 0.01
         }),
 
     onVoiceStart: function () {
       setVoiceUsers(current.channelId, userId || account.user()?.id!, {
-        voiceActivity: true,
+        voiceActivity: true
       });
       if (originalStreamTrack) {
         originalStreamTrack.enabled = true;
@@ -478,12 +479,12 @@ function createVadInstance(
     },
     onVoiceStop: function () {
       setVoiceUsers(current.channelId, userId || account.user()?.id!, {
-        voiceActivity: false,
+        voiceActivity: false
       });
       if (originalStreamTrack) {
         originalStreamTrack.enabled = false;
       }
-    },
+    }
   });
 
   return vadInstance;
@@ -514,7 +515,7 @@ const pushVoiceUserTrack = (
       "streamWithTracks",
       streamWithTracksIndex,
       {
-        tracks: [...streamWithTracks.tracks, track],
+        tracks: [...streamWithTracks.tracks, track]
       }
     );
     return;
@@ -522,7 +523,7 @@ const pushVoiceUserTrack = (
 
   setVoiceUsers(channelId, userId, "streamWithTracks", streams.length, {
     stream,
-    tracks: [track],
+    tracks: [track]
   });
 };
 
@@ -540,11 +541,44 @@ const disableMic = () => {
     removeStream(current.audioStream);
     setCurrentVoiceUser({ ...current, audioStream: null });
     setVoiceUsers(current.channelId, userId, {
-      voiceActivity: false,
+      voiceActivity: false
     });
 
     return;
   }
+};
+
+const getUserMic = (shouldLog = true) => {
+  const deviceId = getStorageString(StorageKeys.inputDeviceId, undefined);
+
+  const rtcLog = (...args: unknown[]) => {
+    if (shouldLog) {
+      log("RTC", ...args);
+    }
+  };
+
+  if (!deviceId) {
+    rtcLog("Using Default Microphone");
+    return navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  }
+  return navigator.mediaDevices
+    .getUserMedia({
+      audio: { deviceId: { exact: JSON.parse(deviceId) } },
+      video: false
+    })
+    .then((stream) => {
+      rtcLog("Using Microphone with deviceId", JSON.parse(deviceId));
+      return stream;
+    })
+    .catch(() => {
+      rtcLog(
+        "RTC",
+        "Failed to get microphone with deviceId",
+        JSON.parse(deviceId),
+        "Falling back to default microphone"
+      );
+      return navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    });
 };
 
 const enableMic = async () => {
@@ -554,18 +588,14 @@ const enableMic = async () => {
   if (current.audioStream) {
     return;
   }
-  const deviceId = getStorageString(StorageKeys.inputDeviceId, undefined);
-  const stream = await navigator.mediaDevices.getUserMedia({
-    audio: !deviceId ? true : { deviceId: JSON.parse(deviceId) },
-    video: false,
-  });
+  const stream = await getUserMic();
 
   let vadStream: MediaStream | undefined;
   let vadInstance: ReturnType<typeof vad> | undefined;
 
   if (voiceMode() === "OPEN") {
     setVoiceUsers(current.channelId, useAccount().user()?.id!, {
-      voiceActivity: true,
+      voiceActivity: true
     });
   }
 
@@ -574,10 +604,7 @@ const enableMic = async () => {
   }
 
   if (voiceMode() === "VOICE_ACTIVITY") {
-    vadStream = await navigator.mediaDevices.getUserMedia({
-      audio: !deviceId ? true : { deviceId: JSON.parse(deviceId) },
-      video: false,
-    });
+    vadStream = await getUserMic(false);
     vadInstance = createVadInstance(vadStream, stream);
   }
 
@@ -587,7 +614,7 @@ const enableMic = async () => {
     ...current,
     audioStream: stream,
     vadInstance,
-    vadAudioStream: vadStream,
+    vadAudioStream: vadStream
   });
 };
 
@@ -674,7 +701,7 @@ function resetAll() {
       if (currentVoiceUser) {
         setVoiceUsers(
           reconcile({
-            [current.channelId]: { [account.user()?.id!]: currentVoiceUser },
+            [current.channelId]: { [account.user()?.id!]: currentVoiceUser }
           })
         );
       }
@@ -722,6 +749,6 @@ export default function useVoiceUsers() {
 
     micEnabled,
     toggleDeafen,
-    deafened,
+    deafened
   };
 }
