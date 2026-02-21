@@ -550,6 +550,17 @@ const disableMic = () => {
 
 const getUserMic = (shouldLog = true) => {
   const deviceId = getStorageString(StorageKeys.inputDeviceId, undefined);
+  const constraints = getStorageObject(StorageKeys.voiceMicConstraints, {
+    echo: true,
+    noise: true,
+    gain: true
+  });
+
+  const audioConstraints: MediaTrackConstraints = {
+    echoCancellation: constraints.echo,
+    noiseSuppression: constraints.noise,
+    autoGainControl: constraints.gain
+  };
 
   const rtcLog = (...args: unknown[]) => {
     if (shouldLog) {
@@ -559,7 +570,10 @@ const getUserMic = (shouldLog = true) => {
 
   if (!deviceId) {
     rtcLog("Using Default Microphone");
-    return navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    return navigator.mediaDevices.getUserMedia({
+      audio: audioConstraints,
+      video: false
+    });
   }
   return navigator.mediaDevices
     .getUserMedia({
@@ -577,7 +591,10 @@ const getUserMic = (shouldLog = true) => {
         JSON.parse(deviceId),
         "Falling back to default microphone"
       );
-      return navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      return navigator.mediaDevices.getUserMedia({
+        audio: audioConstraints,
+        video: false
+      });
     });
 };
 

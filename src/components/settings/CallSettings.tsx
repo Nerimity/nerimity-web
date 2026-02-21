@@ -1,6 +1,7 @@
 import {
   createEffect,
   createSignal,
+  For,
   on,
   onCleanup,
   onMount,
@@ -25,6 +26,7 @@ import Input from "../ui/input/Input";
 import Button from "../ui/Button";
 import { downKeys, useGlobalKey } from "@/common/GlobalKey";
 import { toast } from "../ui/custom-portal/CustomPortal";
+import Checkbox from "../ui/Checkbox";
 
 const Container = styled("div")`
   display: flex;
@@ -59,6 +61,14 @@ export default function CallSettings() {
   );
 }
 
+interface AvailableConstraint {
+  label: string;
+  description?: string;
+  icon: string;
+  key: "echo" | "noise" | "gain";
+  default: boolean;
+}
+type ModifiableConstraints = "echo" | "noise" | "gain";
 function InputDevices() {
   const [devices, setDevices] = createSignal<MediaDeviceInfo[]>([]);
   const [defaultDeviceId, setDefaultDeviceId] = createSignal<
@@ -69,6 +79,42 @@ function InputDevices() {
     undefined
   );
 
+  const [supportedConstraints, setSupportedConstraints] = createSignal<
+    AvailableConstraint[]
+  >([]);
+
+  const updateSupportedConstraints = () => {
+    const supported = navigator.mediaDevices.getSupportedConstraints();
+    const supportedList: AvailableConstraint[] = [];
+    if (supported.echoCancellation)
+      supportedList.push({
+        label: "Echo Cancellation",
+        description:
+          "Prevents the microphone from picking up sound from the speakers.",
+        icon: "record_voice_over",
+        key: "echo",
+        default: true
+      });
+    if (supported.noiseSuppression)
+      supportedList.push({
+        label: "Noise Suppression",
+        description: "Filters out constant background noise (fans, hums).",
+        icon: "noise_aware",
+        key: "noise",
+        default: true
+      });
+    if (supported.autoGainControl)
+      supportedList.push({
+        label: "Auto Gain Control",
+        description:
+          "Automatically adjusts volume levels to maintain a consistent signal.",
+        icon: "settings_voice",
+        key: "gain",
+        default: true
+      });
+    setSupportedConstraints(supportedList);
+  };
+
   const dropDownItem = () => {
     return devices().map((d) => ({
       id: d.deviceId,
@@ -77,6 +123,7 @@ function InputDevices() {
   };
 
   onMount(async () => {
+    updateSupportedConstraints();
     const defaultStream = await navigator.mediaDevices.getUserMedia({
       audio: true,
       video: false
@@ -91,16 +138,45 @@ function InputDevices() {
     });
   });
 
+  const [constraints, setConstraints] = useLocalStorage(
+    StorageKeys.voiceMicConstraints,
+    { echo: true, noise: true, gain: true } as Record<
+      ModifiableConstraints,
+      boolean
+    >
+  );
+
   return (
-    <SettingsBlock icon="mic" label={t("settings.call.inputDevices")}>
-      <DropDown
-        items={dropDownItem()}
-        selectedId={
-          inputDeviceId() || defaultDeviceId() || t("settings.call.default")
-        }
-        onChange={(e) => setInputDeviceId(e.id)}
-      />
-    </SettingsBlock>
+    <div>
+      <SettingsBlock
+        icon="mic"
+        label={t("settings.call.inputDevices")}
+        borderBottomRadius={!supportedConstraints().length}
+      >
+        <DropDown
+          items={dropDownItem()}
+          selectedId={
+            inputDeviceId() || defaultDeviceId() || t("settings.call.default")
+          }
+          onChange={(e) => setInputDeviceId(e.id)}
+        />
+      </SettingsBlock>
+      <For each={supportedConstraints()}>
+        {(constraint, i) => (
+          <CheckboxOption
+            constraint={constraint}
+            checked={constraints()[constraint.key]}
+            bottomBorder={i() === supportedConstraints().length - 1}
+            onChange={(val) => {
+              setConstraints({
+                ...constraints(),
+                [constraint.key]: val
+              });
+            }}
+          />
+        )}
+      </For>
+    </div>
   );
 }
 
@@ -274,5 +350,24 @@ function PushToTalk() {
         </SettingsBlock>
       </FlexColumn>
     </Show>
+  );
+}
+function CheckboxOption(props: {
+  constraint: AvailableConstraint;
+  onChange: (checked: boolean) => void;
+  checked: boolean;
+  bottomBorder?: boolean;
+}) {
+  return (
+    <SettingsBlock
+      icon={props.constraint.icon}
+      label={t(props.constraint.label)}
+      borderTopRadius={false}
+      description={props.constraint.description}
+      onClick={() => props.onChange?.(!props.checked)}
+      borderBottomRadius={props.bottomBorder}
+    >
+      <Checkbox checked={props.checked} />
+    </SettingsBlock>
   );
 }
