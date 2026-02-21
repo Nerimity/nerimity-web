@@ -64,14 +64,16 @@ const EmojiDetailsContainer = styled.div`
   min-width: 260px;
 
   margin: 10px;
+  margin-top: 0;
 `;
 
 const MainEmojiContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
   padding: 6px;
   padding-left: 8px;
   padding-right: 8px;
