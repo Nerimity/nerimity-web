@@ -297,7 +297,6 @@ function AvatarBorder(props: {
 export const FirstLetterAvatar = (props: {
   size: number;
   serverOrUser?: ServerOrUserAvatar;
-  background?: string;
 }) => {
   const name = () => props.serverOrUser?.username || props.serverOrUser?.name;
   const firstLetters = () =>
@@ -311,13 +310,7 @@ export const FirstLetterAvatar = (props: {
           : 30) +
     "px";
   return (
-    <div
-      style={{
-        "font-size": size(),
-        "background-color": props.background
-      }}
-      class={style.avatarText}
-    >
+    <div style={{ "font-size": size() }} class={style.avatarText}>
       {firstLetters()}
     </div>
   );
