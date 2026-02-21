@@ -1238,7 +1238,9 @@
             "avatar": "Аватар",
             "banner": "Банар",
             "supportedFileTypes": "Падтрымліваюцца: {{extensions}}, макс. {{size}}",
-            "browse": "Абраць"
+            "browse": "Абраць",
+            "revert": "Вярнуць",
+            "remove": "Прыбраць"
         },
         "undoButton": "Адрабіць",
         "cannotBeUndone": "Гэта нельга адрабіць!",
