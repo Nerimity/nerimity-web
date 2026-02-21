@@ -567,7 +567,9 @@
             "testNotification": {
                 "title": "Яно працуе!",
                 "body": "Абвесткі на стальніцы ўключаныя."
-            }
+            },
+            "callJoin": "Далучэньне да выкліку",
+            "callLeave": "Выхад з выкліку"
         },
         "call": {
             "nextCallNotice": "Зьмены будуць ужытыя ў вашым наступным выкліку.",
@@ -952,7 +954,7 @@
             "googleDrivePolicy": "Праз новую палітыку Google Drive, вы можаце прайграваць відэа толькі ў аплікацыйі Nerimity на камп’ютары."
         },
         "audioEmbed": {
-            "googleDrivePolicy": "Праз новую палітыку Google Drive, вы можаце прайграваць аўдыа толькі ў аплікацыйі Nerimity на камп’ютары."
+            "googleDrivePolicy": "Праз новую палітыку Google Drive, вы можаце прайграваць аўдыё толькі ў аплікацыйі Nerimity на камп’ютары."
         }
     },
     "addFriendModal": {
@@ -1158,7 +1160,20 @@
             "leave": "Выйсьці",
             "muted": "Мікрафон",
             "deafened": "Навушнікі",
-            "fullscreen": "На ўвесь экран"
+            "fullscreen": "На ўвесь экран",
+            "webcamModal": {
+                "title": "Абагульненьне вэб-камэры",
+                "error": "Ня ўдалося абагуліць камэру",
+                "shareCameraButton": "Абагуліць камэру"
+            },
+            "screenShareModal": {
+                "title": "Абагульненьне экрана",
+                "quality": "Якасьць",
+                "framerate": "Кадры ў секунду",
+                "shareSystemAudio": "Абагуліць сыстэмнае аўдыё",
+                "shareAppAudio": "Абагуліць аўдыё аплікацыйі",
+                "chooseWindowButton": "Абраць акно"
+            }
         }
     },
     "channelDrawer": {

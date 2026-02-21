@@ -470,7 +470,9 @@
             "testNotification": {
                 "title": "To działa!",
                 "body": "Włączono powiadomienia systemowe."
-            }
+            },
+            "callJoin": "Dołączenie do rozmowy głosowej",
+            "callLeave": "Wyjście z rozmowy głosowej"
         },
         "call": {
             "nextCallNotice": "Zmiany zostaną zastosowane przy Twoich następnych połączeniach.",
@@ -1158,7 +1160,20 @@
             "leave": "Opuść",
             "muted": "Wyciszono",
             "deafened": "Wyłączono dźwięk",
-            "fullscreen": "Pełny ekran"
+            "fullscreen": "Pełny ekran",
+            "webcamModal": {
+                "title": "Udostępnianie kamerki",
+                "error": "Nie udało się udostępnić kamerki",
+                "shareCameraButton": "Udostępnij kamerkę"
+            },
+            "screenShareModal": {
+                "title": "Udostępnianie ekranu",
+                "quality": "Jakość",
+                "framerate": "Częstotliwość klatek",
+                "shareSystemAudio": "Udostępnij dźwięk systemowy",
+                "shareAppAudio": "Udostępnij dźwięk aplikacji",
+                "chooseWindowButton": "Wybierz okno"
+            }
         }
     },
     "channelDrawer": {
