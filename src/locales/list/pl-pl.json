@@ -1221,7 +1221,7 @@
         "searchPlaceholder": "Wyszukaj",
         "backButton": "Wstecz",
         "cancelButton": "Anuluj",
-        "deleteButton": "Usuń",
+        "deleteButton": "Wykasuj",
         "confirmButton": "Potwierdź",
         "doneButton": "Gotowe",
         "saveButton": "Zapisz",
@@ -1238,7 +1238,9 @@
             "avatar": "Awatar",
             "banner": "Baner",
             "supportedFileTypes": "Wspierane: {{extensions}}, maks. {{size}}",
-            "browse": "Przeglądaj"
+            "browse": "Przeglądaj",
+            "revert": "Cofnij zmiany",
+            "remove": "Usuń"
         },
         "cannotBeUndone": "Tego działania nie można cofnąć!",
         "undoButton": "Cofnij",
