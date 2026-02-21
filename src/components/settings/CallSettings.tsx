@@ -89,26 +89,24 @@ function InputDevices() {
     const supportedList: AvailableConstraint[] = [];
     if (supported.echoCancellation)
       supportedList.push({
-        label: "Echo Cancellation",
-        description:
-          "Prevents the microphone from picking up sound from the speakers.",
+        label: t("settings.call.inputConstraints.echoCancelation"),
+        description: t("settings.call.inputConstraints.echoCancelationDescription"),
         icon: "record_voice_over",
         key: "echo",
         default: true
       });
     if (supported.noiseSuppression)
       supportedList.push({
-        label: "Noise Suppression",
-        description: "Filters out constant background noise (fans, hums).",
+        label: t("settings.call.inputConstraints.noiseSuppression"),
+        description: t("settings.call.inputConstraints.noiseSuppressionDescription"),
         icon: "noise_aware",
         key: "noise",
         default: true
       });
     if (supported.autoGainControl)
       supportedList.push({
-        label: "Auto Gain Control",
-        description:
-          "Automatically adjusts volume levels to maintain a consistent signal.",
+        label: t("settings.call.inputConstraints.autoGainControl"),
+        description: t("settings.call.inputConstraints.autoGainControlDescription"),
         icon: "settings_voice",
         key: "gain",
         default: true
@@ -379,8 +377,8 @@ function TurnServers() {
   );
   return (
     <SettingsBlock
-      label="Use Cloudflare TURN Servers"
-      description="Use TURN servers for better connectivity"
+      label={t("settings.call.useTurn")}
+      description={t("settings.call.useTurnDescription")}
       icon="cloud"
       onClick={() => setEnabled(!enabled())}
     >
