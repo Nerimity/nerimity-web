@@ -24,7 +24,9 @@
       "avatar": "Avatar",
       "banner": "Banner",
       "supportedFileTypes": "Supported: {{extensions}}, Max {{size}}",
-      "browse": "Browse"
+      "browse": "Browse",
+      "revert": "Revert",
+      "remove": "Remove"
     }
   },
   "header": {

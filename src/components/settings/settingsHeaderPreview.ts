@@ -3,9 +3,9 @@ import { createStore } from "solid-js/store";
 interface SettingsHeaderPreview {
   username?: string;
   tag?: string;
-  banner?: string;
+  banner?: string | null;
   bannerPoints?: number[];
-  avatar?: any;
+  avatar?: string | null;
   avatarPoints?: number[];
 }
 

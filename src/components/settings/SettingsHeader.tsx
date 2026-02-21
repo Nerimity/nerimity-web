@@ -1,7 +1,7 @@
 import { A } from "solid-navigator";
 import { Show, createEffect, createSignal, on } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import Avatar from "@/components/ui/Avatar";
+import Avatar, { FirstLetterAvatar, ServerOrUserAvatar } from "@/components/ui/Avatar";
 import { css, styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
@@ -158,14 +158,14 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
         animate
         hexColor={props.bot?.hexColor || user()?.hexColor}
         url={
-          settingsHeaderPreview.bannerPoints
+          (settingsHeaderPreview.bannerPoints || settingsHeaderPreview.banner === null)
             ? undefined
             : settingsHeaderPreview.banner || bannerUrl(props.bot || user()!)
         }
       >
         <Show
           when={
-            settingsHeaderPreview.bannerPoints && settingsHeaderPreview.banner
+            settingsHeaderPreview.bannerPoints && settingsHeaderPreview.banner !== undefined
           }
         >
           <CustomBanner
@@ -186,6 +186,12 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
                 ref={setAvatarEl}
                 cropPosition={cropPosition()}
                 style={{ background: `url("${settingsHeaderPreview.avatar}")` }}
+              />
+            ) : settingsHeaderPreview.avatar === null ? (
+              <FirstLetterAvatar
+                size={avatarSize()}
+                serverOrUser={(props.bot || account.user()!) as ServerOrUserAvatar}
+                background={(props.bot || account.user()!).hexColor}
               />
             ) : null}
           </Avatar>

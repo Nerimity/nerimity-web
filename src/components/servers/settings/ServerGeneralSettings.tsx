@@ -28,6 +28,7 @@ import {
   uploadBanner,
 } from "@/chat-api/services/nerimityCDNService";
 import { FloatingSaveChanges } from "@/components/ui/FloatingSaveChanges";
+import ImageSelector from "@/components/ui/ImageSelector";
 
 const Container = styled("div")`
   display: flex;
@@ -137,6 +138,8 @@ export default function ServerGeneralSettings() {
         return;
       }
       avatarId = res.fileId;
+    } else if (avatar === null) {
+      avatarId = null;
     }
 
     if (banner) {
@@ -151,6 +154,8 @@ export default function ServerGeneralSettings() {
         return;
       }
       bannerId = res.fileId;
+    } else if (banner === null) {
+      bannerId = null;
     }
 
     await updateServer(params.serverId!, { ...rest, bannerId, avatarId })
@@ -292,33 +297,26 @@ export default function ServerGeneralSettings() {
           size: "12MB",
         })}
       >
-        <FileBrowser
-          accept="images"
-          ref={setAvatarFileBrowserRef}
-          base64
+        <ImageSelector
           onChange={onAvatarPick}
-        />
-        <Show when={inputValues().avatar}>
-          <Button
-            margin={0}
-            color="var(--alert-color)"
-            iconSize={18}
-            iconName="close"
-            onClick={() => {
-              setInputValue("avatar", undefined);
-              setInputValue("avatarPoints", null);
-              setServerSettingsHeaderPreview({
-                avatar: undefined,
-                avatarPoints: undefined,
-              });
-            }}
-          />
-        </Show>
-        <Button
-          iconSize={18}
-          iconName="attach_file"
-          label={t("general.avatarAndBanner.browse")}
-          onClick={avatarFileBrowserRef()?.open}
+          onRevert={() => {
+            setInputValue("avatar", undefined);
+            setInputValue("avatarPoints", null);
+            setServerSettingsHeaderPreview({
+              avatar: undefined,
+              avatarPoints: undefined,
+            });
+          }}
+          onDelete={() => {
+            setInputValue("avatar", null);
+            setInputValue("avatarPoints", null);
+            setServerSettingsHeaderPreview({
+              avatar: null,
+              avatarPoints: undefined,
+            });
+          }}
+          newValue={() => inputValues().avatar}
+          hasExistingValue={!!server()?.avatar}
         />
       </SettingsBlock>
 
@@ -330,33 +328,26 @@ export default function ServerGeneralSettings() {
           size: "12MB",
         })}
       >
-        <FileBrowser
-          accept="images"
-          ref={setBannerFileBrowserRef}
-          base64
+        <ImageSelector
           onChange={onBannerPick}
-        />
-        <Show when={inputValues().banner}>
-          <Button
-            margin={0}
-            color="var(--alert-color)"
-            iconSize={18}
-            iconName="close"
-            onClick={() => {
-              setInputValue("banner", undefined);
-              setInputValue("bannerPoints", null);
-              setServerSettingsHeaderPreview({
-                banner: undefined,
-                bannerPoints: undefined,
-              });
-            }}
-          />
-        </Show>
-        <Button
-          iconSize={18}
-          iconName="attach_file"
-          label={t("general.avatarAndBanner.browse")}
-          onClick={bannerFileBrowserRef()?.open}
+          onRevert={() => {
+            setInputValue("banner", undefined);
+            setInputValue("bannerPoints", null);
+            setServerSettingsHeaderPreview({
+              banner: undefined,
+              bannerPoints: undefined,
+            });
+          }}
+          onDelete={() => {
+            setInputValue("banner", null);
+            setInputValue("bannerPoints", null);
+            setServerSettingsHeaderPreview({
+              banner: null,
+              bannerPoints: undefined,
+            });
+          }}
+          newValue={() => inputValues().banner}
+          hasExistingValue={!!server()?.banner}
         />
       </SettingsBlock>
 
