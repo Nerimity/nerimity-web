@@ -10,6 +10,9 @@ import {
 } from "@/locales/languages";
 import { useTransContext } from "@nerimity/solid-i18lite";
 import { appLogoUrl } from "@/common/worldEvents";
+import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
+import { Emoji } from "./markup/Emoji";
+import { JSXElement } from "solid-js";
 
 const FooterContainer = styled(FlexRow)`
   gap: 10px;
@@ -100,10 +103,31 @@ export default function PageFooter() {
 const LanguageDropdown = () => {
   const [, actions] = useTransContext();
 
-  const items: DropDownItem[] = Object.keys(languages).map((key) => ({
-    id: key.replace("-", "_"),
-    label: languages[key as keyof typeof languages].name
-  }));
+  const items: DropDownItem[] = Object.keys(languages).map((key) => {
+    let lang = languages[key as keyof typeof languages]!;
+    return {
+      id: key.replace("-", "_"),
+      // Use a getter to create a new element, as reused JSXElements
+      // break the dropdown DOM.
+      get label(): JSXElement {
+        return (
+          <>
+            <Emoji
+              class={css`
+                height: 22px;
+                width: 22px;
+                align-self: flex-start;
+                margin-right: 6px;
+              `}
+              name={emojiUnicodeToShortcode(lang.emoji)}
+              url={unicodeToTwemojiUrl(lang.emoji)}
+            />
+            <span>{lang.nativeName ?? lang.name}</span>
+          </>
+        )
+      }
+    }
+  });
 
   const currentLanguage = () => getCurrentLanguage() || "en-gb";
 
