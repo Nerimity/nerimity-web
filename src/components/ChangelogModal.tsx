@@ -22,8 +22,7 @@ export function ChangelogModal(props: { close: () => void }) {
   };
 
   const ActionButtons = (
-    <A
-      style={{ "text-decoration": "none" }}
+    <Button
       href={
         isRelease
           ? "https://github.com/Nerimity/Nerimity-Web/releases"
@@ -31,9 +30,8 @@ export function ChangelogModal(props: { close: () => void }) {
       }
       target="_blank"
       rel="noopener noreferrer"
-    >
-      <Button label={t("homePage.viewGitHubButton")} iconName="open_in_new" />
-    </A>
+      label={t("homePage.viewGitHubButton")} iconName="open_in_new"
+    />
   );
 
   return (
