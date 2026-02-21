@@ -36,6 +36,7 @@ import { useDocumentListener } from "@/common/useDocumentListener";
 import { emojis, lazyLoadEmojis } from "@/emoji";
 import { Rerun } from "@solid-primitives/keyed";
 import Input from "../input/Input";
+import { t } from "@nerimity/i18lite";
 
 import { favoritesStore } from "@/common/favoritesStore";
 import Icon from "../icon/Icon";
@@ -275,7 +276,7 @@ const GifPickerSearchBar = (props: {
       <Input
         ref={setInputRef}
         placeholder={
-          props.favoritesMode ? "Search favorites..." : "Search KLIPY"
+          props.favoritesMode ? t("messageArea.gifPicker.favorites.search") : t("messageArea.gifPicker.search", { platform: "KLIPY" })
         }
         value={gifPickerSearch()}
         onInput={onInput}
@@ -291,7 +292,7 @@ const GifPickerSearchBar = (props: {
       <div
         class={cn(styles.favoriteToggle, props.favoritesMode && styles.active)}
         onClick={() => props.setFavoritesMode(!props.favoritesMode)}
-        title="Favorites"
+        title={t("messageArea.gifPicker.favorites.title")}
       >
         <Icon
           name={props.favoritesMode ? "star" : "star_border"}
@@ -322,7 +323,7 @@ const GifFavorites = (props: {
     <div class={styles.gifPickerSearches}>
       <Show when={favs().length === 0}>
         <div class={styles["no-favorites"]}>
-          {props.query ? "No results found" : "No favorites yet"}
+          {props.query ? t("messageArea.gifPicker.noResults") : t("messageArea.gifPicker.favorites.noFavorites")}
         </div>
       </Show>
       <Rerun on={favs}>

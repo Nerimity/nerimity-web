@@ -1,4 +1,18 @@
 {
+    "homePage": {
+        "featureList": {
+            "feature7": "Runs on donations"
+        }
+    },
+    "messageArea": {
+        "gifPicker": {
+            "favorites": {
+                "title": "Favorites",
+                "search": "Search favorites",
+                "noFavorites": "No favorites yet"
+            }
+        }
+    },
     "markup": {
         "color": "Color"
     },
@@ -57,10 +71,5 @@
     },
     "oauth2": {
         "AuthorizeButton": "Authorize"
-    },
-    "homePage": {
-        "featureList": {
-            "feature7": "Runs on donations"
-        }
     }
 }
