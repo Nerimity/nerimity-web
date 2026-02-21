@@ -178,6 +178,8 @@ function CustomInvite(props: { invites: any[]; onUpdate: () => void }) {
           && {
             position: relative;
             overflow: hidden;
+            flex-wrap: wrap;
+            row-gap: 5px;
             ${!server()?.verified ? "cursor: not-allowed; opacity: 0.6;" : ""}
           }
         `}

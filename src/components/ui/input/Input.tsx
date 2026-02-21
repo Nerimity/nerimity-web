@@ -104,6 +104,7 @@ const PrefixLabel = styled(Text)`
   padding-left: 10px;
   margin-right: -10px;
   place-self: center;
+  white-space: nowrap;
 `;
 
 const SuffixLabel = styled(Text)`
