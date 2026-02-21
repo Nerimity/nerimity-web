@@ -85,9 +85,6 @@ function nerimityCDNUploadRequest(opts: {
 }
 
 function nerimityCDNRequest(opts: NerimityCDNRequestOpts) {
-  const formData = new FormData();
-  formData.append("attachment", opts.file);
-
   return request<{ fileId: string }>({
     method: "POST",
     url: opts.url,
