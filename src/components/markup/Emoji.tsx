@@ -105,7 +105,6 @@ function EmojiDetailsModal(props: {
     null
   );
   const { shouldAnimate } = useWindowProperties();
-  const [hovered, setHovered] = createSignal(false);
 
   onMount(() => {
     if (!props.custom || !props.id) return;
@@ -120,8 +119,6 @@ function EmojiDetailsModal(props: {
       <EmojiDetailsContainer>
         <MainEmojiContainer>
           <img
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
             loading="lazy"
             style={{
               "object-fit": "contain",
@@ -130,7 +127,7 @@ function EmojiDetailsModal(props: {
               "border-radius": "6px",
             }}
             src={
-              props.url + (props.animated && !shouldAnimate(hovered()) ? "?type=webp" : "")
+              props.url + (props.animated && !shouldAnimate(true) ? "?type=webp" : "")
             }
             alt={props.name}
             title={props.name}
