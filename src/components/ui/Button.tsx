@@ -21,6 +21,8 @@ export type ButtonProps = Omit<
   customChildren?: JSXElement;
   customChildrenLeft?: JSXElement;
   href?: string;
+  target?: string;
+  rel?: string;
   styles?: JSX.CSSProperties;
   tabIndex?: string;
   hoverText?: string;

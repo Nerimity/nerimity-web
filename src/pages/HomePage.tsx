@@ -45,25 +45,21 @@ export default function HomePage() {
             {t("homePage.subslogan")}
           </Text>
           <div class={style.buttonsContainer}>
-            <a href="/register">
-              <Button
-                class={style.getStartedButton}
-                iconName="open_in_browser"
-                label={t("homePage.getStarted")!}
-                color={"white"}
-              />
-            </a>
-            <a
+            <Button
+              href="/register"
+              class={style.getStartedButton}
+              iconName="open_in_browser"
+              label={t("homePage.getStarted")!}
+              color={"white"}
+            />
+            <Button
               href="https://github.com/Nerimity/nerimity-web"
               target="_blank"
               rel="noopener noreferrer"
-            >
-              <Button
-                color="white"
-                iconName="code"
-                label={t("homePage.viewGitHubButton")!}
-              />
-            </a>
+              color="white"
+              iconName="code"
+              label={t("homePage.viewGitHubButton")!}
+            />
           </div>
           <PlatformDownloadLinks />
         </div>
