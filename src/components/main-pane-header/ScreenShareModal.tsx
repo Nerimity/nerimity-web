@@ -4,7 +4,7 @@ import {
   createEffect,
   createSignal,
   onCleanup,
-  onMount,
+  onMount
 } from "solid-js";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Button from "../ui/Button";
@@ -52,7 +52,7 @@ if (electronWindowAPI()?.isElectron) {
       numberOfFrames: float32.length / numChannels,
       numberOfChannels: numChannels,
       timestamp: performance.now() * 1000, // In microseconds
-      data: float32,
+      data: float32
     });
 
     try {
@@ -136,8 +136,15 @@ export function ScreenShareModal(props: { close: () => void }) {
 
   const ActionButtons = (
     <ActionButtonsContainer>
-      <Button label={t("general.backButton")} color="var(--alert-color)" onClick={props.close} />
-      <Button label={t("mainPaneHeader.voice.screenShareModal.chooseWindowButton")} onClick={chooseWindowClick} />
+      <Button
+        label={t("general.backButton")}
+        color="var(--alert-color)"
+        onClick={props.close}
+      />
+      <Button
+        label={t("mainPaneHeader.voice.screenShareModal.chooseWindowButton")}
+        onClick={chooseWindowClick}
+      />
     </ActionButtonsContainer>
   );
 
@@ -147,7 +154,9 @@ export function ScreenShareModal(props: { close: () => void }) {
       close={props.close}
       actionButtons={ActionButtons}
     >
-      <OptionTitle>{t("mainPaneHeader.voice.screenShareModal.quality")}</OptionTitle>
+      <OptionTitle>
+        {t("mainPaneHeader.voice.screenShareModal.quality")}
+      </OptionTitle>
       <OptionContainer>
         <For each={QualityOptions}>
           {(quality) => (
@@ -162,7 +171,9 @@ export function ScreenShareModal(props: { close: () => void }) {
         </For>
       </OptionContainer>
 
-      <OptionTitle>{t("mainPaneHeader.voice.screenShareModal.framerate")}</OptionTitle>
+      <OptionTitle>
+        {t("mainPaneHeader.voice.screenShareModal.framerate")}
+      </OptionTitle>
       <OptionContainer>
         <For each={FramerateOptions}>
           {(framerate) => (
@@ -206,23 +217,23 @@ const constructConstraints = async (
   audio?: boolean
 ) => {
   // const supportedConstraints = navigator.mediaDevices?.getSupportedConstraints();
-  const constraints = {
+  const constraints: MediaStreamConstraints & {
+    video: MediaTrackConstraints & { resizeMode: string };
+  } = {
     video: {
       height: 0,
       width: 0,
       frameRate: 0,
-      resizeMode: "none",
-      echoCancellation: true, // fixes screenshare echo
+      resizeMode: "none"
     },
     audio:
       electronWindowAPI()?.isElectron && !audio
         ? false
         : {
-            autoGainControl: false,
-            echoCancellation: true, // fixes screenshare echo
-            googAutoGainControl: false,
+            echoCancellation: false,
             noiseSuppression: false,
-          },
+            autoGainControl: false
+          }
   };
 
   // if (supportedConstraints?.suppressLocalAudioPlayback) {
