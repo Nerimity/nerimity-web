@@ -437,6 +437,7 @@ const ActionButtons = (props: {
   user?: RawUser | null;
   primaryColor?: string;
 }) => {
+  const navigate = useNavigate();
   const params = useParams<{ userId: string }>();
   const { friends, users, account } = useStore();
 
@@ -603,6 +604,16 @@ const ActionButtons = (props: {
         color={props.primaryColor || "var(--primary-color)"}
         onClick={onMessageClicked}
       />
+
+      <Show when={isMe()}>
+        <ActionButton
+          icon="settings"
+          label={t("profile.personal.editProfile")}
+          color={props.primaryColor || "var(--primary-color)"}
+          onClick={() => navigate("/app/settings/account")}
+        />
+      </Show>
+
       <ActionButton
         icon="more_vert"
         color={props.primaryColor || "var(--primary-color)"}
