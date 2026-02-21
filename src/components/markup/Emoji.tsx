@@ -1,11 +1,11 @@
 import { classNames } from "@/common/classNames";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { styled } from "solid-styled-components";
 import Text from "../ui/Text";
 import { Show, createSignal } from "solid-js";
 import { ServerInviteEmbed } from "../message-pane/message-item/MessageItem";
+import { Modal } from "../ui/modal";
 
 export function Emoji(props: {
   clickable?: boolean;
@@ -62,9 +62,6 @@ const EmojiDetailsContainer = styled.div`
   position: relative;
   align-self: center;
   min-width: 260px;
-
-  margin: 10px;
-  margin-top: 0;
 `;
 
 const MainEmojiContainer = styled.div`
@@ -99,11 +96,10 @@ function EmojiDetailsModal(props: {
   const [hovered, setHovered] = createSignal(false);
 
   return (
-    <LegacyModal
+    <Modal.Root
       close={props.close}
-      icon="face"
-      title={props.custom ? "Custom Emoji" : "Emoji"}
     >
+      <Modal.Header icon="face" title={props.custom ? "Custom Emoji" : "Emoji"} />
       <EmojiDetailsContainer>
         <MainEmojiContainer>
           <img
@@ -142,6 +138,6 @@ function EmojiDetailsModal(props: {
           />
         </Show>
       </EmojiDetailsContainer>
-    </LegacyModal>
+    </Modal.Root>
   );
 }
