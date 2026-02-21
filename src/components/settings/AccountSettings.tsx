@@ -413,9 +413,10 @@ export function EditAccountPage(props: {
       <SettingsBlock icon="sell" label={t("settings.account.tag")}>
         <Input
           class={css`
-            width: 52px;
+            width: 5em;
           `}
           value={inputValues().tag}
+          maxLength={4}
           onText={(v) => setInputValue("tag", v)}
         />
       </SettingsBlock>
