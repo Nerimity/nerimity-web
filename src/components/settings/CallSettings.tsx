@@ -57,6 +57,7 @@ export default function CallSettings() {
       <OutputDevices />
       <InputMode />
       <PushToTalk />
+      <TurnServers />
     </Container>
   );
 }
@@ -368,6 +369,22 @@ function CheckboxOption(props: {
       borderBottomRadius={props.bottomBorder}
     >
       <Checkbox checked={props.checked} />
+    </SettingsBlock>
+  );
+}
+function TurnServers() {
+  const [enabled, setEnabled] = useLocalStorage(
+    StorageKeys.voiceUseTurnServers,
+    true
+  );
+  return (
+    <SettingsBlock
+      label="Use Cloudflare TURN Servers"
+      description="Use TURN servers for better connectivity"
+      icon="cloud"
+      onClick={() => setEnabled(!enabled())}
+    >
+      <Checkbox checked={enabled()} />
     </SettingsBlock>
   );
 }

@@ -7,6 +7,7 @@ import { emitVoiceSignal } from "../emits/voiceEmits";
 import type SimplePeer from "@thaunknown/simple-peer";
 import useUsers, { User } from "./useUsers";
 import {
+  getStorageBoolean,
   getStorageObject,
   getStorageString,
   StorageKeys,
@@ -20,7 +21,9 @@ import { LazySimplePeer } from "@/components/LazySimplePeer";
 import { log } from "@/common/logger";
 
 const createIceServers = () => [
-  getCachedCredentials(),
+  ...(getStorageBoolean(StorageKeys.voiceUseTurnServers, true)
+    ? [getCachedCredentials()]
+    : []),
   {
     urls: ["stun:stun.l.google.com:19302"]
   },

@@ -29,6 +29,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import useServers from "./useServers";
 import { loadSimplePeer } from "@/components/LazySimplePeer";
 import { getCustomSound, playSound } from "@/common/Sound";
+import { getStorageBoolean, StorageKeys } from "@/common/localStorage";
 
 export type Channel = Omit<RawChannel, "recipient"> & {
   updateLastSeen(this: Channel, timestamp?: number): void;
@@ -211,7 +212,9 @@ function recipient(this: Channel) {
 async function joinCall(this: Channel, reconnect = false) {
   const { setCurrentChannelId } = useVoiceUsers();
   await loadSimplePeer();
-  await postGenerateCredential();
+  if (getStorageBoolean(StorageKeys.voiceUseTurnServers, true)) {
+    await postGenerateCredential();
+  }
   postJoinVoice(this.id, socketClient.id()!).then(() => {
     if (reconnect) return;
     setCurrentChannelId(this.id, reconnect);
