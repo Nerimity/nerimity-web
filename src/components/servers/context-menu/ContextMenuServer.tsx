@@ -229,6 +229,17 @@ export default function ContextMenuServer(props: Props) {
       })
     );
 
+    items.push(
+      {
+        icon: "settings",
+        label: t("settings.drawer.title"),
+        onClick: () =>
+          navigate(
+            RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!)
+          ),
+      }
+    );
+
     return items;
   };
 
