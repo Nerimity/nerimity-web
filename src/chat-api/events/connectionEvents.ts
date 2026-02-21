@@ -20,6 +20,7 @@ import { useDiscordActivityTracker } from "@/common/useDiscordActivityTracker";
 import { type DisconnectDescription } from "socket.io-client/build/esm/socket";
 import { isExperimentEnabled } from "@/common/experiments";
 import { decompressObject } from "@/common/zstd";
+import { log } from "@/common/logger";
 
 const partial = isExperimentEnabled("WEBSOCKET_PARTIAL_AUTH")();
 const zstd = isExperimentEnabled("WEBSOCKET_ZSTD")();
@@ -42,7 +43,7 @@ export const onDisconnect = (
   reason: string,
   details: DisconnectDescription | undefined
 ) => {
-  console.log("SOCKET DISCONNECTED", reason, details);
+  log("WebSocket", "Disconnected.", reason, details);
 
   const account = useAccount();
   const voiceUsers = useVoiceUsers();
@@ -127,7 +128,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   if (payload instanceof ArrayBuffer) {
     const t = performance.now();
     payload = decompressObject<AuthenticatedPayload>(new Uint8Array(payload));
-    console.log("Decompression took", performance.now() - t, "ms");
+    log("WebSocket", "Decompression took", performance.now() - t, "ms");
   }
 
   const {
@@ -143,7 +144,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     voiceUsers,
     tickets
   } = useStore();
-  console.log("[WS] Authenticated.");
+  log("WebSocket", " Authenticated.");
 
   reactNativeAPI()?.authenticated(payload.user.id);
 
@@ -250,7 +251,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   });
 
   const t1 = performance.now();
-  console.log(`${t1 - t0} milliseconds.`);
+  log("WebSocket", `${t1 - t0} milliseconds.`);
 
   const programs = getStorageObject<ProgramWithExtras[]>(
     StorageKeys.PROGRAM_ACTIVITY_STATUS,

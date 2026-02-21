@@ -4,8 +4,9 @@ import env from "./env";
 import {
   getStorageString,
   setStorageString,
-  StorageKeys,
+  StorageKeys
 } from "./localStorage";
+import { log } from "./logger";
 
 const [updateAvailable, setUpdateAvailable] = createSignal(false);
 const [latestRelease, setLatestRelease] = createSignal<Release | null>(null);
@@ -30,12 +31,12 @@ const showChangelog = () => {
 };
 
 const checkForUpdate = async () => {
-  console.log("[UPDATE] Checking...");
+  log("UPDATER", "Checking...");
   if (!env.APP_VERSION) {
-    console.log("[UPDATE] Skipping (reason: No App Version)");
+    log("UPDATER", "Skipping (reason: No App Version)");
   }
   if (env.DEV_MODE) {
-    console.log("[UPDATE] Skipping (reason: Dev Mode)");
+    log("UPDATER", "Skipping (reason: Dev Mode)");
     return;
   }
 
@@ -58,12 +59,12 @@ const checkForUpdate = async () => {
     hasUpdate = sha !== appVersion;
   }
 
-  console.log(`[UPDATE] Current: ${appVersion} Latest: ${latestVersion}`);
+  log("UPDATER", `Current: ${appVersion} Latest: ${latestVersion}`);
 
   setUpdateAvailable(hasUpdate);
 
-  if (hasUpdate) console.log("[UPDATE] Update available!");
-  if (!hasUpdate) console.log("[UPDATE] No update available.");
+  if (hasUpdate) log("UPDATER", "Update available!");
+  if (!hasUpdate) log("UPDATER", "No update available.");
 };
 
 export function useAppVersion() {
