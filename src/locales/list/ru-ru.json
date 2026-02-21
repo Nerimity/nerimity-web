@@ -493,7 +493,9 @@
             "inAppPreviewModes": {
                 "off": "Выключено",
                 "inheritFromPingSettings": "Взять с настроек уведомлений"
-            }
+            },
+            "callJoin": "Присоединение к звонку",
+            "callLeave": "Выход из звонка"
         },
         "call": {
             "nextCallNotice": "Изменения вступят в силу в следующем звонке.",
@@ -972,7 +974,20 @@
             "leave": "Выйти",
             "muted": "Микрофон",
             "deafened": "Наушники",
-            "fullscreen": "На весь экран"
+            "fullscreen": "На весь экран",
+            "webcamModal": {
+                "title": "Поделиться веб-камерой",
+                "error": "Не удалось поделиться веб-камерой",
+                "shareCameraButton": "Поделиться камерой"
+            },
+            "screenShareModal": {
+                "title": "Демонстрация экрана",
+                "quality": "Качество",
+                "framerate": "Частота кадров",
+                "shareSystemAudio": "Делиться системным аудио",
+                "shareAppAudio": "Делиться аудио приложения",
+                "chooseWindowButton": "Выбрать окно"
+            }
         }
     },
     "channelDrawer": {
@@ -1224,7 +1239,9 @@
             "avatar": "Аватар",
             "banner": "Баннер",
             "supportedFileTypes": "Поддерживаются: {{extensions}}, Максимум {{size}}",
-            "browse": "Выбрать файл"
+            "browse": "Выбрать файл",
+            "revert": "Вернуть",
+            "remove": "Убрать"
         },
         "closeButton": "Закрыть",
         "editButton": "Редактировать",

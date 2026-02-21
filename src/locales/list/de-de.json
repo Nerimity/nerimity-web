@@ -567,7 +567,9 @@
             "testNotification": {
                 "title": "Es hat funktioniert!",
                 "body": "Desktop-Benachrichtigungen aktiviert."
-            }
+            },
+            "callJoin": "Anruf beitreten",
+            "callLeave": "Anruf verlassen"
         },
         "call": {
             "nextCallNotice": "Änderungen werden bei deinen nächsten Anrufen angewendet.",
@@ -1070,7 +1072,9 @@
             "avatar": "Avatar",
             "banner": "Banner",
             "supportedFileTypes": "Unterstützt: {{extensions}}, max. {{size}}",
-            "browse": "Durchsuchen"
+            "browse": "Durchsuchen",
+            "revert": "Rückgängig",
+            "remove": "Entfernen"
         }
     },
     "status": {
@@ -1132,7 +1136,20 @@
             "leave": "Verlassen",
             "muted": "Stummgeschalten",
             "deafened": "Taubgeschalten",
-            "fullscreen": "Vollbild"
+            "fullscreen": "Vollbild",
+            "webcamModal": {
+                "title": "Webcam teilen",
+                "error": "Konnte Kamera nicht teilen",
+                "shareCameraButton": "Kamera teilen"
+            },
+            "screenShareModal": {
+                "title": "Bildschirm teilen",
+                "quality": "Qualität",
+                "framerate": "Framerate",
+                "shareSystemAudio": "System-Audio teilen",
+                "shareAppAudio": "App audio teilen",
+                "chooseWindowButton": "Wähle ein Fenster aus"
+            }
         }
     },
     "channelDrawer": {

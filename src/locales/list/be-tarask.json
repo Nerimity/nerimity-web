@@ -583,7 +583,17 @@
             "bindButton": "Прывязаць",
             "stopButton": "Спыніць",
             "downloadAppNotice": "Спампуйце аплікацыю Nerimity на кампутар, каб карыстацца гэтае функцыяй без факусаваньня на ўкладцы.",
-            "leaveCall": "Спачатку выйдзіце з выкліку"
+            "leaveCall": "Спачатку выйдзіце з выкліку",
+            "inputConstraints": {
+                "echoCancelation": "Прыглушэньне водгульля",
+                "echoCancelationDescription": "Прадухіліць мікрафон ад запісу гукаў з дынамікаў.",
+                "noiseSuppression": "Стрыманьне шуму",
+                "noiseSuppressionDescription": "Фільтруе заўсёдны фонавы шум (вэнтылятары, гудзеньне).",
+                "autoGainControl": "Аўтаматычны кантроль гучнасьці",
+                "autoGainControlDescription": "Аўтаматычна наладжвае ровень гучнасьці, каб падтрымліваць пастаянны сігнал."
+            },
+            "useTurn": "Выкарыстоўваць сэрвэры Cloudflare TURN",
+            "useTurnDescription": "Выкарыстоўваць сэрвэры TURN для лепшага злучэньня"
         },
         "interface": {
             "customCSS": "Уласны CSS",
@@ -1238,7 +1248,9 @@
             "avatar": "Аватар",
             "banner": "Банар",
             "supportedFileTypes": "Падтрымліваюцца: {{extensions}}, макс. {{size}}",
-            "browse": "Абраць"
+            "browse": "Абраць",
+            "revert": "Вярнуць",
+            "remove": "Прыбраць"
         },
         "undoButton": "Адрабіць",
         "cannotBeUndone": "Гэта нельга адрабіць!",
