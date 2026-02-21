@@ -173,6 +173,15 @@
   "messageArea": {
     "messageBoxPlaceholder": "Message {{username}}",
     "messageBoxChannelPlaceholder": "Message in {{channelName}}",
+    "gifPicker": {
+      "search": "Search {{platform}}",
+      "noResults": "No GIFs found",
+      "favorites": {
+        "title": "Favourites",
+        "search": "Search favourites",
+        "noFavorites": "No favourites yet"
+      }
+    },
     "replying": "Replying to {{count}} message(s)",
     "mention": "Mention",
     "dropFile": "Drop File",
