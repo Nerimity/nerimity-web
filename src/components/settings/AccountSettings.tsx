@@ -555,7 +555,10 @@ export function EditAccountPage(props: {
         isSaving={requestSent()}
         onSave={onSaveButtonClicked}
         error={error()}
-        onUndo={() => undoUpdatedValues()}
+        onUndo={() => {
+          undoUpdatedValues();
+          setSettingsHeaderPreview(reconcile({}));
+        }}
       />
       <ChannelNoticeBlock botToken={props.botToken} />
 

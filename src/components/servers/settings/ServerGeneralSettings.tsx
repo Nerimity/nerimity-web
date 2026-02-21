@@ -372,6 +372,7 @@ export default function ServerGeneralSettings() {
         onSave={onSaveButtonClicked}
         onUndo={() => {
           undoUpdatedInput();
+          setServerSettingsHeaderPreview(reconcile({}));
         }}
       />
     </Container>
