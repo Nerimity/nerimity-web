@@ -213,6 +213,14 @@ const emojisUpdatedDupName = createMemo(() => {
   return uniqueNamedEmojis;
 });
 
+const emojiIdCache = createMemo(() => {
+  const idCache: { [key: string]: RawCustomEmoji } = {};
+  for (const emoji of emojisUpdatedDupName()) {
+    idCache[emoji.id] = emoji;
+  }
+  return idCache;
+});
+
 const customEmojiNamesToEmoji = createMemo(() => {
   const obj: { [key: string]: RawCustomEmoji } = {};
 
@@ -237,6 +245,7 @@ export default function useServers() {
   return {
     emojis,
     emojisUpdatedDupName,
+    emojiIdCache,
     customEmojiNamesToEmoji,
     array,
     get,

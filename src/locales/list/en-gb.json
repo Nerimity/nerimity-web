@@ -1140,6 +1140,7 @@
   "invite": {
     "loading": "Loading Invite…",
     "invalid": "Invalid Invite Code",
+    "privateEmoji": "This emoji is from a private server.",
     "joinButton": "Join",
     "joiningButton": "Joining…",
     "visitButton": "Visit",
