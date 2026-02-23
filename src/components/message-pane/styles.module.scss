@@ -356,6 +356,10 @@ body .floating.floatingSlowModeIndicator {
           padding: 6px;
         }
       }
+      .attachmentClose {
+        align-self: flex-start;
+        margin-left: auto;
+      }
     }
 
     .attachmentFilename {
