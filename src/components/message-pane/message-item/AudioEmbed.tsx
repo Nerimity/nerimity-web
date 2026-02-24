@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 import { AttachmentProviders, RawAttachment } from "@/chat-api/RawData";
 import { classNames, conditionalClass } from "@/common/classNames";
-import { millisecondsToHhMmSs } from "@/common/date";
+import { formatMillisElapsedDigital } from "@/common/date";
 import {
   getFile,
   googleApiInitialized,
@@ -196,8 +196,8 @@ export const AudioEmbed = (props: {
       <Show when={audio.loaded()}>
         <div class={styles.audioDetails}>
           <div class={styles.time}>
-            <div>{millisecondsToHhMmSs(audio.currentTime() * 1000, true)}</div>
-            <div>{millisecondsToHhMmSs(audio.duration() * 1000, true)}</div>
+            <div>{formatMillisElapsedDigital(audio.currentTime() * 1000)}</div>
+            <div>{formatMillisElapsedDigital(audio.duration() * 1000)}</div>
           </div>
 
           <div

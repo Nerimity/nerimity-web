@@ -58,15 +58,11 @@ export function formatTimestamp(timestamp: number, seconds = false) {
   }
 }
 
-export const fullDate = (
-  timestamp: number,
-  month: "short" | "long" = "short",
-  weekday?: "long"
-) => {
+export const fullDate = (timestamp: number) => {
   return Intl.DateTimeFormat("en-GB", {
-    weekday: weekday,
+    weekday: "long",
     day: "2-digit",
-    month,
+    month: "long",
     year: "numeric",
   }).format(timestamp);
 };
@@ -81,14 +77,11 @@ export function getDaysAgo(timestamp: number) {
   return rtf.format(daysDifference, "day");
 }
 
-export function timeSince(timestamp: number, showSeconds = false) {
+export function timeSince(timestamp: number) {
   const now = new Date();
   const secondsPast = Math.abs((now.getTime() - timestamp) / 1000);
 
   if (secondsPast < 60) {
-    if (showSeconds) {
-      return pluralize(Math.trunc(secondsPast), "second", "ago");
-    }
     return "few seconds ago";
   }
 
@@ -111,7 +104,7 @@ export function timeSince(timestamp: number, showSeconds = false) {
   return formatTimestamp(timestamp);
 }
 
-export function timeElapsed(
+export function timeSinceDigital(
   timestamp: number,
   onlyPadSeconds = false,
   speed = 1,
@@ -142,11 +135,9 @@ export function timeElapsed(
     seconds.toString().padStart(2, "0");
   return formattedTime;
 }
-export function millisecondsToHhMmSs(
-  timestamp: number,
-  onlyPadSeconds = false
-) {
-  let seconds = Math.floor(timestamp / 1000);
+export function formatMillisElapsedDigital(millis: number) {
+  const onlyPadSeconds = true;
+  let seconds = Math.floor(millis / 1000);
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds - hours * 3600) / 60);
   seconds -= hours * 3600 + minutes * 60;
@@ -160,8 +151,8 @@ export function millisecondsToHhMmSs(
   return formattedTime;
 }
 
-export function millisecondsToReadable(timestamp: number) {
-  let seconds = Math.floor(timestamp / 1000);
+export function formatMillisRemainingNarrow(millis: number) {
+  let seconds = Math.floor(millis / 1000);
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds - hours * 3600) / 60);
   seconds -= hours * 3600 + minutes * 60;
@@ -197,7 +188,7 @@ export function calculateTimeElapsedForActivityStatus(
   const timeElapsedInSeconds = timeElapsedMS / 1000;
 
   if (music) {
-    return timeElapsed(startTime, true, speed, updatedAt);
+    return timeSinceDigital(startTime, true, speed, updatedAt);
   }
 
   // Return the time elapsed in seconds.
@@ -252,7 +243,7 @@ function convertSecondsForActivityStatus(totalSecs: number) {
   return values.join(" ");
 }
 
-export function timeSinceMentions(timestamp: number) {
+export function formatTimestampRelative(timestamp: number) {
   const rawDuration = Date.now() - timestamp;
   const duration = Math.abs(rawDuration);
 

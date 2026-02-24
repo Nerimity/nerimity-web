@@ -1,4 +1,4 @@
-import { formatTimestamp, timeSinceMentions } from "@/common/date";
+import { formatTimestamp, formatTimestampRelative } from "@/common/date";
 import {
   createEffect,
   createMemo,
@@ -37,7 +37,7 @@ export function TimestampMention(props: {
 
   const updateTime = () => {
     if (props.type === TimestampType.RELATIVE) {
-      return setFormattedTime(timeSinceMentions(props.timestamp));
+      return setFormattedTime(formatTimestampRelative(props.timestamp));
     }
     if (props.type === TimestampType.OFFSET) {
       const offset = props.timestamp as unknown as string;

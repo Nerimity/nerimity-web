@@ -6,7 +6,7 @@ import Text from "./ui/Text";
 import Icon from "./ui/icon/Icon";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { CustomLink } from "./ui/CustomLink";
-import { timeElapsed } from "@/common/date";
+import { timeSinceDigital } from "@/common/date";
 import Button from "./ui/Button";
 import { useTransContext } from "@nerimity/solid-i18lite";
 
@@ -180,9 +180,9 @@ function CallTime(props: { channelId: string }) {
       (joinedAt) => {
         let interval: number;
         if (joinedAt) {
-          setTime(timeElapsed(joinedAt));
+          setTime(timeSinceDigital(joinedAt));
           interval = window.setInterval(
-            () => setTime(timeElapsed(joinedAt)),
+            () => setTime(timeSinceDigital(joinedAt)),
             1000
           );
         }

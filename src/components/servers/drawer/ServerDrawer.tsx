@@ -30,7 +30,7 @@ import env from "@/common/env";
 import { unicodeToTwemojiUrl } from "@/emoji";
 import { createSignal } from "solid-js";
 import Avatar from "@/components/ui/Avatar";
-import { timeElapsed } from "@/common/date";
+import { timeSinceDigital } from "@/common/date";
 import InVoiceActions from "@/components/InVoiceActions";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
@@ -529,9 +529,9 @@ function CallTime(props: { channelId: string }) {
       (joinedAt) => {
         let interval: number;
         if (joinedAt) {
-          setTime(timeElapsed(joinedAt));
+          setTime(timeSinceDigital(joinedAt));
           interval = window.setInterval(
-            () => setTime(timeElapsed(joinedAt)),
+            () => setTime(timeSinceDigital(joinedAt)),
             1000
           );
         }
