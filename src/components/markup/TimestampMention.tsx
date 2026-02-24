@@ -1,4 +1,4 @@
-import { formatTimestamp, formatTimestampRelative } from "@/common/date";
+import { formatters as dateFormatters, formatTimestamp, formatTimestampRelative } from "@/common/date";
 import {
   createEffect,
   createMemo,
@@ -14,7 +14,6 @@ import { Modal } from "../ui/modal";
 import { addReminder } from "@/chat-api/services/ReminderService";
 import { Message } from "@/chat-api/store/useMessages";
 import Text from "../ui/Text";
-import { WorldTimezones } from "@/common/WorldTimezones";
 import { t } from "@nerimity/i18lite";
 
 export enum TimestampType {
@@ -31,38 +30,24 @@ export function TimestampMention(props: {
   const { createPortal } = useCustomPortal();
   const [formattedTime, setFormattedTime] = createSignal("...");
 
-  const isValidTimezone = createMemo(() => {
-    return WorldTimezones.includes(props.timestamp as unknown as string);
-  });
-
   const updateTime = () => {
     if (props.type === TimestampType.RELATIVE) {
       return setFormattedTime(formatTimestampRelative(props.timestamp));
     }
     if (props.type === TimestampType.OFFSET) {
       const offset = props.timestamp as unknown as string;
-
-      if (isValidTimezone()) {
-        const date = new Date().toLocaleString("en-GB", { timeZone: offset });
-        return setFormattedTime(date.split(",")[1]?.trim() || "...");
+      try {
+        const datetime = Temporal.Now.zonedDateTimeISO(offset)
+          .round({
+            smallestUnit: "second",
+            roundingMode: "floor",
+          });
+        const formatted = dateFormatters().datetime.seconds
+          .format(datetime.toPlainTime());
+        return setFormattedTime(formatted);
+      } catch {
+        return setFormattedTime("invalid time zone");
       }
-      const offsetSign = offset[0] as "+" | "-";
-      const offsetHours = Number(offsetSign + offset.slice(1, 3));
-      const offsetMinutes = Number(offsetSign + offset.slice(3, 6));
-
-      const date = new Date();
-      const utcDate = new Date(
-        date.getUTCFullYear(),
-        date.getUTCMonth(),
-        date.getUTCDate(),
-        date.getUTCHours(),
-        date.getUTCMinutes(),
-        date.getUTCSeconds()
-      );
-
-      utcDate.setMinutes(utcDate.getMinutes() + offsetMinutes);
-      utcDate.setHours(utcDate.getHours() + offsetHours);
-      setFormattedTime(formatTimestamp(utcDate.getTime(), true));
     }
   };
 
