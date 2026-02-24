@@ -1171,9 +1171,14 @@ function SlowModeIndicator() {
           currentSlowModeMs() ? "var(--alert-color)" : "var(--primary-color)"
         }
       />
-      <Text opacity={0.8} size={10} title={toReadable()}>
+      <Text
+        opacity={0.8}
+        size={10}
+        title={toReadable()}
+        style={{ "font-variant-numeric": "tabular-nums" }}
+      >
         {t("messageView.slowMode")}
-        {` ${currentSlowModeMs() ? `(${readableRemainingMs() || "0s"})` : ""}`}
+        {" " + (currentSlowModeMs() ? `(${readableRemainingMs()})` : "")}
       </Text>
     </Floating>
   );

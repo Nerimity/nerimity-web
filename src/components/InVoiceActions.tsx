@@ -195,7 +195,14 @@ function CallTime(props: { channelId: string }) {
 
   return (
     <Show when={channel()?.callJoinedAt}>
-      <Text size={12} opacity={0.6} style={{ "margin-left": "auto" }}>
+      <Text
+        size={12}
+        opacity={0.6}
+        style={{
+          "margin-left": "auto",
+          "font-variant-numeric": "tabular-nums"
+        }}
+      >
         {time()}
       </Text>
     </Show>
