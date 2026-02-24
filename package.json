@@ -87,6 +87,7 @@
     "solid-navigator": "^0.4.1",
     "solid-sortablejs": "^2.1.8",
     "solid-styled-components": "^0.28.5",
+    "temporal-polyfill": "^0.3.0",
     "thememirror": "^2.0.1",
     "uzip": "^0.20201231.0",
     "voice-activity-detection": "^0.0.5",
