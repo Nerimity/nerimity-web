@@ -1110,7 +1110,7 @@
     "inVoice": "In voice"
   },
   "inVoiceActions": {
-    "connectedFor": "Connected for"
+    "connectedFor": "Connected for {{time}}"
   },
   "informationDrawer": {
     "info": "Info",

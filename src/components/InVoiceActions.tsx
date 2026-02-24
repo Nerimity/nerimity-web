@@ -46,8 +46,6 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
     return RouterEndpoints.SERVER_MESSAGES(server()?.id!, channel()?.id!);
   };
 
-  const [t] = useTransContext();
-
   return (
     <Show when={channelId()}>
       <InVoiceActionsContainer style={props?.style}>
@@ -60,7 +58,7 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
           />
           <DetailsContainer>
             <Text size={12}>
-              {t("inVoiceActions.connectedFor")} <CallTime channelId={channelId()!} />
+              <CallTime channelId={channelId()!} />
             </Text>
             <CustomLink
               href={href()}
@@ -169,6 +167,7 @@ function VoiceDeafenButton(props: { channelId: string }) {
 }
 
 function CallTime(props: { channelId: string }) {
+  const [t] = useTransContext();
   const { channels } = useStore();
   const channel = () => channels.get(props.channelId);
 
@@ -196,7 +195,7 @@ function CallTime(props: { channelId: string }) {
   return (
     <Show when={channel()?.callJoinedAt}>
       <Text size={12} opacity={0.6} style={{ "margin-left": "auto" }}>
-        {time()}
+        {t("inVoiceActions.connectedFor", { time: time() })}
       </Text>
     </Show>
   );
