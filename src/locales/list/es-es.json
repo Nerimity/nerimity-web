@@ -1295,5 +1295,10 @@
         "message": "Establecer un recordatorio para",
         "setReminderButton": "Establecer recordatorio",
         "adding": "Añadiendo…"
+    },
+    "datetime": {
+        "durationFuture": "en {{duration}}",
+        "durationPast": "hace {{duration}}",
+        "durationNow": "ahora"
     }
 }

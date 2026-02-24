@@ -1338,5 +1338,13 @@
   "serverDrawer": {
     "joinedThisSessionNotice": "You'll hear all notification sounds from this server.",
     "joinedThisSessionNoticeSetToMentionsOnly": "Set to mentions only"
+  },
+  "datetime": {
+    "yesterdayTime": "Yesterday at {{time}}",
+    "dateTime": "{{date}} at {{time}}",
+    "lessThanAMinuteAgo": "a few seconds ago",
+    "durationFuture": "in {{duration}}",
+    "durationPast": "{{duration}} ago",
+    "durationNow": "now"
   }
 }

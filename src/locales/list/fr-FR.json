@@ -1295,5 +1295,10 @@
         "title": "Réponse de {{botName}}",
         "dataReceiver": "Les données sont envoyées à {{botName}}",
         "notice": "Ne partagez jamais d'informations sensibles"
+    },
+    "datetime": {
+        "durationFuture": "dans {{duration}}",
+        "durationPast": "il y a {{duration}}",
+        "durationNow": "maintenant"
     }
 }

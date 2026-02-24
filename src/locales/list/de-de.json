@@ -1316,5 +1316,10 @@
     "serverDrawer": {
         "joinedThisSessionNotice": "Du wirst alle Benachrichtigungstöne von diesem Server hören.",
         "joinedThisSessionNoticeSetToMentionsOnly": "Nur bei Erwähnungen"
+    },
+    "datetime": {
+        "durationFuture": "in {{duration}}",
+        "durationPast": "vor {{duration}}",
+        "durationNow": "jetzt"
     }
 }

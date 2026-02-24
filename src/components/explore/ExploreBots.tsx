@@ -15,7 +15,7 @@ import Icon from "../ui/icon/Icon";
 import { Notice } from "../ui/Notice/Notice";
 import Text from "../ui/Text";
 import { Banner } from "../ui/Banner";
-import { getDaysAgo, timeSince } from "@/common/date";
+import { timeSince } from "@/common/date";
 import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import { classNames, cn } from "@/common/classNames";
@@ -352,12 +352,6 @@ function PublicItem(props: {
     ));
   };
 
-  const bumpedUnder24Hours = () => {
-    const millisecondsSinceLastBump =
-      new Date().getTime() - props.item.bumpedAt;
-    return millisecondsSinceLastBump < 24 * 60 * 60 * 1000;
-  };
-
   return (
     <ServerItemContainer
       class={classNames(
@@ -434,9 +428,7 @@ function PublicItem(props: {
           <Icon name="schedule" size={17} color="var(--primary-color)" />
           <Text size={14}>
             {t("explore.bumped")}{" "}
-            {(bumpedUnder24Hours() ? timeSince : getDaysAgo)(
-              props.item.bumpedAt
-            )}
+            {timeSince(props.item.bumpedAt, false)}
           </Text>
         </FlexRow>
       </MemberContainer>

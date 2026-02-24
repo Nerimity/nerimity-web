@@ -17,7 +17,7 @@ import Icon from "../ui/icon/Icon";
 import { Notice } from "../ui/Notice/Notice";
 import Text from "../ui/Text";
 import { Banner } from "../ui/Banner";
-import { getDaysAgo, timeSince } from "@/common/date";
+import { timeSince } from "@/common/date";
 import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
@@ -411,12 +411,6 @@ function PublicServerItem(props: {
     ));
   };
 
-  const bumpedUnder24Hours = () => {
-    const millisecondsSinceLastBump =
-      new Date().getTime() - props.publicServer.bumpedAt;
-    return millisecondsSinceLastBump < 24 * 60 * 60 * 1000;
-  };
-
   return (
     <ServerItemContainer
       class={classNames(
@@ -497,9 +491,7 @@ function PublicServerItem(props: {
           <Icon name="schedule" size={17} color="var(--primary-color)" />
           <Text size={14}>
             {t("explore.bumped")}{" "}
-            {(bumpedUnder24Hours() ? timeSince : getDaysAgo)(
-              props.publicServer.bumpedAt,
-            )}
+            {timeSince(props.publicServer.bumpedAt, false)}
           </Text>
         </FlexRow>
       </MemberContainer>
