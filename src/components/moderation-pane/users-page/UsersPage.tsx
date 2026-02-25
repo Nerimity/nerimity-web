@@ -4,7 +4,7 @@ import {
   getUsers,
   ModerationUser,
 } from "@/chat-api/services/ModerationService";
-import { fullDateTime } from "@/common/date";
+import { formatTimestamp } from "@/common/date";
 import { usePromise } from "@/common/usePromise";
 import Avatar from "@/components/ui/Avatar";
 import { Item } from "@/components/ui/Item";
@@ -134,7 +134,7 @@ export default function UsersPage() {
                 <NameField user={user} />
               </Table.Field>
               <Table.Field mobileTitle="Joined">
-                <div>{fullDateTime(user.joinedAt)}</div>
+                <div>{formatTimestamp(user.joinedAt)}</div>
               </Table.Field>
               <Table.Field>
                 <TagsField user={user} />

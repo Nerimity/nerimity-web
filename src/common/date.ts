@@ -71,13 +71,6 @@ export const fullDate = (
   }).format(timestamp);
 };
 
-export const fullDateTime = (timestamp: number) => {
-  const date = new Date(timestamp);
-  return `${fullDate(timestamp)} at ${pad(date.getHours())}:${pad(
-    date.getMinutes()
-  )}`;
-};
-
 export function getDaysAgo(timestamp: number) {
   const rtf = new Intl.RelativeTimeFormat("en", {
     numeric: "auto",
