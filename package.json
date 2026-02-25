@@ -69,7 +69,6 @@
     "autoprefixer": "^10.4.23",
     "chroma-js": "^3.2.0",
     "croppie": "^2.6.5",
-    "dayjs": "^1.11.19",
     "eruda": "^3.4.3",
     "eventemitter3": "^5.0.4",
     "fzstd": "^0.1.1",
