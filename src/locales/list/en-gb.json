@@ -1343,8 +1343,10 @@
     "yesterdayTime": "Yesterday at {{time}}",
     "dateTime": "{{date}} at {{time}}",
     "lessThanAMinuteAgo": "a few seconds ago",
-    "durationFuture": "in {{duration}}",
-    "durationPast": "{{duration}} ago",
-    "durationNow": "now"
+    "duration": "for {{duration}}",
+    "relativeFuture": "in {{duration}}",
+    "relativePast": "{{duration}} ago",
+    "relativeNow": "now",
+    "invalidTimezone": "invalid time zone"
   }
 }

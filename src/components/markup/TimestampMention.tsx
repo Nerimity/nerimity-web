@@ -47,7 +47,7 @@ export function TimestampMention(props: {
           .format(datetime.toPlainTime());
         return setFormattedTime(formatted);
       } catch {
-        return setFormattedTime("invalid time zone");
+        return setFormattedTime(t("datetime.invalidTimezone"));
       }
     }
   };

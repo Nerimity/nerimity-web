@@ -1318,8 +1318,8 @@
         "joinedThisSessionNoticeSetToMentionsOnly": "Nur bei Erwähnungen"
     },
     "datetime": {
-        "durationFuture": "in {{duration}}",
-        "durationPast": "vor {{duration}}",
-        "durationNow": "jetzt"
+        "relativeFuture": "in {{duration}}",
+        "relativePast": "vor {{duration}}",
+        "relativeNow": "jetzt"
     }
 }

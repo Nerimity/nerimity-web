@@ -1297,8 +1297,9 @@
         "notice": "Ne partagez jamais d'informations sensibles"
     },
     "datetime": {
-        "durationFuture": "dans {{duration}}",
-        "durationPast": "il y a {{duration}}",
-        "durationNow": "maintenant"
+        "duration": "pendant {{duration}}",
+        "relativeFuture": "dans {{duration}}",
+        "relativePast": "il y a {{duration}}",
+        "relativeNow": "maintenant"
     }
 }

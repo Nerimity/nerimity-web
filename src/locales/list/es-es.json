@@ -1297,8 +1297,9 @@
         "adding": "Añadiendo…"
     },
     "datetime": {
-        "durationFuture": "en {{duration}}",
-        "durationPast": "hace {{duration}}",
-        "durationNow": "ahora"
+        "duration": "durante {{duration}}",
+        "relativeFuture": "en {{duration}}",
+        "relativePast": "hace {{duration}}",
+        "relativeNow": "ahora"
     }
 }
