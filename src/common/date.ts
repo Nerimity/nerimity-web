@@ -158,20 +158,6 @@ export const fullDate = (timestamp: number) => {
   return formatters().datetime.longDate.format(datetime.toPlainDate());
 };
 
-export const fullDateTime = (timestamp: number) => {
-  const datetime = Temporal.Instant.fromEpochMilliseconds(timestamp)
-    .toZonedDateTimeISO(Temporal.Now.timeZoneId());
-  const rounded = datetime.round({
-    roundingMode: "trunc",
-    smallestUnit: "minute",
-  });
-  const formatter = formatters().datetime.mediumDate;
-  return t("datetime.dateTime", {
-    date: formatter.format(rounded.toPlainDate()),
-    time: formatter.format(rounded.toPlainTime()),
-  });
-};
-
 export function getDaysAgo(timestamp: number) {
   const now = Temporal.Now.zonedDateTimeISO();
   const start = Temporal.Instant.fromEpochMilliseconds(timestamp)
