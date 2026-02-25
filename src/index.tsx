@@ -402,16 +402,12 @@ render(() => {
         <Route path="/reset-password" component={ResetPasswordPage} />
 
         <Route path="/404" component={NotFound} />
-        <Route path="/*" component={AllOther} />
+        <Route path="/*" component={NotFound} />
       </Router>
     </MetaProvider>
   );
 }, document.getElementById("root") as HTMLElement);
 
-function AllOther() {
-  location.href = "/404";
-  return <></>;
-}
 function NotFound() {
   return (
     <div>
