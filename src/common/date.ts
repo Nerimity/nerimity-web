@@ -27,6 +27,22 @@ export const formatters = createMemo(() => {
         style: "narrow",
         secondsDisplay: "always",
       }),
+      // H:MM:SS or MM:SS
+      digital: new Intl.DurationFormat(lang, {
+        style: "narrow",
+        hoursDisplay: "auto",
+        hours: "numeric",
+        minutes: "2-digit",
+        seconds: "2-digit",
+      }),
+      // H:MM:SS or M:SS
+      digitalShort: new Intl.DurationFormat(lang, {
+        style: "narrow",
+        hoursDisplay: "auto",
+        hours: "numeric",
+        minutes: "numeric",
+        seconds: "2-digit",
+      }),
     },
   };
 });
@@ -189,74 +205,44 @@ export function timeSince(timestamp: number) {
   return formatTimestamp(timestamp);
 }
 
-export function timeSinceDigital(
-  timestamp: number,
-  onlyPadSeconds = false,
-  speed = 1,
-  updatedAt?: number
-) {
-  const ms = Date.now() - timestamp;
-
-  let seconds = ms / 1000;
-
-  if (updatedAt) {
-    const seekedSeconds = (updatedAt - timestamp) / 1000;
-    const seekedSecondsWithSpeed = seekedSeconds * speed;
-    const seekedSpeed = -(seekedSeconds - seekedSecondsWithSpeed);
-    seconds = seconds * speed - seekedSpeed;
-  }
-
-  seconds = Math.floor(seconds);
-
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds - hours * 3600) / 60);
-  seconds -= hours * 3600 + minutes * 60;
-  const formattedTime =
-    (hours
-      ? hours.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":"
-      : "") +
-    minutes.toString().padStart(onlyPadSeconds ? 1 : 2, "0") +
-    ":" +
-    seconds.toString().padStart(2, "0");
-  return formattedTime;
-}
-export function formatMillisElapsedDigital(millis: number) {
-  const onlyPadSeconds = true;
-  let seconds = Math.floor(millis / 1000);
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds - hours * 3600) / 60);
-  seconds -= hours * 3600 + minutes * 60;
-  const formattedTime =
-    (hours
-      ? hours.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":"
-      : "") +
-    minutes.toString().padStart(onlyPadSeconds ? 1 : 2, "0") +
-    ":" +
-    seconds.toString().padStart(2, "0");
-  return formattedTime;
+/**
+ * Formats the duration since a timestamp as a digital clock, rounding down.
+ */
+export function timeSinceDigital(timestamp: number) {
+  const now = Temporal.Now.instant();
+  const start = Temporal.Instant.fromEpochMilliseconds(timestamp);
+  const elapsed = start.until(now, {
+    largestUnit: "hour",
+    smallestUnit: "second",
+    roundingMode: "floor",
+  });
+  return formatters().duration.digital.format(elapsed);
 }
 
+export function formatMillisElapsedDigital(milliseconds: number) {
+  const duration = Temporal.Duration.from({ milliseconds });
+  const rounded = duration.round({
+    largestUnit: "hour",
+    smallestUnit: "second",
+    roundingMode: "floor",
+  });
+  return formatters().duration.digitalShort.format(rounded);
+}
+
+/**
+ * Formats a remaining duration with narrow units, rounding up.
+ * This will return "0s" when the duration is empty.
+ */
 export function formatMillisRemainingNarrow(millis: number) {
-  let seconds = Math.floor(millis / 1000);
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds - hours * 3600) / 60);
-  seconds -= hours * 3600 + minutes * 60;
-
-  const text = [];
-
-  if (hours) {
-    text.push(`${hours}h`);
-  }
-
-  if (minutes) {
-    text.push(`${minutes}m`);
-  }
-
-  if (seconds || text.length === 0) {
-    text.push(`${seconds}s`);
-  }
-
-  return text.join(" ");
+  const duration = Temporal.Duration.from({ milliseconds: millis });
+  const rounded = roundDuration(duration, undefined, {
+    roundingMode: "ceil",
+    largestUnit: "hour",
+  });
+  const formatter = rounded.secondsOnly
+    ? formatters().duration.narrowForceSeconds
+    : formatters().duration.narrow;
+  return formatter.format(rounded.duration);
 }
 
 export function calculateTimeElapsedForActivityStatus(
@@ -266,9 +252,26 @@ export function calculateTimeElapsedForActivityStatus(
   updatedAt?: number
 ) {
   if (music) {
-    return timeSinceDigital(startTime, true, speed, updatedAt);
+    return activityMusicTimeElapsed(startTime, speed, updatedAt);
   }
   return activityStatusDuration(startTime);
+}
+
+function activityMusicTimeElapsed(
+  timestamp: number,
+  speed = 1,
+  updatedAt?: number
+) {
+  const ms = Date.now() - timestamp;
+  let seconds = ms / 1000;
+
+  if (updatedAt) {
+    const seekedSeconds = (updatedAt - timestamp) / 1000;
+    const seekedSecondsWithSpeed = seekedSeconds * speed;
+    const seekedSpeed = -(seekedSeconds - seekedSecondsWithSpeed);
+    seconds = seconds * speed - seekedSpeed;
+  }
+  return formatMillisElapsedDigital(seconds * 1000);
 }
 
 function activityStatusDuration(startTime: number) {
