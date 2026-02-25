@@ -35,7 +35,7 @@ import { A, Outlet, Route, Router, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json?raw";
 import { TransProvider } from "@nerimity/solid-i18lite";
 import { useWindowProperties } from "./common/useWindowProperties";
-import { For, Show, createEffect, lazy, on } from "solid-js";
+import { DEV, For, Show, createEffect, lazy, on } from "solid-js";
 import RouterEndpoints from "./common/RouterEndpoints";
 import settings from "./common/Settings";
 import exploreRoutes from "./common/exploreRoutes";
@@ -51,6 +51,7 @@ import useAccount from "./chat-api/store/useAccount";
 import { MetaProvider, Title } from "@solidjs/meta";
 import { ReminderProvider } from "./components/useReminders";
 import env from "./common/env";
+import TestRoutes from "./test";
 
 
 if ("serviceWorker" in navigator) {
@@ -384,6 +385,12 @@ render(() => {
               leftDrawer: HomeDrawer,
             }}
           />
+        </Route>
+
+        <Route path="/test">
+          <Show when={DEV}>
+            <TestRoutes />
+          </Show>
         </Route>
 
         <Route path="/" component={HomePage} />
