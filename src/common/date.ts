@@ -77,7 +77,8 @@ function roundDuration(
   duration: Temporal.Duration,
   start?: Temporal.ZonedDateTime,
   options?: {
-    largestUnit?: Temporal.LargestUnit<Temporal.DateTimeUnit>,
+    useWeeks?: boolean;
+    largestUnit?: Temporal.LargestUnit<Temporal.DateTimeUnit>;
     roundingMode?: Temporal.RoundingMode;
     roundingIncrement?: number;
   },
@@ -90,16 +91,25 @@ function roundDuration(
     });
   }
 
+  if (options?.useWeeks) {
+    duration = duration.with({
+      weeks: duration.weeks + Math.floor(duration.days / 7),
+      days: duration.days % 7,
+    });
+  }
+
   const baseDuration = duration;
   if (duration.sign === -1) {
     duration = duration.negated();
   }
- 
+
   let smallestUnit: Temporal.SmallestUnit<Temporal.DateTimeUnit>;
   let secondsOnly = false;
   if (duration.years > 0) {
     smallestUnit = "months";
   } else if (duration.months > 0) {
+    smallestUnit = options?.useWeeks ? "weeks" : "days";
+  } else if (duration.weeks > 0) {
     smallestUnit = "days";
   } else if (duration.days > 0) {
     smallestUnit = "hours";
@@ -281,7 +291,7 @@ function activityStatusDuration(startTime: number) {
   if (elapsed.sign == -1) {
     elapsed = new Temporal.Duration();
   }
-  const rounded = roundDuration(elapsed, start);
+  const rounded = roundDuration(elapsed, start, { useWeeks: true });
 
   const formatter = rounded.secondsOnly
     ? formatters().duration.narrowForceSeconds
@@ -304,7 +314,7 @@ export function formatTimestampRelative(timestamp: number) {
   if (inFuture) {
     elapsed = elapsed.negated();
   }
-  const rounded = roundDuration(elapsed, inFuture ? now : start);
+  const rounded = roundDuration(elapsed, inFuture ? now : start, { useWeeks: true });
 
   if (rounded.secondsOnly && rounded.duration.seconds < 1) {
     return t("datetime.durationNow");
