@@ -290,10 +290,15 @@ function activityStatusDuration(startTime: number) {
   return formatter.format(rounded.duration);
 }
 
+type RelativeMode = "instant" | "duration" | "none";
+
 /**
  * Formats a timestamp as a relative offset to the current time.
  */
-export function formatTimestampRelative(timestamp: number) {
+export function formatTimestampRelative(
+  timestamp: number,
+  mode?: RelativeMode,
+) {
   const now = Temporal.Now.zonedDateTimeISO();
   const start = Temporal.Instant.fromEpochMilliseconds(timestamp)
     .toZonedDateTimeISO(now.timeZoneId);
@@ -312,7 +317,11 @@ export function formatTimestampRelative(timestamp: number) {
   }
 
   const duration = formatters().duration.long.format(rounded.duration);
-  if (inFuture) {
+  if (mode === "none") {
+    return duration;
+  } else if (mode === "duration") {
+    return t("datetime.duration", { duration });
+  } else if (inFuture) {
     return t("datetime.relativeFuture", { duration });
   } else {
     return t("datetime.relativePast", { duration });
