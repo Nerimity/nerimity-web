@@ -1340,6 +1340,7 @@
     "joinedThisSessionNoticeSetToMentionsOnly": "Set to mentions only"
   },
   "datetime": {
+    "lessThanAMinuteAgo": "a few seconds ago",
     "duration": "for {{duration}}",
     "relativeFuture": "in {{duration}}",
     "relativePast": "{{duration}} ago",

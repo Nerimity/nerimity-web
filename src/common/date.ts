@@ -44,6 +44,9 @@ export const formatters = createMemo(() => {
         seconds: "2-digit",
       }),
     },
+    relative: new Intl.RelativeTimeFormat(lang, {
+      numeric: "auto",
+    }),
   };
 });
 
@@ -169,40 +172,46 @@ export const fullDate = (timestamp: number) => {
 };
 
 export function getDaysAgo(timestamp: number) {
-  const rtf = new Intl.RelativeTimeFormat("en", {
-    numeric: "auto",
+  const now = Temporal.Now.zonedDateTimeISO();
+  const start = Temporal.Instant.fromEpochMilliseconds(timestamp)
+    .toZonedDateTimeISO(now.timeZoneId);
+  const elapsed = start.until(now, {
+    smallestUnit: "day",
   });
-  const oneDayInMs = 1000 * 60 * 60 * 24;
-  const daysDifference = Math.round((timestamp - Date.now()) / oneDayInMs);
-
-  return rtf.format(daysDifference, "day");
+  return formatters().relative.format(-elapsed.days, "day");
 }
 
-export function timeSince(timestamp: number) {
-  const now = new Date();
-  const secondsPast = Math.abs((now.getTime() - timestamp) / 1000);
+/**
+ * Format the duration since a timestamp with a single significant unit;
+ * falls back to using `formatTimestamp` if the duration is greater than
+ * a day unless `timestampFallback` is `false`.
+ */
+export function timeSince(
+  timestamp: number,
+  timestampFallback = true,
+) {
+  const now = Temporal.Now.zonedDateTimeISO();
+  const start = Temporal.Instant.fromEpochMilliseconds(timestamp)
+    .toZonedDateTimeISO(now.timeZoneId);
+  const elapsed = start.until(now, {
+    largestUnit: "day",
+    roundingMode: "trunc",
+  });
 
-  if (secondsPast < 60) {
-    return "few seconds ago";
-  }
-
-  const duration = dayjs.duration(Math.abs(timestamp - Date.now()));
-
-  const hrs = duration.hours();
-  const mins = duration.minutes();
-
-  if (duration.asHours() >= 24) {
+  if (elapsed.days < 1 || !timestampFallback) {
+    const formatter = formatters().relative;
+    if (elapsed.days) {
+      return formatter.format(-elapsed.days, "day");
+    } else if (elapsed.hours) {
+      return formatter.format(-elapsed.hours, "hour");
+    } else if (elapsed.minutes) {
+      return formatter.format(-elapsed.minutes, "minute");
+    } else {
+      return t("datetime.lessThanAMinuteAgo");
+    }
+  } else {
     return formatTimestamp(timestamp);
   }
-
-  if (hrs) {
-    return pluralize(hrs, "hour") + " ago";
-  }
-  if (mins) {
-    return pluralize(mins, "minute") + " ago";
-  }
-
-  return formatTimestamp(timestamp);
 }
 
 /**
@@ -330,16 +339,3 @@ export function formatTimestampRelative(
     return t("datetime.relativePast", { duration });
   }
 }
-
-function pluralize(
-  count: number,
-  word: string,
-  suffix?: string,
-  hideIfZero = false
-) {
-  if (hideIfZero && !count) return "";
-  return (
-    count + " " + (count > 1 ? `${word}s` : word + (suffix ? ` ${suffix}` : ""))
-  );
-}
-
