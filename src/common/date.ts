@@ -4,12 +4,95 @@ import duration from "dayjs/plugin/duration";
 dayjs.extend(duration);
 import { getCurrentLanguageISO } from "@/locales/languages";
 import { Temporal, Intl } from "temporal-polyfill";
+import { t } from "@nerimity/i18lite";
+import { createMemo } from "solid-js";
 
 export const [timeFormat, setTimeFormat] = useLocalStorage<"12hr" | "24hr">(
-   StorageKeys.TIME_FORMAT,
-  "24hr", 
-  true    
+  StorageKeys.TIME_FORMAT,
+  "24hr",
+  true
 );
+
+export const formatters = createMemo(() => {
+  const lang = getCurrentLanguageISO();
+  return {
+    duration: {
+      long: new Intl.DurationFormat(lang, {
+        style: "long",
+      }),
+      narrow: new Intl.DurationFormat(lang, {
+        style: "narrow",
+      }),
+      narrowForceSeconds: new Intl.DurationFormat(lang, {
+        style: "narrow",
+        secondsDisplay: "always",
+      }),
+    },
+  };
+});
+
+/**
+ * Round a duration to two significant units.
+ */
+function roundDuration(
+  duration: Temporal.Duration,
+  start?: Temporal.ZonedDateTime,
+  options?: {
+    useWeeks?: boolean;
+    largestUnit?: Temporal.LargestUnit<Temporal.DateTimeUnit>;
+    roundingMode?: Temporal.RoundingMode;
+    roundingIncrement?: number;
+  },
+) {
+  if (options?.largestUnit) {
+    // Ensure the duration is balanced (turn 150s to 2m 30s)
+    duration = duration.round({
+      relativeTo: start,
+      largestUnit: options.largestUnit,
+    });
+  }
+
+  if (options?.useWeeks) {
+    duration = duration.with({
+      weeks: duration.weeks + Math.floor(duration.days / 7),
+      days: duration.days % 7,
+    });
+  }
+
+  const baseDuration = duration;
+  if (duration.sign === -1) {
+    duration = duration.negated();
+  }
+
+  let smallestUnit: Temporal.SmallestUnit<Temporal.DateTimeUnit>;
+  let secondsOnly = false;
+  if (duration.years > 0) {
+    smallestUnit = "months";
+  } else if (duration.months > 0) {
+    smallestUnit = options?.useWeeks ? "weeks" : "days";
+  } else if (duration.weeks > 0) {
+    smallestUnit = "days";
+  } else if (duration.days > 0) {
+    smallestUnit = "hours";
+  } else if (duration.hours > 0) {
+    smallestUnit = "minutes";
+  } else if (duration.minutes > 0) {
+    smallestUnit = "seconds";
+  } else {
+    secondsOnly = true;
+    smallestUnit = "seconds";
+  }
+
+  const rounded = baseDuration.round({
+    relativeTo: start,
+    smallestUnit,
+    ...options
+  });
+  return {
+    duration: rounded,
+    secondsOnly,
+  };
+}
 
 // make a function where if the number is less than 10, it will add a 0 in front of it
 
@@ -182,124 +265,58 @@ export function calculateTimeElapsedForActivityStatus(
   speed = 1,
   updatedAt?: number
 ) {
-  // Get the current time in milliseconds.
-  const now = Date.now();
-  // Calculate the time elapsed in milliseconds.
-  const timeElapsedMS = now - startTime;
-  // Convert the time elapsed from milliseconds to seconds.
-  const timeElapsedInSeconds = timeElapsedMS / 1000;
-
   if (music) {
     return timeSinceDigital(startTime, true, speed, updatedAt);
   }
-
-  // Return the time elapsed in seconds.
-  return convertSecondsForActivityStatus(timeElapsedInSeconds);
+  return activityStatusDuration(startTime);
 }
 
-function convertSecondsForActivityStatus(totalSecs: number) {
-  const monthLength = 30;
+function activityStatusDuration(startTime: number) {
+  const now = Temporal.Now.zonedDateTimeISO();
+  const start = Temporal.Instant.fromEpochMilliseconds(startTime)
+    .toZonedDateTimeISO(now.timeZoneId);
+  let elapsed = start.until(now, {
+    largestUnit: "years",
+  });
 
-  const totalMins = Math.floor(totalSecs / 60);
-  const totalHours = Math.floor(totalMins / 60);
-  const totalDays = Math.floor(totalHours / 24);
-
-  const years = Math.floor(totalDays / 365);
-  const yearRemaining = totalDays % 365;
-  const months = Math.floor(yearRemaining / monthLength);
-  const monthRemaining = yearRemaining % monthLength;
-  const weeks = Math.floor(monthRemaining / 7);
-  const days = monthRemaining % 7;
-
-  const hours = totalHours % 24;
-  const mins = totalMins % 60;
-  const secs = Math.floor(totalSecs % 60);
-
-  const values = [];
-
-  if (totalSecs < 1) {
-    values.push("0s");
-  } else if (totalHours < 1) {
-    if (mins) values.push(mins + "m");
-    if (secs) values.push(secs + "s");
-  } else if (totalDays < 1) {
-    if (hours) values.push(hours + "h");
-    if (mins) values.push(mins + "m");
-  } else if (totalDays < 7) {
-    if (days) values.push(days + "d");
-    if (hours) values.push(hours + "h");
-  } else if (totalDays < monthLength) {
-    if (weeks) values.push(weeks + "w");
-    if (days) values.push(days + "d");
-  } else if (totalDays < 365) {
-    if (months) values.push(months + "mo");
-    if (weeks) values.push(weeks + "w");
-    if (days && weeks === 0 && months < 2) {
-      values.push(days + "d");
-    }
-  } else {
-    if (years) values.push(years + "y");
-    if (months) values.push(months + "mo");
+  if (elapsed.sign == -1) {
+    elapsed = new Temporal.Duration();
   }
+  const rounded = roundDuration(elapsed, start, { useWeeks: true });
 
-  return values.join(" ");
+  const formatter = rounded.secondsOnly
+    ? formatters().duration.narrowForceSeconds
+    : formatters().duration.narrow;
+  return formatter.format(rounded.duration);
 }
 
+/**
+ * Formats a timestamp as a relative offset to the current time.
+ */
 export function formatTimestampRelative(timestamp: number) {
-  const rawDuration = Date.now() - timestamp;
-  const duration = Math.abs(rawDuration);
+  const now = Temporal.Now.zonedDateTimeISO();
+  const start = Temporal.Instant.fromEpochMilliseconds(timestamp)
+    .toZonedDateTimeISO(now.timeZoneId);
+  let elapsed = start.until(now, {
+    largestUnit: "years",
+  });
 
-  const text = (...values: string[]) => {
-    const value = values.filter(Boolean).join(" ");
-    return rawDuration < 0 ? `In ${value}` : `${value} ago`;
-  };
+  const inFuture = elapsed.sign == -1;
+  if (inFuture) {
+    elapsed = elapsed.negated();
+  }
+  const rounded = roundDuration(elapsed, inFuture ? now : start, { useWeeks: true });
 
-  const monthLength = 30;
-
-  const totalSecs = Math.floor(duration / 1000);
-  const totalMins = Math.floor(totalSecs / 60);
-  const totalHours = Math.floor(totalMins / 60);
-  const totalDays = Math.floor(totalHours / 24);
-
-  const years = Math.floor(totalDays / 365);
-  const yearRemaining = totalDays % 365;
-  const months = Math.floor(yearRemaining / monthLength);
-  const monthRemaining = yearRemaining % monthLength;
-  const weeks = Math.floor(monthRemaining / 7);
-  const days = monthRemaining % 7;
-
-  const hours = totalHours % 24;
-  const mins = totalMins % 60;
-  const secs = totalSecs % 60;
-
-  const values = [];
-
-  if (totalSecs < 1) {
-    values.push("0 seconds");
-  } else if (totalHours < 1) {
-    if (mins) values.push(pluralize(mins, "minute"));
-    if (secs) values.push(pluralize(secs, "second"));
-  } else if (totalDays < 1) {
-    if (hours) values.push(pluralize(hours, "hour"));
-    if (mins) values.push(pluralize(mins, "minute"));
-  } else if (totalDays < 7) {
-    if (days) values.push(pluralize(days, "day"));
-    if (hours) values.push(pluralize(hours, "hour"));
-  } else if (totalDays < monthLength) {
-    if (weeks) values.push(pluralize(weeks, "week"));
-    if (days) values.push(pluralize(days, "day"));
-  } else if (totalDays < 365) {
-    if (months) values.push(pluralize(months, "month"));
-    if (weeks) values.push(pluralize(weeks, "week"));
-    if (days && weeks === 0 && months < 2) {
-      values.push(pluralize(days, "day"));
-    }
-  } else {
-    if (years) values.push(pluralize(years, "year"));
-    if (months) values.push(pluralize(months, "month"));
+  if (rounded.secondsOnly && rounded.duration.seconds < 1) {
+    return t("datetime.relativeNow");
   }
 
-  return text(values.join(" "));
+  const duration = formatters().duration.long.format(rounded.duration);
+  if (inFuture) {
+    return t("datetime.relativeFuture", { duration });
+  } else {
+    return t("datetime.relativePast", { duration });
+  }
 }
 
 function pluralize(

@@ -1337,5 +1337,10 @@
   },
   "serverDrawer": {
     "joinedThisSessionNoticeSetToMentionsOnly": "Mentions uniquement"
+  },
+  "datetime": {
+    "relativeFuture": "dans {{duration}}",
+    "relativePast": "il y a {{duration}}",
+    "relativeNow": "maintenant"
   }
 }
