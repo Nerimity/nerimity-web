@@ -2,6 +2,7 @@ import { useLocalStorage, StorageKeys } from "@/common/localStorage";
 import { getCurrentLanguageISO } from "@/locales/languages";
 import { t } from "@nerimity/i18lite";
 import { createMemo } from "solid-js";
+import { Temporal, Intl } from "temporal-polyfill";
 
 export const [timeFormat, setTimeFormat] = useLocalStorage<"12hr" | "24hr">(
   StorageKeys.TIME_FORMAT,

@@ -28,7 +28,6 @@ if (search.get("eruda") === "true" && location.pathname === "/app") {
   history.replaceState(null, "", "?" + search.toString());
 }
 import "./init";
-import "temporal-polyfill/global";
 import { render } from "solid-js/web";
 import "./index.css";
 import App from "./App";
