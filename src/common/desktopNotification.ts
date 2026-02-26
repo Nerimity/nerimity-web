@@ -5,7 +5,7 @@ import { StorageKeys, getStorageBoolean } from "./localStorage";
 import {
   MessageType,
   RawMessage,
-  ServerNotificationPingMode,
+  ServerNotificationPingMode
 } from "@/chat-api/RawData";
 import env from "./env";
 import { avatarUrl, UserStatus } from "@/chat-api/store/useUsers";
@@ -17,7 +17,7 @@ import { getResource, t } from "@nerimity/i18lite";
 export function createDesktopNotification(message: Message) {
   const enabled = getStorageBoolean(
     StorageKeys.ENABLE_DESKTOP_NOTIFICATION,
-    false,
+    false
   );
   if (!enabled) return;
   const { channels, account, users, serverMembers } = useStore();
@@ -42,7 +42,7 @@ export function createDesktopNotification(message: Message) {
   if (notificationPing === ServerNotificationPingMode.MENTIONS_ONLY) {
     showNotification = false;
     const mentionedMe = message.mentions?.find(
-      (m) => m.id === account.user()?.id,
+      (m) => m.id === account.user()?.id
     );
     if (mentionedMe) {
       showNotification = true;
@@ -52,8 +52,8 @@ export function createDesktopNotification(message: Message) {
     if (!showNotification && everyoneMentioned && serverId) {
       const member = serverMembers.get(serverId, message.createdBy.id);
       const hasPerm =
-        member?.isServerCreator() ||
-        member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
+        serverMembers.isServerCreator(member!) ||
+        serverMembers.hasPermission(member!, ROLE_PERMISSIONS.MENTION_EVERYONE);
       if (hasPerm) {
         showNotification = true;
       }
@@ -104,7 +104,7 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
     tag: channel.id,
     renotify: true,
 
-    icon: server?.avatarUrl() || undefined,
+    icon: server?.avatarUrl() || undefined
   });
 }
 function createDMDesktopNotification(message: Message) {
@@ -127,7 +127,7 @@ function createDMDesktopNotification(message: Message) {
     silent: true,
     tag: message.channelId,
     renotify: true,
-    icon: avatarUrl(message.createdBy) || undefined,
+    icon: avatarUrl(message.createdBy) || undefined
   });
 }
 

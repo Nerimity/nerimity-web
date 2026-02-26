@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
-import { formatTimestamp, fullDate, timeSinceMentions } from "@/common/date";
+import { formatTimestamp, fullDate, formatTimestampRelative } from "@/common/date";
 import Avatar from "@/components/ui/Avatar";
 import Icon from "@/components/ui/icon/Icon";
 import {
@@ -50,6 +50,8 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { DangerousLinkModal } from "@/components/ui/DangerousLinkModal";
 import {
   ServerWithMemberCount,
+  getPublicServer,
+  publicServerByEmojiId,
   serverDetailsByInviteCode
 } from "@/chat-api/services/ServerService";
 import { ServerVerifiedIcon } from "@/components/servers/ServerVerifiedIcon";
@@ -59,7 +61,9 @@ import {
   initializeGoogleDrive
 } from "@/common/driveAPI";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
-import { ServerMember } from "@/chat-api/store/useServerMembers";
+import useServerMembers, {
+  ServerMember
+} from "@/chat-api/store/useServerMembers";
 import { Dynamic, Portal } from "solid-js/web";
 import { Emoji as RoleEmoji } from "@/components/ui/Emoji";
 import { prettyBytes } from "@/common/prettyBytes";
@@ -105,7 +109,7 @@ const DeleteMessageModal = lazy(
 );
 
 interface FloatingOptionsProps {
-  message: RawMessage;
+  message: Message;
   isCompact?: boolean | number;
   showContextMenu?: (event: MouseEvent) => void;
   reactionPickerClick?(event: MouseEvent): void;
@@ -117,6 +121,9 @@ function FloatOptions(props: FloatingOptionsProps) {
   const { account, serverMembers, channelProperties, channels } = useStore();
   const { createPortal } = useCustomPortal();
 
+  const hasMessageId = () => !props.message.local && props.message.sentStatus === undefined;
+  const sendFailed = () => props.message.sentStatus === MessageSentStatus.FAILED;
+
   const replyClick = () => {
     channelProperties.addReply(props.message.channelId, props.message);
     props.textAreaEl?.focus();
@@ -124,7 +131,7 @@ function FloatOptions(props: FloatingOptionsProps) {
   const onDeleteClick = (e: MouseEvent) => {
     createPortal?.((close) => (
       <DeleteMessageModal
-        instant={e.shiftKey}
+        instant={e.shiftKey || sendFailed() || props.message.local}
         close={close}
         message={props.message}
       />
@@ -136,21 +143,29 @@ function FloatOptions(props: FloatingOptionsProps) {
   };
   const showEdit = () =>
     account.user()?.id === props.message.createdBy.id &&
-    props.message.type === MessageType.CONTENT;
+    props.message.type === MessageType.CONTENT &&
+    hasMessageId();
 
   const showDelete = () => {
+    if (sendFailed() || props.message.local) return true;
     if (account.user()?.id === props.message.createdBy.id) return true;
     if (!params.serverId) return false;
 
     const member = serverMembers.get(params.serverId, account.user()?.id!);
-    return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
+    return serverMembers.hasPermission(
+      member!,
+      ROLE_PERMISSIONS.MANAGE_CHANNELS
+    );
   };
 
   const showReply = () => {
+    if (!hasMessageId()) return false;
     if (props.message.type !== MessageType.CONTENT) return false;
     const channel = channels.get(props.message.channelId!);
     return channel?.canSendMessage(account.user()?.id!);
-  }
+  };
+
+  const showReact = () => hasMessageId();
 
   return (
     <div class={cn(styles.floatOptions, "floatOptions")}>
@@ -159,9 +174,11 @@ function FloatOptions(props: FloatingOptionsProps) {
           {formatTimestamp(props.message.createdAt)}
         </div>
       )}
-      <div class={styles.item} onClick={props.reactionPickerClick}>
-        <Icon size={18} name="face" class={styles.icon} />
-      </div>
+      <Show when={showReact()}>
+        <div class={styles.item} onClick={props.reactionPickerClick}>
+          <Icon size={18} name="face" class={styles.icon} />
+        </div>
+      </Show>
       <Show when={showReply()}>
         <div class={styles.item} onClick={replyClick}>
           <Icon size={18} name="reply" class={styles.icon} />
@@ -221,10 +238,12 @@ interface DetailsProps {
 }
 
 const Details = (props: DetailsProps) => {
+  const serverMembers = useServerMembers();
   const [t] = useTransContext();
 
-  const topRoleWithColor = createMemo(() =>
-    props.serverMember?.topRoleWithColor()
+  const topRoleWithColor = createMemo(
+    () =>
+      props.serverMember && serverMembers.topRoleWithColor(props.serverMember)
   );
   const font = createMemo(() =>
     getFont(props.message.createdBy.profile?.font || 0)
@@ -253,7 +272,11 @@ const Details = (props: DetailsProps) => {
           userDetailsPreloader.preload(props.message.createdBy.id);
         }}
         onContextMenu={props.userContextMenu}
-        class={classNames("trigger-profile-flyout", styles.username)}
+        class={classNames(
+          "trigger-profile-flyout",
+          styles.username,
+          font()?.class,
+        )}
         href={
           props.message.webhookId
             ? "#"
@@ -262,16 +285,17 @@ const Details = (props: DetailsProps) => {
         style={{
           "--gradient":
             topRoleWithColor()?.gradient || topRoleWithColor()?.hexColor,
-          "--color": topRoleWithColor()?.hexColor!,
-          "--font": `'${font()?.name}'`,
-          "--lh": font()?.lineHeight,
-          "--ls": font()?.letterSpacing,
-          "--scale": font()?.scale
+          "--color": topRoleWithColor()?.hexColor!
         }}
       >
         {props.serverMember?.nickname || props.message.createdBy.username}
       </CustomLink>
-      <Show when={props.serverMember?.topRoleWithIcon()}>
+      <Show
+        when={
+          props.serverMember &&
+          serverMembers.topRoleWithIcon(props.serverMember)
+        }
+      >
         {(role) => (
           <RoleEmoji
             title={role().name}
@@ -380,6 +404,8 @@ const MessageItem = (props: MessageItemProps) => {
     isDateUnderFiveMinutes() &&
     isBeforeMessageContent();
 
+  const isSending = () => props.message.sentStatus === MessageSentStatus.SENDING;
+
   const [isMentioned, setIsMentioned] = createSignal(false);
   const [isSomeoneMentioned, setIsSomeoneMentioned] = createSignal(false);
   const [blockedMessage, setBlockedMessage] = createSignal(false);
@@ -392,8 +418,11 @@ const MessageItem = (props: MessageItemProps) => {
     if (!params.serverId) return false;
     const member = serverMember();
     if (!member) return false;
-    if (member.isServerCreator()) return true;
-    return member.hasPermission?.(ROLE_PERMISSIONS.MENTION_EVERYONE);
+    if (serverMembers.isServerCreator(member)) return true;
+    return serverMembers.hasPermission(
+      member,
+      ROLE_PERMISSIONS.MENTION_EVERYONE
+    );
   };
 
   const updateTranslation = async () => {
@@ -439,10 +468,15 @@ const MessageItem = (props: MessageItemProps) => {
             (m) => m.replyToMessage?.createdBy?.id === account.user()?.id
           );
           const isRoleMentioned =
-            serverMember()?.hasPermission(ROLE_PERMISSIONS.MENTION_ROLES) &&
+            serverMember() &&
+            serverMembers.hasPermission(
+              serverMember()!,
+              ROLE_PERMISSIONS.MENTION_ROLES
+            ) &&
             props.message.roleMentions.find(
               (r) =>
-                r.id !== server()?.defaultRoleId && selfMember()?.hasRole(r.id)
+                r.id !== server()?.defaultRoleId &&
+                serverMembers.hasRole(selfMember()!, r.id)
             );
           const isMentioned =
             isEveryoneMentioned ||
@@ -486,7 +520,7 @@ const MessageItem = (props: MessageItemProps) => {
     <>
       <Show when={isNewDay()}>
         <div class={styles.newDayMarker}>
-          {fullDate(props.message.createdAt, "long", "long")}
+          {fullDate(props.message.createdAt)}
         </div>
       </Show>
       <div
@@ -516,7 +550,7 @@ const MessageItem = (props: MessageItemProps) => {
             <Icon name="edit" size={24} color="var(--success-color)" />
           </Show>
         </div>
-        <Show when={!props.hideFloating && hovered()}>
+        <Show when={!props.hideFloating && hovered() && !isSending()}>
           <FloatOptions
             textAreaEl={props.textAreaEl}
             reactionPickerClick={props.reactionPickerClick}
@@ -1234,10 +1268,10 @@ const VideoEmbed = (props: {
           />
           {props.error
             ? t("fileEmbed.expired", {
-                time: timeSinceMentions(props.file?.expireAt!)
+                time: formatTimestampRelative(props.file?.expireAt!)
               })
             : t("fileEmbed.expires", {
-                time: timeSinceMentions(props.file?.expireAt!)
+                time: formatTimestampRelative(props.file?.expireAt!)
               })}
         </div>
       </Show>
@@ -1379,10 +1413,10 @@ const FileEmbed = (props: {
           />
           {props.error
             ? t("fileEmbed.expired", {
-                time: timeSinceMentions(props.file?.expireAt!)
+                time: formatTimestampRelative(props.file?.expireAt!)
               })
             : t("fileEmbed.expires", {
-                time: timeSinceMentions(props.file?.expireAt!)
+                time: formatTimestampRelative(props.file?.expireAt!)
               })}
         </div>
       </Show>
@@ -1441,23 +1475,59 @@ const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
 
 const inviteCache = new Map<string, ServerWithMemberCount | false>();
 
-export function ServerInviteEmbed(props: { code: string }) {
+export function ServerInviteEmbed(props: { code?: string; emojiId?: string }) {
   const navigate = useNavigate();
-  const { servers } = useStore();
+  const { servers, serverMembers } = useStore();
   const [t] = useTransContext();
   const [invite, setInvite] = createSignal<
     ServerWithMemberCount | null | false
   >(null);
   const [hovered, setHovered] = createSignal(false);
 
-  const { joinByInviteCode, joining } = useJoinServer();
+  const { joinByInviteCode, joinPublicById, joining } = useJoinServer();
+
+  const cacheId = props.code
+    ? `invite/${props.code}`
+    : props.emojiId
+      ? `emoji/${props.emojiId}`
+      : "";
+
+  const serverDetailsByEmoji = async (emojiId: string) => {
+    const cachedEmoji = servers
+      .emojisUpdatedDupName()
+      .find((e) => e.id === props.emojiId);
+
+    const serverId = cachedEmoji?.serverId;
+    if (serverId) {
+      const server = servers.get(serverId);
+      if (server) {
+        return {
+          memberCount: (serverMembers.array(serverId) || []).length,
+          ...server
+        };
+      }
+    }
+
+    const exploreItem = await publicServerByEmojiId(emojiId).catch(() => {});
+    if (exploreItem && exploreItem.server) {
+      return {
+        memberCount: exploreItem.server._count?.serverMembers || 0,
+        ...exploreItem.server
+      };
+    }
+  };
 
   onMount(async () => {
-    if (inviteCache.has(props.code))
-      return setInvite(inviteCache.get(props.code)!);
-    const invite = await serverDetailsByInviteCode(props.code).catch(() => {});
+    if (inviteCache.has(cacheId)) return setInvite(inviteCache.get(cacheId)!);
+
+    let invite;
+    if (props.code) {
+      invite = await serverDetailsByInviteCode(props.code).catch(() => {});
+    } else if (props.emojiId) {
+      invite = await serverDetailsByEmoji(props.emojiId).catch(() => {});
+    }
     setInvite(invite || false);
-    inviteCache.set(props.code, invite || false);
+    inviteCache.set(cacheId, invite || false);
   });
 
   const cachedServer = () => {
@@ -1476,7 +1546,11 @@ export function ServerInviteEmbed(props: { code: string }) {
 
     if (joining()) return;
 
-    joinByInviteCode(props.code, _invite.id);
+    if (props.code) {
+      joinByInviteCode(props.code, _invite.id);
+    } else if (props.emojiId) {
+      joinPublicById(_invite.id);
+    }
   };
 
   return (
@@ -1489,10 +1563,17 @@ export function ServerInviteEmbed(props: { code: string }) {
         when={invite()}
         fallback={
           <div class={styles.serverInviteLoading}>
-            <Show when={invite() === false}>
-              <Icon name="error" color="var(--alert-color)" />
-            </Show>
-            {invite() === false ? t("invite.invalid") : t("invite.loading")}
+            <Switch fallback={t("invite.loading")}>
+              <Match when={invite() === false && props.emojiId}>
+                <span class={styles.serverInvitePrivate}>
+                  {t("invite.privateEmoji")}
+                </span>
+              </Match>
+              <Match when={invite() === false}>
+                <Icon name="error" color="var(--alert-color)" />
+                {t("invite.invalid")}
+              </Match>
+            </Switch>
           </div>
         }
       >
@@ -2005,7 +2086,9 @@ const MessageReplyItem = (props: {
       props.replyToMessage?.createdBy?.id!
     );
 
-  const topRoleWithColor = createMemo(() => member()?.topRoleWithColor());
+  const topRoleWithColor = createMemo(
+    () => member() && store.serverMembers.topRoleWithColor(member()!)
+  );
 
   const hasAttachments = () => props.replyToMessage?.attachments?.length;
 

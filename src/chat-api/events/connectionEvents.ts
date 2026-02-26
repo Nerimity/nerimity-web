@@ -17,6 +17,7 @@ import { localRPC } from "@/common/LocalRPC";
 import { reactNativeAPI } from "@/common/ReactNative";
 import useChannelProperties from "../store/useChannelProperties";
 import { useDiscordActivityTracker } from "@/common/useDiscordActivityTracker";
+import { useLastFmActivityTracker } from "@/common/useLastFmActivityTracker";
 import { type DisconnectDescription } from "socket.io-client/build/esm/socket";
 import { isExperimentEnabled } from "@/common/experiments";
 import { decompressObject } from "@/common/zstd";
@@ -262,6 +263,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   electronWindowAPI()?.restartRPCServer();
   localRPC.start();
   useDiscordActivityTracker().restart();
+  useLastFmActivityTracker().restart();
 
   const [collapsedCategories, setCollapsedServerCategories] =
     useCollapsedServerCategories();

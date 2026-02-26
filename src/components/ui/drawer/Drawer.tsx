@@ -68,7 +68,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   let startTime = 0;
   let pauseTouches = false;
 
-  const { width, isMobileWidth, isSafari } = useWindowProperties();
+  const { width, isMobileWidth, isSafari, isFirefox } = useWindowProperties();
   const LeftDrawer = children(() => props.LeftDrawer());
   const RightDrawer = children(() => props.RightDrawer());
 
@@ -294,7 +294,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     updatePage();
   };
   const onScroll = () => {
-    if (isSafari) return;
+    if (isSafari || isFirefox) return;
     pauseTouches = true;
     updatePage();
   };

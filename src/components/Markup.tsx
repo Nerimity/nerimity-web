@@ -8,13 +8,13 @@ import {
   Entity,
   parseMarkup,
   Span,
-  UnreachableCaseError,
+  UnreachableCaseError
 } from "@nerimity/nevula";
 import { createEffect, createMemo, JSXElement, on } from "solid-js";
 import {
   emojiShortcodeToUnicode,
   emojiUnicodeToShortcode,
-  unicodeToTwemojiUrl,
+  unicodeToTwemojiUrl
 } from "@/emoji";
 import { Emoji } from "./markup/Emoji";
 import useChannels from "@/chat-api/store/useChannels";
@@ -28,7 +28,7 @@ import { Link } from "./markup/Link";
 import {
   QuoteMessage,
   QuoteMessageHidden,
-  QuoteMessageInvalid,
+  QuoteMessageInvalid
 } from "./markup/QuoteMessage";
 import { GenericMention } from "./markup/GenericMention";
 import { TimestampMention, TimestampType } from "./markup/TimestampMention";
@@ -66,7 +66,7 @@ const transformEntities = (entity: Entity, ctx: RenderContext) =>
 const sliceText = (
   ctx: RenderContext,
   span: Span,
-  { countText = true } = {},
+  { countText = true } = {}
 ) => {
   const text = ctx.props().text.slice(span.start, span.end);
   if (countText && !/^\s+$/.test(text)) {
@@ -170,7 +170,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
             name,
             url: `${env.NERIMITY_CDN}emojis/${id}${
               animated && !webpAnimated ? ".gif" : ".webp"
-            }${shouldAnimate}`,
+            }${shouldAnimate}`
           }}
         />
       );
@@ -228,7 +228,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
           <span>{text}</span>,
           <rp>(</rp>,
           <rt>{annotation}</rt>,
-          <rp>)</rp>,
+          <rp>)</rp>
         );
       }
       if (output.length > 0) {
@@ -245,7 +245,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         <span
           class="gradient"
           style={{
-            "background-image": `linear-gradient(0.25turn, ${colors.replaceAll("-", ",")})`,
+            "background-image": `linear-gradient(0.25turn, ${colors.replaceAll("-", ",")})`
           }}
           textContent={text}
         />
@@ -309,7 +309,7 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
           checked={checked}
           disabled={!ctx.props().canEditCheckboxes}
           onChange={(state) => ctx.props().onCheckboxChanged?.(entity, state)}
-          style={{ display: "inline" }}
+          style={{ display: "inline-block" }}
         />
       );
     }
@@ -391,11 +391,11 @@ export function Markup(props: Props) {
       ...props,
       text: props.replaceCommandBotId
         ? props.text.replace(commandRegex, "$1$2")
-        : props.text,
+        : props.text
     }),
     emojiCount: 0,
     textCount: 0,
-    quoteCount: 0,
+    quoteCount: 0
   };
 
   const output = createMemo(
@@ -407,8 +407,8 @@ export function Markup(props: Props) {
         _ctx.textCount = 0;
         _ctx.quoteCount = 0;
         return transformEntity(entity, _ctx);
-      },
-    ),
+      }
+    )
   );
 
   const ctx = on(output, () => _ctx);
@@ -421,7 +421,7 @@ export function Markup(props: Props) {
       class={classNames(
         "markup",
         props.class,
-        conditionalClass(largeEmoji(), "largeEmoji"),
+        conditionalClass(largeEmoji(), "largeEmoji")
       )}
     >
       {props.prefix}

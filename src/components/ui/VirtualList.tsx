@@ -4,7 +4,7 @@ import {
   onCleanup,
   For,
   createSignal,
-  untrack,
+  untrack
 } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 
@@ -26,27 +26,29 @@ export const VirtualList = (props: VirtualListProps) => {
   const [range, setRange] = createSignal({ start: 0, end: overscan * 2 });
 
   const totalSize = createMemo(() =>
-    props.items.reduce((acc, item) => acc + item.height, 0)
+    props.items.reduce((acc, item) => acc + (item?.height ?? 0), 0)
   );
 
   const offsets = createMemo(() => {
     let current = 0;
     const items = props.items;
     const len = items.length;
-    const result = new Array(len);
+    const result = new Float64Array(len);
     for (let i = 0; i < len; i++) {
       result[i] = current;
-      current += items[i]!.height;
+      current += items[i]?.height ?? 0;
     }
     return result;
   });
 
   const updateRange = () => {
     const container = props.scrollContainer;
-    if (!container || !listRef) return;
+    const list = listRef;
+
+    if (!container || !list) return;
 
     const containerRect = container.getBoundingClientRect();
-    const listRect = listRef.getBoundingClientRect();
+    const listRect = list.getBoundingClientRect();
 
     const isOutOfView =
       listRect.bottom < containerRect.top ||
@@ -84,8 +86,11 @@ export const VirtualList = (props: VirtualListProps) => {
 
     while (low <= high) {
       const mid = (low + high) >>> 1;
-      const itemTop = _offsets[mid];
-      const itemHeight = items[mid]!.height;
+      const item = items[mid];
+      if (!item) break;
+
+      const itemTop = _offsets[mid]!;
+      const itemHeight = item.height;
 
       if (itemTop + itemHeight <= relativeScrollTop) {
         low = mid + 1;
@@ -98,7 +103,7 @@ export const VirtualList = (props: VirtualListProps) => {
     let endIdx = startIdx;
     for (let i = startIdx; i < itemCount; i++) {
       endIdx = i;
-      if (_offsets[i] > relativeScrollBottom) break;
+      if ((_offsets[i] ?? 0) > relativeScrollBottom) break;
     }
 
     const newStart = Math.max(0, startIdx - overscan);
@@ -114,19 +119,19 @@ export const VirtualList = (props: VirtualListProps) => {
     const container = props.scrollContainer;
     if (!container) return;
 
-    container.addEventListener("scroll", updateRange);
-    const resizeObserver = new ResizeObserver(() => updateRange());
+    const handleUpdate = () => updateRange();
+
+    container.addEventListener("scroll", handleUpdate, { passive: true });
+    const resizeObserver = new ResizeObserver(handleUpdate);
+
     resizeObserver.observe(container);
     if (listRef) resizeObserver.observe(listRef);
-
-    const safetyInterval = setInterval(updateRange, 1000);
 
     updateRange();
 
     onCleanup(() => {
-      container.removeEventListener("scroll", updateRange);
+      container.removeEventListener("scroll", handleUpdate);
       resizeObserver.disconnect();
-      clearInterval(safetyInterval);
     });
   });
 
@@ -153,13 +158,13 @@ export const VirtualList = (props: VirtualListProps) => {
         height: `${totalSize()}px`,
         position: "relative",
         width: "100%",
-        contain: "layout size",
+        contain: "layout size"
       }}
     >
       <For each={visibleIndices()}>
         {(index) => {
-          const item = createMemo(() => props.items[index]);
-          const offset = createMemo(() => offsets()[index]);
+          const item = () => props.items[index];
+          const offset = () => offsets()[index];
 
           return (
             <div
@@ -167,10 +172,10 @@ export const VirtualList = (props: VirtualListProps) => {
                 position: "absolute",
                 top: 0,
                 left: 0,
-                transform: `translate3d(0, ${offset()}px, 0)`,
+                transform: `translate3d(0, ${offset() ?? 0}px, 0)`,
                 width: "100%",
                 height: `${item()?.height ?? 0}px`,
-                "will-change": "transform",
+                "will-change": "transform"
               }}
             >
               {item()?.element({})}

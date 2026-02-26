@@ -20,7 +20,12 @@ export interface RPC {
   action: string;
   imgSrc?: string;
   title?: string;
+  subtitle?: string;
+  link?: string;
   startedAt?: number;
+  endsAt?: number;
+  speed?:number;
+  updatedAt?: number;
 }
 
 export const [spellcheckSuggestions, setSpellcheckSuggestions] = createSignal<

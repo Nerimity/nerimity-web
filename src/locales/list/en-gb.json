@@ -732,6 +732,8 @@
       "enableOnce": "Enable Once",
       "blurEffect": "Blur Effect",
       "blurEffectDescription": "Toggle blur effect on interface elements. (May Reduce Performance)",
+      "reduceAnimations": "Reduce Animations",
+      "reduceAnimationsDescription": "Prevent animated GIFs and emojis from playing until hovered or tapped.",
       "disableAdvancedMarkupBar": "Disable Advanced Markup Bar",
       "disableAdvancedMarkupBarDescription": "Prevent the advanced markup bar from appearing.",
       "rightDrawerMode": "Right Drawer Mode",
@@ -783,7 +785,11 @@
       "serverModal": {
         "text": "Please join the Discord server to enable Activity Sharing.",
         "doneButton": "I have joined"
-      }
+      },
+      "lastfmActivity": "Last.fm Activity",
+      "lastfmActivityDescription": "Share what you're listening to via Last.fm",
+      "lastfmUsernamePlaceholder": "Last.fm Username",
+      "lastfmApiKeyPlaceholder": "Last.fm API Key"
     },
     "developer": {
       "applicationsDescription": "Create Nerimity Bots.",
@@ -1140,6 +1146,7 @@
   "invite": {
     "loading": "Loading Invite…",
     "invalid": "Invalid Invite Code",
+    "privateEmoji": "This emoji is from a private server.",
     "joinButton": "Join",
     "joiningButton": "Joining…",
     "visitButton": "Visit",
@@ -1333,7 +1340,17 @@
     }
   },
   "serverDrawer": {
-    "joinedThisSessionNotice": "You'll hear all notification sounds from this server.",
+    "joinedThisSessionNotice": "You'll see all notifications from this server.",
     "joinedThisSessionNoticeSetToMentionsOnly": "Set to mentions only"
+  },
+  "datetime": {
+    "lessThanAMinuteAgo": "a few seconds ago",
+    "duration": "for {{duration}}",
+    "relativeFuture": "in {{duration}}",
+    "relativePast": "{{duration}} ago",
+    "relativeNow": "now",
+    "yesterdayTime": "Yesterday at {{time}}",
+    "dateTime": "{{date}} at {{time}}",
+    "error": "error"
   }
 }

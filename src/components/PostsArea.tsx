@@ -14,7 +14,7 @@ import {
 } from "@/chat-api/services/PostService";
 import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
-import { formatTimestamp, timeSince } from "@/common/date";
+import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { A, useSearchParams } from "solid-navigator";
 import {

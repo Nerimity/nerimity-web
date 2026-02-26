@@ -18,7 +18,11 @@ import { Channel } from "@/chat-api/store/useChannels";
 import ItemContainer from "@/components/ui/LegacyItem";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
-import { ChannelType, ServerNotificationSoundMode } from "@/chat-api/RawData";
+import {
+  ChannelType,
+  ServerNotificationPingMode,
+  ServerNotificationSoundMode
+} from "@/chat-api/RawData";
 import Icon from "@/components/ui/icon/Icon";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import {
@@ -30,7 +34,7 @@ import env from "@/common/env";
 import { unicodeToTwemojiUrl } from "@/emoji";
 import { createSignal } from "solid-js";
 import Avatar from "@/components/ui/Avatar";
-import { timeElapsed } from "@/common/date";
+import { timeSinceDigital } from "@/common/date";
 import InVoiceActions from "@/components/InVoiceActions";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
@@ -283,7 +287,7 @@ function CategoryItem(props: {
 
   const member = () => serverMembers.get(params.serverId, account.user()?.id!);
   const hasModeratorPermission = () =>
-    member()?.hasPermission(ROLE_PERMISSIONS.MANAGE_CHANNELS);
+    serverMembers.hasPermission(member()!, ROLE_PERMISSIONS.MANAGE_CHANNELS);
 
   const sortedServerChannels = createMemo(() =>
     channels
@@ -293,7 +297,7 @@ function CategoryItem(props: {
 
   const isPrivateCategory = () => {
     const user = member();
-    if (user?.hasPermission(ROLE_PERMISSIONS.MANAGE_CHANNELS)) {
+    if (serverMembers.hasPermission(user!, ROLE_PERMISSIONS.MANAGE_CHANNELS)) {
       return false;
     }
 
@@ -529,9 +533,9 @@ function CallTime(props: { channelId: string }) {
       (joinedAt) => {
         let interval: number;
         if (joinedAt) {
-          setTime(timeElapsed(joinedAt));
+          setTime(timeSinceDigital(joinedAt));
           interval = window.setInterval(
-            () => setTime(timeElapsed(joinedAt)),
+            () => setTime(timeSinceDigital(joinedAt)),
             1000
           );
         }
@@ -571,6 +575,7 @@ function JoinedThisSessionNotificationNotice() {
     dismiss();
     store.account.updateUserNotificationSettings({
       notificationSoundMode: ServerNotificationSoundMode.MENTIONS_ONLY,
+      notificationPingMode: ServerNotificationPingMode.MENTIONS_ONLY,
       serverId: params.serverId
     });
   };

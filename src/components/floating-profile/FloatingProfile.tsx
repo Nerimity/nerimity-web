@@ -159,7 +159,7 @@ const DesktopProfileFlyout = (props: {
   showProfileSettings?: boolean;
 }) => {
   const { createPortal, openedPortals } = useCustomPortal();
-  const { users, account, serverMembers, posts } = useStore();
+  const { users, account, serverMembers, posts, servers } = useStore();
   const [details, setDetails] = createSignal<UserDetails | undefined>(
     undefined
   );
@@ -168,6 +168,8 @@ const DesktopProfileFlyout = (props: {
   const isMe = () => account.user()?.id === props.userId;
   const { isMobileWidth } = useWindowProperties();
   const [customStatus, setCustomStatus] = createSignal("");
+
+  const navigate = useNavigate();
 
   const isMobileWidthMemo = createMemo(() => isMobileWidth());
   createEffect(
@@ -218,6 +220,8 @@ const DesktopProfileFlyout = (props: {
     props.serverId
       ? serverMembers.get(props.serverId, props.userId)
       : undefined;
+
+  const server = () => servers.get(props.serverId!);
 
   const accountMember = () =>
     props.serverId
@@ -371,7 +375,21 @@ const DesktopProfileFlyout = (props: {
           animate={!props.dmPane ? true : hover()}
           hexColor={user()?.hexColor}
           url={bannerUrl(user()!)}
-        />
+        >
+          <Show when={isMe() && !props.showProfileSettings}>
+            <Button
+              padding={4}
+              textSize={12}
+              iconSize={18}
+              onClick={() => navigate("/app/settings/account")}
+              color={colors().primary}
+              label={t("profile.personal.editProfile")}
+              class={styles.bannerButton}
+              iconName="edit"
+              margin={0}
+            />
+          </Show>
+        </Banner>
         <div class={styles.flyoutDetailsContainer}>
           <CustomLink
             href={RouterEndpoints.PROFILE(props.userId)}
@@ -398,14 +416,8 @@ const DesktopProfileFlyout = (props: {
                 href={RouterEndpoints.PROFILE(props.userId)}
               >
                 <Text
-                  style={{
-                    "overflow-wrap": "anywhere",
-                    "--font": `'${font()?.name}'`,
-                    "--lh": font()?.lineHeight,
-                    "--scale": font()?.scale,
-                    "--ls": font()?.letterSpacing
-                  }}
-                  class={styles.username}
+                  style={{ "overflow-wrap": "anywhere" }}
+                  class={cn(styles.username, font()?.class)}
                 >
                   {user()!.username}
                 </Text>
@@ -509,14 +521,17 @@ const DesktopProfileFlyout = (props: {
   };
 
   const ProfileArea = () => {
-    const memberRoles = member()?.roles(true) || [];
+    const memberRoles = serverMembers.roles(member()!, true) || [];
 
     return (
       <>
         <Show
           when={
             memberRoles.length > 0 ||
-            accountMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES)
+            serverMembers.hasPermission(
+              accountMember()!,
+              ROLE_PERMISSIONS.MANAGE_ROLES
+            )
           }
         >
           <div class={styles.section}>
@@ -527,7 +542,7 @@ const DesktopProfileFlyout = (props: {
               title={t("servers.settings.drawer.roles")}
             />
             <div class={styles.rolesContainer}>
-              <For each={member()?.roles(true)!}>
+              <For each={serverMembers.roles(member()!, true)}>
                 {(role) => {
                   const [hovered, setHovered] = createSignal(false);
                   return (
@@ -537,7 +552,12 @@ const DesktopProfileFlyout = (props: {
                       onMouseLeave={() => setHovered(false)}
                     >
                       <Show when={role?.icon}>
-                        <Emoji size={16} resize={26} icon={role?.icon} hovered={hovered()} />
+                        <Emoji
+                          size={16}
+                          resize={26}
+                          icon={role?.icon}
+                          hovered={hovered()}
+                        />
                       </Show>
                       <Text
                         class={styles.roleName}
@@ -555,7 +575,8 @@ const DesktopProfileFlyout = (props: {
               </For>
             </div>
             <Show
-              when={accountMember()?.hasPermission(
+              when={serverMembers.hasPermission(
+                accountMember()!,
                 ROLE_PERMISSIONS.MANAGE_ROLES
               )}
             >
@@ -626,7 +647,7 @@ const DesktopProfileFlyout = (props: {
               <Show when={member()}>
                 <div class={styles.joinedContainer} title="Server">
                   <Avatar
-                    server={{ ...member()?.server()!, verified: false }}
+                    server={{ ...server()!, verified: false }}
                     size={16}
                   />
                   {memberJoinedAt()}

@@ -123,7 +123,8 @@ export function onMessageCreated(payload: {
       const isRoleMentioned =
         member?.hasPermission(ROLE_PERMISSIONS.MENTION_ROLES) &&
         payload.message.roleMentions.find(
-          (r) => server?.defaultRoleId !== r.id && selfMember?.hasRole(r.id)
+          (r) =>
+            server?.defaultRoleId !== r.id && members.hasRole(selfMember!, r.id)
         );
 
       if (isRoleMentioned) return true;

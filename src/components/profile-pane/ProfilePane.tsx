@@ -79,7 +79,7 @@ import {
 } from "@/common/themes";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 import { getActivityType } from "@/common/activityType";
-import { Fonts, getFont } from "@/common/fonts";
+import { getFont } from "@/common/fonts";
 import { Modal } from "../ui/modal";
 
 const ActionButtonsContainer = styled(FlexRow)`
@@ -277,15 +277,7 @@ export default function ProfilePane() {
                   <div class={styles.details}>
                     <div class={styles.usernameTagOuter}>
                       <div class={styles.usernameTag}>
-                        <span
-                          class={styles.username}
-                          style={{
-                            "--font": `'${font()?.name}'`,
-                            "--lh": font()?.lineHeight,
-                            "--ls": font()?.letterSpacing,
-                            "--scale": font()?.scale
-                          }}
-                        >
+                        <span class={cn(styles.username, font()?.class)}>
                           {user()!.username}
                         </span>
                         <span class={styles.tag}>{`:${user()!.tag}`}</span>

@@ -124,9 +124,11 @@ export function isMentioned(message: RawMessage, serverId?: string) {
     );
 
   const isRoleMentioned =
-    member?.hasPermission(ROLE_PERMISSIONS.MENTION_ROLES) &&
+    serverMembers.hasPermission(selfMember!, ROLE_PERMISSIONS.MENTION_ROLES) &&
     message.roleMentions.find(
-      (r) => r.id !== server?.defaultRoleId && selfMember?.hasRole(r.id)
+      (r) =>
+        r.id !== server?.defaultRoleId &&
+        serverMembers.hasRole(selfMember!, r.id)
     );
 
   if (quoteMention || replyMention || isRoleMentioned) {
@@ -136,8 +138,8 @@ export function isMentioned(message: RawMessage, serverId?: string) {
   const everyoneMentioned = message.content?.includes("[@:e]");
   if (everyoneMentioned && serverId) {
     const hasPerm =
-      member?.isServerCreator() ||
-      member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
+      serverMembers.isServerCreator(member!) ||
+      serverMembers.hasPermission(member!, ROLE_PERMISSIONS.MENTION_EVERYONE);
     if (hasPerm) {
       return true;
     }

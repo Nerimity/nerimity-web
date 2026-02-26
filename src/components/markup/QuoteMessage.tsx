@@ -13,7 +13,7 @@ import { ServerEvents } from "@/chat-api/EventNames";
 import { formatTimestamp } from "@/common/date";
 import {
   emitModerationShowMessages,
-  emitScrollToMessage,
+  emitScrollToMessage
 } from "@/common/GlobalEvents";
 import { Embeds } from "../message-pane/message-item/MessageItem";
 import { t } from "@nerimity/i18lite";
@@ -31,7 +31,7 @@ export function QuoteMessage(props: {
     return {
       channel,
       serverId: channel?.serverId || params.serverId,
-      channelId: props.quote.channelId,
+      channelId: props.quote.channelId
     };
   };
 
@@ -52,7 +52,7 @@ export function QuoteMessage(props: {
       {
         quotedMessages: props.message.quotedMessages.filter(
           (m) => m.id !== props.quote.id
-        ),
+        )
       },
       props.message.channelId,
       props.message.id
@@ -71,7 +71,7 @@ export function QuoteMessage(props: {
     quotedMessages[index] = { ...quotedMessages[index], ...payload.updated };
     messages.updateLocalMessage(
       {
-        quotedMessages,
+        quotedMessages
       },
       props.message.channelId,
       props.message.id
@@ -80,7 +80,9 @@ export function QuoteMessage(props: {
 
   const editedAt = () => {
     if (!props.quote.editedAt) return;
-    return t("message.editedAt", { time: formatTimestamp(props.quote.editedAt) });
+    return t("message.editedAt", {
+      time: formatTimestamp(props.quote.editedAt)
+    });
   };
 
   const jumpToLink = () => {
@@ -95,7 +97,9 @@ export function QuoteMessage(props: {
     return `/app/servers/${serverId}/${channelId}?messageId=${mId}`;
   };
 
-  const topRoleWithColor = createMemo(() => serverMember()?.topRoleWithColor());
+  const topRoleWithColor = createMemo(() =>
+    serverMembers.topRoleWithColor(serverMember())
+  );
 
   return (
     <div
@@ -125,7 +129,7 @@ export function QuoteMessage(props: {
           style={{
             "--gradient":
               topRoleWithColor()?.gradient || topRoleWithColor()?.hexColor,
-            "--color": topRoleWithColor()?.hexColor!,
+            "--color": topRoleWithColor()?.hexColor!
           }}
         >
           {serverMember()?.nickname || props.quote.createdBy!.username}
@@ -166,7 +170,7 @@ export function QuoteMessage(props: {
           onClick={() =>
             emitModerationShowMessages({
               messageId: props.quote.id!,
-              channelId: props.quote.channelId!,
+              channelId: props.quote.channelId!
             })
           }
         />

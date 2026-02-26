@@ -1,38 +1,19 @@
 import { createStore, reconcile } from "solid-js/store";
 import {
   addBit,
-  Bitwise,
   CHANNEL_PERMISSIONS,
   hasBit,
-  ROLE_PERMISSIONS,
+  ROLE_PERMISSIONS
 } from "../Bitwise";
 import { RawServerMember } from "../RawData";
 import useServerRoles, { ServerRole } from "./useServerRoles";
-import useServers, { Server } from "./useServers";
-import useUsers, { User } from "./useUsers";
+import useServers from "./useServers";
+import useUsers from "./useUsers";
 import useVoiceUsers from "./useVoiceUsers";
 import useChannels from "./useChannels";
 
 export type ServerMember = Omit<RawServerMember, "user"> & {
   userId: string;
-  user: () => User;
-  server: () => Server;
-  roles: (sorted?: boolean) => ServerRole[];
-  update: (this: ServerMember, update: Partial<ServerMember>) => void;
-  hasRole: (this: ServerMember, roleId: string) => boolean | undefined;
-  permissions: () => number;
-  hasPermission: (
-    this: ServerMember,
-    bitwise: { bit: number },
-    ignoreAdmin?: boolean,
-    ignoreCreator?: boolean
-  ) => boolean;
-  topRole: () => ServerRole;
-  topRoleWithIcon: () => ServerRole | undefined;
-  unhiddenRole: () => ServerRole | undefined;
-  isServerCreator: () => boolean | undefined;
-  canViewChannel: (this: ServerMember, channelId: string) => boolean;
-  topRoleWithColor: () => Color;
 };
 
 const [serverMembers, setMember] = createStore<
@@ -49,70 +30,53 @@ const set = (member: RawServerMember) => {
 
   const newMember: ServerMember = {
     ...member,
-    userId: member.user.id,
-    server,
-    canViewChannel,
-    topRoleWithColor,
-    user,
-    update,
-    roles,
-    hasRole,
-    isServerCreator,
-    topRole,
-    topRoleWithIcon,
-    unhiddenRole,
-    permissions,
-    hasPermission,
+    userId: member.user.id
   };
+
+  (newMember as unknown as { user: unknown }).user = undefined;
 
   setMember(member.serverId, member.user.id, reconcile(newMember));
 };
 
-function user(this: ServerMember) {
-  const users = useUsers();
-  return users.get(this.userId);
+function update(member: ServerMember, update: Partial<ServerMember>) {
+  setMember(member.serverId, member.userId, update);
 }
-function server(this: ServerMember) {
+function isServerCreator(member: ServerMember | undefined) {
   const servers = useServers();
-  return servers.get(this.serverId)!;
-}
-function update(this: ServerMember, update: Partial<ServerMember>) {
-  setMember(this.serverId, this.userId, update);
-}
-function isServerCreator(this: ServerMember) {
-  const servers = useServers();
-  const server = servers.get(this.serverId);
+  const server = servers.get(member?.serverId!);
   if (!server) return;
-  return server.createdById === this.userId;
+  return server.createdById === member?.userId;
 }
-function hasRole(this: ServerMember, roleId: string) {
+function hasRole(member: ServerMember | undefined, roleId: string) {
   const servers = useServers();
-  const server = servers.get(this.serverId);
+  const server = servers.get(member?.serverId!);
 
   if (!server) return;
-  if (server.defaultRoleId === roleId) return true;
-  return this.roleIds.includes(roleId);
+  if (server?.defaultRoleId === roleId) return true;
+  return member?.roleIds.includes(roleId);
 }
-function topRole(this: ServerMember) {
+function topRole(member: ServerMember | undefined) {
   const servers = useServers();
-  const roles = useServerRoles();
+  const serverRoles = useServerRoles();
 
-  const sortedRoles = this.roles().sort((a, b) => b?.order! - a?.order!);
-  const defaultRoleId = () => servers.get(this.serverId)?.defaultRoleId;
-  const defaultRole = () => roles.get(this.serverId, defaultRoleId()!);
+  const sortedRoles = roles(member).sort((a, b) => b?.order! - a?.order!);
+  const defaultRoleId = () => servers.get(member?.serverId!)?.defaultRoleId;
+  const defaultRole = () =>
+    serverRoles.get(member?.serverId!, defaultRoleId()!);
 
   return sortedRoles[0] || defaultRole()!;
 }
 
-function topRoleWithIcon(this: ServerMember) {
+function topRoleWithIcon(member: ServerMember | undefined) {
   const servers = useServers();
-  const roles = useServerRoles();
+  const serverRoles = useServerRoles();
 
-  const sortedRoles = this.roles()
+  const sortedRoles = roles(member)
     .filter((r) => r?.icon)
     .sort((a, b) => b?.order! - a?.order!);
-  const defaultRoleId = () => servers.get(this.serverId)?.defaultRoleId;
-  const defaultRole = () => roles.get(this.serverId, defaultRoleId()!);
+  const defaultRoleId = () => servers.get(member?.serverId!)?.defaultRoleId;
+  const defaultRole = () =>
+    serverRoles.get(member?.serverId!, defaultRoleId()!);
 
   if (sortedRoles[0]?.icon) {
     return sortedRoles[0];
@@ -125,31 +89,34 @@ interface Color {
   hexColor: string;
   gradient?: string;
 }
-function topRoleWithColor(this: ServerMember): {
+function topRoleWithColor(member: ServerMember | undefined): {
   hexColor: string;
   gradient?: string;
 } {
-  const highestRole = this.roles().reduce((best, current) => {
-    if (!current?.hexColor) return best;
+  const highestRole = roles(member).reduce(
+    (best, current) => {
+      if (!current?.hexColor) return best;
 
-    if (!best || (current.order ?? 0) > (best.order ?? 0)) {
-      return current;
-    }
+      if (!best || (current.order ?? 0) > (best.order ?? 0)) {
+        return current;
+      }
 
-    return best;
-  }, null as ServerRole | null);
+      return best;
+    },
+    null as ServerRole | null
+  );
 
   if (highestRole?.hexColor) {
     return highestRole as Color;
   }
 
   const servers = useServers();
-  const roles = useServerRoles();
+  const serverRoles = useServerRoles();
 
-  const defaultRoleId = servers.get(this.serverId)?.defaultRoleId;
+  const defaultRoleId = servers.get(member?.serverId!)?.defaultRoleId;
 
   if (defaultRoleId) {
-    const defaultRole = roles.get(this.serverId, defaultRoleId);
+    const defaultRole = serverRoles.get(member?.serverId!, defaultRoleId);
     if (defaultRole?.hexColor) {
       return defaultRole as Color;
     }
@@ -158,20 +125,21 @@ function topRoleWithColor(this: ServerMember): {
   return { hexColor: "#fff" };
 }
 
-function unhiddenRole(this: ServerMember) {
-  const sortedRoles = this.roles().sort((a, b) => b?.order! - a?.order!);
+function unhiddenRole(member: ServerMember | undefined) {
+  const memberRoles = roles(member);
+  const sortedRoles = memberRoles.sort((a, b) => b?.order! - a?.order!);
   return sortedRoles.find((role) => !role?.hideRole);
 }
-function permissions(this: ServerMember) {
+function permissions(member: ServerMember | undefined) {
   const servers = useServers();
-  const roles = useServerRoles();
+  const serverRoles = useServerRoles();
 
-  const defaultRoleId = servers.get(this.serverId)?.defaultRoleId;
-  const defaultRole = roles.get(this.serverId, defaultRoleId!);
+  const defaultRoleId = servers.get(member?.serverId!)?.defaultRoleId;
+  const defaultRole = serverRoles.get(member?.serverId!, defaultRoleId!);
 
   let currentPermissions = defaultRole?.permissions || 0;
 
-  const memberRoles = this.roles();
+  const memberRoles = roles(member);
   for (let i = 0; i < memberRoles.length; i++) {
     const role = memberRoles[i];
     currentPermissions = addBit(currentPermissions, role?.permissions || 0);
@@ -180,36 +148,39 @@ function permissions(this: ServerMember) {
   return currentPermissions;
 }
 function hasPermission(
-  this: ServerMember,
+  member: ServerMember | undefined,
   bitwise: { bit: number },
   ignoreAdmin = false,
   ignoreCreator = false
 ) {
+  const memberPermissions = permissions(member);
+  const servers = useServers();
   if (!ignoreCreator) {
-    if (this.server().createdById === this.userId) return true;
+    const server = servers.get(member?.serverId!);
+    if (server?.createdById === member?.userId) return true;
   }
   if (!ignoreAdmin) {
-    if (hasBit(this.permissions(), ROLE_PERMISSIONS.ADMIN.bit)) return true;
+    if (hasBit(memberPermissions, ROLE_PERMISSIONS.ADMIN.bit)) return true;
   }
-  return hasBit(this.permissions(), bitwise.bit);
+  return hasBit(memberPermissions, bitwise.bit);
 }
 
-function canViewChannel(this: ServerMember, channelId: string) {
+function canViewChannel(member: ServerMember | undefined, channelId: string) {
   const channel = useChannels().get(channelId);
   if (!channel) return false;
-  if (this.hasPermission(ROLE_PERMISSIONS.ADMIN)) return true;
+  if (hasPermission(member, ROLE_PERMISSIONS.ADMIN)) return true;
 
   return channel.hasPermission(
     CHANNEL_PERMISSIONS.PUBLIC_CHANNEL,
     false,
-    this.userId
+    member?.userId
   );
 }
 
-function roles(this: ServerMember, sorted = false) {
+function roles(member: ServerMember | undefined, sorted = false) {
   const serverRoles = useServerRoles();
   const roles =
-    this.roleIds.map((id) => serverRoles.get(this.serverId, id)!) || [];
+    member?.roleIds.map((id) => serverRoles.get(member.serverId, id)!) || [];
   if (!sorted) return roles;
   return roles.sort((a, b) => b?.order! - a?.order!);
 }
@@ -252,5 +223,15 @@ export default function useServerMembers() {
     remove,
     removeAllServerMembers,
     get,
+    update,
+    topRole,
+    topRoleWithIcon,
+    topRoleWithColor,
+    canViewChannel,
+    unhiddenRole,
+    hasRole,
+    isServerCreator,
+    roles,
+    hasPermission
   };
 }

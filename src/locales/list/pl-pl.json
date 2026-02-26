@@ -486,7 +486,17 @@
             "bindButton": "Powiąż przycisk",
             "stopButton": "Stop",
             "downloadAppNotice": "Pobierz aplikację komputerową Nerimity, aby korzystać z tej funkcji bez konieczności przełączania się między kartami okien.",
-            "leaveCall": "Musisz najpierw zakończyć połączenie"
+            "leaveCall": "Musisz najpierw zakończyć połączenie",
+            "inputConstraints": {
+                "echoCancelation": "Usuwanie echa",
+                "echoCancelationDescription": "Zapobiega przechwytywaniu dźwięku z głośników przez mikrofon.",
+                "noiseSuppression": "Tłumienie zakłóceń",
+                "noiseSuppressionDescription": "Filtruje stały szum w tle (wentylatory, buczenie).",
+                "autoGainControl": "Automatyczna regulacja wzmocnienia",
+                "autoGainControlDescription": "Automatycznie dostosowuje poziomy głośności aby utrzymać stały sygnał."
+            },
+            "useTurn": "Użyj serwerów Cloudflare TURN",
+            "useTurnDescription": "Użyj serwerów TURN dla lepszego połączenia"
         },
         "interface": {
             "blurEffect": "Efekt rozmycia",
@@ -520,7 +530,9 @@
             "swipeToOpen": "Przeciągnij, by otworzyć",
             "swipeToOpenDescription": "Otwórz prawą szufladę, przesuwając palcem od prawej krawędzi. Spowoduje to wyłączenie funkcji przesuń, by odpowiedzieć.",
             "headerTapToOpen": "Kliknij nagłówek, aby otworzyć",
-            "headerTapToOpenDescription": "Otwórz prawą szufladę, klikając nagłówek. Włączy to funkcję przeciągnij, aby odpowiedzieć."
+            "headerTapToOpenDescription": "Otwórz prawą szufladę, klikając nagłówek. Włączy to funkcję przeciągnij, aby odpowiedzieć.",
+            "reduceAnimations": "Zredukuj animacje",
+            "reduceAnimationsDescription": "Zapobiega automatycznemu odtwarzaniu animowanych GIFów i emotek, dopóki nie najedziesz na nie kursorem lub nie klikniesz."
         },
         "window": {
             "downloadAppNotice": "W celu zmiany tych ustawień musisz zainstalować aplikację Nerimity na komputery.",
@@ -604,7 +616,11 @@
             "serverModal": {
                 "text": "Dołącz do serwera Discord, aby włączyć funkcję udostępniania aktywności.",
                 "doneButton": "Dołączyłem"
-            }
+            },
+            "lastfmActivity": "Aktywność Last.fm",
+            "lastfmActivityDescription": "Podziel się tym, czego słuchasz, za pośrednictwem serwisu Last.fm",
+            "lastfmUsernamePlaceholder": "Nazwa użytkownika Last.fm",
+            "lastfmApiKeyPlaceholder": "Klucz API Last.fm"
         },
         "badges": {
             "noticeTitle": "Darowizny",
@@ -798,7 +814,16 @@
             "linkButton": "Połącz teraz",
             "cancelButton": "Nie łącz"
         },
-        "emailNotice": "Potwierdź adres email, aby wysyłać wiadomości."
+        "emailNotice": "Potwierdź adres email, aby wysyłać wiadomości.",
+        "gifPicker": {
+            "search": "Przeszukaj {{platform}}",
+            "noResults": "Nie znaleziono GIF'ów",
+            "favorites": {
+                "title": "Ulubione",
+                "search": "Przeszukaj ulubione",
+                "noFavorites": "Brak ulubionych"
+            }
+        }
     },
     "createServerModal": {
         "title": "Stwórz serwer",
@@ -856,7 +881,8 @@
         "joiningButton": "Trwa dołączanie…",
         "visitButton": "Odwiedź",
         "member": "członek",
-        "members": "członkowie"
+        "members": "członkowie",
+        "privateEmoji": "Ta emoji pochodzi z prywatnego serwera."
     },
     "fileEmbed": {
         "expired": "Wygasł {{time}}",
@@ -1314,7 +1340,7 @@
         "adding": "Dodawanie…"
     },
     "serverDrawer": {
-        "joinedThisSessionNotice": "Usłyszysz wszystkie dźwięki powiadomień z tego serwera.",
-        "joinedThisSessionNoticeSetToMentionsOnly": "Ustaw na same wzmianki"
+        "joinedThisSessionNoticeSetToMentionsOnly": "Ustaw na same wzmianki",
+        "joinedThisSessionNotice": "Usłyszysz wszystkie dźwięki powiadomień z tego serwera."
     }
 }

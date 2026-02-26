@@ -2,13 +2,13 @@
     "header": {
         "openAppButton": "Ouvrir l'appli",
         "loginButton": "Se connecter",
-        "joinNowButton": "Rejoindre maintenant",
+        "joinNowButton": "Rejoindre Maintenant",
         "logoutButton": "Déconnexion"
     },
     "homePage": {
         "slogan": "Une application de chat moderne et épuré.",
-        "viewGitHubButton": "Voir sûr GitHub",
-        "subslogan": "Nerimity offre une expérience élégant et riche en fonctionalités qui le distingue des autres.",
+        "viewGitHubButton": "Voir sur GitHub",
+        "subslogan": "Nerimity offre une expérience élégante et riche en fonctionnalités qui le distingue des autres.",
         "getStarted": "Commencer",
         "availableOn": "Disponible sur",
         "browser": "Navigateur",
@@ -17,23 +17,23 @@
             "feature1": "Avatars animés et emojis gratuits",
             "feature6": "Trouvez de nouvelles communautés",
             "feature2": "Design élégant",
-            "feature3": "Changez gratuitement votre discriminateur",
-            "feature4": "Créer des publications sur votre profil",
+            "feature3": "Changez gratuitement votre balise",
+            "feature4": "Créez des publications sur votre profil",
             "feature5": "Trouvez votre propre communauté",
-            "feature7": "fonctionne grâce aux dons",
-            "feature8": "code source complet sur GItHub"
+            "feature7": "Fonctionne grâce aux dons",
+            "feature8": "Code source complet sur GItHub"
         }
     },
     "loginPage": {
-        "title": "Se connecter",
-        "emailOrUsernameAndTag": "Email / nom d'utilisateur:tag",
+        "title": "Se connecter pour continuer",
+        "emailOrUsernameAndTag": "Email / nom d'utilisateur:balise",
         "password": "Mot de passe",
         "login": "Connexion",
         "createAccountInstead": "Créez un compte",
         "loggingIn": "Connexion en cours…"
     },
     "registerPage": {
-        "title": "Bienvenu sûr {{appName}}",
+        "title": "Bienvenu sur {{appName}}",
         "email": "Email",
         "username": "Nom d'utilisateur",
         "password": "Mot de passe",
@@ -42,21 +42,21 @@
         "registering": "Inscription en cours…",
         "loginInstead": "Se connecter",
         "header": "Enregistrer",
-        "agreement": "En créant votre compte, vous acceptez les Conditions et la Politique de Confientialité.",
+        "agreement": "En créant votre compte, vous acceptez les Conditions et la Politique de Confidentialité.",
         "notices": {
             "nsfw": "Pas de contenu NSFW.",
             "toxic": "Ne soyez pas toxique.",
             "age": "Vous devez avoir au moins 14 ans.",
-            "title": "avis"
+            "title": "Notes"
         }
     },
     "inbox": {
         "drawer": {
             "addFriendButton": "Ajouter un ami",
             "friendsButton": "Amis",
-            "searchBarPlaceholder": "Cherche",
+            "searchBarPlaceholder": "Rechercher",
             "onlineFriends": "{{count}} Amis En Ligne",
-            "viewAll": "Tous Afficher",
+            "viewAll": "Afficher tout",
             "friendRequests": "{{count}} Demandes d'amis",
             "offlineFriends": "{{count}} Amis hors ligne",
             "notes": "Notes",
@@ -80,7 +80,7 @@
             "sortMostBumps": "Plus de bumps",
             "sortMostMembers": "Plus de membres",
             "sortRecentlyAdded": "Récemment ajouté",
-            "sortRecentlyBumped": "Récemment bumps",
+            "sortRecentlyBumped": "Récemment bump",
             "filterAll": "Tous",
             "filterVerified": "Vérifié",
             "memberCount": "{{count}} membres",
@@ -96,7 +96,7 @@
         "bots": {
             "inviteButton": "Inviter",
             "title": "Explorer - Bots",
-            "noticeMessage": "Un bot peut être relancé toutes les {{hours}} heures. Toutes les relances sont réinitialisées chaque {{date}}.",
+            "noticeMessage": "Un bot peut être bump toutes les {{hours}} heures. Tous les bumps sont réinitialisées chaque {{date}}.",
             "moderationNotice": "Les bots ne sont pas modérés par Nerimity. Veuillez signaler les bots malveillants ou qui enfreignent les conditions d'utilisation.",
             "serverCount": "Dans {{count}} serveurs"
         },
@@ -104,15 +104,15 @@
             "title": "Explorer - Thèmes",
             "themesHeaderDescription": "Personnalisez Nerimity avec un thème personnalisé.",
             "officialThemes": "Thèmes officiels",
-            "communityThemes": "thèmes communautaires",
+            "communityThemes": "Thèmes de la communauté",
             "noCommunityThemes": "Aucun thème communautaire trouvé.",
             "fetchThemesError": "Impossible de récupérer les thèmes. Veuillez réessayer plus tard.",
             "unlockDescription": "Cliquez pour explorer tous les thèmes de la communauté"
         },
         "by": "Par",
-        "bumped": "Heurter",
+        "bumped": "Bump",
         "sort": "Trier",
-        "filter": "Filtre"
+        "filter": "Filtrer"
     },
     "servers": {
         "settings": {
@@ -127,7 +127,7 @@
                 "role": "Rôle",
                 "channel": "Salon",
                 "notifications": "Notifications",
-                "audit-logs": "Journaux d'audit",
+                "audit-logs": "Journal d'audit",
                 "welcome-screen": "Écran de bienvenue",
                 "external-embed": "Intégration externe",
                 "permissions": "Autorisations",
@@ -211,15 +211,15 @@
                 "noResults": "Aucun résultat trouvé.",
                 "noReason": "Aucune raison fournie",
                 "bannedAt": "Banni à",
-                "unknown": "Inconnue",
+                "unknown": "Inconnus",
                 "unban": "Annuler le bannissement",
                 "unbanning": "Annulation du bannissement…"
             },
             "webhook": {
                 "name": "Nom du webhook",
-                "title": "webhooks",
+                "title": "Webhooks",
                 "link": "URL du webhook",
-                "linkDescription": "Exécutez les actions en utilisant ce lien",
+                "linkDescription": "Exécutez des actions en utilisant ce lien",
                 "delete": "Supprimer le webhook"
             },
             "verify": {
@@ -351,7 +351,7 @@
             "language": "Langue",
             "notifications": "Notifications",
             "viewSource": "Voir le Code Source",
-            "changelog": "Journal des Mise à Jour",
+            "changelog": "Journal des mises à jour",
             "window-settings": "Paramètres Windows",
             "privacy": "Confidentialité",
             "interface": "Interface",
@@ -448,7 +448,9 @@
             "reminderDescription": "Notifications pour les rappels.",
             "inAppPreview": "Dans l'aperçu de l'application",
             "inAppPreviewDescription": "Afficher les notifications contextuelles dans l'application.",
-            "mute": "Muet("
+            "mute": "Muet",
+            "callJoin": "Rejoindre Appel",
+            "callLeave": "Quitter Appel"
         },
         "badges": {
             "noticeTitle": "Dons",
@@ -497,7 +499,17 @@
             "pushToTalk": "Appuyer pour parler",
             "bindButton": "Lier",
             "stopButton": "Arrêt",
-            "downloadAppNotice": "Téléchargez l'application de bureau Nerimity pour utiliser cette fonctionnalité sans avoir à sélectionner un onglet de fenêtre."
+            "downloadAppNotice": "Téléchargez l'application de bureau Nerimity pour utiliser cette fonctionnalité sans avoir à sélectionner un onglet de fenêtre.",
+            "inputConstraints": {
+                "echoCancelation": "Annulation de l'Echo",
+                "echoCancelationDescription": "Empêche le micro de capter les sons des haut-parleurs.",
+                "noiseSuppression": "Suppression du Bruit",
+                "noiseSuppressionDescription": "Filtre les bruits de fond constants. (ventilos, etc.).",
+                "autoGainControl": "Volume Auto",
+                "autoGainControlDescription": "Ajuste automatiquement le volume pour maintenir un signal cohérent."
+            },
+            "useTurn": "Utiliser les Serveurs Cloudflare TURN",
+            "useTurnDescription": "Utiliser les serveurs TURN pour une meilleure connexion"
         },
         "connections": {
             "thirdParty": {
@@ -542,7 +554,9 @@
             "swipeToOpen": "Glissez pour ouvrir",
             "swipeToOpenDescription": "Ouvrez le tiroir de droite en balayant depuis le bord droit. Cela désactivera la fonction « balayer pour répondre ».",
             "headerTapToOpen": "Appuyez sur l'en-tête pour ouvrir",
-            "headerTapToOpenDescription": "Ouvrez le tiroir de droite en cliquant sur l'en-tête. Cela vous permettra de balayer pour répondre."
+            "headerTapToOpenDescription": "Ouvrez le tiroir de droite en cliquant sur l'en-tête. Cela vous permettra de balayer pour répondre.",
+            "reduceAnimations": "Réduire les Animations",
+            "reduceAnimationsDescription": "Ne pas jouer les GIFs animés et émojis tant qu'ils ne sont pas survolés ou touchés."
         },
         "window": {
             "downloadAppNotice": "Pour modifier ces paramètres, vous devez télécharger l'application de bureau Nerimity.",
@@ -756,12 +770,12 @@
     },
     "systemMessages": {
         "joinServer": {
-            "bot": "<User/><2> a été ajouté au serveur.</2>",
+            "bot": "<User/><2> a été ajouté(e) au serveur.</2>",
             "user": "<User/><2> a rejoint le serveur.</2>"
         },
         "leaveServer": "<User/><2> a quitté le serveur.</2>",
-        "kickUser": "<User/><2> a été expulsé.</2>",
-        "banUser": "<User/><2> a été banni.</2>",
+        "kickUser": "<User/><2> a été expulsé(e).</2>",
+        "banUser": "<User/><2> a été banni(e).</2>",
         "callStarted": "<User/><2> a démarré un appel.</2>",
         "bumpServer": "<User/><2> a bump le serveur.</2>",
         "pinnedMessage": "<User/><2> a épinglé un message.</2>",
@@ -771,7 +785,7 @@
         "authenticationError": "Erreur d’authentification",
         "connecting": "Connexion en cours…",
         "reconnecting": "Reconnexion en cours…",
-        "inQueue": "En file d’attente: {{count}} utilisateur(s) devant vous",
+        "inQueue": "En file d’attente : {{count}} utilisateur(s) devant vous",
         "authenticating": "Authentification en cours…",
         "connected": "Connecté !"
     },
@@ -785,7 +799,7 @@
         "title": "Erreur de connexion",
         "ok": "OK",
         "noToken": "Aucun jeton fourni.",
-        "suspended": "Vous êtes suspendu.",
+        "suspended": "Vous êtes suspendu(e).",
         "reason": "Raison",
         "defaultReason": "Violation des conditions d’utilisation",
         "until": "Jusqu’à",
@@ -799,10 +813,10 @@
         "posts": "Publications",
         "notifications": "Notifications",
         "title": "Tableau De Bord",
-        "activeUsers": "utilisateurs actifs",
-        "noActiveUsers": "aucun utilisateur actif",
+        "activeUsers": "Utilisateurs actifs",
+        "noActiveUsers": "Aucun utilisateur actif",
         "servers": "Serveurs",
-        "feed": "nourrir",
+        "feed": "Fil",
         "discover": "Découvrir"
     },
     "status": {
@@ -811,29 +825,29 @@
         "dnd": "Ne Pas Déranger",
         "offline": "Hors Ligne",
         "appearAsOffline": "Apparaître Hors Ligne",
-        "afk": "loin du clavier"
+        "afk": "Loin du clavier (AFK)"
     },
     "sidePane": {
         "addServer": "Ajouter Un Serveur",
         "home": "Accueil",
-        "homeShort": "maison",
-        "moderation": "volet de modération",
-        "moderationShort": "moderateur"
+        "homeShort": "Accueil",
+        "moderation": "Volet de modération",
+        "moderationShort": "Modo"
     },
     "messageArea": {
         "channelNotice": {
             "title": "Avant d'envoyer un message…",
-            "understoodButton": "compris"
+            "understoodButton": "Compris"
         },
-        "messageBoxPlaceholder": "Message {{username}}",
-        "messageBoxChannelPlaceholder": "Message dans {{channelName}}",
+        "messageBoxPlaceholder": "Discuter avec {{username}}",
+        "messageBoxChannelPlaceholder": "Discuter dans {{channelName}}",
         "replying": "Répondre a {{count}} message(s)",
-        "mention": "mentionner",
-        "dropFile": "déposer le fichier",
-        "uploadTo": "télécharger vers",
+        "mention": "Mentionner",
+        "dropFile": "Déposer le fichier",
+        "uploadTo": "Téléverser à",
         "specialMentions": {
-            "everyone": "mentionner tout le monde",
-            "someone": "Mentionner un utilisateur au hasard",
+            "everyone": "Mentionne tout le monde",
+            "someone": "Mentionne un utilisateur au hasard",
             "silent": "Message silencieux"
         },
         "linkToGoogleDrive": {
@@ -841,12 +855,21 @@
             "linkButton": "Lier maintenant",
             "cancelButton": "Ne pas lier"
         },
-        "emailNotice": "Veuillez confirmer votre adresse e-mail pour envoyer des messages."
+        "emailNotice": "Veuillez confirmer votre adresse e-mail pour envoyer des messages.",
+        "gifPicker": {
+            "search": "Rechercher {{platform}}",
+            "noResults": "Aucun GIFs trouvés",
+            "favorites": {
+                "title": "Favoris",
+                "search": "Rechercher les favoris",
+                "noFavorites": "Aucun favoris pour le moment"
+            }
+        }
     },
     "markup": {
         "color": "Couleur",
         "timestampModal": {
-            "title": "Balisage temporel",
+            "title": "Balisage Temporel",
             "relative": "Relatif",
             "offset": "Compenser"
         },
@@ -856,7 +879,7 @@
         "header": "En-tête",
         "namedLink": "Lien nommé",
         "spoiler": "Spoiler",
-        "timestamp": "Horodatage",
+        "timestamp": "Temps",
         "html": "Mode HTML",
         "emojiPicker": "Sélecteur d'émoji",
         "checkbox": "Case à cocher"
@@ -868,21 +891,21 @@
         "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> et <3>{{username3}}</3> sont en train d'écrire…"
     },
     "resetPassword": {
-        "title": "réinitialiser le mot de passe",
-        "resetSuccessful": "réinitialisation du mot de passe réussie.",
-        "passwordsDoNotMatch": "la confirmation du mot de passe ne correspond pas.",
-        "passwordTooLong": "le mot de passe doit comporter moins de 72 caractères.",
-        "resetPasswordButton": "réinitialiser mot de passe",
-        "resetting": "réinitialisation…",
-        "email": "e-mail",
-        "sendEmailButton": "envoyer e-mail",
-        "sending": "envoi de l'e-mail…"
+        "title": "Réinitialiser le mot de passe",
+        "resetSuccessful": "Réinitialisation du mot de passe réussie.",
+        "passwordsDoNotMatch": "La confirmation du mot de passe ne correspond pas.",
+        "passwordTooLong": "Le mot de passe doit comporter moins de 72 caractères.",
+        "resetPasswordButton": "Réinitialiser mot de passe",
+        "resetting": "Réinitialisation…",
+        "email": "Email",
+        "sendEmailButton": "Envoyer l'email",
+        "sending": "Envoi de l'email…"
     },
     "updateModal": {
         "title": "Mise à Jour Disponible",
         "updateButton": "Mettre à Jour Maintenant",
-        "laterButton": "plus tard",
-        "releasedAt": "publiée a"
+        "laterButton": "Plus tard",
+        "releasedAt": "Publiée a"
     },
     "badges": {
         "supporter": {
@@ -1086,7 +1109,8 @@
         "invalid": "Code d'invitation invalide",
         "joinButton": "Rejoindre",
         "joiningButton": "en train de rejoindre…",
-        "visitButton": "Visiter"
+        "visitButton": "Visiter",
+        "privateEmoji": "Cet emoji vient d'un serveur privé."
     },
     "fileEmbed": {
         "expired": "Éxpiré {{time}}",
@@ -1148,7 +1172,20 @@
             "leave": "Partir",
             "muted": "En sourdine",
             "deafened": "Assourdi",
-            "fullscreen": "Plein écran"
+            "fullscreen": "Plein écran",
+            "webcamModal": {
+                "title": "Partager la Webcam",
+                "error": "Le partage de caméra a échoué",
+                "shareCameraButton": "Partager la Caméra"
+            },
+            "screenShareModal": {
+                "title": "Partage d'écran",
+                "quality": "Qualitéé",
+                "framerate": "Images par seconde",
+                "shareSystemAudio": "Partager l'audio système",
+                "shareAppAudio": "Partager l'audio de l'application",
+                "chooseWindowButton": "Choisir une fenêtre"
+            }
         }
     },
     "inVoiceActions": {
@@ -1223,8 +1260,10 @@
         "avatarAndBanner": {
             "avatar": "Avatar",
             "banner": "Bannière",
-            "supportedFileTypes": "Prise en charge : {{extensions}}, Taille maximale : {{size}}",
-            "browse": "Parcourir"
+            "supportedFileTypes": "Pris en charge : {{extensions}}, Taille maximale : {{size}}",
+            "browse": "Parcourir",
+            "remove": "Enlever",
+            "revert": "Revenir"
         },
         "undoButton": "Défaire",
         "closeButton": "Fermer",
@@ -1250,7 +1289,7 @@
         "joinServer": "Rejoindre le serveur officiel Nerimity",
         "editProfile": "Modifier mon profil",
         "support": "Soutenez-moi sur {{platform}}",
-        "contribute": "Contribuez à Nerimity sur Github"
+        "contribute": "Contribuez à Nerimity sur GitHub"
     },
     "logoutModal": {
         "title": "Déconnexion ?",
@@ -1267,7 +1306,7 @@
         "title": "Rappels",
         "showAllButton": "Afficher tous les rappels",
         "viewButton": "Voir",
-        "dismissing": "Rejeté…",
+        "dismissing": "Rejection…",
         "deleting": "Suppression…",
         "snoozeFor5Minutes": "Répéter l'alarme pendant 5 minutes",
         "snoozeFor1Day": "Répéter l'alarme pendant 1 jour",
@@ -1295,5 +1334,9 @@
         "title": "Réponse de {{botName}}",
         "dataReceiver": "Les données sont envoyées à {{botName}}",
         "notice": "Ne partagez jamais d'informations sensibles"
+    },
+    "serverDrawer": {
+        "joinedThisSessionNoticeSetToMentionsOnly": "Mentions uniquement",
+        "joinedThisSessionNotice": "Vous entendrez tous les sons de notifications de ce serveur."
     }
 }

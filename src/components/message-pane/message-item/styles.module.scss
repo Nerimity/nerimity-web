@@ -592,12 +592,16 @@
     padding-left: 10px;
     gap: 10px;
   }
+  .serverInvitePrivate {
+    font-size: 14px;
+  }
 
   .serverInfo {
     display: flex;
     overflow: hidden;
     flex-direction: column;
     gap: 4px;
+    margin-right: auto;
   }
 
   .serverName {

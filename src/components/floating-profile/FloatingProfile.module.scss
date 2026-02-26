@@ -246,6 +246,32 @@ body .postItemContainer {
   }
 }
 
+.bannerButton {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  :global(.label) {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.3s;
+    margin-left: 0 !important;
+  }
+
+  &:hover :global(.label) {
+    max-width: 100px;
+    margin-left: 5px !important;
+  }
+}
+
 .playedFor {
   font-variant-numeric: tabular-nums;
 }

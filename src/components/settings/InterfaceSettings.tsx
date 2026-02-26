@@ -54,6 +54,7 @@ export default function InterfaceSettings() {
       <ThemesBlock />
       <TimeFormatSetting />
       <BlurEffect />
+      <ReduceAnimations />
       <ChatBar />
       <Show when={isMobileAgent()}>
         <RightDrawerModeBlock />
@@ -315,6 +316,26 @@ function BlurEffect() {
       description={t("settings.interface.blurEffectDescription")}
     >
       <Checkbox onChange={toggleBlurEffect} checked={blurEffectEnabled()} />
+    </SettingsBlock>
+  );
+}
+
+function ReduceAnimations() {
+  const { reduceMotion, setReduceMotionMode } = useWindowProperties();
+  const toggleReduceMotion = () => {
+    setReduceMotionMode(reduceMotion() ? "disabled" : "enabled");
+  };
+
+  // Note: this doesn't currently expose a way to set the mode back to
+  // auto; this is a setting most users will only change once, and they
+  // rarely change their system settings.
+  return (
+    <SettingsBlock
+      icon="animated_images"
+      label={t("settings.interface.reduceAnimations")}
+      description={t("settings.interface.reduceAnimationsDescription")}
+    >
+      <Checkbox onChange={toggleReduceMotion} checked={reduceMotion()} />
     </SettingsBlock>
   );
 }

@@ -564,7 +564,9 @@
             "swipeToOpen": "Смахните пальцем для открытия",
             "swipeToOpenDescription": "Смахивание для открытия правого меню вместо быстрого ответа на сообщение.",
             "headerTapToOpen": "Нажмите на заголовок для открытия",
-            "headerTapToOpenDescription": "Открытие правого меню нажатием на заголовок и смахивание для быстрого ответа на сообщение."
+            "headerTapToOpenDescription": "Открытие правого меню нажатием на заголовок и смахивание для быстрого ответа на сообщение.",
+            "reduceAnimations": "Уменьшить количество анимаций",
+            "reduceAnimationsDescription": "Предотвратить воспроизведение анимированных GIF-изображений и эмодзи до наведения курсора или нажатия на них."
         },
         "window": {
             "downloadAppNotice": "Чтобы изменить эти настройки, скачайте приложение Nerimity на ПК.",
@@ -1059,7 +1061,8 @@
         "joiningButton": "Присоединение…",
         "visitButton": "Посетить",
         "member": "участник",
-        "members": "участника(ов)"
+        "members": "участника(ов)",
+        "privateEmoji": "Этот эмодзи с приватного сервера."
     },
     "fileEmbed": {
         "expired": "Истёк {{time}}",
@@ -1333,7 +1336,7 @@
         "adding": "Сохранение…"
     },
     "serverDrawer": {
-        "joinedThisSessionNotice": "Вы будете слышать все уведомления с этого сервера.",
-        "joinedThisSessionNoticeSetToMentionsOnly": "Слышать только упоминания"
+        "joinedThisSessionNoticeSetToMentionsOnly": "Слышать только упоминания",
+        "joinedThisSessionNotice": "Отображать все звуковые уведомления данного сервера"
     }
 }

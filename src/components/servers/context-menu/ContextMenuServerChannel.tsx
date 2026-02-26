@@ -43,7 +43,7 @@ export default function ContextMenuServerChannel(props: Props) {
   const showSettings = () => {
     if (isServerCreator()) return true;
     return Object.values(ROLE_PERMISSIONS).find((p: Bitwise) => {
-      if (!member()?.hasPermission(p)) return false;
+      if (!serverMembers.hasPermission(member()!, p)) return false;
       if (p.showSettings) return true;
       return false;
     });

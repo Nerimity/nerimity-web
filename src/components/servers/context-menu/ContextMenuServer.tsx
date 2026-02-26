@@ -2,7 +2,7 @@ import { copyToClipboard } from "@/common/clipboard";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import ContextMenu, {
   ContextMenuItem,
-  ContextMenuProps,
+  ContextMenuProps
 } from "@/components/ui/context-menu/ContextMenu";
 import useStore from "@/chat-api/store/useStore";
 import { useNavigate } from "solid-navigator";
@@ -10,7 +10,7 @@ import {
   Bitwise,
   hasBit,
   ROLE_PERMISSIONS,
-  USER_BADGES,
+  USER_BADGES
 } from "@/chat-api/Bitwise";
 import { dismissChannelNotification } from "@/chat-api/emits/userEmits";
 import { RawExploreItem } from "@/chat-api/RawData";
@@ -19,7 +19,7 @@ import { createSignal, createEffect } from "solid-js";
 import {
   ChannelType,
   ServerNotificationPingMode,
-  ServerNotificationSoundMode,
+  ServerNotificationSoundMode
 } from "@/chat-api/RawData";
 import { RadioBoxItem } from "@/components/ui/RadioBox";
 import { css } from "solid-styled-components";
@@ -27,7 +27,7 @@ import { ServerBumpModal } from "../../explore/ExploreServers";
 import { t } from "@nerimity/i18lite";
 import {
   toast,
-  useCustomPortal,
+  useCustomPortal
 } from "@/components/ui/custom-portal/CustomPortal";
 import { ToastModal } from "@/components/ui/toasts/ToastModal";
 import LeaveServerModal from "../modals/LeaveServerModal";
@@ -60,7 +60,7 @@ export default function ContextMenuServer(props: Props) {
   const showSettings = () => {
     if (isServerCreator()) return true;
     return Object.values(ROLE_PERMISSIONS).find((p: Bitwise) => {
-      if (!member()?.hasPermission(p)) return false;
+      if (!serverMembers.hasPermission(member()!, p)) return false;
       if (p.showSettings) return true;
       return false;
     });
@@ -105,7 +105,7 @@ export default function ContextMenuServer(props: Props) {
         t("servers.settings.publishServer.bumpCooldown", {
           hours: remaining.getUTCHours(),
           minutes: remaining.getUTCMinutes(),
-          seconds: remaining.getUTCSeconds(),
+          seconds: remaining.getUTCSeconds()
         }),
         t("servers.settings.publishServer.bumpServer"),
         "arrow_upward"
@@ -137,7 +137,7 @@ export default function ContextMenuServer(props: Props) {
     account.updateUserNotificationSettings({
       serverId: props.serverId,
       notificationPingMode: ping,
-      notificationSoundMode: sound,
+      notificationSoundMode: sound
     });
   };
 
@@ -185,7 +185,7 @@ export default function ContextMenuServer(props: Props) {
           checkboxSize={8}
           labelSize={14}
         />
-      ),
+      )
     } as ContextMenuItem;
   };
 
@@ -196,17 +196,17 @@ export default function ContextMenuServer(props: Props) {
       notificationItem({
         type: "PING",
         label: t("serverContextMenu.notificationOptions.everything"),
-        value: ServerNotificationPingMode.ALL,
+        value: ServerNotificationPingMode.ALL
       }),
       notificationItem({
         type: "PING",
         label: t("serverContextMenu.notificationOptions.mentionsOnly"),
-        value: ServerNotificationPingMode.MENTIONS_ONLY,
+        value: ServerNotificationPingMode.MENTIONS_ONLY
       }),
       notificationItem({
         type: "PING",
         label: t("serverContextMenu.notificationOptions.mute"),
-        value: ServerNotificationPingMode.MUTE,
+        value: ServerNotificationPingMode.MUTE
       })
     );
 
@@ -215,30 +215,26 @@ export default function ContextMenuServer(props: Props) {
       notificationItem({
         type: "SOUND",
         label: t("serverContextMenu.notificationOptions.everything"),
-        value: ServerNotificationSoundMode.ALL,
+        value: ServerNotificationSoundMode.ALL
       }),
       notificationItem({
         type: "SOUND",
         label: t("serverContextMenu.notificationOptions.mentionsOnly"),
-        value: ServerNotificationSoundMode.MENTIONS_ONLY,
+        value: ServerNotificationSoundMode.MENTIONS_ONLY
       }),
       notificationItem({
         type: "SOUND",
         label: t("serverContextMenu.notificationOptions.mute"),
-        value: ServerNotificationSoundMode.MUTE,
+        value: ServerNotificationSoundMode.MUTE
       })
     );
 
-    items.push(
-      {
-        icon: "settings",
-        label: t("settings.drawer.title"),
-        onClick: () =>
-          navigate(
-            RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!)
-          ),
-      }
-    );
+    items.push({
+      icon: "settings",
+      label: t("settings.drawer.title"),
+      onClick: () =>
+        navigate(RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!))
+    });
 
     return items;
   };
@@ -251,20 +247,20 @@ export default function ContextMenuServer(props: Props) {
           icon: "markunread_mailbox",
           label: t("serverContextMenu.markAsRead"),
           disabled: !hasNotifications(),
-          onClick: dismissNotifications,
+          onClick: dismissNotifications
         },
         { separator: true },
         {
           icon: "mail",
           label: t("servers.settings.drawer.invites"),
           onClick: () =>
-            navigate(RouterEndpoints.SERVER_SETTINGS_INVITES(props.serverId!)),
+            navigate(RouterEndpoints.SERVER_SETTINGS_INVITES(props.serverId!))
         },
         {
           icon: "arrow_upward",
           label: t("servers.settings.publishServer.bumpServer"),
           onClick: bumpClick,
-          disabled: !isServerPublic(),
+          disabled: !isServerPublic()
         },
         {
           icon: "notifications",
@@ -273,7 +269,7 @@ export default function ContextMenuServer(props: Props) {
           onClick: () =>
             navigate(
               RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!)
-            ),
+            )
         },
         ...(showSettings()
           ? [
@@ -283,8 +279,8 @@ export default function ContextMenuServer(props: Props) {
                 onClick: () =>
                   navigate(
                     RouterEndpoints.SERVER_SETTINGS_GENERAL(props.serverId!)
-                  ),
-              },
+                  )
+              }
             ]
           : []),
         { separator: true },
@@ -294,13 +290,13 @@ export default function ContextMenuServer(props: Props) {
               label: "Admin Pane",
               onClick: () => {
                 navigate("/app/moderation/servers/" + props.serverId);
-              },
+              }
             }
           : {},
         {
           icon: "content_copy",
           label: t("general.copyID"),
-          onClick: () => copyToClipboard(props.serverId!),
+          onClick: () => copyToClipboard(props.serverId!)
         },
         { separator: true, show: !isServerCreator() },
         {
@@ -308,8 +304,8 @@ export default function ContextMenuServer(props: Props) {
           label: t("serverContextMenu.leave"),
           alert: true,
           onClick: onLeaveClicked,
-          show: !isServerCreator(),
-        },
+          show: !isServerCreator()
+        }
       ]}
     />
   );

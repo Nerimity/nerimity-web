@@ -112,7 +112,10 @@ export default function MainPaneHeader() {
     );
     if (hasChannelGotCallPermission) return true;
     const member = serverMembers.get(channel()?.serverId!, account.user()?.id!);
-    const isAdmin = member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
+    const isAdmin = serverMembers.hasPermission(
+      member!,
+      ROLE_PERMISSIONS.ADMIN
+    );
     return isAdmin;
   };
 

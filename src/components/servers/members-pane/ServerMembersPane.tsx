@@ -12,7 +12,9 @@ import {
 import useStore from "@/chat-api/store/useStore";
 import { Table, TableSort } from "@/components/ui/table/Table";
 import { formatTimestamp } from "@/common/date";
-import { ServerMember } from "@/chat-api/store/useServerMembers";
+import useServerMembers, {
+  ServerMember
+} from "@/chat-api/store/useServerMembers";
 import Avatar from "@/components/ui/Avatar";
 import MemberContextMenu, {
   ServerMemberRoleModal
@@ -25,10 +27,11 @@ import { Emoji } from "@/components/ui/Emoji";
 import Icon from "@/components/ui/icon/Icon";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import Button from "@/components/ui/Button";
+import useUsers from "@/chat-api/store/useUsers";
 
 export default function Pane() {
   const params = useParams<{ serverId: string }>();
-  const { header, serverMembers, account } = useStore();
+  const { header, serverMembers, account, users } = useStore();
   const {
     createRegisteredPortal,
     openedPortals,
@@ -62,8 +65,8 @@ export default function Pane() {
     (serverMembers.array(params.serverId!) as ServerMember[])
       .sort((a, b) => {
         if (sort().headerId === "member") {
-          const aNick = a?.nickname || a?.user().username;
-          const bNick = b?.nickname || b?.user().username;
+          const aNick = a?.nickname || users.get(a?.userId!)!.username;
+          const bNick = b?.nickname || users.get(b?.userId!)!.username;
           if (sort().mode === "desc") return bNick?.localeCompare(aNick);
           if (sort().mode === "asc") return aNick?.localeCompare(bNick);
         }
@@ -72,8 +75,8 @@ export default function Pane() {
           if (sort().mode === "asc") return a?.joinedAt - b?.joinedAt;
         }
         if (sort().headerId === "joinedNerimity") {
-          const userA = a?.user()!;
-          const userB = b?.user()!;
+          const userA = users.get(a?.userId!)!;
+          const userB = users.get(b?.userId!)!;
           if (sort().mode === "desc") return userB.joinedAt! - userA.joinedAt!;
           if (sort().mode === "asc") return userA.joinedAt! - userB.joinedAt!;
         }
@@ -90,7 +93,7 @@ export default function Pane() {
         }
         if (!search().trim()) return true;
         const nickname = m?.nickname;
-        const username = m?.user().username;
+        const username = users.get(m?.userId!)?.username;
         const val = search().toLowerCase().trim();
         if (nickname?.toLowerCase().includes(val.toLowerCase())) {
           return true;
@@ -227,7 +230,7 @@ export default function Pane() {
         >
           <For each={limitedMembers()}>
             {(member) => {
-              const roles = () => member?.roles(true) || [];
+              const roles = () => serverMembers.roles(member, true) || [];
 
               return (
                 <Table.Item
@@ -251,7 +254,7 @@ export default function Pane() {
                   <Table.Field
                     mobileTitle={t("channelDrawer.members.sort.joinedNerimity")}
                   >
-                    {formatTimestamp(member?.user().joinedAt!)}
+                    {formatTimestamp(users.get(member?.userId!)?.joinedAt!)}
                   </Table.Field>
 
                   <Table.Field>
@@ -299,7 +302,8 @@ export default function Pane() {
                       </Show>
 
                       <Show
-                        when={accountMember()?.hasPermission(
+                        when={serverMembers.hasPermission(
+                          accountMember()!,
                           ROLE_PERMISSIONS.MANAGE_ROLES
                         )}
                       >
@@ -345,9 +349,11 @@ export default function Pane() {
 }
 
 function MemberField(props: { member: ServerMember }) {
-  const user = () => props.member.user();
+  const users = useUsers();
+  const serverMembers = useServerMembers();
+  const user = () => users.get(props.member.userId)!;
   const topRole = () => {
-    const r = props.member.roles(true);
+    const r = serverMembers.roles(props.member, true);
     return r.length > 0 ? r[0] : undefined;
   };
 

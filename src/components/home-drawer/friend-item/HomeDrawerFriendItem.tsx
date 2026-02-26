@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { cn } from "@/common/classNames";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
 import { A, useNavigate, useParams } from "solid-navigator";
@@ -19,7 +19,7 @@ import { formatTimestamp } from "@/common/date";
 import { unblockUser } from "@/chat-api/services/UserService";
 import { Modal } from "@/components/ui/modal";
 import { Item } from "@/components/ui/Item";
-import { Fonts, getFont } from "@/common/fonts";
+import { getFont } from "@/common/fonts";
 
 export default function HomeDrawerFriendItem(props: {
   friend?: Friend;
@@ -106,15 +106,7 @@ export default function HomeDrawerFriendItem(props: {
           <Avatar animate={hovered()} user={user()} size={28} />
         </A>
         <div class={styles.details}>
-          <div
-            class={styles.username}
-            style={{
-              "--font": `'${font()?.name}'`,
-              "--lh": font()?.lineHeight,
-              "--ls": font()?.letterSpacing,
-              "--scale": font()?.scale,
-            }}
-          >
+          <div class={cn(styles.username, font()?.class)}>
             {user().username}
           </div>
           <Show when={isBlocked()}>

@@ -204,6 +204,10 @@ export function getCurrentLanguage() {
   return _getCurrentLanguage()?.replace("-", "_");
 }
 
+export function getCurrentLanguageISO() {
+  return _getCurrentLanguage()?.replace("_", "-");
+}
+
 export { setCurrentLanguage };
 
 export function getLanguage(key: string) {

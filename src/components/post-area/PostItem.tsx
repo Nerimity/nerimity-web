@@ -48,7 +48,7 @@ import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
 import { toast } from "../ui/custom-portal/CustomPortal";
 import { CreateTicketModal } from "@/components/CreateTicketModal";
-import { Fonts, getFont } from "@/common/fonts";
+import { getFont } from "@/common/fonts";
 import { Trans } from "@nerimity/solid-i18lite";
 
 const viewsEnabledAt = new Date();
@@ -261,14 +261,8 @@ const Details = (props: {
     <div class={cn(style.postDetailsContainer, "postDetailsContainer")}>
       <CustomLink
         onContextMenu={props.onRequestUserContextMenu}
-        class={style.postUsernameStyle}
-        style={{
-          color: "white",
-          "--font": `'${font()?.name}'`,
-          "--lh": font()?.lineHeight,
-          "--ls": font()?.letterSpacing,
-          "--scale": font()?.scale,
-        }}
+        class={cn(style.postUsernameStyle, font()?.class)}
+        style={{ color: "white" }}
         onClick={(e) => e.stopPropagation()}
         decoration
         href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}

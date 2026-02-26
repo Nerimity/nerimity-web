@@ -132,7 +132,16 @@
             "linkButton": "Jetzt verknüpfen",
             "cancelButton": "Nicht verknüpfen"
         },
-        "emailNotice": "Bestätige deine E-Mail, um Nachrichten zu senden."
+        "emailNotice": "Bestätige deine E-Mail, um Nachrichten zu senden.",
+        "gifPicker": {
+            "search": "Suche auf {{platform}}",
+            "noResults": "Keine GIFs gefunden",
+            "favorites": {
+                "title": "Favoriten",
+                "search": "Favoriten suchen",
+                "noFavorites": "Noch keine Favoriten"
+            }
+        }
     },
     "inbox": {
         "blockedUsersModal": {
@@ -583,7 +592,17 @@
             "bindButton": "Belegen",
             "stopButton": "Stop",
             "downloadAppNotice": "Lade die Nerimity-Desktop-App herunter, um diese Funktion ohne Fenster-/Tab-Fokus zu nutzen.",
-            "leaveCall": "Du musst den Anruf zuerst verlassen"
+            "leaveCall": "Du musst den Anruf zuerst verlassen",
+            "inputConstraints": {
+                "echoCancelation": "Echounterdrückung",
+                "echoCancelationDescription": "Verhindert, dass das Mikrofon Geräusche von den Lautsprechern aufnimmt.",
+                "noiseSuppression": "Geräuschunterdrückung",
+                "noiseSuppressionDescription": "Filtert konstante Hintergrundgeräusche (Lüfter, Brummen) heraus.",
+                "autoGainControl": "Automatische Verstärkungsregelung",
+                "autoGainControlDescription": "Passt automatisch die Lautstärke an, um ein gleichmäßiges Signal aufrechtzuerhalten."
+            },
+            "useTurn": "Verwende Cloudflare TURN-Server",
+            "useTurnDescription": "TURN-Server für eine bessere Verbindungsqualität verwenden."
         },
         "interface": {
             "customCSS": "Benutzerdefiniertes CSS",
@@ -617,7 +636,9 @@
             "swipeToOpen": "Swipe um zu öffnen",
             "swipeToOpenDescription": "­Öffne die rechte Seitenleiste durch swipen vom rechten Bildschirmrand. Dadurch wird swipen zum Antworten deaktiviert.",
             "headerTapToOpen": "Header tippen zum Öffnen",
-            "headerTapToOpenDescription": "Öffne die rechte Seitenleiste durch Klicken auf den Header. Dadurch wird swipen zum Antworten aktiviert."
+            "headerTapToOpenDescription": "Öffne die rechte Seitenleiste durch Klicken auf den Header. Dadurch wird swipen zum Antworten aktiviert.",
+            "reduceAnimations": "Reduziere Animationen",
+            "reduceAnimationsDescription": "Verhindert, dass animierte GIFs und Emojis automatisch abspielen, bis sie gehovert oder abgetippt werden."
         },
         "window": {
             "downloadAppNotice": "Um diese Einstellungen zu ändern, musst du die Nerimity-Desktop-App herunterladen.",
@@ -648,7 +669,11 @@
             "serverModal": {
                 "text": "Bitte tritt dem Discord-Server bei, um Aktivitätsfreigabe zu aktivieren.",
                 "doneButton": "Ich bin beigetreten"
-            }
+            },
+            "lastfmActivity": "Last.fm Aktivität",
+            "lastfmActivityDescription": "Teile, was du gerade hörst, durch Last.fm",
+            "lastfmUsernamePlaceholder": "Last.fm Nutzername",
+            "lastfmApiKeyPlaceholder": "Last.fm API Schlüssel"
         },
         "developer": {
             "oauth2": {
@@ -935,7 +960,8 @@
         "joiningButton": "Beitritt läuft…",
         "visitButton": "Besuchen",
         "member": "Mitglied",
-        "members": "Mitglieder"
+        "members": "Mitglieder",
+        "privateEmoji": "Dieser Emoji ist von einem privaten Server."
     },
     "fileEmbed": {
         "expired": "Abgelaufen {{time}}",
@@ -1314,7 +1340,7 @@
         "adding": "Wird hinzugefügt…"
     },
     "serverDrawer": {
-        "joinedThisSessionNotice": "Du wirst alle Benachrichtigungstöne von diesem Server hören.",
-        "joinedThisSessionNoticeSetToMentionsOnly": "Nur bei Erwähnungen"
+        "joinedThisSessionNoticeSetToMentionsOnly": "Nur bei Erwähnungen",
+        "joinedThisSessionNotice": "Du wirst alle Benachrichtigungstöne von diesem Server sehen."
     }
 }

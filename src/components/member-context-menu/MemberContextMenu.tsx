@@ -70,6 +70,8 @@ export default function MemberContextMenu(props: Props) {
     props.serverId
       ? serverMembers.get(props.serverId, props.userId)
       : undefined;
+
+  const memberUser = () => users.get(member()?.userId!);
   const server = () =>
     props.serverId ? servers.get(props.serverId) : undefined;
 
@@ -126,7 +128,10 @@ export default function MemberContextMenu(props: Props) {
     const items: any = [];
 
     const hasNicknamePermission = (() => {
-      const isAdmin = selfMember()?.hasPermission(ROLE_PERMISSIONS.ADMIN);
+      const isAdmin = serverMembers.hasPermission(
+        selfMember()!,
+        ROLE_PERMISSIONS.ADMIN
+      );
       const result = clickedOnMyself || isAdmin;
       return result;
     })();
@@ -135,7 +140,8 @@ export default function MemberContextMenu(props: Props) {
       items.push(nickname);
     }
 
-    const hasManageRolePermission = selfMember()?.hasPermission(
+    const hasManageRolePermission = serverMembers.hasPermission(
+      selfMember()!,
       ROLE_PERMISSIONS.MANAGE_ROLES
     );
     if (hasManageRolePermission) {
@@ -148,7 +154,7 @@ export default function MemberContextMenu(props: Props) {
     if (clickedOnMyself) return items;
 
     if (isCurrentUserCreator) {
-      const isBot = member()?.user().bot;
+      const isBot = memberUser()?.bot;
       return [
         ...(hasNicknamePermission ? [nickname] : []),
         ...(member() ? [editRoles] : []),
@@ -161,11 +167,16 @@ export default function MemberContextMenu(props: Props) {
       ];
     }
 
-    const hasKickPermission = selfMember()?.hasPermission(
+    const hasKickPermission = serverMembers.hasPermission(
+      selfMember()!,
       ROLE_PERMISSIONS.KICK
     );
-    const hasBanPermission = selfMember()?.hasPermission(ROLE_PERMISSIONS.BAN);
-    const hasAdminPermission = selfMember()?.hasPermission(
+    const hasBanPermission = serverMembers.hasPermission(
+      selfMember()!,
+      ROLE_PERMISSIONS.BAN
+    );
+    const hasAdminPermission = serverMembers.hasPermission(
+      selfMember()!,
       ROLE_PERMISSIONS.ADMIN
     );
 
@@ -194,14 +205,14 @@ export default function MemberContextMenu(props: Props) {
     createPortal?.((close) => <KickModal close={close} member={member()!} />);
   };
   const onBanClick = () => {
-    const user = props.user! || member()?.user();
+    const user = props.user! || memberUser();
     createPortal?.((close) => (
       <BanModal close={close} user={user} serverId={props.serverId!} />
     ));
   };
 
   const onUnmuteClick = () => {
-    const user = props.user! || member()?.user();
+    const user = props.user! || memberUser();
     createPortal?.((close) => (
       <DeleteConfirmModal
         close={close}
@@ -220,7 +231,7 @@ export default function MemberContextMenu(props: Props) {
     ));
   };
   const onMuteClick = () => {
-    const user = props.user! || member()?.user();
+    const user = props.user! || memberUser();
     createPortal?.((close) => (
       <MuteModal close={close} user={user} serverId={props.serverId!} />
     ));
@@ -337,6 +348,8 @@ function Header(props: { userId: string }) {
 
 function KickModal(props: { member: ServerMember; close: () => void }) {
   const [requestSent, setRequestSent] = createSignal(false);
+  const store = useStore();
+  const memberUser = () => store.users.get(props.member.userId);
   const onKickClick = async () => {
     if (requestSent()) return;
     setRequestSent(true);
@@ -372,14 +385,14 @@ function KickModal(props: { member: ServerMember; close: () => void }) {
     <LegacyModal
       close={props.close}
       title={t("kickServerMemberModal.title", {
-        username: props.member?.user().username
+        username: memberUser()?.username
       })}
       actionButtons={ActionButtons}
     >
       <div class={styles.kickModal}>
         <Trans
           key="kickServerMemberModal.message"
-          options={{ username: props.member?.user().username }}
+          options={{ username: memberUser()?.username }}
         >
           Are you sure you want to kick <b>{"username"}</b>?
         </Trans>
@@ -471,6 +484,8 @@ function TransferOwnershipModal(props: {
 
   const server = () => store.servers.get(props.member.serverId!);
 
+  const memberUser = () => store.users.get(props.member.userId);
+
   const onUpdate = async () => {
     if (requestSent()) return;
     setRequestSent(true);
@@ -510,7 +525,7 @@ function TransferOwnershipModal(props: {
         <div>{t("transferOwnershipModal.server")}</div>
         <TransferOwnershipOwnerBox server={server()} />
         <div>{t("transferOwnershipModal.newOwner")}</div>
-        <TransferOwnershipOwnerBox user={props.member.user()} />
+        <TransferOwnershipOwnerBox user={memberUser()} />
         <Input
           label={t("registerPage.confirmPassword")}
           type="password"
@@ -752,13 +767,13 @@ export function ServerMemberRoleModal(props: Props & { close: () => void }) {
 
   const selfMember = () =>
     serverMembers.get(props.serverId!, account.user()?.id!);
-  const selfTopRole = () => selfMember()?.topRole();
+  const selfTopRole = () => serverMembers.topRole(selfMember()!);
 
   const rolesThatCanBeApplied = () =>
     roles().filter((role) => {
       if (role!.id === server()?.defaultRoleId!) return false;
       if (role?.botRole) return false;
-      if (selfMember()?.server().isCurrentUserCreator()) return true;
+      if (server()?.isCurrentUserCreator()) return true;
       if (role!.order >= selfTopRole()?.order!) return false;
 
       return true;
@@ -785,8 +800,8 @@ function RoleItem(props: { role: ServerRole; userId: string }) {
   const { serverMembers } = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
 
-  const member = () => serverMembers.get(props.role.serverId, props.userId);
-  const hasRole = () => member()?.hasRole(props.role.id) || false;
+  const member = () => serverMembers.get(props.role.serverId, props.userId)!;
+  const hasRole = () => serverMembers.hasRole(member()!, props.role.id);
 
   const onRoleClicked = async () => {
     if (requestSent()) return;
@@ -799,7 +814,7 @@ function RoleItem(props: { role: ServerRole; userId: string }) {
       )!;
     }
     if (checked) {
-      newRoleIds = [...member()?.roleIds!, props.role.id];
+      newRoleIds = [...member().roleIds, props.role.id];
     }
     await updateServerMember(props.role.serverId, props.userId, {
       roleIds: newRoleIds

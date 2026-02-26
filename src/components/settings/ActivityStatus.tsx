@@ -26,6 +26,7 @@ import Block from "../ui/settings-block/Block";
 import {
   getStorageObject,
   getStorageString,
+  setStorageObject,
   setStorageString,
   StorageKeys,
   useLocalStorage,
@@ -41,6 +42,7 @@ import { Modal } from "../ui/modal";
 import { emojiShortcodeToUnicode } from "@/emoji";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import { useDiscordActivityTracker } from "@/common/useDiscordActivityTracker";
+import { useLastFmActivityTracker } from "@/common/useLastFmActivityTracker";
 import { UserActivity } from "../user-activity/UserActivity";
 
 const Container = styled("div")`
@@ -197,6 +199,7 @@ export default function WindowSettings() {
         </FlexRow>
       </RPCAdContainer>
       <DiscordActivity />
+      <LastFmActivity />
 
       <Show when={!isElectron}>
         <Notice
@@ -547,5 +550,50 @@ const DiscordServerJoinedConfirmModal = (props: {
         />
       </Modal.Footer>
     </Modal.Root>
+  );
+};
+
+const LastFmActivity = () => {
+  const lastFmTracker = useLastFmActivityTracker();
+  const lastfm = getStorageObject(StorageKeys.LASTFM, { username: "", apiKey: "" });
+  const [username, setUsername] = createSignal<string>(lastfm.username);
+  const [apiKey, setApiKey] = createSignal<string>(lastfm.apiKey);
+  const [showApiKey, setShowApiKey] = createSignal(false);
+
+  const onBlur = () => {
+    setStorageObject(StorageKeys.LASTFM, { username: username().trim(), apiKey: apiKey().trim() });
+    lastFmTracker.restart();
+  };
+
+  return (
+    <SettingsBlock
+      label={t("settings.activity.lastfmActivity")}
+      description={t("settings.activity.lastfmActivityDescription")}
+      header
+    >
+      <FlexColumn gap={6}>
+        <Input
+          placeholder={t("settings.activity.lastfmUsernamePlaceholder")}
+          onText={setUsername}
+          value={username()}
+          onBlur={onBlur}
+        />
+        <Input
+          placeholder={t("settings.activity.lastfmApiKeyPlaceholder")}
+          onText={setApiKey}
+          value={apiKey()}
+          onBlur={onBlur}
+          type={showApiKey() ? "text" : "password"}
+          suffix={
+            <Icon
+              name={showApiKey() ? "visibility_off" : "visibility"}
+              size={18}
+              style={{ cursor: "pointer", opacity: 0.6, "padding-right": "10px", "flex-shrink": 0, "align-self": "center" }}
+              onClick={() => setShowApiKey(!showApiKey())}
+            />
+          }
+        />
+      </FlexColumn>
+    </SettingsBlock>
   );
 };

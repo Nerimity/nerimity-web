@@ -24,7 +24,7 @@ export interface ContextMenuItem {
   id?: any;
   label?: string;
   icon?: string;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent) => void;
   separator?: boolean;
   title?: string;
   alert?: boolean;
@@ -276,7 +276,7 @@ function Item(props: {
       return;
     }
     props.onClick?.(e);
-    props.item.onClick?.();
+    props.item.onClick?.(e);
   };
 
   const getSubContextMenuPos = () => {

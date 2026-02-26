@@ -9,7 +9,7 @@ import {
   RawServerFolder,
   RawServerMember,
   RawServerRole,
-  RawVoice,
+  RawVoice
 } from "../RawData";
 import useAccount from "../store/useAccount";
 import useChannels, { Channel } from "../store/useChannels";
@@ -133,7 +133,9 @@ interface ServerMemberUpdated {
 export const onServerMemberUpdated = (payload: ServerMemberUpdated) => {
   const serverMembers = useServerMembers();
   const member = serverMembers.get(payload.serverId, payload.userId);
-  member?.update(payload.updated);
+  if (!member) return;
+
+  serverMembers.update(member, payload.updated);
 };
 
 export const onServerEmojiAdd = (payload: {
@@ -143,7 +145,7 @@ export const onServerEmojiAdd = (payload: {
   const servers = useServers();
   const server = servers.get(payload.serverId);
   server?.update({
-    customEmojis: [...server.customEmojis, payload.emoji],
+    customEmojis: [...server.customEmojis, payload.emoji]
   });
 };
 
@@ -157,7 +159,7 @@ export const onServerEmojiUpdate = (payload: {
   server?.update({
     customEmojis: server.customEmojis.map((e) =>
       e.id !== payload.emojiId ? e : { ...e, name: payload.name }
-    ),
+    )
   });
 };
 
@@ -168,7 +170,7 @@ export const onServerEmojiRemove = (payload: {
   const servers = useServers();
   const server = servers.get(payload.serverId);
   server?.update({
-    customEmojis: server.customEmojis.filter((e) => e.id !== payload.emojiId),
+    customEmojis: server.customEmojis.filter((e) => e.id !== payload.emojiId)
   });
 };
 
@@ -194,7 +196,7 @@ export const onServerUpdated = (payload: ServerUpdated) => {
 export const onServerOrderUpdated = (payload: { serverIds: string[] }) => {
   const account = useAccount();
   account.setUser({
-    orderedServerIds: payload.serverIds,
+    orderedServerIds: payload.serverIds
   });
 };
 
@@ -204,7 +206,7 @@ export const onServerFolderCreated = (payload: { folder: RawServerFolder }) => {
   const existingFolders = account.user()?.serverFolders || [];
 
   account.setUser({
-    serverFolders: [...existingFolders, payload.folder],
+    serverFolders: [...existingFolders, payload.folder]
   });
 };
 export const onServerFolderUpdated = (payload: { folder: RawServerFolder }) => {
@@ -214,7 +216,7 @@ export const onServerFolderUpdated = (payload: { folder: RawServerFolder }) => {
 
   if (payload.folder.serverIds.length === 0) {
     account.setUser({
-      serverFolders: existingFolders.filter((f) => f.id !== payload.folder.id),
+      serverFolders: existingFolders.filter((f) => f.id !== payload.folder.id)
     });
     return;
   }
@@ -222,7 +224,7 @@ export const onServerFolderUpdated = (payload: { folder: RawServerFolder }) => {
   account.setUser({
     serverFolders: existingFolders.map((f) =>
       f.id === payload.folder.id ? { ...f, ...payload.folder } : f
-    ),
+    )
   });
 };
 
@@ -319,8 +321,8 @@ export const onServerRoleDeleted = (payload: {
     for (let i = 0; i < members.length; i++) {
       const member = members[i];
       if (!member?.roleIds.includes(payload.roleId)) continue;
-      member.update({
-        roleIds: member.roleIds.filter((ids) => ids !== payload.roleId),
+      serverMembers.update(member, {
+        roleIds: member.roleIds.filter((ids) => ids !== payload.roleId)
       });
     }
 
@@ -331,7 +333,7 @@ export const onServerRoleDeleted = (payload: {
       );
       if (channelWithoutRole?.length !== channel.permissions?.length) {
         channel.update({
-          permissions: channelWithoutRole,
+          permissions: channelWithoutRole
         });
       }
     }
@@ -395,7 +397,7 @@ export const onServerChannelOrderUpdated = (
         payload.categoryId !== channel.categoryId &&
         payload.orderedChannelIds.includes(channel.id)
           ? {
-              categoryId: payload.categoryId,
+              categoryId: payload.categoryId
             }
           : undefined;
 
@@ -404,14 +406,14 @@ export const onServerChannelOrderUpdated = (
         channel.categoryId &&
         payload.orderedChannelIds.includes(channel.id)
           ? {
-              categoryId: undefined,
+              categoryId: undefined
             }
           : undefined;
 
       channel?.update({
         ...updateOrder,
         ...updateOrAddCategoryId,
-        ...removeCategoryId,
+        ...removeCategoryId
       });
     }
   });

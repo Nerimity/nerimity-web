@@ -16,12 +16,14 @@ import {
   onMount,
   Show
 } from "solid-js";
-import { ServerMember } from "@/chat-api/store/useServerMembers";
+import useServerMembers, {
+  ServerMember
+} from "@/chat-api/store/useServerMembers";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 import { DrawerHeader } from "@/components/drawer-header/DrawerHeader";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { css } from "solid-styled-components";
-import { bannerUrl } from "@/chat-api/store/useUsers";
+import useUsers, { bannerUrl, User } from "@/chat-api/store/useUsers";
 import Text from "@/components/ui/Text";
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
@@ -57,13 +59,16 @@ import { VirtualList } from "../ui/VirtualList";
 import { Fonts, getFont } from "@/common/fonts";
 import { Channel } from "@/chat-api/store/useChannels";
 import { matchSorter } from "match-sorter";
+import { ServerRole } from "@/chat-api/store/useServerRoles";
 
 const MemberItem = (props: {
   member: ServerMember;
   style: JSX.CSSProperties;
 }) => {
+  const users = useUsers();
+  const serverMembers = useServerMembers();
   const params = useParams<{ serverId: string }>();
-  const user = () => props.member.user();
+  const user = () => users.get(props.member.userId)!;
   let elementRef: undefined | HTMLDivElement;
   const [contextPosition, setContextPosition] = createSignal<
     { x: number; y: number } | undefined
@@ -81,10 +86,15 @@ const MemberItem = (props: {
   };
 
   const isAdmin = () => {
-    return props.member.hasPermission(ROLE_PERMISSIONS.ADMIN, false, true);
+    return serverMembers.hasPermission(
+      props.member,
+      ROLE_PERMISSIONS.ADMIN,
+      false,
+      true
+    );
   };
   const isCreator = () => {
-    return props.member.isServerCreator();
+    return serverMembers.isServerCreator(props.member);
   };
 
   const onClick = (e: MouseEvent) => {
@@ -104,11 +114,11 @@ const MemberItem = (props: {
     );
   };
 
-  const topRoleWithColor = createMemo(() => props.member.topRoleWithColor());
-
-  const font = createMemo(() =>
-    getFont(props.member.user().profile?.font || 0)
+  const topRoleWithColor = createMemo(() =>
+    serverMembers.topRoleWithColor(props.member)
   );
+
+  const font = createMemo(() => getFont(user().profile?.font || 0));
 
   return (
     <div
@@ -139,15 +149,11 @@ const MemberItem = (props: {
         />
         <div class={styles.memberInfo}>
           <div
-            class={styles.username}
+            class={cn(styles.username, font()?.class)}
             style={{
               "--gradient":
                 topRoleWithColor()?.gradient || topRoleWithColor()?.hexColor,
-              "--color": topRoleWithColor()?.hexColor!,
-              "--font": `'${font()?.name}'`,
-              "--lh": font()?.lineHeight,
-              "--ls": font()?.letterSpacing,
-              "--scale": font()?.scale
+              "--color": topRoleWithColor()?.hexColor!
             }}
           >
             {props.member.nickname || user().username}
@@ -508,81 +514,115 @@ const BannerItem = (props: { hovered: boolean }) => {
   );
 };
 
+interface MemberData {
+  member: ServerMember;
+  username: string;
+  user: User;
+}
 const ServerDrawer = () => {
   const params = useParams<{ serverId?: string; channelId?: string }>();
-  const { servers, serverRoles, channels, serverMembers } = useStore();
-  const server = () => servers.get(params.serverId!);
-  const channel = () => channels.get(params.channelId!);
+  const { servers, serverRoles, channels, serverMembers, users } = useStore();
 
-  const roles = () => serverRoles.getAllByServerId(params.serverId!);
+  const server = createMemo(() => servers.get(params.serverId!));
+  const channel = createMemo(() => channels.get(params.channelId!));
+  const roles = createMemo(() =>
+    serverRoles.getAllByServerId(params.serverId!)
+  );
+  const defaultRoleId = createMemo(() => server()?.defaultRoleId);
 
-  const members = createMemo(
+  const rawMembers = createMemo(
     () =>
       channel()?.membersWithChannelAccess() ||
       serverMembers.array(params.serverId!)
   );
 
-  const roleMembers = mapArray(roles, (role) => {
-    const membersInThisRole = () =>
-      members().filter((member) => {
-        if (!member?.user()) return false;
-        if (!member?.user().presence()?.status) return false;
-        if (server()?.defaultRoleId === role!.id && !member?.unhiddenRole())
-          return true;
-        if (member?.unhiddenRole()?.id === role!.id) return true;
-      });
+  const processedGroups = createMemo(() => {
+    const list = rawMembers() as ServerMember[];
+    const defRole = defaultRoleId();
 
-    return { role, members: createMemo(() => membersInThisRole()) };
+    const groups = new Map<string, MemberData[]>();
+    const offline: MemberData[] = [];
+
+    for (const member of list) {
+      const user = users.get(member?.userId!);
+      if (!user) continue;
+
+      const presence = user.presence();
+      const username = user.username || "";
+      const status = presence?.status;
+
+      const memberData = { member, username, user };
+
+      if (!status) {
+        offline.push(memberData);
+        continue;
+      }
+
+      const unhiddenRole = serverMembers.unhiddenRole(member!);
+      let targetRoleId = unhiddenRole?.id;
+
+      if (!unhiddenRole && defRole) {
+        targetRoleId = defRole;
+      }
+
+      if (targetRoleId) {
+        if (!groups.has(targetRoleId)) groups.set(targetRoleId, []);
+        groups.get(targetRoleId)!.push(memberData);
+      }
+    }
+
+    const sortFn = (a: MemberData, b: MemberData) =>
+      a.username.localeCompare(b.username);
+
+    offline.sort(sortFn);
+    groups.forEach((members) => members.sort(sortFn));
+
+    return { groups, offline };
   });
 
-  const offlineMembers = createMemo(() =>
-    members().filter((member) => !member?.user().presence()?.status)
+  const roleMembers = mapArray(roles, (role) => {
+    const members = createMemo(
+      () => processedGroups().groups.get(role!.id) || []
+    );
+    return { role: role as ServerRole, members };
+  });
+
+  const offlineMembers = createMemo(() => processedGroups().offline);
+
+  const defaultRole = createMemo(() =>
+    serverRoles.get(server()?.id!, defaultRoleId()!)
   );
-  const defaultRole = () =>
-    serverRoles.get(server()?.id!, server()?.defaultRoleId!);
+
   return (
     <Show when={params.channelId} keyed={true}>
       <Delay ms={10}>
-        <>
-          <div
-            style={{
-              "margin-left": "8px",
-              "margin-top": "8px",
-              display: "flex"
-            }}
-          >
-            <Text size={14}>{t("informationDrawer.members")}</Text>
-            <div class={styles.memberCount}>
-              {members().length.toLocaleString()}
-            </div>
+        <div
+          style={{ "margin-left": "8px", "margin-top": "8px", display: "flex" }}
+        >
+          <Text size={14}>{t("informationDrawer.members")}</Text>
+          <div class={styles.memberCount}>
+            {rawMembers().length.toLocaleString()}
           </div>
-          <div class={styles.roleContainer}>
-            <For each={roleMembers()}>
-              {(item) => (
-                <Show when={!item.role!.hideRole && item.members().length}>
-                  <RoleItem
-                    members={item
-                      .members()
-                      .sort((a, b) =>
-                        a?.user().username.localeCompare(b?.user().username)
-                      )}
-                    roleName={item.role?.name!}
-                    roleIcon={item.role?.icon!}
-                  />
-                </Show>
-              )}
-            </For>
+        </div>
+        <div class={styles.roleContainer}>
+          <For each={roleMembers()}>
+            {(item) => (
+              <Show when={!item.role.hideRole && item.members().length > 0}>
+                <RoleItem
+                  members={item.members().map((m) => m.member)}
+                  roleName={item.role.name}
+                  roleIcon={item.role.icon}
+                />
+              </Show>
+            )}
+          </For>
 
-            {/* Offline */}
-            <RoleItem
-              members={offlineMembers().sort((a, b) =>
-                a?.user().username.localeCompare(b?.user().username)
-              )}
-              roleName={t("status.offline")}
-              roleIcon={defaultRole()?.icon}
-            />
-          </div>
-        </>
+          <RoleItem
+            members={offlineMembers().map((m) => m.member)}
+            roleName={t("status.offline")}
+            roleIcon={defaultRole()?.icon}
+          />
+        </div>
       </Delay>
     </Show>
   );
@@ -718,7 +758,7 @@ const SearchInputBox = (props: {
       userSearchQuery(),
       {
         keys: [
-          (e) => normalizeText(e?.user?.().username),
+          (e) => normalizeText(store.users.get(e?.userId!)?.username),
           (e) => normalizeText(e?.nickname!)
         ]
       }
@@ -781,8 +821,15 @@ const SearchInputBox = (props: {
                 }}
                 onClick={() => handleSuggestUserClick(member!)}
               >
-                <Avatar size={24} user={member?.user()} resize={28} />
-                <div>{member?.nickname || member?.user()?.username}</div>
+                <Avatar
+                  size={24}
+                  user={store.users.get(member?.userId!)}
+                  resize={28}
+                />
+                <div>
+                  {member?.nickname ||
+                    store.users.get(member?.userId!)?.username}
+                </div>
               </div>
             )}
           </For>
@@ -800,8 +847,15 @@ const SearchInputBox = (props: {
                   );
                 }}
               >
-                <Avatar size={20} user={member?.user()} resize={28} />
-                <div>{member?.nickname || member?.user()?.username}</div>
+                <Avatar
+                  size={20}
+                  user={store.users.get(member?.userId!)}
+                  resize={28}
+                />
+                <div>
+                  {member?.nickname ||
+                    store.users.get(member?.userId!)?.username}
+                </div>
                 <Icon
                   name="close"
                   size={18}

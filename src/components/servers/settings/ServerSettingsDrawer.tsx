@@ -71,7 +71,7 @@ function SettingsList() {
   const hasPermission = (role?: Bitwise) => {
     if (!role) return true;
     if (server()?.createdById === account.user()?.id) return true;
-    return member()?.hasPermission(role);
+    return serverMembers?.hasPermission(member()!, role);
   };
 
   return (

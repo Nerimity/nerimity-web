@@ -149,12 +149,14 @@ const updateLocalMessage = async (
 
 const silentRegex = /^@silent([\s]|$)/;
 
+const generateLocalId = () => `local-${Date.now()}-${Math.random()}`;
+
 const sendAndStoreMessage = async (channelId: string, content?: string) => {
   const channels = useChannels();
   const channelProperties = useChannelProperties();
   const properties = channelProperties.get(channelId);
   const file = properties?.attachment?.file;
-  const tempMessageId = `${Date.now()}-${Math.random()}`;
+  const tempMessageId = generateLocalId();
   const channel = channels.get(channelId);
 
   const htmlMode = properties?.htmlEnabled;
@@ -183,7 +185,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   if (!user) return;
 
   const localMessage: Message = {
-    id: "",
+    id: tempMessageId,
     tempId: tempMessageId,
     silent: isSilent,
     channelId,
@@ -376,7 +378,7 @@ const pushFailedMessage = (channelId: string, content: string) => {
     reactions: [],
     roleMentions: [],
     quotedMessages: [],
-    id: Math.random().toString(),
+    id: generateLocalId(),
     type: MessageType.CONTENT,
     local: true,
     content,

@@ -27,38 +27,54 @@ Chat App made using SolidJS.
 - Run `pnpm i` and `pnpm run dev`
 - Go to http://local.nerimity.com:3000
 
-### ✨ Features:
+## ✨ Features
 
-- [x] Explore Servers
-- [x] Explore Themes
-- [x] Notification Sounds
+### App:
+
+- [x] Upload Files
 - [x] Re-organize Servers
-- [x] Emojis
-- [x] Markdown
-- [x] Join/Leave/Kick/Ban Messages
-- [x] Edit Messages
-- [x] Kick/Ban Users From Servers
+- [x] App Settings
+- [x] Changelog
+- [x] Notification Sounds
+- [x] Mute Notifications
+- [x] Push Notifications
+- [x] Desktop App
+
+### User:
+
 - [x] Login & Register
+- [x] Update Account
 - [x] Friends System
+- [x] Block Users
 - [x] DM & Server Channels
 - [x] DM & Server Notifications
 - [x] User Presence (Online, Offline, etc...)
-- [x] Delete Server
-- [x] Delete Server Channels
-- [x] Update Server Channels
-- [x] Create New Server Channels
-- [x] Update Account
-- [x] Changelog
-- [x] Block Users
-- [x] Mentions
-- [x] Custom Emojis
-- [x] Mute Notifications
-- [x] Desktop App
-- [x] App Settings
 - [x] Delete Account
+
+### Messaging:
+
+- [x] Mentions
+- [x] Edit Messages
+- [x] Markdown
 - [x] Embeds
-- [x] Upload Files
-- [x] Push Notifications
+- [x] Emoji
+- [x] Custom Emoji
+
+### Servers:
+
+- [x] Kick/Ban Users From Servers
+- [x] Join/Leave/Kick/Ban Messages
+- [x] Create New Server Channels
+- [x] Update Server Channels
+- [x] Delete Server Channels
+- [x] Delete Server
+
+
+### Explore:
+
+- [x] Explore Servers
+- [x] Explore Bots
+- [x] Explore Themes
 
 ## 🌍 Translations
 
