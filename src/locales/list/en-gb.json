@@ -1021,7 +1021,7 @@
     "reposted": "Reposted",
     "repostedBy": "Reposted by",
     "voteButton": "Vote",
-    "voteCount": "{{count}} vote(s)",
+    "voteCount": "<1>{{count}}</1> vote(s)",
     "copyPostButton": "Copy Post",
     "sections": {
       "replies": "Replies ({{count}})",
@@ -1110,7 +1110,7 @@
     "inVoice": "In voice"
   },
   "inVoiceActions": {
-    "connectedFor": "Connected for {{time}}"
+    "connectedFor": "Connected for <1>{{time}}</1>"
   },
   "informationDrawer": {
     "info": "Info",
