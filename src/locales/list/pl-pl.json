@@ -752,7 +752,7 @@
         "title": "Post",
         "viewCount": "Szacunkowa liczba wyświetleń",
         "voteButton": "Głosuj",
-        "voteCount": "{{count}} głos(ów)",
+        "voteCount": "<1>{{count}}</1> głos(ów)",
         "copyPostButton": "Kopiuj post",
         "sections": {
             "replies": "Odpowiedzi ({{count}})",
@@ -1231,7 +1231,7 @@
         "verified": "Ten serwer został zweryfikowany."
     },
     "inVoiceActions": {
-        "connectedFor": "Czas połączenia"
+        "connectedFor": "Połączono przez <1>{{time}}</1>"
     },
     "inputFieldActions": {
         "copy": "Kopiuj",
@@ -1351,6 +1351,7 @@
         "relativeNow": "teraz",
         "yesterdayTime": "Wczoraj o {{time}}",
         "dateTime": "{{date}} o {{time}}",
-        "error": "błąd"
+        "error": "błąd",
+        "invalidTimezone": "nieprawidłowa strefa czasowa"
     }
 }
