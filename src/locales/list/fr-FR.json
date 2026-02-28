@@ -1193,7 +1193,7 @@
         }
     },
     "inVoiceActions": {
-        "connectedFor": "Connecté pour"
+        "connectedFor": "Connecté pour <1>{{time}}</1>"
     },
     "informationDrawer": {
         "info": "Info",
