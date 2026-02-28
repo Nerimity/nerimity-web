@@ -908,7 +908,7 @@
         "title": "Publicación",
         "viewCount": "Estimación de visualizaciones",
         "voteButton": "Votar",
-        "voteCount": "{{count}} voto(s)",
+        "voteCount": "<1>{{count}}</1> voto(s)",
         "copyPostButton": "Copiar publicación",
         "sections": {
             "replies": "Respuestas ({{count}})",
@@ -1231,7 +1231,7 @@
         "verified": "Este servidor está verificado."
     },
     "inVoiceActions": {
-        "connectedFor": "Conectado por"
+        "connectedFor": "Conectado por <1>{{time}}</1>"
     },
     "inputFieldActions": {
         "copy": "Copiar",
@@ -1351,6 +1351,7 @@
         "relativeNow": "ahora",
         "yesterdayTime": "Ayer a las {{time}}",
         "dateTime": "{{date}} a las {{time}}",
-        "error": "error"
+        "error": "error",
+        "invalidTimezone": "zona horaria no válida"
     }
 }
