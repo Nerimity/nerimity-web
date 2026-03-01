@@ -119,7 +119,7 @@ export default function LoginPage() {
             </Show>
             <Button
               primary
-              styles={{ flex: 1 }}
+              style={{ flex: 1 }}
               margin={[10, 0, 0, 0]}
               iconName="login"
               label={

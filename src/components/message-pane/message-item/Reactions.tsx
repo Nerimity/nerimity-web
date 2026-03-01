@@ -142,7 +142,7 @@ function AddNewReactionButton(props: {
       margin={0}
       padding={6}
       class={style.reactionItem}
-      styles={{ visibility: show() ? "visible" : "hidden" }}
+      style={{ visibility: show() ? "visible" : "hidden" }}
       iconName="add"
       iconSize={15}
     />

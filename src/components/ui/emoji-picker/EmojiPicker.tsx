@@ -179,7 +179,7 @@ export function EmojiPicker(props: {
         <div class={styles.tabs}>
           <Show when={gifPickerSearch().trim()}>
             <Button
-              styles={{ "margin-right": "auto", "margin-left": "6px" }}
+              style={{ "margin-right": "auto", "margin-left": "6px" }}
               iconName="arrow_back"
               margin={0}
               onClick={() => setGifPickerSearch("")}

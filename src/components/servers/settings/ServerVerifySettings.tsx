@@ -82,7 +82,7 @@ export default function ServerSettingsBans() {
               <Button
                 onClick={verifyClick}
                 label={t("servers.settings.verify.verifyButton")}
-                styles={{ "margin-left": "auto" }}
+                style={{ "margin-left": "auto" }}
                 margin={0}
                 color="var(--success-color)"
               />

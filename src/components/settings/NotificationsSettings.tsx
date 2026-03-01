@@ -234,7 +234,7 @@ function NotificationSoundDropDown(props: {
             <div style={{ "margin-left": "auto", "flex-shrink": 0 }}>
               <Button
                 onClick={(e) => testSound(e, sound)}
-                styles={{ "margin-left": "6px", "flex-shrink": 0 }}
+                style={{ "margin-left": "6px", "flex-shrink": 0 }}
                 iconName="play_circle"
                 margin={0}
                 padding={4}

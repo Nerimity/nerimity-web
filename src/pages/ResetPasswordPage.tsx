@@ -136,7 +136,7 @@ export default function ResetPasswordPage() {
                 </Text>
                 <Button
                   primary
-                  styles={{ flex: 1 }}
+                  style={{ flex: 1 }}
                   margin={[10, 0, 0, 0]}
                   iconName="key"
                   label={
@@ -204,7 +204,7 @@ const SendCodePage = () => {
             </Text>
             <Button
               primary
-              styles={{ flex: 1 }}
+              style={{ flex: 1 }}
               margin={[10, 0, 0, 0]}
               iconName="mail"
               label={

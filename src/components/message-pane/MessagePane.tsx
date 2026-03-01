@@ -931,7 +931,7 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
       </Show>
       <Button
         type="hover_border"
-        styles={{ "touch-action": "none", "user-select": "none" }}
+        style={{ "touch-action": "none", "user-select": "none" }}
         class={classNames(styles.inputButtons, "voice-recorder-button")}
         onPointerDown={onMicHold}
         onTouchMove={onTouchMove}
@@ -1375,7 +1375,7 @@ function FloatingAttachment(props: {}) {
               padding={6}
               iconSize={18}
               primary
-              styles={{ "margin-left": "auto" }}
+              style={{ "margin-left": "auto" }}
               iconName="brush"
             />
           </div>
@@ -2324,14 +2324,14 @@ const GoogleDriveLinkModal = (props: { close: () => void }) => {
   const actionButtons = (
     <FlexRow style={{ width: "100%" }}>
       <Button
-        styles={{ flex: 1 }}
+        style={{ flex: 1 }}
         iconName="close"
         label={t("messageArea.linkToGoogleDrive.cancelButton")}
         color="var(--alert-color)"
         onClick={props.close}
       />
       <Button
-        styles={{ flex: 1 }}
+        style={{ flex: 1 }}
         label={t("messageArea.linkToGoogleDrive.linkButton")}
         iconName="link"
         primary
@@ -2441,7 +2441,7 @@ function BeforeYouChatNotice(props: {
             <Markup inline text={notice()!.content} />
           </div>
           <Button
-            styles={{ opacity: buttonClickable() ? 1 : 0.5 }}
+            style={{ opacity: buttonClickable() ? 1 : 0.5 }}
             label={t("settings.account.understoodButton")}
             iconName="check"
             onClick={understoodClick}
