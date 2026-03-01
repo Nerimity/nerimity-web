@@ -5,7 +5,7 @@ import useStore from "@/chat-api/store/useStore";
 
 import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
 import {
@@ -60,29 +60,26 @@ export default function DeveloperApplicationsSettings() {
         <BreadcrumbItem title={t("settings.drawer.applications")} />
       </Breadcrumb>
 
-      <div>
+      <SettingsGroup>
         <SettingsBlock
           icon="extension"
           label={t("settings.drawer.applications")}
-          header={applications.length !== 0}
           description={`${applications.length}/10`}
         >
           <Button iconName="add" label={t("settings.developer.addButton")} onClick={addNewApp} />
         </SettingsBlock>
 
         <For each={applications}>
-          {(app, i) => (
+          {(app) => (
             <SettingsBlock
               icon="extension"
               href={`./${app.id}`}
-              borderTopRadius={false}
-              borderBottomRadius={i() === applications.length - 1}
               children={<Icon name="keyboard_arrow_right" />}
               label={app.name}
             />
           )}
         </For>
-      </div>
+      </SettingsGroup>
     </Container>
   );
 }

@@ -5,7 +5,7 @@ import useStore from "@/chat-api/store/useStore";
 
 import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
 import {
@@ -287,15 +287,13 @@ const EditApplicationOauth2 = (props: {
         <Button onClick={copyToken} label={t("inputFieldActions.copy")} iconName="content_copy" />
       </SettingsBlock>
 
-      <div>
-        <SettingsBlock icon="link" label={t("settings.developer.oauth2.redirectUris")} header />
+      <SettingsGroup>
+        <SettingsBlock icon="link" label={t("settings.developer.oauth2.redirectUris")} />
         <For each={new Array(urisLength()).fill(0)}>
           {(_, i) => (
             <SettingsBlock
               icon="link"
               label={t("settings.developer.oauth2.uri", { count: (i() + 1) })}
-              borderTopRadius={false}
-              borderBottomRadius={i() === urisLength() - 1}
             >
               <Input
                 value={inputValues().redirectUris[i()]}
@@ -314,7 +312,7 @@ const EditApplicationOauth2 = (props: {
             </SettingsBlock>
           )}
         </For>
-      </div>
+      </SettingsGroup>
 
       <Show when={Object.keys(updatedInputValues()).length}>
         <Button
@@ -369,11 +367,10 @@ const GenerateOuth2Link = (props: { application: RawApplication }) => {
     }
   };
   return (
-    <div>
+    <SettingsGroup>
       <SettingsBlock
         icon="security"
         label={t("settings.developer.oauth2.generateLink")}
-        header={true}
         class={css`
           gap: 8px;
         `}
@@ -411,8 +408,6 @@ const GenerateOuth2Link = (props: { application: RawApplication }) => {
         </FlexRow>
       </SettingsBlock>
       <SettingsBlock
-        borderTopRadius={false}
-        borderBottomRadius={false}
         icon="link"
         label={t("settings.developer.oauth2.redirectUri")}
       >
@@ -426,10 +421,8 @@ const GenerateOuth2Link = (props: { application: RawApplication }) => {
         />
       </SettingsBlock>
       <For each={permissionsList}>
-        {(permission, i) => (
+        {(permission) => (
           <SettingsBlock
-            borderTopRadius={false}
-            borderBottomRadius={i() === permissionsList.length - 1}
             icon={permission.icon}
             label={permission.name()}
             description={permission.description?.()}
@@ -443,7 +436,7 @@ const GenerateOuth2Link = (props: { application: RawApplication }) => {
           </SettingsBlock>
         )}
       </For>
-    </div>
+    </SettingsGroup>
   );
 };
 
