@@ -14,9 +14,7 @@ import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import {
   themePresets,
-  applyTheme,
   currentTheme,
-  customColors,
   setThemeColor,
   DefaultTheme,
   setCustomColors,
@@ -32,6 +30,8 @@ import { FlexColumn } from "../ui/Flexbox";
 import { timeFormat, setTimeFormat } from "@/common/date";
 import { toast } from "../ui/custom-portal/CustomPortal";
 import { RadioBoxItem } from "../ui/RadioBox";
+import ThemeCard from "../explore/ThemeCard";
+import cardStyle from "../explore/ThemeCard.module.css";
 
 export default function InterfaceSettings() {
   const { header } = useStore();
@@ -82,66 +82,21 @@ export function ThemesBlock() {
     >
       <div class={style.themeGrid}>
         <For each={Object.entries(themePresets)}>
-          {([name, { colors, maintainers }]) => {
-            const displayColors =
-              Object.keys(colors).length === 0
-                ? currentTheme()
-                : { ...DefaultTheme, ...colors };
-            return (
-              <div
-                class={style.themeCard}
-                style={{
-                  "background-color": colors["pane-color"],
-                  color: colors["text-color"] || DefaultTheme["text-color"]
-                }}
-              >
-                <div class={style.themeName}>{name}</div>
-                <Show when={maintainers.length}>
-                  <div class={style.maintainers}>
-                    {t("settings.interface.maintainers")}:{" "}
-                    {maintainers.join(", ")}
-                  </div>
-                </Show>
-                <div class={style.colorPreview}>
-                  <For each={Object.values(displayColors)}>
-                    {(color) => (
-                      <div
-                        class={style.colorBlock}
-                        style={{ "background-color": color }}
-                      />
-                    )}
-                  </For>
-                </div>
-                <Button
-                  label={t("settings.interface.apply")}
-                  onClick={() => applyTheme(name)}
-                />
-              </div>
-            );
+          {([name, theme]) => {
+            return <ThemeCard name={name} themeObj={theme} />;
           }}
         </For>
 
         <div
-          class={style.themeCard}
+          class={cardStyle.themeCard}
           style={{
             "background-color": "rgba(255,255,255,0.05)",
             "backdrop-filter": "blur(6px)",
-            display: "flex",
-            "flex-direction": "column",
             "justify-content": "center",
             "align-items": "center",
             position: "relative",
-            transition: "transform 0.2s, opacity 0.2s",
             border: "1px dashed rgba(255, 255, 255, 0.3)"
           }}
-          onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLDivElement).style.transform =
-              "translateY(-3px)")
-          }
-          onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLDivElement).style.transform =
-              "translateY(0)")
-          }
         >
           <div
             style={{
