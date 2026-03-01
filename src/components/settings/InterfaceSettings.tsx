@@ -10,7 +10,7 @@ import {
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import {
   themePresets,
@@ -26,7 +26,6 @@ import Button from "../ui/Button";
 import env from "@/common/env";
 import style from "./InterfaceSettings.module.css";
 import { useNavigate } from "solid-navigator";
-import { FlexColumn } from "../ui/Flexbox";
 import { timeFormat, setTimeFormat } from "@/common/date";
 import { toast } from "../ui/custom-portal/CustomPortal";
 import { RadioBoxItem } from "../ui/RadioBox";
@@ -195,19 +194,16 @@ function ChatBar() {
   type OptionIds = ["vm", "gif", "emoji", "send"];
 
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
         icon="chat"
         label={t("settings.interface.chatBarOptions")}
-        header
       />
       <For each={options}>
         {({ icon, label, id }) => (
           <SettingsBlock
             icon={icon}
             label={label}
-            borderTopRadius={false}
-            borderBottomRadius={false}
             onClick={() => {
               const options = chatBarOptions() as unknown as OptionIds[];
               if (chatBarOptions().includes(id)) {
@@ -234,11 +230,10 @@ function ChatBar() {
         description={t(
           "settings.interface.disableAdvancedMarkupBarDescription"
         )}
-        borderTopRadius={false}
       >
         <Checkbox onChange={setEnabled} checked={enabled()} />
       </SettingsBlock>
-    </FlexColumn>
+    </SettingsGroup>
   );
 }
 
@@ -310,12 +305,11 @@ function CustomizeColors() {
   };
 
   return (
-    <div>
+    <SettingsGroup>
       <SettingsBlock
         icon="palette"
         label={t("settings.interface.customizeColors")}
         description={t("settings.interface.customizeColorsDescription")}
-        header
       >
         <Button
           label={t("settings.interface.exportButton")}
@@ -342,10 +336,6 @@ function CustomizeColors() {
               icon="colors"
               class={style.themeItem}
               label={token.key.replaceAll("-", " ")}
-              borderBottomRadius={
-                i() === Object.keys(currentTheme()).length - 1
-              }
-              borderTopRadius={false}
             >
               <Show
                 when={
@@ -371,26 +361,23 @@ function CustomizeColors() {
           </>
         )}
       </For>
-    </div>
+    </SettingsGroup>
   );
 }
 
 function RightDrawerModeBlock() {
   const [mode, setMode] = rightDrawerMode;
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
         icon="right_panel_open"
         label={t("settings.interface.rightDrawerMode")}
-        header
       />
 
       <SettingsBlock
         label={t("settings.interface.swipeToOpen")}
         description={t("settings.interface.swipeToOpenDescription")}
         icon="swipe"
-        borderTopRadius={false}
-        borderBottomRadius={false}
         onClick={() => {
           setMode("SWIPE");
         }}
@@ -404,7 +391,6 @@ function RightDrawerModeBlock() {
         label={t("settings.interface.headerTapToOpen")}
         description={t("settings.interface.headerTapToOpenDescription")}
         icon="highlight_mouse_cursor"
-        borderTopRadius={false}
         onClick={() => {
           setMode("HEADER_CLICK");
         }}
@@ -414,6 +400,6 @@ function RightDrawerModeBlock() {
           item={{ id: 0, label: "" }}
         />
       </SettingsBlock>
-    </FlexColumn>
+    </SettingsGroup>
   );
 }

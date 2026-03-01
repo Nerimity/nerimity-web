@@ -5,10 +5,11 @@ import { FlexColumn } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
 import { RadioBox, RadioBoxItem } from "../ui/RadioBox";
 import { updateUser } from "@/chat-api/services/UserService";
 import Checkbox from "../ui/Checkbox";
+import Block from "../ui/settings-block/Block";
 
 const Container = styled("div")`
   display: flex;
@@ -17,12 +18,7 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-const RadioBoxContainer = styled("div")`
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  padding: 10px;
+const RadioBoxContainer = styled(Block)`
   padding-left: 50px;
 `;
 
@@ -69,13 +65,9 @@ function LastOnlineOptions() {
   };
 
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
-        class={css`
-          margin-top: 10px;
-        `}
         description={t("settings.privacy.lastOnline.description")}
-        header
         icon="schedule"
         label={t("settings.privacy.lastOnline.title")}
       />
@@ -86,7 +78,7 @@ function LastOnlineOptions() {
           initialId={friendRequestStatus() || 0}
         />
       </RadioBoxContainer>
-    </FlexColumn>
+    </SettingsGroup>
   );
 }
 
@@ -109,26 +101,23 @@ function DMOptions() {
   };
 
   return (
-    <FlexColumn>
+    <>
       <DirectMessageBlock />
-
-      <SettingsBlock
-        class={css`
-          margin-top: 10px;
-        `}
-        description={t("settings.privacy.friendRequest.description")}
-        header
-        icon="group_add"
-        label={t("settings.privacy.friendRequest.title")}
-      />
-      <RadioBoxContainer>
-        <RadioBox
-          onChange={onChange}
-          items={radioboxItems}
-          initialId={friendRequestStatus() || 0}
+      <SettingsGroup>
+        <SettingsBlock
+          description={t("settings.privacy.friendRequest.description")}
+          icon="group_add"
+          label={t("settings.privacy.friendRequest.title")}
         />
-      </RadioBoxContainer>
-    </FlexColumn>
+        <RadioBoxContainer>
+          <RadioBox
+            onChange={onChange}
+            items={radioboxItems}
+            initialId={friendRequestStatus() || 0}
+          />
+        </RadioBoxContainer>
+      </SettingsGroup>
+    </>
   );
 }
 
@@ -150,13 +139,9 @@ const DirectMessageBlock = () => {
     });
   };
   return (
-    <>
+    <SettingsGroup>
       <SettingsBlock
-        class={css`
-          margin-top: 10px;
-        `}
         description={t("settings.privacy.directMessage.description")}
-        header
         icon="chat_bubble"
         label={t("settings.privacy.directMessage.title")}
       />
@@ -167,7 +152,7 @@ const DirectMessageBlock = () => {
           initialId={currentDmStatus() || 0}
         />
       </RadioBoxContainer>
-    </>
+    </SettingsGroup>
   );
 };
 
@@ -200,12 +185,8 @@ const ProfileOptions = () => {
   };
 
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
-        class={css`
-          margin-top: 10px;
-        `}
-        header
         icon="person"
         label={t("settings.privacy.profileOptions.title")}
       />
@@ -214,8 +195,6 @@ const ProfileOptions = () => {
         description={t(
           "settings.privacy.profileOptions.hideFollowersDescription"
         )}
-        borderBottomRadius={false}
-        borderTopRadius={false}
       >
         <Checkbox checked={hideFollowers()} onChange={onChange("followers")} />
       </SettingsBlock>
@@ -224,10 +203,9 @@ const ProfileOptions = () => {
         description={t(
           "settings.privacy.profileOptions.hideFollowingDescription"
         )}
-        borderTopRadius={false}
       >
         <Checkbox checked={hideFollowing()} onChange={onChange("following")} />
       </SettingsBlock>
-    </FlexColumn>
+    </SettingsGroup>
   );
 };

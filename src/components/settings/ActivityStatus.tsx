@@ -13,7 +13,7 @@ import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
 import { Notice } from "../ui/Notice/Notice";
 import {
   electronWindowAPI,
@@ -293,12 +293,11 @@ function ProgramOptions() {
   };
 
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
         icon="gamepad"
         label={t("settings.activity.activityStatus")}
         description={t("settings.activity.activityStatusDescription")}
-        header={!!addedPrograms().length}
       >
         <Show when={addedPrograms().length + 1} keyed>
           <DropDown
@@ -313,10 +312,7 @@ function ProgramOptions() {
 
       <For each={addedPrograms()}>
         {(item, i) => (
-          <Block
-            borderTopRadius={false}
-            borderBottomRadius={i() === addedPrograms().length - 1}
-          >
+          <Block>
             <FlexRow
               gap={12}
               class={css`
@@ -365,7 +361,7 @@ function ProgramOptions() {
           </Block>
         )}
       </For>
-    </FlexColumn>
+    </SettingsGroup>
   );
 }
 
@@ -419,26 +415,25 @@ const EditActivityStatusModal = (props: {
             value={newValues().name}
             onText={(v) => setValues({ ...newValues(), name: v })}
           />
-          <div>
+          <SettingsGroup>
             <SettingsBlock
-              header={showEmojiPicker()}
               label={t("settings.activity.activityStatusModal.emoji")}
               icon={emojiUrl() ? undefined : "face"}
               iconSrc={emojiUrl()}
               onClick={() => setShowEmojiPicker(!showEmojiPicker())}
               onClickIcon="keyboard_arrow_down"
             />
-            <div
-              style={{
-                background: "rgba(255, 255, 255, 0.05)",
-                "margin-top": "-1px",
-              }}
-            >
-              <Show when={showEmojiPicker()}>
+            <Show when={showEmojiPicker()}>
+              <Block
+                style={{
+                  "margin-top": "-1px",
+                  padding: "0",
+                }}
+              >
                 <EmojiPicker close={() => {}} onClick={emojiPicked} />
-              </Show>
-            </div>
-          </div>
+              </Block>
+            </Show>
+          </SettingsGroup>
         </FlexColumn>
       </Modal.Body>
       <Modal.Footer>
@@ -569,7 +564,6 @@ const LastFmActivity = () => {
     <SettingsBlock
       label={t("settings.activity.lastfmActivity")}
       description={t("settings.activity.lastfmActivityDescription")}
-      header
     >
       <FlexColumn gap={6}>
         <Input

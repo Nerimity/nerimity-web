@@ -4,13 +4,12 @@ import { styled } from "solid-styled-components";
 import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
 import Button from "../ui/Button";
 import {
   createGoogleAccountLink,
   unlinkAccountWithGoogle,
 } from "@/chat-api/services/UserService";
-import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import {
   OAuth2AuthorizedApplication,
   OAuth2AuthorizedApplications,
@@ -67,9 +66,8 @@ function ThirdPartyConnections() {
   });
 
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
-        header={connections().length > 0}
         icon="info"
         label={t("settings.connections.thirdParty.title")}
       >
@@ -78,7 +76,7 @@ function ThirdPartyConnections() {
         </Text>
       </SettingsBlock>
       <For each={connections()}>
-        {(connection, i) => (
+        {(connection) => (
           <ThirdPartyConnectionItem
             onUnauthorize={() => {
               setConnections(
@@ -86,17 +84,15 @@ function ThirdPartyConnections() {
               );
             }}
             connection={connection}
-            borderBottomRadius={i() === connections().length - 1}
           />
         )}
       </For>
-    </FlexColumn>
+    </SettingsGroup>
   );
 }
 
 const ThirdPartyConnectionItem = (props: {
   connection: OAuth2AuthorizedApplication;
-  borderBottomRadius: boolean;
   onUnauthorize: () => void;
 }) => {
   const application = () => props.connection.application;
@@ -118,7 +114,6 @@ const ThirdPartyConnectionItem = (props: {
 
   return (
     <SettingsBlock
-      borderTopRadius={false}
       label={application().name}
       icon={
         <Avatar

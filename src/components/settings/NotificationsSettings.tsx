@@ -1,7 +1,6 @@
 import { createEffect, createSignal, Show } from "solid-js";
 import Text from "@/components/ui/Text";
-import { css, styled } from "solid-styled-components";
-import { FlexColumn } from "../ui/Flexbox";
+import { styled } from "solid-styled-components";
 import useStore from "@/chat-api/store/useStore";
 import {
   getStorageBoolean,
@@ -14,7 +13,7 @@ import {
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
 import Slider from "../ui/Slider";
 import {
   getCustomSound,
@@ -25,6 +24,7 @@ import {
 import DropDown from "../ui/drop-down/DropDown";
 import Button from "../ui/Button";
 import { RadioBox, RadioBoxItem } from "../ui/RadioBox";
+import Block from "../ui/settings-block/Block";
 
 const Container = styled("div")`
   display: flex;
@@ -107,7 +107,7 @@ function NotificationSound() {
   };
 
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
         icon="notifications_active"
         label={t("settings.notifications.sounds")}
@@ -136,15 +136,14 @@ function NotificationSound() {
           </div>
         </SettingsBlock>
       </Show>
-    </FlexColumn>
+    </SettingsGroup>
   );
 }
 
 function NotificationSoundSelection() {
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
-        header
         icon="music_note"
         label={t("settings.notifications.sounds")}
         description={t("settings.notifications.changeSoundsDescription")}
@@ -153,8 +152,6 @@ function NotificationSoundSelection() {
         icon="chat"
         label={t("settings.notifications.message")}
         description={t("settings.notifications.messageDescription")}
-        borderTopRadius={false}
-        borderBottomRadius={false}
       >
         <NotificationSoundDropDown typeId="MESSAGE" />
       </SettingsBlock>
@@ -162,8 +159,6 @@ function NotificationSoundSelection() {
         icon="alternate_email"
         label={t("settings.notifications.mention")}
         description={t("settings.notifications.mentionDescription")}
-        borderTopRadius={false}
-        borderBottomRadius={false}
       >
         <NotificationSoundDropDown typeId="MESSAGE_MENTION" />
       </SettingsBlock>
@@ -171,27 +166,22 @@ function NotificationSoundSelection() {
         icon="calendar_today"
         label={t("settings.notifications.reminder")}
         description={t("settings.notifications.reminderDescription")}
-        borderTopRadius={false}
-        borderBottomRadius={false}
       >
         <NotificationSoundDropDown typeId="REMINDER" />
       </SettingsBlock>
       <SettingsBlock
         icon="call"
         label={t("settings.notifications.callJoin")}
-        borderTopRadius={false}
-        borderBottomRadius={false}
       >
         <NotificationSoundDropDown typeId="CALL_JOIN" />
       </SettingsBlock>
       <SettingsBlock
         icon="call_end"
         label={t("settings.notifications.callLeave")}
-        borderTopRadius={false}
       >
         <NotificationSoundDropDown typeId="CALL_LEAVE" />
       </SettingsBlock>
-    </FlexColumn>
+    </SettingsGroup>
   );
 }
 
@@ -248,15 +238,6 @@ function NotificationSoundDropDown(props: {
   );
 }
 
-const RadioBoxContainer = styled("div")`
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  padding: 10px;
-  padding-left: 50px;
-`;
-
 function InAppNotificationBlock() {
   const [value, setValue] = useLocalStorage(
     StorageKeys.IN_APP_NOTIFICATIONS_PREVIEW,
@@ -278,24 +259,20 @@ function InAppNotificationBlock() {
   ];
 
   return (
-    <div>
+    <SettingsGroup>
       <SettingsBlock
-        class={css`
-          margin-top: 10px;
-        `}
-        header
         icon="priority_high"
         label={t("settings.notifications.inAppPreview")}
         description={t("settings.notifications.inAppPreviewDescription")}
       />
 
-      <RadioBoxContainer>
+      <Block style={{ "padding-left": "50px" }}>
         <RadioBox
           onChange={(e) => setValue(e.id)}
           items={NotificationPingItems}
           initialId={value()}
         />
-      </RadioBoxContainer>
-    </div>
+      </Block>
+    </SettingsGroup>
   );
 }

@@ -7,7 +7,7 @@ import {
   onMount,
   Show
 } from "solid-js";
-import { css, styled } from "solid-styled-components";
+import { styled } from "solid-styled-components";
 import useStore from "@/chat-api/store/useStore";
 import {
   StorageKeys,
@@ -16,7 +16,7 @@ import {
 } from "@/common/localStorage";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { Notice } from "../ui/Notice/Notice";
 import { electronWindowAPI } from "@/common/Electron";
@@ -27,6 +27,7 @@ import Button from "../ui/Button";
 import { downKeys, useGlobalKey } from "@/common/GlobalKey";
 import { toast } from "../ui/custom-portal/CustomPortal";
 import Checkbox from "../ui/Checkbox";
+import Block from "../ui/settings-block/Block";
 
 const Container = styled("div")`
   display: flex;
@@ -146,11 +147,10 @@ function InputDevices() {
   );
 
   return (
-    <div>
+    <SettingsGroup>
       <SettingsBlock
         icon="mic"
         label={t("settings.call.inputDevices")}
-        borderBottomRadius={!supportedConstraints().length}
       >
         <DropDown
           items={dropDownItem()}
@@ -161,11 +161,10 @@ function InputDevices() {
         />
       </SettingsBlock>
       <For each={supportedConstraints()}>
-        {(constraint, i) => (
+        {(constraint) => (
           <CheckboxOption
             constraint={constraint}
             checked={constraints()[constraint.key]}
-            bottomBorder={i() === supportedConstraints().length - 1}
             onChange={(val) => {
               setConstraints({
                 ...constraints(),
@@ -175,7 +174,7 @@ function InputDevices() {
           />
         )}
       </For>
-    </div>
+    </SettingsGroup>
   );
 }
 
@@ -222,14 +221,6 @@ function OutputDevices() {
   );
 }
 
-const InputModeRadioBoxContainer = styled(FlexColumn)`
-  background: rgba(255, 255, 255, 0.05);
-  padding: 10px;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  padding-left: 50px;
-`;
-
 function InputMode() {
   const [inputMode, setInputMode] = useVoiceInputMode();
   const store = useStore();
@@ -237,18 +228,18 @@ function InputMode() {
   const isInCall = () => store.voiceUsers.currentUser()?.channelId;
 
   return (
-    <div>
+    <SettingsGroup>
       <SettingsBlock
         icon="steppers"
         label={t("settings.call.inputMode")}
-        header
       />
-      <InputModeRadioBoxContainer
+      <Block
         onClick={() => {
           if (isInCall()) {
             toast(t("settings.call.leaveCall"));
           }
         }}
+        style={{ "padding-left": "50px" }}
       >
         <RadioBox
           style={isInCall() ? { "pointer-events": "none" } : {}}
@@ -260,8 +251,8 @@ function InputMode() {
             { id: "PTT", label: t("settings.call.pushToTalk") }
           ]}
         />
-      </InputModeRadioBoxContainer>
-    </div>
+      </Block>
+    </SettingsGroup>
   );
 }
 
@@ -355,16 +346,13 @@ function CheckboxOption(props: {
   constraint: AvailableConstraint;
   onChange: (checked: boolean) => void;
   checked: boolean;
-  bottomBorder?: boolean;
 }) {
   return (
     <SettingsBlock
       icon={props.constraint.icon}
       label={t(props.constraint.label)}
-      borderTopRadius={false}
       description={props.constraint.description}
       onClick={() => props.onChange?.(!props.checked)}
-      borderBottomRadius={props.bottomBorder}
     >
       <Checkbox checked={props.checked} />
     </SettingsBlock>
