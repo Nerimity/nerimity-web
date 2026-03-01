@@ -16,16 +16,6 @@ solid-styled-components styles, which have non-deterministic load order. */
       background: rgba(255, 255, 255, 0.1);
     }
   }
-  &.joinTop {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    margin-top: 0;
-  }
-  &.joinBottom, &.header {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    margin-bottom: 1px;
-  }
 }
 
 .settingsBlock {
