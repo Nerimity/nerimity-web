@@ -266,6 +266,8 @@ const PlatformDownloadLinks = () => {
 };
 
 function ScreenshotView() {
+  const [t] = useTransContext();
+
   return (
     <div class={style.screenshotContainer}>
       <div class={style.screenshotCenter}>
@@ -285,6 +287,7 @@ function ScreenshotView() {
             style={{"background-color": "#222629"}}
             width="600"
             height="384"
+            alt={t("homePage.screenshots.centerAlt")}
             src="/assets/screenshots/center-1200w-fallback.jpg"
           />
         </picture>
@@ -306,6 +309,7 @@ function ScreenshotView() {
             style={{"background-color": "#000"}}
             width="585"
             height="1266"
+            alt={t("homePage.screenshots.rightAlt")}
             src="/assets/screenshots/right-585w-fallback.jpg"
           />
         </picture>
@@ -327,6 +331,7 @@ function ScreenshotView() {
             style={{"background-color": "#34282e"}}
             width="860"
             height="630"
+            alt={t("homePage.screenshots.leftAlt")}
             src="/assets/screenshots/left-860w-fallback.jpg"
           />
         </picture>
