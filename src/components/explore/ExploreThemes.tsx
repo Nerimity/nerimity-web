@@ -3,11 +3,12 @@ import { styled, css } from "solid-styled-components";
 import Button from "../ui/Button";
 import Input from "../ui/input/Input";
 import { t } from "@nerimity/i18lite";
-import { applyTheme, DefaultTheme, themePresets } from "@/common/themes";
+import { ThemePreset, themePresets } from "@/common/themes";
 import { Skeleton } from "../ui/skeleton/Skeleton";
-import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import { FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import { Notice } from "../ui/Notice/Notice";
+import ThemeCard from "./ThemeCard";
 
 const Container = styled("div")`
   display: flex;
@@ -29,31 +30,6 @@ const SectionTitle = styled("h3")`
   color: var(--text-color);
 `;
 
-const ThemeCardContainer = styled(FlexColumn)`
-  background: var(--pane-color);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 12px;
-  gap: 8px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  }
-`;
-
-const ColorPreview = styled(FlexRow)`
-  flex-wrap: wrap;
-  gap: 6px;
-`;
-
-const ColorBlock = styled("div")`
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-`;
-
 const GitHubButton = styled(Button)`
   display: flex;
   align-items: center;
@@ -66,40 +42,8 @@ const GitHubButton = styled(Button)`
   }
 `;
 
-type ThemeObject = {
-  colors?: Record<string, string>;
-  maintainers?: string[];
-};
-
-function ThemeCard(props: { name: string; themeObj: ThemeObject }) {
-  const colors = props.themeObj.colors || {};
-  const maintainers = props.themeObj.maintainers || [];
-  const bgColor = colors["pane-color"] || DefaultTheme["pane-color"];
-  const textColor = colors["text-color"] || DefaultTheme["text-color"];
-
-  return (
-    <ThemeCardContainer style={{ background: bgColor, color: textColor }}>
-      <strong>{props.name}</strong>
-      <Show when={maintainers.length}>
-        <div>
-          {t("settings.interface.maintainers")}: {maintainers.join(", ")}
-        </div>
-      </Show>
-      <ColorPreview>
-        <For each={Object.values({ ...DefaultTheme, ...colors })}>
-          {(color) => <ColorBlock style={{ "background-color": color }} />}
-        </For>
-      </ColorPreview>
-      <Button
-        label={t("settings.interface.apply")}
-        onClick={() => applyTheme(props.name, props.themeObj)}
-      />
-    </ThemeCardContainer>
-  );
-}
-
 export default function ExploreThemes() {
-  const [themes, setThemes] = createSignal<Record<string, ThemeObject>>({});
+  const [themes, setThemes] = createSignal<Record<string, ThemePreset>>({});
   const [loading, setLoading] = createSignal(true);
   const { header } = useStore();
   const [search, setSearch] = createSignal("");
@@ -178,19 +122,17 @@ export default function ExploreThemes() {
         />
       </FlexRow>
 
-      {}
       <Show when={officialThemes().length}>
         <SectionTitle>{t("explore.themes.officialThemes")}</SectionTitle>
         <GridLayout>
           <For each={officialThemes()}>
             {([name, themeObj]) => (
-              <ThemeCard name={name} themeObj={themeObj} />
+              <ThemeCard name={name} themeObj={themeObj} explore />
             )}
           </For>
         </GridLayout>
       </Show>
 
-      {}
       <SectionTitle>{t("explore.themes.communityThemes")}</SectionTitle>
       <GridLayout>
         <Show when={loading()}>
@@ -202,7 +144,7 @@ export default function ExploreThemes() {
         <Show when={!loading() && communityThemes().length > 0}>
           <For each={communityThemes()}>
             {([name, themeObj]) => (
-              <ThemeCard name={name} themeObj={themeObj} />
+              <ThemeCard name={name} themeObj={themeObj} explore />
             )}
           </For>
         </Show>
