@@ -665,7 +665,7 @@ function DeleteAccountNoticeModal(props: { close(): void }) {
       actionButtons={
         <Button
           iconName="check"
-          styles={{ "margin-left": "auto" }}
+          style={{ "margin-left": "auto" }}
           label={t("settings.account.understoodButton")}
           onClick={props.close}
         />
@@ -897,13 +897,13 @@ const ConfirmEmailModal = (props: { close(): void; message: string }) => {
     <FlexRow style={{ flex: 1 }}>
       <Button
         onClick={props.close}
-        styles={{ flex: 1 }}
+        style={{ flex: 1 }}
         iconName="close"
         label={t("general.cancelButton")}
         color="var(--alert-color)"
       />
       <Button
-        styles={{ flex: 1 }}
+        style={{ flex: 1 }}
         iconName="check"
         label={t("general.confirmButton")}
         onClick={confirmClicked}
@@ -957,13 +957,13 @@ const ConfirmPasswordModal = (props: {
     <FlexRow style={{ flex: 1 }}>
       <Button
         onClick={props.close}
-        styles={{ flex: 1 }}
+        style={{ flex: 1 }}
         iconName="close"
         label={t("general.cancelButton")}
         color="var(--alert-color)"
       />
       <Button
-        styles={{ flex: 1 }}
+        style={{ flex: 1 }}
         iconName="check"
         label={t("general.confirmButton")}
         onClick={() => props.onConfirm(password())}

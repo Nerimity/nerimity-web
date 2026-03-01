@@ -212,7 +212,7 @@ export const OAuthAuthorizePopup = (props: {
           iconName="check"
           primary
           margin={[10, 0, 0, 0]}
-          styles={{ "align-self": "stretch" }}
+          style={{ "align-self": "stretch" }}
           onClick={authorizeClick}
         />
       </Show>

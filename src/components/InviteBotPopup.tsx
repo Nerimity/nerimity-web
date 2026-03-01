@@ -122,7 +122,7 @@ export const InviteBotPopup = (props: {
           iconName="add"
           primary
           margin={0}
-          styles={{ "align-self": "stretch" }}
+          style={{ "align-self": "stretch" }}
           onClick={addBot}
         />
       </FlexColumn>

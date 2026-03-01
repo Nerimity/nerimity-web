@@ -1372,7 +1372,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
         <Button
           padding={4}
           margin={[0, 6, 0, 0]}
-          styles={{ "margin-left": "auto", "align-self": "start" }}
+          style={{ "margin-left": "auto", "align-self": "start" }}
           iconName="arrow_drop_down"
           onClick={() => setExpanded(!expanded())}
         />

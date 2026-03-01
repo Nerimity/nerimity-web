@@ -8,7 +8,7 @@ import { A } from "solid-navigator";
 
 export type ButtonProps = Omit<
   JSX.ButtonHTMLAttributes<HTMLButtonElement>,
-  "color" | "type"
+  "color" | "type" | "style"
 > & {
   color?: string | null;
   label?: string;
@@ -23,7 +23,7 @@ export type ButtonProps = Omit<
   href?: string;
   target?: string;
   rel?: string;
-  styles?: JSX.CSSProperties;
+  style?: JSX.CSSProperties;
   tabIndex?: string;
   hoverText?: string;
   iconClass?: string;
@@ -44,7 +44,7 @@ export default function Button(props: ButtonProps) {
     "customChildren",
     "href",
     "customChildrenLeft",
-    "styles",
+    "style",
     "tabIndex",
     "hoverText",
     "iconClass",
@@ -70,7 +70,7 @@ export default function Button(props: ButtonProps) {
           ? props.padding.join("px ") + "px"
           : props.padding + "px"
         : undefined,
-    ...customProps.styles,
+    ...customProps.style,
   });
 
   return (

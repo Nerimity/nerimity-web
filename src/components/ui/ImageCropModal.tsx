@@ -108,7 +108,7 @@ export default function ImageCropModal(props: {
           iconName="check"
           label={t("general.doneButton")}
           onClick={onClick}
-          styles={{ flex: 1 }}
+          style={{ flex: 1 }}
           primary
           padding={10}
         />

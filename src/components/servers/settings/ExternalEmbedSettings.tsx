@@ -135,7 +135,7 @@ export default function ExternalEmbedSettings() {
           children={
             <Button
               label={t("servers.settings.externalEmbed.noInvites.createButton")}
-              styles={{ "margin-left": "auto" }}
+              style={{ "margin-left": "auto" }}
               margin={0}
               primary
               onclick={() =>

@@ -178,7 +178,7 @@ export const AudioEmbed = (props: {
             onClick={onPlayClick}
             iconName={statusIcon()}
             color="var(--primary-color)"
-            styles={{ "border-radius": "50%" }}
+            style={{ "border-radius": "50%" }}
           />
           <div class={styles.fileEmbedDetails}>
             <div class={styles.fileEmbedName}>{props.file?.name}</div>
