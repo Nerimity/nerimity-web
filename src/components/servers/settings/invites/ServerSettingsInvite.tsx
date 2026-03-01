@@ -16,7 +16,7 @@ import { A, useNavigate, useParams } from "solid-navigator";
 import { createEffect, createSignal, For, on, onMount, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
 import { copyToClipboard } from "@/common/clipboard";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Input from "@/components/ui/input/Input";
@@ -26,6 +26,7 @@ import Text from "@/components/ui/Text";
 import { useTransContext } from "@nerimity/solid-i18lite";
 import { avatarUrl } from "@/chat-api/store/useUsers";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
+import Block from "@/components/ui/settings-block/Block";
 
 export default function ServerSettingsInvite() {
   const [t] = useTransContext();
@@ -98,25 +99,26 @@ export default function ServerSettingsInvite() {
         <CustomInvite invites={invites()} onUpdate={fetchInvites} />
       </Show>
 
-      <SettingsBlock
-        label={t("servers.settings.invites.serverInvites")}
-        description={t("servers.settings.invites.serverInvitesDescription")}
-        icon="mail"
-        header={true}
-      >
-        <Button
-          label={t("servers.settings.invites.createInviteButton")}
-          onClick={onCreateInviteClick}
-        />
-      </SettingsBlock>
-      <For each={invites()}>
-        {(invite) => (
-          <InviteItem
-            invite={invite}
-            onDeleted={() => deleteInvite(invite.code)}
+      <SettingsGroup>
+        <SettingsBlock
+          label={t("servers.settings.invites.serverInvites")}
+          description={t("servers.settings.invites.serverInvitesDescription")}
+          icon="mail"
+        >
+          <Button
+            label={t("servers.settings.invites.createInviteButton")}
+            onClick={onCreateInviteClick}
           />
-        )}
-      </For>
+        </SettingsBlock>
+        <For each={invites()}>
+          {(invite) => (
+            <InviteItem
+              invite={invite}
+              onDeleted={() => deleteInvite(invite.code)}
+            />
+          )}
+        </For>
+      </SettingsGroup>
     </div>
   );
 }
@@ -242,7 +244,7 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
   };
 
   return (
-    <div class={styles.inviteItem}>
+    <Block class={styles.inviteItem}>
       <Avatar class={styles.avatar} user={props.invite.createdBy} size={30} />
       <div class={styles.detailsOuter}>
         <div class={styles.details}>
@@ -300,6 +302,6 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
           />
         </FlexRow>
       </div>
-    </div>
+    </Block>
   );
 };

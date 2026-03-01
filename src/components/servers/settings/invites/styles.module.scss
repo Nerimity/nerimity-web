@@ -29,21 +29,9 @@
 }
 
 .inviteItem {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-
-  margin-bottom: 2px;
-  border-bottom-right-radius: 8px;
-
-  border-bottom-left-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
+  padding-left: 10px;
   gap: 6px;
 
-  &:not(:last-child) {
-    margin-bottom: 1px;
-    border-radius: 0;
-  }
   .avatar {
     align-self: start;
     margin-top: 4px;

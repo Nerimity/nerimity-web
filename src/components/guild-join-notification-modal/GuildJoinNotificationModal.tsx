@@ -1,23 +1,22 @@
 import style from "./GuildJoinNotificationModal.module.css";
-import { createEffect, Show } from "solid-js";
+import { createEffect, JSXElement, Show } from "solid-js";
 import { Modal } from "../ui/modal";
 import useStore from "@/chat-api/store/useStore";
-import SettingsBlock from "../ui/settings-block/SettingsBlock";
-import { css, styled } from "solid-styled-components";
+import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
 import ItemContainer from "@/components/ui/LegacyItem";
 import { t } from "@nerimity/i18lite";
 import Avatar from "../ui/Avatar";
 import { RadioBox, RadioBoxItem } from "../ui/RadioBox";
 import { ServerNotificationPingMode } from "@/chat-api/RawData";
+import Block from "../ui/settings-block/Block";
 
-const RadioBoxContainer = styled("div")`
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  padding: 10px;
-  padding-left: 50px;
-`;
+const RadioBoxContainer = (props: { children?: JSXElement }) => {
+  return (
+    <Block style={{ "padding-left": "50px", "margin-bottom": "0" }}>
+      {props.children}
+    </Block>
+  );
+};
 
 export default function GuildJoinNotificationModal(props: {
   close: () => void;
@@ -90,9 +89,8 @@ export default function GuildJoinNotificationModal(props: {
     >
       <Modal.Header title="Notification Settings" icon="notifications" />
       <Modal.Body class={style.body}>
-        <div>
+        <SettingsGroup>
           <SettingsBlock
-            header
             icon="priority_high"
             label={t("servers.settings.notifications.ping")}
             description={t("servers.settings.notifications.pingDescription")}
@@ -115,16 +113,15 @@ export default function GuildJoinNotificationModal(props: {
               initialId={currentNotificationPingMode()}
             />
           </RadioBoxContainer>
-        </div>
+        </SettingsGroup>
 
         <Show
           when={
             currentNotificationPingMode() !== ServerNotificationPingMode.MUTE
           }
         >
-          <div>
+          <SettingsGroup>
             <SettingsBlock
-              header
               icon="notifications_active"
               label={t("servers.settings.notifications.sound")}
               description={t("servers.settings.notifications.soundDescription")}
@@ -136,7 +133,7 @@ export default function GuildJoinNotificationModal(props: {
                 initialId={currentNotificationSoundMode()}
               />
             </RadioBoxContainer>
-          </div>
+          </SettingsGroup>
         </Show>
       </Modal.Body>
       <Modal.Footer>
