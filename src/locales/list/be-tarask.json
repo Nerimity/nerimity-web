@@ -908,7 +908,7 @@
         "title": "Допіс",
         "viewCount": "Прыкладная колькасьць праглядаў",
         "voteButton": "Прагаласаваць",
-        "voteCount": "{{count}} голас(а/оў)",
+        "voteCount": "<1>{{count}}</1> голас(а/оў)",
         "copyPostButton": "Скапіяваць допіс",
         "sections": {
             "replies": "Адказы ({{count}})",
@@ -1231,7 +1231,7 @@
         "verified": "Гэты сэрвэр вэрыфікаваны."
     },
     "inVoiceActions": {
-        "connectedFor": "У выкліку"
+        "connectedFor": "У выкліку <1>{{time}}</1>"
     },
     "inputFieldActions": {
         "copy": "Скапіяваць",
@@ -1351,6 +1351,7 @@
         "relativeNow": "зараз",
         "yesterdayTime": "Учора а {{time}}",
         "dateTime": "{{date}} а {{time}}",
-        "error": "памылка"
+        "error": "памылка",
+        "invalidTimezone": "несапраўдны часавы пояс"
     }
 }

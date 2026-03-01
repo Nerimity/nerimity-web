@@ -908,7 +908,7 @@
         "title": "Post",
         "viewCount": "Geschätzte Aufrufe",
         "voteButton": "Abstimmen",
-        "voteCount": "{{count}} Stimme(n)",
+        "voteCount": "<1>{{count}}</1> Stimme(n)",
         "copyPostButton": "Post kopieren",
         "sections": {
             "replies": "Antworten ({{count}})",
@@ -1207,7 +1207,7 @@
         "verified": "Dieser Server ist verifiziert."
     },
     "inVoiceActions": {
-        "connectedFor": "Verbunden seit"
+        "connectedFor": "Verbunden seit <1>{{time}}</1>"
     },
     "removeFriendModal": {
         "title": "Entfreunde {{username}}",
@@ -1350,6 +1350,8 @@
         "relativePast": "vor {{duration}}",
         "relativeNow": "jetzt",
         "yesterdayTime": "Gestern um {{time}}",
-        "dateTime": "{{date}} um {{time}}"
+        "dateTime": "{{date}} um {{time}}",
+        "error": "Fehler",
+        "invalidTimezone": "Invalide Zeitzone"
     }
 }
