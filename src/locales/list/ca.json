@@ -24,7 +24,9 @@
             "avatar": "Avatar",
             "banner": "Banner",
             "supportedFileTypes": "Formats admesos: {{extensions}}, màx. {{size}}",
-            "browse": "Explora"
+            "browse": "Escollir",
+            "revert": "Restablir",
+            "remove": "Treure"
         }
     },
     "header": {
@@ -32,5 +34,46 @@
         "openAppButton": "Obrir aplicació",
         "loginButton": "Inciar sessió",
         "joinNowButton": "Uneix-t’hi ara"
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<User/><2> s'ha afegit al servidor.</2>",
+            "user": "<User/><2> s'ha unit al servidor.</2>"
+        },
+        "leaveServer": "<User/><2> ha marxat del servidor.</2>",
+        "kickUser": "<User/><2> ha estat expulsat.</2>",
+        "banUser": "<User/><2> ha estat banejat.</2>",
+        "callStarted": "<User/><2> ha iniciat una trucada.</2>",
+        "bumpServer": "<User/><2> ha destacat el servidor.</2>",
+        "pinnedMessage": "<User/><2> ha fixat un missatge.</2>",
+        "unsupported": "<User/><2> Missatge no compatible.</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "Error d'autenticació",
+        "connecting": "Connectant…",
+        "reconnecting": "Reconnectant…",
+        "inQueue": "A la cua: {{count}} usuari(s) davant teu",
+        "authenticating": "Autenticant…",
+        "connected": "Connectat!"
+    },
+    "dangerousLinkModal": {
+        "title": "Enllaç personalitzat",
+        "message": "Aquest enllaç us portarà a",
+        "cancelButton": "No visitar",
+        "visitButton": "Visitar"
+    },
+    "connectionErrorModal": {
+        "title": "Error de connexió",
+        "ok": "D'ACORD",
+        "noToken": "No s'ha proporcionat cap token.",
+        "suspended": "Has estat suspès.",
+        "reason": "Raó",
+        "defaultReason": "Incomplir les condicions d'ús",
+        "until": "Fins a",
+        "never": "mai",
+        "by": "Per",
+        "deletionNotice": "El teu compte i les teves dades s'eliminaran d'aquí a 15 dies",
+        "ipBanned": "La teva IP està banejada.",
+        "ipBanNotice": "Algú amb la mateixa IP ha estat suspès de Nerimity. El teu compte no s’ha vist afectat."
     }
 }
