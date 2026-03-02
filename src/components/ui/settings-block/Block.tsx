@@ -4,22 +4,26 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { css } from "solid-styled-components";
 
 interface BlockProps {
-  children?: JSX.Element | undefined;
   class?: string;
+  children?: JSX.Element | undefined;
+  style?: JSX.CSSProperties;
   borderTopRadius?: boolean
   borderBottomRadius?: boolean
+  onClick?: () => void;
 }
 
 export default function Block(props: BlockProps) {
   return (
-    <div class={
-      classNames(
+    <div
+      onClick={props.onClick}
+      class={classNames(
         styles.block,
-        conditionalClass(props.borderTopRadius === false, css`&& {border-top-left-radius: 0; border-top-right-radius: 0; margin-top: 0;}`),
-        conditionalClass(props.borderBottomRadius === false, css`&& {border-bottom-left-radius: 0; border-bottom-right-radius: 0; margin-bottom: 0;}`),
-        conditionalClass(props.borderBottomRadius === false && props.borderTopRadius === false, css`&& {margin-bottom: 1px;}`),
+        conditionalClass(props.borderTopRadius === false, styles.joinTop),
+        conditionalClass(props.borderBottomRadius === false, styles.joinBottom),
         props.class
-      )}>
+      )}
+      style={props.style}
+    >
       {props.children}
     </div>
   );

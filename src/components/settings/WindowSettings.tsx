@@ -1,12 +1,11 @@
 import { createEffect, createSignal, onMount, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 
-import { FlexColumn } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
 
 import { Notice } from "../ui/Notice/Notice";
 import { electronWindowAPI } from "@/common/Electron";
@@ -90,14 +89,12 @@ function StartupOptions() {
   };
 
   return (
-    <FlexColumn>
-      <SettingsBlock icon="open_in_new" label={t("settings.window.startupOptions")} header />
+    <SettingsGroup>
+      <SettingsBlock icon="open_in_new" label={t("settings.window.startupOptions")} />
       <SettingsBlock
         onClick={() => onAutostartChange(!autostart())}
         icon="restart_alt"
         label={t("settings.window.openOnStartup")}
-        borderTopRadius={false}
-        borderBottomRadius={!autostart()}
       >
         <Checkbox checked={autostart()} onChange={onAutostartChange} />
       </SettingsBlock>
@@ -107,7 +104,6 @@ function StartupOptions() {
           icon="horizontal_rule"
           label={t("settings.window.startMinimized")}
           description={t("settings.window.startMinimizedDescription")}
-          borderTopRadius={false}
         >
           <Checkbox
             checked={autostartMinimized()}
@@ -115,7 +111,7 @@ function StartupOptions() {
           />
         </SettingsBlock>
       </Show>
-    </FlexColumn>
+    </SettingsGroup>
   );
 }
 function HardwareAccelerationOptions() {
@@ -134,7 +130,7 @@ function HardwareAccelerationOptions() {
   };
 
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
         onClick={() =>
           onHardwareAccelerationChange(!hardwareAccelerationDisabled())
@@ -145,7 +141,7 @@ function HardwareAccelerationOptions() {
       >
         <Checkbox checked={hardwareAccelerationDisabled()} />
       </SettingsBlock>
-    </FlexColumn>
+    </SettingsGroup>
   );
 }
 function DisableCustomTitlebar() {
@@ -164,7 +160,7 @@ function DisableCustomTitlebar() {
   };
 
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
         onClick={() => onChange(!customTitlebarDisabled())}
         icon="speed"
@@ -173,6 +169,6 @@ function DisableCustomTitlebar() {
       >
         <Checkbox checked={customTitlebarDisabled()} />
       </SettingsBlock>
-    </FlexColumn>
+    </SettingsGroup>
   );
 }

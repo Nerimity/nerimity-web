@@ -9,12 +9,13 @@ import { t } from "@nerimity/i18lite";
 import { electronWindowAPI } from "@/common/Electron";
 import { addBit, Bitwise, USER_BADGES, UserBadge } from "@/chat-api/Bitwise";
 import { RawUser } from "@/chat-api/RawData";
-import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
 import { SelfUser } from "@/chat-api/events/connectionEventTypes";
 import Avatar from "../ui/Avatar";
 import { Notice } from "../ui/Notice/Notice";
 import { cn } from "@/common/classNames";
 import Icon from "../ui/icon/Icon";
+import Block from "../ui/settings-block/Block";
 
 const Container = styled("div")`
   display: flex;
@@ -97,21 +98,17 @@ const BadgesPreview = (props: { badges: Bitwise[]; price: number }) => {
 
   return (
     <Show when={user()}>
-      <div>
+      <SettingsGroup>
         <SettingsBlock
-          header
           label={t("settings.badges.price", { price: `$${props.price}` })}
           icon="favorite"
         />
-        <div
+        <Block
           class={css`
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
             gap: 6px;
-            background: rgba(255, 255, 255, 0.05);
             justify-items: center;
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
             padding: 6px;
           `}
         >
@@ -125,8 +122,8 @@ const BadgesPreview = (props: { badges: Bitwise[]; price: number }) => {
               />
             )}
           </For>
-        </div>
-      </div>
+        </Block>
+      </SettingsGroup>
     </Show>
   );
 };
@@ -206,22 +203,18 @@ const BadgeItem = (props: {
 
 const SupportMethodBlock = () => {
   return (
-    <div>
+    <SettingsGroup>
       <SettingsBlock
         label={t("settings.badges.supportMethods")}
         icon="info"
-        header
       />
       <SettingsBlock
         label="Ko-Fi"
-        borderBottomRadius={false}
-        borderTopRadius={false}
         iconSrc="/assets/kofi.svg"
         href="https://ko-fi.com/supertiger"
         hrefBlank
       />
       <SettingsBlock
-        borderTopRadius={false}
         class={css`
           img {
             border-radius: 50%;
@@ -232,6 +225,6 @@ const SupportMethodBlock = () => {
         href="https://boosty.to/supertigerdev/donate"
         hrefBlank
       />
-    </div>
+    </SettingsGroup>
   );
 };
