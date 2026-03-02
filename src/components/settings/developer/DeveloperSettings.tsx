@@ -50,7 +50,7 @@ export default function DeveloperSettings() {
       <SettingsBlock
         icon="update"
         label={t("settings.developer.useLatestUrl")}
-        description={t("settings.developer.useLatestUrlDescription")}
+        description={<>{t("settings.developer.useLatestUrlDescription")} <span style={{ "font-weight": "800" }}>{t("settings.developer.useLatestUrlWarning")}</span></>}
         children={
           <input
             type="checkbox"
