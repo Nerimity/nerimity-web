@@ -12,5 +12,5 @@ export default {
   OFFICIAL_SERVER: import.meta.env.VITE_OFFICIAL_SERVER || "nerimity",
   GOOGLE_CLIENT_ID: import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined,
   GOOGLE_API_KEY: import.meta.env.VITE_GOOGLE_API_KEY as string | undefined,
-  RELEASE_TIMESTAMP: import.meta.env.VITE_RELEASE_TIMESTAMP
+  RELEASE_TIMESTAMP: parseInt(import.meta.env.VITE_RELEASE_TIMESTAMP || 0)
 };
