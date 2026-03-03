@@ -27,7 +27,9 @@ jobs:
 
       - name: Get the version
         id: get_version
-        run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
+        run: |
+          echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
+          echo "RELEASE_TIMESTAMP=$(date +%s%3N)" >> $GITHUB_OUTPUT
 
       - name: Install Node.js dependencies
         run: |
@@ -39,6 +41,7 @@ jobs:
         env:
           VITE_SERVER_URL: "https://nerimity.com"
           VITE_APP_URL: "https://nerimity.com"
+          VITE_RELEASE_TIMESTAMP: ${{ steps.get_version.outputs.RELEASE_TIMESTAMP }}
           VITE_APP_VERSION: ${{ steps.get_version.outputs.VERSION }}
           VITE_MOBILE_WIDTH: 850
           VITE_TURNSTILE_SITEKEY: "0x4AAAAAAABO1ilip_YaVHJk"
