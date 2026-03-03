@@ -84,7 +84,10 @@ import { prettyBytes } from "@/common/prettyBytes";
 import Checkbox from "../ui/Checkbox";
 import { ChannelIcon } from "../ChannelIcon";
 import { MetaTitle } from "@/common/MetaTitle";
-import { formatMillisRemainingNarrow, formatTimestampRelative } from "@/common/date";
+import {
+  formatMillisRemainingNarrow,
+  formatTimestampRelative
+} from "@/common/date";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
@@ -1127,7 +1130,8 @@ function SlowModeIndicator() {
   const toMs = () => channel()?.slowModeSeconds! * 1000;
   const toReadable = () => formatMillisRemainingNarrow(toMs());
 
-  const readableRemainingMs = () => formatMillisRemainingNarrow(currentSlowModeMs());
+  const readableRemainingMs = () =>
+    formatMillisRemainingNarrow(currentSlowModeMs());
 
   createEffect(() => {
     if (!slowDownProperties() || isAdmin()) {
@@ -1534,7 +1538,7 @@ export function formatMessage(
         return `[@:${user?.id}]`;
       }
     );
-    finalString = finalString.replace(roleMentionRegex, (match, group) => {
+    finalString = finalString.replaceAll(roleMentionRegex, (match, group) => {
       const channel = serverRoles.find((c) => c!.name === group);
       if (!channel) return match;
       return `[r:${channel.id}]`;
