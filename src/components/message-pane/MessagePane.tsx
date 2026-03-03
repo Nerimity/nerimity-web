@@ -1450,7 +1450,7 @@ function Floating(props: {
 const emojiRegex = /:[\w+-]+:/g;
 const channelMentionRegex = /#([^#]+)#/gu;
 const userMentionRegex = /@([^@:]+):([a-zA-Z0-9]+)/gu;
-const roleMentionRegex = /@([^#]+)@/gu;
+const roleMentionRegex = /@([^@]+)@/gu;
 
 function randomIndex(arrLength: number) {
   return Math.floor(Math.random() * arrLength);
@@ -1539,6 +1539,8 @@ export function formatMessage(
       }
     );
     finalString = finalString.replaceAll(roleMentionRegex, (match, group) => {
+      console.log("match", match);
+      console.log("group", group);
       const channel = serverRoles.find((c) => c!.name === group);
       if (!channel) return match;
       return `[r:${channel.id}]`;
@@ -1547,6 +1549,8 @@ export function formatMessage(
     finalString = finalString.replaceAll(
       channelMentionRegex,
       (match, group) => {
+        console.log("match", match);
+        console.log("group", group);
         const channel = serverChannels.find((c) => c!.name === group);
         if (!channel) return match;
         return `[#:${channel.id}]`;
