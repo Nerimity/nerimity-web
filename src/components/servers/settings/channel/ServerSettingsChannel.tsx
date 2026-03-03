@@ -13,7 +13,7 @@ import {
 } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
-import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
 import Input from "@/components/ui/input/Input";
 import Button from "@/components/ui/Button";
 import {
@@ -240,36 +240,37 @@ function PermissionsTab() {
 
   return (
     <div class={styles.channelPane}>
-      <SettingsBlock
-        icon="security"
-        label={t("servers.settings.drawer.permissions")}
-        description={t("servers.settings.channel.permissionsDescription")}
-        header={true}
-        class={css`
-          && {
-            flex-direction: column;
-            align-items: start;
-            gap: 6px;
-          }
-        `}
-      >
-        <DropDown
+      <SettingsGroup>
+        <SettingsBlock
+          icon="security"
+          label={t("servers.settings.drawer.permissions")}
+          description={t("servers.settings.channel.permissionsDescription")}
           class={css`
-            align-self: stretch;
-            margin-left: 40px;
+            && {
+              flex-direction: column;
+              align-items: start;
+              gap: 6px;
+            }
           `}
-          items={rolesDropdownItems()}
-          selectedId={selectedRoleId()}
-          onChange={(item) => setSelectedRoleId(item.id)}
-        />
-      </SettingsBlock>
+        >
+          <DropDown
+            class={css`
+              align-self: stretch;
+              margin-left: 40px;
+            `}
+            items={rolesDropdownItems()}
+            selectedId={selectedRoleId()}
+            onChange={(item) => setSelectedRoleId(item.id)}
+          />
+        </SettingsBlock>
 
-      <Show when={selectedRoleId()} keyed>
-        <ChannelPermissionsBlock
-          permissions={permissions()}
-          setPermissions={setPermissions}
-        />
-      </Show>
+        <Show when={selectedRoleId()} keyed>
+          <ChannelPermissionsBlock
+            permissions={permissions()}
+            setPermissions={setPermissions}
+          />
+        </Show>
+      </SettingsGroup>
 
       <FloatingSaveChanges
         error={error()}
@@ -672,25 +673,22 @@ const WebhooksBlock = (props: { channelId: string; serverId: string }) => {
   };
 
   return (
-    <div>
+    <SettingsGroup>
       <SettingsBlock
         icon="webhook"
         label="Webhooks"
-        header={!!webhooks().length}
       >
         <Button label="Create" iconName="add" onClick={handleCreate} />
       </SettingsBlock>
       <For each={webhooks()}>
-        {(webhook, i) => (
+        {(webhook) => (
           <SettingsBlock
             icon="webhook"
             label={webhook.name}
-            borderTopRadius={false}
             href={`./webhooks/${webhook.id}`}
-            borderBottomRadius={i() === webhooks().length - 1}
           />
         )}
       </For>
-    </div>
+    </SettingsGroup>
   );
 };

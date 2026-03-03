@@ -22,7 +22,7 @@ import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/input/Input";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
@@ -181,46 +181,45 @@ export default function SettingsPage() {
         />
       </SettingsBlock>
 
-      <SettingsBlock
-        label={t("servers.settings.welcomeScreen.answers.title")}
-        header={!!question()?.answers.length}
-        icon="forum"
-      >
-        <Button
-          label={t("servers.settings.welcomeScreen.answers.addButton")}
-          iconName="add"
-          iconSize={16}
-          margin={0}
-          onClick={addAnswer}
-        />
-      </SettingsBlock>
-      <For each={answers()}>
-        {(answer, i) => (
-          <SettingsBlock
-            description={roleList(i())}
-            icon="forum"
-            label={answer.title}
-            borderTopRadius={false}
-            borderBottomRadius={i() === question()!.answers.length - 1}
-          >
-            <Button
-              label={t("general.deleteButton")}
-              iconName="delete"
-              iconSize={16}
-              margin={[0, 4]}
-              color="var(--alert-color)"
-              onClick={() => onDeleteClick(i())}
-            />
-            <Button
-              label={t("general.editButton")}
-              iconName="edit"
-              iconSize={16}
-              margin={0}
-              onClick={() => onEditClick(i())}
-            />
-          </SettingsBlock>
-        )}
-      </For>
+      <SettingsGroup>
+        <SettingsBlock
+          label={t("servers.settings.welcomeScreen.answers.title")}
+          icon="forum"
+        >
+          <Button
+            label={t("servers.settings.welcomeScreen.answers.addButton")}
+            iconName="add"
+            iconSize={16}
+            margin={0}
+            onClick={addAnswer}
+          />
+        </SettingsBlock>
+        <For each={answers()}>
+          {(answer, i) => (
+            <SettingsBlock
+              description={roleList(i())}
+              icon="forum"
+              label={answer.title}
+            >
+              <Button
+                label={t("general.deleteButton")}
+                iconName="delete"
+                iconSize={16}
+                margin={[0, 4]}
+                color="var(--alert-color)"
+                onClick={() => onDeleteClick(i())}
+              />
+              <Button
+                label={t("general.editButton")}
+                iconName="edit"
+                iconSize={16}
+                margin={0}
+                onClick={() => onEditClick(i())}
+              />
+            </SettingsBlock>
+          )}
+        </For>
+      </SettingsGroup>
 
       <Show when={error()}>
         <Text color="var(--alert-color)">{error()}</Text>

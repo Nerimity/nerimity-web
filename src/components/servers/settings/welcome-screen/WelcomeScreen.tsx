@@ -3,7 +3,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { useNavigate, useParams } from "solid-navigator";
 import { For, createSignal, onMount } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
 
 import {
@@ -77,19 +77,20 @@ export default function SettingsPage() {
         />
         <BreadcrumbItem title={t("servers.settings.drawer.welcome-screen")} />
       </Breadcrumb>
-      <SettingsBlock
-        label={t("servers.settings.welcomeScreen.title")}
-        header={!!questions().length}
-        description={t("servers.settings.welcomeScreen.description")}
-        icon="task_alt"
-      >
-        <Button label={t("servers.settings.welcomeScreen.questions.addButton")} onClick={onAddQuestionClick} />
-      </SettingsBlock>
-      <QuestionList
-        questions={questions()}
-        onEditQuestion={onQuestionEdited}
-        onQuestionDelete={onQuestionDeleted}
-      />
+      <SettingsGroup>
+        <SettingsBlock
+          label={t("servers.settings.welcomeScreen.title")}
+          description={t("servers.settings.welcomeScreen.description")}
+          icon="task_alt"
+        >
+          <Button label={t("servers.settings.welcomeScreen.questions.addButton")} onClick={onAddQuestionClick} />
+        </SettingsBlock>
+        <QuestionList
+          questions={questions()}
+          onEditQuestion={onQuestionEdited}
+          onQuestionDelete={onQuestionDeleted}
+        />
+      </SettingsGroup>
     </div>
   );
 }
@@ -101,12 +102,11 @@ const QuestionList = (props: {
 }) => {
   return (
     <For each={props.questions.sort((a, b) => a.order! - b.order!)}>
-      {(question, i) => (
+      {(question) => (
         <QuestionItem
           question={question}
           onQuestionDelete={() => props.onQuestionDelete(question)}
           onEditQuestion={props.onEditQuestion}
-          isLast={props.questions.length - 1 === i()}
         />
       )}
     </For>
@@ -115,7 +115,6 @@ const QuestionList = (props: {
 
 const QuestionItem = (props: {
   question: RawServerWelcomeQuestion;
-  isLast: boolean;
   onQuestionDelete: () => void;
   onEditQuestion?: (question: RawServerWelcomeQuestion) => void;
 }) => {
@@ -135,8 +134,6 @@ const QuestionItem = (props: {
     <SettingsBlock
       icon="help"
       description={answerList()}
-      borderTopRadius={false}
-      borderBottomRadius={props.isLast}
       label={props.question.title}
     >
       <Button

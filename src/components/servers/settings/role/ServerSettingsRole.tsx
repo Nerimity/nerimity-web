@@ -12,7 +12,7 @@ import {
 } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
-import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
 import Input from "@/components/ui/input/Input";
 import Button from "@/components/ui/Button";
 import {
@@ -315,12 +315,11 @@ export default function ServerSettingsRole() {
         />
       </SettingsBlock>
 
-      <div class={styles.permissions}>
+      <SettingsGroup class={styles.permissions}>
         <SettingsBlock
           icon="security"
           label={t("servers.settings.drawer.permissions")}
           description={t("servers.settings.role.permissionsDescription")}
-          header={true}
         />
         <For each={permissions()}>
           {(permission) => (
@@ -328,7 +327,6 @@ export default function ServerSettingsRole() {
               icon={permission.icon}
               label={permission.name()}
               description={permission.description?.()}
-              class={styles.permissionItem}
               onClick={() =>
                 onPermissionChanged(!permission.hasPerm, permission.bit)
               }
@@ -337,7 +335,7 @@ export default function ServerSettingsRole() {
             </SettingsBlock>
           )}
         </For>
-      </div>
+      </SettingsGroup>
 
       {/* Delete Role */}
       <SettingsBlock
