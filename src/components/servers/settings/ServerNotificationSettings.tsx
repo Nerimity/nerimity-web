@@ -1,7 +1,7 @@
 import { useParams } from "solid-navigator";
-import { For, Show, createEffect } from "solid-js";
+import { For, JSXElement, Show, createEffect } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
 import { css, styled } from "solid-styled-components";
 import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
@@ -17,21 +17,22 @@ import {
   ServerNotificationSoundMode
 } from "@/chat-api/RawData";
 import Button from "@/components/ui/Button";
+import Block from "@/components/ui/settings-block/Block";
 
 const Container = styled("div")`
   display: flex;
   flex-direction: column;
   padding: 10px;
+  gap: 10px;
 `;
 
-const RadioBoxContainer = styled("div")`
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  padding: 10px;
-  padding-left: 50px;
-`;
+const RadioBoxContainer = (props: { children?: JSXElement }) => {
+  return (
+    <Block style={{ "padding-left": "50px", "margin-bottom": "0" }}>
+      {props.children}
+    </Block>
+  );
+};
 
 export default function ServerNotificationSettings() {
   const params = useParams<{ serverId: string; channelId?: string }>();
@@ -135,52 +136,49 @@ export default function ServerNotificationSettings() {
         type="info"
         description={t("servers.settings.notifications.notice")}
       />
-      <SettingsBlock
-        class={css`
-          margin-top: 10px;
-        `}
-        header
-        icon="priority_high"
-        label={t("servers.settings.notifications.ping")}
-        description={t("servers.settings.notifications.pingDescription")}
-      >
-        <ItemContainer
-          alert={
-            currentNotificationPingMode() !== ServerNotificationPingMode.MUTE
-          }
-          style={{ "padding-left": "10px", "pointer-events": "none" }}
-        >
-          <Avatar server={server()} size={30} />
-        </ItemContainer>
-      </SettingsBlock>
 
-      <RadioBoxContainer>
-        <RadioBox
-          onChange={onNotificationPingChange}
-          items={NotificationPingItems}
-          initialId={currentNotificationPingMode()}
-        />
-      </RadioBoxContainer>
+      <SettingsGroup>
+        <SettingsBlock
+          icon="priority_high"
+          label={t("servers.settings.notifications.ping")}
+          description={t("servers.settings.notifications.pingDescription")}
+        >
+          <ItemContainer
+            alert={
+              currentNotificationPingMode() !== ServerNotificationPingMode.MUTE
+            }
+            style={{ "padding-left": "10px", "pointer-events": "none" }}
+          >
+            <Avatar server={server()} size={30} />
+          </ItemContainer>
+        </SettingsBlock>
+
+        <RadioBoxContainer>
+          <RadioBox
+            onChange={onNotificationPingChange}
+            items={NotificationPingItems}
+            initialId={currentNotificationPingMode()}
+          />
+        </RadioBoxContainer>
+      </SettingsGroup>
 
       <Show
         when={currentNotificationPingMode() !== ServerNotificationPingMode.MUTE}
       >
-        <SettingsBlock
-          class={css`
-            margin-top: 10px;
-          `}
-          header
-          icon="notifications_active"
-          label={t("servers.settings.notifications.sound")}
-          description={t("servers.settings.notifications.soundDescription")}
-        />
-        <RadioBoxContainer>
-          <RadioBox
-            onChange={onNotificationSoundChange}
-            items={NotificationSoundItems()}
-            initialId={currentNotificationSoundMode()}
+        <SettingsGroup>
+          <SettingsBlock
+            icon="notifications_active"
+            label={t("servers.settings.notifications.sound")}
+            description={t("servers.settings.notifications.soundDescription")}
           />
-        </RadioBoxContainer>
+          <RadioBoxContainer>
+            <RadioBox
+              onChange={onNotificationSoundChange}
+              items={NotificationSoundItems()}
+              initialId={currentNotificationSoundMode()}
+            />
+          </RadioBoxContainer>
+        </SettingsGroup>
       </Show>
 
       <Show when={!channel()?.serverId}>
@@ -233,12 +231,8 @@ const ChannelNotificationsBlock = () => {
   ];
 
   return (
-    <>
+    <SettingsGroup>
       <SettingsBlock
-        class={css`
-          margin-top: 10px;
-        `}
-        header
         icon="storage"
         label={t("servers.settings.drawer.channels")}
         description={t("servers.settings.notifications.channelsDescription")}
@@ -255,20 +249,17 @@ const ChannelNotificationsBlock = () => {
       </SettingsBlock>
 
       <For each={sortedChannels()}>
-        {(channel, i) => (
+        {(channel) => (
           <SettingsBlock
             href={"./" + channel.id}
             class={css`
-              padding-top: 0;
-              padding-bottom: 0;
+              padding-block: 0;
             `}
             label={`${hasOverride(channel.id) ? "*" : ""}${channel.name}`}
             icon="tag"
-            borderTopRadius={false}
-            borderBottomRadius={i() === sortedChannels().length - 1}
           />
         )}
       </For>
-    </>
+    </SettingsGroup>
   );
 };

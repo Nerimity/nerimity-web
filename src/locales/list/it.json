@@ -1,0 +1,354 @@
+{
+    "general": {
+        "backButton": "Indietro",
+        "cancelButton": "Annulla",
+        "closeButton": "Chiudi",
+        "editButton": "Modifica",
+        "undoButton": "Annulla",
+        "deleteButton": "Cancella",
+        "confirmButton": "Conferma",
+        "doneButton": "Fatto",
+        "saveButton": "Salva",
+        "accountData": {
+            "email": "Email",
+            "username": "Username",
+            "password": "Password"
+        },
+        "avatarAndBanner": {
+            "avatar": "Avatar",
+            "banner": "Banner",
+            "revert": "Ripristina",
+            "remove": "Rimuovi",
+            "supportedFileTypes": "Supportati: {{extensions}}, Max {{size}}",
+            "browse": "Sfoglia"
+        },
+        "searchPlaceholder": "Cerca",
+        "cannotBeUndone": "Questa operazione non può essere annullata!",
+        "saveChangesButton": "Salva modifiche",
+        "saving": "Salvataggio…",
+        "copyLink": "Copia link",
+        "copyID": "Copia ID"
+    },
+    "header": {
+        "logoutButton": "Esci",
+        "loginButton": "Accedi",
+        "openAppButton": "Apri l'app",
+        "joinNowButton": "Unisciti ora"
+    },
+    "systemMessages": {
+        "leaveServer": "<User/><2> ha abbandonato il server.</2>",
+        "callStarted": "<User/><2> ha avviato una chiamata.</2>",
+        "pinnedMessage": "<User/><2> ha fissato un messaggio.</2>",
+        "unsupported": "<User/><2> Messaggio non supportato.</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "Errore di autenticazione",
+        "connecting": "Connessione…",
+        "reconnecting": "Riconnessione…",
+        "authenticating": "Autenticazione…",
+        "connected": "Connesso!"
+    },
+    "dangerousLinkModal": {
+        "cancelButton": "Non visitare",
+        "visitButton": "Visita",
+        "message": "Questo link ti porterà a"
+    },
+    "connectionErrorModal": {
+        "title": "Errore di connessione",
+        "ok": "OK",
+        "noToken": "Nessun token fornito.",
+        "reason": "Motivo",
+        "defaultReason": "Violazione dei Termini di servizio",
+        "until": "Fino a",
+        "never": "mai",
+        "deletionNotice": "Il tuo account e i tuoi dati saranno cancellati in 15 giorni",
+        "ipBanned": "Il tuo IP è bannato."
+    },
+    "homePage": {
+        "getStarted": "Inizia",
+        "availableOn": "Disponibile su",
+        "slogan": "Un'app di messaggistica moderna ed elegante.",
+        "subslogan": "Nerimity offre un'esperienza elegante e ricca di funzionalità che la contraddistingue.",
+        "viewGitHubButton": "Visualizza su GitHub",
+        "browser": "Browser",
+        "featureList": {
+            "feature1": "Avatar animati gratis ed emoji",
+            "feature2": "Design elegante",
+            "feature3": "Cambia il tuo tag gratis",
+            "feature4": "Crea post sul tuo profilo",
+            "feature5": "Crea la tua community",
+            "feature6": "Trova nuove community",
+            "feature7": "Funziona grazie alle donazioni",
+            "feature8": "Codice sorgente completo su GitHub"
+        }
+    },
+    "loginPage": {
+        "title": "Accedi per continuare",
+        "password": "Password",
+        "login": "Accedi",
+        "createAccountInstead": "Crea invece un account",
+        "emailOrUsernameAndTag": "Email / username:tag",
+        "loggingIn": "Accesso…"
+    },
+    "registerPage": {
+        "header": "Registrati",
+        "notices": {
+            "age": "Devi avere almeno 14 anni.",
+            "title": "Avviso",
+            "nsfw": "Niente contenuti vietati ai minori."
+        },
+        "email": "Email",
+        "username": "Username",
+        "password": "Password",
+        "confirmPassword": "Conferma password",
+        "agreement": "Con la creazione di un account, accetti i Termini e Condizioni e la Privacy Policy.",
+        "registerButton": "Registrati",
+        "loginInstead": "Accedi",
+        "registering": "Registrazione…"
+    },
+    "resetPassword": {
+        "title": "Reset della password",
+        "resetSuccessful": "Reset della password completato.",
+        "passwordsDoNotMatch": "Le password non corrispondono.",
+        "passwordTooLong": "La password deve avere al massimo 72 caratteri.",
+        "resetPasswordButton": "Resetta password",
+        "email": "Email",
+        "sendEmailButton": "Invia email",
+        "resetting": "Reset della password…",
+        "sending": "Invio email…"
+    },
+    "welcomePopup": {
+        "subtitle": "Grazie per aver provato Nerimity!",
+        "joinServer": "Unisciti al server ufficiale di Nerimity",
+        "editProfile": "Modifica il mio profilo",
+        "support": "Supportami su {{platform}}",
+        "contribute": "Contribuisci a Nerimity su GitHub"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "activeUsers": "Utenti attivi",
+        "noActiveUsers": "Nessun utente attivo",
+        "servers": "Server",
+        "posts": "Post",
+        "feed": "Feed",
+        "notifications": "Notifiche",
+        "discover": "Scopri"
+    },
+    "status": {
+        "online": "Online",
+        "dnd": "Non disturbare",
+        "offline": "Offline",
+        "appearAsOffline": "Appari come offline",
+        "afk": "Inattivo",
+        "ltp": "Ho voglia di giocare"
+    },
+    "sidePane": {
+        "addServer": "Aggiungi server",
+        "home": "Home",
+        "homeShort": "Home",
+        "moderation": "Pannello di moderazione",
+        "moderationShort": "Mod"
+    },
+    "updateModal": {
+        "title": "Aggiornamento disponibile",
+        "updateButton": "Aggiorna ora",
+        "laterButton": "Più tardi"
+    },
+    "messageArea": {
+        "gifPicker": {
+            "noResults": "Nessuna GIF trovata",
+            "search": "Cerca su {{platform}}",
+            "favorites": {
+                "title": "Preferiti",
+                "search": "Cerca tra i preferiti",
+                "noFavorites": "Ancora nessun preferito"
+            }
+        },
+        "linkToGoogleDrive": {
+            "body": "Devi collegare il tuo account a Google Drive per caricare immagini, video o file di grandi dimensioni",
+            "linkButton": "Collega ora",
+            "cancelButton": "Non collegare"
+        },
+        "emailNotice": "Conferma la tua email per mandare messaggi.",
+        "mention": "Menziona",
+        "uploadTo": "Carica su",
+        "channelNotice": {
+            "title": "Prima di chattare…",
+            "understoodButton": "Ho capito"
+        },
+        "specialMentions": {
+            "everyone": "Menziona tutti",
+            "someone": "Menziona un utente casuale",
+            "silent": "Messaggio silenzioso"
+        }
+    },
+    "inputFieldActions": {
+        "copy": "Copia",
+        "cut": "Taglia",
+        "paste": "Incolla"
+    },
+    "dropDown": {
+        "selectItem": "Seleziona elemento",
+        "selectItemMultiple": "Seleziona elementi"
+    },
+    "markup": {
+        "bold": "Grassetto",
+        "italic": "Corsivo",
+        "spoiler": "Spoiler",
+        "color": "Colore",
+        "html": "Modalità HTML",
+        "strikethrough": "Barrato",
+        "header": "Header",
+        "namedLink": "Link con nome",
+        "timestamp": "Timestamp",
+        "emojiPicker": "Emoji Picker",
+        "checkbox": "Checkbox"
+    },
+    "inbox": {
+        "drawer": {
+            "addFriendButton": "Aggiungi amico",
+            "blockedUsersButton": "Bloccato",
+            "friendsButton": "Amici",
+            "searchBarPlaceholder": "Cerca"
+        },
+        "blockedUsersModal": {
+            "title": "Utenti bloccati"
+        }
+    },
+    "explore": {
+        "drawer": {
+            "title": "Esplora",
+            "servers": "Server",
+            "bots": "Bot",
+            "themes": "Temi"
+        },
+        "bots": {
+            "moderationNotice": "I bot non sono moderati da Nerimity. Per favore segnala i bot dannosi o che violano i Termini di servizio.",
+            "inviteButton": "Invita",
+            "serverCount": "In {{count}} server",
+            "title": "Esplora - Bot"
+        },
+        "themes": {
+            "title": "Esplora - Temi",
+            "themesHeaderDescription": "Personalizza Nerimity con un tema custom.",
+            "officialThemes": "Temi ufficiali",
+            "communityThemes": "Temi della community",
+            "noCommunityThemes": "Nessun tema della community trovato.",
+            "fetchThemesError": "Recupero dei temi fallito. Per favore riprova più tardi.",
+            "unlockDescription": "Clicca per esplorare tutti i temi della community"
+        },
+        "servers": {
+            "title": "Esplora - Server",
+            "moderationNotice": "I server non sono moderati da Nerimity. Per favore segnala i server che violano i Termini di servizio.",
+            "filterAll": "Tutti",
+            "filterVerified": "Verificati",
+            "pinnedServers": "Server fissati",
+            "visitServerButton": "Visita",
+            "joinServerButton": "Unisciti"
+        },
+        "sort": "Ordina",
+        "filter": "Filtra"
+    },
+    "remindersModal": {
+        "snoozeFor5Minutes": "Sospendi per 5 minuti",
+        "snoozeFor1Day": "Sospendi per 1 giorno",
+        "deletedItem": "Post o messaggio cancellato."
+    },
+    "editFolderModal": {
+        "title": "Modifica cartella",
+        "placeholder": "Nome cartella",
+        "errors": {
+            "emptyName": "Per favore inserisci un nome per la cartella."
+        }
+    },
+    "servers": {
+        "settings": {
+            "drawer": {
+                "roles": "Ruoli",
+                "channels": "Canali",
+                "bans": "Ban",
+                "invites": "Inviti",
+                "publishServer": "Pubblica server",
+                "verify": "Verifica",
+                "role": "Ruolo",
+                "welcome-screen": "Schermata di benvenuto",
+                "channel": "Canali",
+                "permissions": "Permessi",
+                "emoji": "Emoji",
+                "notifications": "Notifiche"
+            },
+            "bans": {
+                "sort": {
+                    "alphabetical": "Alfabetico",
+                    "unsorted": "Non ordinato"
+                },
+                "noResults": "Nessun risultato trovato.",
+                "reason": "Motivo",
+                "noReason": "Nessun motivo fornito",
+                "unknown": "Sconosciuto",
+                "unban": "Rimuovi ban",
+                "unbanning": "Rimozione del ban…"
+            },
+            "general": {
+                "deleteThisServer": "Cancella questo server",
+                "deleteServerButton": "Cancella server"
+            },
+            "roles": {
+                "addNewRole": "Aggiungi un nuovo ruolo",
+                "addRoleButton": "Aggiungi ruolo"
+            },
+            "role": {
+                "roleName": "Nome del ruolo",
+                "roleColor": "Colore del ruolo",
+                "roleIcon": "Icona del ruolo",
+                "clear": "Cancella",
+                "hideRole": "Nascondi ruolo",
+                "hideRoleDescription": "Mostra i membri con questo ruolo insieme a tutti i membri default",
+                "applyOnJoinDescription": "Assegna questo ruolo ai membri quando si uniscono al server.",
+                "permissionsDescription": "Gestisci i permessi per questo ruolo.",
+                "deleteRoleTitle": "Cancella {{roleName}}",
+                "deleteRoleButton": "Cancella questo ruolo"
+            },
+            "header": {
+                "editServer": "Modifica server"
+            },
+            "welcomeScreen": {
+                "title": "Domande",
+                "questions": {
+                    "addButton": "Aggiungi domanda",
+                    "question": "Domanda",
+                    "questionPlaceholder": "Cani o gatti?",
+                    "multiselect": "Selezione multipla"
+                },
+                "answers": {
+                    "title": "Risposte",
+                    "addButton": "Aggiungi risposta",
+                    "editModal": {
+                        "title": "Modifica risposta",
+                        "answer": "Risposta",
+                        "placeholder": "Gatti",
+                        "selectRoles": "Seleziona ruoli"
+                    }
+                }
+            },
+            "channels": {
+                "createButton": "Crea",
+                "createNewDescription": "Crea un nuovo canale o categoria",
+                "textChannel": "Canale di testo",
+                "category": "Categoria"
+            },
+            "channel": {
+                "channelName": "Nome del canale",
+                "channelIcon": "Icona del canale",
+                "permissionsDescription": "Gestisci i permessi per questo canale.",
+                "slowModeDescription": "Specifica quanto deve aspettare un utente prima di poter mandare un messaggio.",
+                "deleteThisChannel": "Cancella questo canale",
+                "deleteChannelTitle": "Cancella {{channelName}}",
+                "deleteChannelButton": "Cancella canale"
+            },
+            "notifications": {
+                "notice": "Queste impostazioni cambieranno solo per te."
+            }
+        }
+    }
+}
