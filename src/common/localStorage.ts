@@ -2,6 +2,7 @@ import { createSignal } from "solid-js";
 
 export const StorageKeys = {
   USER_TOKEN: "userToken",
+  CDN_TOKEN: "cdnToken",
   SEEN_APP_VERSION: "seenAppVersion",
   INBOX_DRAWER_SELECTED_INDEX: "inboxDrawerSelectedIndex",
   APP_LANGUAGE: "appLanguage",

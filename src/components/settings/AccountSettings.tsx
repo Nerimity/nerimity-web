@@ -4,7 +4,7 @@ import {
   lazy,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import Input from "@/components/ui/input/Input";
@@ -22,7 +22,7 @@ import {
   sendResetPassword,
   updateDMChannelNotice,
   updateUser,
-  verifyEmailConfirmCode,
+  verifyEmailConfirmCode
 } from "@/chat-api/services/UserService";
 import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
 import { reconcile } from "solid-js/store";
@@ -32,7 +32,7 @@ import { CustomLink } from "../ui/CustomLink";
 import {
   getStorageString,
   setStorageString,
-  StorageKeys,
+  StorageKeys
 } from "@/common/localStorage";
 import socketClient from "@/chat-api/socketClient";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
@@ -50,7 +50,7 @@ import { logout } from "@/common/logout";
 import Checkbox from "../ui/Checkbox";
 import {
   uploadAvatar,
-  uploadBanner,
+  uploadBanner
 } from "@/chat-api/services/nerimityCDNService";
 import { FloatingSaveChanges } from "../ui/FloatingSaveChanges";
 import ImageSelector from "../ui/ImageSelector";
@@ -69,7 +69,7 @@ export default function AccountSettings() {
   createEffect(() => {
     header.updateHeader({
       title: t("settings.drawer.title") + " - " + t("settings.drawer.account"),
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -119,7 +119,6 @@ export function EditAccountPage(props: {
 
   const user = () => props.bot || account.user();
 
-
   const defaultInput = () => ({
     email: user()?.email || "",
     username: user()?.username || "",
@@ -130,7 +129,7 @@ export function EditAccountPage(props: {
     avatar: undefined as File | undefined,
     banner: undefined as File | undefined,
     avatarPoints: null as null | number[],
-    bannerPoints: null as null | number[],
+    bannerPoints: null as null | number[]
   });
 
   onCleanup(() => {
@@ -188,7 +187,7 @@ export function EditAccountPage(props: {
     const { avatar, banner, avatarPoints, bannerPoints, ...values } = {
       ...updatedInputValues(),
       socketId: socketClient.id(),
-      confirmNewPassword: undefined,
+      confirmNewPassword: undefined
     };
 
     let avatarId;
@@ -197,8 +196,9 @@ export function EditAccountPage(props: {
     if (avatar) {
       const res = await uploadAvatar(props.bot?.id || account.user()?.id!, {
         file: avatar,
-        points: avatarPoints!,
+        points: avatarPoints!
       }).catch((err) => {
+        console.log("err", err);
         setError("Failed to update avatar. " + (err.message || err.error));
       });
       if (!res) {
@@ -213,7 +213,7 @@ export function EditAccountPage(props: {
     if (banner) {
       const res = await uploadBanner(props.bot?.id || account.user()?.id!, {
         file: banner,
-        points: bannerPoints!,
+        points: bannerPoints!
       }).catch((err) => {
         setError("Failed to update banner. " + (err.message || err.error));
       });
@@ -259,7 +259,7 @@ export function EditAccountPage(props: {
 
   const onCropped = (
     points: number[],
-    type: "avatar" | "banner" = "avatar",
+    type: "avatar" | "banner" = "avatar"
   ) => {
     const pointsKey = type === "banner" ? "bannerPoints" : "avatarPoints";
 
@@ -426,7 +426,7 @@ export function EditAccountPage(props: {
         label={t("general.avatarAndBanner.avatar")}
         description={t("general.avatarAndBanner.supportedFileTypes", {
           extensions: "JPG, PNG, GIF, WEBP",
-          size: "12MB",
+          size: "12MB"
         })}
       >
         <ImageSelector
@@ -436,7 +436,7 @@ export function EditAccountPage(props: {
             setInputValue("avatarPoints", null);
             setSettingsHeaderPreview({
               avatar: undefined,
-              avatarPoints: undefined,
+              avatarPoints: undefined
             });
           }}
           onDelete={() => {
@@ -444,7 +444,7 @@ export function EditAccountPage(props: {
             setInputValue("avatarPoints", null);
             setSettingsHeaderPreview({
               avatar: null,
-              avatarPoints: undefined,
+              avatarPoints: undefined
             });
           }}
           newValue={() => inputValues().avatar}
@@ -457,7 +457,7 @@ export function EditAccountPage(props: {
         label={t("general.avatarAndBanner.banner")}
         description={t("general.avatarAndBanner.supportedFileTypes", {
           extensions: "JPG, PNG, GIF, WEBP",
-          size: "12MB",
+          size: "12MB"
         })}
       >
         <ImageSelector
@@ -467,7 +467,7 @@ export function EditAccountPage(props: {
             setInputValue("bannerPoints", null);
             setSettingsHeaderPreview({
               banner: undefined,
-              bannerPoints: undefined,
+              bannerPoints: undefined
             });
           }}
           onDelete={() => {
@@ -475,14 +475,13 @@ export function EditAccountPage(props: {
             setInputValue("bannerPoints", null);
             setSettingsHeaderPreview({
               banner: null,
-              bannerPoints: undefined,
+              bannerPoints: undefined
             });
           }}
           newValue={() => inputValues().banner}
           hasExistingValue={!!user()?.banner}
         />
       </SettingsBlock>
-
 
       <Show when={props.bot}>
         <SettingsBlock
@@ -708,7 +707,7 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
   const [inputRef, setInputRef] = createSignal<HTMLInputElement | null>(null);
 
   const defaultInput = () => ({
-    content: channelNotice()?.content || "",
+    content: channelNotice()?.content || ""
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -727,7 +726,7 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
       return setError(t("settings.account.channelNoticeTooLong"));
     const res = await updateDMChannelNotice(
       formattedContent,
-      props.botToken,
+      props.botToken
     ).catch((err) => {
       setError(err.message);
     });
@@ -750,7 +749,7 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
       style={{
         "margin-bottom": "35px",
         "padding-bottom": "30px",
-        "border-bottom": "solid 1px rgba(255,255,255,0.2)",
+        "border-bottom": "solid 1px rgba(255,255,255,0.2)"
       }}
     >
       <SettingsBlock
@@ -784,7 +783,7 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
           style={{
             display: "flex",
             "align-self": "flex-end",
-            "margin-top": "15px",
+            "margin-top": "15px"
           }}
         >
           <Show when={channelNotice()?.content}>

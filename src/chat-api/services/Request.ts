@@ -13,7 +13,7 @@ const ErrorCodeToMessage: Record<number, string> = {
   507: "Insufficient Storage",
   508: "Loop Detected",
   510: "Not Extended",
-  511: "Network Authentication Required",
+  511: "Network Authentication Required"
 };
 
 interface RequestOpts {
@@ -61,8 +61,8 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
           : undefined),
         ...(opts.useToken || opts.token
           ? { Authorization: opts.token || token }
-          : {}),
-      },
+          : {})
+      }
     }).catch((err) => {
       throw { message: "Could not connect to server. " + err.message, code: 0 };
     });
@@ -91,7 +91,7 @@ interface XHROpts {
   url: string;
   method: "POST" | "GET" | "PUT" | "PATCH" | "DELETE";
   body: FormData;
-  useToken?: boolean;
+  useToken?: boolean | string;
   notJSON?: boolean;
   params?: Record<any, any>;
 }
@@ -109,7 +109,10 @@ export function xhrRequest<T>(
     xhr.open(opts.method, url, true);
 
     if (opts.useToken) {
-      xhr.setRequestHeader("Authorization", token);
+      xhr.setRequestHeader(
+        "Authorization",
+        typeof opts.useToken == "string" ? opts.useToken : token
+      );
     }
 
     const progressHandler = createProgressHandler(onProgress);
@@ -126,6 +129,14 @@ export function xhrRequest<T>(
             if (xhr.status === 0) {
               return rej({ message: "Could not connect to server." });
             }
+            if (xhr.status != 200) {
+              try {
+                const json = JSON.parse(text);
+                return rej(json);
+              } catch {
+                return rej({ message: text });
+              }
+            }
 
             if (opts.notJSON) return res(text as T);
             const json = JSON.parse(text);
@@ -140,7 +151,11 @@ export function xhrRequest<T>(
         }
       };
 
-      xhr.send(opts.body);
+      const file = [...opts.body.values()][0] as File;
+      xhr.setRequestHeader("Content-Type", file.type);
+      xhr.setRequestHeader("File-Name", file.name);
+
+      xhr.send(file);
     });
   });
 }
