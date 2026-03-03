@@ -1,6 +1,14 @@
 import Icon from "@/components/ui/icon/Icon";
 import { A, useMatch, useNavigate, useParams } from "solid-navigator";
-import { createSignal, For, JSXElement, Match, onMount, Show, Switch } from "solid-js";
+import {
+  createSignal,
+  For,
+  JSXElement,
+  Match,
+  onMount,
+  Show,
+  Switch
+} from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import settings from "@/common/Settings";
@@ -28,6 +36,7 @@ import { getCurrentLanguage } from "@/locales/languages";
 import { LogoutModal } from "./LogoutModal";
 import { reactNativeAPI } from "@/common/ReactNative";
 import { electronWindowAPI } from "@/common/Electron";
+import { formatTimestamp, getDaysAgo } from "@/common/date";
 
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;
@@ -42,7 +51,7 @@ const SettingsListContainer = styled("div")`
   flex: 1;
 `;
 
-const SettingItemContainer = styled(ItemContainer) <{ nested?: boolean }>`
+const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
   height: 32px;
   gap: 5px;
   padding-left: ${(props) => (props.nested ? "25px" : "10px")};
@@ -90,16 +99,22 @@ function Footer() {
     createPortal((close) => <LogoutModal close={close} />);
   };
 
+  const date = () => {
+    if (env.RELEASE_TIMESTAMP) {
+      return getDaysAgo(env.RELEASE_TIMESTAMP);
+    }
+    return "";
+  };
   const fetchVersions = async () => {
     const appVersion = env.APP_VERSION || "Unknown";
     const reactVersion = reactNativeAPI()?.version;
     const electronVersion = await electronWindowAPI()?.getAppVersion();
     return [
-      `App ${appVersion}`,
+      `App ${appVersion} ${date() ? `(${date()})` : ""}`,
       reactVersion ? `React Native ${reactVersion}` : undefined,
-      electronVersion ? `Electron v${electronVersion}` : undefined,
-    ]
-  }
+      electronVersion ? `Electron v${electronVersion}` : undefined
+    ];
+  };
   onMount(() => {
     fetchVersions().then(setVersions);
   });
@@ -109,7 +124,11 @@ function Footer() {
       <VersionsContainer>
         <For each={versions()}>
           {(version) => (
-            <Text size={12} color="rgba(255,255,255,0.4)" style={{ "user-select": "none" }}>
+            <Text
+              size={12}
+              color="rgba(255,255,255,0.4)"
+              style={{ "user-select": "none" }}
+            >
               {version}
             </Text>
           )}
@@ -117,7 +136,7 @@ function Footer() {
       </VersionsContainer>
 
       <SupportBlock />
-      <FlexRow gap={4} style={{"margin-left": "2px", "margin": "4px"}}>
+      <FlexRow gap={4} style={{ "margin-left": "2px", margin: "4px" }}>
         <FooterItem
           href="https://github.com/Nerimity/Nerimity-Web"
           external
@@ -195,7 +214,7 @@ function NotificationCircle() {
         height: "20px",
         "font-size": "14px",
         "margin-left": "auto",
-        "margin-right": "8px",
+        "margin-right": "8px"
       }}
     >
       !
@@ -236,7 +255,6 @@ interface FooterItemProps {
   color?: string;
 }
 
-
 const FooterItemStyle = css`
   display: flex;
   padding: 5px;
@@ -250,11 +268,12 @@ const FooterItemStyle = css`
   text-align: center;
   justify-content: center;
   gap: 4px;
-`
+`;
 function FooterItem(props: FooterItemProps) {
-
   return (
-    <Dynamic component={props.href ? A : "div"} href={props.href!}
+    <Dynamic
+      component={props.href ? A : "div"}
+      href={props.href!}
       class={FooterItemStyle}
       target="_blank"
       rel="noopener noreferrer"
@@ -262,22 +281,16 @@ function FooterItem(props: FooterItemProps) {
       style={{ "text-decoration": "none" }}
     >
       <Icon name={props.icon} color={props.color} size={18} />
-      <Text
-        size={14}
-      >
-        {props.label}
-      </Text>
+      <Text size={14}>{props.label}</Text>
       <Text
         size={14}
         color="rgba(255,255,255,0.4)"
         class={css`
-            margin-right: 5px;
-          `}
+          margin-right: 5px;
+        `}
       >
         {props.subLabel}
       </Text>
     </Dynamic>
-
-
   );
 }
