@@ -78,7 +78,7 @@ async function nerimityCDNUploadRequest(opts: {
       method: "POST",
       url: url.href,
       body: formData,
-      params: { points: JSON.stringify(opts.points) },
+      params: opts.points ? { points: JSON.stringify(opts.points) } : undefined,
       useToken: await generateToken()
     },
     opts.onUploadProgress
