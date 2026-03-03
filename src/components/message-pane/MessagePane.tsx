@@ -1456,6 +1456,8 @@ function randomIndex(arrLength: number) {
   return Math.floor(Math.random() * arrLength);
 }
 
+const normalizeText = (str?: string) => str?.normalize("NFKC") || "";
+
 export function formatMessage(
   message: string,
   serverId?: string,
@@ -1506,7 +1508,8 @@ export function formatMessage(
         if (!dmUsers) return match;
 
         const user = dmUsers.find(
-          (user) => user?.username === username && user?.tag === tag
+          (user) =>
+            normalizeText(user?.username) === username && user?.tag === tag
         );
         if (!user) return match;
         return `[@:${user.id}]`;
@@ -1531,7 +1534,11 @@ export function formatMessage(
       (match, username, tag) => {
         const member = members.find((member) => {
           const user = users.get(member?.userId!);
-          return user && user.username === username && user.tag === tag;
+          return (
+            user &&
+            normalizeText(user.username) === username &&
+            user.tag === tag
+          );
         });
         if (!member) return match;
         const user = users.get(member.userId!);
@@ -1541,7 +1548,7 @@ export function formatMessage(
     finalString = finalString.replaceAll(roleMentionRegex, (match, group) => {
       console.log("match", match);
       console.log("group", group);
-      const channel = serverRoles.find((c) => c!.name === group);
+      const channel = serverRoles.find((c) => normalizeText(c!.name) === group);
       if (!channel) return match;
       return `[r:${channel.id}]`;
     });
@@ -1551,7 +1558,9 @@ export function formatMessage(
       (match, group) => {
         console.log("match", match);
         console.log("group", group);
-        const channel = serverChannels.find((c) => c!.name === group);
+        const channel = serverChannels.find(
+          (c) => normalizeText(c!.name) === group
+        );
         if (!channel) return match;
         return `[#:${channel.id}]`;
       }
@@ -1607,8 +1616,6 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
     </Show>
   );
 }
-
-const normalizeText = (str?: string) => str?.normalize("NFKC") || "";
 
 function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   const { channelProperties } = useStore();
