@@ -222,13 +222,24 @@ const [customColors, setCustomColors] = useLocalStorage<
 
 const currentTheme = () => ({ ...DefaultTheme, ...customColors() });
 
+export const themeVars = (
+  theme: Record<ThemeKey, string>
+): Record<string, string> => {
+  const vars: Record<string, string> = {};
+  for (const key of Object.keys(theme)) {
+    vars[`--${key}`] = theme[key as ThemeKey];
+  }
+  vars["--text-color-secondary"] ??= dimmedColor(theme["text-color"], 0.6);
+  vars["--alert-color-faded"] ??= dimmedColor(theme["alert-color"], 0.6);
+  vars["--content-color-dim60"] ??= dimmedColor(theme["content-color"], 0.6);
+  vars["--content-color-dim80"] ??= dimmedColor(theme["content-color"], 0.8);
+  return vars;
+};
+
 export const updateTheme = () => {
-  const newTheme = currentTheme();
-  for (const key in newTheme) {
-    document.documentElement.style.setProperty(
-      `--${key}`,
-      newTheme[key as ThemeKey]
-    );
+  const vars = themeVars(currentTheme());
+  for (const key in vars) {
+    document.documentElement.style.setProperty(key, vars[key] ?? null);
   }
 };
 
@@ -294,14 +305,26 @@ export const applyTheme = (name: string, themeObj?: ThemePreset) => {
   setStorageString(StorageKeys.CUSTOM_COLORS, JSON.stringify(preset.colors));
 };
 
+const placeholder = document.createElement("span");
+placeholder.style.display = "none";
+document.body.appendChild(placeholder);
+
+const computedColor = (color: string): [number, number, number, number] => {
+  placeholder.style.color = color;
+  const computed = window.getComputedStyle(placeholder).color;
+  const match = computed.match(/^rgba?\((.*)\)$/)?.[1] || "0,0,0,0";
+  const colors = match.split(",").map(Number);
+  colors[3] = colors[3] ?? 1.0;
+  return colors as [number, number, number, number];
+};
+
+const dimmedColor = (color: string, opacity: number): string => {
+  const [r, g, b, a] = computedColor(color);
+  return `rgba(${r},${g},${b},${a * opacity})`;
+};
+
 updateTheme();
 
-export const defaultThemeCSSVars = Object.keys(DefaultTheme).reduce(
-  (map, key) => {
-    map[`--${key}`] = DefaultTheme[key as keyof typeof DefaultTheme];
-    return map;
-  },
-  {} as Record<string, string>
-);
+export const defaultThemeCSSVars = themeVars(DefaultTheme);
 
 export { DefaultTheme as theme, currentTheme, customColors, setCustomColors };
