@@ -41,7 +41,8 @@ export const StorageKeys = {
   TIME_FORMAT: "timeFormat",
   DASHBOARD_POST_SORT: "dashboardPostSort",
   rightDrawerMode: "rightDrawerMode",
-  FAVORITE_GIFS: "favoriteGifs"
+  FAVORITE_GIFS: "favoriteGifs",
+  USE_LATEST_URL: "useLatestURL" // check for mobile and desktop app on wether to use the latest.nerimity.com url or not
 } as const;
 
 export type StorageKeys = (typeof StorageKeys)[keyof typeof StorageKeys];

@@ -792,6 +792,9 @@
       "lastfmApiKeyPlaceholder": "Last.fm API Key"
     },
     "developer": {
+      "useLatestUrl": "Use Latest URL",
+      "useLatestUrlDescription": "Load latest.nerimity.com on next app restart. Will relaunch app.",
+      "useLatestUrlWarning": "Do not use this. It may be unstable or buggy.",
       "applicationsDescription": "Create Nerimity Bots.",
       "apiDocumentation": "API Documentation (incomplete)",
       "addButton": "Add App",
