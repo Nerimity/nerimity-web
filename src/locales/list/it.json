@@ -39,19 +39,28 @@
         "leaveServer": "<User/><2> ha abbandonato il server.</2>",
         "callStarted": "<User/><2> ha avviato una chiamata.</2>",
         "pinnedMessage": "<User/><2> ha fissato un messaggio.</2>",
-        "unsupported": "<User/><2> Messaggio non supportato.</2>"
+        "unsupported": "<User/><2> Messaggio non supportato.</2>",
+        "joinServer": {
+            "bot": "<User/><2> è statə aggiuntə al server.</2>",
+            "user": "<User/><2> si è unitə al server.</2>"
+        },
+        "kickUser": "<User/><2> è statə rimossə.</2>",
+        "banUser": "<User/><2> è statə bannatə.</2>",
+        "bumpServer": "<User/><2> ha bumpato il server.</2>"
     },
     "statusHeader": {
         "authenticationError": "Errore di autenticazione",
         "connecting": "Connessione…",
         "reconnecting": "Riconnessione…",
         "authenticating": "Autenticazione…",
-        "connected": "Connesso!"
+        "connected": "Connesso!",
+        "inQueue": "In coda: {{count}} utente/i prima di te"
     },
     "dangerousLinkModal": {
         "cancelButton": "Non visitare",
         "visitButton": "Visita",
-        "message": "Questo link ti porterà a"
+        "message": "Questo link ti porterà a",
+        "title": "Link personalizzato"
     },
     "connectionErrorModal": {
         "title": "Errore di connessione",
@@ -62,7 +71,10 @@
         "until": "Fino a",
         "never": "mai",
         "deletionNotice": "Il tuo account e i tuoi dati saranno cancellati in 15 giorni",
-        "ipBanned": "Il tuo IP è bannato."
+        "ipBanned": "Il tuo IP è bannato.",
+        "suspended": "Sei statə sospesə.",
+        "by": "Da",
+        "ipBanNotice": "Qualcunə con lo stesso IP è statə sospesə da Nerimity. Il tuo account non è interessato."
     },
     "homePage": {
         "getStarted": "Inizia",
@@ -79,7 +91,8 @@
             "feature5": "Crea la tua community",
             "feature6": "Trova nuove community",
             "feature7": "Funziona grazie alle donazioni",
-            "feature8": "Codice sorgente completo su GitHub"
+            "feature8": "Codice sorgente completo su GitHub",
+            "feature9": "Esprimi te stessə con le cornici"
         }
     },
     "loginPage": {
@@ -95,7 +108,8 @@
         "notices": {
             "age": "Devi avere almeno 14 anni.",
             "title": "Avviso",
-            "nsfw": "Niente contenuti vietati ai minori."
+            "nsfw": "Niente contenuti vietati ai minori.",
+            "toxic": "Non essere tossicə."
         },
         "email": "Email",
         "username": "Username",
@@ -104,7 +118,8 @@
         "agreement": "Con la creazione di un account, accetti i Termini e Condizioni e la Privacy Policy.",
         "registerButton": "Registrati",
         "loginInstead": "Accedi",
-        "registering": "Registrazione…"
+        "registering": "Registrazione…",
+        "title": "Benvenutə su {{appName}}"
     },
     "resetPassword": {
         "title": "Reset della password",
@@ -152,7 +167,8 @@
     "updateModal": {
         "title": "Aggiornamento disponibile",
         "updateButton": "Aggiorna ora",
-        "laterButton": "Più tardi"
+        "laterButton": "Più tardi",
+        "releasedAt": "Rilasciato alle"
     },
     "messageArea": {
         "gifPicker": {
@@ -180,7 +196,11 @@
             "everyone": "Menziona tutti",
             "someone": "Menziona un utente casuale",
             "silent": "Messaggio silenzioso"
-        }
+        },
+        "messageBoxPlaceholder": "Invia un messaggio a {{username}}",
+        "messageBoxChannelPlaceholder": "Invia un messaggio su {{channelName}}",
+        "replying": "Rispondendo a {{count}} messaggi(o)",
+        "dropFile": "Rilascia file"
     },
     "inputFieldActions": {
         "copy": "Copia",
@@ -189,7 +209,8 @@
     },
     "dropDown": {
         "selectItem": "Seleziona elemento",
-        "selectItemMultiple": "Seleziona elementi"
+        "selectItemMultiple": "Seleziona elementi",
+        "itemsSelected": "{{count}} elemento/i selezionato/i"
     },
     "markup": {
         "bold": "Grassetto",
@@ -200,16 +221,27 @@
         "strikethrough": "Barrato",
         "header": "Header",
         "namedLink": "Link con nome",
-        "timestamp": "Timestamp",
+        "timestamp": "Data e ora",
         "emojiPicker": "Emoji Picker",
-        "checkbox": "Checkbox"
+        "checkbox": "Checkbox",
+        "timestampModal": {
+            "title": "Fissa la data",
+            "relative": "Relativa",
+            "offset": "Fuso orario"
+        }
     },
     "inbox": {
         "drawer": {
             "addFriendButton": "Aggiungi amico",
             "blockedUsersButton": "Bloccato",
             "friendsButton": "Amici",
-            "searchBarPlaceholder": "Cerca"
+            "searchBarPlaceholder": "Cerca",
+            "friendRequests": "{{count}} richiesta/e di amicizia",
+            "onlineFriends": "{{count}} amico/i online",
+            "offlineFriends": "{{count}} amico/i offline",
+            "inboxTitle": "Conversazioni",
+            "notes": "Appunti",
+            "viewAll": "Visualizza tutti"
         },
         "blockedUsersModal": {
             "title": "Utenti bloccati"
@@ -226,7 +258,8 @@
             "moderationNotice": "I bot non sono moderati da Nerimity. Per favore segnala i bot dannosi o che violano i Termini di servizio.",
             "inviteButton": "Invita",
             "serverCount": "In {{count}} server",
-            "title": "Esplora - Bot"
+            "title": "Esplora - Bot",
+            "noticeMessage": "Un bot può essere bumpato una volta ogni {{hours}} ore. Tutti i bump si resettano ogni {{date}}."
         },
         "themes": {
             "title": "Esplora - Temi",
@@ -244,15 +277,29 @@
             "filterVerified": "Verificati",
             "pinnedServers": "Server fissati",
             "visitServerButton": "Visita",
-            "joinServerButton": "Unisciti"
+            "joinServerButton": "Unisciti",
+            "noticeMessage": "Un server può essere bumpato una volta ogni {{hours}} ore. Tutti i bump si resettano ogni {{date}}.",
+            "sortMostBumps": "Maggior numero di bump",
+            "sortMostMembers": "Maggior numero di membri",
+            "sortRecentlyAdded": "Aggiunti di recente",
+            "sortRecentlyBumped": "Bumpati di recente",
+            "sortMostActive": "Più attivi (Beta)",
+            "recentlyBumped": "Server bumpati di recente",
+            "memberCount": "{{count}} membro/i",
+            "lifetimeBumpCount": "{{count}} bump in totale",
+            "bumpButton": "Bump ({{count}})"
         },
         "sort": "Ordina",
-        "filter": "Filtra"
+        "filter": "Filtra",
+        "by": "Da"
     },
     "remindersModal": {
         "snoozeFor5Minutes": "Sospendi per 5 minuti",
         "snoozeFor1Day": "Sospendi per 1 giorno",
-        "deletedItem": "Post o messaggio cancellato."
+        "deletedItem": "Post o messaggio cancellato.",
+        "viewButton": "Visualizza",
+        "title": "Promemoria",
+        "showAllButton": "Mostra tutti i promemoria"
     },
     "editFolderModal": {
         "title": "Modifica cartella",
@@ -275,7 +322,10 @@
                 "channel": "Canali",
                 "permissions": "Permessi",
                 "emoji": "Emoji",
-                "notifications": "Notifiche"
+                "notifications": "Notifiche",
+                "audit-logs": "Audit log",
+                "general": "Impostazioni generali",
+                "external-embed": "Incorpora link esterno"
             },
             "bans": {
                 "sort": {
@@ -291,7 +341,10 @@
             },
             "general": {
                 "deleteThisServer": "Cancella questo server",
-                "deleteServerButton": "Cancella server"
+                "deleteServerButton": "Cancella server",
+                "serverName": "Nome del server",
+                "defaultChannel": "Canale di default",
+                "defaultChannelDescription": "I nuovi membri verranno diretti su questo canale."
             },
             "roles": {
                 "addNewRole": "Aggiungi un nuovo ruolo",
