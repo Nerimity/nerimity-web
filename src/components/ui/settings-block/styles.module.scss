@@ -1,13 +1,15 @@
-.block {
-  display: flex;
-  align-items: center;
-  min-height: 40px;
+/* :where() has zero specificity; this allows overriding this rule with
+solid-styled-components styles, which have non-deterministic load order. */
+:where(.block) {
   padding: 10px;
   padding-left: 15px;
   margin-bottom: 5px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.block {
   &.clickable {
     cursor: pointer;
     &:hover {
@@ -24,6 +26,12 @@
     border-bottom-right-radius: 0;
     margin-bottom: 1px;
   }
+}
+
+.settingsBlock {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
 }
 
 .group > .block {

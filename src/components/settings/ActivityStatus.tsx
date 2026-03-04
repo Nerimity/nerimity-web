@@ -426,6 +426,7 @@ const EditActivityStatusModal = (props: {
             <Show when={showEmojiPicker()}>
               <Block
                 style={{
+                  display: "flex",
                   "margin-top": "-1px",
                   padding: "0",
                 }}

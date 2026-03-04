@@ -37,6 +37,7 @@ export default function SettingsBlock(props: BlockProps) {
       state={props.historyState}
       href={props.href}
       class={classNames(
+        styles.settingsBlock,
         styles.block,
         conditionalClass(props.header, styles.header),
         conditionalClass(props.borderTopRadius === false, styles.joinTop),
