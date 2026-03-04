@@ -7,8 +7,6 @@ interface BlockProps {
   class?: string;
   children?: JSX.Element | undefined;
   style?: JSX.CSSProperties;
-  borderTopRadius?: boolean
-  borderBottomRadius?: boolean
   onClick?: () => void;
 }
 
@@ -18,8 +16,6 @@ export default function Block(props: BlockProps) {
       onClick={props.onClick}
       class={classNames(
         styles.block,
-        conditionalClass(props.borderTopRadius === false, styles.joinTop),
-        conditionalClass(props.borderBottomRadius === false, styles.joinBottom),
         props.class
       )}
       style={props.style}

@@ -10,7 +10,7 @@ import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
 import { CustomLink } from "@/components/ui/CustomLink";
 import { FlexRow } from "@/components/ui/Flexbox";
-import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
 import { t } from "@nerimity/i18lite";
 import { createEffect, createSignal, For, Show } from "solid-js";
 import { css } from "solid-styled-components";
@@ -47,12 +47,11 @@ export const ApplicationBotCreateLinkBlock = (props: {
     }
   };
   return (
-    <div>
+    <SettingsGroup>
       <SettingsBlock
         icon="security"
         label={t("servers.settings.drawer.permissions")}
         description={t("settings.developer.bot.permissionsDescription")}
-        header={true}
         class={css`
           flex-wrap: wrap;
           gap: 8px;
@@ -86,10 +85,8 @@ export const ApplicationBotCreateLinkBlock = (props: {
         </Show>
       </SettingsBlock>
       <For each={permissionsList}>
-        {(permission, i) => (
+        {(permission) => (
           <SettingsBlock
-            borderTopRadius={false}
-            borderBottomRadius={i() === permissionsList.length - 1}
             icon={permission.icon}
             label={permission.name()}
             description={permission.description?.()}
@@ -103,6 +100,6 @@ export const ApplicationBotCreateLinkBlock = (props: {
           </SettingsBlock>
         )}
       </For>
-    </div>
+    </SettingsGroup>
   );
 };

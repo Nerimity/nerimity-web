@@ -23,7 +23,7 @@ import Avatar from "../ui/Avatar";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { bannerUrl } from "@/chat-api/store/useUsers";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
 import Input from "../ui/input/Input";
 import Checkbox from "../ui/Checkbox";
 import { formatTimestamp } from "@/common/date";
@@ -41,6 +41,7 @@ import WarnUserModal from "./WarnUserModal";
 import { UserDetails } from "@/chat-api/services/UserService";
 import ShadowBanUserModal from "./ShadowBanUserModal";
 import UndoShadowBanUserModal from "./UndoShadowBanUserModal";
+import Block from "../ui/settings-block/Block";
 
 const UserPageContainer = styled(FlexColumn)`
   height: 100%;
@@ -74,13 +75,6 @@ const UserBannerDetails = styled(FlexColumn)`
 const BadgeItemStyles = css`
   && {
     margin: 0;
-    &:not(:last-child) {
-      border-radius: 0;
-    }
-    &:last-child {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
   }
 `;
 
@@ -272,8 +266,8 @@ export default function UserPage() {
               onText={(v) => setInputValue("tag", v)}
             />
           </SettingsBlock>
-          <SettingsBlock icon="badge" label="Badges" header />
-          <FlexColumn gap={1}>
+          <SettingsGroup>
+            <SettingsBlock icon="badge" label="Badges" />
             <For each={USER_BADGES_VALUES}>
               {(badge) => (
                 <BadgeItem
@@ -284,7 +278,7 @@ export default function UserPage() {
                 />
               )}
             </For>
-          </FlexColumn>
+          </SettingsGroup>
           <ChangePasswordButton
             onClick={onChangePasswordClick}
             style={{ "margin-bottom": "5px", "margin-top": "5px" }}
@@ -377,11 +371,12 @@ const BadgeItem = (props: {
   );
 };
 
-const UsersWithSameIPAddressContainer = styled(FlexColumn)`
-  background: rgba(255, 255, 255, 0.05);
+const UsersWithSameIPAddressContainer = styled(Block)`
   margin-bottom: 10px;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  padding: 0;
+  min-height: 0;
+  flex-direction: column;
+  align-items: unset;
 `;
 
 const UsersWithSameIPAddress = (props: { userId: string }) => {
@@ -392,16 +387,15 @@ const UsersWithSameIPAddress = (props: { userId: string }) => {
   });
 
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
         icon="dns"
-        borderBottomRadius={false}
         label="Users With Same IP Address"
       />
       <UsersWithSameIPAddressContainer>
         <For each={users()}>{(user) => <User user={user} />}</For>
       </UsersWithSameIPAddressContainer>
-    </FlexColumn>
+    </SettingsGroup>
   );
 };
 const UserServersList = (props: {
@@ -417,10 +411,9 @@ const UserServersList = (props: {
   };
 
   return (
-    <FlexColumn>
+    <SettingsGroup>
       <SettingsBlock
         icon="dns"
-        borderBottomRadius={false}
         label="Joined Servers"
       />
       <UsersWithSameIPAddressContainer>
@@ -428,7 +421,7 @@ const UserServersList = (props: {
           {(server) => <Server server={server} />}
         </For>
       </UsersWithSameIPAddressContainer>
-    </FlexColumn>
+    </SettingsGroup>
   );
 };
 

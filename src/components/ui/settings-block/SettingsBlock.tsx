@@ -11,10 +11,7 @@ interface BlockProps {
   iconSrc?: string;
   description?: string | JSXElement;
   children?: JSX.Element | undefined;
-  header?: boolean;
   class?: string;
-  borderTopRadius?: boolean;
-  borderBottomRadius?: boolean;
   onClick?: () => void;
   onClickIcon?: string;
   href?: string;
@@ -39,9 +36,6 @@ export default function SettingsBlock(props: BlockProps) {
       class={classNames(
         styles.settingsBlock,
         styles.block,
-        conditionalClass(props.header, styles.header),
-        conditionalClass(props.borderTopRadius === false, styles.joinTop),
-        conditionalClass(props.borderBottomRadius === false, styles.joinBottom),
         conditionalClass(props.onClick || props.href, styles.clickable!),
         props.class
       )}
