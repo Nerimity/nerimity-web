@@ -1379,7 +1379,6 @@ function FloatingAttachment(props: {}) {
               padding={6}
               iconSize={18}
               primary
-              style={{ "margin-left": "auto" }}
               iconName="brush"
             />
           </div>
