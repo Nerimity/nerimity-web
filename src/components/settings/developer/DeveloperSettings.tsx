@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 
 import useStore from "@/chat-api/store/useStore";
@@ -8,6 +8,8 @@ import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Icon from "@/components/ui/icon/Icon";
 import Checkbox from "@/components/ui/Checkbox";
+import { electronWindowAPI } from "@/common/Electron";
+import { reactNativeAPI } from "@/common/ReactNative";
 
 const Container = styled("div")`
   display: flex;
@@ -20,22 +22,27 @@ export default function DeveloperSettings() {
   const { header } = useStore();
 
   const getInitialCookieValue = () => {
-    const match = document.cookie.split('; ').find(row => row.startsWith('useLatestURL='));
-    return match ? match.split('=')[1] === 'true' : false;
+    const match = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("useLatestURL="));
+    return match ? match.split("=")[1] === "true" : false;
   };
 
   const [useLatest, setUseLatest] = createSignal(getInitialCookieValue());
 
   const handleToggleCookie = (checked: boolean) => {
     setUseLatest(checked);
-    const domain = window.location.hostname.includes("nerimity.com") ? "domain=.nerimity.com;" : "";
+    const domain = window.location.hostname.includes("nerimity.com")
+      ? "domain=.nerimity.com;"
+      : "";
     document.cookie = `useLatestURL=${checked}; path=/; max-age=315360000; ${domain}`;
   };
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
-      iconName: "settings",
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
+      iconName: "settings"
     });
   });
 
@@ -46,14 +53,27 @@ export default function DeveloperSettings() {
         <BreadcrumbItem title={t("settings.drawer.developer")} />
       </Breadcrumb>
 
-      <SettingsBlock
-        icon="update"
-        label={t("settings.developer.useLatestUrl")}
-        description={<>{t("settings.developer.useLatestUrlDescription")} <span style={{ "font-weight": "800" }}>{t("settings.developer.useLatestUrlWarning")}</span></>}
-        children={
-          <Checkbox checked={useLatest()} onChange={handleToggleCookie} />
+      <Show
+        when={
+          electronWindowAPI()?.isElectron || reactNativeAPI()?.isReactNative
         }
-      />
+      >
+        <SettingsBlock
+          icon="update"
+          label={t("settings.developer.useLatestUrl")}
+          description={
+            <>
+              {t("settings.developer.useLatestUrlDescription")}{" "}
+              <span style={{ "font-weight": "800" }}>
+                {t("settings.developer.useLatestUrlWarning")}
+              </span>
+            </>
+          }
+          children={
+            <Checkbox checked={useLatest()} onChange={handleToggleCookie} />
+          }
+        />
+      </Show>
 
       <SettingsBlock
         href="./applications"
