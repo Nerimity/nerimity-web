@@ -26,7 +26,8 @@
   }
 }
 
-.item {
+/* specificity hack to consistently override solid-styled-components styles */
+.item.item {
   display: flex;
 
   flex-direction: column;
