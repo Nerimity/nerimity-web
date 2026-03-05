@@ -720,7 +720,10 @@
                 "bumpBotCooldown": "Du musst {{hours}} Stunden, {{minutes}} Minuten und {{seconds}} Sekunden warten, um diesen Bot zu bumpen.",
                 "publicDescription": "Mache diesen Bot öffentlich.",
                 "botDescription": "Bot Beschreibung ({{current}}/{{max}})"
-            }
+            },
+            "useLatestUrl": "Verwende die Latest URL",
+            "useLatestUrlDescription": "Die neueste Version (latest.nerimity.com) wird beim nächsten Neustart der App geladen. Die App wird neu gestartet.",
+            "useLatestUrlWarning": "Es könnte instabil oder fehlerhaft sein."
         },
         "badges": {
             "noticeTitle": "Spenden",
