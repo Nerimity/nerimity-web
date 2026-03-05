@@ -1,3 +1,47 @@
+:root {
+  --chat-day-mark-color: rgba(255, 255, 255, 0.1);
+  --chat-day-mark-fg: rgba(255, 255, 255, 0.4);
+
+  --chat-embed-bg: rgba(255, 255, 255, 0.02);
+  --chat-embed-border: solid 1px rgba(255, 255, 255, 0.1);
+  --chat-embed-border-radius: 8px;
+
+  --float-options-fg: var(--text-color-secondary);
+  --float-options-bg: var(--message-floating-options-background-color);
+  --float-options-bg-hover: rgb(78, 78, 78);
+  --float-options-border: solid 1px rgba(255, 255, 255, 0.2);
+  --float-options-separator: rgba(255, 255, 255, 0.4);
+
+  --system-message-fg-dim: var(--content-color-dim60);
+
+  --message-mention-bg: rgba(255, 149, 149, 0.1);
+  --message-edit-bg: rgba(76, 148, 255, 0.2);
+  --message-someone-bg: linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.2) 0%,
+    rgba(255, 165, 0, 0.2) 20%,
+    rgba(255, 255, 0, 0.2) 40%,
+    rgba(0, 255, 0, 0.2) 60%,
+    rgba(0, 0, 255, 0.2) 80%,
+    rgba(136, 0, 130, 0.2) 100%
+  );
+  --message-blocked-fg: var(--text-color-secondary);
+
+  --swipe-action-bg: rgba(255, 255, 255, 0.08);
+
+  --message-details-icon-color: rgba(255, 255, 255, 0.4);
+  --message-details-fg: rgba(255, 255, 255, 0.6);
+
+  --progress-bg: rgba(0, 0, 0, 0.6);
+  --progress-fg: var(--primary-color);
+
+  --audio-progress-bg: rgba(255, 255, 255, 0.1);
+  --audio-progress-fg: var(--primary-color);
+
+  --video-desc-fg: var(--content-color-dim60);
+  --video-date-fg: var(--content-color-dim80);
+}
+
 .newDayMarker {
   position: relative;
   display: flex;
@@ -6,7 +50,7 @@
   padding: 6px;
   margin-bottom: -10px;
   border-radius: 6px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--chat-day-mark-fg);
   text-align: center;
   font-size: 12px;
 
@@ -15,8 +59,7 @@
     height: 1px;
     margin-right: 6px;
     margin-left: 8px;
-    background-color: rgba(255, 255, 255, 0.1);
-
+    background-color: var(--chat-day-mark-color);
     content: "";
   }
   &:after {
@@ -24,7 +67,7 @@
     height: 1px;
     margin-right: 8px;
     margin-left: 6px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--chat-day-mark-color);
     content: "";
   }
 }
@@ -37,9 +80,9 @@
   flex-direction: column;
   padding: 10px;
   margin-right: 6px;
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.02);
+  border: var(--chat-embed-border);
+  border-radius: var(--chat-embed-border-radius);
+  background-color: var(--chat-embed-bg);
   word-break: break-word;
   white-space: pre-line;
   font-size: 14px;
@@ -48,7 +91,7 @@
     font-size: 16px;
     font-weight: bold;
     .translationSource {
-      opacity: 0.6;
+      color: var(--text-color-secondary);
       font-size: 12px;
       font-weight: normal;
     }
@@ -81,25 +124,24 @@
   display: none;
   align-items: center;
   padding: 2px;
-  border: solid 1px rgba(255, 255, 255, 0.2);
+  border: var(--float-options-border);
   border-radius: 8px;
-  background-color: var(--message-floating-options-background-color);
+  background-color: var(--float-options-bg);
   .floatDate {
     padding-right: 7px;
     margin-right: 5px;
     margin-left: 5px;
     position: relative;
     // border-right: solid 1px var(--text-color);
-    opacity: 0.6;
     font-size: 12px;
+    color: var(--float-options-fg);
     &:after {
       position: absolute;
       top: 0;
       right: -2px;
       bottom: 0;
       width: 1px;
-      opacity: 0.4;
-      background-color: var(--text-color);
+      background-color: var(--float-options-separator);
       content: "";
     }
   }
@@ -110,14 +152,19 @@
     width: 20px;
     padding: 2px;
     border-radius: 6px;
-    opacity: 0.6;
     cursor: pointer;
     transition: 0.2s;
+    color: var(--float-options-fg);
+    --text-color: currentColor;
+
     &:hover {
-      opacity: 1;
-      background-color: rgb(78, 78, 78);
-      .icon {
-        color: var(--primary-color);
+      color: var(--primary-color);
+      background: var(--float-options-bg-hover);
+    }
+    &.delete {
+      color: var(--alert-color-faded);
+      &:hover {
+        color: var(--alert-color);
       }
     }
     .icon {
@@ -135,7 +182,6 @@
   display: flex;
   overflow: hidden;
   align-items: center;
-  color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
   gap: 5px;
 
@@ -184,7 +230,7 @@
     }
   }
   .date {
-    opacity: 0.6;
+    color: var(--system-message-fg-dim);
     font-size: 12px;
   }
 }
@@ -291,15 +337,19 @@
   padding-left: 6px;
   margin-top: 10px;
   gap: 5px;
+
+  --message-background: transparent;
+  --message-alert: transparent;
+  background: var(--message-background);
+
   &:hover {
-    background-color: var(--message-hover-background-color);
     .floatOptions {
       display: flex;
     }
   }
+
   &.isEditing,
   &.mentioned {
-    background-color: rgba(255, 149, 149, 0.1);
     &:before {
       position: absolute;
       top: 2px;
@@ -307,32 +357,29 @@
       left: 0;
       width: 2px;
       border-radius: 8px;
-      background-color: var(--alert-color);
+      background-color: var(--message-alert);
       content: "";
     }
   }
 
+  &:hover {
+    --message-background: var(--message-hover-background-color);
+  }
+  &.mentioned {
+    --message-background: var(--message-mention-bg);
+    --message-alert: var(--alert-color);
+  }
   &.isEditing {
-    background-color: rgba(76, 148, 255, 0.2);
-    &:before {
-      background-color: var(--primary-color);
-    }
+    --message-background: var(--message-edit-bg);
+    --message-alert: var(--primary-color);
   }
   &.someoneMentioned {
-    background: linear-gradient(
-      90deg,
-      rgba(255, 0, 0, 0.2) 0%,
-      rgba(255, 165, 0, 0.2) 20%,
-      rgba(255, 255, 0, 0.2) 40%,
-      rgba(0, 255, 0, 0.2) 60%,
-      rgba(0, 0, 255, 0.2) 80%,
-      rgba(136, 0, 130, 0.2) 100%
-    );
+    --message-background: var(--message-someone-bg);
   }
 
   .blockedMessage {
     padding-left: 56px;
-    opacity: 0.6;
+    color: var(--message-blocked-fg);
     cursor: pointer;
     font-size: 14px;
   }
@@ -355,7 +402,7 @@
   display: flex;
   align-items: center;
   & > span {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--swipe-action-bg);
     border-radius: 4px;
     padding: 4px;
   }
@@ -406,12 +453,12 @@
 .details .pinnedIcon {
   height: 16px;
   line-height: 1;
-  opacity: 0.4;
+  --text-color: var(--message-details-icon-color);
 }
 
 .details .date {
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--message-details-fg);
   font-size: 12px;
 }
 
@@ -447,9 +494,9 @@
   display: flex;
   max-width: 500px;
   padding: 5px;
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.02);
+  border: var(--chat-embed-border);
+  border-radius: var(--chat-embed-border-radius);
+  background-color: var(--chat-embed-bg);
   gap: 5px;
 
   &.largeImage {
@@ -472,10 +519,6 @@
     .playButton {
       position: absolute;
       z-index: 11;
-      padding: 10px;
-      border-radius: 6px;
-      background-color: rgba(0, 0, 0, 0.86);
-      backdrop-filter: blur(34px);
     }
   }
 
@@ -510,9 +553,9 @@
   display: flex;
   flex-direction: column;
   padding: 8px;
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.02);
+  border: var(--chat-embed-border);
+  border-radius: var(--chat-embed-border-radius);
+  background-color: var(--chat-embed-bg);
   .attachmentDetailsInner {
     display: flex;
     overflow: hidden;
@@ -538,11 +581,11 @@
     font-size: 14px;
   }
   .size {
-    opacity: 0.5;
+    color: var(--text-color-secondary);
     font-size: 14px;
   }
   .speed {
-    opacity: 0.5;
+    color: var(--text-color-secondary);
     font-size: 14px;
     font-variant-numeric: tabular-nums;
   }
@@ -552,11 +595,11 @@
     height: 6px;
     margin-top: 5px;
     border-radius: 99999px;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: var(--progress-bg);
     .currentProgress {
       height: 100%;
       border-radius: 99999px;
-      background-color: var(--primary-color);
+      background-color: var(--progress-fg);
     }
   }
 }
@@ -580,9 +623,9 @@
   height: 50px;
   padding: 5px;
   padding-left: 10px;
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.02);
+  border: var(--chat-embed-border);
+  border-radius: var(--chat-embed-border-radius);
+  background-color: var(--chat-embed-bg);
   gap: 6px;
 
   .serverInviteLoading {
@@ -621,7 +664,7 @@
   .serverMemberCount {
     display: flex;
     align-items: center;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-color-secondary);
     font-size: 12px;
     gap: 4px;
   }
@@ -643,7 +686,7 @@
   .time {
     display: flex;
     justify-content: space-between;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-color-secondary);
     font-size: 14px;
   }
   .progressBar {
@@ -651,11 +694,11 @@
     width: 100%;
     height: 10px;
     border-radius: 9999px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--audio-progress-bg);
     .progress {
       height: 100%;
       border-radius: 9999px;
-      background-color: var(--primary-color);
+      background-color: var(--audio-progress-fg);
     }
   }
 
@@ -678,9 +721,9 @@
   max-width: 500px;
   height: 36px;
   padding: 5px;
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.02);
+  border: var(--chat-embed-border);
+  border-radius: var(--chat-embed-border-radius);
+  background-color: var(--chat-embed-bg);
   gap: 4px;
   &.willExpire {
     height: 54px;
@@ -699,7 +742,7 @@
     flex-shrink: 0;
     margin-bottom: 4px;
     margin-left: 4px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-color-secondary);
     font-size: 12px;
     gap: 4px;
   }
@@ -729,7 +772,7 @@
     -webkit-box-orient: vertical;
   }
   .fileEmbedSize {
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-color-secondary);
     font-size: 12px;
   }
 }
@@ -740,9 +783,9 @@
   flex-direction: column;
 
   width: min-content;
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.02);
+  border: var(--chat-embed-border);
+  border-radius: var(--chat-embed-border-radius);
+  background-color: var(--chat-embed-bg);
   .video {
     position: relative;
     overflow: hidden;
@@ -759,12 +802,6 @@
     justify-content: center;
     cursor: pointer;
     inset: 0;
-  }
-  .playButton {
-    padding: 10px;
-    border-radius: 6px;
-    background-color: rgba(0, 0, 0, 0.86);
-    backdrop-filter: blur(34px);
   }
 
   .youtubeEmbedDetails {
@@ -784,14 +821,14 @@
       margin-top: 2px;
       margin-bottom: 4px;
       .date {
-        opacity: 0.8;
+        color: var(--video-date-fg);
       }
     }
     .description {
       display: -webkit-box;
 
       overflow: hidden;
-      opacity: 0.6;
+      color: var(--video-desc-fg);
       text-overflow: ellipsis;
       font-size: 12px;
       -webkit-line-clamp: 2;
@@ -809,9 +846,9 @@
   max-width: 500px;
 
   max-height: 500px;
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.02);
+  border: var(--chat-embed-border);
+  border-radius: var(--chat-embed-border-radius);
+  background-color: var(--chat-embed-bg);
 
   .expiresAt {
     display: flex;
@@ -819,7 +856,7 @@
     flex-shrink: 0;
     margin-bottom: 4px;
     margin-left: 6px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-color-secondary);
     font-size: 12px;
     gap: 4px;
   }
@@ -847,7 +884,7 @@
       -webkit-box-orient: vertical;
     }
     .fileEmbedSize {
-      color: rgba(255, 255, 255, 0.6);
+      color: var(--text-color-secondary);
       font-size: 12px;
     }
   }
@@ -869,10 +906,12 @@
     cursor: pointer;
     inset: 0;
   }
-  .playButton {
-    padding: 10px;
-    border-radius: 6px;
-    background-color: rgba(0, 0, 0, 0.86);
-    backdrop-filter: blur(34px);
-  }
+}
+
+.playButton {
+  padding: 10px;
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(34px);
+  --text-color: var(--primary-color);
 }

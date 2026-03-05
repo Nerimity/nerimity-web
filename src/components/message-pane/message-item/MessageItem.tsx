@@ -190,12 +190,11 @@ function FloatOptions(props: FloatingOptionsProps) {
         </div>
       </Show>
       <Show when={showDelete()}>
-        <div class={styles.item} onClick={onDeleteClick}>
+        <div class={cn(styles.item, styles.delete)} onClick={onDeleteClick}>
           <Icon
             size={18}
             name="delete"
             class={styles.icon}
-            color="var(--alert-color)"
           />
         </div>
       </Show>

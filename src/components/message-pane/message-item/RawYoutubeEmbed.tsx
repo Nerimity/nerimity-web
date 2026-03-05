@@ -31,7 +31,7 @@ export const RawYoutubeEmbed = (props: {
             class={styles.playButtonContainer}
           >
             <div class={styles.playButton}>
-              <Icon name="play_arrow" color="var(--primary-color)" size={28} />
+              <Icon name="play_arrow" size={28} />
             </div>
           </div>
         </Show>
