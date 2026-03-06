@@ -493,7 +493,7 @@
             "changePassword": "Cambiar contraseña",
             "forgotPassword": "¿Has olvidado tu contraseña?",
             "newPassword": "Nueva contraseña",
-            "newPasswordDescription": "Cambiar tu contraseña cerrará sesión en todos los otros sitios.",
+            "newPasswordDescription": "Al cambiar tu contraseña, se cerrará la sesión en todas los demás sitios.",
             "confirmNewPassword": "Confirmar nueva contraseña",
             "confirmNewPasswordDescription": "Confirma tu nueva contraseña",
             "confirmCurrentPassword": "Confirma tu contraseña actual",
@@ -506,17 +506,17 @@
             "channelNoticeTooLong": "Los avisos no pueden tener más de 300 caracteres.",
             "deleteAccount": "Eliminar mi cuenta",
             "deleteAccountDescription": "¡Esta acción no se puede deshacer!",
-            "deleteAccountNotice": "Tienes que eliminar / salir de todos los servidores antes de poder eliminar tu cuenta.",
+            "deleteAccountNotice": "Debes salir / eliminar todos los servidores antes de poder eliminar tu cuenta.",
             "understoodButton": "Entendido",
-            "deletionNotice": "Nos entristece verte marchar :( Si algo no te gustó, por favor, háznoslo saber en el servidor oficial de Nerimity.",
+            "deletionNotice": "Nos entristece verte irte :( Si algo no te gustó, por favor, háznoslo saber en el servidor oficial de Nerimity.",
             "deletedInfo": {
-                "title": "Que se eliminara",
+                "title": "Que se eliminara:",
                 "email": "• Correo",
                 "username": "• Usuario",
-                "ip": "Dirección IP",
-                "bio": "Biografía",
-                "messages": "Tus mensajes",
-                "posts": "Tus publicaciones"
+                "ip": "• Dirección IP",
+                "bio": "• Biografía",
+                "messages": "• Tus mensajes",
+                "posts": "• Tus publicaciones"
             },
             "postsAndMessagesNotice": "Tus publicaciones y mensajes pueden tardar semanas en ser eliminados.",
             "deleteCheckbox": "Eliminar mis publicaciones y mensajes",
@@ -559,7 +559,7 @@
             "soundsDescription": "Si los sonidos de las notificaciones son muy molestos, los puedes deshabilitar.",
             "volume": "Volumen",
             "volumeDescription": "Cambia el volumen del sonido de las notificaciones.",
-            "changeSoundsDescription": "Cambia el sonido de las notificaciones con estos sonidos libres de derechos.",
+            "changeSoundsDescription": "Cambia el sonido de las notificaciones con estos sonidos libres de derechos de autor.",
             "message": "Mensaje",
             "messageDescription": "Sonido cuando recibas un mensaje.",
             "mention": "Mención",
@@ -574,7 +574,7 @@
                 "inheritFromPingSettings": "Heredar de la configuración de notificaciones mencionadas"
             },
             "testNotification": {
-                "title": "Ha funcionado!",
+                "title": "¡Ha funcionado!",
                 "body": "Notificaciones de escritorio activadas."
             },
             "callJoin": "Unirse a llamada",
@@ -720,13 +720,16 @@
                 "bumpBotCooldown": "Es necesario esperar {{hours}} horas, {{minutes}} minutos y {{seconds}} segundos para destacar este bot.",
                 "publicDescription": "Haz público este bot.",
                 "botDescription": "Descripción del bot ({{current}}/{{max}})"
-            }
+            },
+            "useLatestUrl": "Utilizar URL más reciente",
+            "useLatestUrlDescription": "Cargar latest.nerimity.com la siguente vez que reinicies la aplicación. Se reiniciará la aplicación.",
+            "useLatestUrlWarning": "Podría ser inestable o tener errores."
         },
         "badges": {
             "noticeTitle": "Donaciones",
             "notice": "Apoya este proyecto donando dinero.",
             "palestineDescription": "Puede equiparse accediendo a la configuración del perfil",
-            "price": "{{price}} Insignias",
+            "price": "Insignias de {{price}}",
             "supportMethods": "Métodos de donación"
         },
         "connections": {
