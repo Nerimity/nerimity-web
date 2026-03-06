@@ -1,7 +1,7 @@
 .connectingStatusHeader {
   position: relative;
   display: flex;
-  
+
   overflow: hidden;
   flex-shrink: 0;
   height: 20px;
@@ -11,35 +11,44 @@
   opacity: 1;
   transition: 0.2s ease-in;
 
-  &.mobile {
-    margin: 0;
-    border-radius: 0;
-  }
-  
   &.hide {
     height: 0;
     margin: 0;
     border-radius: 0;
     opacity: 0;
   }
+}
 
+.text {
+  position: relative;
+  z-index: 1111;
+  overflow: hidden;
+  color: var(--color);
+  text-align: center;
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+.icon {
+  position: relative;
+  z-index: 11;
+  padding: 2px;
   &::before {
     position: absolute;
+    z-index: -1;
+    border-radius: 4px;
+    background-color: var(--color);
     content: "";
+    filter: brightness(80%);
     inset: 0;
-    backdrop-filter: brightness(82%);
   }
-  
-  .text {
-    position: relative;
-    z-index: 1111;
-    overflow: hidden;
-    flex: 1;
-    text-align: center;
-    text-overflow: ellipsis;
+}
 
-    white-space: nowrap;
-    font-size: 14px;
-
-  }
+.content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+  font-size: 14px;
+  gap: 4px;
 }

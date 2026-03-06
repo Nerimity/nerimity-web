@@ -9,15 +9,19 @@ import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { t } from "@nerimity/i18lite";
 import { Delay } from "@/common/Delay";
+import Icon from "../ui/icon/Icon";
 
 export default function ConnectingStatusHeader() {
   const { account } = useStore();
   const [status, setStatus] = createSignal<{
+    icon: string;
     color: string;
     text: string;
+    hide?: boolean;
   } | null>(null);
   const [queuePos, setQueuePos] = createSignal(0);
   const { isMobileWidth } = useWindowProperties();
+  let statusElement: HTMLDivElement | undefined;
 
   socketClient.useSocketOn(
     ServerEvents.USER_AUTH_QUEUE_POSITION,
@@ -57,6 +61,7 @@ export default function ConnectingStatusHeader() {
 
     if (account.authenticationError()) {
       setStatus({
+        icon: "gpp_maybe",
         color: "var(--alert-color)",
         text:
           account.authenticationError()?.message ||
@@ -68,6 +73,7 @@ export default function ConnectingStatusHeader() {
     if (!account.isConnected()) {
       setStatus({
         color: "var(--warn-color)",
+        icon: "sync",
         text: alreadyConnected
           ? t("statusHeader.reconnecting")
           : t("statusHeader.connecting")
@@ -79,6 +85,7 @@ export default function ConnectingStatusHeader() {
 
     if (!account.isAuthenticated()) {
       setStatus({
+        icon: "hourglass_empty",
         color: "var(--warn-color)",
         text: queuePos()
           ? t("statusHeader.inQueue", { count: queuePos() })
@@ -89,11 +96,15 @@ export default function ConnectingStatusHeader() {
 
     if (account.isAuthenticated()) {
       setStatus({
+        icon: "check",
         color: "var(--success-color)",
         text: t("statusHeader.connected")
       });
       interval = window.setTimeout(() => {
-        setStatus(null);
+        setStatus({
+          ...status()!,
+          hide: true
+        });
       }, 1000);
     }
   });
@@ -103,21 +114,25 @@ export default function ConnectingStatusHeader() {
       class={classNames(
         styles.connectingStatusHeader,
         conditionalClass(isMobileWidth(), styles.mobile),
-        conditionalClass(!status() || !show(), styles.hide)
+        conditionalClass(status()?.hide || !show(), styles.hide)
       )}
-      style={{ background: status()?.color }}
+      ref={statusElement}
+      style={{ "--color": status()?.color }}
     >
-      <div class={styles.text}>
-        {status()?.text}
-        <Delay ms={1000}>
-          <a
-            href="https://stats.uptimerobot.com/kRFOr5ohZx"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Status Page
-          </a>
-        </Delay>
+      <div class={styles.content}>
+        <Icon class={styles.icon} name={status()?.icon} size={14} />
+        <div class={styles.text}>{status()?.text}</div>
+        <Show when={!account.isConnected()}>
+          <Delay ms={20000}>
+            <a
+              href="https://stats.uptimerobot.com/kRFOr5ohZx"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Status Page
+            </a>
+          </Delay>
+        </Show>
       </div>
     </div>
   );
