@@ -10,6 +10,7 @@ import { ServerEvents } from "@/chat-api/EventNames";
 import { t } from "@nerimity/i18lite";
 import { Delay } from "@/common/Delay";
 import Icon from "../ui/icon/Icon";
+import { electronWindowAPI } from "@/common/Electron";
 
 export default function ConnectingStatusHeader() {
   const { account } = useStore();
@@ -114,7 +115,8 @@ export default function ConnectingStatusHeader() {
       class={classNames(
         styles.connectingStatusHeader,
         conditionalClass(isMobileWidth(), styles.mobile),
-        conditionalClass(status()?.hide || !show(), styles.hide)
+        conditionalClass(status()?.hide || !show(), styles.hide),
+        conditionalClass(electronWindowAPI()?.isElectron, styles.electron)
       )}
       ref={statusElement}
       style={{ "--color": status()?.color }}

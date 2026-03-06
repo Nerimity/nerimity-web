@@ -4,7 +4,7 @@ import {
   lazy,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 
 import { getCurrentLanguage, getLanguage } from "./locales/languages";
@@ -16,7 +16,7 @@ import { useReactNativeEvent } from "./common/ReactNative";
 import { registerFCM } from "./chat-api/services/UserService";
 import { useCustomPortal } from "./components/ui/custom-portal/CustomPortal";
 import ContextMenu, {
-  ContextMenuItem,
+  ContextMenuItem
 } from "./components/ui/context-menu/ContextMenu";
 import { Delay } from "./common/Delay";
 
@@ -38,7 +38,12 @@ export default function App() {
     if (electronWindowAPI()?.isElectron) {
       electronWindowAPI()
         ?.getCustomTitlebarDisabled()
-        .then(setCustomTitlebarDisabled);
+        .then((disabled) => {
+          setCustomTitlebarDisabled(disabled);
+          if (!disabled) {
+            document.body.classList.add("electron-custom-titlebar");
+          }
+        });
     }
   });
 
@@ -55,11 +60,11 @@ export default function App() {
   const setLanguage = async () => {
     const key = getCurrentLanguage();
     if (!key) return;
-    
+
     // Set language attribute without changing layout direction
     const langKey = key.replace("_", "-");
     document.documentElement.setAttribute("lang", langKey || "en");
-    
+
     if (key === "en_gb") return;
     const language = await getLanguage(key);
     if (!language) return;
@@ -118,8 +123,8 @@ const InputContextMenu = (props: {
         id: suggestion,
         label: suggestion,
         icon: "spellcheck",
-        onClick: () => electronWindowAPI()?.replaceMisspelling(suggestion),
-      })),
+        onClick: () => electronWindowAPI()?.replaceMisspelling(suggestion)
+      }))
     ];
 
     if (items.length) {
@@ -138,7 +143,7 @@ const InputContextMenu = (props: {
         onClick: () => {
           props.input.focus();
           electronWindowAPI()?.clipboardCopy(highlighted);
-        },
+        }
       });
       items.push({
         id: "cut",
@@ -147,7 +152,7 @@ const InputContextMenu = (props: {
         onClick: () => {
           props.input.focus();
           electronWindowAPI()?.clipboardCut();
-        },
+        }
       });
     }
 
@@ -158,7 +163,7 @@ const InputContextMenu = (props: {
       onClick: () => {
         props.input.focus();
         electronWindowAPI()?.clipboardPaste();
-      },
+      }
     });
 
     return items;

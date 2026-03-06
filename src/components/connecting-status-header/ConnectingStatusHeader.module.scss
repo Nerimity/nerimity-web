@@ -10,6 +10,7 @@
   border-radius: 6px;
   opacity: 1;
   transition: 0.2s ease-in;
+  pointer-events: none;
 
   &.hide {
     height: 0;
@@ -51,4 +52,19 @@
   justify-content: center;
   font-size: 14px;
   gap: 4px;
+}
+
+@media (min-width: 500px) {
+  :global .electron-custom-titlebar {
+    :local {
+      .connectingStatusHeader {
+        position: absolute;
+        top: 8px;
+        right: 0;
+        left: 0;
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
 }

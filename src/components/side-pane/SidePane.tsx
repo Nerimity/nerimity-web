@@ -33,6 +33,7 @@ import { userDetailsPreloader } from "@/common/createPreloader";
 import { useDrawer } from "../ui/drawer/Drawer";
 import { InboxList } from "./InboxList";
 import { useTransContext } from "@nerimity/solid-i18lite";
+import { electronWindowAPI } from "@/common/Electron";
 
 export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;

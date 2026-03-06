@@ -13,6 +13,14 @@
   gap: 5px;
 }
 
+:global .electron-custom-titlebar {
+  :local {
+    .sidePane {
+      padding-top: 0;
+    }
+  }
+}
+
 body .presenceDropdown {
   margin-top: 0;
   margin-bottom: 0;
