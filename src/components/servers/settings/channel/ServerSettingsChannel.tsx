@@ -407,7 +407,7 @@ function GeneralTab() {
       <Show when={!isCategory()}>
         <SettingsBlock
           icon="speed"
-          label={t("messageView.slowMode")}
+          label={t("servers.settings.channel.slowMode")}
           description={t("servers.settings.channel.slowModeDescription")}
         >
           <Input
@@ -532,7 +532,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
   const save = async () => {
     setError("");
     if (inputValues().content.length > 300)
-      return setError("Channel notice cannot be longer than 300 characters.");
+      return setError(t("servers.settings.channel.channelNoticeTooLong"));
     const res = await updateChannelNotice(
       props.serverId,
       props.channelId,
@@ -567,9 +567,9 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
     >
       <SettingsBlock
         icon="info"
-        label="Channel Notice"
+        label={t("servers.settings.channel.channelNotice")}
         class={NoticeBlockStyle}
-        description="Shows when the user is about to chat for the first time. Changes apply after reload."
+        description={t("servers.settings.channel.channelNoticeDescription")}
       >
         <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>
           ({inputValues().content.length} / 300)
@@ -676,9 +676,9 @@ const WebhooksBlock = (props: { channelId: string; serverId: string }) => {
     <SettingsGroup>
       <SettingsBlock
         icon="webhook"
-        label="Webhooks"
+        label={t("servers.settings.webhook.title")}
       >
-        <Button label="Create" iconName="add" onClick={handleCreate} />
+        <Button label={t("servers.settings.webhook.addButton")} iconName="add" onClick={handleCreate} />
       </SettingsBlock>
       <For each={webhooks()}>
         {(webhook) => (
