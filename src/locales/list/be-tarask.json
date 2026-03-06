@@ -720,7 +720,10 @@
                 "bumpBotCooldown": "Вы мусіце пачакаць {{hours}} гадзін, {{minutes}} хвілін, і {{seconds}} сякунд каб усхваліць гэтага бота.",
                 "publicDescription": "Зрабіце гэтага бота публічным.",
                 "botDescription": "Апісаньне бота ({{current}}/{{max}})"
-            }
+            },
+            "useLatestUrl": "Нестабільная версыя",
+            "useLatestUrlDescription": "Загружаць latest.nerimity.com пры наступным запуске. Гэта перазагрузіць аплікацыю.",
+            "useLatestUrlWarning": "Можа выклікаць нестабільнасьць альбо праблемы."
         },
         "badges": {
             "noticeTitle": "Ахвяраваньні",
