@@ -595,7 +595,10 @@
                 "bumpBotCooldown": "Musisz odczekac {{hours}} godzin, {{minutes}} minut i {{seconds}} sekund, aby podbić tego bota.",
                 "publicDescription": "Opublikuj tego bota.",
                 "botDescription": "Opis bota ({{current}}/{{max}})"
-            }
+            },
+            "useLatestUrl": "Najnowsza wersja testowa",
+            "useLatestUrlDescription": "Załaduj latest.nerimity.com przy następnym starcie aplikacji. Spowoduje to restart aplikacji.",
+            "useLatestUrlWarning": "Może być niestabilna lub zawierać błędy."
         },
         "activity": {
             "extension": "Rozszerzenie przeglądarkowe",
