@@ -1,6 +1,6 @@
 import {
   ModerationUser,
-  shadowBan,
+  shadowBan
 } from "@/chat-api/services/ModerationService";
 import { createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
@@ -60,7 +60,7 @@ export default function ShadowBanUserModal(props: Props) {
         "justify-content": "flex-end",
         flex: 1,
         margin: "5px",
-        gap: "4px",
+        gap: "4px"
       }}
     >
       <Button
@@ -86,7 +86,7 @@ export default function ShadowBanUserModal(props: Props) {
             type="warn"
             description={[
               "ONLY shadow ban raiders/spammers.",
-              "Last 7 hours of messages will be deleted.",
+              "Last 7 hours of messages will be deleted."
             ]}
           />
         </div>

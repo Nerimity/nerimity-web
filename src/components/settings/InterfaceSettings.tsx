@@ -10,7 +10,9 @@ import {
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "../ui/settings-block/SettingsBlock";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import {
   themePresets,

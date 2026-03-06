@@ -2,7 +2,7 @@ import style from "./ServerList.module.css";
 import {
   createServerFolder,
   updateServerFolder,
-  updateServerOrder,
+  updateServerOrder
 } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import { useDocumentListener } from "@/common/useDocumentListener";
@@ -12,7 +12,7 @@ import {
   Show,
   For,
   onMount,
-  onCleanup,
+  onCleanup
 } from "solid-js";
 import Sortable, { SortableEvent } from "solid-sortablejs";
 import ContextMenuServer from "../servers/context-menu/ContextMenuServer";
@@ -152,7 +152,7 @@ export function ServerFolderItem(props: {
                   draggingId() &&
                   draggedOverId() === props.folder.id)
                   ? "var(--primary-color)"
-                  : "",
+                  : ""
             }}
           >
             <Show when={mentionCount()}>
@@ -178,7 +178,7 @@ export function ServerFolderItem(props: {
                     <div
                       style={{
                         width: props.size - props.size * 0.63 + "px",
-                        height: props.size - props.size * 0.63 + "px",
+                        height: props.size - props.size * 0.63 + "px"
                       }}
                     />
                   )}
@@ -257,7 +257,7 @@ const ServerListSkeleton = (props: { size: number }) => {
 let mouseDownDetails = {
   x: 0,
   y: 0,
-  at: 0,
+  at: 0
 };
 
 function ServerItem(props: {
@@ -286,7 +286,7 @@ function ServerItem(props: {
           mouseDownDetails = {
             x: e.clientX,
             y: e.clientY,
-            at: Date.now(),
+            at: Date.now()
           };
         }}
         onmouseup={(e) => {
@@ -356,7 +356,7 @@ export const ServerList = (props: { size: number }) => {
     event.preventDefault();
     setContextServerFolder({
       position: { x: event.clientX, y: event.clientY },
-      folderId,
+      folderId
     });
   };
 
@@ -568,7 +568,7 @@ export const ServerList = (props: { size: number }) => {
                         id: "new",
                         name: "New Folder",
                         color: "#000000",
-                        serverIds: [server.id, draggingId()!],
+                        serverIds: [server.id, draggingId()!]
                       }}
                       size={props.size}
                     />

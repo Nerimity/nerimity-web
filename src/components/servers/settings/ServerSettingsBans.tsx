@@ -1,7 +1,7 @@
 import {
   Ban,
   bannedMembersList,
-  removeBanServerMember,
+  removeBanServerMember
 } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
@@ -36,7 +36,7 @@ export default function ServerSettingsBans() {
 
   const sortOptions: DropDownItem[] = [
     { id: "alphabetical", label: t("servers.settings.bans.sort.alphabetical") },
-    { id: "unsorted", label: t("servers.settings.bans.sort.unsorted") },
+    { id: "unsorted", label: t("servers.settings.bans.sort.unsorted") }
   ]; // TODO: Add a sort by "Recent" :P
 
   const filtered = () => {

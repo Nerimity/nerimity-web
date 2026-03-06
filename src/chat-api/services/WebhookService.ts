@@ -11,7 +11,7 @@ export const createWebhook = async (serverId: string, channelId: string) => {
       "/api" +
       ServiceEndpoints.serverChannel(serverId, channelId) +
       "/webhooks",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -28,7 +28,7 @@ export const getWebhookToken = async (
       "/api" +
       ServiceEndpoints.serverChannel(serverId, channelId) +
       `/webhooks/${webhookId}/token`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -41,7 +41,7 @@ export const getWebhooks = async (serverId: string, channelId: string) => {
       "/api" +
       ServiceEndpoints.serverChannel(serverId, channelId) +
       "/webhooks",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -58,7 +58,7 @@ export const deleteWebhook = async (
       "/api" +
       ServiceEndpoints.serverChannel(serverId, channelId) +
       `/webhooks/${webhookId}`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -75,7 +75,7 @@ export const getWebhook = async (
       "/api" +
       ServiceEndpoints.serverChannel(serverId, channelId) +
       `/webhooks/${webhookId}`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -95,7 +95,7 @@ export const updateWebhook = async (
       ServiceEndpoints.serverChannel(serverId, channelId) +
       `/webhooks/${webhookId}`,
     useToken: true,
-    body: update,
+    body: update
   });
   return data;
 };

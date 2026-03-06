@@ -2,7 +2,7 @@ import { RawUser } from "@/chat-api/RawData";
 import {
   deleteServer,
   ModerationSuspension,
-  suspendUsers,
+  suspendUsers
 } from "@/chat-api/services/ModerationService";
 import { createSignal, For, Show } from "solid-js";
 import { styled } from "solid-styled-components";
@@ -44,7 +44,7 @@ export default function DeleteServersModal(props: Props) {
 
   const [templates, setTemplates] = createSignal({
     "NSFW Server": false,
-    Other: false,
+    Other: false
   } as Record<string, boolean>);
 
   const [error, setError] = createSignal<{
@@ -120,7 +120,7 @@ export default function DeleteServersModal(props: Props) {
         "justify-content": "flex-end",
         flex: 1,
         margin: "5px",
-        gap: "4px",
+        gap: "4px"
       }}
     >
       <Button
@@ -149,7 +149,7 @@ export default function DeleteServersModal(props: Props) {
               onChange={() => {
                 setTemplates((prev) => ({
                   ...prev,
-                  [template]: !prev[template],
+                  [template]: !prev[template]
                 }));
               }}
             />

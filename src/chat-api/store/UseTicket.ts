@@ -18,7 +18,7 @@ const updateModerationTicketNotification = async () => {
 
   const tickets = await getModerationTickets({
     limit: 1,
-    status: TicketStatus.WAITING_FOR_MODERATOR_RESPONSE,
+    status: TicketStatus.WAITING_FOR_MODERATOR_RESPONSE
   });
   setHasModerationTicketNotification(tickets.length > 0);
 };
@@ -26,7 +26,7 @@ const updateModerationTicketNotification = async () => {
 const updateTicketNotification = async () => {
   const tickets = await getTickets({
     limit: 1,
-    seen: false,
+    seen: false
   });
   setHasTicketNotification(tickets.length > 0);
 };
@@ -35,9 +35,12 @@ const fetchUpdated = () => {
   updateTicketNotification();
 };
 
-window.setInterval(() => {
-  fetchUpdated();
-}, 10 * 60 * 1000); // 10 minutes
+window.setInterval(
+  () => {
+    fetchUpdated();
+  },
+  10 * 60 * 1000
+); // 10 minutes
 
 export default function useTicket() {
   return {
@@ -45,6 +48,6 @@ export default function useTicket() {
     hasModerationTicketNotification,
     updateTicketNotification,
     hasTicketNotification,
-    fetchUpdated,
+    fetchUpdated
   };
 }

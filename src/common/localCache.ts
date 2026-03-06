@@ -1,8 +1,7 @@
 import { set, get, clear } from "idb-keyval";
 
-
 export enum LocalCacheKey {
-  Account = "account",
+  Account = "account"
 }
 
 export function saveCache(name: LocalCacheKey, data: any) {

@@ -11,7 +11,7 @@ export function NotificationCountBadge(props: {
         class={style.notificationCount}
         style={{
           top: `${props.top}px`,
-          right: `${props.right}px`,
+          right: `${props.right}px`
         }}
       >
         {props.count}

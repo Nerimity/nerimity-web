@@ -16,8 +16,8 @@ export const BlockedUsersModal = (props: { close: () => void }) => {
       () => {
         props.close();
       },
-      { defer: true },
-    ),
+      { defer: true }
+    )
   );
 
   return (

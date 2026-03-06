@@ -7,7 +7,10 @@ export function usePromise<T>(func: () => Promise<T>) {
 
   createEffect(() => {
     setLoading(true);
-    func().then(setData).catch(setError).finally(() => setLoading(false));
+    func()
+      .then(setData)
+      .catch(setError)
+      .finally(() => setLoading(false));
   });
 
   return { data, error, loading };

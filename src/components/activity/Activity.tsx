@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import { ActivityStatus } from "@/chat-api/RawData";
 import {
   calculateTimeElapsedForActivityStatus,
-  formatMillisElapsedDigital,
+  formatMillisElapsedDigital
 } from "../../common/date";
 import { createEffect, createSignal, on, onCleanup } from "solid-js";
 import Text from "../ui/Text";
@@ -96,7 +96,7 @@ export const RichProgressBar = (props: {
             width: `${percent(undefined)}%`,
             ...(props.primaryColor
               ? { "background-color": props.primaryColor }
-              : {}),
+              : {})
           }}
         />
       </div>

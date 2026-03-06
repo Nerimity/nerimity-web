@@ -3,14 +3,16 @@ import {
   Bitwise,
   hasBit,
   removeBit,
-  ROLE_PERMISSIONS,
+  ROLE_PERMISSIONS
 } from "@/chat-api/Bitwise";
 import env from "@/common/env";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
 import { CustomLink } from "@/components/ui/CustomLink";
 import { FlexRow } from "@/components/ui/Flexbox";
-import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "@/components/ui/settings-block/SettingsBlock";
 import { t } from "@nerimity/i18lite";
 import { createEffect, createSignal, For, Show } from "solid-js";
 import { css } from "solid-styled-components";
@@ -64,7 +66,7 @@ export const ApplicationBotCreateLinkBlock = (props: {
             style={{
               background: "rgba(0,0,0,0.4)",
               "padding-left": "8px",
-              "border-radius": "8px",
+              "border-radius": "8px"
             }}
           >
             <CustomLink

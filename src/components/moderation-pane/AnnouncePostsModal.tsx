@@ -53,7 +53,7 @@ export default function AnnouncePostsModal(props: Props) {
         "justify-content": "flex-end",
         flex: 1,
         margin: "5px",
-        gap: "4px",
+        gap: "4px"
       }}
     >
       <Button

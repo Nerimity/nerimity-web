@@ -2,7 +2,6 @@ import env from "../../common/env";
 import { request } from "./Request";
 import Endpoints from "./ServiceEndpoints";
 
-
 export const postJoinVoice = async (channelId: string, socketId: string) => {
   const data = await request({
     method: "POST",
@@ -17,18 +16,17 @@ export const postJoinVoice = async (channelId: string, socketId: string) => {
 export const postLeaveVoice = async (channelId: string) => {
   const data = await request({
     method: "POST",
-    url: env.SERVER_URL + "/api" + Endpoints.channel(channelId) + "/voice/leave",
+    url:
+      env.SERVER_URL + "/api" + Endpoints.channel(channelId) + "/voice/leave",
     useToken: true
   });
   return data;
 };
 
-
 const lastCredentials = {
   generatedAt: null as null | number,
   result: null as null | any
 };
-
 
 export const getCachedCredentials = () => lastCredentials.result;
 export const postGenerateCredential = async () => {

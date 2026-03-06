@@ -2,7 +2,7 @@ import { createSignal } from "solid-js";
 import {
   getStorageString,
   setStorageString,
-  StorageKeys,
+  StorageKeys
 } from "./localStorage";
 import { localRPC } from "./LocalRPC";
 import { debounce } from "./debounce";
@@ -47,7 +47,7 @@ const ActivityType = {
   LISTENING: 2,
   WATCHING: 3,
   CUSTOM: 4,
-  COMPETING: 5,
+  COMPETING: 5
 };
 const ActivityTypeToNameAndAction = (activity: FormattedActivity) => {
   switch (activity.type) {
@@ -131,7 +131,7 @@ export const useDiscordActivityTracker = () => {
         title: activity.details || undefined,
         subtitle: activity.state || undefined,
         link: url || activity.url || undefined,
-        ...ActivityTypeToNameAndAction(activity),
+        ...ActivityTypeToNameAndAction(activity)
       });
     }, 500);
 

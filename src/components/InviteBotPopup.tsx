@@ -5,7 +5,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { useNavigate } from "solid-navigator";
 import {
   RawBotUser,
-  getApplicationBot,
+  getApplicationBot
 } from "@/chat-api/services/ApplicationService";
 import { RawServer } from "@/chat-api/RawData";
 import Avatar from "@/components/ui/Avatar";
@@ -17,7 +17,7 @@ import {
   ROLE_PERMISSIONS,
   addBit,
   hasBit,
-  removeBit,
+  removeBit
 } from "@/chat-api/Bitwise";
 import { t } from "@nerimity/i18lite";
 import Checkbox from "@/components/ui/Checkbox";
@@ -31,7 +31,7 @@ export const InviteBotPopup = (props: {
   const [bot, setBot] = createSignal<RawBotUser | null>(null);
   const [servers, setServers] = createSignal<Partial<RawServer>[]>([]);
   const [permissions, setPermissions] = createSignal<number>(
-    props.permissions ?? 0,
+    props.permissions ?? 0
   );
   const [serverId, setServerId] = createSignal<string | null>(null);
   const [requestSent, setRequestSent] = createSignal(false);
@@ -41,7 +41,7 @@ export const InviteBotPopup = (props: {
   onMount(async () => {
     if (!getStorageString(StorageKeys.USER_TOKEN, null)) {
       navigate(RouterEndpoints.LOGIN(location.pathname + location.search), {
-        replace: true,
+        replace: true
       });
       return;
     }
@@ -71,7 +71,7 @@ export const InviteBotPopup = (props: {
         style={{
           overflow: "auto",
           margin: "auto",
-          padding: "2px",
+          padding: "2px"
         }}
         gap={24}
       >
@@ -108,7 +108,7 @@ export const InviteBotPopup = (props: {
           `}
           items={servers().map((server) => ({
             label: server.name!,
-            id: server.id!,
+            id: server.id!
           }))}
         />
         <Show when={error()}>
@@ -141,7 +141,7 @@ const PermissionList = (props: {
     props.setPermissions(
       hasPerm
         ? removeBit(props.permissions, bit)
-        : addBit(props.permissions, bit),
+        : addBit(props.permissions, bit)
     );
   };
 

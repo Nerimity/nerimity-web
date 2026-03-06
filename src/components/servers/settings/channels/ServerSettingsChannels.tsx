@@ -10,7 +10,7 @@ import {
   on,
   onMount,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
@@ -19,12 +19,12 @@ import useChannels, { Channel } from "@/chat-api/store/useChannels";
 import Icon from "@/components/ui/icon/Icon";
 import {
   createServerChannel,
-  updateServerChannelOrder,
+  updateServerChannelOrder
 } from "@/chat-api/services/ServerService";
 import { useTransContext } from "@nerimity/solid-i18lite";
 import Sortable from "solid-sortablejs";
 import ContextMenu, {
-  ContextMenuProps,
+  ContextMenuProps
 } from "@/components/ui/context-menu/ContextMenu";
 import { ChannelType } from "@/chat-api/RawData";
 import { CustomLink } from "@/components/ui/CustomLink";
@@ -87,7 +87,7 @@ function CategoryItem(props: { channel: Channel }) {
   const onAdd = () => {
     updateServerChannelOrder(serverId, {
       channelIds: temp().map((c) => c.id),
-      categoryId: props.channel.id,
+      categoryId: props.channel.id
     }).finally(resetTemp);
   };
 
@@ -95,7 +95,7 @@ function CategoryItem(props: { channel: Channel }) {
     if (event.to !== event.from) return;
     updateServerChannelOrder(serverId, {
       channelIds: temp().map((c) => c.id),
-      categoryId: props.channel.id,
+      categoryId: props.channel.id
     }).finally(resetTemp);
   };
 
@@ -155,13 +155,13 @@ function ChannelList() {
   const onEnd = (event: any) => {
     if (event.to !== event.from) return;
     updateServerChannelOrder(serverId, {
-      channelIds: temp().map((c) => c.id),
+      channelIds: temp().map((c) => c.id)
     }).finally(resetTemp);
   };
 
   const onAdd = () => {
     updateServerChannelOrder(serverId, {
-      channelIds: temp().map((c) => c.id),
+      channelIds: temp().map((c) => c.id)
     }).finally(resetTemp);
   };
 
@@ -221,9 +221,12 @@ export default function ServerSettingsChannel() {
 
   onMount(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.channels"),
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("servers.settings.drawer.channels"),
       serverId: serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -232,7 +235,7 @@ export default function ServerSettingsChannel() {
       !contextMenuPos()
         ? {
             x: event.clientX,
-            y: event.clientY,
+            y: event.clientY
           }
         : null
     );
@@ -290,8 +293,16 @@ function ContextMenuCreate(props: Omit<ContextMenuProps, "items">) {
     <ContextMenu
       {...props}
       items={[
-        { icon: "tag", label: t("servers.settings.channels.textChannel"), id: ChannelType.SERVER_TEXT },
-        { icon: "segment", label: t("servers.settings.channels.category"), id: ChannelType.CATEGORY },
+        {
+          icon: "tag",
+          label: t("servers.settings.channels.textChannel"),
+          id: ChannelType.SERVER_TEXT
+        },
+        {
+          icon: "segment",
+          label: t("servers.settings.channels.category"),
+          id: ChannelType.CATEGORY
+        }
       ]}
     />
   );

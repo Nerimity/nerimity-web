@@ -87,13 +87,7 @@ interface GroupProps {
 export function SettingsGroup(props: GroupProps) {
   const resolved = children(() => props.children);
   return (
-    <div
-      class={classNames(
-        styles.group,
-        props.class
-      )}
-      style={props.style}
-    >
+    <div class={classNames(styles.group, props.class)} style={props.style}>
       {resolved()}
     </div>
   );

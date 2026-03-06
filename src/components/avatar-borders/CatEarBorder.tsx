@@ -14,7 +14,7 @@ export function CatEarsBorder(props: {
         position: "absolute",
         width: "100%",
         "margin-top": (props.offset || 0) * props.size + "px",
-        "z-index": "1111",
+        "z-index": "1111"
       }}
       src={`/borders/cat-ears-${props.color}.png`}
     />

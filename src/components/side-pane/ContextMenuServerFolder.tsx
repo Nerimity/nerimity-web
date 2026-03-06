@@ -1,5 +1,5 @@
 import ContextMenu, {
-  ContextMenuProps,
+  ContextMenuProps
 } from "@/components/ui/context-menu/ContextMenu";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { EditFolderModal } from "./EditFolderModal";
@@ -23,8 +23,8 @@ export default function ContextMenuServerFolder(props: Props) {
             createPortal((c) => (
               <EditFolderModal close={c} folderId={props.folderId} />
             ));
-          },
-        },
+          }
+        }
       ]}
     />
   );

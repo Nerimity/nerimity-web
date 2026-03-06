@@ -16,7 +16,7 @@ export function GoatEarsBorder(props: {
         transform: props.scale ? `scale(${props.scale}) ` : "",
         width: "100%",
         "margin-top": (props.offset || 0) * props.size + "px",
-        "z-index": "1111",
+        "z-index": "1111"
       }}
       src={`/borders/goat-${props.color}.png`}
     />

@@ -4,7 +4,7 @@ import Button from "@/components/ui/Button";
 import {
   getStorageString,
   setStorageString,
-  StorageKeys,
+  StorageKeys
 } from "../common/localStorage";
 import { A, useNavigate, useLocation } from "solid-navigator";
 import { createSignal, onMount, Show } from "solid-js";
@@ -127,7 +127,7 @@ export default function LoginPage() {
                   ? t("loginPage.loggingIn")
                   : t("header.loginButton")
               }
-              onClick={loginClicked} 
+              onClick={loginClicked}
             />
           </form>
           <A class={linkStyle} href="/reset-password">

@@ -5,7 +5,9 @@ import useStore from "@/chat-api/store/useStore";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "../ui/settings-block/SettingsBlock";
 
 import { Notice } from "../ui/Notice/Notice";
 import { electronWindowAPI } from "@/common/Electron";
@@ -38,8 +40,11 @@ export default function WindowSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.window-settings"),
-      iconName: "settings",
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("settings.drawer.window-settings"),
+      iconName: "settings"
     });
   });
 
@@ -90,7 +95,10 @@ function StartupOptions() {
 
   return (
     <SettingsGroup>
-      <SettingsBlock icon="open_in_new" label={t("settings.window.startupOptions")} />
+      <SettingsBlock
+        icon="open_in_new"
+        label={t("settings.window.startupOptions")}
+      />
       <SettingsBlock
         onClick={() => onAutostartChange(!autostart())}
         icon="restart_alt"

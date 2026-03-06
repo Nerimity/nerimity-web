@@ -15,9 +15,9 @@ export const Oauth2GetDetails = async (opts: {
     url: env.SERVER_URL + "/api/oauth2/authorize",
     params: {
       clientId: opts.clientId,
-      redirectUri: opts.redirectUri,
+      redirectUri: opts.redirectUri
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -37,9 +37,9 @@ export const Oauth2Authorize = async (opts: {
     params: {
       clientId: opts.clientId,
       redirectUri: opts.redirectUri,
-      scopes: opts.scopes.join(" "),
+      scopes: opts.scopes.join(" ")
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -53,7 +53,7 @@ export const OAuth2AuthorizedApplications = async () => {
   const data = await request<OAuth2AuthorizedApplication[]>({
     method: "GET",
     url: env.SERVER_URL + "/api/oauth2/applications",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -61,7 +61,7 @@ export const OAuth2Unauthorize = async (appId: string) => {
   const data = await request<{ status: true }>({
     method: "DELETE",
     url: env.SERVER_URL + `/api/oauth2/applications/${appId}`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };

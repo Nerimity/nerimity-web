@@ -3,7 +3,7 @@ import style from "./CustomScrollbar.module.scss";
 
 import {
   useMutationObserver,
-  useResizeObserver,
+  useResizeObserver
 } from "@/common/useResizeObserver";
 import { createEffect, createSignal, on, onCleanup, onMount } from "solid-js";
 import { createContextProvider } from "@solid-primitives/context";
@@ -33,7 +33,7 @@ const [CustomScrollbarProvider, _useCustomScrollbar] = createContextProvider(
       isVisible: () => isVisible() && contentHovered(),
       setIsVisible,
       thumbColor,
-      setThumbColor,
+      setThumbColor
     };
   },
   {
@@ -46,7 +46,7 @@ const [CustomScrollbarProvider, _useCustomScrollbar] = createContextProvider(
     isVisible: () => false,
     setIsVisible: () => {},
     thumbColor: () => "var(--primary-color)",
-    setThumbColor: () => {},
+    setThumbColor: () => {}
   }
 );
 
@@ -71,7 +71,7 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
     isVisible,
     setIsVisible,
     setContentHovered,
-    thumbColor,
+    thumbColor
   } = useCustomScrollbar();
   setMarginBottom(props.marginBottom || 0);
   setMarginTop(props.marginTop || 0);
@@ -216,7 +216,7 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
       style={{
         "margin-top": `${marginTop()}px`,
         "margin-bottom": `${marginBottom()}px`,
-        visibility: isVisible() ? "visible" : "hidden",
+        visibility: isVisible() ? "visible" : "hidden"
       }}
     >
       <div
@@ -226,7 +226,7 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
         style={{
           height: `${thumbHeight()}px`,
           top: `${thumbTop()}px`,
-          background: thumbColor(),
+          background: thumbColor()
         }}
       />
     </div>

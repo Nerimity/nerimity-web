@@ -23,7 +23,10 @@ export function useAddFriendModalController() {
       return;
     }
     if (split.length >= 3) {
-      setError({ message: t("addFriendModal.errors.colonInUsername"), path: "" });
+      setError({
+        message: t("addFriendModal.errors.colonInUsername"),
+        path: ""
+      });
       setRequestSent(false);
       return;
     }
@@ -49,6 +52,6 @@ export function useAddFriendModalController() {
     onSendClick,
     requestSent,
     error,
-    success,
+    success
   };
 }

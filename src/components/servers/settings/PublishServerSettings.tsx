@@ -2,7 +2,7 @@ import { RawExploreItem } from "@/chat-api/RawData";
 import {
   deleteExploreItem,
   getPublicServer,
-  updatePublicServer,
+  updatePublicServer
 } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
@@ -12,7 +12,7 @@ import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
 import {
   toast,
-  useCustomPortal,
+  useCustomPortal
 } from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
@@ -50,9 +50,12 @@ export default function PublishServerSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.publishServer"),
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("servers.settings.drawer.publishServer"),
       serverId: params.serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
     loadPublicServer();
   });
@@ -102,7 +105,7 @@ export default function PublishServerSettings() {
         t("servers.settings.publishServer.bumpCooldown", {
           hours: timeLeft.getUTCHours(),
           minutes: timeLeft.getUTCMinutes(),
-          seconds: timeLeft.getUTCSeconds(),
+          seconds: timeLeft.getUTCSeconds()
         }),
         t("servers.settings.publishServer.bumpServer"),
         "arrow_upward"
@@ -163,7 +166,7 @@ export default function PublishServerSettings() {
               margin-right: 0px;
             `}
             label={t("servers.settings.publishServer.bumpButton", {
-              count: publicServer()?.bumpCount,
+              count: publicServer()?.bumpCount
             })}
           />
         </SettingsBlock>
@@ -177,7 +180,7 @@ export default function PublishServerSettings() {
           height={200}
           label={t("servers.settings.publishServer.descriptionLabel", {
             current: description().length,
-            max: MAX_DESCRIPTION_LENGTH,
+            max: MAX_DESCRIPTION_LENGTH
           })}
         />
       </Show>

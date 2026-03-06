@@ -158,7 +158,9 @@ export default function AppPage() {
     const { showChangelog } = useAppVersion();
     if (showChangelog()) {
       caches.delete("icons").then(() => console.log("icons cache deleted"));
-      caches.delete("nerimity-assets").then(() => console.log("assets cache deleted"));
+      caches
+        .delete("nerimity-assets")
+        .then(() => console.log("assets cache deleted"));
       createPortal?.((close) => <ChangelogModal close={close} />);
     }
   }
@@ -287,7 +289,9 @@ function LeftDrawer() {
             position: absolute;
             right: 2px;
             top: calc(var(--header-height) + 4px);
-            bottom: ${isMobileWidth() ? "calc(var(--bottom-pane-gap) + 4px)" : "4px"};
+            bottom: ${isMobileWidth()
+              ? "calc(var(--bottom-pane-gap) + 4px)"
+              : "4px"};
           `}
         />
       </Show>

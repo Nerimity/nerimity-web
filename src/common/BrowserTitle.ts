@@ -19,7 +19,6 @@ const update = () => {
   electronWindowAPI()?.setNotification(alert || false, count);
 };
 
-
 window.addEventListener("focus", () => {
   update();
 });

@@ -1,7 +1,7 @@
 import { RawUser } from "@/chat-api/RawData";
 import {
   ModerationSuspension,
-  suspendUsers,
+  suspendUsers
 } from "@/chat-api/services/ModerationService";
 import { createEffect, createSignal, For, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
@@ -66,7 +66,7 @@ export default function SuspendUsersModal(props: Props) {
     false,
     false,
     false,
-    false,
+    false
   ]);
 
   const checkboxItems: CheckboxProps[] = [
@@ -75,7 +75,7 @@ export default function SuspendUsersModal(props: Props) {
     { label: "Threating Harm or Violence", checked: false },
     { label: "Being Hateful", checked: false },
     { label: "Sharing NSFW Content", checked: false },
-    { label: "Other", checked: false },
+    { label: "Other", checked: false }
   ];
 
   createEffect(() => {
@@ -111,7 +111,7 @@ export default function SuspendUsersModal(props: Props) {
       expireAt: intSuspendFor ? daysToDate(intSuspendFor) : null,
       suspendedAt: Date.now(),
       reason: compiledReason() || undefined,
-      suspendBy: store.account.user()! as unknown as RawUser,
+      suspendBy: store.account.user()! as unknown as RawUser
     };
 
     suspendUsers({
@@ -120,7 +120,7 @@ export default function SuspendUsersModal(props: Props) {
       days: intSuspendFor,
       reason: compiledReason() || undefined,
       ipBan: ipBan(),
-      deleteRecentMessages: deleteRecentMessages(),
+      deleteRecentMessages: deleteRecentMessages()
     })
       .then(() => {
         props.done(preview);
@@ -141,7 +141,7 @@ export default function SuspendUsersModal(props: Props) {
         suspensionPreview={{
           expire: expireAt,
           reason: r,
-          by: { username: store.account.user()!.username },
+          by: { username: store.account.user()!.username }
         }}
       />
     ));
@@ -153,7 +153,7 @@ export default function SuspendUsersModal(props: Props) {
         "justify-content": "flex-end",
         flex: 1,
         margin: "5px",
-        gap: "4px",
+        gap: "4px"
       }}
     >
       <Button onClick={onPreviewClick} margin={0} label="Preview" />

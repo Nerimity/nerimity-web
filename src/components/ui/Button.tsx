@@ -49,7 +49,7 @@ export default function Button(props: ButtonProps) {
     "hoverText",
     "iconClass",
     "alert",
-    "type",
+    "type"
   ]);
   const color = () =>
     customProps.alert
@@ -70,7 +70,7 @@ export default function Button(props: ButtonProps) {
           ? props.padding.join("px ") + "px"
           : props.padding + "px"
         : undefined,
-    ...customProps.style,
+    ...customProps.style
   });
 
   return (

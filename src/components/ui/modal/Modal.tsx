@@ -5,7 +5,7 @@ import {
   onCleanup,
   onMount,
   Show,
-  useContext,
+  useContext
 } from "solid-js";
 import Button, { ButtonProps } from "../Button";
 import Icon from "../icon/Icon";
@@ -33,12 +33,12 @@ interface RootProps {
 
 const BodyAnim: [Keyframe[], Keyframe[]] = [
   [{ opacity: "0", transform: "translateY(80px)" }, { opacity: "1" }],
-  [{ opacity: "1" }, { opacity: "0", transform: "translateY(80px)" }],
+  [{ opacity: "1" }, { opacity: "0", transform: "translateY(80px)" }]
 ];
 
 const BgAnim: [Keyframe[], Keyframe[]] = [
   [{ opacity: "0" }, { opacity: "1" }],
-  [{ opacity: "1" }, { opacity: "0" }],
+  [{ opacity: "1" }, { opacity: "0" }]
 ];
 
 const Root = (props: RootProps) => {
@@ -52,12 +52,12 @@ const Root = (props: RootProps) => {
     bgEl?.animate(BgAnim[1], {
       duration: 200,
       fill: "forwards",
-      easing: "ease-in-out",
+      easing: "ease-in-out"
     });
     await rootEl?.animate(BodyAnim[1], {
       duration: 200,
       fill: "forwards",
-      easing: "ease-in-out",
+      easing: "ease-in-out"
     }).finished;
   });
 
@@ -82,7 +82,7 @@ const Root = (props: RootProps) => {
   const onMouseDown = (event: MouseEvent) => {
     startClick = {
       x: event.clientX,
-      y: event.clientY,
+      y: event.clientY
     };
     textSelected = !!window.getSelection()?.toString();
   };
@@ -91,12 +91,12 @@ const Root = (props: RootProps) => {
     bgEl?.animate(BgAnim[0], {
       duration: 200,
       fill: "forwards",
-      easing: "ease-in-out",
+      easing: "ease-in-out"
     });
     rootEl?.animate(BodyAnim[0], {
       duration: 200,
       fill: "forwards",
-      easing: "ease-in-out",
+      easing: "ease-in-out"
     });
 
     const closeOnEscape = props.closeOnEscape ?? true;
@@ -133,7 +133,7 @@ const Root = (props: RootProps) => {
               : {}),
             ...(!isMobileWidth() && props.desktopMinWidth
               ? { "min-width": props.desktopMinWidth + "px" }
-              : {}),
+              : {})
           }}
         >
           {props.children}
@@ -202,5 +202,5 @@ export const Modal = {
   Header,
   Body,
   Footer,
-  Button: ModalButton,
+  Button: ModalButton
 };

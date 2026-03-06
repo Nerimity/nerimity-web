@@ -43,15 +43,15 @@ export default function ImageCropModal(props: {
       viewport: {
         type: isBanner ? "square" : "circle",
         width: vw,
-        height: vh,
+        height: vh
       },
       boundary: {
         width: "100%",
-        height: 400,
+        height: 400
       },
       showZoomer: true,
       enableOrientation: true,
-      enforceBoundary: true, // This prevents the "escaping into void"
+      enforceBoundary: true // This prevents the "escaping into void"
     });
 
     croppie.bind({ url: props.image });
@@ -120,7 +120,7 @@ export default function ImageCropModal(props: {
           "user-select": "none",
           width: "100%",
           "min-height": "450px",
-          "margin-bottom": "20px",
+          "margin-bottom": "20px"
         }}
       >
         <div ref={imageEl!} />

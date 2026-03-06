@@ -105,7 +105,7 @@ function ImagePreviewModal(props: {
 
   onMount(() => {
     const zoomist = new Zoomist(zoomistContainerRef!, {
-      bounds: true,
+      bounds: true
     });
 
     onCleanup(() => {

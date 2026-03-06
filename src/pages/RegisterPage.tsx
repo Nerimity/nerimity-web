@@ -4,7 +4,7 @@ import Button from "@/components/ui/Button";
 import {
   getStorageString,
   setStorageString,
-  StorageKeys,
+  StorageKeys
 } from "../common/localStorage";
 import { A, useNavigate, useLocation } from "solid-navigator";
 import { createSignal, onMount, Show, For } from "solid-js";
@@ -92,7 +92,7 @@ export default function RegisterPage() {
     if (password() !== confirmPassword()) {
       setError({
         message: "Confirm password does not match.",
-        path: "Confirm Password",
+        path: "Confirm Password"
       });
       setRequestSent(false);
       return;
@@ -101,7 +101,7 @@ export default function RegisterPage() {
     if (password().length > 72) {
       setError({
         message: "Password must be less than 72 characters.",
-        path: "Password",
+        path: "Password"
       });
       setRequestSent(false);
       return;
@@ -125,7 +125,7 @@ export default function RegisterPage() {
   const notices = [
     t("registerPage.notices.toxic"),
     t("registerPage.notices.nsfw"),
-    t("registerPage.notices.age"),
+    t("registerPage.notices.age")
   ];
 
   return (

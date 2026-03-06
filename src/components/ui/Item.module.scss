@@ -13,10 +13,10 @@
   user-select: none;
   transition: 0.2s;
   text-decoration: none;
-  
+
   &:hover {
     background-color: hsl(216deg 7% 28% / 40%);
-    
+
     &:after {
       background-color: rgba(255, 255, 255, 0.1);
     }
@@ -34,8 +34,8 @@
     content: "";
     transition: 0.2s;
   }
-  
-  &[data-handle-position="bottom"]{
+
+  &[data-handle-position="bottom"] {
     &::after {
       bottom: 0;
       left: initial;
@@ -43,7 +43,7 @@
       height: var(--handle-thickness);
     }
   }
-  
+
   &[data-selected="true"] {
     background-color: hsl(216deg 7% 28% / 60%);
     --handle-length: 16px;
@@ -69,8 +69,7 @@
   font-size: 14px;
 }
 
-
-.itemRoot[data-handle-position="bottom"]{
+.itemRoot[data-handle-position="bottom"] {
   .itemContent {
     padding-left: 6px;
   }

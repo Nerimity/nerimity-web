@@ -21,7 +21,7 @@ function NotificationCircle() {
         color: "white",
         width: "20px",
         height: "20px",
-        "font-size": "14px",
+        "font-size": "14px"
       }}
     >
       !
@@ -54,7 +54,7 @@ const CategoryToName = {
   [TicketCategory.ACCOUNT]: "Account",
   [TicketCategory.ABUSE]: "Abuse",
   [TicketCategory.OTHER]: "Other",
-  [TicketCategory.SERVER_VERIFICATION]: "Verify Server",
+  [TicketCategory.SERVER_VERIFICATION]: "Verify Server"
 } as const;
 
 export const TicketItem = (props: {
@@ -142,18 +142,18 @@ export const TicketStatusToName = (as: "mod" | "user") =>
   ({
     [TicketStatus.CLOSED_AS_DONE]: {
       text: "Resolved",
-      color: "var(--success-color)",
+      color: "var(--success-color)"
     },
     [TicketStatus.CLOSED_AS_INVALID]: {
       text: "Invalid",
-      color: "var(--alert-color)",
+      color: "var(--alert-color)"
     },
     [TicketStatus.WAITING_FOR_MODERATOR_RESPONSE]: {
       text: as === "user" ? "Reply Sent" : "Response Needed",
-      color: as === "user" ? "var(--primary-color)" : "var(--warn-color)",
+      color: as === "user" ? "var(--primary-color)" : "var(--warn-color)"
     },
     [TicketStatus.WAITING_FOR_USER_RESPONSE]: {
       text: as === "user" ? "Response Needed" : "Reply Sent",
-      color: as === "user" ? "var(--warn-color)" : "var(--primary-color)",
-    },
-  } as Record<string, { text: string; color: string }>);
+      color: as === "user" ? "var(--warn-color)" : "var(--primary-color)"
+    }
+  }) as Record<string, { text: string; color: string }>;

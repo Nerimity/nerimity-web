@@ -61,7 +61,7 @@ export default function CodeBlock(props: Props) {
       "shellsession",
       "sql",
       "typescript",
-      "yaml",
+      "yaml"
     ];
     if (langsWithIcons.includes(lang)) {
       return `/assets/code-block-icons/${lang}.svg`;
@@ -74,7 +74,7 @@ export default function CodeBlock(props: Props) {
   const highlighted = () => {
     return hljs?.highlight(props.value, {
       ignoreIllegals: true,
-      language: props.lang!,
+      language: props.lang!
     })?.value;
   };
 

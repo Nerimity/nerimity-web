@@ -15,7 +15,7 @@ const MonthNames = [
   "Sept",
   "Oct",
   "Nov",
-  "Dec",
+  "Dec"
 ];
 
 const hours = Array.from({ length: 24 }, (_, index) => index);
@@ -46,7 +46,7 @@ export const DateTimePicker = (props: {
         selectedYear(),
         selectedMonth(),
         index + 1
-      ),
+      )
     }));
   };
 
@@ -83,7 +83,7 @@ export const DateTimePicker = (props: {
           onChange={(item) => setSelectedMonth(parseInt(item.id))}
           items={MonthNames.map((month, index) => ({
             id: index.toString(),
-            label: `${month}`,
+            label: `${month}`
           }))}
         />
         {/* day */}
@@ -92,7 +92,7 @@ export const DateTimePicker = (props: {
           selectedId={selectedDay().toString()}
           items={dayNamesInMonth().map((day) => ({
             id: day.day.toString(),
-            label: `${addOrdinalSuffix(day.day)} ${day.dayName} `,
+            label: `${addOrdinalSuffix(day.day)} ${day.dayName} `
           }))}
         />
       </div>
@@ -103,7 +103,7 @@ export const DateTimePicker = (props: {
           selectedId={selectedHour().toString()}
           items={hours.map((hour) => ({
             id: hour.toString(),
-            label: `${hour.toString().padStart(2, "0")}`,
+            label: `${hour.toString().padStart(2, "0")}`
           }))}
         />
         <DropDown
@@ -111,7 +111,7 @@ export const DateTimePicker = (props: {
           selectedId={selectedMinute().toString()}
           items={minutes.map((minute) => ({
             id: minute.toString(),
-            label: `${minute.toString().padStart(2, "0")}`,
+            label: `${minute.toString().padStart(2, "0")}`
           }))}
         />
       </div>

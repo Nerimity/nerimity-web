@@ -2,7 +2,7 @@ import {
   ModerationSuspension,
   ModerationUser,
   editSuspendUsers,
-  warnUsers,
+  warnUsers
 } from "@/chat-api/services/ModerationService";
 import { createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
@@ -87,7 +87,7 @@ export default function WarnUserModal(props: Props) {
         "justify-content": "flex-end",
         flex: 1,
         margin: "5px",
-        gap: "4px",
+        gap: "4px"
       }}
     >
       <Button onClick={onPreviewClick} margin={0} label="Preview" />

@@ -5,7 +5,7 @@ import { User, UserPaneContainer } from "./UserComponents";
 import { useModerationUserSuspendedListener } from "@/common/GlobalEvents";
 import {
   getUsersAuditLogs,
-  UserAuditLog,
+  UserAuditLog
 } from "@/chat-api/services/ModerationService";
 import Input from "../ui/input/Input";
 import Button from "../ui/Button";
@@ -44,7 +44,7 @@ export function UsersAuditLogsPane(props: {
   createEffect(
     on(afterId, async () => {
       fetchUsers();
-    }),
+    })
   );
 
   const onLoadMoreClick = () => {
@@ -76,12 +76,12 @@ export function UsersAuditLogsPane(props: {
       ? getServerAuditLogs({
           serverId: props.serverId,
           limit: LIMIT,
-          afterId: afterId(),
+          afterId: afterId()
         })
       : getUsersAuditLogs({
           limit: LIMIT,
           afterId: afterId(),
-          ...(search().trim ? { query: search().trim() } : {}),
+          ...(search().trim ? { query: search().trim() } : {})
         })
     )
       .then((newUsers) => {
@@ -102,7 +102,7 @@ export function UsersAuditLogsPane(props: {
         ...(props.noMargin ? { margin: 0 } : {}),
         ...(props.alwaysExpanded
           ? { height: "initial", resize: "none" }
-          : undefined),
+          : undefined)
       }}
     >
       <Show when={!props.hideSearchBar}>
@@ -122,7 +122,7 @@ export function UsersAuditLogsPane(props: {
         style={{
           "padding-left": "10px",
           "padding-top": props.alwaysExpanded ? "4px" : "0px",
-          "flex-shrink": "0",
+          "flex-shrink": "0"
         }}
       >
         <Show when={!props.alwaysExpanded}>
@@ -184,7 +184,7 @@ const AuditLogItem = (props: {
     const bannedUserId = props.item.data?.bannedUserId;
     if (!kickedUserId && !bannedUserId && !unbannedUserId) return;
     const user = props.users.find(
-      (u) => u.id === (kickedUserId || bannedUserId || unbannedUserId),
+      (u) => u.id === (kickedUserId || bannedUserId || unbannedUserId)
     );
     const action = kickedUserId
       ? "Kicked"
@@ -193,7 +193,7 @@ const AuditLogItem = (props: {
         : "Banned";
     return {
       user,
-      action,
+      action
     };
   };
 

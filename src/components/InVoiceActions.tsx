@@ -65,7 +65,7 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
                 "font-size": "12px",
                 "white-space": "nowrap",
                 overflow: "hidden",
-                "text-overflow": "ellipsis",
+                "text-overflow": "ellipsis"
               }}
             >
               {name()}
@@ -107,7 +107,7 @@ function ActionButtons(props: { channelId: string }) {
 
 function VoiceMicButton(props: { channelId: string }) {
   const {
-    voiceUsers: { isLocalMicMuted, toggleMic, deafened },
+    voiceUsers: { isLocalMicMuted, toggleMic, deafened }
   } = useStore();
 
   const isDeafened = () => deafened.enabled;
@@ -197,11 +197,11 @@ function CallTime(props: { channelId: string }) {
           "font-variant-numeric": "tabular-nums"
         }}
       >
-        <Trans
-          key="inVoiceActions.connectedFor"
-          options={{ time: time() }}
-        >
-          Connected for <Text size={12} opacity={0.6}>{"time"}</Text>
+        <Trans key="inVoiceActions.connectedFor" options={{ time: time() }}>
+          Connected for{" "}
+          <Text size={12} opacity={0.6}>
+            {"time"}
+          </Text>
         </Trans>
       </Text>
     </Show>

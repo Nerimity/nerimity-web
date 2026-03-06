@@ -8,7 +8,7 @@ import {
   lazy,
   on,
   onCleanup,
-  useContext,
+  useContext
 } from "solid-js";
 import { useCustomPortal } from "./ui/custom-portal/CustomPortal";
 import { getCustomSound, playSound } from "@/common/Sound";
@@ -16,7 +16,7 @@ import { getCustomSound, playSound } from "@/common/Sound";
 const RemindersModal = lazy(() => import("./reminders-modal/RemindersModal"));
 
 const ReminderContext = createContext({
-  hasActiveReminder: () => false,
+  hasActiveReminder: () => false
 });
 
 export const ReminderProvider = (props: { children: JSX.Element }) => {

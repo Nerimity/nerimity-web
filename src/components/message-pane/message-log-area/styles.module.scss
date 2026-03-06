@@ -63,14 +63,14 @@
 
   .reaction {
     display: flex;
-    background: #FFF1;
+    background: #fff1;
     border-radius: 25%;
     padding: 6px;
     aspect-ratio: 1;
     cursor: pointer;
 
     &:hover {
-      background: #FFF3;
+      background: #fff3;
     }
   }
   .reactionPicker {

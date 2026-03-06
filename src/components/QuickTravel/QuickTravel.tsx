@@ -4,7 +4,7 @@ import {
   JSXElement,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import Input from "../ui/input/Input";
 import { Modal } from "../ui/modal";
@@ -17,7 +17,7 @@ import { cn } from "@/common/classNames";
 import {
   QuickTravelControllerProvider,
   SearchItem,
-  useQuickTravelController,
+  useQuickTravelController
 } from "./QuickTravelController";
 
 export function QuickTravel(props: { close: () => void }) {
@@ -72,7 +72,7 @@ const Item = (props: {
     if (props.selected) {
       itemRef?.scrollIntoView({
         block: "nearest",
-        inline: "start",
+        inline: "start"
       });
     }
   });

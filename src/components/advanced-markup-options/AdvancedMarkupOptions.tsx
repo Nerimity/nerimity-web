@@ -5,7 +5,7 @@ import {
   createSignal,
   on,
   onCleanup,
-  onMount,
+  onMount
 } from "solid-js";
 import Button from "../ui/Button";
 import { ColorPickerModal } from "../ui/color-picker/ColorPicker";
@@ -30,54 +30,54 @@ const formats = {
   named_link: (url: string) => ({
     offsetStart: 1,
     offsetEnd: "Name".length + 1,
-    res: `[Name](${url || "https://example.com"})`,
+    res: `[Name](${url || "https://example.com"})`
   }),
   checkbox: (text: string) => ({
     offsetStart: 5,
     offsetEnd: 5 + " Item 1".length,
-    res: "-[ ] Item 1\n",
+    res: "-[ ] Item 1\n"
   }),
   header: (text: string) => ({
     offsetStart: 2,
     offsetEnd: text.length + 2,
-    res: `# ${text}`,
+    res: `# ${text}`
   }),
   bold: (text: string) => ({
     offsetStart: 2,
     offsetEnd: text.length + 2,
-    res: `**${text}**`,
+    res: `**${text}**`
   }),
   italic: (text: string) => ({
     offsetStart: 1,
     offsetEnd: text.length + 1,
-    res: `_${text}_`,
+    res: `_${text}_`
   }),
   strikethrough: (text: string) => ({
     offsetStart: 2,
     offsetEnd: text.length + 2,
-    res: `~~${text}~~`,
+    res: `~~${text}~~`
   }),
   spoiler: (text: string) => ({
     offsetStart: 2,
     offsetEnd: text.length + 2,
-    res: `||${text}||`,
+    res: `||${text}||`
   }),
   color: (text: string, color?: string) => ({
     offsetStart: color!.length + 2,
     offsetEnd: color!.length + 2 + text.length,
-    res: `[${color}]${text || ""}`,
+    res: `[${color}]${text || ""}`
   }),
   gradient: (text: string, colors: string) => ({
     offsetStart: colors.length + 12,
     offsetEnd: colors.length + 12 + "Message".length,
-    res: `[gradient: ${colors} ${text || "Message"}]`,
+    res: `[gradient: ${colors} ${text || "Message"}]`
   }),
 
   timestamp: (text: string, schedule?: number, type?: TimestampType) => ({
     offsetStart: 5 + schedule!.toString().length,
     offsetEnd: 5 + schedule!.toString().length,
-    res: `[${type === TimestampType.RELATIVE ? "tr" : "to"}:${schedule}]`,
-  }),
+    res: `[${type === TimestampType.RELATIVE ? "tr" : "to"}:${schedule}]`
+  })
 } as const;
 
 export const AdvancedMarkupOptions = (props: {
@@ -112,7 +112,7 @@ export const AdvancedMarkupOptions = (props: {
       | "named_link",
     color?: string,
     schedule?: number | string,
-    type?: TimestampType,
+    type?: TimestampType
   ) => {
     if (format === "color" && !color) {
       createPortal?.((close) => (
@@ -174,7 +174,7 @@ export const AdvancedMarkupOptions = (props: {
       `:${shortcode}: `,
       props.inputElement!.selectionStart!,
       props.inputElement!.selectionEnd!,
-      "end",
+      "end"
     );
     props.updateText(props.inputElement.value);
     if (!shiftDown) {
@@ -211,7 +211,7 @@ export const AdvancedMarkupOptions = (props: {
 
       return {
         top: top + "px",
-        left: left + "px",
+        left: left + "px"
       };
     };
 
@@ -244,8 +244,8 @@ export const AdvancedMarkupOptions = (props: {
         props.class,
         conditionalClass(
           props.zeroBottomBorderRadius,
-          styles.zeroBottomBorderRadius,
-        ),
+          styles.zeroBottomBorderRadius
+        )
       )}
     >
       <Button

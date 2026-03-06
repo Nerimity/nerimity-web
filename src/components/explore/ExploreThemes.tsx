@@ -54,7 +54,7 @@ export default function ExploreThemes() {
   onMount(() => {
     header.updateHeader({
       title: t("explore.themes.title"),
-      iconName: "explore",
+      iconName: "explore"
     });
     fetchThemes();
   });
@@ -94,7 +94,12 @@ export default function ExploreThemes() {
   return (
     <Container>
       <FlexRow style={{ "margin-bottom": "10px" }}>
-        <Button margin={0} href="/app" label={t("general.backButton")} iconName="arrow_back" />
+        <Button
+          margin={0}
+          href="/app"
+          label={t("general.backButton")}
+          iconName="arrow_back"
+        />
       </FlexRow>
 
       <Notice type="info">{t("explore.themes.themesHeaderDescription")}</Notice>

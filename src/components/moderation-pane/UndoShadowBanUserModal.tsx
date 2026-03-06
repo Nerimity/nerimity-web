@@ -1,7 +1,7 @@
 import {
   ModerationUser,
   shadowBan,
-  undoShadowBan,
+  undoShadowBan
 } from "@/chat-api/services/ModerationService";
 import { createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
@@ -59,7 +59,7 @@ export default function UndoShadowBanUserModal(props: Props) {
         "justify-content": "flex-end",
         flex: 1,
         margin: "5px",
-        gap: "4px",
+        gap: "4px"
       }}
     >
       <Button

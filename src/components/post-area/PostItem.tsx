@@ -10,7 +10,7 @@ import {
   For,
   Match,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import Text from "../ui/Text";
 import { t } from "@nerimity/i18lite";
@@ -29,7 +29,7 @@ import {
   RawEmbed,
   RawPostChoice,
   RawPostPoll,
-  RawUser,
+  RawUser
 } from "@/chat-api/RawData";
 import { RadioBoxItem } from "../ui/RadioBox";
 import { DeletePostModal, EditPostModal } from "../PostsArea";
@@ -39,7 +39,7 @@ import { pinPost, unpinPost } from "@/chat-api/services/PostService";
 import env from "@/common/env";
 import {
   OGEmbed,
-  ServerInviteEmbed,
+  ServerInviteEmbed
 } from "../message-pane/message-item/MessageItem";
 import { inviteLinkRegex, youtubeLinkRegex } from "@/common/regex";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -122,7 +122,7 @@ export function PostItem(props: {
   const onMouseDown = (event: any) => {
     startClick = {
       x: event.clientX,
-      y: event.clientY,
+      y: event.clientY
     };
     textSelected = !!window.getSelection()?.toString();
   };
@@ -168,7 +168,7 @@ export function PostItem(props: {
             .markup blockquote {
               border-left-color: ${props.primaryColor};
             }
-          `,
+          `
       )}
       style={{ "background-color": props.bgColor }}
       tabIndex="0"
@@ -255,7 +255,7 @@ const Details = (props: {
   onRequestUserContextMenu?: (event: MouseEvent) => void;
 }) => {
   const font = createMemo(() =>
-    getFont(props.post.createdBy.profile?.font || 0),
+    getFont(props.post.createdBy.profile?.font || 0)
   );
   return (
     <div class={cn(style.postDetailsContainer, "postDetailsContainer")}>
@@ -278,7 +278,7 @@ const Details = (props: {
         class={style.postTimestamp}
       >
         {(props.showFullDate ? formatTimestamp : timeSince)(
-          props.post.createdAt,
+          props.post.createdAt
         )}
       </Text>
     </div>
@@ -302,7 +302,9 @@ const Content = (props: {
           name="edit"
           class={style.editIconStyles}
           size={14}
-          title={t("message.editedAt", { time: formatTimestamp(props.post.editedAt) })}
+          title={t("message.editedAt", {
+            time: formatTimestamp(props.post.editedAt)
+          })}
         />
       </Show>
 
@@ -393,7 +395,7 @@ const Actions = (props: {
         ticket={{
           id: "ABUSE",
           userId: props.post.createdBy.id,
-          messageId: `https://nerimity.com/p/${props.post.id}`,
+          messageId: `https://nerimity.com/p/${props.post.id}`
         }}
       />
     ));
@@ -428,20 +430,20 @@ const Actions = (props: {
                         : t("messageContextMenu.pinMessage"),
                       onClick: togglePin,
                       alert: props.pinned,
-                      icon: "keep",
+                      icon: "keep"
                     },
                     {
                       label: t("general.editButton"),
                       onClick: onEditClicked,
-                      icon: "edit",
+                      icon: "edit"
                     },
                     { separator: true },
                     {
                       label: t("general.deleteButton"),
                       onClick: onDeleteClick,
                       alert: true,
-                      icon: "delete",
-                    },
+                      icon: "delete"
+                    }
                   ]
                 : []),
               ...(account.hasModeratorPerm()
@@ -450,10 +452,10 @@ const Actions = (props: {
                       label: "Moderation Pane",
                       onClick: () =>
                         navigate(
-                          "/app/moderation?search-post-id=" + props.post.id,
+                          "/app/moderation?search-post-id=" + props.post.id
                         ),
-                      icon: "security",
-                    },
+                      icon: "security"
+                    }
                   ]
                 : []),
               {
@@ -461,7 +463,7 @@ const Actions = (props: {
                 onClick: () => {
                   props.setTranslatePost?.(!props.translatePost());
                 },
-                icon: "translate",
+                icon: "translate"
               },
               { separator: true },
               {
@@ -470,23 +472,23 @@ const Actions = (props: {
                   if (!props.post.content?.trim()) return;
                   navigator.clipboard.writeText(props.post.content);
                 },
-                icon: "content_copy",
+                icon: "content_copy"
               },
               {
                 label: t("general.copyLink"),
                 onClick: () => {
                   navigator.clipboard.writeText(
-                    env.APP_URL + "/p/" + props.post.id,
+                    env.APP_URL + "/p/" + props.post.id
                   );
                 },
-                icon: "content_copy",
+                icon: "content_copy"
               },
               {
                 label: t("general.copyID"),
                 icon: "content_copy",
                 onClick: () => {
                   navigator.clipboard.writeText(props.post.id);
-                },
+                }
               },
               ...(canReport()
                 ? [
@@ -495,10 +497,10 @@ const Actions = (props: {
                       label: t("profile.reportButton"),
                       onClick: onReportClick,
                       alert: true,
-                      icon: "flag",
-                    },
+                      icon: "flag"
+                    }
                   ]
-                : []),
+                : [])
             ]}
             position={rect}
             onClose={close}
@@ -506,7 +508,7 @@ const Actions = (props: {
           />
         ),
         "post-context-menu",
-        true,
+        true
       );
     }
   };
@@ -575,7 +577,7 @@ const Actions = (props: {
 function Embeds(props: { post: Post; hovered: boolean }) {
   let element: HTMLDivElement | undefined;
   const { width } = useResizeObserver(
-    () => element?.parentElement?.parentElement?.parentElement,
+    () => element?.parentElement?.parentElement?.parentElement
   );
 
   const youtubeEmbed = () => props.post.embed?.origUrl?.match(youtubeLinkRegex);
@@ -639,7 +641,7 @@ export const YoutubeEmbed = (props: {
     if (props.shorts) {
       const maxWidth = clamp(
         (customWidth || props.containerWidth) + (widthOffset || 0),
-        600,
+        600
       );
       const maxHeight =
         props.containerWidth <= 600
@@ -650,7 +652,7 @@ export const YoutubeEmbed = (props: {
 
     const maxWidth = clamp(
       (customWidth || props.containerWidth) + (widthOffset || 0),
-      600,
+      600
     );
 
     return clampImageSize(1920, 1080, maxWidth, 999999);
@@ -663,7 +665,7 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
   const votedChoiceId = () => props.poll.votedUsers[0]?.pollChoiceId;
 
   const [selectedChoiceId, setSelectedChoiceId] = createSignal<string | null>(
-    null,
+    null
   );
 
   createEffect(() => {
@@ -679,7 +681,7 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
       <div
         class={cn(
           style.pollChoicesContainer,
-          votedChoiceId() && style.notAllowed,
+          votedChoiceId() && style.notAllowed
         )}
       >
         <For each={props.poll.choices}>
@@ -703,7 +705,10 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
               key="posts.voteCount"
               options={{ count: props.poll._count.votedUsers }}
             >
-              <Text size={12} opacity={0.6}>{"count"}</Text> vote(s)
+              <Text size={12} opacity={0.6}>
+                {"count"}
+              </Text>{" "}
+              vote(s)
             </Trans>
           </Text>
         </span>
@@ -738,8 +743,7 @@ const PollChoice = (props: {
   // (100 * vote) / totalVotes
   const votes = () =>
     Math.round(
-      (100 * props.choice._count.votedUsers) / props.poll._count.votedUsers ||
-        0,
+      (100 * props.choice._count.votedUsers) / props.poll._count.votedUsers || 0
     );
 
   const showResults = () => {
@@ -753,11 +757,11 @@ const PollChoice = (props: {
     <div
       class={cn(
         style.pollChoiceContainer,
-        props.votedChoiceId === props.choice.id && "selected",
+        props.votedChoiceId === props.choice.id && "selected"
       )}
       onClick={() =>
         props.setSelected(
-          props.choice.id === props.selectedId ? null : props.choice.id,
+          props.choice.id === props.selectedId ? null : props.choice.id
         )
       }
     >
@@ -819,7 +823,7 @@ const Pinned = () => {
 };
 const Reposted = (props: { post: Post; showRepostsAsSelf: boolean | any }) => {
   const repostUsers = createMemo(() =>
-    props.post.reposts.map((r) => r.createdBy),
+    props.post.reposts.map((r) => r.createdBy)
   );
   return (
     <div class={style.pinnedContainer}>

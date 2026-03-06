@@ -4,12 +4,12 @@ import {
   MessageType,
   RawMessage,
   RawMessageReaction,
-  RawUser,
+  RawUser
 } from "../RawData";
 import {
   fetchMessages,
   postMessage,
-  updateMessage,
+  updateMessage
 } from "../services/MessageService";
 import socketClient from "../socketClient";
 import useAccount from "./useAccount";
@@ -24,7 +24,7 @@ const account = useAccount();
 
 export enum MessageSentStatus {
   SENDING = 0,
-  FAILED = 1,
+  FAILED = 1
 }
 
 export type Message = RawMessage & {
@@ -46,7 +46,7 @@ const fetchAndStoreMessages = async (channelId: string, force = false) => {
 
   const newMessages = await fetchMessages(channelId);
   setMessages({
-    [channelId]: newMessages,
+    [channelId]: newMessages
   });
 };
 
@@ -57,7 +57,7 @@ const loadMoreTopAndStoreMessages = async (
 ) => {
   const channelMessages = messages[channelId]!;
   const newMessages = await fetchMessages(channelId, {
-    beforeMessageId: channelMessages[0].id,
+    beforeMessageId: channelMessages[0].id
   });
   const clamp = sliceEnd([...newMessages, ...channelMessages]);
   const hasMore = newMessages.length === env.MESSAGE_LIMIT;
@@ -65,7 +65,7 @@ const loadMoreTopAndStoreMessages = async (
   beforeSet();
   if (newMessages.length) {
     setMessages({
-      [channelId]: clamp,
+      [channelId]: clamp
     });
   }
   afterSet({ hasMore, data: newMessages });
@@ -78,14 +78,14 @@ const loadMoreBottomAndStoreMessages = async (
 ) => {
   const channelMessages = messages[channelId]!;
   const newMessages = await fetchMessages(channelId, {
-    afterMessageId: channelMessages[channelMessages.length - 1].id,
+    afterMessageId: channelMessages[channelMessages.length - 1].id
   });
   const clamp = sliceBeginning([...channelMessages, ...newMessages]);
   const hasMore = newMessages.length === env.MESSAGE_LIMIT;
 
   beforeSet();
   setMessages({
-    [channelId]: clamp,
+    [channelId]: clamp
   });
   afterSet({ hasMore });
 };
@@ -97,7 +97,7 @@ const loadAroundAndStoreMessages = async (
   const newMessages = await fetchMessages(channelId, { aroundMessageId });
 
   setMessages({
-    [channelId]: newMessages,
+    [channelId]: newMessages
   });
 };
 
@@ -120,13 +120,13 @@ const editAndStoreMessage = async (
   if (messages[index].content === content) return;
   setMessages(channelId, index, {
     sentStatus: MessageSentStatus.SENDING,
-    content,
+    content
   });
 
   await updateMessage({
     channelId,
     messageId,
-    content,
+    content
   }).catch(() => {
     updateLocalMessage(
       { sentStatus: MessageSentStatus.FAILED },
@@ -198,32 +198,32 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       : {
           uploadingAttachment: {
             file: properties.attachment.file,
-            progress: 0,
-          },
+            progress: 0
+          }
         }),
     reactions: [],
     roleMentions: [],
     quotedMessages: [],
     replyMessages:
       properties?.replyToMessages.map((m) => ({
-        replyToMessage: { ...m },
+        replyToMessage: { ...m }
       })) || [],
     createdBy: {
       profile: {
-        font: user.profile?.font,
+        font: user.profile?.font
       },
       id: user.id,
       username: user.username,
       tag: user.tag,
       badges: user.badges,
       hexColor: user.hexColor,
-      avatar: user.avatar,
-    },
+      avatar: user.avatar
+    }
   };
 
   !properties?.moreBottomToLoad &&
     setMessages({
-      [channelId]: sliceBeginning([...messages[channelId]!, localMessage]),
+      [channelId]: sliceBeginning([...messages[channelId]!, localMessage])
     });
 
   const onUploadProgress = (percent: number, speed?: string) => {
@@ -233,7 +233,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     if (messageIndex === -1) return;
     setMessages(channelId, messageIndex, "uploadingAttachment", {
       progress: percent,
-      speed,
+      speed
     });
   };
 
@@ -277,7 +277,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   if (shouldUploadToNerimityCdn && file) {
     const data = await uploadAttachment(channelId, {
       file,
-      onUploadProgress,
+      onUploadProgress
     }).catch((err) => {
       channelProperties.updateContent(channelId, content || "");
       channelProperties.update(channelId, "htmlEnabled", htmlMode);
@@ -306,7 +306,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     googleDriveAttachment: googleDriveFileId
       ? { id: googleDriveFileId, mime: file?.type! }
       : undefined,
-    onUploadProgress,
+    onUploadProgress
   }).catch((err) => {
     console.log(err);
 
@@ -314,7 +314,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       if (channel?.slowModeSeconds) {
         channelProperties.updateSlowDownMode(channelId, {
           startedAt: Date.now(),
-          ttl: err.ttl,
+          ttl: err.ttl
         });
       }
     }
@@ -333,7 +333,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   if (message && channel?.slowModeSeconds) {
     channelProperties.updateSlowDownMode(message.channelId, {
       startedAt: message.createdAt,
-      ttl: channel.slowModeSeconds * 1000,
+      ttl: channel.slowModeSeconds * 1000
     });
   }
   channel?.updateLastSeen(message?.createdAt! + 1);
@@ -360,7 +360,7 @@ const pushMessage = (channelId: string, message: Message) => {
   const properties = channelProperties.get(channelId);
   !properties?.moreBottomToLoad &&
     setMessages({
-      [channelId]: sliceBeginning([...messages[channelId]!, message]),
+      [channelId]: sliceBeginning([...messages[channelId]!, message])
     });
 };
 
@@ -373,7 +373,7 @@ const pushFailedMessage = (channelId: string, content: string) => {
       tag: "owo",
       badges: 0,
       hexColor: "0",
-      id: "0",
+      id: "0"
     },
     reactions: [],
     roleMentions: [],
@@ -381,7 +381,7 @@ const pushFailedMessage = (channelId: string, content: string) => {
     id: generateLocalId(),
     type: MessageType.CONTENT,
     local: true,
-    content,
+    content
   });
 };
 
@@ -495,6 +495,6 @@ export default function useMessages() {
     get,
     updateLocalMessage,
     updateMessageReaction,
-    locallyRemoveServerMessagesBatch,
+    locallyRemoveServerMessagesBatch
   };
 }

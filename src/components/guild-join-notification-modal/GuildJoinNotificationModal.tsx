@@ -2,7 +2,9 @@ import style from "./GuildJoinNotificationModal.module.css";
 import { createEffect, JSXElement, Show } from "solid-js";
 import { Modal } from "../ui/modal";
 import useStore from "@/chat-api/store/useStore";
-import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "../ui/settings-block/SettingsBlock";
 import ItemContainer from "@/components/ui/LegacyItem";
 import { t } from "@nerimity/i18lite";
 import Avatar from "../ui/Avatar";

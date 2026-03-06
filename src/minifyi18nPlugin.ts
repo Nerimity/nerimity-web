@@ -51,7 +51,7 @@ export const minifyi18nPlugin = (localeDir: string): Plugin => {
 
         result = {
           ...result,
-          ...nested,
+          ...nested
         };
       }
     }
@@ -82,7 +82,7 @@ export const minifyi18nPlugin = (localeDir: string): Plugin => {
 
         return {
           code: "export default " + transformedCode,
-          map: null,
+          map: null
         };
       }
 
@@ -122,8 +122,8 @@ export const minifyi18nPlugin = (localeDir: string): Plugin => {
 
       return {
         code: s.toString(),
-        map: s.generateMap({ hires: true }),
+        map: s.generateMap({ hires: true })
       };
-    },
+    }
   };
 };

@@ -22,8 +22,9 @@ export default function DeveloperApplicationBotCreateLinkSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
-      iconName: "settings",
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
+      iconName: "settings"
     });
   });
 

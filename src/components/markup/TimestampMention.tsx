@@ -1,4 +1,8 @@
-import { formatters as dateFormatters, formatTimestamp, formatTimestampRelative } from "@/common/date";
+import {
+  formatters as dateFormatters,
+  formatTimestamp,
+  formatTimestampRelative
+} from "@/common/date";
 import { Temporal } from "temporal-polyfill";
 import {
   createEffect,
@@ -7,7 +11,7 @@ import {
   on,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import Icon from "../ui/icon/Icon";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
@@ -19,7 +23,7 @@ import { t } from "@nerimity/i18lite";
 
 export enum TimestampType {
   RELATIVE = "tr",
-  OFFSET = "to",
+  OFFSET = "to"
 }
 
 export function TimestampMention(props: {
@@ -38,13 +42,13 @@ export function TimestampMention(props: {
     if (props.type === TimestampType.OFFSET) {
       const offset = props.timestamp as unknown as string;
       try {
-        const datetime = Temporal.Now.zonedDateTimeISO(offset)
-          .round({
-            smallestUnit: "second",
-            roundingMode: "floor",
-          });
-        const formatted = dateFormatters().datetime.seconds
-          .format(datetime.toPlainTime());
+        const datetime = Temporal.Now.zonedDateTimeISO(offset).round({
+          smallestUnit: "second",
+          roundingMode: "floor"
+        });
+        const formatted = dateFormatters().datetime.seconds.format(
+          datetime.toPlainTime()
+        );
         return setFormattedTime(formatted);
       } catch {
         return setFormattedTime(t("datetime.invalidTimezone"));
@@ -86,7 +90,7 @@ export function TimestampMention(props: {
         const reminder = await addReminder({
           timestamp: props.timestamp,
           messageId: props.message?.id,
-          postId: props.post?.id,
+          postId: props.post?.id
         }).catch((err) => {
           setError(err.message);
         });
@@ -106,7 +110,7 @@ export function TimestampMention(props: {
                 "text-align": "center",
                 padding: "6px",
                 "border-radius": "6px",
-                "margin-top": "4px",
+                "margin-top": "4px"
               }}
             >
               {formatTimestamp(props.timestamp)}
@@ -124,7 +128,11 @@ export function TimestampMention(props: {
             />
             <Modal.Button
               primary
-              label={requestSent() ? t("addReminderModal.adding") : t("addReminderModal.setReminderButton")}
+              label={
+                requestSent()
+                  ? t("addReminderModal.adding")
+                  : t("addReminderModal.setReminderButton")
+              }
               iconName="schedule"
               onClick={setReminder}
             />

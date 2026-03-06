@@ -68,7 +68,7 @@ export default function useStore() {
     channelProperties,
     posts,
     voiceUsers,
-    tickets,
+    tickets
   } satisfies Store;
 
   store = obj;

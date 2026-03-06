@@ -2,7 +2,7 @@ import { RawExploreItem } from "@/chat-api/RawData";
 import {
   deleteExploreItem,
   getPublicServer,
-  updatePublicServer,
+  updatePublicServer
 } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import { ServerBumpModal } from "@/components/explore/ExploreServers";
@@ -10,7 +10,7 @@ import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
 import {
   toast,
-  useCustomPortal,
+  useCustomPortal
 } from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
@@ -21,7 +21,7 @@ import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import {
   getExploreBotApp,
-  upsertExploreBotApp,
+  upsertExploreBotApp
 } from "@/chat-api/services/ExploreService";
 import { ApplicationBotCreateLinkBlock } from "./ApplicationBotCreateLinkBlock";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
@@ -104,7 +104,7 @@ export default function PublishBotAppSettings() {
         t("settings.developer.bot.bumpBotCooldown", {
           hours: timeLeft.getUTCHours(),
           minutes: timeLeft.getUTCMinutes(),
-          seconds: timeLeft.getUTCSeconds(),
+          seconds: timeLeft.getUTCSeconds()
         }),
         t("settings.developer.bot.bumpBot"),
         "arrow_upward"
@@ -148,7 +148,7 @@ export default function PublishBotAppSettings() {
               margin-right: 0px;
             `}
             label={t("servers.settings.publishServer.bumpButton", {
-              count: publicItem()?.bumpCount,
+              count: publicItem()?.bumpCount
             })}
           />
         </SettingsBlock>
@@ -162,7 +162,7 @@ export default function PublishBotAppSettings() {
           height={200}
           label={t("settings.developer.bot.botDescription", {
             current: description().length,
-            max: MAX_DESCRIPTION_LENGTH,
+            max: MAX_DESCRIPTION_LENGTH
           })}
         />
         <ApplicationBotCreateLinkBlock

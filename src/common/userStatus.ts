@@ -16,28 +16,28 @@ export const UserStatuses: Status[] = [
   {
     name: () => t("status.offline"),
     id: "offline",
-    color: "var(--status-offline)",
+    color: "var(--status-offline)"
   },
   {
     name: () => t("status.online"),
     id: "online",
-    color: "var(--status-online)",
+    color: "var(--status-online)"
   },
   {
     name: () => t("status.ltp"),
     id: "ltp",
-    color: "var(--status-looking-to-play)",
+    color: "var(--status-looking-to-play)"
   },
   {
     name: () => t("status.afk"),
     id: "afk",
-    color: "var(--status-away-from-keyboard)",
+    color: "var(--status-away-from-keyboard)"
   },
   {
     name: () => t("status.dnd"),
     id: "dnd",
-    color: "var(--status-do-not-disturb)",
-  },
+    color: "var(--status-do-not-disturb)"
+  }
 ];
 
 export function userStatusDetail(status: number) {

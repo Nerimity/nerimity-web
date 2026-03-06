@@ -65,7 +65,7 @@ export const WarnedModal = (props: {
             style={{
               "font-size": "14px",
               "margin-top": "6px",
-              "max-width": "300px",
+              "max-width": "300px"
             }}
           >
             if you continue with this behavior, your account will be suspended.

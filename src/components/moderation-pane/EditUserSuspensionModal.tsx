@@ -2,7 +2,7 @@ import { RawUser } from "@/chat-api/RawData";
 import {
   ModerationSuspension,
   editSuspendUsers,
-  suspendUsers,
+  suspendUsers
 } from "@/chat-api/services/ModerationService";
 import { createEffect, createSignal, For, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
@@ -50,7 +50,7 @@ export default function EditUserSuspensionModal(props: Props) {
 
   const defaultInput = () => ({
     reason: props.suspension.reason || "",
-    suspendFor: dateToDays(props.suspension.expireAt!).toString() || "0",
+    suspendFor: dateToDays(props.suspension.expireAt!).toString() || "0"
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -83,14 +83,14 @@ export default function EditUserSuspensionModal(props: Props) {
       expireAt: intSuspendFor ? daysToDate(intSuspendFor) : null,
       suspendedAt: Date.now(),
       reason: inputValues().reason || undefined,
-      suspendBy: props.suspension.suspendBy,
+      suspendBy: props.suspension.suspendBy
     };
 
     const update = {
       ...(updatedInputValues().suspendFor ? { days: intSuspendFor } : {}),
       ...(updatedInputValues().reason
         ? { reason: updatedInputValues().reason! }
-        : {}),
+        : {})
     };
 
     editSuspendUsers(password(), userIds, update)
@@ -113,7 +113,7 @@ export default function EditUserSuspensionModal(props: Props) {
         suspensionPreview={{
           expire: expireAt,
           reason: r,
-          by: { username: props.suspension.suspendBy.username },
+          by: { username: props.suspension.suspendBy.username }
         }}
       />
     ));
@@ -125,7 +125,7 @@ export default function EditUserSuspensionModal(props: Props) {
         "justify-content": "flex-end",
         flex: 1,
         margin: "5px",
-        gap: "4px",
+        gap: "4px"
       }}
     >
       <Button onClick={onPreviewClick} margin={0} label="Preview" />

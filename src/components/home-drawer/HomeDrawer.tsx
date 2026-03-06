@@ -6,7 +6,7 @@ import { t } from "@nerimity/i18lite";
 import { CustomLink } from "../ui/CustomLink";
 import {
   HomeDrawerControllerProvider,
-  useHomeDrawerController,
+  useHomeDrawerController
 } from "./useHomeDrawerController";
 import { createEffect, For, on, Show } from "solid-js";
 import HomeDrawerFriendItem from "./friend-item/HomeDrawerFriendItem";
@@ -183,7 +183,7 @@ const FriendOfflineHeader = () => {
     <div class={style.header}>
       <div>
         {t("inbox.drawer.offlineFriends", {
-          count: controller?.friends?.offlineFriends().length,
+          count: controller?.friends?.offlineFriends().length
         })}
       </div>
     </div>
@@ -195,7 +195,7 @@ const OnlineFriendsHeader = () => {
   return (
     <div class={style.header}>
       {t("inbox.drawer.onlineFriends", {
-        count: controller?.friends?.onlineFriends().length,
+        count: controller?.friends?.onlineFriends().length
       })}
       <CustomLink decoration onclick={controller?.friends.toggleViewAllFriends}>
         {t("inbox.drawer.viewAll")}
@@ -210,7 +210,7 @@ const FriendRequestsHeader = () => {
     <div class={style.header}>
       <div>
         {t("inbox.drawer.friendRequests", {
-          count: controller?.friends?.friendRequests().length,
+          count: controller?.friends?.friendRequests().length
         })}
       </div>
     </div>

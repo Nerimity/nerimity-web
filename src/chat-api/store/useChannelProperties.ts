@@ -54,7 +54,7 @@ const initIfMissing = (channelId: string) => {
   setChannelProperties(channelId, {
     content: "",
     isScrolledBottom: false,
-    replyToMessages: [],
+    replyToMessages: []
   });
 };
 
@@ -69,21 +69,21 @@ const addReply = (channelId: string, message: RawMessage) => {
   }
   setChannelProperties(channelId, {
     replyToMessages: [...property.replyToMessages, message],
-    ...(!property.replyToMessages.length ? { mentionReplies: true } : {}),
+    ...(!property.replyToMessages.length ? { mentionReplies: true } : {})
   });
 };
 
 const removeReply = (channelId: string, messageId: string) => {
   const property = get(channelId)!;
   setChannelProperties(channelId, {
-    replyToMessages: property.replyToMessages.filter((m) => m.id !== messageId),
+    replyToMessages: property.replyToMessages.filter((m) => m.id !== messageId)
   });
 };
 
 const removeReplies = (channelId: string) => {
   setChannelProperties(channelId, {
     replyToMessages: [],
-    mentionReplies: true,
+    mentionReplies: true
   });
 };
 
@@ -114,14 +114,14 @@ const setEditMessage = (channelId: string, message?: Message) => {
   if (!message && !get(channelId)?.editMessageId) return;
   setChannelProperties(channelId, {
     editMessageId: message?.id,
-    content: message?.content || "",
+    content: message?.content || ""
   });
 };
 
 const setAttachment = (
   channelId: string,
   file?: File,
-  uploadTo?: "google_drive" | "nerimity_cdn",
+  uploadTo?: "google_drive" | "nerimity_cdn"
 ) => {
   initIfMissing(channelId);
   if (!file && !uploadTo) {
@@ -136,7 +136,7 @@ const setAttachment = (
 
   setChannelProperties(channelId, "attachment", {
     ...(file ? { file } : undefined),
-    uploadTo: _uploadTo,
+    uploadTo: _uploadTo
   });
 };
 
@@ -144,7 +144,7 @@ const setScrollTop = (channelId: string, scrollTop: number) => {
   initIfMissing(channelId);
   const isScrolledBottom = get(channelId)?.isScrolledBottom;
   setChannelProperties(channelId, {
-    scrollTop: !isScrolledBottom ? scrollTop : undefined,
+    scrollTop: !isScrolledBottom ? scrollTop : undefined
   });
 };
 const setScrolledBottom = (channelId: string, isScrolledBottom: boolean) => {
@@ -164,7 +164,7 @@ const setMoreBottomToLoad = (channelId: string, value: boolean) => {
 
 const updateSlowDownMode = (
   channelId: string,
-  slowDownMode?: { ttl: number; startedAt: number },
+  slowDownMode?: { ttl: number; startedAt: number }
 ) => {
   if (!get(channelId)) return;
   setChannelProperties(channelId, "slowDownMode", slowDownMode);
@@ -172,7 +172,7 @@ const updateSlowDownMode = (
 
 const updateSelectedBotCommand = (
   channelId: string,
-  botCommand?: RawBotCommand,
+  botCommand?: RawBotCommand
 ) => {
   if (!get(channelId)) return;
   setChannelProperties(channelId, "selectedBotCommand", botCommand);
@@ -196,6 +196,6 @@ export default function useChannelProperties() {
     toggleMentionReplies,
     staleAll,
     updateSlowDownMode,
-    updateSelectedBotCommand,
+    updateSelectedBotCommand
   };
 }

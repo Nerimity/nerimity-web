@@ -23,7 +23,7 @@ export default function ServerSettingsPane() {
   onMount(async () => {
     for (let i = 0; i < serverSettings.length; i++) {
       const setting = serverSettings[i];
-      await setting?.element.preload(); 
+      await setting?.element.preload();
     }
   });
 

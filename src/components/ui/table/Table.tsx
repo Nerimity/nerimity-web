@@ -79,7 +79,7 @@ const DesktopTable = (props: TableProps) => {
       : "asc";
     props.onHeaderClick?.({
       headerId: header.id,
-      mode,
+      mode
     });
   };
   return (
@@ -217,7 +217,7 @@ const MobileSortOptions = (props: TableProps) => {
         : "asc";
     props.onHeaderClick?.({
       headerId: header.id,
-      mode,
+      mode
     });
   };
 
@@ -225,7 +225,7 @@ const MobileSortOptions = (props: TableProps) => {
     if (!props.sort?.headerId) return;
     props.onHeaderClick?.({
       headerId: props.sort.headerId,
-      mode,
+      mode
     });
   };
   return (
@@ -258,7 +258,9 @@ const MobileSortOptions = (props: TableProps) => {
             onClick={() => changeSortMode("asc")}
           >
             <Item.Icon>unfold_less</Item.Icon>
-            <Item.Label>{t("channelDrawer.members.order.ascending")}</Item.Label>
+            <Item.Label>
+              {t("channelDrawer.members.order.ascending")}
+            </Item.Label>
           </Item.Root>
           <Item.Root
             selected={props.sort?.mode === "desc"}
@@ -266,7 +268,9 @@ const MobileSortOptions = (props: TableProps) => {
             onClick={() => changeSortMode("desc")}
           >
             <Item.Icon>unfold_more</Item.Icon>
-            <Item.Label>{t("channelDrawer.members.order.descending")}</Item.Label>
+            <Item.Label>
+              {t("channelDrawer.members.order.descending")}
+            </Item.Label>
           </Item.Root>
         </div>
       </div>
@@ -277,5 +281,5 @@ const MobileSortOptions = (props: TableProps) => {
 export const Table = {
   Root,
   Item: TableItem,
-  Field,
+  Field
 };

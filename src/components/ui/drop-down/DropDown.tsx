@@ -7,7 +7,7 @@ import {
   on,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
 import Icon from "@/components/ui/icon/Icon";
@@ -146,7 +146,7 @@ function Popup(props: {
   const [position, setPosition] = createSignal({
     top: "0px",
     left: "0px",
-    "min-width": "0px",
+    "min-width": "0px"
   });
 
   const onDocumentClick = (event: any) => {
@@ -207,7 +207,7 @@ function Popup(props: {
     setPosition({
       top: top + "px",
       left: left + "px",
-      "min-width": props.position.minWidth + "px",
+      "min-width": props.position.minWidth + "px"
     });
   });
 

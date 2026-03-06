@@ -45,7 +45,7 @@ const update = (
     if (update.hexColor === null) {
       setServerRoles(serverId, roleId, {
         gradient: undefined,
-        hexColor: undefined,
+        hexColor: undefined
       });
     }
 
@@ -56,7 +56,7 @@ const update = (
         if (converted) {
           setServerRoles(serverId, roleId, {
             hexColor: converted.colors[0]!,
-            gradient: converted.gradient,
+            gradient: converted.gradient
           });
         }
       }
@@ -114,6 +114,6 @@ export default function useServerRoles() {
     getAllByServerId,
     get,
     deleteRole,
-    deleteAllByServerId,
+    deleteAllByServerId
   };
 }

@@ -15,7 +15,7 @@ import {
   likePost,
   postVotePoll,
   repostPost,
-  unlikePost,
+  unlikePost
 } from "../services/PostService";
 import useAccount from "./useAccount";
 import { toast } from "@/components/ui/custom-portal/CustomPortal";
@@ -50,7 +50,7 @@ const [state, setState] = createStore<State>({
   userPostIds: {},
   posts: {},
   feedPostIds: [],
-  discoverPostIds: [],
+  discoverPostIds: []
 });
 
 export function usePosts() {
@@ -71,7 +71,7 @@ export function usePosts() {
           setState("posts", this.id, {
             ...this,
             content: undefined,
-            deleted: true,
+            deleted: true
           });
         },
 
@@ -100,8 +100,8 @@ export function usePosts() {
                 reposts: this.reposts.filter((r) => r.createdBy.id !== userId),
                 _count: {
                   ...this._count,
-                  reposts: this._count.reposts - 1,
-                },
+                  reposts: this._count.reposts - 1
+                }
               })
             );
           });
@@ -143,7 +143,7 @@ export function usePosts() {
         async loadComments() {
           const comments = await getCommentPosts({
             postId: this.id,
-            limit: 30,
+            limit: 30
           });
           setState("posts", this.id, "commentIds", reconcile([]));
           batch(() => {
@@ -156,7 +156,7 @@ export function usePosts() {
               if (this.commentIds?.includes(comment.id)) continue;
               setState("posts", this.id, "commentIds", [
                 comment.id,
-                ...this.commentIds!,
+                ...this.commentIds!
               ]);
             }
           });
@@ -168,7 +168,7 @@ export function usePosts() {
           const comments = await getCommentPosts({
             postId: this.id,
             limit: 30,
-            afterId,
+            afterId
           });
           comments.reverse();
           batch(() => {
@@ -181,7 +181,7 @@ export function usePosts() {
               if (this.commentIds?.includes(comment.id)) continue;
               setState("posts", this.id, "commentIds", [
                 ...this.commentIds!,
-                comment.id,
+                comment.id
               ]);
             }
           });
@@ -194,7 +194,7 @@ export function usePosts() {
             content: formattedContent,
             attachment: opts.attachment,
             replyToPostId: this.id,
-            poll: opts.poll,
+            poll: opts.poll
           }).catch((err) => {
             toast(err.message);
           });
@@ -206,14 +206,14 @@ export function usePosts() {
             pushPost(post, account.user()?.id!);
             setState("posts", this.id, "commentIds", [
               post.id,
-              ...this.commentIds!,
+              ...this.commentIds!
             ]);
           });
           return true;
         },
         cachedComments() {
           return this.commentIds?.map((postId) => state.posts[postId] as Post);
-        },
+        }
       });
       if (!userId) return;
 
@@ -224,12 +224,12 @@ export function usePosts() {
       if (prependUserPost) {
         setState("userPostIds", userId, [
           ...state.userPostIds[userId]!,
-          post.id,
+          post.id
         ]);
       } else {
         setState("userPostIds", userId, [
           post.id,
-          ...state.userPostIds[userId]!,
+          ...state.userPostIds[userId]!
         ]);
       }
     });
@@ -245,7 +245,7 @@ export function usePosts() {
     const post = await createPost({
       content: formattedContent,
       attachment: opts.file,
-      poll: opts.poll,
+      poll: opts.poll
     }).catch((err) => {
       toast(err.message);
     });
@@ -385,6 +385,6 @@ export function usePosts() {
     cachedUserPosts,
     submitPost,
     fetchAndPushPost,
-    fetchUserLikedPosts,
+    fetchUserLikedPosts
   };
 }

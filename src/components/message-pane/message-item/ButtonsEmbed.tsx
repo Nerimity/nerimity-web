@@ -160,7 +160,9 @@ const ResponseModal = (props: {
   const title = () =>
     props.payload.title
       ? `${props.payload.title} (${props.message.createdBy.username})`
-      : t("botButtonModal.title", { botName: props.message.createdBy.username });
+      : t("botButtonModal.title", {
+          botName: props.message.createdBy.username
+        });
 
   const onCloseClick = async () => {
     if (requestSent()) return;
@@ -184,7 +186,10 @@ const ResponseModal = (props: {
       title={title()}
       icon="robot"
       actionButtonsArr={[
-        { label: props.payload.buttonLabel || t("general.closeButton"), onClick: onCloseClick },
+        {
+          label: props.payload.buttonLabel || t("general.closeButton"),
+          onClick: onCloseClick
+        }
       ]}
     >
       <div class={style.modalContent}>
@@ -192,8 +197,10 @@ const ResponseModal = (props: {
           <Notice
             type="caution"
             description={[
-              t("botButtonModal.dataReceiver", { botName: props.message.createdBy.username }),
-              t("botButtonModal.notice"),
+              t("botButtonModal.dataReceiver", {
+                botName: props.message.createdBy.username
+              }),
+              t("botButtonModal.notice")
             ]}
           />
         </Show>

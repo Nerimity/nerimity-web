@@ -124,9 +124,9 @@ const LanguageDropdown = () => {
             />
             <span>{lang.nativeName ?? lang.name}</span>
           </>
-        )
+        );
       }
-    }
+    };
   });
 
   const currentLanguage = () => getCurrentLanguage() || "en-gb";

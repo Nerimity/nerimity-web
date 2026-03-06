@@ -30,8 +30,8 @@ const GOOGLE_LANGUAGE_MAP: Record<string, string> = {
   "th-th": "th",
   "tr-tr": "tr",
   "sv-sv": "sv",
-  "uk": "uk",
-  "uw-uw": "en",
+  uk: "uk",
+  "uw-uw": "en"
 };
 
 function getActiveLanguageCode() {

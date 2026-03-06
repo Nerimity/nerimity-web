@@ -3,7 +3,7 @@ export const ClientEvents = {
   NOTIFICATION_DISMISS: "notification:dismiss",
 
   VOICE_SIGNAL_SEND: "voice:signal_send",
-  UPDATE_ACTIVITY: "user:update_activity",
+  UPDATE_ACTIVITY: "user:update_activity"
 };
 
 export const ServerEvents = {
@@ -81,5 +81,5 @@ export const ServerEvents = {
 
   VOICE_USER_JOINED: "voice:user_joined",
   VOICE_USER_LEFT: "voice:user_left",
-  VOICE_SIGNAL_RECEIVED: "voice:signal_received",
+  VOICE_SIGNAL_RECEIVED: "voice:signal_received"
 } as const;

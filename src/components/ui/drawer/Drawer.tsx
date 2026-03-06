@@ -13,7 +13,7 @@ import {
   on,
   onCleanup,
   Show,
-  useContext,
+  useContext
 } from "solid-js";
 import SidePane from "@/components/side-pane/SidePane";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
@@ -104,7 +104,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
       onCleanup(() => {
         removeEvents();
       });
-    }),
+    })
   );
 
   const addEvents = () => {
@@ -337,7 +337,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     goToMain,
     hideLeftDrawer,
     toggleHideLeftDrawer: () => setHideLeftDrawer(!hideLeftDrawer()),
-    toggleHideRightDrawer: () => setHideRightDrawer(!hideRightDrawer()),
+    toggleHideRightDrawer: () => setHideRightDrawer(!hideRightDrawer())
   };
 
   const onOpacityClicked = () => {
@@ -350,7 +350,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     defaultWidth: 330,
     minWidth: 200,
     maxWidth: 400,
-    element: () => containerEl?.querySelector(".leftPane"),
+    element: () => containerEl?.querySelector(".leftPane")
   });
   const rightDrawerResizeBar = useResizeBar({
     storageKey: StorageKeys.RIGHT_DRAWER_WIDTH,
@@ -358,7 +358,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     minWidth: 200,
     maxWidth: 400,
     element: () => containerEl?.querySelector(".outerRightPane"),
-    invert: true,
+    invert: true
   });
 
   return (
@@ -367,7 +367,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
       <div
         class={classNames(
           styles.drawerLayout,
-          conditionalClass(isMobileWidth(), styles.mobile),
+          conditionalClass(isMobileWidth(), styles.mobile)
         )}
       >
         <div
@@ -375,7 +375,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
           class={styles.container}
           style={{
             translate: transformX + "px",
-            overflow: isMobileWidth() ? "initial" : "hidden",
+            overflow: isMobileWidth() ? "initial" : "hidden"
           }}
         >
           <div
@@ -391,15 +391,13 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
               display: "flex",
               gap: "4px",
               "flex-shrink": 0,
-              position: "relative",
+              position: "relative"
             }}
           >
             <SidePane
               class={cn(
                 styles.sideBar,
-                hasLeftDrawer() && !hideLeftDrawer()
-                  ? styles.hasLeftDrawer
-                  : "",
+                hasLeftDrawer() && !hideLeftDrawer() ? styles.hasLeftDrawer : ""
               )}
             />
             {hasLeftDrawer() && (
@@ -407,7 +405,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
                 <div
                   class={cn(
                     styles.leftDrawer,
-                    isMobileWidth() && "mobileWidth",
+                    isMobileWidth() && "mobileWidth"
                   )}
                   style={
                     hideLeftDrawer() && !isMobileWidth()
@@ -429,14 +427,14 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
               hasRightDrawer() && !hideRightDrawer()
                 ? styles.hasRightDrawer
                 : "",
-              hasLeftDrawer() && !hideLeftDrawer() ? styles.hasLeftDrawer : "",
+              hasLeftDrawer() && !hideLeftDrawer() ? styles.hasLeftDrawer : ""
             )}
             style={{ width: isMobileWidth() ? width() + "px" : "100%" }}
           >
             <div
               style={{
                 "pointer-events": currentPage() !== 1 ? "initial" : "none",
-                opacity: currentPage() !== 1 ? 1 : 0,
+                opacity: currentPage() !== 1 ? 1 : 0
               }}
               class={styles.opacityContent}
               onClick={onOpacityClicked}
@@ -455,7 +453,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
                   : "0",
               display: "flex",
               "flex-shrink": 0,
-              position: "relative",
+              position: "relative"
             }}
           >
             <Show when={!hideRightDrawer() && hasRightDrawer()}>

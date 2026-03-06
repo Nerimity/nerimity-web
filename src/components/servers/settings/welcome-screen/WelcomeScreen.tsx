@@ -3,18 +3,23 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { useNavigate, useParams } from "solid-navigator";
 import { For, createSignal, onMount } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
 
 import {
   createWelcomeQuestion,
   deleteWelcomeQuestion,
-  getWelcomeQuestions,
+  getWelcomeQuestions
 } from "@/chat-api/services/ServerService";
 import { t } from "@nerimity/i18lite";
 
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal
+} from "@/components/ui/custom-portal/CustomPortal";
 import { RawServerWelcomeQuestion } from "@/chat-api/RawData";
 import { CustomLink } from "@/components/ui/CustomLink";
 
@@ -28,9 +33,12 @@ export default function SettingsPage() {
 
   onMount(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.welcome-screen"),
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("servers.settings.drawer.welcome-screen"),
       serverId: params.serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
     getWelcomeQuestions(params.serverId!).then(setQuestions);
   });
@@ -58,7 +66,7 @@ export default function SettingsPage() {
     const question = await createWelcomeQuestion(params.serverId, {
       title: "Untitled Question",
       multiselect: false,
-      answers: [],
+      answers: []
     }).catch((e) => toast(e.message));
     if (!question) return;
     onQuestionAdded(question);
@@ -83,7 +91,10 @@ export default function SettingsPage() {
           description={t("servers.settings.welcomeScreen.description")}
           icon="task_alt"
         >
-          <Button label={t("servers.settings.welcomeScreen.questions.addButton")} onClick={onAddQuestionClick} />
+          <Button
+            label={t("servers.settings.welcomeScreen.questions.addButton")}
+            onClick={onAddQuestionClick}
+          />
         </SettingsBlock>
         <QuestionList
           questions={questions()}
@@ -145,7 +156,12 @@ const QuestionItem = (props: {
         onClick={onDeleteClick}
       />
       <CustomLink href={`./${props.question.id}`}>
-        <Button label={t("general.editButton")} iconName="edit" iconSize={16} margin={0} />
+        <Button
+          label={t("general.editButton")}
+          iconName="edit"
+          iconSize={16}
+          margin={0}
+        />
       </CustomLink>
     </SettingsBlock>
   );

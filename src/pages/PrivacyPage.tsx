@@ -162,11 +162,7 @@ const TitleWithIcon = styled("div")`
   margin-bottom: 10px;
 `;
 
-function Block(props: {
-  title: string;
-  icon?: string;
-  children: JSXElement
-}) {
+function Block(props: { title: string; icon?: string; children: JSXElement }) {
   return (
     <BlockContainer>
       <TitleWithIcon>

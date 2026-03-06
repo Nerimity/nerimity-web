@@ -9,7 +9,9 @@ import { t } from "@nerimity/i18lite";
 import { electronWindowAPI } from "@/common/Electron";
 import { addBit, Bitwise, USER_BADGES, UserBadge } from "@/chat-api/Bitwise";
 import { RawUser } from "@/chat-api/RawData";
-import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "../ui/settings-block/SettingsBlock";
 import { SelfUser } from "@/chat-api/events/connectionEventTypes";
 import Avatar from "../ui/Avatar";
 import { Notice } from "../ui/Notice/Notice";
@@ -204,10 +206,7 @@ const BadgeItem = (props: {
 const SupportMethodBlock = () => {
   return (
     <SettingsGroup>
-      <SettingsBlock
-        label={t("settings.badges.supportMethods")}
-        icon="info"
-      />
+      <SettingsBlock label={t("settings.badges.supportMethods")} icon="info" />
       <SettingsBlock
         label="Ko-Fi"
         iconSrc="/assets/kofi.svg"

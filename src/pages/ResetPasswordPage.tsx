@@ -1,7 +1,7 @@
 import Input from "@/components/ui/input/Input";
 import {
   resetPassword,
-  sendResetPassword,
+  sendResetPassword
 } from "../chat-api/services/UserService";
 import Button from "@/components/ui/Button";
 import { A, useLocation, useNavigate, useSearchParams } from "solid-navigator";
@@ -78,7 +78,7 @@ export default function ResetPasswordPage() {
     if (newPassword() !== confirmNewPassword()) {
       setError({
         message: t("resetPassword.passwordsDoNotMatch"),
-        path: "Confirm Password",
+        path: "Confirm Password"
       });
       setRequestSent(false);
       return;

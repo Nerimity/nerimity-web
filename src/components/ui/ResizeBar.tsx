@@ -55,7 +55,7 @@ export const useResizeBar = (opts: ResizeBarOpts) => {
   const Handle = (props: { left?: number; right?: number }) => {
     const localStyle = () => ({
       ...(props.left !== undefined ? { left: `${props.left}px` } : {}),
-      ...(props.right !== undefined ? { right: `${props.right}px` } : {}),
+      ...(props.right !== undefined ? { right: `${props.right}px` } : {})
     });
     return (
       <Show when={!isMobileWidth()}>
@@ -75,6 +75,6 @@ export const useResizeBar = (opts: ResizeBarOpts) => {
       if (width() >= opts.maxWidth) return opts.maxWidth;
       if (isMobileWidth()) return opts.defaultWidth;
       return width();
-    },
+    }
   };
 };

@@ -5,7 +5,9 @@ import useStore from "@/chat-api/store/useStore";
 
 import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "@/components/ui/settings-block/SettingsBlock";
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
 import {
@@ -13,21 +15,24 @@ import {
   deleteApp,
   getApplication,
   refreshAppClientSecret,
-  updateApp,
+  updateApp
 } from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";
 import { useMatch, useNavigate, useParams } from "solid-navigator";
 import Input from "@/components/ui/input/Input";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
-import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal
+} from "@/components/ui/custom-portal/CustomPortal";
 import Text from "@/components/ui/Text";
 import {
   addBit,
   APPLICATION_SCOPES,
   Bitwise,
   hasBit,
-  removeBit,
+  removeBit
 } from "@/chat-api/Bitwise";
 import env from "@/common/env";
 import { FlexRow } from "@/components/ui/Flexbox";
@@ -53,8 +58,9 @@ export default function DeveloperApplicationSetting() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
-      iconName: "settings",
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
+      iconName: "settings"
     });
   });
 
@@ -120,7 +126,7 @@ const EditDeveloperApplication = (props: {
   const [requestSent, setRequestSent] = createSignal(false);
 
   const defaultInput = () => ({
-    name: application()?.name || "",
+    name: application()?.name || ""
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -129,7 +135,8 @@ const EditDeveloperApplication = (props: {
   const navigate = useNavigate();
   const [error, setError] = createSignal<string | null>(null);
 
-  const requestStatus = () => (requestSent() ? t("general.saving") : t("general.saveChangesButton"));
+  const requestStatus = () =>
+    requestSent() ? t("general.saving") : t("general.saveChangesButton");
 
   const createBot = async () => {
     await createAppBotUser(params.id);
@@ -168,11 +175,17 @@ const EditDeveloperApplication = (props: {
         icon="smart_toy"
         label={t("settings.developer.botUser")}
         description={
-          application()?.botUserId ? t("settings.developer.editBotUser") : t("settings.developer.createBotUser")
+          application()?.botUserId
+            ? t("settings.developer.editBotUser")
+            : t("settings.developer.createBotUser")
         }
       >
         <Show when={!application()?.botUserId}>
-          <Button label={t("settings.developer.createBotUserButton")} iconName="add" onClick={createBot} />
+          <Button
+            label={t("settings.developer.createBotUserButton")}
+            iconName="add"
+            onClick={createBot}
+          />
         </Show>
         <Show when={application()?.botUserId}>
           <Icon name="keyboard_arrow_right" />
@@ -237,7 +250,7 @@ const EditApplicationOauth2 = (props: {
   };
 
   const defaultInput = () => ({
-    redirectUris: [...props.application.redirectUris, ""],
+    redirectUris: [...props.application.redirectUris, ""]
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -245,7 +258,8 @@ const EditApplicationOauth2 = (props: {
 
   const urisLength = () => inputValues().redirectUris.length;
 
-  const requestStatus = () => (requestSent() ? t("general.saving") : t("general.saveChangesButton"));
+  const requestStatus = () =>
+    requestSent() ? t("general.saving") : t("general.saveChangesButton");
 
   const onSaveClicked = async () => {
     if (requestSent()) return;
@@ -255,7 +269,7 @@ const EditApplicationOauth2 = (props: {
 
     await updateApp(props.application.id, {
       ...updatedInputValues(),
-      redirectUris,
+      redirectUris
     })
       .then((newApp) => {
         props.setApplication({ ...props.application, ...newApp });
@@ -272,7 +286,10 @@ const EditApplicationOauth2 = (props: {
         label={t("settings.developer.oauth2.documentation")}
         hrefBlank
       />
-      <SettingsBlock icon="id_card" label={t("settings.developer.oauth2.clientId")}>
+      <SettingsBlock
+        icon="id_card"
+        label={t("settings.developer.oauth2.clientId")}
+      >
         <Input value={props.application.id} disabled />
       </SettingsBlock>
 
@@ -283,17 +300,28 @@ const EditApplicationOauth2 = (props: {
           margin-bottom: 20px;
         `}
       >
-        <Button onClick={onRefreshClick} label={t("settings.developer.refreshButton")} iconName="refresh" />
-        <Button onClick={copyToken} label={t("inputFieldActions.copy")} iconName="content_copy" />
+        <Button
+          onClick={onRefreshClick}
+          label={t("settings.developer.refreshButton")}
+          iconName="refresh"
+        />
+        <Button
+          onClick={copyToken}
+          label={t("inputFieldActions.copy")}
+          iconName="content_copy"
+        />
       </SettingsBlock>
 
       <SettingsGroup>
-        <SettingsBlock icon="link" label={t("settings.developer.oauth2.redirectUris")} />
+        <SettingsBlock
+          icon="link"
+          label={t("settings.developer.oauth2.redirectUris")}
+        />
         <For each={new Array(urisLength()).fill(0)}>
           {(_, i) => (
             <SettingsBlock
               icon="link"
-              label={t("settings.developer.oauth2.uri", { count: (i() + 1) })}
+              label={t("settings.developer.oauth2.uri", { count: i() + 1 })}
             >
               <Input
                 value={inputValues().redirectUris[i()]}
@@ -383,7 +411,7 @@ const GenerateOuth2Link = (props: { application: RawApplication }) => {
             "padding-left": "8px",
             "line-break": "normal",
             "text-wrap": "nowrap",
-            "border-radius": "8px",
+            "border-radius": "8px"
           }}
         >
           <CustomLink
@@ -391,7 +419,7 @@ const GenerateOuth2Link = (props: { application: RawApplication }) => {
               "font-size": "12px",
               overflow: "auto",
               "scrollbar-width": "none",
-              "max-width": "500px",
+              "max-width": "500px"
             }}
             target="_blank"
             rel="noopener noreferrer"
@@ -414,7 +442,7 @@ const GenerateOuth2Link = (props: { application: RawApplication }) => {
         <DropDown
           items={props.application.redirectUris.map((uri) => ({
             label: uri,
-            id: uri,
+            id: uri
           }))}
           selectedId={redirectUri()}
           onChange={(item) => setRedirectUri(item.id)}
@@ -471,11 +499,15 @@ function DeleteApplicationBlock(props: { id: string; name: string }) {
           <div>{t("settings.account.deletedInfo.ip")}</div>
           <div>{t("settings.account.deletedInfo.bio")}</div>
           <div>{t("settings.developer.deleteApplication.andMore")}</div>
-          <div style={{ "margin-top": "15px" }}>{t("settings.developer.deleteApplication.willNotGetDeleted")}</div>
+          <div style={{ "margin-top": "15px" }}>
+            {t("settings.developer.deleteApplication.willNotGetDeleted")}
+          </div>
           <div>{t("settings.account.deletedInfo.messages")}</div>
           <div>{t("settings.account.deletedInfo.posts")}</div>
           <div style={{ "margin-top": "5px", "font-size": "12px" }}>
-            {t("settings.developer.deleteApplication.willNotGetDeletedDescription")}
+            {t(
+              "settings.developer.deleteApplication.willNotGetDeletedDescription"
+            )}
           </div>
         </div>
       );

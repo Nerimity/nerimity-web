@@ -29,7 +29,7 @@ export default function ExperimentsSettings() {
     header.updateHeader({
       title:
         t("settings.drawer.title") + " - " + t("settings.drawer.experiments"),
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -99,13 +99,13 @@ const ReloadRequiredModal = (props: { close: () => void }) => {
       actionButtonsArr={[
         {
           label: t("settings.experiments.reloadRequired.restartLater"),
-          onClick: props.close,
+          onClick: props.close
         },
         {
           label: t("settings.experiments.reloadRequired.restartNow"),
           primary: true,
-          onClick: restart,
-        },
+          onClick: restart
+        }
       ]}
     >
       <div

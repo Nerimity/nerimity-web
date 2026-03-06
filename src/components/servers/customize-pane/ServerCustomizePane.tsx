@@ -9,18 +9,18 @@ import {
   createEffect,
   createSignal,
   on,
-  onMount,
+  onMount
 } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import {
   addAnswerToMember,
   getWelcomeQuestions,
   removeAnswerFromMember,
-  updateWelcomeQuestion,
+  updateWelcomeQuestion
 } from "@/chat-api/services/ServerService";
 import {
   RawServerWelcomeAnswer,
-  RawServerWelcomeQuestion,
+  RawServerWelcomeQuestion
 } from "@/chat-api/RawData";
 import Checkbox from "@/components/ui/Checkbox";
 import Icon from "@/components/ui/icon/Icon";
@@ -52,7 +52,7 @@ export default function Pane() {
     header.updateHeader({
       title: t("channelDrawer.customize.title"),
       serverId: params.serverId!,
-      iconName: "tune",
+      iconName: "tune"
     });
   });
 
@@ -293,7 +293,9 @@ const ContinueFooter = () => {
       <Button
         margin={0}
         class={styles.button}
-        label={t("channelDrawer.customize.continueButton", { channel: `#${defaultChannel()?.name}` })}
+        label={t("channelDrawer.customize.continueButton", {
+          channel: `#${defaultChannel()?.name}`
+        })}
         color="white"
         customChildren={<Icon name="keyboard_arrow_right" size={24} />}
       />

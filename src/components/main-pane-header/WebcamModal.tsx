@@ -67,8 +67,15 @@ export function WebcamModal(props: { close: () => void }) {
 
   const ActionButtons = (
     <ActionButtonsContainer>
-      <Button label={t("general.backButton")} color="var(--alert-color)" onClick={props.close} />
-      <Button label={t("mainPaneHeader.voice.webcamModal.shareCameraButton")} onClick={shareCameraClick} />
+      <Button
+        label={t("general.backButton")}
+        color="var(--alert-color)"
+        onClick={props.close}
+      />
+      <Button
+        label={t("mainPaneHeader.voice.webcamModal.shareCameraButton")}
+        onClick={shareCameraClick}
+      />
     </ActionButtonsContainer>
   );
 

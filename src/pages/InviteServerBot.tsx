@@ -37,7 +37,7 @@ export default function InviteServerBotPage() {
             display: "flex",
             "padding-top": "20px",
             "padding-bottom": "20px",
-            margin: "auto",
+            margin: "auto"
           }}
         >
           <InviteBotPopup appId={params.appId} permissions={permissions()} />

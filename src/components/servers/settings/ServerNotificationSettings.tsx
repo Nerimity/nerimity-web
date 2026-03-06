@@ -1,7 +1,9 @@
 import { useParams } from "solid-navigator";
 import { For, JSXElement, Show, createEffect } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "@/components/ui/settings-block/SettingsBlock";
 import { css, styled } from "solid-styled-components";
 import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";

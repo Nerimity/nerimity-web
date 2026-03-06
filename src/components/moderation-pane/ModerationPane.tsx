@@ -9,7 +9,7 @@ import {
   lazy,
   on,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import {
   AuditLog,
@@ -31,7 +31,7 @@ import {
   activeServers,
   getSuggestionActions,
   deleteSuggestActions,
-  upsertSuggestActions,
+  upsertSuggestActions
 } from "@/chat-api/services/ModerationService";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
@@ -55,7 +55,7 @@ import {
   emitModerationUserSuspended,
   useModerationServerDeletedListener,
   useModerationUndoServerDeleteListener,
-  useModerationUserSuspendedListener,
+  useModerationUserSuspendedListener
 } from "@/common/GlobalEvents";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { classNames } from "@/common/classNames";
@@ -190,7 +190,7 @@ export default function ModerationPane() {
     if (!account.hasModeratorPerm(true)) return;
     header.updateHeader({
       title: "Moderation",
-      iconName: "security",
+      iconName: "security"
     });
     setLoad(true);
     if (!stats()) {
@@ -214,7 +214,7 @@ export default function ModerationPane() {
             display: "flex",
             "border-radius": isMobileWidth() ? 0 : "8px",
             "padding-top": "40px",
-            "z-index": "1111",
+            "z-index": "1111"
           }}
         >
           <PageContainer>
@@ -420,7 +420,7 @@ function OnlineUsersPane() {
     setUsers(
       localUsers.filter((u) => {
         return selectedUsers().find((su) => su.id !== u.id);
-      }),
+      })
     );
   });
 
@@ -471,7 +471,7 @@ function ServersPane() {
         const wasSuspended = deletedServers.find((su) => su.id === u.id);
         if (!wasSuspended) return u;
         return { ...u, scheduledForDeletion: { scheduledAt: Date.now() } };
-      }),
+      })
     );
   });
 
@@ -480,7 +480,7 @@ function ServersPane() {
       servers().map((u) => {
         if (u.id !== serverId) return u;
         return { ...u, scheduledForDeletion: undefined };
-      }),
+      })
     );
   });
 
@@ -490,7 +490,7 @@ function ServersPane() {
         return fetchSearch();
       }
       fetchServers();
-    }),
+    })
   );
 
   const onLoadMoreClick = () => {
@@ -590,7 +590,7 @@ function ActiveServersPane() {
         const wasSuspended = deletedServers.find((su) => su.id === u.id);
         if (!wasSuspended) return u;
         return { ...u, scheduledForDeletion: { scheduledAt: Date.now() } };
-      }),
+      })
     );
   });
 
@@ -599,7 +599,7 @@ function ActiveServersPane() {
       servers().map((u) => {
         if (u.id !== serverId) return u;
         return { ...u, scheduledForDeletion: undefined };
-      }),
+      })
     );
   });
 
@@ -656,7 +656,7 @@ function SuggestedActionsPane() {
   createEffect(
     on(afterId, async () => {
       fetchUsers();
-    }),
+    })
   );
 
   const onLoadMoreClick = () => {
@@ -671,7 +671,7 @@ function SuggestedActionsPane() {
 
     getSuggestionActions({
       limit: LIMIT,
-      afterId: afterId(),
+      afterId: afterId()
     })
       .then((result) => {
         if (result.data.length >= LIMIT) setLoadMoreClicked(false);
@@ -694,7 +694,7 @@ function SuggestedActionsPane() {
       class="pane users"
       expanded={showAll()}
       style={{
-        ...(!showAll() ? { height: "initial" } : undefined),
+        ...(!showAll() ? { height: "initial" } : undefined)
       }}
     >
       <div style={{ height: "10px" }} />
@@ -704,7 +704,7 @@ function SuggestedActionsPane() {
         style={{
           "padding-left": "10px",
           "padding-top": "0px",
-          "flex-shrink": "0",
+          "flex-shrink": "0"
         }}
       >
         <Button
@@ -791,9 +791,7 @@ function SuggestedActionsPane() {
                           done={() => {
                             deleteSuggestActions(suggest.id).then(() => {
                               setSuggestions(
-                                suggestions().filter(
-                                  (s) => s.id !== suggest.id,
-                                ),
+                                suggestions().filter((s) => s.id !== suggest.id)
                               );
                             });
                           }}
@@ -821,9 +819,7 @@ function SuggestedActionsPane() {
                           done={() => {
                             deleteSuggestActions(suggest.id).then(() => {
                               setSuggestions(
-                                suggestions().filter(
-                                  (s) => s.id !== suggest.id,
-                                ),
+                                suggestions().filter((s) => s.id !== suggest.id)
                               );
                             });
                           }}
@@ -849,7 +845,7 @@ function SuggestedActionsPane() {
                   onClick={() => {
                     deleteSuggestActions(suggest.id).then(() => {
                       setSuggestions(
-                        suggestions().filter((s) => s.id !== suggest.id),
+                        suggestions().filter((s) => s.id !== suggest.id)
                       );
                     });
                   }}
@@ -890,7 +886,7 @@ export function Server(props: {
   const onCheckChanged = () => {
     if (selected()) {
       setSelectedServers(
-        selectedServers().filter((u) => u.id !== props.server.id),
+        selectedServers().filter((u) => u.id !== props.server.id)
       );
       return;
     }
@@ -960,7 +956,7 @@ export function Server(props: {
                 "border-radius": "4px",
                 padding: "2px 8px",
                 "margin-top": "4px",
-                display: "inline-block",
+                display: "inline-block"
               }}
             >
               <Text size={12}>Scheduled Deletion</Text>
@@ -973,7 +969,7 @@ export function Server(props: {
                 "border-radius": "4px",
                 padding: "2px 8px",
                 "margin-top": "4px",
-                display: "inline-block",
+                display: "inline-block"
               }}
             >
               <Icon name="public" size={13} />
@@ -1058,7 +1054,7 @@ export function AuditLogPane(props: {
   createEffect(
     on(afterId, async () => {
       fetchLogs();
-    }),
+    })
   );
 
   const onLoadMoreClick = () => {
@@ -1072,7 +1068,7 @@ export function AuditLogPane(props: {
     getAuditLog({
       limit: LIMIT,
       afterId: afterId(),
-      search: props.search,
+      search: props.search
     })
       .then((newItems) => {
         setItems([...items(), ...newItems]);
@@ -1087,7 +1083,7 @@ export function AuditLogPane(props: {
       expanded={showAll()}
       style={{
         ...(!showAll() ? { height: "initial" } : undefined),
-        ...props.style,
+        ...props.style
       }}
     >
       <FlexRow
@@ -1137,31 +1133,31 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
         return {
           icon: "dns",
           color: "var(--alert-color)",
-          title: "Server Delete",
+          title: "Server Delete"
         };
       case AuditLogType.serverUpdate:
         return {
           icon: "dns",
           color: "var(--success-color)",
-          title: "Server Update",
+          title: "Server Update"
         };
       case AuditLogType.userSuspend:
         return {
           icon: "person",
           color: "var(--alert-color)",
-          title: "User Suspend",
+          title: "User Suspend"
         };
       case AuditLogType.userUnsuspend:
         return {
           icon: "person",
           color: "var(--success-color)",
-          title: "User Unsuspend",
+          title: "User Unsuspend"
         };
       case AuditLogType.userUpdate:
         return {
           icon: "person",
           color: "var(--success-color)",
-          title: "User Update",
+          title: "User Update"
         };
       default:
         return { icon: "texture", color: "gray", title: "Unknown Action" };
@@ -1416,7 +1412,7 @@ function PostsPane() {
         return fetchSearch();
       }
       fetchPosts();
-    }),
+    })
   );
 
   const onLoadMoreClick = () => {
@@ -1470,7 +1466,7 @@ function PostsPane() {
       posts().map((post) => {
         if (post.id !== postId) return post;
         return { ...post, announcement: true };
-      }),
+      })
     );
   };
   const onAnnouncementRemove = (postId: string) => {
@@ -1478,7 +1474,7 @@ function PostsPane() {
       posts().map((post) => {
         if (post.id !== postId) return post;
         return { ...post, announcement: false };
-      }),
+      })
     );
   };
 
@@ -1592,7 +1588,7 @@ export function Post(props: {
           actionType: AuditLogType.postDelete,
           postId: props.post.id,
 
-          reason: selectedOption() === "Other" ? reason() : selectedOption(),
+          reason: selectedOption() === "Other" ? reason() : selectedOption()
         })
           .then(() => {
             close();
@@ -1610,7 +1606,7 @@ export function Post(props: {
                   { id: "NSFW", label: "NSFW" },
                   { id: "Racist", label: "Racist" },
                   { id: "Hateful", label: "Hateful" },
-                  { id: "Other", label: "Other" },
+                  { id: "Other", label: "Other" }
                 ]}
                 initialId={selectedOption()}
                 onChange={(item) => setSelectedOption(item.id)}

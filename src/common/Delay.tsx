@@ -1,6 +1,6 @@
 import { JSXElement, Show, createSignal, onCleanup } from "solid-js";
 
-export function Delay(props: {ms?: number, children: JSXElement}) {
+export function Delay(props: { ms?: number; children: JSXElement }) {
   const [show, setShow] = createSignal(false);
   const interval = setTimeout(() => {
     setShow(true);
@@ -10,7 +10,5 @@ export function Delay(props: {ms?: number, children: JSXElement}) {
     clearInterval(interval);
   });
 
-  return (
-    <Show when={show()}>{props.children}</Show>
-  );
+  return <Show when={show()}>{props.children}</Show>;
 }

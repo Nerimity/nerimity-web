@@ -4,13 +4,13 @@ import {
   USER_BADGES_VALUES,
   addBit,
   hasBit,
-  removeBit,
+  removeBit
 } from "@/chat-api/Bitwise";
 import {
   ModerationUser,
   getUser,
   getUsersWithSameIPAddress,
-  updateUser,
+  updateUser
 } from "@/chat-api/services/ModerationService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -23,7 +23,9 @@ import Avatar from "../ui/Avatar";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { bannerUrl } from "@/chat-api/store/useUsers";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "../ui/settings-block/SettingsBlock";
 import Input from "../ui/input/Input";
 import Checkbox from "../ui/Checkbox";
 import { formatTimestamp } from "@/common/date";
@@ -107,7 +109,7 @@ export default function UserPage() {
     badges: user()?.badges || 0,
     emailConfirmed: user()?.account?.emailConfirmed || false,
     newPassword: "",
-    password: "",
+    password: ""
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -118,8 +120,8 @@ export default function UserPage() {
       () => params.userId,
       () => {
         getUser(params.userId).then(setUser);
-      },
-    ),
+      }
+    )
   );
 
   const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");
@@ -201,7 +203,7 @@ export default function UserPage() {
                 display: "flex",
                 "flex-direction": "column",
                 gap: "4px",
-                "margin-bottom": "10px",
+                "margin-bottom": "10px"
               }}
             >
               <Text size={14} style={{ "margin-left": "0px" }}>
@@ -362,7 +364,7 @@ const BadgeItem = (props: {
       onClick={() => {
         props.onBadgeUpdate(
           !hasBit(props.badges, props.badge.bit),
-          props.badge.bit,
+          props.badge.bit
         );
       }}
     >
@@ -388,10 +390,7 @@ const UsersWithSameIPAddress = (props: { userId: string }) => {
 
   return (
     <SettingsGroup>
-      <SettingsBlock
-        icon="dns"
-        label="Users With Same IP Address"
-      />
+      <SettingsBlock icon="dns" label="Users With Same IP Address" />
       <UsersWithSameIPAddressContainer>
         <For each={users()}>{(user) => <User user={user} />}</For>
       </UsersWithSameIPAddressContainer>
@@ -412,10 +411,7 @@ const UserServersList = (props: {
 
   return (
     <SettingsGroup>
-      <SettingsBlock
-        icon="dns"
-        label="Joined Servers"
-      />
+      <SettingsBlock icon="dns" label="Joined Servers" />
       <UsersWithSameIPAddressContainer>
         <For each={sortOwnedFirst()}>
           {(server) => <Server server={server} />}
@@ -561,8 +557,8 @@ function WarnBlock(props: {
             account: {
               ...props.user.account,
               warnCount: warnCount() + 1,
-              warnExpiresAt: new Date().setMonth(new Date().getMonth() + 6),
-            },
+              warnExpiresAt: new Date().setMonth(new Date().getMonth() + 6)
+            }
           })
         }
         close={close}
@@ -618,7 +614,7 @@ function ShadowBanBlock(props: {
         done={() =>
           props.setUser({
             ...props.user,
-            shadowBan: true,
+            shadowBan: true
           })
         }
         close={close}
@@ -633,7 +629,7 @@ function ShadowBanBlock(props: {
         done={() =>
           props.setUser({
             ...props.user,
-            shadowBan: false,
+            shadowBan: false
           })
         }
         close={close}

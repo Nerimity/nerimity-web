@@ -2,7 +2,7 @@ import style from "./UserPage.module.scss";
 import { RawUser } from "@/chat-api/RawData";
 import {
   getUsers,
-  ModerationUser,
+  ModerationUser
 } from "@/chat-api/services/ModerationService";
 import { formatTimestamp } from "@/common/date";
 import { usePromise } from "@/common/usePromise";
@@ -49,7 +49,7 @@ const TagsField = (props: { user: ModerationUser }) => {
 export default function UsersPage() {
   const [sort, setSort] = createSignal<TableSort>({
     headerId: "joined",
-    mode: "desc",
+    mode: "desc"
   });
   const [selectedFilter, setSelectedFilter] = createSignal<string>("all");
 
@@ -65,7 +65,7 @@ export default function UsersPage() {
     getUsers(50, undefined, {
       orderBy: headerIdToOrderBy(sort().headerId),
       order: sort().mode,
-      filters: selectedFilter(),
+      filters: selectedFilter()
     })
   );
 
@@ -112,16 +112,16 @@ export default function UsersPage() {
         headers={[
           {
             id: "name",
-            title: "Name",
+            title: "Name"
           },
           {
             id: "joined",
-            title: "Joined",
+            title: "Joined"
           },
           {
             id: "tags",
-            title: "Tags",
-          },
+            title: "Tags"
+          }
         ]}
         sort={sort()}
         sortableHeaderIds={["name", "joined"]}

@@ -5,7 +5,7 @@ import { formatMillisElapsedDigital } from "@/common/date";
 import {
   getFile,
   googleApiInitialized,
-  initializeGoogleDrive,
+  initializeGoogleDrive
 } from "@/common/driveAPI";
 import { electronWindowAPI } from "@/common/Electron";
 import env from "@/common/env";
@@ -21,7 +21,7 @@ import {
   on,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import { t } from "@nerimity/i18lite";
 
@@ -43,12 +43,11 @@ export const LocalAudioEmbed = (props: { attachment: RawAttachment }) => {
         size: props.attachment.filesize!,
         url: env.NERIMITY_CDN + props.attachment.path!,
         expireAt: props.attachment.expireAt,
-        provider: "local",
+        provider: "local"
       }}
     />
   );
 };
-
 
 export const GoogleDriveAudioEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
@@ -85,7 +84,7 @@ export const GoogleDriveAudioEmbed = (props: { attachment: RawAttachment }) => {
               url: file()!.webContentLink!,
               provider: "google_drive",
               name: file()!.name!,
-              size: parseInt(file()!.size! || "0"),
+              size: parseInt(file()!.size! || "0")
             }
           : undefined
       }
@@ -104,7 +103,11 @@ export const AudioEmbed = (props: {
   };
   error?: string;
 }) => {
-  const audio = useAudio({durationOverride: (props.file?.duration ? props.file.duration / 1000 : undefined) });
+  const audio = useAudio({
+    durationOverride: props.file?.duration
+      ? props.file.duration / 1000
+      : undefined
+  });
 
   let progressBarRef: HTMLDivElement | undefined;
 
@@ -208,7 +211,7 @@ export const AudioEmbed = (props: {
             <div
               class={styles.progress}
               style={{
-                width: `${(audio.currentTime() / audio.duration()) * 100}%`,
+                width: `${(audio.currentTime() / audio.duration()) * 100}%`
               }}
             />
           </div>
@@ -349,6 +352,6 @@ function useAudio(opts: { durationOverride?: number } = {}) {
     playUrl,
     duration,
     togglePlay,
-    currentTime,
+    currentTime
   };
 }

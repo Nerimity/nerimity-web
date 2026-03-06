@@ -4,7 +4,7 @@ import {
   Switch,
   createEffect,
   createSignal,
-  onMount,
+  onMount
 } from "solid-js";
 import { css, styled } from "solid-styled-components";
 
@@ -18,7 +18,7 @@ import Button from "@/components/ui/Button";
 import {
   getAppBotToken,
   getApplication,
-  refreshAppBotToken,
+  refreshAppBotToken
 } from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";
 import { useLocation, useMatch, useParams } from "solid-navigator";
@@ -43,8 +43,9 @@ export default function DeveloperApplicationBotSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
-      iconName: "settings",
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
+      iconName: "settings"
     });
   });
 
@@ -87,11 +88,15 @@ export default function DeveloperApplicationBotSettings() {
       });
   };
 
-
-
-  const showBotPage = useMatch(() => "/app/settings/developer/applications/:id/bot");
-  const showProfilePage = useMatch(() => "/app/settings/developer/applications/:id/bot/profile");
-  const showPublishPage = useMatch(() => "/app/settings/developer/applications/:id/bot/publish");
+  const showBotPage = useMatch(
+    () => "/app/settings/developer/applications/:id/bot"
+  );
+  const showProfilePage = useMatch(
+    () => "/app/settings/developer/applications/:id/bot/profile"
+  );
+  const showPublishPage = useMatch(
+    () => "/app/settings/developer/applications/:id/bot/publish"
+  );
 
   return (
     <Container>
@@ -139,8 +144,16 @@ export default function DeveloperApplicationBotSettings() {
             margin-bottom: 20px;
           `}
         >
-          <Button onClick={onRefreshClick} label={t("settings.developer.refreshButton")} iconName="refresh" />
-          <Button onClick={copyToken} label={t("inputFieldActions.copy")} iconName="content_copy" />
+          <Button
+            onClick={onRefreshClick}
+            label={t("settings.developer.refreshButton")}
+            iconName="refresh"
+          />
+          <Button
+            onClick={copyToken}
+            label={t("inputFieldActions.copy")}
+            iconName="content_copy"
+          />
         </SettingsBlock>
 
         <Show when={showBotPage()}>

@@ -43,7 +43,7 @@ export class AsyncFunctionQueue {
       this.queue.push({
         asyncFunc,
         resolve,
-        reject,
+        reject
       } as QueueItem<unknown>);
 
       // If not already processing, start processing the queue.

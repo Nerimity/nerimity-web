@@ -24,7 +24,7 @@ export default function Checkbox(props: CheckboxProps) {
     on(
       () => props.checked,
       () => {
-        setChecked(props.checked)
+        setChecked(props.checked);
         checkboxEl!.checked = props.checked;
       }
     )
@@ -48,7 +48,7 @@ export default function Checkbox(props: CheckboxProps) {
         style.container,
         "checkbox",
         props.class,
-        conditionalClass(checked(), classNames(style.selected, "selected")),
+        conditionalClass(checked(), classNames(style.selected, "selected"))
       )}
     >
       <div style={props.boxStyles} class={style.checkbox}>

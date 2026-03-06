@@ -11,7 +11,7 @@ import {
   onCleanup,
   onMount,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import { RawReminder } from "@/chat-api/RawData";
 import MessageItem from "../message-pane/message-item/MessageItem";
@@ -22,7 +22,7 @@ import { useNavigate, useSearchParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import {
   deleteReminder,
-  updateReminder,
+  updateReminder
 } from "@/chat-api/services/ReminderService";
 import { PostItem } from "../post-area/PostItem";
 import { formatTimestamp } from "@/common/date";
@@ -58,8 +58,7 @@ export default function RemindersModal(props: {
     })
   );
 
-  const closeNotice = () =>
-    toast(t("remindersModal.closeNotice"));
+  const closeNotice = () => toast(t("remindersModal.closeNotice"));
 
   const close = () => {
     if (hasActiveReminders()) {
@@ -70,7 +69,10 @@ export default function RemindersModal(props: {
   };
   return (
     <Modal.Root close={close} class={style.remindersModalRoot}>
-      <Modal.Header title={t("remindersModal.title")} alert={!!hasActiveReminders()} />
+      <Modal.Header
+        title={t("remindersModal.title")}
+        alert={!!hasActiveReminders()}
+      />
       <Modal.Body class={style.remindersModalBody}>
         <div class={style.reminderList}>
           <For each={reminders()}>
@@ -159,7 +161,9 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
       </div>
       <Switch
         fallback={
-          <div class={style.reminderDeleted}>{t("remindersModal.deletedItem")}</div>
+          <div class={style.reminderDeleted}>
+            {t("remindersModal.deletedItem")}
+          </div>
         }
       >
         <Match when={props.reminder.message}>
@@ -183,8 +187,8 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
                 ? t("remindersModal.dismissing")
                 : t("message.dismissButton")
               : deleteClicked()
-              ? t("remindersModal.deleting")
-              : t("general.deleteButton")
+                ? t("remindersModal.deleting")
+                : t("general.deleteButton")
           }
           alert={!isActive()}
           color={isActive() ? "var(--success-color)" : undefined}

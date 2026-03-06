@@ -13,7 +13,9 @@ import {
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "../ui/settings-block/SettingsBlock";
 import Slider from "../ui/Slider";
 import {
   getCustomSound,
@@ -169,10 +171,7 @@ function NotificationSoundSelection() {
       >
         <NotificationSoundDropDown typeId="REMINDER" />
       </SettingsBlock>
-      <SettingsBlock
-        icon="call"
-        label={t("settings.notifications.callJoin")}
-      >
+      <SettingsBlock icon="call" label={t("settings.notifications.callJoin")}>
         <NotificationSoundDropDown typeId="CALL_JOIN" />
       </SettingsBlock>
       <SettingsBlock

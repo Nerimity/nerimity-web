@@ -14,15 +14,10 @@ export default function Block(props: BlockProps) {
   return (
     <div
       onClick={props.onClick}
-      class={classNames(
-        styles.block,
-        props.class
-      )}
+      class={classNames(styles.block, props.class)}
       style={props.style}
     >
       {props.children}
     </div>
   );
 }
-
-

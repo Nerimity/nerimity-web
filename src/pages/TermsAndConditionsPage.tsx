@@ -313,7 +313,7 @@ export function AgeDropdown() {
     { name: "Romania", age: "16" },
     { name: "San Marino", age: "16" },
     { name: "Serbia", age: "16" },
-    { name: "Slovakia", age: "16" },
+    { name: "Slovakia", age: "16" }
     // { name: "South Korea", age: "14" },
     // { name: "Austria", age: "14" },
     // { name: "Bulgaria", age: "14" },

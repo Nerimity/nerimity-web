@@ -24,7 +24,7 @@ export interface RPC {
   link?: string;
   startedAt?: number;
   endsAt?: number;
-  speed?:number;
+  speed?: number;
   updatedAt?: number;
 }
 

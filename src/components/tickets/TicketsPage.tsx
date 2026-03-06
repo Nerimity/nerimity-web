@@ -34,11 +34,11 @@ const TicketsPage = () => {
 
   createEffect(
     on(ticketSortStatus, async () => {
-      const tickets = await (isModeration()
-        ? getModerationTickets
-        : getTickets)({
+      const tickets = await (
+        isModeration() ? getModerationTickets : getTickets
+      )({
         limit: 30,
-        status: ticketSortStatus(),
+        status: ticketSortStatus()
       });
       setTickets(tickets);
     })

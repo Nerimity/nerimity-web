@@ -1,5 +1,8 @@
 import { deleteMessage } from "@/chat-api/services/MessageService";
-import useMessages, { Message, MessageSentStatus } from "@/chat-api/store/useMessages";
+import useMessages, {
+  Message,
+  MessageSentStatus
+} from "@/chat-api/store/useMessages";
 import Button from "@/components/ui/Button";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Text from "@/components/ui/Text";
@@ -41,15 +44,15 @@ export default function DeleteMessageModal(props: {
 
   const onDeleteClick = () => {
     props.close();
-    if (props.message.local || props.message.sentStatus === MessageSentStatus.FAILED) {
-      messages.locallyRemoveMessage(
-        props.message.channelId,
-        props.message.id
-      );
+    if (
+      props.message.local ||
+      props.message.sentStatus === MessageSentStatus.FAILED
+    ) {
+      messages.locallyRemoveMessage(props.message.channelId, props.message.id);
     } else {
       deleteMessage({
         channelId: props.message.channelId,
-        messageId: props.message.id,
+        messageId: props.message.id
       });
     }
   };

@@ -49,7 +49,7 @@ const SkeletonItem = (props: {
   const style: () => JSX.CSSProperties = () => ({
     ...(props.height ? { height: props.height } : undefined),
     ...(props.width ? { width: props.width } : undefined),
-    ...props.style,
+    ...props.style
   });
   return (
     <div
@@ -66,5 +66,5 @@ const SkeletonItem = (props: {
 
 export const Skeleton = {
   List: SkeletonList,
-  Item: SkeletonItem,
+  Item: SkeletonItem
 };

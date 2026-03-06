@@ -8,16 +8,18 @@ import {
   Match,
   on,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
-import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "@/components/ui/settings-block/SettingsBlock";
 import Input from "@/components/ui/input/Input";
 import Button from "@/components/ui/Button";
 import {
   deleteServerRole,
-  updateServerRole,
+  updateServerRole
 } from "@/chat-api/services/ServerService";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import Checkbox from "@/components/ui/Checkbox";
@@ -25,7 +27,7 @@ import {
   addBit,
   getAllPermissions,
   removeBit,
-  ROLE_PERMISSIONS,
+  ROLE_PERMISSIONS
 } from "@/chat-api/Bitwise";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
 import { ServerRole } from "@/chat-api/store/useServerRoles";
@@ -71,14 +73,14 @@ export default function ServerSettingsRole() {
     permissions: role()?.permissions || 0,
     hideRole: role()?.hideRole || false,
     icon: role()?.icon || null,
-    applyOnJoin: role()?.applyOnJoin || false,
+    applyOnJoin: role()?.applyOnJoin || false
   });
 
   const [
     inputValues,
     updatedInputValues,
     setInputValue,
-    undoUpdatedInputValues,
+    undoUpdatedInputValues
   ] = createUpdatedSignal(defaultInput);
   const permissions = () =>
     getAllPermissions(ROLE_PERMISSIONS, inputValues().permissions);
@@ -88,9 +90,9 @@ export default function ServerSettingsRole() {
       header.updateHeader({
         title: t("settings.drawer.title") + " - " + role()?.name,
         serverId: params.serverId!,
-        iconName: "settings",
+        iconName: "settings"
       });
-    }),
+    })
   );
 
   const onSaveButtonClicked = async () => {
@@ -124,7 +126,7 @@ export default function ServerSettingsRole() {
   const openIconPicker = (event: MouseEvent) => {
     setEmojiPickerPosition({
       x: event.clientX,
-      y: event.clientY,
+      y: event.clientY
     });
   };
 
@@ -172,7 +174,7 @@ export default function ServerSettingsRole() {
         <BreadcrumbItem
           href={RouterEndpoints.SERVER_MESSAGES(
             params.serverId,
-            server()?.defaultChannelId!,
+            server()?.defaultChannelId!
           )}
           icon="home"
           title={server()?.name}
@@ -188,7 +190,7 @@ export default function ServerSettingsRole() {
           `}
           type="warn"
           description={t("servers.settings.role.managedByBot", {
-            botName: `${bot()?.username}`,
+            botName: `${bot()?.username}`
           })}
         />
       </Show>
@@ -232,14 +234,14 @@ export default function ServerSettingsRole() {
           style={{
             display: "flex",
             "align-items": "center",
-            gap: "8px",
+            gap: "8px"
           }}
         >
           <div
             onClick={openColorPicker}
             class={styles.colorPicker}
             style={{
-              background: inputValues().hexColor || "#fff",
+              background: inputValues().hexColor || "#fff"
             }}
           >
             <Icon
@@ -248,7 +250,7 @@ export default function ServerSettingsRole() {
               color="white"
               style={{
                 "pointer-events": "none",
-                filter: "drop-shadow(0 0 2px rgba(0,0,0,0.5))",
+                filter: "drop-shadow(0 0 2px rgba(0,0,0,0.5))"
               }}
             />
           </div>
@@ -272,7 +274,11 @@ export default function ServerSettingsRole() {
           onMouseLeave={() => setEmojiHovered(false)}
           customChildren={
             inputValues().icon ? (
-              <Emoji size={18} icon={inputValues().icon} hovered={emojiHovered()} />
+              <Emoji
+                size={18}
+                icon={inputValues().icon}
+                hovered={emojiHovered()}
+              />
             ) : (
               <Icon name="face" size={18} />
             )
@@ -397,7 +403,7 @@ function RoleDeleteConfirmModal(props: {
     <DeleteConfirmModal
       close={props.close}
       title={t("servers.settings.role.deleteRoleTitle", {
-        roleName: `${props.role?.name}`,
+        roleName: `${props.role?.name}`
       })}
       errorMessage={error()}
       confirmText={props.role?.name}

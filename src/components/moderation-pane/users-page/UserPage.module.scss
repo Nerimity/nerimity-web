@@ -8,7 +8,6 @@
   gap: 8px;
 }
 
-
 .tagsField {
   display: flex;
   flex-wrap: wrap;
@@ -23,12 +22,11 @@
   }
 }
 
-
 .filtersContainer {
-display: flex;
-flex-direction: column;
-margin-bottom: 10px;
-gap: 8px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  gap: 8px;
 }
 .filters {
   display: flex;

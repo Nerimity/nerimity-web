@@ -5,7 +5,7 @@ import {
   pinServer,
   unpinServer,
   updateServer,
-  upsertSuggestActions,
+  upsertSuggestActions
 } from "@/chat-api/services/ModerationService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -52,7 +52,7 @@ export default function ServerPage() {
   const defaultInput = () => ({
     name: server()?.name || "",
     verified: server()?.verified || false,
-    password: "",
+    password: ""
   });
 
   const deleteListener = useModerationServerDeletedListener();
@@ -62,8 +62,8 @@ export default function ServerPage() {
       setServer({
         ...server()!,
         scheduledForDeletion: {
-          scheduledAt: Date.now(),
-        },
+          scheduledAt: Date.now()
+        }
       });
     }
   });
@@ -131,7 +131,7 @@ export default function ServerPage() {
               display: "flex",
               "flex-direction": "column",
               gap: "4px",
-              "margin-bottom": "10px",
+              "margin-bottom": "10px"
             }}
           >
             <Text size={14} style={{ "margin-left": "45px" }}>
@@ -275,7 +275,7 @@ const PublicServerBlock = (props: {
   const { joinPublicById, joining: joinClicked } = useJoinServer();
   const store = useStore();
   const [isPinned, setIsPinned] = createSignal(
-    !!props.server.publicServer.pinnedAt,
+    !!props.server.publicServer.pinnedAt
   );
 
   const cacheServer = () => store.servers.get(props.server.id);
@@ -377,7 +377,7 @@ const SuggestBlock = (props: { serverId: string }) => {
         await upsertSuggestActions({
           actionType: AuditLogType.serverDelete,
           serverId: props.serverId,
-          reason: selectedOption() === "Other" ? reason() : selectedOption(),
+          reason: selectedOption() === "Other" ? reason() : selectedOption()
         })
           .then(() => {
             close();
@@ -395,7 +395,7 @@ const SuggestBlock = (props: { serverId: string }) => {
                   { id: "NSFW", label: "NSFW" },
                   { id: "Racist", label: "Racist" },
                   { id: "Inappropriate Name", label: "Inappropriate Name" },
-                  { id: "Other", label: "Other" },
+                  { id: "Other", label: "Other" }
                 ]}
                 initialId={selectedOption()}
                 onChange={(item) => setSelectedOption(item.id)}

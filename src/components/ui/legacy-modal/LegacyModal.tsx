@@ -26,12 +26,12 @@ interface Props {
 
 const BodyAnim: [Keyframe[], Keyframe[]] = [
   [{ opacity: "0", transform: "translateY(80px)" }, { opacity: "1" }],
-  [{ opacity: "1" }, { opacity: "0", transform: "translateY(80px)" }],
+  [{ opacity: "1" }, { opacity: "0", transform: "translateY(80px)" }]
 ];
 
 const BgAnim: [Keyframe[], Keyframe[]] = [
   [{ opacity: "0" }, { opacity: "1" }],
-  [{ opacity: "1" }, { opacity: "0" }],
+  [{ opacity: "1" }, { opacity: "0" }]
 ];
 
 export default function LegacyModal(props: Props) {
@@ -45,12 +45,12 @@ export default function LegacyModal(props: Props) {
     bgEl?.animate(BgAnim[1], {
       duration: 200,
       fill: "forwards",
-      easing: "ease-in-out",
+      easing: "ease-in-out"
     });
     await rootEl?.animate(BodyAnim[1], {
       duration: 200,
       fill: "forwards",
-      easing: "ease-in-out",
+      easing: "ease-in-out"
     }).finished;
   });
 
@@ -87,7 +87,7 @@ export default function LegacyModal(props: Props) {
   const onMouseDown = (event: MouseEvent) => {
     startClick = {
       x: event.clientX,
-      y: event.clientY,
+      y: event.clientY
     };
     textSelected = !!window.getSelection()?.toString();
   };
@@ -96,12 +96,12 @@ export default function LegacyModal(props: Props) {
     bgEl?.animate(BgAnim[0], {
       duration: 200,
       fill: "forwards",
-      easing: "ease-in-out",
+      easing: "ease-in-out"
     });
     rootEl?.animate(BodyAnim[0], {
       duration: 200,
       fill: "forwards",
-      easing: "ease-in-out",
+      easing: "ease-in-out"
     });
   });
   return (
@@ -119,7 +119,7 @@ export default function LegacyModal(props: Props) {
             modal: true,
             [props.class || ""]: true,
             [styles.modalContainer!]: true,
-            [styles.mobile!]: isMobileWidth(),
+            [styles.mobile!]: isMobileWidth()
           }}
         >
           <div class={styles.header}>

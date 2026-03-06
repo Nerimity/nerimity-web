@@ -21,7 +21,7 @@ const Text = (props: TextProps & JSX.HTMLAttributes<HTMLSpanElement>) => {
       color: props.color || "var(--text-color)",
       "font-size": `${props.size || "16"}px`,
       ...(props.opacity != undefined ? { opacity: props.opacity } : {}),
-      ...(props.bold ? { "font-weight": "bold" } : {}),
+      ...(props.bold ? { "font-weight": "bold" } : {})
     }) as JSX.CSSProperties;
   return (
     <Dynamic
