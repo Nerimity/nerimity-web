@@ -291,7 +291,8 @@
         },
         "sort": "Ordina",
         "filter": "Filtra",
-        "by": "Da"
+        "by": "Da",
+        "bumped": "Bumpati"
     },
     "remindersModal": {
         "snoozeFor5Minutes": "Sospendi per 5 minuti",
