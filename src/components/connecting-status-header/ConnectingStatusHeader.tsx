@@ -122,7 +122,7 @@ export default function ConnectingStatusHeader() {
       <div class={styles.content}>
         <Icon class={styles.icon} name={status()?.icon} size={14} />
         <div class={styles.text}>{status()?.text}</div>
-        <Show when={!account.isConnected()}>
+        <Show when={!account.isConnected() && !account.authenticationError()}>
           <Delay ms={20000}>
             <a
               href="https://stats.uptimerobot.com/kRFOr5ohZx"
