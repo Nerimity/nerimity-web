@@ -4,10 +4,11 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { StorageKeys, getStorageString } from "@/common/localStorage";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useMatch } from "solid-navigator";
-import { createEffect, createSignal, on } from "solid-js";
+import { createEffect, createSignal, on, Show } from "solid-js";
 import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { t } from "@nerimity/i18lite";
+import { Delay } from "@/common/Delay";
 
 export default function ConnectingStatusHeader() {
   const { account } = useStore();
@@ -43,7 +44,7 @@ export default function ConnectingStatusHeader() {
       [
         account.authenticationError,
         account.isConnected,
-        account.isAuthenticated,
+        account.isAuthenticated
       ],
       () => {
         setQueuePos(0);
@@ -59,7 +60,7 @@ export default function ConnectingStatusHeader() {
         color: "var(--alert-color)",
         text:
           account.authenticationError()?.message ||
-          t("statusHeader.authenticationError"),
+          t("statusHeader.authenticationError")
       });
       return;
     }
@@ -69,7 +70,7 @@ export default function ConnectingStatusHeader() {
         color: "var(--warn-color)",
         text: alreadyConnected
           ? t("statusHeader.reconnecting")
-          : t("statusHeader.connecting"),
+          : t("statusHeader.connecting")
       });
       return;
     }
@@ -81,7 +82,7 @@ export default function ConnectingStatusHeader() {
         color: "var(--warn-color)",
         text: queuePos()
           ? t("statusHeader.inQueue", { count: queuePos() })
-          : t("statusHeader.authenticating"),
+          : t("statusHeader.authenticating")
       });
       return;
     }
@@ -89,7 +90,7 @@ export default function ConnectingStatusHeader() {
     if (account.isAuthenticated()) {
       setStatus({
         color: "var(--success-color)",
-        text: t("statusHeader.connected"),
+        text: t("statusHeader.connected")
       });
       interval = window.setTimeout(() => {
         setStatus(null);
@@ -106,7 +107,18 @@ export default function ConnectingStatusHeader() {
       )}
       style={{ background: status()?.color }}
     >
-      <div class={styles.text}>{status()?.text}</div>
+      <div class={styles.text}>
+        {status()?.text}
+        <Delay ms={1000}>
+          <a
+            href="https://stats.uptimerobot.com/kRFOr5ohZx"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Status Page
+          </a>
+        </Delay>
+      </div>
     </div>
   );
 }

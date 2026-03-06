@@ -53,7 +53,7 @@ export default function DeveloperSettings() {
         <BreadcrumbItem title={t("settings.drawer.developer")} />
       </Breadcrumb>
 
-      <Show
+      {/* <Show
         when={
           electronWindowAPI()?.isElectron || reactNativeAPI()?.isReactNative
         }
@@ -73,7 +73,7 @@ export default function DeveloperSettings() {
             <Checkbox checked={useLatest()} onChange={handleToggleCookie} />
           }
         />
-      </Show>
+      </Show> */}
 
       <SettingsBlock
         href="./applications"
