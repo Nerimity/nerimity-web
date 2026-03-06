@@ -723,7 +723,7 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
     setError("");
     const formattedContent = formatMessage(inputValues().content.trim());
     if (formattedContent.length > 300)
-      return setError(t("settings.account.channelNoticeTooLong"));
+      return setError(t("settings.account.userNoticeTooLong"));
     const res = await updateDMChannelNotice(
       formattedContent,
       props.botToken
@@ -754,9 +754,9 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
     >
       <SettingsBlock
         icon="info"
-        label={t("settings.account.channelNotice")}
+        label={t("settings.account.userNotice")}
         class={NoticeBlockStyle}
-        description={t("settings.account.channelNoticeDescription")}
+        description={t("settings.account.userNoticeDescription")}
       >
         <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>
           ({inputValues().content.length} / 300)
