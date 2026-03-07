@@ -4,7 +4,7 @@ import { styled } from "solid-styled-components";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { RawAttachment } from "@/chat-api/RawData";
-import { createSignal, lazy, onCleanup, onMount, Show } from "solid-js";
+import { createSignal, lazy, Show } from "solid-js";
 import env from "@/common/env";
 import { transitionViewIfSupported } from "@/common/transitionViewIfSupported";
 

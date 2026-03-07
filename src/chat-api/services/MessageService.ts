@@ -1,7 +1,7 @@
 import env from "../../common/env";
 import { RawAttachment, RawMessage, RawUser } from "../RawData";
-import { uploadAttachment } from "./nerimityCDNService";
-import { request, xhrRequest } from "./Request";
+
+import { request } from "./Request";
 import Endpoints from "./ServiceEndpoints";
 
 interface FetchMessageOpts {

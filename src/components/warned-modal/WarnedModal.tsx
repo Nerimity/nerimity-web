@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
-import { createSignal, onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { userNoticeDismiss } from "@/chat-api/services/UserService";
 

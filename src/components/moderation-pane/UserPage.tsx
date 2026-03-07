@@ -1,6 +1,5 @@
 import {
   Bitwise,
-  USER_BADGES,
   USER_BADGES_VALUES,
   addBit,
   hasBit,
@@ -33,14 +32,14 @@ import UnsuspendUsersModal from "./UnsuspendUsersModal";
 import SuspendUsersModal from "./SuspendUsersModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Button from "../ui/Button";
-import env from "@/common/env";
+
 import Text from "../ui/Text";
 import { RawServer, RawUser } from "@/chat-api/RawData";
 import { AuditLogPane, Server } from "./ModerationPane";
 import { User } from "./UserComponents";
 import EditUserSuspensionModal from "./EditUserSuspensionModal";
 import WarnUserModal from "./WarnUserModal";
-import { UserDetails } from "@/chat-api/services/UserService";
+
 import ShadowBanUserModal from "./ShadowBanUserModal";
 import UndoShadowBanUserModal from "./UndoShadowBanUserModal";
 import Block from "../ui/settings-block/Block";

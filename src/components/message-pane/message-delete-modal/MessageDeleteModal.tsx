@@ -3,12 +3,11 @@ import useMessages, {
   Message,
   MessageSentStatus
 } from "@/chat-api/store/useMessages";
-import Button from "@/components/ui/Button";
-import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
+
 import Text from "@/components/ui/Text";
-import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
+
 import { onCleanup, onMount } from "solid-js";
-import { css, styled } from "solid-styled-components";
+import { css } from "solid-styled-components";
 import MessageItem from "../message-item/MessageItem";
 import { Modal } from "@/components/ui/modal";
 import { t } from "@nerimity/i18lite";

@@ -5,21 +5,17 @@ import ContextMenu, {
   ContextMenuProps
 } from "@/components/ui/context-menu/ContextMenu";
 import useStore from "@/chat-api/store/useStore";
-import { useMatch, useNavigate } from "solid-navigator";
+import { useNavigate } from "solid-navigator";
 import { Bitwise, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { dismissChannelNotification } from "@/chat-api/emits/userEmits";
-import { createEffect } from "solid-js";
+
 import {
   ChannelType,
   ServerNotificationPingMode,
   ServerNotificationSoundMode
 } from "@/chat-api/RawData";
-import {
-  RadioBox,
-  RadioBoxItem,
-  RadioBoxItemCheckBox
-} from "@/components/ui/RadioBox";
-import { updateNotificationSettings } from "@/chat-api/services/UserService";
+import { RadioBoxItem } from "@/components/ui/RadioBox";
+
 import { css } from "solid-styled-components";
 import { t } from "@nerimity/i18lite";
 

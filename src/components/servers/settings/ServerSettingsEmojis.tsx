@@ -16,22 +16,13 @@ import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
 import FileBrowser, { FileBrowserRef } from "@/components/ui/FileBrowser";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import Input from "@/components/ui/input/Input";
-import { Notice } from "@/components/ui/Notice/Notice";
+
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
 import { useParams } from "solid-navigator";
-import { createSign } from "crypto";
+
 import { t } from "@nerimity/i18lite";
-import {
-  createEffect,
-  createSignal,
-  For,
-  Match,
-  onMount,
-  Show,
-  Switch
-} from "solid-js";
+import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 
 const Container = styled("div")`

@@ -10,7 +10,7 @@ import {
   Span,
   UnreachableCaseError
 } from "@nerimity/nevula";
-import { createEffect, createMemo, JSXElement, on } from "solid-js";
+import { createMemo, JSXElement, on } from "solid-js";
 import {
   emojiShortcodeToUnicode,
   emojiUnicodeToShortcode,

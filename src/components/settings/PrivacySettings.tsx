@@ -1,7 +1,6 @@
 import { createEffect, createSignal } from "solid-js";
-import { css, styled } from "solid-styled-components";
+import { styled } from "solid-styled-components";
 
-import { FlexColumn } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";

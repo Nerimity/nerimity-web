@@ -13,11 +13,11 @@ import {
   toast,
   useCustomPortal
 } from "@/components/ui/custom-portal/CustomPortal";
-import Text from "@/components/ui/Text";
+
 import { css, styled } from "solid-styled-components";
 import { Notice } from "@/components/ui/Notice/Notice";
 import { t } from "@nerimity/i18lite";
-import FileBrowser, { FileBrowserRef } from "@/components/ui/FileBrowser";
+import { FileBrowserRef } from "@/components/ui/FileBrowser";
 import { reconcile } from "solid-js/store";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import RouterEndpoints from "@/common/RouterEndpoints";

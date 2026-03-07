@@ -1,21 +1,20 @@
-import { createEffect, createSignal, For, onMount, Show } from "solid-js";
+import { createEffect, createSignal, For, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 
-import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import { electronWindowAPI } from "@/common/Electron";
-import { addBit, Bitwise, USER_BADGES, UserBadge } from "@/chat-api/Bitwise";
-import { RawUser } from "@/chat-api/RawData";
+
+import { Bitwise, USER_BADGES, UserBadge } from "@/chat-api/Bitwise";
+
 import SettingsBlock, {
   SettingsGroup
 } from "../ui/settings-block/SettingsBlock";
 import { SelfUser } from "@/chat-api/events/connectionEventTypes";
 import Avatar from "../ui/Avatar";
 import { Notice } from "../ui/Notice/Notice";
-import { cn } from "@/common/classNames";
+
 import Icon from "../ui/icon/Icon";
 import Block from "../ui/settings-block/Block";
 

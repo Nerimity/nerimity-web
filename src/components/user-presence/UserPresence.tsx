@@ -8,7 +8,7 @@ import Icon from "../ui/icon/Icon";
 import { getActivityIconName } from "@/components/activity/Activity";
 import { Tooltip } from "../ui/Tooltip";
 import { formatTimestamp } from "@/common/date";
-import { t } from "@nerimity/i18lite";
+
 import { getActivityType } from "@/common/activityType";
 
 // show full will disable overflow eclipses

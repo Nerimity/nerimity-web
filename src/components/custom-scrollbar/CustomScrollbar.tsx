@@ -5,7 +5,7 @@ import {
   useMutationObserver,
   useResizeObserver
 } from "@/common/useResizeObserver";
-import { createEffect, createSignal, on, onCleanup, onMount } from "solid-js";
+import { createEffect, createSignal, on, onCleanup } from "solid-js";
 import { createContextProvider } from "@solid-primitives/context";
 
 interface CustomScrollbarProps {

@@ -1,6 +1,6 @@
 import { css } from "solid-styled-components";
 import Icon from "../ui/icon/Icon";
-import { className } from "solid-js/web";
+
 import { classNames } from "@/common/classNames";
 import { t } from "@nerimity/i18lite";
 

@@ -47,8 +47,7 @@ import { QuickTravel } from "@/components/QuickTravel";
 import { applyCustomCss } from "@/common/customCss";
 import {
   CustomScrollbar,
-  CustomScrollbarProvider,
-  useCustomScrollbar
+  CustomScrollbarProvider
 } from "@/components/custom-scrollbar/CustomScrollbar";
 import { lazyLoadEmojis } from "@/emoji";
 import { useReminders } from "@/components/useReminders";

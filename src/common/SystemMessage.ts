@@ -1,5 +1,4 @@
 import { MessageType } from "@/chat-api/RawData";
-import { t } from "@nerimity/i18lite";
 
 const tn = (v: string) => v;
 

@@ -9,8 +9,7 @@ import {
   Show,
   Switch
 } from "solid-js";
-import { classNames, conditionalClass } from "@/common/classNames";
-import styles from "./styles.module.scss";
+
 import { styled } from "solid-styled-components";
 import Text from "../Text";
 import { FlexRow } from "../Flexbox";

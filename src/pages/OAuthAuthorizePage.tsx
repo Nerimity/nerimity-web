@@ -4,7 +4,7 @@ import PageFooter from "@/components/PageFooter";
 import { For, Show, createSignal, onMount } from "solid-js";
 import { StorageKeys, getStorageString } from "@/common/localStorage";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { A, useNavigate, useSearchParams } from "solid-navigator";
+import { useNavigate, useSearchParams } from "solid-navigator";
 
 import Avatar from "@/components/ui/Avatar";
 import Text from "@/components/ui/Text";

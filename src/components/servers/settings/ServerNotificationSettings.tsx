@@ -13,11 +13,7 @@ import { updateNotificationSettings } from "@/chat-api/services/UserService";
 import { Notice } from "@/components/ui/Notice/Notice";
 import ItemContainer from "@/components/ui/LegacyItem";
 import Avatar from "@/components/ui/Avatar";
-import {
-  ChannelType,
-  ServerNotificationPingMode,
-  ServerNotificationSoundMode
-} from "@/chat-api/RawData";
+import { ChannelType, ServerNotificationPingMode } from "@/chat-api/RawData";
 import Button from "@/components/ui/Button";
 import Block from "@/components/ui/settings-block/Block";
 

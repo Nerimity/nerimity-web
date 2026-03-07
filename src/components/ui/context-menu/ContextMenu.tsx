@@ -7,7 +7,6 @@ import {
   Match,
   on,
   onCleanup,
-  onMount,
   Show,
   Switch
 } from "solid-js";
@@ -18,7 +17,6 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { createStore, reconcile } from "solid-js/store";
 import { t } from "@nerimity/i18lite";
-import { Delay } from "@/common/Delay";
 
 export interface ContextMenuItem {
   id?: any;

@@ -1,6 +1,6 @@
 import {} from "@/common/useWindowProperties";
 import { createEffect, on, onCleanup, onMount } from "solid-js";
-import { css, styled } from "solid-styled-components";
+import { styled } from "solid-styled-components";
 import { FlexRow } from "./Flexbox";
 import "zoomist/css";
 import Zoomist from "zoomist";

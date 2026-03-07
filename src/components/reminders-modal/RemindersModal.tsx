@@ -16,7 +16,7 @@ import {
 import { RawReminder } from "@/chat-api/RawData";
 import MessageItem from "../message-pane/message-item/MessageItem";
 import Button from "../ui/Button";
-import { TimestampMention, TimestampType } from "../markup/TimestampMention";
+
 import { cn } from "@/common/classNames";
 import { useNavigate, useSearchParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";

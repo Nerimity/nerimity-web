@@ -21,7 +21,6 @@ import { Trans, useTransContext } from "@nerimity/solid-i18lite";
 import { A, useParams } from "solid-navigator";
 import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
-import { ToastModal } from "@/components/ui/toasts/ToastModal";
 
 const Container = styled("div")`
   display: flex;

@@ -1,8 +1,8 @@
 import { RawServer, RawUser } from "@/chat-api/RawData";
 import { createEffect, createSignal, For, on, Show } from "solid-js";
-import { selectedUsers } from "./selectedUsers";
-import { User, UserPaneContainer } from "./UserComponents";
-import { useModerationUserSuspendedListener } from "@/common/GlobalEvents";
+
+import { UserPaneContainer } from "./UserComponents";
+
 import {
   getUsersAuditLogs,
   UserAuditLog

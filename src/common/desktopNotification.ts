@@ -7,12 +7,12 @@ import {
   RawMessage,
   ServerNotificationPingMode
 } from "@/chat-api/RawData";
-import env from "./env";
+
 import { avatarUrl, UserStatus } from "@/chat-api/store/useUsers";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { getSystemMessage } from "./SystemMessage";
-import { Trans } from "@nerimity/solid-i18lite";
-import { getResource, t } from "@nerimity/i18lite";
+
+import { t } from "@nerimity/i18lite";
 
 export function createDesktopNotification(message: Message) {
   const enabled = getStorageBoolean(

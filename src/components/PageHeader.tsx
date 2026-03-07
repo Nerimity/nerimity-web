@@ -7,7 +7,7 @@ import { getStorageString, StorageKeys } from "@/common/localStorage";
 import Icon from "./ui/icon/Icon";
 import { appLogoUrl } from "@/common/worldEvents";
 import { useTransContext } from "@nerimity/solid-i18lite";
-import { logout } from "@/common/logout";
+
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import Avatar from "./ui/Avatar";
 import { useCustomPortal } from "./ui/custom-portal/CustomPortal";

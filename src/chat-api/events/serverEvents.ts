@@ -1,7 +1,6 @@
 import { runWithContext } from "@/common/runWithContext";
-import { batch, from } from "solid-js";
+import { batch } from "solid-js";
 import {
-  ChannelType,
   RawChannel,
   RawCustomEmoji,
   RawPresence,
@@ -12,13 +11,12 @@ import {
   RawVoice
 } from "../RawData";
 import useAccount from "../store/useAccount";
-import useChannels, { Channel } from "../store/useChannels";
+import useChannels from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
 import useServerRoles from "../store/useServerRoles";
 import useServers from "../store/useServers";
 import useUsers from "../store/useUsers";
-import { CHANNEL_PERMISSIONS, addBit, hasBit, removeBit } from "../Bitwise";
-import { useParams } from "solid-navigator";
+
 import useVoiceUsers from "../store/useVoiceUsers";
 import useChannelProperties from "../store/useChannelProperties";
 

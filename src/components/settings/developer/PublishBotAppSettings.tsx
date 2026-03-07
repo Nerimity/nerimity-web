@@ -1,10 +1,6 @@
 import { RawExploreItem } from "@/chat-api/RawData";
-import {
-  deleteExploreItem,
-  getPublicServer,
-  updatePublicServer
-} from "@/chat-api/services/ServerService";
-import useStore from "@/chat-api/store/useStore";
+import { deleteExploreItem } from "@/chat-api/services/ServerService";
+
 import { ServerBumpModal } from "@/components/explore/ExploreServers";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
@@ -25,7 +21,6 @@ import {
 } from "@/chat-api/services/ExploreService";
 import { ApplicationBotCreateLinkBlock } from "./ApplicationBotCreateLinkBlock";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
-import { ToastModal } from "@/components/ui/toasts/ToastModal";
 
 const Container = styled("div")`
   display: flex;

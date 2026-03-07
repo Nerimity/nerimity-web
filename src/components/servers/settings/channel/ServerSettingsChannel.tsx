@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { A, useNavigate, useParams } from "solid-navigator";
+import { useNavigate, useParams } from "solid-navigator";
 import {
   createEffect,
   createSignal,
@@ -23,7 +23,7 @@ import {
   updateServerChannel,
   updateServerChannelPermissions
 } from "@/chat-api/services/ServerService";
-import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
+
 import { Channel } from "@/chat-api/store/useChannels";
 import Checkbox from "@/components/ui/Checkbox";
 import {
@@ -41,8 +41,7 @@ import { useTransContext } from "@nerimity/solid-i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import { emojiShortcodeToUnicode } from "@/emoji";
-import { Emoji } from "@/components/markup/Emoji";
-import env from "@/common/env";
+
 import Text from "@/components/ui/Text";
 import { css } from "solid-styled-components";
 import {
@@ -55,14 +54,9 @@ import { ChannelIcon } from "@/components/ChannelIcon";
 import { t } from "@nerimity/i18lite";
 import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
 import { Item } from "@/components/ui/Item";
-import { CustomLink } from "@/components/ui/CustomLink";
-import {
-  createWebhook,
-  deleteWebhook,
-  getWebhooks,
-  getWebhookToken
-} from "@/chat-api/services/WebhookService";
-import { copyToClipboard } from "@/common/clipboard";
+
+import { createWebhook, getWebhooks } from "@/chat-api/services/WebhookService";
+
 import { FloatingSaveChanges } from "@/components/ui/FloatingSaveChanges";
 
 type ChannelParams = {

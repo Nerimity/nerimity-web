@@ -15,10 +15,6 @@ import {
 } from "../RawData";
 import useFriends from "../store/useFriends";
 import useAccount from "../store/useAccount";
-import { StorageKeys, getStorageObject } from "@/common/localStorage";
-import { ProgramWithExtras, electronWindowAPI } from "@/common/Electron";
-import { isExperimentEnabled } from "@/common/experiments";
-import { userInfo } from "os";
 
 export function onUserPresenceUpdate(payload: {
   userId: string;

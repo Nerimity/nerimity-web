@@ -1,6 +1,5 @@
 import {
   ModerationUser,
-  shadowBan,
   undoShadowBan
 } from "@/chat-api/services/ModerationService";
 import { createSignal, Show } from "solid-js";
@@ -10,7 +9,6 @@ import { FlexRow } from "../ui/Flexbox";
 import Input from "../ui/input/Input";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
-import { Notice } from "../ui/Notice/Notice";
 
 const Container = styled("div")`
   min-width: 260px;

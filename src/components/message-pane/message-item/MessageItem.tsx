@@ -54,7 +54,6 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { DangerousLinkModal } from "@/components/ui/DangerousLinkModal";
 import {
   ServerWithMemberCount,
-  getPublicServer,
   publicServerByEmojiId,
   serverDetailsByInviteCode
 } from "@/chat-api/services/ServerService";

@@ -1,5 +1,4 @@
-import { Title } from "@solidjs/meta";
-import { children, createEffect, JSXElement, onMount } from "solid-js";
+import { children, createEffect, JSXElement } from "solid-js";
 import env from "./env";
 
 export const MetaTitle = (props: { children: JSXElement }) => {

@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import Icon from "@/components/ui/icon/Icon";
+
 import { useParams } from "solid-navigator";
 import { createSignal, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";

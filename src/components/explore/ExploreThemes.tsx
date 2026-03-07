@@ -5,7 +5,7 @@ import Input from "../ui/input/Input";
 import { t } from "@nerimity/i18lite";
 import { ThemePreset, themePresets } from "@/common/themes";
 import { Skeleton } from "../ui/skeleton/Skeleton";
-import { FlexRow } from "../ui/Flexbox";
+
 import useStore from "@/chat-api/store/useStore";
 import { Notice } from "../ui/Notice/Notice";
 import ThemeCard from "./ThemeCard";

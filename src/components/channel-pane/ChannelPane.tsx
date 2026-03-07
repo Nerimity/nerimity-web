@@ -1,6 +1,6 @@
 import { ChannelType } from "@/chat-api/RawData";
 import useStore from "@/chat-api/store/useStore";
-import { Rerun } from "@solid-primitives/keyed";
+
 import { useParams } from "solid-navigator";
 import { Match, Switch } from "solid-js";
 import MessagePane from "../message-pane/MessagePane";

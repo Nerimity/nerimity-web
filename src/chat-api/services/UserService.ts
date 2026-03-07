@@ -10,7 +10,7 @@ import {
   RawUser,
   RawUserConnection
 } from "../RawData";
-import { Presence, UserStatus } from "../store/useUsers";
+import { Presence } from "../store/useUsers";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 

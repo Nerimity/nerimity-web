@@ -1,7 +1,5 @@
 import {
-  ModerationSuspension,
   ModerationUser,
-  editSuspendUsers,
   warnUsers
 } from "@/chat-api/services/ModerationService";
 import { createSignal, Show } from "solid-js";
@@ -13,7 +11,7 @@ import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
+
 import { WarnedModal } from "../warned-modal/WarnedModal";
 import { Notice } from "../ui/Notice/Notice";
 

@@ -25,13 +25,8 @@ import {
 } from "@/chat-api/RawData";
 import Icon from "@/components/ui/icon/Icon";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import {
-  CHANNEL_PERMISSIONS,
-  hasBit,
-  ROLE_PERMISSIONS
-} from "@/chat-api/Bitwise";
-import env from "@/common/env";
-import { unicodeToTwemojiUrl } from "@/emoji";
+import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+
 import { createSignal } from "solid-js";
 import Avatar from "@/components/ui/Avatar";
 import { timeSinceDigital } from "@/common/date";
@@ -41,10 +36,10 @@ import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import ContextMenuServerChannel from "../context-menu/ContextMenuServerChannel";
 import Button from "@/components/ui/Button";
 import { ChannelIcon } from "@/components/ChannelIcon";
-import { useCustomScrollbar } from "@/components/custom-scrollbar/CustomScrollbar";
+
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { CreateChannelModal } from "../modals/CreateChannelModal";
-import { useExperiment } from "@/common/experiments";
+
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { cn } from "@/common/classNames";
 import { Tooltip } from "@/components/ui/Tooltip";

@@ -1,7 +1,6 @@
 import {
   PostNotificationType,
   RawPost,
-  RawPostChoice,
   RawPostNotification,
   RawUser
 } from "@/chat-api/RawData";
@@ -19,11 +18,9 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { A, useSearchParams } from "solid-navigator";
 import {
   batch,
-  children,
   createEffect,
   createMemo,
   createSignal,
-  createUniqueId,
   For,
   Index,
   JSX,
@@ -32,7 +29,6 @@ import {
   on,
   onCleanup,
   onMount,
-  ParentComponent,
   Show,
   Switch
 } from "solid-js";
@@ -55,7 +51,7 @@ import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
 import { EmojiPicker } from "./ui/emoji-picker/EmojiPicker";
 import { formatMessage } from "./message-pane/MessagePane";
 import { t } from "@nerimity/i18lite";
-import { Trans, TransProps } from "@nerimity/solid-i18lite";
+
 import ItemContainer from "./ui/LegacyItem";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import { Notice } from "./ui/Notice/Notice";
@@ -64,10 +60,10 @@ import { PostItem } from "./post-area/PostItem";
 import { MetaTitle } from "@/common/MetaTitle";
 import DropDown from "./ui/drop-down/DropDown";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
-import { escape, Portal } from "solid-js/web";
+import { Portal } from "solid-js/web";
 import { getSearchUsers } from "@/chat-api/services/UserService";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
-import { createFilter } from "vite";
+
 import { TenorImage } from "@/chat-api/services/TenorService";
 import { Modal } from "./ui/modal";
 import { UnescapedTrans } from "./UnescapedTrans";

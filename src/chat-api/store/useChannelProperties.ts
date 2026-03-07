@@ -1,6 +1,6 @@
 import { createStore, SetStoreFunction } from "solid-js/store";
 import { Message } from "./useMessages";
-import { RawAttachment, RawBotCommand, RawMessage } from "../RawData";
+import { RawBotCommand, RawMessage } from "../RawData";
 import { batch } from "solid-js";
 
 export type ChannelProperties = {

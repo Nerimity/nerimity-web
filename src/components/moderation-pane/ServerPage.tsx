@@ -9,8 +9,8 @@ import {
 } from "@/chat-api/services/ModerationService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { useNavigate, useParams } from "solid-navigator";
-import { Show, createEffect, createSignal, onMount } from "solid-js";
+import { useParams } from "solid-navigator";
+import { Show, createSignal, onMount } from "solid-js";
 import { AuditLogPane } from "./ModerationPane";
 import { User } from "./UserComponents";
 import Text from "../ui/Text";
@@ -23,7 +23,7 @@ import { Banner } from "../ui/Banner";
 import Avatar from "../ui/Avatar";
 import { css, styled } from "solid-styled-components";
 import { bannerUrl } from "@/chat-api/store/useServers";
-import DeleteServerModal from "./DeleteServerModal";
+
 import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { UsersPane } from "./UsersPane";
@@ -33,7 +33,7 @@ import { formatTimestamp } from "@/common/date";
 import UndoServerDeleteModal from "./UndoServerDeleteModal";
 import { useModerationServerDeletedListener } from "@/common/GlobalEvents";
 import useStore from "@/chat-api/store/useStore";
-import RouterEndpoints from "@/common/RouterEndpoints";
+
 import { useJoinServer } from "@/chat-api/useJoinServer";
 import { Modal } from "../ui/modal";
 import { RadioBox } from "../ui/RadioBox";

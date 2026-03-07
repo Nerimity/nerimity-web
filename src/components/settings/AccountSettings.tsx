@@ -17,23 +17,18 @@ import {
   deleteAccount,
   deleteDMChannelNotice,
   getDMChannelNotice,
-  resetPassword,
   sendEmailConfirmCode,
   sendResetPassword,
   updateDMChannelNotice,
   updateUser,
   verifyEmailConfirmCode
 } from "@/chat-api/services/UserService";
-import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
+import { FileBrowserRef } from "../ui/FileBrowser";
 import { reconcile } from "solid-js/store";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import { CustomLink } from "../ui/CustomLink";
-import {
-  getStorageString,
-  setStorageString,
-  StorageKeys
-} from "@/common/localStorage";
+
+import { setStorageString, StorageKeys } from "@/common/localStorage";
 import socketClient from "@/chat-api/socketClient";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
@@ -43,7 +38,7 @@ import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { Notice } from "../ui/Notice/Notice";
 import { RawChannelNotice, RawUser } from "@/chat-api/RawData";
 import { setSettingsHeaderPreview } from "./settingsHeaderPreview";
-import Icon from "../ui/icon/Icon";
+
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { formatMessage } from "../message-pane/MessagePane";
 import { logout } from "@/common/logout";

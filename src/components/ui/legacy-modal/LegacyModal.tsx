@@ -4,9 +4,9 @@ import { For, JSX, onMount, Show } from "solid-js";
 import { Portal } from "solid-js/web";
 
 import Icon from "../icon/Icon";
-import Text from "../Text";
+
 import Button, { ButtonProps } from "../Button";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { classNames } from "@/common/classNames";
 import { useCustomPortalItem } from "../custom-portal/CustomPortal";
 
 interface Props {

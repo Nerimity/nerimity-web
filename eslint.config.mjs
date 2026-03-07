@@ -37,6 +37,12 @@ export default [
 
     rules: {
       "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          enableAutofixRemoval: { imports: true }
+        }
+      ],
       "brace-style": "off",
       quotes: ["error", "double", { avoidEscape: true }],
       indent: "off",

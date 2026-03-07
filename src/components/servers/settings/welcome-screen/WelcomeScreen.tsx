@@ -16,10 +16,7 @@ import {
 import { t } from "@nerimity/i18lite";
 
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import {
-  toast,
-  useCustomPortal
-} from "@/components/ui/custom-portal/CustomPortal";
+import { toast } from "@/components/ui/custom-portal/CustomPortal";
 import { RawServerWelcomeQuestion } from "@/chat-api/RawData";
 import { CustomLink } from "@/components/ui/CustomLink";
 

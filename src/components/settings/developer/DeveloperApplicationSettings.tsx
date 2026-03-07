@@ -39,7 +39,6 @@ import { FlexRow } from "@/components/ui/Flexbox";
 import { CustomLink } from "@/components/ui/CustomLink";
 import Checkbox from "@/components/ui/Checkbox";
 import DropDown from "@/components/ui/drop-down/DropDown";
-import { useExperiment } from "@/common/experiments";
 
 const Container = styled("div")`
   display: flex;

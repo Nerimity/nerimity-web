@@ -2,7 +2,6 @@ import env from "../../common/env";
 import {
   RawApplication,
   RawChannel,
-  RawFriend,
   RawMessage,
   RawServer,
   RawTicket,
@@ -10,7 +9,6 @@ import {
   TicketStatus
 } from "../RawData";
 import { request } from "./Request";
-import Endpoints from "./ServiceEndpoints";
 
 interface GetTicketsOpts {
   limit: number;

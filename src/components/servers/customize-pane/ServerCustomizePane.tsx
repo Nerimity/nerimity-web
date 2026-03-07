@@ -1,22 +1,12 @@
 import styles from "./styles.module.scss";
 
 import { useParams } from "solid-navigator";
-import {
-  For,
-  Setter,
-  Show,
-  batch,
-  createEffect,
-  createSignal,
-  on,
-  onMount
-} from "solid-js";
+import { For, Show, batch, createEffect, on, onMount } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import {
   addAnswerToMember,
   getWelcomeQuestions,
-  removeAnswerFromMember,
-  updateWelcomeQuestion
+  removeAnswerFromMember
 } from "@/chat-api/services/ServerService";
 import {
   RawServerWelcomeAnswer,

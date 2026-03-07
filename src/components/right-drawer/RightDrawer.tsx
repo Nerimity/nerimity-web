@@ -32,7 +32,7 @@ import {
   fetchChannelAttachments,
   searchMessages
 } from "@/chat-api/services/MessageService";
-import { ChannelType, RawAttachment, RawMessage } from "@/chat-api/RawData";
+import { RawAttachment, RawMessage } from "@/chat-api/RawData";
 import env from "@/common/env";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
 import socketClient from "@/chat-api/socketClient";
@@ -56,7 +56,7 @@ import { useResizeObserver } from "@/common/useResizeObserver";
 import { FlexRow } from "../ui/Flexbox";
 import { Item } from "../ui/Item";
 import { VirtualList } from "../ui/VirtualList";
-import { Fonts, getFont } from "@/common/fonts";
+import { getFont } from "@/common/fonts";
 import { Channel } from "@/chat-api/store/useChannels";
 import { matchSorter } from "match-sorter";
 import { ServerRole } from "@/chat-api/store/useServerRoles";

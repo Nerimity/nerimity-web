@@ -1,13 +1,13 @@
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
+import { FlexColumn } from "@/components/ui/Flexbox";
 import { Notice } from "@/components/ui/Notice/Notice";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
 import { useParams } from "solid-navigator";
 import { t } from "@nerimity/i18lite";
-import { createEffect, Match, onMount, Show, Switch } from "solid-js";
+import { createEffect, Match, Switch } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "@/components/ui/Button";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";

@@ -5,7 +5,7 @@ import {
   removeFriend,
   addFriend
 } from "../services/FriendService";
-import useUsers, { User } from "./useUsers";
+import useUsers from "./useUsers";
 
 export type Friend = Omit<RawFriend, "recipient"> & {
   recipientId: string;

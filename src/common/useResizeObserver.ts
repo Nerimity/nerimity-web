@@ -1,4 +1,4 @@
-import { createEffect, on, onCleanup, onMount } from "solid-js";
+import { createEffect, on, onCleanup } from "solid-js";
 import { createStore } from "solid-js/store";
 
 export function useResizeObserver(

@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import "@melloware/coloris/dist/coloris.css";
 import { coloris, init, updatePosition } from "@melloware/coloris";
 import { createEffect, createSignal, For, on, onMount, Show } from "solid-js";
-import LegacyModal from "../legacy-modal/LegacyModal";
+
 import { useCustomPortal } from "../custom-portal/CustomPortal";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { classNames, cn, conditionalClass } from "@/common/classNames";

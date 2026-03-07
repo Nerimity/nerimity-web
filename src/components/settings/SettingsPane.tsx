@@ -1,9 +1,9 @@
-import { Outlet, useLocation, useMatch } from "solid-navigator";
-import { Show, createEffect, onMount } from "solid-js";
+import { Outlet, useMatch } from "solid-navigator";
+import { Show, onMount } from "solid-js";
 import SettingsHeader from "./SettingsHeader";
 import useStore from "@/chat-api/store/useStore";
 import { styled } from "solid-styled-components";
-import { useTransContext } from "@nerimity/solid-i18lite";
+
 import settings from "@/common/Settings";
 
 const SettingsPaneContainer = styled("div")`

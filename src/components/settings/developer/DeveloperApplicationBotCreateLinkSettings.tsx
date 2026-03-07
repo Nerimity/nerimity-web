@@ -6,7 +6,7 @@ import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { getApplication } from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";
 import { useParams } from "solid-navigator";
-import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+
 import { ApplicationBotCreateLinkBlock } from "./ApplicationBotCreateLinkBlock";
 
 const Container = styled("div")`

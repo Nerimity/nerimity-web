@@ -2,7 +2,7 @@ import style from "./InboxList.module.css";
 import { createMemo, createSignal, For, Show } from "solid-js";
 import { Tooltip } from "../ui/Tooltip";
 import Avatar from "../ui/Avatar";
-import { A, useParams } from "solid-navigator";
+import { useParams } from "solid-navigator";
 import { SidebarItemContainer } from "./SidebarItemContainer";
 import { User } from "@/chat-api/store/useUsers";
 import useStore from "@/chat-api/store/useStore";

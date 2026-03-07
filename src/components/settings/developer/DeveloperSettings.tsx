@@ -1,4 +1,4 @@
-import { createEffect, createSignal, Show } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import { styled } from "solid-styled-components";
 
 import useStore from "@/chat-api/store/useStore";
@@ -7,9 +7,6 @@ import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Icon from "@/components/ui/icon/Icon";
-import Checkbox from "@/components/ui/Checkbox";
-import { electronWindowAPI } from "@/common/Electron";
-import { reactNativeAPI } from "@/common/ReactNative";
 
 const Container = styled("div")`
   display: flex;

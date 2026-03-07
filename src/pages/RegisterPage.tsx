@@ -11,13 +11,13 @@ import { createSignal, onMount, Show, For } from "solid-js";
 import env from "../common/env";
 import PageHeader from "../components/PageHeader";
 import { css, styled } from "solid-styled-components";
-import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
+import { FlexColumn } from "@/components/ui/Flexbox";
 import { useTransContext } from "@nerimity/solid-i18lite";
 import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
 import Text from "@/components/ui/Text";
 import PageFooter from "@/components/PageFooter";
 import Icon from "@/components/ui/icon/Icon";
-import { Title } from "@solidjs/meta";
+
 import { MetaTitle } from "@/common/MetaTitle";
 
 const RegisterPageContainer = styled("div")`

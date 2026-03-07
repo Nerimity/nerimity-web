@@ -13,7 +13,7 @@ import { css, styled } from "solid-styled-components";
 import { FlexColumn } from "@/components/ui/Flexbox";
 import { useTransContext } from "@nerimity/solid-i18lite";
 import PageFooter from "@/components/PageFooter";
-import { Title } from "@solidjs/meta";
+
 import { MetaTitle } from "@/common/MetaTitle";
 import Text from "@/components/ui/Text";
 

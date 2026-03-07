@@ -1,11 +1,4 @@
-import {
-  createEffect,
-  createSignal,
-  For,
-  onCleanup,
-  onMount,
-  Show
-} from "solid-js";
+import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
 import {
@@ -25,9 +18,9 @@ import { Emoji } from "../markup/Emoji";
 import { CustomLink } from "../ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { Notice } from "../ui/Notice/Notice";
-import Button from "../ui/Button";
+
 import en from "@/locales/list/en-gb.json?raw";
-import { Modal } from "../ui/modal";
+
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { Rerun } from "@solid-primitives/keyed";
 import Input from "../ui/input/Input";

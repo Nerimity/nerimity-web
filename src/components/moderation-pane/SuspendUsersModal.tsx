@@ -14,7 +14,7 @@ import Checkbox, { CheckboxProps } from "../ui/Checkbox";
 import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
-import { RadioBox } from "../ui/RadioBox";
+
 import { createStore } from "solid-js/store";
 
 const SuspendUsersContainer = styled("div")`

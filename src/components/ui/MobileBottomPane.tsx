@@ -1,5 +1,5 @@
 import style from "./MobileBottomPane.module.scss";
-import { createEffect, Show } from "solid-js";
+import { Show } from "solid-js";
 import { useDrawer } from "./drawer/Drawer";
 import Icon from "./icon/Icon";
 import ItemContainer from "./LegacyItem";
@@ -8,13 +8,13 @@ import { CustomLink } from "./CustomLink";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { FriendStatus } from "@/chat-api/RawData";
-import { updateTitleAlert } from "@/common/BrowserTitle";
+
 import { classNames, cn } from "@/common/classNames";
 import Avatar from "./Avatar";
 import { userStatusDetail } from "@/common/userStatus";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
-import { useReminders } from "../useReminders";
+
 import { useTransContext } from "@nerimity/solid-i18lite";
 
 export default function MobileBottomPane() {

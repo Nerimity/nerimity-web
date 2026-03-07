@@ -1,8 +1,8 @@
 import { Outlet } from "solid-navigator";
-import { JSXElement, Show } from "solid-js";
+import { Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { css, styled } from "solid-styled-components";
-import { FlexRow } from "../ui/Flexbox";
+
 import { t } from "@nerimity/i18lite";
 import Input from "../ui/input/Input";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";

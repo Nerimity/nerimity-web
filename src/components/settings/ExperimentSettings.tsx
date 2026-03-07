@@ -3,16 +3,16 @@ import { css, styled } from "solid-styled-components";
 
 import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import { t } from "@nerimity/i18lite";
+
 import { Experiment, Experiments, useExperiment } from "@/common/experiments";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Checkbox from "../ui/Checkbox";
 import { electronWindowAPI } from "@/common/Electron";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
-import Text from "../ui/Text";
+
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import env from "@/common/env";
-import { Trans, useTransContext } from "@nerimity/solid-i18lite";
+
+import { useTransContext } from "@nerimity/solid-i18lite";
 
 const Container = styled("div")`
   display: flex;

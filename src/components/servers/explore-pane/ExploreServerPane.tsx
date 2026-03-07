@@ -10,17 +10,10 @@ import Icon from "@/components/ui/icon/Icon";
 
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { A, useNavigate, useParams } from "solid-navigator";
-import {
-  createEffect,
-  createSignal,
-  Match,
-  onMount,
-  Show,
-  Switch
-} from "solid-js";
+import { createEffect, createSignal, Match, onMount, Switch } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
-import { avatarUrl, bannerUrl } from "@/chat-api/store/useServers";
+import { bannerUrl } from "@/chat-api/store/useServers";
 import { Banner } from "@/components/ui/Banner";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { MetaTitle } from "@/common/MetaTitle";

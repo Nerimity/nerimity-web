@@ -1,25 +1,17 @@
 import styles from "./styles.module.scss";
-import {
-  Show,
-  createEffect,
-  createSignal,
-  on,
-  onCleanup,
-  onMount
-} from "solid-js";
+import { Show, createSignal, onCleanup, onMount } from "solid-js";
 import Button from "../ui/Button";
 import { ColorPickerModal } from "../ui/color-picker/ColorPicker";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import Icon from "../ui/icon/Icon";
-import LegacyModal from "../ui/legacy-modal/LegacyModal";
+
 import { classNames, conditionalClass } from "@/common/classNames";
 import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import Input from "../ui/input/Input";
+
 import { Modal } from "../ui/modal";
 import { Item } from "../ui/Item";
-import { off } from "process";
+
 import { TimestampType } from "../markup/TimestampMention";
 import DropDown from "../ui/drop-down/DropDown";
 import { WorldTimezones } from "@/common/WorldTimezones";

@@ -21,7 +21,7 @@ import {
   deleteServerRole,
   updateServerRole
 } from "@/chat-api/services/ServerService";
-import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
+
 import Checkbox from "@/components/ui/Checkbox";
 import {
   addBit,

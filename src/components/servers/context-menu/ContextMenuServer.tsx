@@ -6,12 +6,7 @@ import ContextMenu, {
 } from "@/components/ui/context-menu/ContextMenu";
 import useStore from "@/chat-api/store/useStore";
 import { useNavigate } from "solid-navigator";
-import {
-  Bitwise,
-  hasBit,
-  ROLE_PERMISSIONS,
-  USER_BADGES
-} from "@/chat-api/Bitwise";
+import { Bitwise, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { dismissChannelNotification } from "@/chat-api/emits/userEmits";
 import { RawExploreItem } from "@/chat-api/RawData";
 import { getPublicServer } from "@/chat-api/services/ServerService";
@@ -29,7 +24,7 @@ import {
   toast,
   useCustomPortal
 } from "@/components/ui/custom-portal/CustomPortal";
-import { ToastModal } from "@/components/ui/toasts/ToastModal";
+
 import LeaveServerModal from "../modals/LeaveServerModal";
 
 type Props = Omit<ContextMenuProps, "items"> & {

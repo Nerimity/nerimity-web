@@ -1,4 +1,4 @@
-import { JSX, createEffect, createSignal, For, onMount } from "solid-js";
+import { JSX, createEffect, createSignal } from "solid-js";
 import Sortable from "solid-sortablejs";
 
 interface Props<T> {

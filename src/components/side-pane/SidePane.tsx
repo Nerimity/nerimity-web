@@ -10,7 +10,7 @@ import { FriendStatus } from "../../chat-api/RawData";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { userStatusDetail } from "../../common/userStatus";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import { updateTitleAlert } from "@/common/BrowserTitle";
+
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { useAppVersion } from "@/common/useAppVersion";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -28,12 +28,11 @@ import { useResizeBar } from "../ui/ResizeBar";
 import { NotificationCountBadge } from "./NotificationCountBadge";
 import { SidebarItemContainer } from "./SidebarItemContainer";
 import { ServerList } from "./ServerList";
-import { useReminders } from "../useReminders";
+
 import { userDetailsPreloader } from "@/common/createPreloader";
 import { useDrawer } from "../ui/drawer/Drawer";
 import { InboxList } from "./InboxList";
 import { useTransContext } from "@nerimity/solid-i18lite";
-import { electronWindowAPI } from "@/common/Electron";
 
 export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;

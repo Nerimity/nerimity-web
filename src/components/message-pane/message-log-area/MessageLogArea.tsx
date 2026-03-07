@@ -1,19 +1,16 @@
 import styles from "./styles.module.scss";
-import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { ServerEvents } from "@/chat-api/EventNames";
 import {
   MessageType,
   RawMessage,
-  RawMessageReaction,
-  RawUser
+  RawMessageReaction
 } from "@/chat-api/RawData";
 import {
   ReactedUser,
   addMessageReaction,
   fetchMessageReactedUsers,
-  markMessageUnread,
-  pinMessage,
-  unpinMessage
+  markMessageUnread
 } from "@/chat-api/services/MessageService";
 import socketClient from "@/chat-api/socketClient";
 import { Message, MessageSentStatus } from "@/chat-api/store/useMessages";
@@ -62,10 +59,9 @@ import Button from "@/components/ui/Button";
 import { copyToClipboard } from "@/common/clipboard";
 import { t } from "@nerimity/i18lite";
 import { useDrawer } from "@/components/ui/drawer/Drawer";
-import { fileToDataUrl } from "@/common/fileToDataUrl";
-import { PhotoEditor } from "@/components/ui/photo-editor/PhotoEditor";
+
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
-import { FlexRow } from "@/components/ui/Flexbox";
+
 import { Emoji as UiEmoji } from "@/components/ui/Emoji";
 import { Emoji } from "@/components/markup/Emoji";
 import ItemContainer from "@/components/ui/LegacyItem";
@@ -74,7 +70,7 @@ import { formatTimestamp } from "@/common/date";
 import { CreateTicketModal } from "@/components/CreateTicketModal";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { pushMessageNotification } from "@/components/in-app-notification-previews/useInAppNotificationPreviews";
-import { fetchTranslation } from "@/common/GoogleTranslate";
+
 import { messagesPreloader } from "@/common/createPreloader";
 import { unzipJson } from "@/common/zip";
 import { rightDrawerMode } from "@/common/localStorage";

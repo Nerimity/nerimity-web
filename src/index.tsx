@@ -35,7 +35,7 @@ import { A, Outlet, Route, Router, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json?raw";
 import { TransProvider } from "@nerimity/solid-i18lite";
 import { useWindowProperties } from "./common/useWindowProperties";
-import { DEV, For, Show, createEffect, lazy, on } from "solid-js";
+import { For, Show, createEffect, lazy, on } from "solid-js";
 import RouterEndpoints from "./common/RouterEndpoints";
 import settings from "./common/Settings";
 import exploreRoutes from "./common/exploreRoutes";
@@ -46,7 +46,7 @@ import {
   removeStorage,
   StorageKeys
 } from "./common/localStorage";
-import { Tool } from "eruda";
+
 import useAccount from "./chat-api/store/useAccount";
 import { MetaProvider, Title } from "@solidjs/meta";
 import { ReminderProvider } from "./components/useReminders";

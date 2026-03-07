@@ -1,7 +1,7 @@
 import { formatTimestamp } from "@/common/date";
 import Marked from "@/components/marked/Marked";
 import { useAppVersion } from "@/common/useAppVersion";
-import { A } from "solid-navigator";
+
 import Button from "./ui/Button";
 import { FlexColumn } from "./ui/Flexbox";
 import LegacyModal from "./ui/legacy-modal/LegacyModal";

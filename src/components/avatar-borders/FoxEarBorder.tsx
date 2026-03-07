@@ -1,4 +1,4 @@
-import { JSXElement, Match, Show, Switch } from "solid-js";
+import { JSXElement } from "solid-js";
 
 export function FoxEarsBorder(props: {
   children?: JSXElement;

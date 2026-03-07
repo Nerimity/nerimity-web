@@ -1,11 +1,6 @@
 import env from "@/common/env";
 import { createStore, produce, reconcile } from "solid-js/store";
-import {
-  MessageType,
-  RawMessage,
-  RawMessageReaction,
-  RawUser
-} from "../RawData";
+import { MessageType, RawMessage, RawMessageReaction } from "../RawData";
 import {
   fetchMessages,
   postMessage,

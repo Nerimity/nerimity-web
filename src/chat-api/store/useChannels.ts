@@ -5,7 +5,6 @@ import { useWindowProperties } from "../../common/useWindowProperties";
 import { dismissChannelNotification } from "../emits/userEmits";
 import {
   CHANNEL_PERMISSIONS,
-  getAllPermissions,
   Bitwise,
   hasBit,
   ROLE_PERMISSIONS,
@@ -28,7 +27,7 @@ import {
   postLeaveVoice
 } from "../services/VoiceService";
 import useVoiceUsers from "./useVoiceUsers";
-import { useMatch, useNavigate, useParams } from "solid-navigator";
+import { useMatch, useNavigate } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import useServers from "./useServers";
 import { loadSimplePeer } from "@/components/LazySimplePeer";

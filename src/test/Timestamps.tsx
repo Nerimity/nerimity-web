@@ -3,9 +3,7 @@ import {
   calculateTimeElapsedForActivityStatus,
   formatMillisElapsedDigital,
   formatMillisRemainingNarrow,
-  formatTimestamp,
   formatTimestampRelative,
-  fullDate,
   timeSince,
   timeSinceDigital
 } from "@/common/date";

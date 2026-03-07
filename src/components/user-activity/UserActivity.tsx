@@ -17,7 +17,6 @@ import {
 import { getActivityIconName, RichProgressBar } from "../activity/Activity";
 import Icon from "../ui/icon/Icon";
 import Text from "../ui/Text";
-import { t } from "@nerimity/i18lite";
 
 import style from "./UserActivity.module.css";
 import { getActivityType } from "@/common/activityType";

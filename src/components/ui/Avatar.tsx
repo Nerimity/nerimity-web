@@ -2,7 +2,6 @@ import { avatarUrl } from "@/chat-api/store/useUsers";
 import { classNames, cn } from "@/common/classNames";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import {
-  createEffect,
   createMemo,
   createSignal,
   JSXElement,

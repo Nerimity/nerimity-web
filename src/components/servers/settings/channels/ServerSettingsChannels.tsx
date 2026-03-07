@@ -1,11 +1,10 @@
 import styles from "./styles.module.scss";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { Link, useNavigate, useParams } from "solid-navigator";
+import { useNavigate, useParams } from "solid-navigator";
 import {
   createEffect,
   createMemo,
   createSignal,
-  For,
   Match,
   on,
   onMount,
@@ -15,7 +14,7 @@ import {
 import useStore from "@/chat-api/store/useStore";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
-import useChannels, { Channel } from "@/chat-api/store/useChannels";
+import { Channel } from "@/chat-api/store/useChannels";
 import Icon from "@/components/ui/icon/Icon";
 import {
   createServerChannel,
@@ -29,7 +28,7 @@ import ContextMenu, {
 import { ChannelType } from "@/chat-api/RawData";
 import { CustomLink } from "@/components/ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import { CHANNEL_PERMISSIONS, hasBit } from "@/chat-api/Bitwise";
+import { CHANNEL_PERMISSIONS } from "@/chat-api/Bitwise";
 import { ChannelIcon } from "@/components/ChannelIcon";
 
 function ChannelItem(props: { channel: Channel }) {

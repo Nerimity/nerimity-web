@@ -1,12 +1,4 @@
-import {
-  createEffect,
-  createSignal,
-  For,
-  on,
-  onCleanup,
-  onMount,
-  Show
-} from "solid-js";
+import { createEffect, createSignal, For, on, onMount, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 import useStore from "@/chat-api/store/useStore";
 import {

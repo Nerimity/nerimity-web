@@ -1,8 +1,4 @@
-import { createEffect, createSignal, on, Show } from "solid-js";
-import { css, styled } from "solid-styled-components";
-import Icon from "./icon/Icon";
-import Text from "./Text";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { styled } from "solid-styled-components";
 
 interface CheckboxProps {
   onChange?: (value: number) => void;

@@ -1,7 +1,4 @@
-import {
-  addAnnouncePost,
-  removeAnnouncePost
-} from "@/chat-api/services/ModerationService";
+import { removeAnnouncePost } from "@/chat-api/services/ModerationService";
 import { createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "../ui/Button";

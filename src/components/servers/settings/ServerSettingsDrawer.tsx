@@ -3,16 +3,16 @@ import Icon from "@/components/ui/icon/Icon";
 import { A, useMatch, useParams } from "solid-navigator";
 import { For, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import RouterEndpoints from "@/common/RouterEndpoints";
+
 import serverSettings from "@/common/ServerSettings";
 import ItemContainer from "@/components/ui/LegacyItem";
 import { styled } from "solid-styled-components";
-import Text from "@/components/ui/Text";
+
 import { useTransContext } from "@nerimity/solid-i18lite";
 import { Bitwise } from "@/chat-api/Bitwise";
-import { ChannelType } from "@/chat-api/RawData";
+
 import InVoiceActions from "@/components/InVoiceActions";
-import { useCustomScrollbar } from "@/components/custom-scrollbar/CustomScrollbar";
+
 import { SupportBlock } from "@/components/SupportBlock";
 import { FlexColumn } from "@/components/ui/Flexbox";
 import { useWindowProperties } from "@/common/useWindowProperties";

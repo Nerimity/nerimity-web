@@ -1,5 +1,5 @@
-import { useLocation, useMatch } from "solid-navigator";
-import ItemContainer from "../ui/LegacyItem";
+import { useMatch } from "solid-navigator";
+
 import { Item as UiItem } from "../ui/Item";
 import style from "./HomeDrawer.module.scss";
 import Icon from "../ui/icon/Icon";
@@ -9,11 +9,11 @@ import {
   HomeDrawerControllerProvider,
   useHomeDrawerController
 } from "./useHomeDrawerController";
-import { createEffect, For, on, Show } from "solid-js";
+import { For, Show } from "solid-js";
 import HomeDrawerFriendItem from "./friend-item/HomeDrawerFriendItem";
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
-import { Modal } from "../ui/modal";
+
 import { cn } from "@/common/classNames";
 import { DrawerHeader } from "../drawer-header/DrawerHeader";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";

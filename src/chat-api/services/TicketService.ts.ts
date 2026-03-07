@@ -1,12 +1,6 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import {
-  RawChannel,
-  RawChannelNotice,
-  RawTicket,
-  TicketCategory,
-  TicketStatus
-} from "../RawData";
+import { RawTicket, TicketCategory, TicketStatus } from "../RawData";
 import env from "@/common/env";
 
 interface GetTicketsOpts {

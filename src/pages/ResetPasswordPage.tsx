@@ -13,7 +13,7 @@ import { useTransContext } from "@nerimity/solid-i18lite";
 import PageFooter from "@/components/PageFooter";
 import Text from "@/components/ui/Text";
 import { StorageKeys, setStorageString } from "@/common/localStorage";
-import { Title } from "@solidjs/meta";
+
 import { MetaTitle } from "@/common/MetaTitle";
 
 const LoginPageContainer = styled("div")`

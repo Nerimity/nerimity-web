@@ -6,7 +6,6 @@ import {
   For,
   JSX,
   lazy,
-  mapArray,
   Match,
   on,
   onCleanup,
@@ -56,11 +55,7 @@ import Avatar from "../ui/Avatar";
 import useChannelProperties from "@/chat-api/store/useChannelProperties";
 import { Emoji } from "../markup/Emoji";
 import { css } from "solid-styled-components";
-import {
-  CHANNEL_PERMISSIONS,
-  hasBit,
-  ROLE_PERMISSIONS
-} from "@/chat-api/Bitwise";
+import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import useAccount from "@/chat-api/store/useAccount";
 import useServers from "@/chat-api/store/useServers";
 import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
@@ -93,11 +88,11 @@ import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { t } from "@nerimity/i18lite";
 import useServerRoles from "@/chat-api/store/useServerRoles";
-import { deleteServer } from "@/chat-api/services/ServerService";
+
 import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSettings";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { Portal } from "solid-js/web";
-import { Trans } from "@nerimity/solid-i18lite";
+
 import { Rerun } from "@solid-primitives/keyed";
 import { UnescapedTrans } from "../UnescapedTrans";
 import { useLocalStorage } from "@/common/localStorage";

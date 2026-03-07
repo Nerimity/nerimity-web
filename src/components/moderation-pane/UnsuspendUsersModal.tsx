@@ -1,9 +1,5 @@
-import { RawUser } from "@/chat-api/RawData";
-import {
-  suspendUsers,
-  unsuspendUsers
-} from "@/chat-api/services/ModerationService";
-import { createEffect, createSignal, Show } from "solid-js";
+import { unsuspendUsers } from "@/chat-api/services/ModerationService";
+import { createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";

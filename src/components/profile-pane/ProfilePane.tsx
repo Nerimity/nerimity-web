@@ -52,7 +52,7 @@ import {
   USER_BADGES_VALUES,
   UserBadge
 } from "@/chat-api/Bitwise";
-import LegacyModal from "../ui/legacy-modal/LegacyModal";
+
 import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import ItemContainer from "../ui/LegacyItem";
@@ -72,11 +72,7 @@ import { MetaTitle } from "@/common/MetaTitle";
 import average from "@/common/chromaJS";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { emojiToUrl } from "@/common/emojiToUrl";
-import {
-  currentTheme,
-  DefaultTheme,
-  defaultThemeCSSVars
-} from "@/common/themes";
+import { DefaultTheme, defaultThemeCSSVars } from "@/common/themes";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 import { getActivityType } from "@/common/activityType";
 import { getFont } from "@/common/fonts";

@@ -13,7 +13,7 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { formatTimestamp } from "@/common/date";
 import Icon from "@/components/ui/icon/Icon";
 import { A, useNavigate, useParams } from "solid-navigator";
-import { createEffect, createSignal, For, on, onMount, Show } from "solid-js";
+import { createEffect, createSignal, For, on, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import SettingsBlock, {
@@ -26,7 +26,7 @@ import { Notice } from "@/components/ui/Notice/Notice";
 import { css } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { useTransContext } from "@nerimity/solid-i18lite";
-import { avatarUrl } from "@/chat-api/store/useUsers";
+
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Block from "@/components/ui/settings-block/Block";
 

@@ -7,17 +7,12 @@ import {
   RawServer,
   ServerNotificationPingMode
 } from "../RawData";
-import {
-  deleteServer,
-  getServerBotCommands,
-  leaveServer
-} from "../services/ServerService";
+import { getServerBotCommands, leaveServer } from "../services/ServerService";
 import useAccount from "./useAccount";
 import useChannels from "./useChannels";
 import useMention from "./useMention";
-import { createEffect, createMemo, createRoot } from "solid-js";
+import { createMemo } from "solid-js";
 import { emojiShortcodeToUnicode } from "@/emoji";
-import { CHANNEL_PERMISSIONS } from "../Bitwise";
 
 export type Server = RawServer & {
   hasNotifications: () => boolean;

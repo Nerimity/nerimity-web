@@ -1,7 +1,6 @@
 import styles from "./styles.module.scss";
 import { JSX } from "solid-js";
-import { classNames, conditionalClass } from "@/common/classNames";
-import { css } from "solid-styled-components";
+import { classNames } from "@/common/classNames";
 
 interface BlockProps {
   class?: string;

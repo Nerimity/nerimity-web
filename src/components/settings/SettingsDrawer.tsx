@@ -1,16 +1,8 @@
 import Icon from "@/components/ui/icon/Icon";
-import { A, useMatch, useNavigate, useParams } from "solid-navigator";
-import {
-  createSignal,
-  For,
-  JSXElement,
-  Match,
-  onMount,
-  Show,
-  Switch
-} from "solid-js";
+import { A, useMatch } from "solid-navigator";
+import { createSignal, For, JSXElement, onMount, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import RouterEndpoints from "@/common/RouterEndpoints";
+
 import settings from "@/common/Settings";
 import ItemContainer from "@/components/ui/LegacyItem";
 import { css, styled } from "solid-styled-components";
@@ -20,15 +12,13 @@ import env from "@/common/env";
 import { Dynamic } from "solid-js/web";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { ChangelogModal } from "../ChangelogModal";
-import { clearCache } from "@/common/localCache";
-import socketClient from "@/chat-api/socketClient";
+
 import { DrawerHeader } from "../drawer-header/DrawerHeader";
 import { useTransContext } from "@nerimity/solid-i18lite";
 import { t } from "@nerimity/i18lite";
 import InVoiceActions from "../InVoiceActions";
 import { ShowExperiment } from "@/common/experiments";
-import { logout } from "@/common/logout";
-import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
+
 import { SupportBlock } from "../SupportBlock";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { Rerun } from "@solid-primitives/keyed";
@@ -36,7 +26,7 @@ import { getCurrentLanguage } from "@/locales/languages";
 import { LogoutModal } from "./LogoutModal";
 import { reactNativeAPI } from "@/common/ReactNative";
 import { electronWindowAPI } from "@/common/Electron";
-import { formatTimestamp, getDaysAgo } from "@/common/date";
+import { getDaysAgo } from "@/common/date";
 
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;

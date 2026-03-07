@@ -2,11 +2,11 @@ import PageHeader from "../components/PageHeader";
 import { styled } from "solid-styled-components";
 import { FlexColumn } from "@/components/ui/Flexbox";
 import PageFooter from "@/components/PageFooter";
-import { useParams, useSearchParams } from "solid-navigator";
+import { useSearchParams } from "solid-navigator";
 import { Show, createSignal, onMount } from "solid-js";
 import { linkAccountWithGoogle } from "@/chat-api/services/UserService";
 import Text from "@/components/ui/Text";
-import { getOrCreateUploadsFolder } from "@/common/driveAPI";
+
 import { useTransContext } from "@nerimity/solid-i18lite";
 
 const PageContainer = styled("div")`

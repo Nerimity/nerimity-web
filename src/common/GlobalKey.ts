@@ -1,4 +1,4 @@
-import { onCleanup, onMount } from "solid-js";
+import { onCleanup } from "solid-js";
 import { electronWindowAPI } from "./Electron";
 import { createStore, reconcile } from "solid-js/store";
 

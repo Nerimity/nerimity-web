@@ -104,7 +104,7 @@ const LanguageDropdown = () => {
   const [, actions] = useTransContext();
 
   const items: DropDownItem[] = Object.keys(languages).map((key) => {
-    let lang = languages[key as keyof typeof languages]!;
+    const lang = languages[key as keyof typeof languages]!;
     return {
       id: key.replace("-", "_"),
       // Use a getter to create a new element, as reused JSXElements

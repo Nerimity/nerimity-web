@@ -33,8 +33,7 @@ import {
   StorageKeys,
   useLocalStorage
 } from "@/common/localStorage";
-import { emitActivityStatus } from "@/chat-api/emits/userEmits";
-import LegacyModal from "../ui/legacy-modal/LegacyModal";
+
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Input from "../ui/input/Input";
 import { CustomLink } from "../ui/CustomLink";

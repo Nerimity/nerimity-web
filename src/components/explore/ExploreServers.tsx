@@ -4,7 +4,7 @@ import { bannerUrl } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useTransContext } from "@nerimity/solid-i18lite";
-import { A, useNavigate } from "solid-navigator";
+import { A } from "solid-navigator";
 import { batch, createSignal, For, on, Show } from "solid-js";
 import { createEffect } from "solid-js";
 import { css, styled } from "solid-styled-components";
@@ -34,7 +34,7 @@ import {
   PublicServerFilter,
   PublicServerSort
 } from "@/chat-api/services/ExploreService";
-import { ToastModal } from "@/components/ui/toasts/ToastModal";
+
 import { ExplorePageContainer, ExploreSearch } from "./ExplorePane";
 
 const GridLayout = styled("div")`

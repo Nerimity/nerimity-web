@@ -18,16 +18,12 @@ import {
   getOnlineUsers,
   getServers,
   getStats,
-  getModerationTickets,
-  getUsers,
   ModerationStats,
   ModerationSuspension,
   ModerationUser,
   searchServers,
-  searchUsers,
   getPosts,
   searchPosts,
-  deletePosts,
   activeServers,
   getSuggestionActions,
   deleteSuggestActions,
@@ -36,7 +32,7 @@ import {
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
 import { A, Outlet, useMatch, useSearchParams } from "solid-navigator";
-import { RawPost, RawServer, RawUser, TicketStatus } from "@/chat-api/RawData";
+import { RawPost, RawServer } from "@/chat-api/RawData";
 import Button from "../ui/Button";
 import { css, styled } from "solid-styled-components";
 import Text from "../ui/Text";
@@ -45,27 +41,26 @@ import Checkbox from "../ui/Checkbox";
 import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import SuspendUsersModal from "./SuspendUsersModal";
 import { CustomLink } from "../ui/CustomLink";
-import RouterEndpoints from "@/common/RouterEndpoints";
+
 import Input from "../ui/input/Input";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import Icon from "../ui/icon/Icon";
 
 import {
-  emitModerationServerDeleted,
   emitModerationUserSuspended,
   useModerationServerDeletedListener,
   useModerationUndoServerDeleteListener,
   useModerationUserSuspendedListener
 } from "@/common/GlobalEvents";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
-import { classNames } from "@/common/classNames";
+
 import DeletePostsModal from "./DeletePostsModal";
 import AnnouncePostsModal from "./AnnouncePostsModal";
 import DeleteAnnouncePostsModal from "./DeleteAnnouncePostsModal";
 import DeleteServersModal from "./DeleteServersModal";
 import { UsersPane } from "./UsersPane";
 import { UsersAuditLogsPane } from "./UsersAuditLogsPane";
-import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+
 import { Modal } from "../ui/modal";
 import { RadioBox } from "../ui/RadioBox";
 import { selectedUsers, setSelectedUsers } from "./selectedUsers";

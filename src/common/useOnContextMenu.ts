@@ -1,15 +1,13 @@
 // Because of trashy safari on ios not haivng a proper contextmenu event, we have to do some bs touchstart and stuff.
 
-import { createUniqueId, onCleanup } from "solid-js";
+import { onCleanup } from "solid-js";
 import { useWindowProperties } from "./useWindowProperties";
-import { isFileServingAllowed } from "vite";
-import { sourceMapsEnabled } from "process";
 
 let timer: number;
 
 type Handler = (event: any) => void;
 
-let handlers = new Map<HTMLElement, Handler>();
+const handlers = new Map<HTMLElement, Handler>();
 
 const { isSafari, isMobileAgent } = useWindowProperties();
 

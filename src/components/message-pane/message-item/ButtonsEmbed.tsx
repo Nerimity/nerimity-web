@@ -4,7 +4,7 @@ import Button from "@/components/ui/Button";
 import { createSignal, For, onCleanup, Show } from "solid-js";
 import { messageButtonClick } from "@/chat-api/services/MessageService";
 import { cn } from "@/common/classNames";
-import useStore from "@/chat-api/store/useStore";
+
 import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";

@@ -1,4 +1,3 @@
-import { createSignal } from "solid-js";
 import {
   getStorageString,
   setStorageString,
@@ -6,7 +5,6 @@ import {
 } from "./localStorage";
 import { localRPC } from "./LocalRPC";
 import { debounce } from "./debounce";
-import { constrainedMemory } from "process";
 
 const URL = "https://supertiger.nerimity.com/trackdispresence";
 const NERIMITY_APP_ID = "1630300334100500480";

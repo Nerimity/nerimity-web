@@ -6,7 +6,7 @@ import useAccount from "../store/useAccount";
 import useChannels from "../store/useChannels";
 import useHeader from "../store/useHeader";
 import useMention from "../store/useMention";
-import useMessages, { MessageSentStatus } from "../store/useMessages";
+import useMessages from "../store/useMessages";
 import useUsers from "../store/useUsers";
 import socketClient from "../socketClient";
 import { createDesktopNotification } from "@/common/desktopNotification";
