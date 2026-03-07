@@ -24,7 +24,8 @@
         "reconnecting": "Перападлучэньне…",
         "inQueue": "У чарзе: перад вамі {{count}} карыстач(оў)",
         "authenticating": "Аўтэнтыфікацыя…",
-        "connected": "Злучана!"
+        "connected": "Злучана!",
+        "statusPage": "Старонка стану"
     },
     "dangerousLinkModal": {
         "title": "Невядомая спасылка",
@@ -726,7 +727,7 @@
                 "publicDescription": "Зрабіце гэтага бота публічным.",
                 "botDescription": "Апісаньне бота ({{current}}/{{max}})"
             },
-            "useLatestUrl": "Нестабільная версыя",
+            "useLatestUrl": "Нестабільная вэрсыя",
             "useLatestUrlDescription": "Загружаць latest.nerimity.com пры наступным запуске. Гэта перазагрузіць аплікацыю.",
             "useLatestUrlWarning": "Можа выклікаць нестабільнасьць альбо праблемы."
         },
