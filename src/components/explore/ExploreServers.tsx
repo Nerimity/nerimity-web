@@ -139,7 +139,7 @@ export default function ExploreServers() {
 
   return (
     <ExplorePageContainer>
-      <MetaTitle>Explore Servers</MetaTitle>
+      <MetaTitle>{t("explore.servers.title")}</MetaTitle>
       <ExploreSearch
         sortOpts={sortOpts}
         filterOpts={filterOpts}

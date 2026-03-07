@@ -88,7 +88,7 @@ export default function ExploreThemes() {
 
   return (
     <ExplorePageContainer>
-      <MetaTitle>Explore Themes</MetaTitle>
+      <MetaTitle>{t("explore.themes.title")}</MetaTitle>
       <SearchHeader>
         <Input
           label={t("general.searchPlaceholder")}

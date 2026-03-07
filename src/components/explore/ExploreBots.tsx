@@ -118,7 +118,7 @@ export default function ExploreBots() {
 
   return (
     <ExplorePageContainer>
-      <MetaTitle>Explore Bots</MetaTitle>
+      <MetaTitle>{t("explore.bots.title")}</MetaTitle>
       <ExploreSearch
         sortOpts={sortOpts}
         filterOpts={filterOpts}
