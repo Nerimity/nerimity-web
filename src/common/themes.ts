@@ -309,17 +309,35 @@ const placeholder = document.createElement("span");
 placeholder.style.display = "none";
 document.body.appendChild(placeholder);
 
-const computedColor = (color: string): [number, number, number, number] => {
+const computedColor = (
+  color: string
+): [number, number, number, number] | null => {
+  placeholder.style.color = "";
   placeholder.style.color = color;
+  if (placeholder.style.color == "") return null;
+
   const computed = window.getComputedStyle(placeholder).color;
-  const match = computed.match(/^rgba?\((.*)\)$/)?.[1] || "0,0,0,0";
-  const colors = match.split(",").map(Number);
+  const match = computed.match(/^rgba?\((.*)\)$/)?.[1];
+  const colors = match?.split(",")?.map(Number);
+  if (colors === undefined || colors.length < 3 || colors.length > 4)
+    return null;
   colors[3] = colors[3] ?? 1.0;
   return colors as [number, number, number, number];
 };
 
+const supportsColorMix = CSS.supports(
+  "color",
+  "color-mix(in srgb, #FFF 50%, transparent)"
+);
+
 const dimmedColor = (color: string, opacity: number): string => {
-  const [r, g, b, a] = computedColor(color);
+  if (supportsColorMix)
+    return `color-mix(in srgb, ${color} ${opacity * 100}%, transparent)`;
+
+  const computed = computedColor(color);
+  if (computed === null) return color;
+
+  const [r, g, b, a] = computed;
   return `rgba(${r},${g},${b},${a * opacity})`;
 };
 
