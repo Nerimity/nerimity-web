@@ -8,13 +8,15 @@ import MessagePane from "../message-pane/MessagePane";
 const TextChannels = [ChannelType.DM_TEXT, ChannelType.SERVER_TEXT];
 
 export default function ChannelPane() {
-  const params = useParams<{channelId: string, serverId?: string}>();
+  const params = useParams<{ channelId: string; serverId?: string }>();
   const { channels } = useStore();
   const channel = () => channels.get(params.channelId!);
 
   return (
     <Switch>
-      <Match when={TextChannels.includes(channel()?.type!)}><MessagePane /></Match>
+      <Match when={TextChannels.includes(channel()?.type!)}>
+        <MessagePane />
+      </Match>
     </Switch>
   );
 }

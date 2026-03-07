@@ -61,7 +61,9 @@ export const ConnectionErrorModal = (props: {
       <div class={styles.connectionErrorContainer}>
         <Switch fallback={<div class={styles.message}>{err()?.message}</div>}>
           <Match when={!hasToken()}>
-            <div class={styles.message}>{t("connectionErrorModal.noToken")}</div>
+            <div class={styles.message}>
+              {t("connectionErrorModal.noToken")}
+            </div>
           </Match>
           <Match
             when={err()?.data?.type === "suspend" || props.suspensionPreview}
@@ -94,14 +96,19 @@ function SuspendMessage(props: {
       <div class={styles.message}>
         {t("connectionErrorModal.until")}:{" "}
         <span class={styles.messageDim}>
-          {props.expire ? formatTimestamp(props.expire) : t("connectionErrorModal.never")}
+          {props.expire
+            ? formatTimestamp(props.expire)
+            : t("connectionErrorModal.never")}
         </span>
       </div>
       <div class={styles.message}>
-        {t("connectionErrorModal.by")}: <span class={styles.messageDim}>{props.by?.username}</span>
+        {t("connectionErrorModal.by")}:{" "}
+        <span class={styles.messageDim}>{props.by?.username}</span>
       </div>
       <Show when={!props.expire}>
-        <div class={styles.notice}>{t("connectionErrorModal.deletionNotice")}</div>
+        <div class={styles.notice}>
+          {t("connectionErrorModal.deletionNotice")}
+        </div>
       </Show>
     </div>
   );
@@ -114,9 +121,7 @@ function IPBanMessage(props: { reason?: string; expire?: number }) {
       <div class={styles.message}>
         {t("connectionErrorModal.until")}:{" "}
         <span class={styles.messageDim}>{formatTimestamp(props.expire!)}</span>
-        <div class={styles.notice}>
-          {t("connectionErrorModal.ipBanNotice")}
-        </div>
+        <div class={styles.notice}>{t("connectionErrorModal.ipBanNotice")}</div>
       </div>
     </>
   );

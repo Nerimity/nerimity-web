@@ -30,7 +30,8 @@ export function ChangelogModal(props: { close: () => void }) {
       }
       target="_blank"
       rel="noopener noreferrer"
-      label={t("homePage.viewGitHubButton")} iconName="open_in_new"
+      label={t("homePage.viewGitHubButton")}
+      iconName="open_in_new"
     />
   );
 
@@ -46,12 +47,14 @@ export function ChangelogModal(props: { close: () => void }) {
             "max-height": "400px",
             "max-width": "600px",
             overflow: "auto",
-            padding: "5px",
+            padding: "5px"
           }}
         >
           <Show when={isRelease}>
             <Text size={24}>{latestRelease()?.name || ""}</Text>
-            <Text opacity={0.7}>{t("updateModal.releasedAt")} {date() || ""}</Text>
+            <Text opacity={0.7}>
+              {t("updateModal.releasedAt")} {date() || ""}
+            </Text>
             <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
             <Marked value={latestRelease()?.body!} />
           </Show>

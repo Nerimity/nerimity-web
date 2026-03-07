@@ -23,9 +23,12 @@ export default function ServerNotificationSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.audit-logs"),
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("servers.settings.drawer.audit-logs"),
       serverId: params.serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 

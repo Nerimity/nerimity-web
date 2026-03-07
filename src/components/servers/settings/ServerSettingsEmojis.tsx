@@ -4,7 +4,7 @@ import {
   deleteServerEmoji,
   getServerEmojis,
   RawCustomEmojiWithCreator,
-  updateServerEmoji,
+  updateServerEmoji
 } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import { classNames } from "@/common/classNames";
@@ -30,7 +30,7 @@ import {
   Match,
   onMount,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import { css, styled } from "solid-styled-components";
 
@@ -58,7 +58,7 @@ export default function ServerSettingsBans() {
       title:
         t("settings.drawer.title") + " - " + t("servers.settings.drawer.emoji"),
       serverId: params.serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -76,9 +76,9 @@ export default function ServerSettingsBans() {
           (newEmoji) => {
             setEmojis(() => [
               { ...newEmoji, uploadedBy: account.user() as RawUser },
-              ...emojis(),
+              ...emojis()
             ]);
-          },
+          }
         );
         await sleep(800);
       };
@@ -103,7 +103,7 @@ export default function ServerSettingsBans() {
         <BreadcrumbItem
           href={RouterEndpoints.SERVER_MESSAGES(
             params.serverId,
-            server()?.defaultChannelId!,
+            server()?.defaultChannelId!
           )}
           icon="home"
           title={server()?.name}
@@ -238,7 +238,7 @@ function EmojiItem(props: {
           style={{
             "align-items": "center",
             "margin-left": "15px",
-            "margin-top": "5px",
+            "margin-top": "5px"
           }}
         >
           <Avatar user={props.emoji.uploadedBy} size={15} />

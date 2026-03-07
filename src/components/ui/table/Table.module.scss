@@ -1,6 +1,4 @@
-
-
-.table_component{
+.table_component {
   overflow: hidden;
   flex-shrink: 0;
   border-radius: 6px;
@@ -8,11 +6,9 @@
   border-collapse: collapse;
   text-align: left;
   font-size: 15px;
-
 }
 
 thead {
-  
   position: relative;
   &::after {
     position: absolute;
@@ -26,14 +22,11 @@ thead {
 }
 
 .table_component th {
-
   top: 0;
   padding: 8px;
 
   font-size: 12px;
   font-weight: normal;
-
-
 }
 
 .table_component td {
@@ -51,15 +44,12 @@ thead {
 .table_component tr:nth-child(odd) td {
 }
 
-
 .clickable {
- 
   cursor: pointer;
   &:hover {
     background-color: rgba(255, 255, 255, 0.04);
   }
 }
-
 
 .mobileItem {
   display: flex;

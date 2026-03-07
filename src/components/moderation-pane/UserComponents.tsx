@@ -120,7 +120,7 @@ export function User(props: { user: any; class?: string }) {
               style={{
                 background: "var(--alert-color)",
                 "border-radius": "4px",
-                padding: "3px",
+                padding: "3px"
               }}
             >
               Banned
@@ -132,7 +132,7 @@ export function User(props: { user: any; class?: string }) {
               style={{
                 background: "var(--warn-color)",
                 "border-radius": "4px",
-                padding: "3px",
+                padding: "3px"
               }}
             >
               Shadow Banned
@@ -144,7 +144,7 @@ export function User(props: { user: any; class?: string }) {
               style={{
                 background: "var(--primary-color)",
                 "border-radius": "4px",
-                padding: "3px",
+                padding: "3px"
               }}
             >
               Bot

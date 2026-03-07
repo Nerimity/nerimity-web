@@ -1,4 +1,7 @@
-import { deletePosts, undoDeleteServer } from "@/chat-api/services/ModerationService";
+import {
+  deletePosts,
+  undoDeleteServer
+} from "@/chat-api/services/ModerationService";
 import { createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "../ui/Button";
@@ -22,7 +25,7 @@ const Container = styled("div")`
 `;
 
 interface Props {
-  server: RawServer
+  server: RawServer;
   close: () => void;
   done: () => void;
 }
@@ -56,7 +59,7 @@ export default function UndoServerDeleteModal(props: Props) {
         "justify-content": "flex-end",
         flex: 1,
         margin: "5px",
-        gap: "4px",
+        gap: "4px"
       }}
     >
       <Button

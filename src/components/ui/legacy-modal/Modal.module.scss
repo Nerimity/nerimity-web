@@ -11,7 +11,6 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-
 .modalContainer {
   overflow: hidden;
   align-self: center;
@@ -30,7 +29,6 @@
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
   }
-
 }
 
 .body {
@@ -47,7 +45,7 @@
   height: 30px;
   padding: 10px;
 
-  .title { 
+  .title {
     margin-right: 12px;
     color: var(--primary-color);
     font-size: 18px;

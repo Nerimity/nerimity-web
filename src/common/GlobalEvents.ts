@@ -8,7 +8,7 @@ export const GlobalEventName = {
   MODERATION_SERVER_DELETED: "moderationServerDeleted",
   MODERATION_UNDO_SERVER_DELETE: "moderationUndoServerDelete",
   MODERATION_SHOW_MESSAGES: "moderationShowMessages",
-  DRAWER_GO_TO_MAIN: "drawerGoToMain",
+  DRAWER_GO_TO_MAIN: "drawerGoToMain"
 } as const;
 
 const EE = new EventEmitter();

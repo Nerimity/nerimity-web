@@ -1,6 +1,10 @@
 import styles from "./styles.module.scss";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
-import { formatTimestamp, fullDate, formatTimestampRelative } from "@/common/date";
+import {
+  formatTimestamp,
+  fullDate,
+  formatTimestampRelative
+} from "@/common/date";
 import Avatar from "@/components/ui/Avatar";
 import Icon from "@/components/ui/icon/Icon";
 import {
@@ -121,8 +125,10 @@ function FloatOptions(props: FloatingOptionsProps) {
   const { account, serverMembers, channelProperties, channels } = useStore();
   const { createPortal } = useCustomPortal();
 
-  const hasMessageId = () => !props.message.local && props.message.sentStatus === undefined;
-  const sendFailed = () => props.message.sentStatus === MessageSentStatus.FAILED;
+  const hasMessageId = () =>
+    !props.message.local && props.message.sentStatus === undefined;
+  const sendFailed = () =>
+    props.message.sentStatus === MessageSentStatus.FAILED;
 
   const replyClick = () => {
     channelProperties.addReply(props.message.channelId, props.message);
@@ -191,11 +197,7 @@ function FloatOptions(props: FloatingOptionsProps) {
       </Show>
       <Show when={showDelete()}>
         <div class={cn(styles.item, styles.delete)} onClick={onDeleteClick}>
-          <Icon
-            size={18}
-            name="delete"
-            class={styles.icon}
-          />
+          <Icon size={18} name="delete" class={styles.icon} />
         </div>
       </Show>
       <div
@@ -274,7 +276,7 @@ const Details = (props: DetailsProps) => {
         class={classNames(
           "trigger-profile-flyout",
           styles.username,
-          font()?.class,
+          font()?.class
         )}
         href={
           props.message.webhookId
@@ -403,7 +405,8 @@ const MessageItem = (props: MessageItemProps) => {
     isDateUnderFiveMinutes() &&
     isBeforeMessageContent();
 
-  const isSending = () => props.message.sentStatus === MessageSentStatus.SENDING;
+  const isSending = () =>
+    props.message.sentStatus === MessageSentStatus.SENDING;
 
   const [isMentioned, setIsMentioned] = createSignal(false);
   const [isSomeoneMentioned, setIsSomeoneMentioned] = createSignal(false);

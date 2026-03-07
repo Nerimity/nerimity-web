@@ -13,11 +13,14 @@ import {
   deleteWebhook,
   getWebhook,
   getWebhookToken,
-  updateWebhook,
+  updateWebhook
 } from "@/chat-api/services/WebhookService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { copyToClipboard } from "@/common/clipboard";
-import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal
+} from "@/components/ui/custom-portal/CustomPortal";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
 
 const Container = styled("div")`
@@ -40,7 +43,7 @@ export default function ServerSettingsWebhook() {
   const { createPortal } = useCustomPortal();
 
   const defaultInput = () => ({
-    name: webhook()?.name || "",
+    name: webhook()?.name || ""
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -66,7 +69,7 @@ export default function ServerSettingsWebhook() {
         " - " +
         t("servers.settings.webhook.title"),
       serverId: params.serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -130,7 +133,7 @@ export default function ServerSettingsWebhook() {
     setRequestSent(true);
 
     updateWebhook(params.serverId, params.channelId, params.webhookId, {
-      name: inputValues().name,
+      name: inputValues().name
     })
       .then((res) => setWebhook(res))
       .catch((err) => toast(err.message))
@@ -181,9 +184,7 @@ export default function ServerSettingsWebhook() {
           `}
           onClick={handleSaveClick}
           label={
-            requestSent()
-              ? t("general.saving")
-              : t("general.saveChangesButton")
+            requestSent() ? t("general.saving") : t("general.saveChangesButton")
           }
           iconName="save"
           primary

@@ -7,14 +7,14 @@ import {
   defaultKeymap,
   history,
   historyKeymap,
-  indentWithTab,
+  indentWithTab
 } from "@codemirror/commands";
 import {
   crosshairCursor,
   highlightSpecialChars,
   keymap,
   lineNumbers,
-  rectangularSelection,
+  rectangularSelection
 } from "@codemirror/view";
 import {
   defaultHighlightStyle,
@@ -22,13 +22,13 @@ import {
   indentOnInput,
   bracketMatching,
   foldGutter,
-  foldKeymap,
+  foldKeymap
 } from "@codemirror/language";
 import {
   autocompletion,
   completionKeymap,
   closeBrackets,
-  closeBracketsKeymap,
+  closeBracketsKeymap
 } from "@codemirror/autocomplete";
 const EDITOR_BASE_SETUP: Extension = [
   lineNumbers(),
@@ -49,11 +49,11 @@ const EDITOR_BASE_SETUP: Extension = [
     ...historyKeymap,
     ...foldKeymap,
     ...completionKeymap,
-    indentWithTab,
+    indentWithTab
   ]),
 
   css(),
-  dracula,
+  dracula
 ];
 
 interface Props {
@@ -66,10 +66,10 @@ export default (props: Props) => {
   const {
     editorView,
     ref: editorRef,
-    createExtension,
+    createExtension
   } = createCodeMirror({
     value: props.value,
-    onValueChange: (value) => props.onValueChange(value),
+    onValueChange: (value) => props.onValueChange(value)
   });
 
   createExtension(EDITOR_BASE_SETUP);
@@ -81,7 +81,7 @@ export default (props: Props) => {
         "border-radius": "8px",
         overflow: "hidden",
         height: "100%",
-        border: "solid 1px rgba(255, 255, 255, 0.1)",
+        border: "solid 1px rgba(255, 255, 255, 0.1)"
       }}
     >
       <div ref={editorRef} style={{ height: "100%" }} />

@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 import {
   serverDetailsByInviteCode,
-  ServerWithMemberCount,
+  ServerWithMemberCount
 } from "@/chat-api/services/ServerService";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
@@ -16,7 +16,7 @@ import {
   Match,
   onMount,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
@@ -57,7 +57,7 @@ export default function ExploreServerPane() {
     header.updateHeader({
       title: "Explore",
       subName: "Join Server",
-      iconName: "explore",
+      iconName: "explore"
     });
   });
 

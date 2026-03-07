@@ -1,7 +1,10 @@
 import { A, useParams } from "solid-navigator";
 import { Show, createEffect, createSignal, on, createMemo } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import Avatar, { FirstLetterAvatar, ServerOrUserAvatar } from "@/components/ui/Avatar";
+import Avatar, {
+  FirstLetterAvatar,
+  ServerOrUserAvatar
+} from "@/components/ui/Avatar";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { css, styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
@@ -82,8 +85,8 @@ const ServerSettingsHeader = () => {
       () => serverSettingsHeaderPreview.avatar,
       (val) => {
         if (val) getImageDimensions(val).then(setImgDim);
-      },
-    ),
+      }
+    )
   );
 
   createEffect(
@@ -91,11 +94,11 @@ const ServerSettingsHeader = () => {
       () => serverSettingsHeaderPreview.banner,
       (val) => {
         if (val) getImageDimensions(val).then(setBannerDim);
-      },
-    ),
+      }
+    )
   );
 
-  const avatarSize = () => width() <= 1100 ? 70 : 100;
+  const avatarSize = () => (width() <= 1100 ? 70 : 100);
 
   const avatarCropStyle = createMemo(() => {
     const coords = serverSettingsHeaderPreview.avatarPoints;
@@ -138,9 +141,10 @@ const ServerSettingsHeader = () => {
         maxHeight={250}
         animate
         url={
-          (serverSettingsHeaderPreview.banner || serverSettingsHeaderPreview.banner === null)
-          ? undefined
-          : bannerUrl(server()!)
+          serverSettingsHeaderPreview.banner ||
+          serverSettingsHeaderPreview.banner === null
+            ? undefined
+            : bannerUrl(server()!)
         }
         hexColor={server()?.hexColor}
       >
@@ -149,7 +153,7 @@ const ServerSettingsHeader = () => {
             ref={setBannerEl}
             cropPosition={bannerCropStyle()}
             style={{
-              background: `url("${serverSettingsHeaderPreview.banner}")`,
+              background: `url("${serverSettingsHeaderPreview.banner}")`
             }}
           />
         ) : null}
@@ -165,19 +169,21 @@ const ServerSettingsHeader = () => {
             size={avatarSize()}
             class={avatarStyles}
           >
-            {serverSettingsHeaderPreview.avatar ?
+            {serverSettingsHeaderPreview.avatar ? (
               <CustomAvatar
                 ref={setAvatarEl}
                 cropPosition={avatarCropStyle()}
-                style={{ background: `url("${serverSettingsHeaderPreview.avatar}")` }}
+                style={{
+                  background: `url("${serverSettingsHeaderPreview.avatar}")`
+                }}
               />
-            : serverSettingsHeaderPreview.avatar === null ?
+            ) : serverSettingsHeaderPreview.avatar === null ? (
               <FirstLetterAvatar
                 size={avatarSize()}
                 serverOrUser={server() as ServerOrUserAvatar}
                 background={server()?.hexColor}
               />
-            : null}
+            ) : null}
           </Avatar>
           <DetailsContainer>
             <FlexRow gap={5}>
@@ -188,7 +194,7 @@ const ServerSettingsHeader = () => {
             </FlexRow>
             <Text size={14} opacity={0.8}>
               {t("servers.settings.header.serverMemberCount", {
-                count: serverMembersCount(),
+                count: serverMembersCount()
               })}
             </Text>
             <Text size={14}>

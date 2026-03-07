@@ -95,10 +95,11 @@ function EmojiDetailsModal(props: {
   const { shouldAnimate } = useWindowProperties();
 
   return (
-    <Modal.Root
-      close={props.close}
-    >
-      <Modal.Header icon="face" title={props.custom ? "Custom Emoji" : "Emoji"} />
+    <Modal.Root close={props.close}>
+      <Modal.Header
+        icon="face"
+        title={props.custom ? "Custom Emoji" : "Emoji"}
+      />
       <EmojiDetailsContainer>
         <MainEmojiContainer>
           <img
@@ -107,10 +108,11 @@ function EmojiDetailsModal(props: {
               "object-fit": "contain",
               width: "60px",
               height: "60px",
-              "border-radius": "6px",
+              "border-radius": "6px"
             }}
             src={
-              props.url + (props.animated && !shouldAnimate(true) ? "?type=webp" : "")
+              props.url +
+              (props.animated && !shouldAnimate(true) ? "?type=webp" : "")
             }
             alt={props.name}
             title={props.name}
@@ -130,9 +132,7 @@ function EmojiDetailsModal(props: {
         </MainEmojiContainer>
 
         <Show when={props.custom && props.id}>
-          <ServerInviteEmbed
-            emojiId={props.id}
-          />
+          <ServerInviteEmbed emojiId={props.id} />
         </Show>
       </EmojiDetailsContainer>
     </Modal.Root>

@@ -4,7 +4,7 @@ import {
   createCustomInvite,
   createInvite,
   deleteInvite,
-  getInvites,
+  getInvites
 } from "@/chat-api/services/ServerService";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
@@ -16,7 +16,9 @@ import { A, useNavigate, useParams } from "solid-navigator";
 import { createEffect, createSignal, For, on, onMount, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "@/components/ui/settings-block/SettingsBlock";
 import { copyToClipboard } from "@/common/clipboard";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Input from "@/components/ui/input/Input";
@@ -51,8 +53,8 @@ export default function ServerSettingsInvite() {
       () => params.serverId,
       () => {
         fetchInvites();
-      },
-    ),
+      }
+    )
   );
 
   createEffect(() => {
@@ -62,7 +64,7 @@ export default function ServerSettingsInvite() {
         " - " +
         t("servers.settings.drawer.invites"),
       serverId: params.serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -81,14 +83,14 @@ export default function ServerSettingsInvite() {
     <div
       class={classNames(
         styles.invitesPane,
-        conditionalClass(mobileSize(), styles.mobile),
+        conditionalClass(mobileSize(), styles.mobile)
       )}
     >
       <Breadcrumb>
         <BreadcrumbItem
           href={RouterEndpoints.SERVER_MESSAGES(
             params.serverId,
-            server()?.defaultChannelId!,
+            server()?.defaultChannelId!
           )}
           icon="home"
           title={server()?.name}
@@ -170,7 +172,7 @@ function CustomInvite(props: { invites: any[]; onUpdate: () => void }) {
           `}
           type="info"
           description={t(
-            "servers.settings.invites.customInviteVerifiedOnlyNotice",
+            "servers.settings.invites.customInviteVerifiedOnlyNotice"
           )}
         />
       </Show>
@@ -250,13 +252,13 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
         <div class={styles.details}>
           <A
             href={RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(
-              props.invite.code,
+              props.invite.code
             )}
             onclick={(e) => {
               e.preventDefault();
-              navigate(RouterEndpoints.EXPLORE_SERVER_INVITE(
-                props.invite.code,
-              ));
+              navigate(
+                RouterEndpoints.EXPLORE_SERVER_INVITE(props.invite.code)
+              );
             }}
             class={styles.url}
           >
@@ -273,7 +275,7 @@ const InviteItem = (props: { invite: any; onDeleted: () => void }) => {
               <Icon name="whatshot" size={14} class={styles.icon} />
               <span>
                 {t("servers.settings.invites.uses", {
-                  count: props.invite.uses,
+                  count: props.invite.uses
                 })}
               </span>
             </div>

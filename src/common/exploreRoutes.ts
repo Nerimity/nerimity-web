@@ -17,21 +17,21 @@ const exploreRoutes: ExploreRoute[] = [
     match: "/servers/*",
     name: () => t("explore.drawer.servers"),
     icon: "dns",
-    element: lazy(() => import("@/components/explore/ExploreServers")),
+    element: lazy(() => import("@/components/explore/ExploreServers"))
   },
   {
     path: "bots",
     routePath: "/bots",
     name: () => t("explore.drawer.bots"),
     icon: "smart_toy",
-    element: lazy(() => import("@/components/explore/ExploreBots")),
+    element: lazy(() => import("@/components/explore/ExploreBots"))
   },
   {
     path: "themes",
     routePath: "/themes",
     name: () => t("explore.drawer.themes"),
     icon: "brush",
-    element: lazy(() => import("@/components/explore/ExploreThemes")),
+    element: lazy(() => import("@/components/explore/ExploreThemes"))
   }
 ];
 

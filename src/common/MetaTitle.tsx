@@ -9,6 +9,6 @@ export const MetaTitle = (props: { children: JSXElement }) => {
 
   createEffect(() => {
     document.title = full();
-  })
-  return <></>
+  });
+  return <></>;
 };

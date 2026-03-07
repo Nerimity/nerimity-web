@@ -41,7 +41,7 @@ export function UsersPane(props: {
         const wasSuspended = selectedUsers().find((su) => su.id === u.id);
         if (!wasSuspended) return u;
         return { ...u, suspension };
-      }),
+      })
     );
   });
 
@@ -51,7 +51,7 @@ export function UsersPane(props: {
         return fetchSearch();
       }
       fetchUsers();
-    }),
+    })
   );
 
   const onLoadMoreClick = () => {
@@ -103,7 +103,7 @@ export function UsersPane(props: {
       expanded={showAll()}
       style={{
         ...(!showAll() ? { height: "initial" } : undefined),
-        ...(props.noMargin ? { margin: 0 } : {}),
+        ...(props.noMargin ? { margin: 0 } : {})
       }}
     >
       <Show when={!props.hideSearchBar}>

@@ -2,10 +2,7 @@ import { ServerNotificationPingMode } from "@/chat-api/RawData";
 import { Channel } from "@/chat-api/store/useChannels";
 import { Message } from "@/chat-api/store/useMessages";
 import useStore from "@/chat-api/store/useStore";
-import {
-  getStorageObject,
-  StorageKeys,
-} from "@/common/localStorage";
+import { getStorageObject, StorageKeys } from "@/common/localStorage";
 import { isMentioned } from "@/common/Sound";
 import { t } from "@nerimity/i18lite";
 import { createStore, reconcile } from "solid-js/store";
@@ -65,7 +62,7 @@ const buildMessageNotification = (
       if (channel?.serverId) return;
       if (channel?.recipient()?.inboxChannelId) return;
       users.openDM(message.createdBy.id);
-    },
+    }
   });
 };
 
@@ -114,7 +111,7 @@ const obj = {
   pushNotification,
   removeNotification,
   pushMessageNotification,
-  clearNotifications,
+  clearNotifications
 };
 export const useInAppNotificationPreviews = () => {
   return obj;

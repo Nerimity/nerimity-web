@@ -2,8 +2,6 @@
   display: flex;
   overflow: hidden;
   flex: 1;
-
-
 }
 
 .opacityContent {
@@ -19,7 +17,6 @@
 .container {
   display: flex;
   flex: 1;
-
 }
 
 body .mobile {
@@ -27,7 +24,6 @@ body .mobile {
     margin: 0;
     border-radius: 0;
   }
-
 }
 
 .content {
@@ -37,7 +33,6 @@ body .mobile {
 
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
-  
 
   &.hasLeftDrawer {
     margin-left: 0;
@@ -49,10 +44,8 @@ body .mobile {
     margin-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-
   }
 }
-
 
 .sideBar {
   padding-right: 4px;
@@ -71,11 +64,9 @@ body .mobile {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 
-
   width: 100%;
   overflow: hidden;
   position: relative;
-
 }
 
 .rightPane {
@@ -87,8 +78,6 @@ body .mobile {
 
   overflow: hidden;
   position: relative;
-
-
 }
 
 .mobile .leftDrawer {
@@ -108,5 +97,3 @@ body .mobile {
 //   margin: 0;
 //   border-radius: 0;
 // }
-
-

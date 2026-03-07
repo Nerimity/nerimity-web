@@ -77,7 +77,7 @@ export function Banner(props: {
 
   const getStyles = () => {
     const styles: JSX.CSSProperties = {
-      flex: "1",
+      flex: "1"
     };
 
     if (props.maxHeight !== undefined) {
@@ -92,7 +92,7 @@ export function Banner(props: {
       padding: (props.margin === undefined ? 10 : props.margin) + "px",
       display: "flex",
       "flex-shrink": "0",
-      overflow: "hidden",
+      overflow: "hidden"
     };
   };
 

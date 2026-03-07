@@ -5,24 +5,26 @@ import {
   batch,
   createEffect,
   createSignal,
-  onMount,
+  onMount
 } from "solid-js";
 import styles from "./styles.module.scss";
 import {
   getWelcomeQuestion,
-  updateWelcomeQuestion,
+  updateWelcomeQuestion
 } from "@/chat-api/services/ServerService";
 import { useParams } from "solid-navigator";
 import {
   RawServerWelcomeAnswer,
-  RawServerWelcomeQuestion,
+  RawServerWelcomeQuestion
 } from "@/chat-api/RawData";
 import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/input/Input";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
@@ -56,7 +58,7 @@ export default function SettingsPage() {
       {
         title: q.title,
         answers: q.answers,
-        multiselect: q.multiselect,
+        multiselect: q.multiselect
       }
     ).catch((err) => {
       setError(err.message);
@@ -74,9 +76,12 @@ export default function SettingsPage() {
 
   onMount(async () => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.welcome-screen"),
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("servers.settings.drawer.welcome-screen"),
       serverId: params.serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
     const q = await getWelcomeQuestion(params.serverId, params.questionId);
     batch(() => {
@@ -108,7 +113,7 @@ export default function SettingsPage() {
       const clonedAnswers = [...answers()];
       clonedAnswers[answerIndex]! = {
         ...clonedAnswers[answerIndex]!,
-        ...newAnswer,
+        ...newAnswer
       };
 
       setQuestion({ ...question()!, answers: clonedAnswers });
@@ -134,9 +139,9 @@ export default function SettingsPage() {
           id: "",
           roleIds: [],
           title: "Untitled Answer",
-          order: q.answers.length,
-        },
-      ],
+          order: q.answers.length
+        }
+      ]
     });
     onEditClick(q.answers.length);
   };
@@ -162,17 +167,31 @@ export default function SettingsPage() {
           title={t("servers.settings.drawer.welcome-screen")}
           href="../"
         />
-        <BreadcrumbItem title={question() ? question()?.title : t("servers.settings.welcomeScreen.questions.question")} />
+        <BreadcrumbItem
+          title={
+            question()
+              ? question()?.title
+              : t("servers.settings.welcomeScreen.questions.question")
+          }
+        />
       </Breadcrumb>
-      <SettingsBlock label={t("servers.settings.welcomeScreen.questions.question")} icon="edit">
+      <SettingsBlock
+        label={t("servers.settings.welcomeScreen.questions.question")}
+        icon="edit"
+      >
         <Input
-          placeholder={t("servers.settings.welcomeScreen.questions.questionPlaceholder")}
+          placeholder={t(
+            "servers.settings.welcomeScreen.questions.questionPlaceholder"
+          )}
           value={question()?.title}
           onText={(text) => setQuestion({ ...question()!, title: text })}
         />
       </SettingsBlock>
 
-      <SettingsBlock label={t("servers.settings.welcomeScreen.questions.multiselect")} icon="library_add_check">
+      <SettingsBlock
+        label={t("servers.settings.welcomeScreen.questions.multiselect")}
+        icon="library_add_check"
+      >
         <Checkbox
           checked={!!question()?.multiselect}
           onChange={(checked) =>
@@ -225,7 +244,11 @@ export default function SettingsPage() {
         <Text color="var(--alert-color)">{error()}</Text>
       </Show>
       <Show when={showSaveButton()}>
-        <Button label={t("general.saveChangesButton")} onClick={onSaveClick} iconName="save" />
+        <Button
+          label={t("general.saveChangesButton")}
+          onClick={onSaveClick}
+          iconName="save"
+        />
       </Show>
     </div>
   );
@@ -248,7 +271,7 @@ const EditAnswerModal = (props: {
   const onEditQuestionClick = async () => {
     props.editAnswer({
       roleIds: roleIds(),
-      title: answerTitle(),
+      title: answerTitle()
     });
     props.close();
   };
@@ -263,8 +286,8 @@ const EditAnswerModal = (props: {
           iconName: "check",
           label: t("general.doneButton"),
           onClick: onEditQuestionClick,
-          primary: true,
-        },
+          primary: true
+        }
       ]}
     >
       <div class={styles.editQuestionContainer}>
@@ -300,7 +323,7 @@ const AnswerForEditModal = (props: {
     roles().map((role) => {
       return {
         id: role.id,
-        label: role.name,
+        label: role.name
       } as DropDownItem;
     });
 
@@ -309,7 +332,9 @@ const AnswerForEditModal = (props: {
       <Input
         class={styles.answerInput}
         label={t("servers.settings.welcomeScreen.answers.editModal.answer")}
-        placeholder={t("servers.settings.welcomeScreen.answers.editModal.placeholder")}
+        placeholder={t(
+          "servers.settings.welcomeScreen.answers.editModal.placeholder"
+        )}
         value={props.title}
         onText={(t) => props.onTitleChange(t)}
       />
@@ -319,7 +344,9 @@ const AnswerForEditModal = (props: {
         onChange={(items) =>
           props.onRoleIdsChange(items.map((item) => item.id))
         }
-        title={t("servers.settings.welcomeScreen.answers.editModal.selectRoles")}
+        title={t(
+          "servers.settings.welcomeScreen.answers.editModal.selectRoles"
+        )}
       />
     </div>
   );

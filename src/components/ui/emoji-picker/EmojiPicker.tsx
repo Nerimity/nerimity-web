@@ -276,7 +276,9 @@ const GifPickerSearchBar = (props: {
       <Input
         ref={setInputRef}
         placeholder={
-          props.favoritesMode ? t("messageArea.gifPicker.favorites.search") : t("messageArea.gifPicker.search", { platform: "KLIPY" })
+          props.favoritesMode
+            ? t("messageArea.gifPicker.favorites.search")
+            : t("messageArea.gifPicker.search", { platform: "KLIPY" })
         }
         value={gifPickerSearch()}
         onInput={onInput}
@@ -323,7 +325,9 @@ const GifFavorites = (props: {
     <div class={styles.gifPickerSearches}>
       <Show when={favs().length === 0}>
         <div class={styles["no-favorites"]}>
-          {props.query ? t("messageArea.gifPicker.noResults") : t("messageArea.gifPicker.favorites.noFavorites")}
+          {props.query
+            ? t("messageArea.gifPicker.noResults")
+            : t("messageArea.gifPicker.favorites.noFavorites")}
         </div>
       </Show>
       <Rerun on={favs}>

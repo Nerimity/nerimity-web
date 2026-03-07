@@ -6,13 +6,13 @@ import {
   onAuthenticateError,
   onConnect,
   onDisconnect,
-  onReconnectAttempt,
+  onReconnectAttempt
 } from "./events/connectionEvents";
 import {
   onFriendRemoved,
   onFriendRequestAccepted,
   onFriendRequestPending,
-  onFriendRequestSent,
+  onFriendRequestSent
 } from "./events/friendEvents";
 import { onInboxClosed, onInboxOpened } from "./events/inboxEvents";
 import {
@@ -22,7 +22,7 @@ import {
   onMessageMarkUnread,
   onMessageReactionAdded,
   onMessageReactionRemoved,
-  onMessageUpdated,
+  onMessageUpdated
 } from "./events/messageEvents";
 import {
   onServerChannelCreated,
@@ -47,7 +47,7 @@ import {
   onServerRoleOrderUpdated,
   onServerRoleUpdated,
   onServerScheduleDelete,
-  onServerUpdated,
+  onServerUpdated
 } from "./events/serverEvents";
 import {
   onNotificationDismissed,
@@ -62,18 +62,18 @@ import {
   onUserReminderUpdate,
   onUserUnblocked,
   onUserUpdated,
-  onUserUpdatedSelf,
+  onUserUpdatedSelf
 } from "./events/userEvents";
 import { onCleanup, onMount } from "solid-js";
 import {
   onVoiceSignalReceived,
   onVoiceUserJoined,
-  onVoiceUserLeft,
+  onVoiceUserLeft
 } from "./events/voiceEvents";
 
 const socket = io(env.WS_URL || env.SERVER_URL, {
   transports: ["websocket"],
-  autoConnect: false,
+  autoConnect: false
 });
 
 let token: undefined | string;
@@ -98,7 +98,7 @@ export default {
         socket.off(name, event);
       });
     });
-  },
+  }
 };
 
 socket.io.on("reconnect_attempt", onReconnectAttempt);

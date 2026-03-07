@@ -7,7 +7,7 @@ import {
   on,
   onMount,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import { classNames, conditionalClass } from "@/common/classNames";
 import styles from "./styles.module.scss";
@@ -216,7 +216,7 @@ export default function Input(props: Props) {
               "min-height": props.minHeight
                 ? `${props.minHeight}px`
                 : undefined,
-              height: `${props.height}px`,
+              height: `${props.height}px`
             }}
             ref={inputEl}
             onfocus={onFocus}

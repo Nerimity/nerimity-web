@@ -1,6 +1,6 @@
 import {
   addAnnouncePost,
-  removeAnnouncePost,
+  removeAnnouncePost
 } from "@/chat-api/services/ModerationService";
 import { createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
@@ -56,7 +56,7 @@ export default function DeleteAnnouncePostsModal(props: Props) {
         "justify-content": "flex-end",
         flex: 1,
         margin: "5px",
-        gap: "4px",
+        gap: "4px"
       }}
     >
       <Button

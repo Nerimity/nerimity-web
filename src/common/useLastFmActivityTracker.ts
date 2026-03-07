@@ -30,7 +30,10 @@ interface LastFmResponse {
   message?: string;
 }
 
-async function fetchNowPlaying(username: string, apiKey: string): Promise<void> {
+async function fetchNowPlaying(
+  username: string,
+  apiKey: string
+): Promise<void> {
   try {
     const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(username)}&api_key=${encodeURIComponent(apiKey)}&format=json&limit=1`;
     const response = await fetch(url);
@@ -80,7 +83,7 @@ async function fetchNowPlaying(username: string, apiKey: string): Promise<void> 
       subtitle: track.artist["#text"],
       imgSrc: imgSrc || undefined,
       link: track.url || undefined,
-      startedAt: Date.now(),
+      startedAt: Date.now()
     });
   } catch {
     // Network error => we will keep the exisitng activity
@@ -89,7 +92,10 @@ async function fetchNowPlaying(username: string, apiKey: string): Promise<void> 
 
 export const useLastFmActivityTracker = () => {
   const start = () => {
-    const { username, apiKey } = getStorageObject(StorageKeys.LASTFM, { username: "", apiKey: ""});
+    const { username, apiKey } = getStorageObject(StorageKeys.LASTFM, {
+      username: "",
+      apiKey: ""
+    });
     if (!username || !apiKey) return;
     if (pollIntervalId !== null) return;
 
@@ -110,4 +116,4 @@ export const useLastFmActivityTracker = () => {
   };
 
   return { start, restart };
-}
+};

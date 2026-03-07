@@ -9,32 +9,32 @@ const noticeType = {
     single: "Warning",
     plural: "Warnings",
     borderColor: "var(--warn-color)",
-    icon: "warning",
+    icon: "warning"
   },
   error: {
     single: "Error",
     plural: "Errors",
     borderColor: "var(--alert-color)",
-    icon: "error",
+    icon: "error"
   },
   info: {
     single: "Info",
     plural: "Infos",
     borderColor: "var(--primary-color)",
-    icon: "info",
+    icon: "info"
   },
   caution: {
     single: "Caution",
     plural: "Caution",
     borderColor: "var(--alert-color)",
-    icon: "error",
+    icon: "error"
   },
   success: {
     single: "Success",
     plural: "Success",
     borderColor: "var(--success-color)",
-    icon: "check_circle",
-  },
+    icon: "check_circle"
+  }
 };
 
 interface NoticeProps {

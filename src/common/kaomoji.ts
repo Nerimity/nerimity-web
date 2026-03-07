@@ -65,4 +65,5 @@ const kaomojis = [
   "||Φ|(|ﾟ|∀|ﾟ|)|Φ||"
 ];
 
-export const randomKaomoji = () => kaomojis[Math.floor(Math.random() * kaomojis.length)];
+export const randomKaomoji = () =>
+  kaomojis[Math.floor(Math.random() * kaomojis.length)];

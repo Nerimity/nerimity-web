@@ -5,7 +5,9 @@ import { FlexColumn } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "../ui/settings-block/SettingsBlock";
 import { RadioBox, RadioBoxItem } from "../ui/RadioBox";
 import { updateUser } from "@/chat-api/services/UserService";
 import Checkbox from "../ui/Checkbox";
@@ -28,7 +30,7 @@ export default function PrivacySettings() {
   createEffect(() => {
     header.updateHeader({
       title: t("settings.drawer.title") + " - " + t("settings.drawer.privacy"),
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -54,13 +56,13 @@ function LastOnlineOptions() {
   const radioboxItems = [
     { id: 0, label: t("settings.privacy.options.nobody") },
     { id: 1, label: t("settings.privacy.options.friendsOnly") },
-    { id: 2, label: t("settings.privacy.options.friendsAndServers") },
+    { id: 2, label: t("settings.privacy.options.friendsAndServers") }
   ];
 
   const onChange = (item: RadioBoxItem) => {
     const id = item.id;
     updateUser({
-      lastOnlineStatus: id as number,
+      lastOnlineStatus: id as number
     });
   };
 
@@ -90,13 +92,13 @@ function DMOptions() {
   const radioboxItems = [
     { id: 0, label: t("settings.privacy.options.anybody") },
     { id: 1, label: t("settings.privacy.options.serversOnly") },
-    { id: 2, label: t("settings.privacy.options.nobody") },
+    { id: 2, label: t("settings.privacy.options.nobody") }
   ];
 
   const onChange = (item: RadioBoxItem) => {
     const id = item.id;
     updateUser({
-      friendRequestStatus: id as number,
+      friendRequestStatus: id as number
     });
   };
 
@@ -129,13 +131,13 @@ const DirectMessageBlock = () => {
   const radioboxItems = [
     { id: 0, label: t("settings.privacy.options.anybody") },
     { id: 1, label: t("settings.privacy.options.friendsAndServers") },
-    { id: 2, label: t("settings.privacy.options.friendsOnly") },
+    { id: 2, label: t("settings.privacy.options.friendsOnly") }
   ];
 
   const onChange = (item: RadioBoxItem) => {
     const id = item.id;
     updateUser({
-      dmStatus: id as number,
+      dmStatus: id as number
     });
   };
   return (
@@ -179,7 +181,7 @@ const ProfileOptions = () => {
 
       updateUser({
         hideFollowers: hideFollowers(),
-        hideFollowing: hideFollowing(),
+        hideFollowing: hideFollowing()
       });
     };
   };

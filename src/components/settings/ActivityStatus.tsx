@@ -5,7 +5,7 @@ import {
   For,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
@@ -13,12 +13,14 @@ import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "../ui/settings-block/SettingsBlock";
 import { Notice } from "../ui/Notice/Notice";
 import {
   electronWindowAPI,
   Program,
-  ProgramWithExtras,
+  ProgramWithExtras
 } from "@/common/Electron";
 import Button from "../ui/Button";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
@@ -29,7 +31,7 @@ import {
   setStorageObject,
   setStorageString,
   StorageKeys,
-  useLocalStorage,
+  useLocalStorage
 } from "@/common/localStorage";
 import { emitActivityStatus } from "@/chat-api/emits/userEmits";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
@@ -100,8 +102,11 @@ export default function WindowSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.activity-status"),
-      iconName: "settings",
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("settings.drawer.activity-status"),
+      iconName: "settings"
     });
   });
 
@@ -144,7 +149,7 @@ export default function WindowSettings() {
                 imgSrc: "https://nerimity.com/assets/logo.png",
                 link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 title: "Why Nerimity is the best",
-                subtitle: "Good YouTuber",
+                subtitle: "Good YouTuber"
               }}
             />
           </ExampleActivityContainer>
@@ -159,7 +164,7 @@ export default function WindowSettings() {
                 imgSrc: "https://nerimity.com/assets/logo.png",
                 link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 title: "Ner Ner Nerimity!",
-                subtitle: "Nerimity",
+                subtitle: "Nerimity"
               }}
             />
           </ExampleActivityContainer>
@@ -181,7 +186,9 @@ export default function WindowSettings() {
               margin={[10, 0, 0, 0]}
               iconName="extension"
               primary
-              label={t("settings.activity.visitButton", {store: "Firefox Add-ons"})}
+              label={t("settings.activity.visitButton", {
+                store: "Firefox Add-ons"
+              })}
             />
           </CustomLink>
           <CustomLink
@@ -193,7 +200,9 @@ export default function WindowSettings() {
               margin={[10, 0, 0, 0]}
               iconName="extension"
               primary
-              label={t("settings.activity.visitButton", {store: "Chrome Web Store"})}
+              label={t("settings.activity.visitButton", {
+                store: "Chrome Web Store"
+              })}
             />
           </CustomLink>
         </FlexRow>
@@ -267,14 +276,14 @@ function ProgramOptions() {
       id: program.filename,
       label: program.name,
       description: program.filename,
-      data: program,
+      data: program
     })) satisfies DropDownItem[];
   };
 
   const addProgram = (item: DropDownItem) => {
     const program = {
       ...item.data,
-      action: t("activityNames.playing"),
+      action: t("activityNames.playing")
     };
     setAddedPrograms([...addedPrograms(), program]);
     getPrograms();
@@ -392,7 +401,10 @@ const EditActivityStatusModal = (props: {
 
   return (
     <Modal.Root close={props.close}>
-      <Modal.Header title={t("settings.activity.activityStatusModal.title")} icon="edit" />
+      <Modal.Header
+        title={t("settings.activity.activityStatusModal.title")}
+        icon="edit"
+      />
       <Modal.Body
         class={css`
           overflow: auto;
@@ -428,7 +440,7 @@ const EditActivityStatusModal = (props: {
                 style={{
                   display: "flex",
                   "margin-top": "-1px",
-                  padding: "0",
+                  padding: "0"
                 }}
               >
                 <EmojiPicker close={() => {}} onClick={emojiPicked} />
@@ -518,7 +530,10 @@ const DiscordServerJoinedConfirmModal = (props: {
       doNotCloseOnBackgroundClick
       desktopMaxWidth={500}
     >
-      <Modal.Header title={t("settings.activity.discordActivity")} icon="edit" />
+      <Modal.Header
+        title={t("settings.activity.discordActivity")}
+        icon="edit"
+      />
       <Modal.Body>
         <FlexColumn padding={6} gap={6}>
           <Text>
@@ -551,13 +566,19 @@ const DiscordServerJoinedConfirmModal = (props: {
 
 const LastFmActivity = () => {
   const lastFmTracker = useLastFmActivityTracker();
-  const lastfm = getStorageObject(StorageKeys.LASTFM, { username: "", apiKey: "" });
+  const lastfm = getStorageObject(StorageKeys.LASTFM, {
+    username: "",
+    apiKey: ""
+  });
   const [username, setUsername] = createSignal<string>(lastfm.username);
   const [apiKey, setApiKey] = createSignal<string>(lastfm.apiKey);
   const [showApiKey, setShowApiKey] = createSignal(false);
 
   const onBlur = () => {
-    setStorageObject(StorageKeys.LASTFM, { username: username().trim(), apiKey: apiKey().trim() });
+    setStorageObject(StorageKeys.LASTFM, {
+      username: username().trim(),
+      apiKey: apiKey().trim()
+    });
     lastFmTracker.restart();
   };
 
@@ -583,7 +604,13 @@ const LastFmActivity = () => {
             <Icon
               name={showApiKey() ? "visibility_off" : "visibility"}
               size={18}
-              style={{ cursor: "pointer", opacity: 0.6, "padding-right": "10px", "flex-shrink": 0, "align-self": "center" }}
+              style={{
+                cursor: "pointer",
+                opacity: 0.6,
+                "padding-right": "10px",
+                "flex-shrink": 0,
+                "align-self": "center"
+              }}
               onClick={() => setShowApiKey(!showApiKey())}
             />
           }

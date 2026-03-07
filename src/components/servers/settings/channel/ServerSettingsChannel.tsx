@@ -9,17 +9,19 @@ import {
   on,
   onMount,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
-import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "@/components/ui/settings-block/SettingsBlock";
 import Input from "@/components/ui/input/Input";
 import Button from "@/components/ui/Button";
 import {
   deleteServerChannel,
   updateServerChannel,
-  updateServerChannelPermissions,
+  updateServerChannelPermissions
 } from "@/chat-api/services/ServerService";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { Channel } from "@/chat-api/store/useChannels";
@@ -28,12 +30,12 @@ import {
   addBit,
   CHANNEL_PERMISSIONS,
   getAllPermissions,
-  removeBit,
+  removeBit
 } from "@/chat-api/Bitwise";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
 import {
   toast,
-  useCustomPortal,
+  useCustomPortal
 } from "@/components/ui/custom-portal/CustomPortal";
 import { useTransContext } from "@nerimity/solid-i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
@@ -46,7 +48,7 @@ import { css } from "solid-styled-components";
 import {
   deleteChannelNotice,
   getChannelNotice,
-  updateChannelNotice,
+  updateChannelNotice
 } from "@/chat-api/services/ChannelService";
 import { RawChannelNotice, RawWebhook, ChannelType } from "@/chat-api/RawData";
 import { ChannelIcon } from "@/components/ChannelIcon";
@@ -58,7 +60,7 @@ import {
   createWebhook,
   deleteWebhook,
   getWebhooks,
-  getWebhookToken,
+  getWebhookToken
 } from "@/chat-api/services/WebhookService";
 import { copyToClipboard } from "@/common/clipboard";
 import { FloatingSaveChanges } from "@/components/ui/FloatingSaveChanges";
@@ -83,7 +85,7 @@ export default function ServerSettingsChannel() {
         <BreadcrumbItem
           href={RouterEndpoints.SERVER_MESSAGES(
             params.serverId,
-            server()?.defaultChannelId!,
+            server()?.defaultChannelId!
           )}
           icon="home"
           title={server()?.name}
@@ -160,7 +162,7 @@ function PermissionsTab() {
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const [selectedRoleId, setSelectedRoleId] = createSignal<string | undefined>(
-    undefined,
+    undefined
   );
 
   const [permissions, setPermissions] = createSignal(0);
@@ -209,8 +211,8 @@ function PermissionsTab() {
                 (everyone)
               </div>
             ) : null,
-          label: role!.name,
-        }) satisfies DropDownItem,
+          label: role!.name
+        }) satisfies DropDownItem
     );
 
   createEffect(
@@ -218,9 +220,9 @@ function PermissionsTab() {
       store.header.updateHeader({
         title: t("settings.drawer.title") + " - " + channel()?.name,
         serverId: params.serverId!,
-        iconName: "settings",
+        iconName: "settings"
       });
-    }),
+    })
   );
 
   const onSaveButtonClicked = async () => {
@@ -232,7 +234,7 @@ function PermissionsTab() {
       serverId: params.serverId,
       channelId: params.channelId,
       roleId: selectedRoleId()!,
-      permissions: permissions(),
+      permissions: permissions()
     })
       .catch((err) => setError(err.message))
       .finally(() => setSaveRequestSent(false));
@@ -305,7 +307,7 @@ function GeneralTab() {
   const defaultInput = () => ({
     name: channel()?.name || "",
     icon: channel()?.icon || null,
-    slowModeSeconds: channel()?.slowModeSeconds || 0,
+    slowModeSeconds: channel()?.slowModeSeconds || 0
   });
 
   const [inputValues, updatedInputValues, setInputValue, undoUpdatedValues] =
@@ -316,9 +318,9 @@ function GeneralTab() {
       header.updateHeader({
         title: t("settings.drawer.title") + " - " + channel()?.name,
         serverId: params.serverId!,
-        iconName: "settings",
+        iconName: "settings"
       });
-    }),
+    })
   );
 
   const onSaveButtonClicked = async () => {
@@ -334,7 +336,7 @@ function GeneralTab() {
   const openChannelIconPicker = (event: MouseEvent) => {
     setEmojiPickerPosition({
       x: event.clientX,
-      y: event.clientY,
+      y: event.clientY
     });
   };
 
@@ -517,7 +519,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
     createSignal<RawChannelNotice | null>(null);
 
   const defaultInput = () => ({
-    content: channelNotice()?.content || "",
+    content: channelNotice()?.content || ""
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -536,7 +538,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
     const res = await updateChannelNotice(
       props.serverId,
       props.channelId,
-      inputValues().content,
+      inputValues().content
     ).catch((err) => {
       setError(err.message);
     });
@@ -548,7 +550,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
   const deleteNotice = async () => {
     const res = await deleteChannelNotice(
       props.serverId,
-      props.channelId,
+      props.channelId
     ).catch((err) => {
       setError(err.message);
     });
@@ -562,7 +564,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
       style={{
         "margin-bottom": "35px",
         "padding-bottom": "30px",
-        "border-bottom": "solid 1px rgba(255,255,255,0.2)",
+        "border-bottom": "solid 1px rgba(255,255,255,0.2)"
       }}
     >
       <SettingsBlock
@@ -590,7 +592,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
           style={{
             display: "flex",
             "align-self": "flex-end",
-            "margin-top": "15px",
+            "margin-top": "15px"
           }}
         >
           <Show when={channelNotice()?.content}>
@@ -642,7 +644,7 @@ function ChannelDeleteConfirmModal(props: {
   return (
     <DeleteConfirmModal
       title={t("servers.settings.channel.deleteChannelTitle", {
-        channelName: `${props.channel?.name}`,
+        channelName: `${props.channel?.name}`
       })}
       close={props.close}
       errorMessage={error()}
@@ -666,7 +668,7 @@ const WebhooksBlock = (props: { channelId: string; serverId: string }) => {
     const res = await createWebhook(props.serverId, props.channelId).catch(
       (err) => {
         toast(err.message);
-      },
+      }
     );
     if (!res) return;
     navigate(`./webhooks/${res.id}`);
@@ -674,11 +676,12 @@ const WebhooksBlock = (props: { channelId: string; serverId: string }) => {
 
   return (
     <SettingsGroup>
-      <SettingsBlock
-        icon="webhook"
-        label={t("servers.settings.webhook.title")}
-      >
-        <Button label={t("servers.settings.webhook.addButton")} iconName="add" onClick={handleCreate} />
+      <SettingsBlock icon="webhook" label={t("servers.settings.webhook.title")}>
+        <Button
+          label={t("servers.settings.webhook.addButton")}
+          iconName="add"
+          onClick={handleCreate}
+        />
       </SettingsBlock>
       <For each={webhooks()}>
         {(webhook) => (

@@ -8,7 +8,7 @@ export async function BumpExploreItem(id: string, token: string) {
     method: "POST",
     body: { token },
     url: env.SERVER_URL + "/api" + ServiceEndpoints.explore(id) + "/bump",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -21,14 +21,14 @@ export async function upsertExploreBotApp(
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.explore("bots/" + botAppId),
     body: { description, permissions },
-    useToken: true,
+    useToken: true
   });
 }
 export async function getExploreBotApp(botAppId: string) {
   return request<RawExploreItem>({
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.explore("bots/" + botAppId),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -54,6 +54,6 @@ export async function getExploreItems(opts: getExploreItemsOpts) {
     params: opts,
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.explore(""),
-    useToken: true,
+    useToken: true
   });
 }

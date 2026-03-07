@@ -24,7 +24,7 @@ import { CustomLink } from "../ui/CustomLink";
 import {
   getExploreItems,
   PublicServerFilter,
-  PublicServerSort,
+  PublicServerSort
 } from "@/chat-api/services/ExploreService";
 import { ServerBumpModal } from "./ExploreServers";
 import { openInviteBotModal } from "../ui/openInviteBotModal";
@@ -40,7 +40,7 @@ const GridLayout = styled("div")`
 const defaultQuery = {
   sort: "recently_bumped",
   filter: "online_bots",
-  search: "",
+  search: ""
 } as const;
 
 export default function ExploreBots() {
@@ -64,7 +64,7 @@ export default function ExploreBots() {
     on(query, () => {
       header.updateHeader({
         title: t("explore.bots.title"),
-        iconName: "explore",
+        iconName: "explore"
       });
       batch(() => {
         setPublicItems(null);
@@ -85,7 +85,7 @@ export default function ExploreBots() {
       limit: MAX_LIMIT,
       ...(_afterId ? { afterId: _afterId } : {}),
       ...(search ? { search } : {}),
-      type: "bot" as const,
+      type: "bot" as const
     };
     timerId = window.setTimeout(() => {
       getExploreItems(opts).then((servers) => {
@@ -101,13 +101,13 @@ export default function ExploreBots() {
     { id: "most_bumps", label: t("explore.servers.sortMostBumps") },
     { id: "most_members", label: t("explore.servers.sortMostMembers") },
     { id: "recently_added", label: t("explore.servers.sortRecentlyAdded") },
-    { id: "recently_bumped", label: t("explore.servers.sortRecentlyBumped") },
+    { id: "recently_bumped", label: t("explore.servers.sortRecentlyBumped") }
   ];
 
   const filterOpts: DropDownItem[] = [
     { id: "all", label: t("explore.servers.filterAll") },
     { id: "online_bots", label: t("status.online") },
-    { id: "offline_bots", label: t("status.offline") },
+    { id: "offline_bots", label: t("status.offline") }
   ];
 
   const update = (newPublicServer: RawExploreItem, index: number) => {
@@ -130,7 +130,7 @@ export default function ExploreBots() {
         type="info"
         description={t("explore.bots.noticeMessage", {
           hours: "3",
-          date: "Monday at 0:00 UTC",
+          date: "Monday at 0:00 UTC"
         })}
       />
       <Notice
@@ -284,7 +284,7 @@ function PublicItem(props: {
         t("servers.settings.publishServer.bumpCooldown", {
           hours: timeLeft.getUTCHours(),
           minutes: timeLeft.getUTCMinutes(),
-          seconds: timeLeft.getUTCSeconds(),
+          seconds: timeLeft.getUTCSeconds()
         }),
         t("servers.settings.publishServer.bumpServer"),
         "arrow_upward"
@@ -335,7 +335,7 @@ function PublicItem(props: {
                 style={{
                   background: bot.online
                     ? "var(--status-online)"
-                    : "var(--status-offline)",
+                    : "var(--status-offline)"
                 }}
               />
               {bot.username}
@@ -367,7 +367,7 @@ function PublicItem(props: {
           <Icon name="group" size={17} color="var(--primary-color)" />
           <Text size={14}>
             {t("explore.bots.serverCount", {
-              count: bot._count.servers.toLocaleString(),
+              count: bot._count.servers.toLocaleString()
             })}
           </Text>
         </FlexRow>
@@ -375,8 +375,7 @@ function PublicItem(props: {
         <FlexRow gap={5}>
           <Icon name="schedule" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            {t("explore.bumped")}{" "}
-            {timeSince(props.item.bumpedAt, false)}
+            {t("explore.bumped")} {timeSince(props.item.bumpedAt, false)}
           </Text>
         </FlexRow>
       </MemberContainer>
@@ -410,7 +409,7 @@ function PublicItem(props: {
           margin={0}
           iconName="arrow_upward"
           label={t("explore.servers.bumpButton", {
-            count: props.item.bumpCount.toLocaleString(),
+            count: props.item.bumpCount.toLocaleString()
           })}
         />
 

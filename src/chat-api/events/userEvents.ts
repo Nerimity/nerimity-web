@@ -11,7 +11,7 @@ import {
   RawUser,
   RawUserConnection,
   RawNotice,
-  RawReminder,
+  RawReminder
 } from "../RawData";
 import useFriends from "../store/useFriends";
 import useAccount from "../store/useAccount";
@@ -38,7 +38,7 @@ export function onUserPresenceUpdate(payload: {
     ...(payload.custom !== undefined ? { custom: payload.custom } : undefined),
     ...(payload.activity !== undefined
       ? { activity: payload.activity }
-      : undefined),
+      : undefined)
   });
 }
 
@@ -95,7 +95,7 @@ export function onUserBlocked(payload: { user: RawUser }) {
     createdAt: Date.now(),
     recipient: payload.user,
     userId: account.user()?.id!,
-    status: FriendStatus.BLOCKED,
+    status: FriendStatus.BLOCKED
   });
 }
 export function onUserUnblocked(payload: { userId: string }) {
@@ -108,7 +108,7 @@ export function onUserConnectionAdded(payload: {
 }) {
   const account = useAccount();
   account.setUser({
-    connections: [...(account.user()?.connections || []), payload.connection],
+    connections: [...(account.user()?.connections || []), payload.connection]
   });
 }
 
@@ -117,7 +117,7 @@ export function onUserConnectionRemoved(payload: { connectionId: string }) {
   account.setUser({
     connections: account
       .user()
-      ?.connections.filter((c) => c.id !== payload.connectionId),
+      ?.connections.filter((c) => c.id !== payload.connectionId)
   });
 }
 

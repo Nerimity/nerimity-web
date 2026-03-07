@@ -4,16 +4,18 @@ import { styled } from "solid-styled-components";
 import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "../ui/settings-block/SettingsBlock";
 import Button from "../ui/Button";
 import {
   createGoogleAccountLink,
-  unlinkAccountWithGoogle,
+  unlinkAccountWithGoogle
 } from "@/chat-api/services/UserService";
 import {
   OAuth2AuthorizedApplication,
   OAuth2AuthorizedApplications,
-  OAuth2Unauthorize,
+  OAuth2Unauthorize
 } from "@/chat-api/services/OAuthService";
 import Avatar from "../ui/Avatar";
 import Text from "../ui/Text";
@@ -31,8 +33,9 @@ export default function ConnectionsSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.connections"),
-      iconName: "settings",
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.connections"),
+      iconName: "settings"
     });
   });
 
@@ -72,7 +75,9 @@ function ThirdPartyConnections() {
         label={t("settings.connections.thirdParty.title")}
       >
         <Text opacity={0.6} size={12}>
-          {t("settings.connections.thirdParty.connectionCount", { count: connections().length })}
+          {t("settings.connections.thirdParty.connectionCount", {
+            count: connections().length
+          })}
         </Text>
       </SettingsBlock>
       <For each={connections()}>
@@ -121,13 +126,17 @@ const ThirdPartyConnectionItem = (props: {
           user={{
             username: application().name,
             hexColor: application().botUser?.hexColor || "white",
-            avatar: application().botUser?.avatar,
+            avatar: application().botUser?.avatar
           }}
         />
       }
     >
       <Button
-        label={requestSent() ? t("settings.connections.thirdParty.unauthorizing") : t("settings.connections.thirdParty.unauthorizeButton")}
+        label={
+          requestSent()
+            ? t("settings.connections.thirdParty.unauthorizing")
+            : t("settings.connections.thirdParty.unauthorizeButton")
+        }
         alert
         iconName="link_off"
         iconSize={16}
@@ -164,7 +173,11 @@ function GoogleLink() {
       description={t("settings.connections.googleDescription")}
     >
       <Show when={!isConnected()}>
-        <Button label={t("settings.connections.linkButton")} iconName="link" onClick={linkGoogle} />
+        <Button
+          label={t("settings.connections.linkButton")}
+          iconName="link"
+          onClick={linkGoogle}
+        />
       </Show>
       <Show when={isConnected()}>
         <Button

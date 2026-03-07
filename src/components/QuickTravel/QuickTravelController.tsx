@@ -8,7 +8,7 @@ import {
   JSXElement,
   on,
   onCleanup,
-  onMount,
+  onMount
 } from "solid-js";
 import { User } from "@/chat-api/store/useUsers";
 import { Server } from "@/chat-api/store/useServers";
@@ -63,7 +63,7 @@ const [QuickTravelControllerProvider, useQuickTravelController] =
           subText: friend ? "Friend" : inbox ? "Inbox" : "User",
           path: user.inboxChannelId
             ? RouterEndpoints.INBOX_MESSAGES(user.inboxChannelId!)
-            : undefined,
+            : undefined
         } as SearchItem;
       });
     });
@@ -78,7 +78,7 @@ const [QuickTravelControllerProvider, useQuickTravelController] =
           name: channel.name,
           subText: store.servers.get(channel.serverId!)?.name,
           path: RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id),
-          icon: () => <ChannelIcon icon={channel.icon} type={channel.type} />,
+          icon: () => <ChannelIcon icon={channel.icon} type={channel.type} />
         }));
     });
 
@@ -93,7 +93,7 @@ const [QuickTravelControllerProvider, useQuickTravelController] =
         path: RouterEndpoints.SERVER_MESSAGES(
           server.id!,
           server.defaultChannelId!
-        ),
+        )
       }));
     });
 
@@ -109,7 +109,7 @@ const [QuickTravelControllerProvider, useQuickTravelController] =
             icon: setting.icon,
             name: setting.name(),
             path: `/app/settings/${setting.path}`,
-            subText: "Settings",
+            subText: "Settings"
           }));
 
         const searched = matchSorter(
@@ -117,11 +117,11 @@ const [QuickTravelControllerProvider, useQuickTravelController] =
             ...mappedUsers(),
             ...mappedServers(),
             ...mappedChannels(),
-            ...mappedSettings,
+            ...mappedSettings
           ],
           inputValue(),
           {
-            keys: ["name"],
+            keys: ["name"]
           }
         )
           .sort((a, b) => {
@@ -182,7 +182,7 @@ const [QuickTravelControllerProvider, useQuickTravelController] =
       setInputValue,
       items,
       selectedIndex,
-      setSelectedIndex,
+      setSelectedIndex
     };
   });
 

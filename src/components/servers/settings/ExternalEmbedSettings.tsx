@@ -12,7 +12,7 @@ import {
   createServerExternalEmbed,
   deleteServerExternalEmbed,
   getInvites,
-  getServerExternalEmbed,
+  getServerExternalEmbed
 } from "@/chat-api/services/ServerService";
 import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
 import { Notice } from "@/components/ui/Notice/Notice";
@@ -40,13 +40,13 @@ export default function ExternalEmbedSettings() {
     hide_header: 48,
     hide_members: 330,
     hide_activities: 54,
-    other: 48,
+    other: 48
   };
 
   const [opts, setOpts] = createSignal({
     hide_header: false,
     hide_members: false,
-    hide_activities: false,
+    hide_activities: false
   });
 
   const [invites, setInvites] = createSignal<{ code: string }[] | null>(null);
@@ -81,16 +81,19 @@ export default function ExternalEmbedSettings() {
     );
     const search = new URLSearchParams({
       id: params.serverId!,
-      ...enabledOptions,
+      ...enabledOptions
     }).toString();
     return url + "?" + search;
   };
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.external-embed"),
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("servers.settings.drawer.external-embed"),
       serverId: params.serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
   });
   const server = () => servers.get(params.serverId);
@@ -131,7 +134,9 @@ export default function ExternalEmbedSettings() {
         <Notice
           type="error"
           title={t("servers.settings.externalEmbed.noInvites.title")}
-          description={t("servers.settings.externalEmbed.noInvites.description")}
+          description={t(
+            "servers.settings.externalEmbed.noInvites.description"
+          )}
           children={
             <Button
               label={t("servers.settings.externalEmbed.noInvites.createButton")}
@@ -157,11 +162,13 @@ export default function ExternalEmbedSettings() {
             <FlexRow>
               <Show when={embed() === undefined}>
                 <DropDown
-                  placeholder={t("servers.settings.externalEmbed.dropdownPlaceholder")}
+                  placeholder={t(
+                    "servers.settings.externalEmbed.dropdownPlaceholder"
+                  )}
                   onChange={onInviteSelected}
                   items={invites()!.map((invite) => ({
                     id: invite.code,
-                    label: invite.code,
+                    label: invite.code
                   }))}
                 />
               </Show>

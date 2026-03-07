@@ -21,7 +21,7 @@ const serverSettings: ServerSetting[] = [
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(
       () => import("@/components/servers/settings/ServerGeneralSettings")
-    ),
+    )
   },
   {
     path: "audit-logs",
@@ -29,9 +29,7 @@ const serverSettings: ServerSetting[] = [
     name: () => t("servers.settings.drawer.audit-logs"),
     icon: "history",
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
-    element: lazy(
-      () => import("@/components/servers/settings/ServerAuditLogs")
-    ),
+    element: lazy(() => import("@/components/servers/settings/ServerAuditLogs"))
   },
   {
     path: "notifications",
@@ -40,7 +38,7 @@ const serverSettings: ServerSetting[] = [
     icon: "notifications",
     element: lazy(
       () => import("@/components/servers/settings/ServerNotificationSettings")
-    ),
+    )
   },
   {
     path: "notifications/:channelId",
@@ -50,7 +48,7 @@ const serverSettings: ServerSetting[] = [
     hideDrawer: true,
     element: lazy(
       () => import("@/components/servers/settings/ServerNotificationSettings")
-    ),
+    )
   },
   {
     path: "roles/:roleId",
@@ -61,7 +59,7 @@ const serverSettings: ServerSetting[] = [
     requiredRolePermission: ROLE_PERMISSIONS.MANAGE_ROLES,
     element: lazy(
       () => import("@/components/servers/settings/role/ServerSettingsRole")
-    ),
+    )
   },
   {
     name: () => t("servers.settings.drawer.roles"),
@@ -71,7 +69,7 @@ const serverSettings: ServerSetting[] = [
     requiredRolePermission: ROLE_PERMISSIONS.MANAGE_ROLES,
     element: lazy(
       () => import("@/components/servers/settings/roles/ServerSettingsRoles")
-    ),
+    )
   },
   {
     name: () => t("servers.settings.drawer.welcome-screen"),
@@ -81,7 +79,7 @@ const serverSettings: ServerSetting[] = [
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(
       () => import("@/components/servers/settings/welcome-screen/WelcomeScreen")
-    ),
+    )
   },
   {
     name: () => t("servers.settings.drawer.welcome-screen"),
@@ -93,7 +91,7 @@ const serverSettings: ServerSetting[] = [
     element: lazy(
       () =>
         import("@/components/servers/settings/welcome-question/WelcomeQuestion")
-    ),
+    )
   },
   {
     path: "channels/:channelId/webhooks/:webhookId",
@@ -104,7 +102,7 @@ const serverSettings: ServerSetting[] = [
     hideDrawer: true,
     element: lazy(
       () => import("@/components/servers/settings/ServerSettingsWebhook")
-    ),
+    )
   },
   {
     path: "channels/:channelId",
@@ -116,7 +114,7 @@ const serverSettings: ServerSetting[] = [
     element: lazy(
       () =>
         import("@/components/servers/settings/channel/ServerSettingsChannel")
-    ),
+    )
   },
 
   {
@@ -128,7 +126,7 @@ const serverSettings: ServerSetting[] = [
     element: lazy(
       () =>
         import("@/components/servers/settings/channels/ServerSettingsChannels")
-    ),
+    )
   },
   {
     path: "emojis",
@@ -138,7 +136,7 @@ const serverSettings: ServerSetting[] = [
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(
       () => import("@/components/servers/settings/ServerSettingsEmojis")
-    ),
+    )
   },
   {
     name: () => t("servers.settings.drawer.bans"),
@@ -148,7 +146,7 @@ const serverSettings: ServerSetting[] = [
     requiredRolePermission: ROLE_PERMISSIONS.BAN,
     element: lazy(
       () => import("@/components/servers/settings/ServerSettingsBans")
-    ),
+    )
   },
   {
     path: "invites",
@@ -157,7 +155,7 @@ const serverSettings: ServerSetting[] = [
     icon: "mail",
     element: lazy(
       () => import("@/components/servers/settings/invites/ServerSettingsInvite")
-    ),
+    )
   },
   {
     name: () => t("servers.settings.drawer.publishServer"),
@@ -167,7 +165,7 @@ const serverSettings: ServerSetting[] = [
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(
       () => import("@/components/servers/settings/PublishServerSettings")
-    ),
+    )
   },
   {
     path: "verify",
@@ -177,7 +175,7 @@ const serverSettings: ServerSetting[] = [
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(
       () => import("@/components/servers/settings/ServerVerifySettings")
-    ),
+    )
   },
   {
     path: "external-embed",
@@ -187,8 +185,8 @@ const serverSettings: ServerSetting[] = [
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(
       () => import("@/components/servers/settings/ExternalEmbedSettings")
-    ),
-  },
+    )
+  }
 ];
 
 export default serverSettings;

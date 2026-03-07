@@ -5,7 +5,7 @@ import {
   Match,
   on,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import Icon from "../ui/icon/Icon";
 import style from "./InAppNotificationPreviews.module.scss";
@@ -23,8 +23,7 @@ import { getSystemMessage } from "@/common/SystemMessage";
 import { t } from "@nerimity/i18lite";
 
 export default function InAppNotificationPreviews() {
-  const { notifications, removeNotification } =
-    useInAppNotificationPreviews();
+  const { notifications, removeNotification } = useInAppNotificationPreviews();
   const [progressEl, setProgressEl] = createSignal<HTMLDivElement>();
   const [expanded, setExpanded] = createSignal(false);
   const { isMobileAgent } = useWindowProperties();
@@ -42,7 +41,7 @@ export default function InAppNotificationPreviews() {
       message: t(systemMessage.message)
         .replace("<User/>", `[@:${notification()?.message?.createdBy?.id}]`)
         .replace("<2>", "")
-        .replace("</2>", ""),
+        .replace("</2>", "")
     };
   });
 
@@ -64,7 +63,7 @@ export default function InAppNotificationPreviews() {
       anim = progressElement.animate(
         [
           { composite: "replace", width: "100%" },
-          { composite: "replace", width: "0%" },
+          { composite: "replace", width: "0%" }
         ],
         { duration: 5000, fill: "forwards", endDelay: 300, delay: 300 }
       );
@@ -201,7 +200,7 @@ export default function InAppNotificationPreviews() {
                 class={style.progress}
                 style={{
                   "background-color":
-                    notification()?.color || "var(--primary-color)",
+                    notification()?.color || "var(--primary-color)"
                 }}
               />
             </div>

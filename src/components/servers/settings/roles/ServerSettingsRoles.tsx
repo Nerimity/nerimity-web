@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import Icon from "@/components/ui/icon/Icon";
 import {
   createServerRole,
-  updateServerRoleOrder,
+  updateServerRoleOrder
 } from "@/chat-api/services/ServerService";
 import { ServerRole } from "@/chat-api/store/useServerRoles";
 import { useTransContext } from "@nerimity/solid-i18lite";
@@ -16,7 +16,7 @@ import { Draggable } from "@/components/ui/Draggable";
 import { CustomLink } from "@/components/ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import ContextMenu, {
-  ContextMenuProps,
+  ContextMenuProps
 } from "@/components/ui/context-menu/ContextMenu";
 
 function RoleItem(props: { role: ServerRole }) {
@@ -32,7 +32,7 @@ function RoleItem(props: { role: ServerRole }) {
         e.preventDefault();
         setContextMenu({
           position: { x: e.clientX, y: e.clientY },
-          role: props.role,
+          role: props.role
         });
       }}
       noContextMenu
@@ -85,7 +85,7 @@ export default function ServerSettingsRole() {
     header.updateHeader({
       title: "Settings - Roles",
       serverId: serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -146,13 +146,13 @@ const RoleContextMenu = (props: RoleContextMenuProps) => {
                 props.role.id
               )
             );
-          },
+          }
         },
         {
           label: "Copy ID",
           onClick: () => navigator.clipboard.writeText(props.role.id),
-          icon: "content_copy",
-        },
+          icon: "content_copy"
+        }
       ]}
     />
   );

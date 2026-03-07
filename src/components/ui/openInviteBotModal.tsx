@@ -7,7 +7,7 @@ import { t } from "@nerimity/i18lite";
 export const openInviteBotModal = (
   createPortal: ReturnType<typeof useCustomPortal>["createPortal"],
   appId: string,
-  permissions?: number,
+  permissions?: number
 ) => {
   createPortal((c) => (
     <Modal.Root

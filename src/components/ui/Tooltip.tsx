@@ -7,7 +7,7 @@ import {
   createEffect,
   on,
   JSX,
-  children,
+  children
 } from "solid-js";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { useResizeObserver } from "@/common/useResizeObserver";
@@ -108,7 +108,7 @@ const TooltipItem = (props: {
 
     return {
       top: props.rect.top + props.rect.height / 2 - height() / 2 + "px",
-      left: left + "px",
+      left: left + "px"
     };
   };
 

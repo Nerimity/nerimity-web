@@ -7,7 +7,6 @@
   display: flex;
   flex: 1;
   gap: 6px;
-
 }
 body .yearInput {
   flex: initial;
@@ -23,7 +22,6 @@ body .yearInput {
     align-items: center;
     justify-content: center;
     text-align: center;
-
   }
   :nth-child(1) div {
     border-top-right-radius: 0;

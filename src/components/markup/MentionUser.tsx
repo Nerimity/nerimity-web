@@ -6,7 +6,7 @@ import { A, useParams } from "solid-navigator";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import useServerMembers, {
-  ServerMember,
+  ServerMember
 } from "@/chat-api/store/useServerMembers";
 
 export function MentionUser(props: {
@@ -39,7 +39,7 @@ export function MentionUser(props: {
     const pos = {
       left: rect.left + 40,
       top: rect.top,
-      anchor: "left",
+      anchor: "left"
     } as const;
 
     createRegisteredPortal(
@@ -49,7 +49,7 @@ export function MentionUser(props: {
         position: pos,
         serverId: params.serverId,
         close: close,
-        userId: props.user.id,
+        userId: props.user.id
       },
       "profile-pane-flyout-" + props.user.id,
       true

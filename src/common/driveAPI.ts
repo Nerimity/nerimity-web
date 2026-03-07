@@ -2,27 +2,30 @@ import { createSignal } from "solid-js";
 import env from "./env";
 import { createProgressHandler } from "@/chat-api/services/Request";
 
-export const [googleApiInitialized, setGoogleApiInitialized] = createSignal(false);
+export const [googleApiInitialized, setGoogleApiInitialized] =
+  createSignal(false);
 
 let initializing = false;
-export const initializeGoogleDrive = (accessToken?: string) => new Promise<void>(res => {
-  if (googleApiInitialized()) return;
-  if (initializing) return;
-  initializing = true;
-  const start = async () => {
-    await gapi.client.init({
-      apiKey: env.GOOGLE_API_KEY,
-      discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-      clientId: env.GOOGLE_CLIENT_ID
-    });
-    accessToken && gapi.client.setToken({ access_token: accessToken });
-    initializing = false;
-    setGoogleApiInitialized(true);
-    res();
-  };
-  gapi.load("client", start);
-});
-
+export const initializeGoogleDrive = (accessToken?: string) =>
+  new Promise<void>((res) => {
+    if (googleApiInitialized()) return;
+    if (initializing) return;
+    initializing = true;
+    const start = async () => {
+      await gapi.client.init({
+        apiKey: env.GOOGLE_API_KEY,
+        discoveryDocs: [
+          "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
+        ],
+        clientId: env.GOOGLE_CLIENT_ID
+      });
+      accessToken && gapi.client.setToken({ access_token: accessToken });
+      initializing = false;
+      setGoogleApiInitialized(true);
+      res();
+    };
+    gapi.load("client", start);
+  });
 
 let nerimityUploadsFolder: gapi.client.drive.File | undefined;
 
@@ -50,36 +53,43 @@ export const getOrCreateUploadsFolder = async (accessToken: string) => {
   return nerimityUploadsFolder;
 };
 
-
 // https://stackoverflow.com/questions/53839499/google-drive-api-and-file-uploads-from-the-browser
-export const uploadFileGoogleDrive = async (file: File, accessToken: string, onProgress?: (percent: number, speed?: string) => void) => {
+export const uploadFileGoogleDrive = async (
+  file: File,
+  accessToken: string,
+  onProgress?: (percent: number, speed?: string) => void
+) => {
   if (!googleApiInitialized()) await initializeGoogleDrive(accessToken);
   gapi.client.setToken({ access_token: accessToken });
   const folder = await getOrCreateUploadsFolder(accessToken);
   const metadata = {
-    "name": file.name,
-    "mimeType": file.type,
+    name: file.name,
+    mimeType: file.type,
     parents: [folder.id!]
   };
 
-
   const form = new FormData();
-  form.append("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }));
+  form.append(
+    "metadata",
+    new Blob([JSON.stringify(metadata)], { type: "application/json" })
+  );
   form.append("file", file);
 
   const xhr = new XMLHttpRequest();
-  xhr.open("post", "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,kind");
+  xhr.open(
+    "post",
+    "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,kind"
+  );
   xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
   xhr.responseType = "json";
 
   const progressHandler = createProgressHandler(onProgress);
-  xhr.upload.onprogress = e => {
+  xhr.upload.onprogress = (e) => {
     progressHandler(e);
   };
 
   return new Promise<{ id: string }>((resolve, reject) => {
     xhr.onload = async () => {
-
       if (xhr.status === 0) {
         return reject({ message: "Could not connect to server." });
       }
@@ -95,18 +105,15 @@ export const uploadFileGoogleDrive = async (file: File, accessToken: string, onP
         role: "reader"
       };
 
-      await gapi.client.drive.permissions
-        .create({
-          fileId: id,
-          resource: body
-        });
+      await gapi.client.drive.permissions.create({
+        fileId: id,
+        resource: body
+      });
       resolve(xhr.response);
     };
     xhr.send(form);
   });
 };
-
-
 
 export const getFile = async (fileId: string, fields?: string) => {
   const res = await gapi.client.drive.files.get({
@@ -114,5 +121,4 @@ export const getFile = async (fileId: string, fields?: string) => {
     fields: fields || "*"
   });
   return res.result;
-
 };

@@ -11,9 +11,9 @@
 
 .modalActionButtons {
   display: flex;
-  justify-content: flex-end; 
+  justify-content: flex-end;
   flex: 1;
-  margin: 5px; 
+  margin: 5px;
 }
 
 .itemContainer {
@@ -27,7 +27,7 @@
   cursor: pointer;
   transition: 0.2s;
   min-height: 45px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   &:hover {
     opacity: 0.7;
   }

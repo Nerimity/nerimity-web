@@ -11,7 +11,7 @@ import { Server } from "@/chat-api/store/useServers";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
 import {
   toast,
-  useCustomPortal,
+  useCustomPortal
 } from "@/components/ui/custom-portal/CustomPortal";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
@@ -25,7 +25,7 @@ import { ChannelType } from "@/chat-api/RawData";
 import { setServerSettingsHeaderPreview } from "./settings-pane/serverSettingsHeaderPreview";
 import {
   uploadAvatar,
-  uploadBanner,
+  uploadBanner
 } from "@/chat-api/services/nerimityCDNService";
 import { FloatingSaveChanges } from "@/components/ui/FloatingSaveChanges";
 import ImageSelector from "@/components/ui/ImageSelector";
@@ -60,7 +60,7 @@ export default function ServerGeneralSettings() {
     avatar: undefined as File | undefined,
     banner: undefined as File | undefined,
     avatarPoints: null as null | number[],
-    bannerPoints: null as null | number[],
+    bannerPoints: null as null | number[]
   });
 
   const [inputValues, updatedInputValues, setInputValue, undoUpdatedInput] =
@@ -75,7 +75,7 @@ export default function ServerGeneralSettings() {
         label: channel!.name,
         onClick: () => {
           setInputValue("defaultChannelId", channel!.id);
-        },
+        }
       }));
 
   const dropDownSystemChannels = () => {
@@ -87,7 +87,7 @@ export default function ServerGeneralSettings() {
         label: channel!.name,
         onClick: () => {
           setInputValue("systemChannelId", channel!.id);
-        },
+        }
       }));
 
     return [
@@ -96,9 +96,9 @@ export default function ServerGeneralSettings() {
         label: t("servers.settings.general.none"),
         onClick: () => {
           setInputValue("systemChannelId", null);
-        },
+        }
       },
-      ...list,
+      ...list
     ];
   };
 
@@ -109,7 +109,7 @@ export default function ServerGeneralSettings() {
         " - " +
         t("servers.settings.drawer.general"),
       serverId: params.serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
   });
   onCleanup(() => {
@@ -129,7 +129,7 @@ export default function ServerGeneralSettings() {
     if (avatar) {
       const res = await uploadAvatar(server()?.id!, {
         file: avatar,
-        points: avatarPoints!,
+        points: avatarPoints!
       }).catch((err) => {
         setError("Failed to update avatar. " + (err.message || err.error));
       });
@@ -145,7 +145,7 @@ export default function ServerGeneralSettings() {
     if (banner) {
       const res = await uploadBanner(server()?.id!, {
         file: banner,
-        points: bannerPoints!,
+        points: bannerPoints!
       }).catch((err) => {
         setError("Failed to update banner. " + (err.message || err.error));
       });
@@ -181,7 +181,7 @@ export default function ServerGeneralSettings() {
 
   const onCropped = (
     points: number[],
-    type: "avatar" | "banner" = "avatar",
+    type: "avatar" | "banner" = "avatar"
   ) => {
     const pointsKey = type === "banner" ? "bannerPoints" : "avatarPoints";
     setInputValue(pointsKey, points);
@@ -238,7 +238,7 @@ export default function ServerGeneralSettings() {
         <BreadcrumbItem
           href={RouterEndpoints.SERVER_MESSAGES(
             params.serverId,
-            server()?.defaultChannelId!,
+            server()?.defaultChannelId!
           )}
           icon="home"
           title={server()?.name}
@@ -294,7 +294,7 @@ export default function ServerGeneralSettings() {
         label={t("general.avatarAndBanner.avatar")}
         description={t("general.avatarAndBanner.supportedFileTypes", {
           extensions: "JPG, PNG, GIF, WEBP",
-          size: "12MB",
+          size: "12MB"
         })}
       >
         <ImageSelector
@@ -304,7 +304,7 @@ export default function ServerGeneralSettings() {
             setInputValue("avatarPoints", null);
             setServerSettingsHeaderPreview({
               avatar: undefined,
-              avatarPoints: undefined,
+              avatarPoints: undefined
             });
           }}
           onDelete={() => {
@@ -312,7 +312,7 @@ export default function ServerGeneralSettings() {
             setInputValue("avatarPoints", null);
             setServerSettingsHeaderPreview({
               avatar: null,
-              avatarPoints: undefined,
+              avatarPoints: undefined
             });
           }}
           newValue={() => inputValues().avatar}
@@ -325,7 +325,7 @@ export default function ServerGeneralSettings() {
         label={t("general.avatarAndBanner.banner")}
         description={t("general.avatarAndBanner.supportedFileTypes", {
           extensions: "JPG, PNG, GIF, WEBP",
-          size: "12MB",
+          size: "12MB"
         })}
       >
         <ImageSelector
@@ -335,7 +335,7 @@ export default function ServerGeneralSettings() {
             setInputValue("bannerPoints", null);
             setServerSettingsHeaderPreview({
               banner: undefined,
-              bannerPoints: undefined,
+              bannerPoints: undefined
             });
           }}
           onDelete={() => {
@@ -343,7 +343,7 @@ export default function ServerGeneralSettings() {
             setInputValue("bannerPoints", null);
             setServerSettingsHeaderPreview({
               banner: null,
-              bannerPoints: undefined,
+              bannerPoints: undefined
             });
           }}
           newValue={() => inputValues().banner}

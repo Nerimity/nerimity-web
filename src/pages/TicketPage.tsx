@@ -4,13 +4,13 @@ import {
   RawMessage,
   RawServer,
   RawTicket,
-  TicketStatus,
+  TicketStatus
 } from "@/chat-api/RawData";
 import { fetchMessages, postMessage } from "@/chat-api/services/MessageService";
 import {
   getMessages,
   getModerationTicket,
-  updateModerationTicket,
+  updateModerationTicket
 } from "@/chat-api/services/ModerationService";
 import { uploadAttachment } from "@/chat-api/services/nerimityCDNService";
 import { getTicket, updateTicket } from "@/chat-api/services/TicketService.ts";
@@ -22,13 +22,16 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { Markup } from "@/components/Markup";
 import {
   TicketItem,
-  TicketStatusToName,
+  TicketStatusToName
 } from "@/components/tickets/TicketItem";
 import Avatar from "@/components/ui/Avatar";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
-import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal
+} from "@/components/ui/custom-portal/CustomPortal";
 import { CustomLink } from "@/components/ui/CustomLink";
 import FileBrowser, { FileBrowserRef } from "@/components/ui/FileBrowser";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
@@ -149,7 +152,7 @@ const MessagesModal = (props: {
       messageListRef
         ?.querySelector(`#message-${props.messageId}`)
         ?.scrollIntoView({
-          block: "center",
+          block: "center"
         });
     });
   });
@@ -232,7 +235,7 @@ export default function TicketPage() {
       : "0";
 
     const newMessages = await fetchMessages(ticket.channelId, {
-      afterMessageId: afterMessageId,
+      afterMessageId: afterMessageId
     });
     setMessages(
       afterMessageId === "0" ? newMessages : [...messages(), ...newMessages]
@@ -364,7 +367,7 @@ const MessageInputArea = (props: {
     let fileId;
     if (file) {
       const uploadRes = await uploadAttachment(props.channelId, {
-        file,
+        file
       }).catch((err) => {
         toast(err.message);
       });
@@ -376,7 +379,7 @@ const MessageInputArea = (props: {
     const message = await postMessage({
       content: formattedValue,
       nerimityCdnFileId: fileId,
-      channelId: props.channelId,
+      channelId: props.channelId
     }).catch((err) => {
       toast(err.message);
       setValue(formattedValue);
@@ -384,14 +387,13 @@ const MessageInputArea = (props: {
     });
     if (!message) return;
 
-    const ticket = await (isModeration()
-      ? updateModerationTicket
-      : updateTicket)(
-      params.id,
-      status || TicketStatus.WAITING_FOR_MODERATOR_RESPONSE
-    ).catch((err) => {
-      toast(err.message);
-    });
+    const ticket = await (
+      isModeration() ? updateModerationTicket : updateTicket
+    )(params.id, status || TicketStatus.WAITING_FOR_MODERATOR_RESPONSE).catch(
+      (err) => {
+        toast(err.message);
+      }
+    );
     tickets.updateModerationTicketNotification();
     tickets.updateTicketNotification();
 

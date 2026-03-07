@@ -7,7 +7,7 @@ import {
   RawServer,
   RawTicket,
   RawUser,
-  TicketStatus,
+  TicketStatus
 } from "../RawData";
 import { request } from "./Request";
 import Endpoints from "./ServiceEndpoints";
@@ -24,10 +24,10 @@ export const getModerationTickets = async (opts: GetTicketsOpts) => {
     params: {
       ...(opts.afterId ? { after: opts.afterId } : undefined),
       ...(opts.status !== undefined ? { status: opts.status } : undefined),
-      limit: opts.limit,
+      limit: opts.limit
     },
     url: env.SERVER_URL + "/api/moderation/tickets",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -35,7 +35,7 @@ export const getModerationTicket = async (id: string) => {
   const data = await request<RawTicket>({
     method: "GET",
     url: env.SERVER_URL + `/api/moderation/tickets/${id}`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -48,7 +48,7 @@ export const updateModerationTicket = async (
     method: "POST",
     url: env.SERVER_URL + `/api/moderation/tickets/${id}`,
     body: { status },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -58,10 +58,10 @@ export const getServers = async (limit: number, afterId?: string) => {
     method: "GET",
     params: {
       ...(afterId ? { after: afterId } : undefined),
-      limit,
+      limit
     },
     url: env.SERVER_URL + "/api/moderation/servers",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -70,10 +70,10 @@ export const getPosts = async (limit: number, afterId?: string) => {
     method: "GET",
     params: {
       ...(afterId ? { after: afterId } : undefined),
-      limit,
+      limit
     },
     url: env.SERVER_URL + "/api/moderation/posts",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -83,9 +83,9 @@ export const getMessages = async (channelId: string, messageId: string) => {
     url:
       env.SERVER_URL + "/api/moderation/channels/" + channelId + "/messages/",
     params: {
-      aroundId: messageId,
+      aroundId: messageId
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -100,10 +100,10 @@ export const searchPosts = async (
     params: {
       q: query,
       ...(afterId ? { after: afterId } : undefined),
-      limit,
+      limit
     },
     url: env.SERVER_URL + "/api/moderation/posts/search",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -116,10 +116,10 @@ export const deletePosts = async (
     method: "POST",
     body: {
       postIds,
-      password: confirmPassword,
+      password: confirmPassword
     },
     url: env.SERVER_URL + "/api/moderation/posts/delete",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -130,10 +130,10 @@ export const addAnnouncePost = async (
   const data = await request<any[]>({
     method: "POST",
     body: {
-      password: confirmPassword,
+      password: confirmPassword
     },
     url: env.SERVER_URL + `/api/moderation/posts/${postId}/announcement`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -144,10 +144,10 @@ export const removeAnnouncePost = async (
   const data = await request<any[]>({
     method: "DELETE",
     body: {
-      password: confirmPassword,
+      password: confirmPassword
     },
     url: env.SERVER_URL + `/api/moderation/posts/${postId}/announcement`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -169,10 +169,10 @@ export const getUsers = async (
       ...(opts?.orderBy ? { orderBy: opts.orderBy } : undefined),
       ...(opts?.order ? { order: opts.order } : undefined),
       ...(opts?.filters ? { filters: opts.filters } : undefined),
-      limit,
+      limit
     },
     url: env.SERVER_URL + "/api/moderation/users",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -185,10 +185,10 @@ export const getUsersWithSameIPAddress = async (
     method: "GET",
     params: {
       ...(afterId ? { after: afterId } : undefined),
-      limit,
+      limit
     },
     url: env.SERVER_URL + `/api/moderation/users/${userId}/users-with-same-ip`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -203,10 +203,10 @@ export const searchUsers = async (
     params: {
       q: query,
       ...(afterId ? { after: afterId } : undefined),
-      limit,
+      limit
     },
     url: env.SERVER_URL + "/api/moderation/users/search",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -223,7 +223,7 @@ export const AuditLogType = {
   ipBan: 8,
   serverUndoDelete: 9,
   userShadowBanned: 10,
-  userShadowUnbanned: 11,
+  userShadowUnbanned: 11
 } as const;
 
 export interface AuditLog {
@@ -256,18 +256,18 @@ interface getAuditLogOpts {
 export const getAuditLog = async ({
   limit,
   afterId,
-  search,
+  search
 }: getAuditLogOpts) => {
   const data = await request<AuditLog[]>({
     method: "GET",
     params: {
       ...(afterId ? { after: afterId } : undefined),
       ...(search ? { q: search } : undefined),
-      limit,
+      limit
     },
     url:
       env.SERVER_URL + "/api/moderation/audit-logs" + (search ? "/search" : ""),
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -282,10 +282,10 @@ export const searchServers = async (
     params: {
       q: query,
       ...(afterId ? { after: afterId } : undefined),
-      limit,
+      limit
     },
     url: env.SERVER_URL + "/api/moderation/servers/search",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -294,7 +294,7 @@ export const activeServers = async () => {
     method: "GET",
 
     url: env.SERVER_URL + "/api/moderation/servers/active",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -308,10 +308,10 @@ export const deleteServer = async (
     method: "DELETE",
     body: {
       password: confirmPassword,
-      reason,
+      reason
     },
     url: env.SERVER_URL + `/api/moderation/servers/${serverId}`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -320,7 +320,7 @@ export const pinServer = async (serverId: string) => {
   const data = await request<any[]>({
     method: "POST",
     url: env.SERVER_URL + `/api/moderation/servers/${serverId}/pin`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -328,7 +328,7 @@ export const unpinServer = async (serverId: string) => {
   const data = await request<any[]>({
     method: "DELETE",
     url: env.SERVER_URL + `/api/moderation/servers/${serverId}/pin`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -340,10 +340,10 @@ export const undoDeleteServer = async (
   const data = await request<any[]>({
     method: "DELETE",
     body: {
-      password: confirmPassword,
+      password: confirmPassword
     },
     url: env.SERVER_URL + `/api/moderation/servers/${serverId}/schedule-delete`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -366,10 +366,10 @@ export const suspendUsers = async (opts: SuspendUsersOpts) => {
       reason: opts.reason,
       ipBan: opts.ipBan,
       password: opts.confirmPassword,
-      deleteRecentMessages: opts.deleteRecentMessages,
+      deleteRecentMessages: opts.deleteRecentMessages
     },
     url: env.SERVER_URL + "/api/moderation/users/suspend",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -384,10 +384,10 @@ export const warnUsers = async (
     body: {
       userIds,
       reason,
-      password: confirmPassword,
+      password: confirmPassword
     },
     url: env.SERVER_URL + "/api/moderation/users/warn",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -401,10 +401,10 @@ export const shadowBan = async (
     body: {
       userIds,
       reason,
-      password: confirmPassword,
+      password: confirmPassword
     },
     url: env.SERVER_URL + "/api/moderation/users/shadow-ban",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -416,10 +416,10 @@ export const undoShadowBan = async (
     method: "DELETE",
     body: {
       userIds,
-      password: confirmPassword,
+      password: confirmPassword
     },
     url: env.SERVER_URL + "/api/moderation/users/shadow-ban",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -434,10 +434,10 @@ export const editSuspendUsers = async (
     body: {
       userIds,
       ...update,
-      password: confirmPassword,
+      password: confirmPassword
     },
     url: env.SERVER_URL + "/api/moderation/users/suspend",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -450,10 +450,10 @@ export const unsuspendUsers = async (
     method: "DELETE",
     body: {
       userIds,
-      password: confirmPassword,
+      password: confirmPassword
     },
     url: env.SERVER_URL + "/api/moderation/users/suspend",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -466,7 +466,7 @@ export const updateServer = async (
     method: "POST",
     body: update,
     url: env.SERVER_URL + `/api/moderation/servers/${serverId}`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -475,7 +475,7 @@ export const getServer = async (serverId: string) => {
   const data = await request<any[]>({
     method: "GET",
     url: env.SERVER_URL + `/api/moderation/servers/${serverId}`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -484,7 +484,7 @@ export const getOnlineUsers = async () => {
   const data = await request<ModerationUser[]>({
     method: "GET",
     url: env.SERVER_URL + "/api/moderation/online-users",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -517,7 +517,7 @@ export const updateUser = async (
     method: "POST",
     body: update,
     url: env.SERVER_URL + `/api/moderation/users/${userId}`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -526,7 +526,7 @@ export const getUser = async (userId: string) => {
   const data = await request<ModerationUser>({
     method: "GET",
     url: env.SERVER_URL + `/api/moderation/users/${userId}`,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -543,7 +543,7 @@ export const getStats = async () => {
   const data = await request<ModerationStats>({
     method: "GET",
     url: env.SERVER_URL + "/api/moderation/stats",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -576,9 +576,9 @@ export const getUsersAuditLogs = async (opts: {
     params: {
       ...(opts.query ? { q: opts.query } : {}),
       ...(opts.afterId ? { after: opts.afterId } : {}),
-      limit: opts.limit,
+      limit: opts.limit
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -593,10 +593,10 @@ export const getSuggestionActions = async (opts: GetSuggestActionsOpts) => {
     method: "GET",
     params: {
       ...(opts.afterId ? { after: opts.afterId } : undefined),
-      limit: opts.limit,
+      limit: opts.limit
     },
     url: env.SERVER_URL + "/api/moderation/suggest_action",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -614,7 +614,7 @@ export const upsertSuggestActions = async (opts: UpsertSuggestActionsOpts) => {
 
     url: env.SERVER_URL + "/api/moderation/suggest_action",
     useToken: true,
-    body: opts,
+    body: opts
   });
   return data;
 };
@@ -623,7 +623,7 @@ export const deleteSuggestActions = async (id: string) => {
     method: "DELETE",
 
     url: env.SERVER_URL + "/api/moderation/suggest_action/" + id,
-    useToken: true,
+    useToken: true
   });
   return data;
 };

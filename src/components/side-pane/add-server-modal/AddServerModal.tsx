@@ -3,7 +3,7 @@ import { Modal } from "@/components/ui/modal";
 import Input from "@/components/ui/input/Input";
 import {
   AddServerModalProvider,
-  useAddServerModalController,
+  useAddServerModalController
 } from "./useAddServerModalController";
 import { Notice } from "@/components/ui/Notice/Notice";
 import { t } from "@nerimity/i18lite";
@@ -54,12 +54,7 @@ const CreateServerModal = (props: { close: () => void }) => {
     <>
       <Modal.Body class={style.modalBody}>
         <Tabs />
-        <Notice
-          type="warn"
-          description={[
-            t("createServerModal.notice"),
-          ]}
-        />
+        <Notice type="warn" description={[t("createServerModal.notice")]} />
         <Input
           label={t("createServerModal.serverName")}
           onText={controller.setName}

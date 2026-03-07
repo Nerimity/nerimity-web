@@ -38,7 +38,7 @@ const useController = (close: () => void) => {
       event.preventDefault();
       setError({
         message: t("joinServerModal.missingInvite"),
-        path: "name",
+        path: "name"
       });
       return;
     }
@@ -52,7 +52,7 @@ const useController = (close: () => void) => {
     setName,
     requestSent,
     tab,
-    setTab,
+    setTab
   };
 };
 const Context = createContext<ReturnType<typeof useController>>();

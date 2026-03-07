@@ -8,9 +8,7 @@ import Input from "../ui/input/Input";
 import Text from "../ui/Text";
 import { ServerFolderItem } from "./ServerList";
 import Icon from "../ui/icon/Icon";
-import {
-  updateServerFolderExtra,
-} from "@/chat-api/services/ServerService";
+import { updateServerFolderExtra } from "@/chat-api/services/ServerService";
 import { t } from "@nerimity/i18lite";
 
 export const EditFolderModal = (props: {
@@ -51,7 +49,7 @@ export const EditFolderModal = (props: {
 
     updateServerFolderExtra(folderId!, {
       name: folderNameValue,
-      color: folderColor(),
+      color: folderColor()
     })
       .then(() => {
         props.close();
@@ -96,7 +94,7 @@ export const EditFolderModal = (props: {
                   id: folderId!,
                   name: folderName(),
                   color: folderColor(),
-                  serverIds: [],
+                  serverIds: []
                 }}
               />
             </div>

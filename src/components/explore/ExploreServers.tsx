@@ -32,7 +32,7 @@ import {
   BumpExploreItem,
   getExploreItems,
   PublicServerFilter,
-  PublicServerSort,
+  PublicServerSort
 } from "@/chat-api/services/ExploreService";
 import { ToastModal } from "@/components/ui/toasts/ToastModal";
 import { ExplorePageContainer, ExploreSearch } from "./ExplorePane";
@@ -46,7 +46,7 @@ const GridLayout = styled("div")`
 const defaultQuery = {
   sort: "recently_bumped",
   filter: "all",
-  search: "",
+  search: ""
 } as const;
 
 export default function ExploreServers() {
@@ -78,7 +78,7 @@ export default function ExploreServers() {
   createEffect(() => {
     header.updateHeader({
       title: t("explore.servers.title"),
-      iconName: "explore",
+      iconName: "explore"
     });
 
     getExploreItems({ filter: "pinned", sort: "pinned_at" })
@@ -93,7 +93,7 @@ export default function ExploreServers() {
         setAfterId(null);
         setShowSkeleton(true);
       });
-    }),
+    })
   );
 
   let timerId = 0;
@@ -106,7 +106,7 @@ export default function ExploreServers() {
       filter: query().filter,
       limit: MAX_LIMIT,
       ...(_afterId ? { afterId: _afterId } : {}),
-      ...(search ? { search } : {}),
+      ...(search ? { search } : {})
     };
     timerId = window.setTimeout(() => {
       getExploreItems(opts).then((servers) => {
@@ -123,12 +123,12 @@ export default function ExploreServers() {
     { id: "most_members", label: t("explore.servers.sortMostMembers") },
     { id: "recently_added", label: t("explore.servers.sortRecentlyAdded") },
     { id: "recently_bumped", label: t("explore.servers.sortRecentlyBumped") },
-    { id: "most_active", label: t("explore.servers.sortMostActive") },
+    { id: "most_active", label: t("explore.servers.sortMostActive") }
   ];
 
   const filterOpts: DropDownItem[] = [
     { id: "all", label: t("explore.servers.filterAll") },
-    { id: "verified", label: t("explore.servers.filterVerified") },
+    { id: "verified", label: t("explore.servers.filterVerified") }
   ];
 
   const update = (newPublicServer: RawExploreItem, index: number) => {
@@ -151,7 +151,7 @@ export default function ExploreServers() {
         type="info"
         description={t("explore.servers.noticeMessage", {
           hours: "3",
-          date: "Monday at 0:00 UTC",
+          date: "Monday at 0:00 UTC"
         })}
       />
       <Notice
@@ -343,10 +343,10 @@ function PublicServerItem(props: {
         t("servers.settings.publishServer.bumpCooldown", {
           hours: timeLeft.getUTCHours(),
           minutes: timeLeft.getUTCMinutes(),
-          seconds: timeLeft.getUTCSeconds(),
+          seconds: timeLeft.getUTCSeconds()
         }),
         t("servers.settings.publishServer.bumpServer"),
-        "arrow_upward",
+        "arrow_upward"
       );
       return;
     }
@@ -365,7 +365,7 @@ function PublicServerItem(props: {
       class={classNames(
         "serverItemContainer",
         props.class,
-        props.display && "display",
+        props.display && "display"
       )}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -378,7 +378,7 @@ function PublicServerItem(props: {
           css`
             width: 100%;
           `,
-          "banner",
+          "banner"
         )}
         url={bannerUrl(props.publicServer.server!)}
         hexColor={props.publicServer.server?.hexColor}
@@ -424,7 +424,7 @@ function PublicServerItem(props: {
           <Icon name="group" size={17} color="var(--primary-color)" />
           <Text size={14}>
             {t("explore.servers.memberCount", {
-              count: server._count.serverMembers.toLocaleString(),
+              count: server._count.serverMembers.toLocaleString()
             })}
           </Text>
         </FlexRow>
@@ -451,7 +451,7 @@ function PublicServerItem(props: {
             style={{ "text-decoration": "none", flex: 1, display: "flex" }}
             href={RouterEndpoints.SERVER_MESSAGES(
               cacheServer()!.id,
-              cacheServer()!.defaultChannelId,
+              cacheServer()!.defaultChannelId
             )}
           >
             <Button
@@ -492,7 +492,7 @@ function PublicServerItem(props: {
           margin={0}
           iconName="arrow_upward"
           label={t("explore.servers.bumpButton", {
-            count: props.publicServer.bumpCount.toLocaleString(),
+            count: props.publicServer.bumpCount.toLocaleString()
           })}
         />
 
@@ -523,7 +523,7 @@ export function ServerBumpModal(props: {
 }) {
   const [t] = useTransContext();
   const [verifyToken, setVerifyKey] = createSignal<string | undefined>(
-    undefined,
+    undefined
   );
   let turnstileRef: TurnstileRef | undefined;
 

@@ -33,7 +33,7 @@ export function createPreloader<T, U extends unknown[]>(
           cache = {
             data: newData,
             savedAt: Date.now(),
-            key: newArgsStr, // Store the key with the data
+            key: newArgsStr // Store the key with the data
           };
         }
         return newData;
@@ -75,7 +75,7 @@ export const messagesPreloader = createPreloader(async (channelId: string) => {
       scrollTop: 9999,
       moreTopToLoad: true,
       moreBottomToLoad: false,
-      isScrolledBottom: true,
+      isScrolledBottom: true
     });
   }
 

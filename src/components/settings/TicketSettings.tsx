@@ -11,7 +11,7 @@ export default function TicketSettings() {
   createEffect(() => {
     header.updateHeader({
       title: t("settings.drawer.title") + " - " + t("settings.drawer.tickets"),
-      iconName: "settings",
+      iconName: "settings"
     });
   });
   const showTicketPage = useMatch(() => "/app/settings/tickets/:id");

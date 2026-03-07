@@ -9,7 +9,7 @@ import {
   onCleanup,
   onMount,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import { classNames, conditionalClass } from "@/common/classNames";
 import Icon from "@/components/ui/icon/Icon";
@@ -72,7 +72,7 @@ export default function ContextMenu(props: ContextMenuProps) {
         icon: "content_copy",
         onClick: () => {
           navigator.clipboard.writeText(imageSrc || url || "");
-        },
+        }
       });
     }
 
@@ -153,13 +153,13 @@ export default function ContextMenu(props: ContextMenuProps) {
           return;
         }
         window.addEventListener("contextmenu", handleOutsideRightClick, {
-          capture: true,
+          capture: true
         });
         window.addEventListener("click", handleOutsideClick);
 
         onCleanup(() => {
           window.removeEventListener("contextmenu", handleOutsideRightClick, {
-            capture: true,
+            capture: true
           });
           window.removeEventListener("click", handleOutsideClick);
         });
@@ -285,7 +285,7 @@ function Item(props: {
     const rect = itemElement.getBoundingClientRect();
     return {
       x: rect.x + rect.width + 10,
-      y: rect.y,
+      y: rect.y
     };
   };
 

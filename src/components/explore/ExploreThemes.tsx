@@ -49,7 +49,7 @@ export default function ExploreThemes() {
   onMount(() => {
     header.updateHeader({
       title: t("explore.themes.title"),
-      iconName: "explore",
+      iconName: "explore"
     });
     fetchThemes();
   });
@@ -108,7 +108,9 @@ export default function ExploreThemes() {
           margin={[19, 0, 0, 0]}
           href="https://github.com/Nerimity/themes"
           target="_blank"
-          class={css`align-self: stretch;`}
+          class={css`
+            align-self: stretch;
+          `}
         />
       </SearchHeader>
 

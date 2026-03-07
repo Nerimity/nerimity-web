@@ -12,7 +12,7 @@ import {
   RawVoice,
   RawNotice,
   RawReminder,
-  RawServerFolder,
+  RawServerFolder
 } from "../RawData";
 
 export interface AuthenticatedPayload {
@@ -41,18 +41,18 @@ interface MessageMention {
 export enum LastOnlineStatus {
   HIDDEN = 0,
   FRIENDS = 1,
-  FRIENDS_AND_SERVERS = 2,
+  FRIENDS_AND_SERVERS = 2
 }
 
 export enum DmStatus {
   OPEN = 0,
   FRIENDS_AND_SERVERS = 1,
-  FRIENDS = 2,
+  FRIENDS = 2
 }
 export enum FriendRequestStatus {
   OPEN = 0,
   SERVERS = 1,
-  CLOSED = 2,
+  CLOSED = 2
 }
 
 export interface SelfUser {

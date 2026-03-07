@@ -1,7 +1,7 @@
 import { RawUser } from "@/chat-api/RawData";
 import {
   suspendUsers,
-  unsuspendUsers,
+  unsuspendUsers
 } from "@/chat-api/services/ModerationService";
 import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";

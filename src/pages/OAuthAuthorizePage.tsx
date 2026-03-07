@@ -16,7 +16,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import {
   Oauth2Authorize,
   OAuth2Details,
-  Oauth2GetDetails,
+  Oauth2GetDetails
 } from "@/chat-api/services/OAuthService";
 import { logout } from "@/common/logout";
 import { CustomLink } from "@/components/ui/CustomLink";
@@ -59,7 +59,7 @@ export default function OAuthAuthorizePage() {
             display: "flex",
             "padding-top": "20px",
             "padding-bottom": "20px",
-            margin: "auto",
+            margin: "auto"
           }}
         >
           <OAuthAuthorizePopup
@@ -89,7 +89,7 @@ export const OAuthAuthorizePopup = (props: {
   onMount(async () => {
     if (!getStorageString(StorageKeys.USER_TOKEN, null)) {
       navigate(RouterEndpoints.LOGIN(location.pathname + location.search), {
-        replace: true,
+        replace: true
       });
       return;
     }
@@ -110,7 +110,7 @@ export const OAuthAuthorizePopup = (props: {
 
     Oauth2GetDetails({
       clientId: props.clientId,
-      redirectUri: props.redirectUri,
+      redirectUri: props.redirectUri
     })
       .then((data) => setOAuth2Details(data))
       .catch((err) => setError(err.message));
@@ -124,7 +124,7 @@ export const OAuthAuthorizePopup = (props: {
     Oauth2Authorize({
       clientId: props.clientId,
       redirectUri: props.redirectUri,
-      scopes: props.scopes,
+      scopes: props.scopes
     })
       .then((data) => {
         const url = new URL(data.redirectUri);
@@ -138,7 +138,7 @@ export const OAuthAuthorizePopup = (props: {
     <FlexColumn
       style={{
         overflow: "auto",
-        margin: "auto",
+        margin: "auto"
       }}
       gap={12}
     >
@@ -148,7 +148,7 @@ export const OAuthAuthorizePopup = (props: {
             "text-align": "center",
             "font-weight": "bold",
             "font-size": "20px",
-            "margin-bottom": "50px",
+            "margin-bottom": "50px"
           }}
         >
           {oAuth2Details()?.application.name} wants to access your account
@@ -160,11 +160,11 @@ export const OAuthAuthorizePopup = (props: {
                 ? {
                     hexColor: "white",
                     ...oAuth2Details()?.application.botUser,
-                    username: oAuth2Details()?.application.name!,
+                    username: oAuth2Details()?.application.name!
                   }
                 : {
                     hexColor: "white",
-                    username: oAuth2Details()?.application.name!,
+                    username: oAuth2Details()?.application.name!
                   }
             }
           />
@@ -233,7 +233,7 @@ const UserDisplay = (props: {
   const logoutClick = async () => {
     await logout(false);
     navigate(RouterEndpoints.LOGIN(location.pathname + location.search), {
-      replace: true,
+      replace: true
     });
   };
   return (

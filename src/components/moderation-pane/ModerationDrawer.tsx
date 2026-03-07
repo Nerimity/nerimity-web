@@ -59,18 +59,18 @@ const items = [
   {
     name: () => "Legacy",
     path: "",
-    icon: "science",
+    icon: "science"
   },
   {
     name: () => "Users",
     path: "users",
-    icon: "account_circle",
+    icon: "account_circle"
   },
   {
     name: () => "Tickets",
     path: "tickets",
-    icon: "sell",
-  },
+    icon: "sell"
+  }
 ];
 
 function List() {
@@ -109,7 +109,7 @@ function NotificationCircle() {
         height: "20px",
         "font-size": "14px",
         "margin-left": "auto",
-        "margin-right": "8px",
+        "margin-right": "8px"
       }}
     >
       !

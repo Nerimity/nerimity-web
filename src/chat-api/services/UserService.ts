@@ -8,7 +8,7 @@ import {
   RawPost,
   RawServer,
   RawUser,
-  RawUserConnection,
+  RawUserConnection
 } from "../RawData";
 import { Presence, UserStatus } from "../store/useUsers";
 import { request } from "./Request";
@@ -19,7 +19,7 @@ export async function createGoogleAccountLink(): Promise<string> {
     url: env.SERVER_URL + "/api/google/create-link",
     method: "GET",
     notJSON: true,
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -29,7 +29,7 @@ export async function registerFCM(token: string) {
     body: { token },
     method: "POST",
     useToken: true,
-    notJSON: true,
+    notJSON: true
   });
 }
 
@@ -42,16 +42,16 @@ export async function linkAccountWithGoogle(
     method: "POST",
     body: {
       code,
-      nerimityToken: nerimityUserToken,
+      nerimityToken: nerimityUserToken
     },
-    useToken: false,
+    useToken: false
   });
 }
 export async function unlinkAccountWithGoogle(): Promise<{ status: boolean }> {
   return request({
     url: env.SERVER_URL + "/api/google/unlink-account",
     method: "POST",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -59,7 +59,7 @@ export async function getGoogleAccessToken(): Promise<{ accessToken: string }> {
   return request({
     url: env.SERVER_URL + "/api/google/access-token",
     method: "GET",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -72,7 +72,7 @@ export async function sendResetPassword(
       "/api" +
       ServiceEndpoints.user("reset-password/send-code"),
     body: { email },
-    method: "POST",
+    method: "POST"
   });
 }
 
@@ -86,7 +86,7 @@ export async function resetPassword(
     params: { code, userId },
     body: { newPassword },
     method: "POST",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -97,7 +97,7 @@ export async function sendEmailConfirmCode(): Promise<{ message: string }> {
       "/api" +
       ServiceEndpoints.user("emails/verify/send-code"),
     method: "POST",
-    useToken: true,
+    useToken: true
   });
 }
 export async function verifyEmailConfirmCode(
@@ -107,7 +107,7 @@ export async function verifyEmailConfirmCode(
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("emails/verify"),
     params: { code },
     method: "POST",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -123,8 +123,8 @@ export async function loginRequest(
     method: "POST",
     body: {
       ...(isUsernameAndTag ? { usernameAndTag: email } : { email }),
-      password,
-    },
+      password
+    }
   });
 }
 
@@ -143,8 +143,8 @@ export async function registerRequest(
       email,
       username,
       password,
-      token,
-    },
+      token
+    }
   });
 }
 
@@ -201,9 +201,9 @@ export async function getUserDetailsRequest(
     method: "GET",
     params: {
       ...(includePinnedPosts ? { includePinnedPosts } : {}),
-      ...(includeBotCommands ? { includeBotCommands } : {}),
+      ...(includeBotCommands ? { includeBotCommands } : {})
     },
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -212,7 +212,7 @@ export async function getSearchUsers(search: string) {
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("search"),
     method: "GET",
     params: { q: search },
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -225,7 +225,7 @@ export async function getUserNotificationsRequest() {
   return request<RawNotification[]>({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("notifications"),
     method: "GET",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -237,7 +237,7 @@ export async function getFollowers(userId?: string) {
       ServiceEndpoints.user(userId || "") +
       "/followers",
     method: "GET",
-    useToken: true,
+    useToken: true
   });
 }
 export async function getFollowing(userId?: string) {
@@ -248,7 +248,7 @@ export async function getFollowing(userId?: string) {
       ServiceEndpoints.user(userId || "") +
       "/following",
     method: "GET",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -257,21 +257,21 @@ export async function toggleBadge(bit: number) {
     url: env.SERVER_URL + "/api/users/badges/toggle",
     body: { bit },
     method: "POST",
-    useToken: true,
+    useToken: true
   });
 }
 export async function openDMChannelRequest(userId: string) {
   return request<RawInboxWithoutChannel & { channel: RawChannel }>({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.openUserDM(userId),
     method: "POST",
-    useToken: true,
+    useToken: true
   });
 }
 export async function closeDMChannelRequest(channelId: string) {
   return request({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.channel(channelId),
     method: "DELETE",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -279,14 +279,14 @@ export async function blockUser(userId: string) {
   return request({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user(userId) + "/block",
     method: "POST",
-    useToken: true,
+    useToken: true
   });
 }
 export async function unblockUser(userId: string) {
   return request({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user(userId) + "/block",
     method: "DELETE",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -295,7 +295,7 @@ export async function updatePresence(presence: Partial<Presence>) {
     url: env.SERVER_URL + "/api" + ServiceEndpoints.updatePresence(),
     method: "POST",
     body: presence,
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -324,21 +324,21 @@ export async function updateUser(
     method: "POST",
     body,
     useToken: true,
-    token,
+    token
   });
 }
 export async function followUser(userId: string) {
   return request({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.userFollow(userId),
     method: "POST",
-    useToken: true,
+    useToken: true
   });
 }
 export async function unfollowUser(userId: string) {
   return request({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.userFollow(userId),
     method: "DELETE",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -356,7 +356,7 @@ export async function updateNotificationSettings(
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("notifications"),
     method: "POST",
     useToken: true,
-    body: update,
+    body: update
   });
 }
 
@@ -365,7 +365,7 @@ export async function deleteAccount(password: string, deleteContent: boolean) {
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("delete-account"),
     method: "DELETE",
     useToken: true,
-    body: { password, deleteContent },
+    body: { password, deleteContent }
   });
 }
 
@@ -378,7 +378,7 @@ export const updateDMChannelNotice = async (
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
     body: { content },
     useToken: true,
-    token,
+    token
   });
   return data;
 };
@@ -388,7 +388,7 @@ export const deleteDMChannelNotice = async (token?: string | null) => {
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
     useToken: true,
-    token,
+    token
   });
   return data;
 };
@@ -397,7 +397,7 @@ export const getDMChannelNotice = async (token?: string | null) => {
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
     useToken: true,
-    token,
+    token
   });
   return data;
 };
@@ -406,6 +406,6 @@ export async function userNoticeDismiss(id: string) {
   return request<any>({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("notices/" + id),
     method: "DELETE",
-    useToken: true,
+    useToken: true
   });
 }

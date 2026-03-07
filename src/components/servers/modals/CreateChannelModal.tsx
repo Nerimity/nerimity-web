@@ -3,7 +3,7 @@ import { createSignal } from "solid-js";
 import Input from "@/components/ui/input/Input";
 import {
   createServerChannel,
-  updateServerChannelOrder,
+  updateServerChannelOrder
 } from "@/chat-api/services/ServerService";
 import { ChannelType } from "@/chat-api/RawData";
 import { t } from "@nerimity/i18lite";
@@ -25,7 +25,7 @@ export function CreateChannelModal(props: {
     const channel = await createServerChannel({
       serverId: props.serverId,
       name: name(),
-      type: ChannelType.SERVER_TEXT,
+      type: ChannelType.SERVER_TEXT
     }).catch((err) => {
       setError(err);
       setRequestSent(false);
@@ -34,7 +34,7 @@ export function CreateChannelModal(props: {
     if (channel && props.categoryId) {
       await updateServerChannelOrder(props.serverId, {
         channelIds: [channel.id],
-        categoryId: props.categoryId,
+        categoryId: props.categoryId
       }).catch(console.error);
     }
     if (channel) {

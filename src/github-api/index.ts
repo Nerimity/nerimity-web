@@ -1,16 +1,16 @@
 const repos = {
   nerimityWeb: {
     owner: "Nerimity",
-    repo: "nerimity-web",
+    repo: "nerimity-web"
   },
   nerimityDesktop: {
     owner: "Nerimity",
-    repo: "nerimity-desktop",
+    repo: "nerimity-desktop"
   },
   nerimityReactNative: {
     owner: "Nerimity",
-    repo: "NerimityReactNative",
-  },
+    repo: "NerimityReactNative"
+  }
 };
 
 export interface Release {
@@ -87,7 +87,7 @@ export async function getPlatformDownloadLinks() {
         name: asset.name,
         downloadUrl: asset.browser_download_url,
         platform: platformName as "android",
-        ext: extName,
+        ext: extName
       });
     }
   });

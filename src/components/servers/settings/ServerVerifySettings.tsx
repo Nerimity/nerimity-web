@@ -30,9 +30,12 @@ export default function ServerSettingsBans() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("servers.settings.drawer.verify"),
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("servers.settings.drawer.verify"),
       serverId: params.serverId!,
-      iconName: "settings",
+      iconName: "settings"
     });
   });
   const TARGET_MEMBERS = 30;
@@ -64,12 +67,17 @@ export default function ServerSettingsBans() {
       {/* Notices depending on how many members the server has and if it's verified.  */}
       <Switch>
         <Match when={isVerified()}>
-          <Notice type="info" description={t("servers.settings.verify.alreadyVerified")} />
+          <Notice
+            type="info"
+            description={t("servers.settings.verify.alreadyVerified")}
+          />
         </Match>
         <Match when={membersNeeded() > 0}>
           <Notice
             type="warn"
-            description={t("servers.settings.verify.insufficientMembers", { count: `${membersNeeded()}` })}
+            description={t("servers.settings.verify.insufficientMembers", {
+              count: `${membersNeeded()}`
+            })}
             // description={`You need ${membersNeeded()} more member(s) to apply for a verification.`}
           />
         </Match>
@@ -97,32 +105,47 @@ export default function ServerSettingsBans() {
         <SettingsBlock
           icon="translate"
           label={t("servers.settings.verify.requirements.englishOnly")}
-          description={t("servers.settings.verify.requirements.englishOnlyDescription")}
+          description={t(
+            "servers.settings.verify.requirements.englishOnlyDescription"
+          )}
         />
         <SettingsBlock
           icon="calendar_month"
           label={t("servers.settings.verify.requirements.oneMonthOrSupporter")}
-          description={t("servers.settings.verify.requirements.oneMonthOrSupporterDescription")}
+          description={t(
+            "servers.settings.verify.requirements.oneMonthOrSupporterDescription"
+          )}
         />
         <SettingsBlock
           icon="group"
-          label={t("servers.settings.verify.requirements.members", { count: `${TARGET_MEMBERS}` })}
-          description={t("servers.settings.verify.requirements.membersDescription", { count: `${TARGET_MEMBERS}` })}
+          label={t("servers.settings.verify.requirements.members", {
+            count: `${TARGET_MEMBERS}`
+          })}
+          description={t(
+            "servers.settings.verify.requirements.membersDescription",
+            { count: `${TARGET_MEMBERS}` }
+          )}
         />
         <SettingsBlock
           icon="cleaning_services"
           label={t("servers.settings.verify.requirements.profanityFree")}
-          description={t("servers.settings.verify.requirements.profanityFreeDescription")}
+          description={t(
+            "servers.settings.verify.requirements.profanityFreeDescription"
+          )}
         />
         <SettingsBlock
           icon="landscape"
           label={t("servers.settings.verify.requirements.avatarAndBanner")}
-          description={t("servers.settings.verify.requirements.avatarAndBannerDescription")}
+          description={t(
+            "servers.settings.verify.requirements.avatarAndBannerDescription"
+          )}
         />
         <SettingsBlock
           icon="gavel"
           label={t("servers.settings.verify.requirements.rules")}
-          description={t("servers.settings.verify.requirements.rulesDescription")}
+          description={t(
+            "servers.settings.verify.requirements.rulesDescription"
+          )}
         />
       </ListContainer>
       <ListContainer>
@@ -142,7 +165,9 @@ export default function ServerSettingsBans() {
         <SettingsBlock
           icon="link"
           label={t("servers.settings.verify.perks.customInvite")}
-          description={t("servers.settings.verify.perks.customInviteDescription")}
+          description={t(
+            "servers.settings.verify.perks.customInviteDescription"
+          )}
         />
         <SettingsBlock
           icon="face"
@@ -152,7 +177,9 @@ export default function ServerSettingsBans() {
         <SettingsBlock
           icon="video_camera_front"
           label={t("servers.settings.verify.perks.hdScreenshare")}
-          description={t("servers.settings.verify.perks.hdScreenshareDescription")}
+          description={t(
+            "servers.settings.verify.perks.hdScreenshareDescription"
+          )}
         />
       </ListContainer>
     </Container>

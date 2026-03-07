@@ -35,7 +35,7 @@ export class LocalRPC {
     if (index === -1) {
       this.RPCs.push({
         id,
-        data: sanitizedData(data),
+        data: sanitizedData(data)
       });
       if (this.RPCs.length === 1) this.emitEvent();
       return;
@@ -81,7 +81,7 @@ const sanitizedData = (data: any) => {
       startedAt: data.startedAt,
       endsAt: data.endsAt,
       speed: data.speed,
-      updatedAt: data.updatedAt,
+      updatedAt: data.updatedAt
     })
   );
 };

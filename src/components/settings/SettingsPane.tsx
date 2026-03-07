@@ -19,11 +19,10 @@ export default function SettingsPane() {
   const { account } = useStore();
   const user = () => account.user();
 
-
   onMount(async () => {
     for (let i = 0; i < settings.length; i++) {
       const setting = settings[i];
-      await setting?.element.preload(); 
+      await setting?.element.preload();
     }
   });
 

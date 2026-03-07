@@ -16,7 +16,9 @@ import {
 } from "@/common/localStorage";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
-import SettingsBlock, { SettingsGroup } from "../ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "../ui/settings-block/SettingsBlock";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { Notice } from "../ui/Notice/Notice";
 import { electronWindowAPI } from "@/common/Electron";
@@ -91,7 +93,9 @@ function InputDevices() {
     if (supported.echoCancellation)
       supportedList.push({
         label: t("settings.call.inputConstraints.echoCancelation"),
-        description: t("settings.call.inputConstraints.echoCancelationDescription"),
+        description: t(
+          "settings.call.inputConstraints.echoCancelationDescription"
+        ),
         icon: "record_voice_over",
         key: "echo",
         default: true
@@ -99,7 +103,9 @@ function InputDevices() {
     if (supported.noiseSuppression)
       supportedList.push({
         label: t("settings.call.inputConstraints.noiseSuppression"),
-        description: t("settings.call.inputConstraints.noiseSuppressionDescription"),
+        description: t(
+          "settings.call.inputConstraints.noiseSuppressionDescription"
+        ),
         icon: "noise_aware",
         key: "noise",
         default: true
@@ -107,7 +113,9 @@ function InputDevices() {
     if (supported.autoGainControl)
       supportedList.push({
         label: t("settings.call.inputConstraints.autoGainControl"),
-        description: t("settings.call.inputConstraints.autoGainControlDescription"),
+        description: t(
+          "settings.call.inputConstraints.autoGainControlDescription"
+        ),
         icon: "settings_voice",
         key: "gain",
         default: true
@@ -148,10 +156,7 @@ function InputDevices() {
 
   return (
     <SettingsGroup>
-      <SettingsBlock
-        icon="mic"
-        label={t("settings.call.inputDevices")}
-      >
+      <SettingsBlock icon="mic" label={t("settings.call.inputDevices")}>
         <DropDown
           items={dropDownItem()}
           selectedId={
@@ -229,10 +234,7 @@ function InputMode() {
 
   return (
     <SettingsGroup>
-      <SettingsBlock
-        icon="steppers"
-        label={t("settings.call.inputMode")}
-      />
+      <SettingsBlock icon="steppers" label={t("settings.call.inputMode")} />
       <Block
         onClick={() => {
           if (isInCall()) {

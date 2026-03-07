@@ -32,7 +32,9 @@
   --suggest-fg-icon: var(--text-color-secondary);
   --suggest-fg-dim: var(--text-color-secondary);
 
-  --reply-message-fg: var(--text-color-secondary); /* Technically changes 0.56 to 0.60 opacity */
+  --reply-message-fg: var(
+    --text-color-secondary
+  ); /* Technically changes 0.56 to 0.60 opacity */
   --attachment-image-border: 1px solid rgba(255, 255, 255, 0.24);
   --attachment-image-bg: rgba(0, 0, 0, 0.6);
 
@@ -434,7 +436,10 @@ body .advancedMarkupOptions {
 
   &.focused {
     border: var(--text-area-border-focus, var(--text-area-border));
-    border-bottom: var(--text-area-border-bottom-focus, var(--text-area-border-bottom));
+    border-bottom: var(
+      --text-area-border-bottom-focus,
+      var(--text-area-border-bottom)
+    );
   }
   &.advancedMarkupShown {
     margin-top: 0;

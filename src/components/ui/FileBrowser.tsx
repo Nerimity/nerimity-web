@@ -1,38 +1,38 @@
 import { Accessor, onMount } from "solid-js";
 
-
 export interface FileBrowserRef {
-  open(): void
+  open(): void;
 }
 
 interface BaseProps {
-  ref?: Accessor<FileBrowserRef | undefined>
-  accept?: "any" | "images"
-  multiple?: boolean
+  ref?: Accessor<FileBrowserRef | undefined>;
+  accept?: "any" | "images";
+  multiple?: boolean;
 }
 
 interface PropsBase64 {
-  base64: true
-  onChange?: (files: string[], rawFiles: FileList) => void
+  base64: true;
+  onChange?: (files: string[], rawFiles: FileList) => void;
 }
 interface PropsFileList {
-  base64?: false
-  onChange?: (files: FileList) => void
+  base64?: false;
+  onChange?: (files: FileList) => void;
 }
 
-type Props = BaseProps & (PropsBase64 | PropsFileList)
-
+type Props = BaseProps & (PropsBase64 | PropsFileList);
 
 export default function FileBrowser(props: Props) {
-  let inputRef: undefined | HTMLInputElement; 
-  const accept = props.accept === "images" ? "image/gif, image/webp, image/png, image/jpeg" : "";
+  let inputRef: undefined | HTMLInputElement;
+  const accept =
+    props.accept === "images"
+      ? "image/gif, image/webp, image/png, image/jpeg"
+      : "";
 
   onMount(() => {
     (props?.ref as any)({
       open: () => inputRef?.click()
     });
   });
-
 
   const onChange = async () => {
     if (!inputRef) return;
@@ -43,17 +43,17 @@ export default function FileBrowser(props: Props) {
       props.onChange?.(inputRef.files!);
     }
     inputRef.value = "";
-
   };
 
   return (
-    <input 
+    <input
       onChange={onChange}
-      style={{display: "none"}}
+      style={{ display: "none" }}
       ref={inputRef}
       multiple={props.multiple}
       type="file"
-      accept={accept}/>
+      accept={accept}
+    />
   );
 }
 
@@ -62,11 +62,10 @@ async function filesToBase64(files: FileList) {
   for (let index = 0; index < files.length; index++) {
     const file = files[index];
     const base64 = await getBase64(file);
-    base64 && base64Files.push(base64);     
+    base64 && base64Files.push(base64);
   }
   return base64Files;
 }
-
 
 export function getBase64(file: File): Promise<string | undefined> {
   return new Promise((resolve, reject) => {

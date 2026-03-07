@@ -54,10 +54,9 @@ interface Query {
 export function ExploreSearch(props: {
   sortOpts: DropDownItem[];
   filterOpts: DropDownItem[];
-  query: () => Query,
-  setQuery: (q: Query) => void,
+  query: () => Query;
+  setQuery: (q: Query) => void;
 }) {
-
   return (
     <SearchHeader>
       <Input
@@ -76,21 +75,20 @@ export function ExploreSearch(props: {
         title={t("explore.sort")}
         items={props.sortOpts}
         selectedId={props.query().sort}
-        onChange={(i) =>
-          props.setQuery({ ...props.query(), sort: i.id })
-        }
-        class={css`min-width: 11em;`}
+        onChange={(i) => props.setQuery({ ...props.query(), sort: i.id })}
+        class={css`
+          min-width: 11em;
+        `}
       />
       <DropDown
         title={t("explore.filter")}
         items={props.filterOpts}
         selectedId={props.query().filter}
-        onChange={(i) =>
-          props.setQuery({ ...props.query(), filter: i.id })
-        }
-        class={css`min-width: 6em;`}
+        onChange={(i) => props.setQuery({ ...props.query(), filter: i.id })}
+        class={css`
+          min-width: 6em;
+        `}
       />
     </SearchHeader>
-  )
+  );
 }
-

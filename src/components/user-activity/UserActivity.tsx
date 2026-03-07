@@ -2,7 +2,7 @@ import { ActivityStatus } from "@/chat-api/RawData";
 import useStore from "@/chat-api/store/useStore";
 import {
   calculateTimeElapsedForActivityStatus,
-  formatTimestamp,
+  formatTimestamp
 } from "@/common/date";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import env from "@/common/env";
@@ -12,7 +12,7 @@ import {
   createSignal,
   on,
   onCleanup,
-  Show,
+  Show
 } from "solid-js";
 import { getActivityIconName, RichProgressBar } from "../activity/Activity";
 import Icon from "../ui/icon/Icon";
@@ -96,14 +96,14 @@ export const UserActivity = (props: {
               <div
                 class={style.backgroundImage}
                 style={{
-                  "background-image": `url(${imgSrc()})`,
+                  "background-image": `url(${imgSrc()})`
                 }}
               />
               <img
                 src={imgSrc()}
                 class={style.activityImg + " activityImage"}
                 classList={{
-                  [style.videoActivityImg!]: isVideo() || isLiveStream(),
+                  [style.videoActivityImg!]: isVideo() || isLiveStream()
                 }}
               />
             </Show>

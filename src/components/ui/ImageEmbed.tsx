@@ -82,7 +82,7 @@ export function ImageEmbed(props: ImageEmbedProps) {
   const style = () => {
     const maxWidth = clamp(
       (props.customWidth || paneWidth()!) + (props.widthOffset || 0),
-      props.maxWidth || 600,
+      props.maxWidth || 600
     );
     const maxHeight = props.maxHeight
       ? clamp((props.customHeight || height()) / 2, props.maxHeight)
@@ -93,11 +93,9 @@ export function ImageEmbed(props: ImageEmbedProps) {
         props.attachment.width!,
         props.attachment.height!,
         maxWidth,
-        maxHeight,
+        maxHeight
       ),
-      ...(previewModalOpened()
-        ? { "view-transition-name": "embed-image" }
-        : {}),
+      ...(previewModalOpened() ? { "view-transition-name": "embed-image" } : {})
     };
   };
 
@@ -134,7 +132,7 @@ export function ImageEmbed(props: ImageEmbedProps) {
       onMouseLeave={() => setHovered(false)}
       class={classNames(
         "imageEmbedContainer",
-        conditionalClass(isGif() && !shouldAnimate(hovered()), "gif"),
+        conditionalClass(isGif() && !shouldAnimate(hovered()), "gif")
       )}
     >
       <img
@@ -160,7 +158,7 @@ export function clampImageSize(
   width: number,
   height: number,
   maxWidth: number,
-  maxHeight: number,
+  maxHeight: number
 ) {
   const aspectRatio = width / height;
   if (width > maxWidth) {

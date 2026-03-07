@@ -3,7 +3,7 @@ import { ActivityStatus, FriendStatus, RawUser } from "../RawData";
 import useInbox from "./useInbox";
 import {
   closeDMChannelRequest,
-  openDMChannelRequest,
+  openDMChannelRequest
 } from "../services/UserService";
 import useChannels from "./useChannels";
 import RouterEndpoints from "../../common/RouterEndpoints";
@@ -19,7 +19,7 @@ export enum UserStatus {
   ONLINE = 1,
   LTP = 2, // Looking To Play
   AFK = 3, // Away from keyboard
-  DND = 4, // Do not disturb
+  DND = 4 // Do not disturb
 }
 
 export interface Presence {
@@ -64,7 +64,7 @@ const set = (user: RawUser) =>
       avatarUrl: function () {
         return avatarUrl(this);
       },
-      update,
+      update
     };
 
     setUsers(user.id, newUser);
@@ -125,9 +125,9 @@ const setPresence = (userId: string, presence: Partial<Presence>) => {
     account.setUser({
       ...(presence.custom !== undefined
         ? {
-            customStatus: presence.custom || undefined,
+            customStatus: presence.custom || undefined
           }
-        : undefined),
+        : undefined)
     });
   }
   const isOffline =
@@ -188,6 +188,6 @@ export default function useUsers() {
     openDM,
     reset,
     presencesArray,
-    updateLastOnlineAt,
+    updateLastOnlineAt
   };
 }

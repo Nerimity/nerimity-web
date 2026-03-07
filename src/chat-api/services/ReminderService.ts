@@ -13,7 +13,7 @@ export const addReminder = async (opts: AddReminderOpts) => {
     method: "POST",
     url: env.SERVER_URL + "/api/reminders",
     body: opts,
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -22,7 +22,7 @@ export const deleteReminder = async (reminderId: string) => {
   return await request<any>({
     method: "DELETE",
     url: env.SERVER_URL + "/api/reminders/" + reminderId,
-    useToken: true,
+    useToken: true
   });
 };
 export const updateReminder = async (reminderId: string, timestamp: number) => {
@@ -30,6 +30,6 @@ export const updateReminder = async (reminderId: string, timestamp: number) => {
     method: "POST",
     url: env.SERVER_URL + "/api/reminders/" + reminderId,
     useToken: true,
-    body: { timestamp },
+    body: { timestamp }
   });
 };

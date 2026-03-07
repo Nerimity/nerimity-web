@@ -38,7 +38,9 @@ export const Emoji = (props: {
           return false;
         }
 
-        return props.defaultPaused ? !(props.hovered && hasFocus()) : !shouldAnimate(props.hovered);
+        return props.defaultPaused
+          ? !(props.hovered && hasFocus())
+          : !shouldAnimate(props.hovered);
       };
 
       const url = new URL(`${env.NERIMITY_CDN}emojis/${props.icon}`);

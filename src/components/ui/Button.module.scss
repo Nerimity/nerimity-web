@@ -14,7 +14,9 @@
   background-color: rgba(255, 255, 255, 0.08);
   cursor: pointer;
   user-select: none;
-  transition: 0.2s background-color, 0.2s opacity;
+  transition:
+    0.2s background-color,
+    0.2s opacity;
   text-align: center;
   &:focus {
     background-color: rgba(255, 255, 255, 0.15);

@@ -4,7 +4,7 @@ import {
   For,
   onCleanup,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
@@ -13,7 +13,7 @@ import {
   getLanguage,
   Language,
   languages,
-  setCurrentLanguage,
+  setCurrentLanguage
 } from "@/locales/languages";
 
 import ItemContainer from "../ui/LegacyItem";
@@ -59,7 +59,7 @@ export default function LanguageSettings() {
   const [search, setSearch] = createSignal("");
 
   const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(
-    getCurrentLanguage() || "en_gb",
+    getCurrentLanguage() || "en_gb"
   );
 
   const [percentTranslated, setPercentTranslated] = createSignal(0);
@@ -92,7 +92,7 @@ export default function LanguageSettings() {
   createEffect(() => {
     header.updateHeader({
       title: t("settings.drawer.title") + " - " + t("settings.drawer.language"),
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -197,7 +197,7 @@ function LanguageItem(props: {
   const handlePercentClick = async () => {
     window.open(
       "https://hosted.weblate.org/projects/nerimity/-/" + props.key,
-      "_blank",
+      "_blank"
     );
     // createPortal((close) => (
     //   <TranslateModal close={close} language={props.key} />

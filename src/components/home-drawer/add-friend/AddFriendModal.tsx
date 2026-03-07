@@ -11,9 +11,7 @@ export default function AddFriendModal(props: { close: () => void }) {
     <Modal.Root close={props.close}>
       <Modal.Header title={t("addFriendModal.title")} icon="group_add" />
       <Modal.Body class={style.body}>
-        <div class={style.description}>
-          {t("addFriendModal.description")}
-        </div>
+        <div class={style.description}>{t("addFriendModal.description")}</div>
         <Input
           placeholder={t("addFriendModal.placeholder")}
           error={controller.error().message}

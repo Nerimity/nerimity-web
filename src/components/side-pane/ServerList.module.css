@@ -12,7 +12,7 @@
     opacity: 0.2;
     background-color: var(--folder-color);
 
-    content: '';
+    content: "";
     pointer-events: none;
     inset: 0;
   }
@@ -25,12 +25,10 @@
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  
 
   cursor: pointer;
   transition: 0.2s;
   aspect-ratio: 1/1;
-
 
   &:before {
     position: absolute;
@@ -38,12 +36,12 @@
     width: 3px;
     height: 15px;
     border-radius: 99px;
-    content: '';
+    content: "";
     pointer-events: none;
   }
 
   &:hover {
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   &[data-selected="true"] {
@@ -57,7 +55,6 @@
     }
   }
   &.opened {
-    
   }
 }
 
@@ -67,7 +64,7 @@
 }
 
 .folderInnerContainer {
-  display: grid; 
+  display: grid;
   pointer-events: none;
   gap: 6px;
 
@@ -83,12 +80,11 @@
   border-bottom-left-radius: 6px;
   gap: 4px;
 
-  
   .serverItem {
     margin-bottom: 0;
     &[data-selected="true"],
     &:hover {
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
     }
   }
 }

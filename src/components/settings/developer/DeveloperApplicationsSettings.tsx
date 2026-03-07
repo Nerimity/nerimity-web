@@ -5,12 +5,14 @@ import useStore from "@/chat-api/store/useStore";
 
 import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import SettingsBlock, { SettingsGroup } from "@/components/ui/settings-block/SettingsBlock";
+import SettingsBlock, {
+  SettingsGroup
+} from "@/components/ui/settings-block/SettingsBlock";
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
 import {
   createApplication,
-  getApplications,
+  getApplications
 } from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";
 import { createStore, reconcile } from "solid-js/store";
@@ -29,8 +31,9 @@ export default function DeveloperApplicationsSettings() {
   const navigate = useNavigate();
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
-      iconName: "settings",
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.developer"),
+      iconName: "settings"
     });
   });
 
@@ -66,7 +69,11 @@ export default function DeveloperApplicationsSettings() {
           label={t("settings.drawer.applications")}
           description={`${applications.length}/10`}
         >
-          <Button iconName="add" label={t("settings.developer.addButton")} onClick={addNewApp} />
+          <Button
+            iconName="add"
+            label={t("settings.developer.addButton")}
+            onClick={addNewApp}
+          />
         </SettingsBlock>
 
         <For each={applications}>

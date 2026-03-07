@@ -28,7 +28,7 @@ const Root = (props: RootProps) => (
     data-alert={props.alert}
     style={{
       "--handle-color": props.handleColor,
-      "--alert-color": props.alertColor,
+      "--alert-color": props.alertColor
     }}
     onClick={props.onClick}
     data-handle-position={props.handlePosition || "left"}
@@ -55,5 +55,5 @@ const Label = (props: { children?: JSXElement }) => (
 export const Item = {
   Root,
   Label,
-  Icon: IconItem,
+  Icon: IconItem
 };

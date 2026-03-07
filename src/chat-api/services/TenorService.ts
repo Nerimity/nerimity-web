@@ -12,7 +12,7 @@ export const getTenorCategories = async () => {
   const data = await request<TenorCategory>({
     method: "GET",
     url: env.SERVER_URL + "/api/tenor/categories",
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -34,9 +34,9 @@ export const getTenorImages = async (query: string, pos?: string) => {
     url: env.SERVER_URL + "/api/v2/tenor/search",
     params: {
       query,
-      ...(pos ? { pos } : {}),
+      ...(pos ? { pos } : {})
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };

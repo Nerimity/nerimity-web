@@ -7,7 +7,7 @@ import { t } from "@nerimity/i18lite";
 import {
   getStorageString,
   setStorageString,
-  StorageKeys,
+  StorageKeys
 } from "@/common/localStorage";
 import Button from "../ui/Button";
 import { Notice } from "../ui/Notice/Notice";
@@ -31,8 +31,9 @@ export default function CustomCssSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
-      iconName: "settings",
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
+      iconName: "settings"
     });
   });
 

@@ -5,7 +5,7 @@ import {
   lazy,
   on,
   onCleanup,
-  Show,
+  Show
 } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import Input from "@/components/ui/input/Input";
@@ -18,7 +18,7 @@ import {
   getUserDetailsRequest,
   toggleBadge,
   updateUser,
-  UserDetails,
+  UserDetails
 } from "@/chat-api/services/UserService";
 import { reconcile } from "solid-js/store";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
@@ -50,7 +50,7 @@ export default function ProfileSettings() {
   createEffect(() => {
     header.updateHeader({
       title: t("settings.drawer.title") + " - " + t("settings.drawer.profile"),
-      iconName: "settings",
+      iconName: "settings"
     });
   });
 
@@ -129,7 +129,7 @@ export function EditProfilePage(props: {
     bgColorOne: userDetails()?.profile?.bgColorOne,
     bgColorTwo: userDetails()?.profile?.bgColorTwo,
     primaryColor: userDetails()?.profile?.primaryColor,
-    font: userDetails()?.profile?.font ?? null,
+    font: userDetails()?.profile?.font ?? null
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -139,9 +139,9 @@ export function EditProfilePage(props: {
     on(account.user, (user) => {
       if (!props.bot && !user) return;
       getUserDetailsRequest(props.bot?.id || account.user()?.id).then(
-        setUserDetails,
+        setUserDetails
       );
-    }),
+    })
   );
 
   const requestStatus = () =>
@@ -174,14 +174,14 @@ export function EditProfilePage(props: {
           : { primaryColor: values.primaryColor }),
         ...(values.font !== undefined && values.font === null
           ? { font: null }
-          : { font: values.font }),
+          : { font: values.font })
       },
-      props.botToken,
+      props.botToken
     )
       .then((res) => {
         setUserDetails(() => ({
           ...userDetails()!,
-          profile: res.user.profile,
+          profile: res.user.profile
         }));
       })
       .catch((err) => {
@@ -281,7 +281,7 @@ const ProfileColorBlock = (props: {
   values: { [key: string]: string | undefined };
   setValues: (
     key: "bgColorOne" | "bgColorTwo" | "primaryColor" | "font",
-    value: string | number | null,
+    value: string | number | null
   ) => void;
 }) => {
   const { paneWidth } = useWindowProperties();
@@ -299,7 +299,7 @@ const ProfileColorBlock = (props: {
         bio={formatMessage(props.values.bio?.trim() || "")}
         colors={{
           bg: [props.values.bgColorOne!, props.values.bgColorTwo!],
-          primary: props.values.primaryColor,
+          primary: props.values.primaryColor
         }}
         font={props.values.font}
       />
@@ -369,7 +369,7 @@ const ProfileColorBlock = (props: {
             onChange={(item) =>
               props.setValues(
                 "font",
-                item.id === "none" ? null : parseInt(item.id),
+                item.id === "none" ? null : parseInt(item.id)
               )
             }
             items={[
@@ -379,9 +379,9 @@ const ProfileColorBlock = (props: {
                 scale: 1,
                 lineHeight: undefined,
                 font: "Inter",
-                letterSpacing: null,
+                letterSpacing: null
               },
-              ...Fonts,
+              ...Fonts
             ].map((f) => ({
               id: f.id.toString(),
               label: (
@@ -392,12 +392,12 @@ const ProfileColorBlock = (props: {
                     }'`,
                     "font-size": `${14 * f.scale}px`,
                     "line-height": f.lineHeight,
-                    "letter-spacing": `${f.letterSpacing || 0}px`,
+                    "letter-spacing": `${f.letterSpacing || 0}px`
                   }}
                 >
                   {f.name}
                 </span>
-              ),
+              )
             }))}
           />
         </SettingsBlock>
@@ -421,7 +421,7 @@ const ProfileColorBlock = (props: {
             bio={formatMessage(props.values.bio?.trim() || "")}
             colors={{
               bg: [props.values.bgColorOne!, props.values.bgColorTwo!],
-              primary: props.values.primaryColor,
+              primary: props.values.primaryColor
             }}
             font={props.values.font}
             dmPane

@@ -9,7 +9,11 @@ import { t } from "@nerimity/i18lite";
 export function WelcomeModal(props: { close: () => void }) {
   const ActionButtons = (
     <div class={styles.modalActionButtons}>
-      <Button label={t("general.doneButton")} iconName="arrow_forward" onClick={props.close} />
+      <Button
+        label={t("general.doneButton")}
+        iconName="arrow_forward"
+        onClick={props.close}
+      />
     </div>
   );
 
@@ -73,7 +77,9 @@ function SupportKofiItem() {
     >
       <div class={styles.itemContainer}>
         <Icon name="favorite" />
-        <div style={{ flex: 1 }}>{t("welcomePopup.support", { platform: "Ko-Fi" })}</div>
+        <div style={{ flex: 1 }}>
+          {t("welcomePopup.support", { platform: "Ko-Fi" })}
+        </div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>
@@ -88,7 +94,9 @@ function SupportBoostyItem() {
     >
       <div class={styles.itemContainer}>
         <Icon name="favorite" />
-        <div style={{ flex: 1 }}>{t("welcomePopup.support", { platform: "Boosty" })}</div>
+        <div style={{ flex: 1 }}>
+          {t("welcomePopup.support", { platform: "Boosty" })}
+        </div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>

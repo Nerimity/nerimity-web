@@ -42,7 +42,7 @@ export function SupportBlock() {
           height: "initial",
           padding: "6px",
           "align-items": "start",
-          "flex-direction": "column",
+          "flex-direction": "column"
         }}
       >
         <FlexRow gap={4}>
