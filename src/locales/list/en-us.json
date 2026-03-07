@@ -71,5 +71,39 @@
     },
     "oauth2": {
         "AuthorizeButton": "Authorize"
+    },
+    "general": {
+        "searchPlaceholder": "Search",
+        "backButton": "Back",
+        "cancelButton": "Cancel",
+        "closeButton": "Close",
+        "editButton": "Edit",
+        "undoButton": "Undo",
+        "deleteButton": "Delete",
+        "cannotBeUndone": "This cannot be undone!",
+        "confirmButton": "Confirm",
+        "doneButton": "Done",
+        "saveButton": "Save",
+        "saveChangesButton": "Save Changes",
+        "saving": "Saving…",
+        "copyLink": "Copy Link",
+        "copyID": "Copy ID",
+        "accountData": {
+            "email": "Email",
+            "username": "Username",
+            "password": "Password"
+        },
+        "avatarAndBanner": {
+            "avatar": "Avatar",
+            "banner": "Banner",
+            "supportedFileTypes": "Supported: {{extensions}}, Max {{size}}",
+            "browse": "Browse",
+            "revert": "Revert",
+            "remove": "Remove"
+        }
+    },
+    "header": {
+        "logoutButton": "Logout",
+        "openAppButton": "Open App"
     }
 }
