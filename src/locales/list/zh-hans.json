@@ -247,8 +247,6 @@
             "confirmNewPassword": "确认密码",
             "confirmNewPasswordDescription": "确认您的新密码",
             "confirmCurrentPassword": "确认当前密码",
-            "channelNotice": "频道通知",
-            "channelNoticeDescription": "当用户第一次将要发送消息时显示。更改在重新加载后应用。",
             "deleteAccount": "删除我的账号",
             "deleteAccountDescription": "该操作将不能被撤销！",
             "deleteAccountNotice": "在您删除您的账号前，您必须要离开或删除所有服务器。",

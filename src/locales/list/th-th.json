@@ -201,8 +201,6 @@
             "confirmNewPassword": "ยืนยันรหัสผ่านใหม่",
             "confirmNewPasswordDescription": "ยืนยันรหัสผ่านใหม่ของคุณ",
             "confirmCurrentPassword": "ยืนยันรหัสผ่านปัจจุบัน",
-            "channelNotice": "ประกาศเกี่ยวกับช่อง",
-            "channelNoticeDescription": "แสดงเมื่อผู้ใช้กำลังจะแชทเป็นครั้งแรก การเปลี่ยนแปลงจะมีผลหลังจากรีเฟรช",
             "deleteAccount": "ลบบัญชีของฉัน",
             "deleteAccountDescription": "การลบบัญชีไม่สามารถย้อนกลับได้",
             "deleteAccountNotice": "คุณต้องออกจาก/ลบเซิร์ฟเวอร์ทั้งหมดก่อนจึงจะลบบัญชีของคุณได้",

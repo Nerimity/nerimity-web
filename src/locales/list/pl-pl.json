@@ -383,8 +383,6 @@
             "confirmNewPassword": "Potwierdź nowe hasło",
             "confirmNewPasswordDescription": "Potwierdź swoje nowe hasło",
             "confirmCurrentPassword": "Potwierdź aktualne hasło",
-            "channelNotice": "Notka kanału",
-            "channelNoticeDescription": "Wyświetla się, kiedy użytkownik zamierza rozpocząć czat po raz pierwszy. Zmiany obowiązują po ponownym załadowaniu strony.",
             "deleteAccount": "Usuń moje konto",
             "deleteAccountDescription": "Tego działania nie można cofnąć!",
             "deleteAccountNotice": "Przed usunięciem konta należy opuścić/usunąć wszystkie serwery.",
@@ -394,7 +392,6 @@
             "enterCode": "Wprowadź pięcioznakowy kod wysłany na twój adres email:",
             "sendCodeButton": "Wyślij kod",
             "resendIn": "Wyślij za {{time}}",
-            "channelNoticeTooLong": "Notka kanału nie może być dłuższa niż 300 znaków.",
             "deletionNotice": "Przykro nam, że odchodzisz :( Jeśli coś Ci się nie spodobało, daj nam o tym znać na oficjalnym serwerze Nerimity.",
             "deletedInfo": {
                 "title": "Co zostanie usunięte",
@@ -595,7 +592,10 @@
                 "bumpBotCooldown": "Musisz odczekac {{hours}} godzin, {{minutes}} minut i {{seconds}} sekund, aby podbić tego bota.",
                 "publicDescription": "Opublikuj tego bota.",
                 "botDescription": "Opis bota ({{current}}/{{max}})"
-            }
+            },
+            "useLatestUrl": "Najnowsza wersja testowa",
+            "useLatestUrlDescription": "Załaduj latest.nerimity.com przy następnym starcie aplikacji. Spowoduje to restart aplikacji.",
+            "useLatestUrlWarning": "Może być niestabilna lub zawierać błędy."
         },
         "activity": {
             "extension": "Rozszerzenie przeglądarkowe",

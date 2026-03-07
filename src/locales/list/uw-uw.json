@@ -247,8 +247,6 @@
             "confirmNewPassword": "Confywm Nyew Secwet Code",
             "confirmNewPasswordDescription": "Confywm ur nyew secwet code",
             "confirmCurrentPassword": "Confywm Cuwwent Secwet Code",
-            "channelNotice": "Channew Nyotice",
-            "channelNoticeDescription": "Shows nyotice befowe chat. Changies appwy after weload.",
             "deleteAccount": "Poof Accy",
             "deleteAccountDescription": "Can't undo dis!!",
             "deleteAccountNotice": "Must weave/dwop sewvews befowe poof uwu",
@@ -258,7 +256,6 @@
             "enterCode": "Entew the 5-digit codey sent to youw emayw~!",
             "sendCodeButton": "SEND IT!!",
             "resendIn": "Wesend in {{time}}",
-            "channelNoticeTooLong": "Channyw nyotice can't be wongew than 300 chawactews!!",
             "deletionNotice": "NOOO~!! Don't weave us wike dis!! If sumfin bugged you, pwetty pwease teww us in the officiaw Newimity sewvie... we can change :c",
             "deletedInfo": {
                 "title": "What will poof",

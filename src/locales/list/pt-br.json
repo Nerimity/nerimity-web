@@ -413,7 +413,6 @@
             "postsAndMessagesNotice": "Suas postagens e mensagens podem demorar semanas para serem excluídas.",
             "deleteCheckbox": "Excluir minhas postagens e mensagens",
             "deletionNotice": "Estamos tristes de ver você sair :( Se você não gostou de algo, por favor nos informe no servidor oficial Nerimity.",
-            "channelNotice": "Nota de canal",
             "profileDescription": "Editar sua biografia ou cores",
             "palestineBorder": "Adicionar borda palestina ao seu avatar.",
             "bioDescription": "Suporte a multilinha e marcação",
@@ -423,8 +422,6 @@
             "confirmCurrentPassword": "Confirme sua senha atual",
             "confirmEmail": "Confirme seu email",
             "preview": "Pré-visualizar",
-            "channelNoticeTooLong": "Nota de canal não pode ser mais longa que 300 caracteres.",
-            "channelNoticeDescription": "Aparece quando o usuário está prestes a conversar pela primeira vez. Mudanças são aplicadas após recarregar.",
             "usernameFont": "Fonte do nome de usuário",
             "default": "Padrão do aplicativo"
         },
