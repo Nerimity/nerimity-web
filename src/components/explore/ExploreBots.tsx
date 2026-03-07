@@ -9,7 +9,7 @@ import { createEffect } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import Avatar from "../ui/Avatar";
 import Button from "../ui/Button";
-import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
+import { DropDownItem } from "../ui/drop-down/DropDown";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import Icon from "../ui/icon/Icon";
 import { Notice } from "../ui/Notice/Notice";
@@ -20,7 +20,6 @@ import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import { classNames, cn } from "@/common/classNames";
 import { MetaTitle } from "@/common/MetaTitle";
-import Input from "../ui/input/Input";
 import { CustomLink } from "../ui/CustomLink";
 import {
   getExploreItems,
@@ -29,14 +28,7 @@ import {
 } from "@/chat-api/services/ExploreService";
 import { ServerBumpModal } from "./ExploreServers";
 import { openInviteBotModal } from "../ui/openInviteBotModal";
-
-
-const Container = styled("div")`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 10px;
-`;
+import { ExplorePageContainer, ExploreSearch } from "./ExplorePane";
 
 const GridLayout = styled("div")`
   display: grid;
@@ -125,58 +117,14 @@ export default function ExploreBots() {
   };
 
   return (
-    <Container>
-      <MetaTitle>Explore Bots</MetaTitle>
-      <div
-        class={css`
-          display: flex;
-        `}
-      >
-        <Button
-          margin={0}
-          href="/app"
-          label={t("general.backButton")}
-          iconName="arrow_back"
-        />
-      </div>
-      <FlexRow
-        gap={10}
-        wrap
-        class={css`
-          flex: 1;
-          margin-bottom: 10px;
-          margin-top: 10px;
-        `}
-      >
-        <Input
-          label={t("general.searchPlaceholder")}
-          value={query().search}
-          onText={(text) => setQuery({ ...query(), search: text })}
-          class={css`
-            flex: 1;
-            min-width: 200px;
-            span {
-              margin-bottom: 2px;
-            }
-          `}
-        />
-        <DropDown
-          title={t("explore.sort")}
-          items={sortOpts}
-          selectedId={query().sort}
-          onChange={(i) =>
-            setQuery({ ...query(), sort: i.id as PublicServerSort })
-          }
-        />
-        <DropDown
-          title={t("explore.filter")}
-          items={filterOpts}
-          selectedId={query().filter}
-          onChange={(i) =>
-            setQuery({ ...query(), filter: i.id as PublicServerFilter })
-          }
-        />
-      </FlexRow>
+    <ExplorePageContainer>
+      <MetaTitle>{t("explore.bots.title")}</MetaTitle>
+      <ExploreSearch
+        sortOpts={sortOpts}
+        filterOpts={filterOpts}
+        query={query}
+        setQuery={setQuery}
+      />
 
       <Notice
         type="info"
@@ -218,7 +166,7 @@ export default function ExploreBots() {
           </For>
         </Show>
       </GridLayout>
-    </Container>
+    </ExplorePageContainer>
   );
 }
 

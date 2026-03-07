@@ -28,19 +28,10 @@
   gap: 2px;
   .item {
     height: 32px;
-    padding-left: 8px;
     font-size: 14px;
-    gap: 6px;
-    &:hover .label {
-      opacity: 1;
-    }
-
-    &.selected .label {
-      opacity: 1;
-    }
-    .label {
-      opacity: 0.6;
-      transition: 0.2s;
+    :global(.itemContent) {
+      padding-left: 8px;
+      gap: 6px;
     }
   }
 }
@@ -51,6 +42,46 @@
   margin-top: 4px;
   margin-bottom: 4px;
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.exploreHeader {
+  &:hover::after {
+    background: none;
+  }
+}
+.exploreSublist {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 28px;
+  gap: 2px;
+  animation: slide-down 0.2s forwards;
+
+  &::before {
+    --thickness: 3px;
+    --inset: 0px;
+
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0px;
+    bottom: var(--inset);
+    left: calc(17px - var(--thickness) / 2);
+    width: var(--thickness);
+    border-radius: var(--thickness);
+    background: #FFF1;
+  }
+}
+
+@keyframes slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .inbox,

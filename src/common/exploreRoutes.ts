@@ -3,6 +3,7 @@ import { lazy } from "solid-js";
 
 export interface ExploreRoute {
   path?: string;
+  match?: string;
   routePath: string;
   name: () => string;
   icon: string;
@@ -13,6 +14,7 @@ const exploreRoutes: ExploreRoute[] = [
   {
     path: "servers",
     routePath: "/servers",
+    match: "/servers/*",
     name: () => t("explore.drawer.servers"),
     icon: "dns",
     element: lazy(() => import("@/components/explore/ExploreServers")),
@@ -24,7 +26,7 @@ const exploreRoutes: ExploreRoute[] = [
     icon: "smart_toy",
     element: lazy(() => import("@/components/explore/ExploreBots")),
   },
-    {
+  {
     path: "themes",
     routePath: "/themes",
     name: () => t("explore.drawer.themes"),

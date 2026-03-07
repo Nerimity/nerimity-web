@@ -1,5 +1,6 @@
 import { useLocation, useMatch } from "solid-navigator";
 import ItemContainer from "../ui/LegacyItem";
+import { Item as UiItem } from "../ui/Item";
 import style from "./HomeDrawer.module.scss";
 import Icon from "../ui/icon/Icon";
 import { t } from "@nerimity/i18lite";
@@ -19,6 +20,7 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { QuickTravel } from "../QuickTravel";
 import InVoiceActions from "../InVoiceActions";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import exploreRoutes from "@/common/exploreRoutes";
 
 export default function HomeDrawer() {
   const { isMobileWidth } = useWindowProperties();
@@ -99,15 +101,34 @@ const HorizontalItem = (props: {
 
 const Items = () => {
   const controller = useHomeDrawerController();
+  const inExplore = useMatch(() => "/app/explore/*");
 
   return (
     <div class={style.items}>
       <Item label={t("dashboard.title")} icon="dashboard" href="/app" />
       <Item
         label={t("explore.drawer.title")}
-        icon="explore"
+        icon={inExplore() ? "keyboard_arrow_down" : "explore"}
         href="/app/explore/servers"
+        match="/app/explore"
+        class={style.exploreHeader}
       />
+      <Show when={inExplore()}>
+        <div class={style.exploreSublist}>
+          <For each={exploreRoutes}>
+            {(setting) => (
+              <Item
+                href={"/app/explore" + setting.routePath}
+                match={
+                  setting.match ? "/app/explore" + setting.match : undefined
+                }
+                icon={setting.icon}
+                label={setting.name()}
+              />
+            )}
+          </For>
+        </div>
+      </Show>
       <Show when={controller?.hasReminders()}>
         <Item
           label={t("remindersModal.title")}
@@ -124,6 +145,7 @@ interface ItemProps {
   href?: string;
   icon?: string;
   match?: string;
+  class?: string;
   selected?: boolean;
   onClick?: () => void;
 }
@@ -133,13 +155,14 @@ function Item(props: ItemProps) {
 
   return (
     <CustomLink href={props.href} onClick={props.onClick}>
-      <ItemContainer
-        class={cn(style.item, (selected() || props.selected) && style.selected)}
-        selected={props.selected || selected()}
+      <UiItem.Root
+        class={cn(style.item, props.class)}
+        selected={props.selected || !!selected()}
+        handlePosition="left"
       >
-        <Icon name={props.icon} size={18} />
-        <div class={style.label}>{props.label}</div>
-      </ItemContainer>
+        <UiItem.Icon>{props.icon}</UiItem.Icon>
+        <UiItem.Label>{props.label}</UiItem.Label>
+      </UiItem.Root>
     </CustomLink>
   );
 }

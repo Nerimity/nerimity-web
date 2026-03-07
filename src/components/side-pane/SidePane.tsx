@@ -105,6 +105,7 @@ function HomeItem(props: { size: number }) {
     if (location.pathname === "/app") return true;
     if (location.pathname.startsWith(RouterEndpoints.INBOX())) return true;
     if (location.pathname.startsWith("/app/posts")) return true;
+    if (location.pathname.startsWith("/app/explore")) return true;
     return false;
   };
 

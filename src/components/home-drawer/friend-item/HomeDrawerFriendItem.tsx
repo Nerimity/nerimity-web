@@ -101,6 +101,7 @@ export default function HomeDrawerFriendItem(props: {
         selected={props.isInboxTab && !isBlocked() && isSelected()}
         alert={mentionCount() > 0 || showAccept()}
         onClick={onFriendClick}
+        handlePosition="left"
       >
         <A href={RouterEndpoints.PROFILE(user().id)} class="link">
           <Avatar animate={hovered()} user={user()} size={28} />

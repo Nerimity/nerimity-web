@@ -108,7 +108,6 @@ const HomeDrawer = lazy(() => import("@/components/home-drawer/HomeDrawer"));
 const ModerationDrawer = lazy(
   () => import("@/components/moderation-pane/ModerationDrawer")
 );
-const ExploreDrawer = lazy(() => import("@/components/explore/ExploreDrawer"));
 const ServerSettingsDrawer = lazy(
   () => import("@/components/servers/settings/ServerSettingsDrawer")
 );
@@ -311,7 +310,7 @@ render(
 
             <Route
               path="/explore"
-              components={{ mainPane: ExplorePane, leftDrawer: ExploreDrawer }}
+              components={{ mainPane: ExplorePane, leftDrawer: HomeDrawer }}
             >
               <For each={exploreRoutes}>
                 {(paths) => (
@@ -346,7 +345,6 @@ render(
               </For>
               <Route path="/*" components={{ settingsPane: undefined }} />
             </Route>
-
             <Show when={account.hasModeratorPerm(true)}>
               <Route
                 path="/moderation"
