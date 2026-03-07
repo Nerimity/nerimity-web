@@ -13,20 +13,21 @@ export const [timeFormat, setTimeFormat] = useLocalStorage<"12hr" | "24hr">(
 
 export const formatters = createMemo(() => {
   const lang = getCurrentLanguageISO();
+  const options = [lang, "en-GB"];
   return {
     duration: {
-      long: new Intl.DurationFormat(lang, {
+      long: new Intl.DurationFormat(options, {
         style: "long"
       }),
-      narrow: new Intl.DurationFormat(lang, {
+      narrow: new Intl.DurationFormat(options, {
         style: "narrow"
       }),
-      narrowForceSeconds: new Intl.DurationFormat(lang, {
+      narrowForceSeconds: new Intl.DurationFormat(options, {
         style: "narrow",
         secondsDisplay: "always"
       }),
       // H:MM:SS or MM:SS
-      digital: new Intl.DurationFormat(lang, {
+      digital: new Intl.DurationFormat(options, {
         style: "narrow",
         hoursDisplay: "auto",
         hours: "numeric",
@@ -34,7 +35,7 @@ export const formatters = createMemo(() => {
         seconds: "2-digit"
       }),
       // H:MM:SS or M:SS
-      digitalShort: new Intl.DurationFormat(lang, {
+      digitalShort: new Intl.DurationFormat(options, {
         style: "narrow",
         hoursDisplay: "auto",
         hours: "numeric",
@@ -43,22 +44,22 @@ export const formatters = createMemo(() => {
       })
     },
     datetime: {
-      longDate: new Intl.DateTimeFormat(lang, {
+      longDate: new Intl.DateTimeFormat(options, {
         dateStyle: "full",
         timeStyle: "short",
         hour12: timeFormat() === "12hr"
       }),
-      mediumDate: new Intl.DateTimeFormat(lang, {
+      mediumDate: new Intl.DateTimeFormat(options, {
         dateStyle: "medium",
         timeStyle: "short",
         hour12: timeFormat() === "12hr"
       }),
-      seconds: new Intl.DateTimeFormat(lang, {
+      seconds: new Intl.DateTimeFormat(options, {
         timeStyle: "medium",
         hour12: timeFormat() === "12hr"
       })
     },
-    relative: new Intl.RelativeTimeFormat(lang, {
+    relative: new Intl.RelativeTimeFormat(options, {
       numeric: "auto"
     })
   };
