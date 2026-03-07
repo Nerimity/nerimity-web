@@ -54,6 +54,10 @@
   gap: 4px;
 }
 
+.statusLink {
+  pointer-events: all;
+  app-region: no-drag;
+}
 @media (min-width: 500px) {
   :global .electron-custom-titlebar {
     :local {

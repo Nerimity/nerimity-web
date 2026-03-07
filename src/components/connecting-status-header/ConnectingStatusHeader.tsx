@@ -130,6 +130,7 @@ export default function ConnectingStatusHeader() {
               href="https://stats.uptimerobot.com/kRFOr5ohZx"
               target="_blank"
               rel="noopener noreferrer"
+              class={styles.statusLink}
             >
               Status Page
             </a>
