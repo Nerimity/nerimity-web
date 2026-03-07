@@ -17,6 +17,42 @@
   }
 }
 
+:root {
+  --float-bg: var(--pane-color);
+  --float-border: solid 1px rgba(255, 255, 255, 0.2);
+
+  --message-muted-notice-bg: rgba(0, 0, 0, 0.86);
+  --message-muted-expire-bg: rgba(51, 51, 51, 0.86);
+  --back-to-bottom-border: var(--float-border);
+  --back-to-bottom-bg: rgba(40, 40, 40, 0.86);
+  --back-to-bottom-bg-hover: rgba(58, 58, 58, 0.6);
+  /* message-float: reply completions, replies, attachments, etc */
+  --message-float-border: var(--float-border);
+  --message-float-bg: var(--message-floating-options-background-color);
+  --suggest-fg-icon: var(--text-color-secondary);
+  --suggest-fg-dim: var(--text-color-secondary);
+
+  --reply-message-fg: var(--text-color-secondary); /* Technically changes 0.56 to 0.60 opacity */
+  --attachment-image-border: 1px solid rgba(255, 255, 255, 0.24);
+  --attachment-image-bg: rgba(0, 0, 0, 0.6);
+
+  --text-area-border: solid 1px rgba(255, 255, 255, 0.2);
+  --text-area-border-bottom: solid 1px rgba(255, 255, 255, 0.3);
+  --text-area-border-bottom-focus: solid 1px var(--primary-color);
+  --text-area-bg: var(--chat-input-background-color);
+  --text-area-advanced-bg: var(--chat-markup-bar-background-color);
+
+  --channel-notice-bg: var(--float-bg);
+  --channel-notice-border: var(--float-border);
+  --channel-notice-fg: var(--content-color);
+  --channel-notice-header-fg: var(--primary-color);
+
+  --drop-overlay: rgba(0, 0, 0, 0.5);
+  --drop-float-bg: var(--float-bg);
+  --drop-float-border: var(--float-border);
+  --drop-float-fg: var(--primary-color);
+}
+
 .messagePane {
   position: relative;
   display: flex;
@@ -37,7 +73,7 @@
   margin-bottom: 0;
   border-radius: 8px;
 
-  background-color: rgba(0, 0, 0, 0.86);
+  background-color: var(--message-muted-notice-bg);
   font-size: 14px;
   backdrop-filter: blur(34px);
   .text {
@@ -46,7 +82,7 @@
 }
 .mutedNotice {
   position: sticky;
-  z-index: 111;
+  z-index: 1111;
   bottom: 10px;
   display: flex;
   align-items: center;
@@ -59,26 +95,17 @@
   margin-bottom: 0;
   border-radius: 8px;
 
-  background-color: rgba(0, 0, 0, 0.86);
+  background-color: var(--message-muted-notice-bg);
   font-size: 14px;
   gap: 6px;
   backdrop-filter: blur(34px);
-  .text {
-  }
   .expireDuration {
     padding: 10px;
     margin-left: auto;
     border-radius: 4px;
-    background-color: rgba(51, 51, 51, 0.86);
+    background-color: var(--message-muted-expire-bg);
     font-variant-numeric: tabular-nums;
   }
-}
-
-.observePoint {
-  position: absolute;
-  display: flex;
-  width: 10px;
-  background: red;
 }
 
 .floatingTypingContainer {
@@ -162,15 +189,15 @@ body .floating.floatingSlowModeIndicator {
     justify-content: center;
     min-width: 50px;
     min-height: 50px;
-    border: solid 1px rgba(255, 255, 255, 0.2);
+    border: var(--back-to-bottom-border);
 
     border-radius: 8px;
-    background-color: rgba(40, 40, 40, 0.86);
+    background: var(--back-to-bottom-bg);
     cursor: pointer;
     backdrop-filter: blur(34px);
 
     &:hover {
-      background-color: rgba(58, 58, 58, 0.6);
+      background: var(--back-to-bottom-bg-hover);
     }
 
     .text {
@@ -192,9 +219,9 @@ body .floating.floatingSlowModeIndicator {
     padding-left: 8px;
     margin-right: 4px;
     margin-left: 4px;
-    border: solid 1px rgba(255, 255, 255, 0.2);
+    border: var(--message-float-border);
     border-radius: 6px;
-    background-color: var(--message-floating-options-background-color);
+    background: var(--message-float-bg);
     font-size: 14px;
     backdrop-filter: blur(34px);
 
@@ -230,22 +257,19 @@ body .floating.floatingSlowModeIndicator {
             gap: 5px;
           }
           .suggestDescription {
-            opacity: 0.6;
             font-size: 12px;
+            color: var(--suggest-fg-dim);
           }
         }
         .suggestIcon {
           margin-left: auto;
-          opacity: 0.6;
+          --text-color: var(--suggest-fg-icon);
         }
 
         .suggestionInfo {
           margin-left: auto;
-          opacity: 0.6;
           font-size: 12px;
-        }
-        .channelIcon {
-          opacity: 0.5;
+          color: var(--suggest-fg-dim);
         }
         .suggestLabel {
           overflow: hidden;
@@ -253,8 +277,8 @@ body .floating.floatingSlowModeIndicator {
           white-space: nowrap;
         }
         .suggestArgs {
-          opacity: 0.6;
           font-size: 12px;
+          color: var(--suggest-fg-dim);
         }
       }
     }
@@ -303,8 +327,7 @@ body .floating.floatingSlowModeIndicator {
         display: -webkit-box;
         overflow: hidden;
         flex: 1;
-        opacity: 0.7;
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--reply-message-fg);
         font-size: 12px;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
@@ -318,8 +341,7 @@ body .floating.floatingSlowModeIndicator {
       .message {
         display: -webkit-box;
         overflow: hidden;
-        opacity: 0.7;
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--reply-message-fg);
         font-size: 12px;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
@@ -366,15 +388,14 @@ body .floating.floatingSlowModeIndicator {
     }
     .attachmentSize {
       overflow: hidden;
-      opacity: 0.6;
       text-overflow: ellipsis;
       white-space: nowrap;
+      color: var(--text-color-secondary);
     }
     .attachmentEditImageButton {
       position: absolute;
       right: 4px;
       bottom: 4px;
-      background-color: rgb(34, 34, 34);
     }
     .attachmentImageContainer {
       position: relative;
@@ -384,9 +405,9 @@ body .floating.floatingSlowModeIndicator {
     .attachmentImage {
       flex-shrink: 0;
       height: 100%;
-      border: 1px solid rgba(255, 255, 255, 0.24);
+      border: var(--attachment-image-border);
       border-radius: 4px;
-      background-color: rgba(0, 0, 0, 0.6);
+      background: var(--attachment-image-bg);
       cursor: pointer;
       object-fit: contain;
       aspect-ratio: 16/9;
@@ -395,7 +416,7 @@ body .floating.floatingSlowModeIndicator {
 }
 
 body .advancedMarkupOptions {
-  background-color: var(--chat-markup-bar-background-color);
+  background-color: var(--text-area-advanced-bg);
 }
 
 .textAreaContainer {
@@ -403,17 +424,17 @@ body .advancedMarkupOptions {
   z-index: 1111111;
   display: flex;
   flex: 1;
-  border: solid 1px rgba(255, 255, 255, 0.2);
-
-  border-bottom: solid 1px rgba(255, 255, 255, 0.3);
+  border: var(--text-area-border);
+  border-bottom: var(--text-area-border-bottom);
   border-radius: 8px;
-  background-color: var(--chat-input-background-color);
+  background: var(--text-area-bg);
   cursor: text;
   transition: 0.2s;
   backdrop-filter: blur(34px);
 
   &.focused {
-    border-bottom: solid 1px var(--primary-color);
+    border: var(--text-area-border-focus, var(--text-area-border));
+    border-bottom: var(--text-area-border-bottom-focus, var(--text-area-border-bottom));
   }
   &.advancedMarkupShown {
     margin-top: 0;
@@ -430,7 +451,7 @@ body .advancedMarkupOptions {
   padding-top: 14px;
   border: none;
   outline: none;
-  color: white;
+  color: var(--text-area-fg);
   background: transparent;
   resize: none;
   font-size: 12px;
@@ -472,9 +493,9 @@ body .advancedMarkupOptions {
   max-width: 300px;
   max-height: 300px;
   box-sizing: border-box;
-  border: solid 1px rgba(255, 255, 255, 0.2);
+  border: var(--channel-notice-border);
   border-radius: 8px;
-  background-color: var(--pane-color);
+  background-color: var(--channel-notice-bg);
 
   &.mobile {
     max-width: initial;
@@ -486,7 +507,7 @@ body .advancedMarkupOptions {
     margin-top: 10px;
     margin-right: 10px;
     margin-left: 10px;
-    color: var(--primary-color);
+    color: var(--channel-notice-header-fg);
     font-size: 18px;
     font-weight: bold;
     gap: 5px;
@@ -494,7 +515,7 @@ body .advancedMarkupOptions {
   .info {
     overflow: auto;
     margin: 10px;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--channel-notice-fg);
     font-size: 12px;
   }
   .noticeButton {
@@ -553,8 +574,8 @@ body .messageArea .floating.floatingAttachment.mobile .attachmentContent {
   }
   .scheduledDeleteDesc {
     margin-bottom: 10px;
-    opacity: 0.8;
     font-size: 16px;
+    color: var(--content-color);
   }
 }
 
@@ -564,7 +585,7 @@ body .messageArea .floating.floatingAttachment.mobile .attachmentContent {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--drop-overlay);
   inset: 0;
   .dropOverlayInnerContainer {
     display: flex;
@@ -572,10 +593,10 @@ body .messageArea .floating.floatingAttachment.mobile .attachmentContent {
     flex-direction: column;
     justify-content: center;
     padding: 20px;
-    border: solid 1px rgba(255, 255, 255, 0.2);
+    border: var(--drop-float-border);
     border-radius: 8px;
-    color: var(--primary-color);
-    background-color: var(--pane-color);
+    color: var(--drop-float-fg);
+    background: var(--drop-float-bg);
     font-size: 18px;
     gap: 10px;
   }
