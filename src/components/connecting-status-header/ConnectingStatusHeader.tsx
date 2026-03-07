@@ -132,7 +132,7 @@ export default function ConnectingStatusHeader() {
               rel="noopener noreferrer"
               class={styles.statusLink}
             >
-              Status Page
+              {t("statusHeader.statusPage")}
             </a>
           </Delay>
         </Show>
