@@ -78,8 +78,16 @@ const sliceText = (
 type CustomEntity = Entity & { type: "custom" };
 
 const TimeOffsetRegex = /^[+-]\d{4}$/;
-const CustomColorExprRegex =
-  /^(?<colors>#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})(?:-(?:#(?:\p{Hex_Digit}{3,4}|\p{Hex_Digit}{6,7})))+)\s+(?<text>.*)$/v;
+
+const HexColorRegex = /#(?:[a-fA-F0-9]{3,4}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8})/;
+const CustomColorExprRegex = new RegExp(
+  "^(?<colors>" +
+    HexColorRegex.source +
+    "(?:-" +
+    HexColorRegex.source +
+    ")+)" +
+    /\s+(?<text>.*)$/.source
+);
 
 function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
   const messages = useMessages();
