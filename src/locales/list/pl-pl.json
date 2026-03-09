@@ -180,7 +180,11 @@
                 "removeNoticeButton": "Usuń notkę",
                 "channelIcon": "Ikona kanału",
                 "slowModeDescription": "Określ, jak długo użytkownik musi czekać, zanim będzie mógł wysłać wiadomość.",
-                "deleteChannelTitle": "Usuń {{channelName}}"
+                "deleteChannelTitle": "Usuń {{channelName}}",
+                "slowMode": "Tryb powolny",
+                "channelNotice": "Notka kanału",
+                "channelNoticeDescription": "Wyświetla się, gdy użytkownik zamierza rozpocząć czat po raz pierwszy. Zmiany obowiązują po ponownym załadowaniu strony.",
+                "channelNoticeTooLong": "Notka kanału nie może być dłuższa niż 300 znaków."
             },
             "invites": {
                 "createInviteButton": "Stwórz zaproszenie",
@@ -207,7 +211,8 @@
                 "name": "Nazwa webhooka",
                 "link": "URL webhooka",
                 "linkDescription": "Wykonuj akcje z użyciem tego linka",
-                "delete": "Usuń webhooka"
+                "delete": "Usuń webhooka",
+                "addButton": "Dodaj webhook"
             },
             "bans": {
                 "sort": {
@@ -413,7 +418,10 @@
             "preview": "Podgląd",
             "usernameFont": "Czcionka nazwy użytkownika",
             "default": "Domyślna czcionka aplikacji",
-            "confirmPasswordToContinue": "Potwierdź hasło, aby kontynuować"
+            "confirmPasswordToContinue": "Potwierdź hasło, aby kontynuować",
+            "userNotice": "Notka użytkownika",
+            "userNoticeDescription": "Wyświetla się, kiedy użytkownik zamierza wysłać Ci wiadomość po raz pierwszy. Zmiany obowiązują po ponownym załadowaniu strony.",
+            "userNoticeTooLong": "Notka użytkownika nie może być dłuższa niż 300 znaków."
         },
         "privacy": {
             "lastOnline": {
@@ -954,7 +962,8 @@
         "reconnecting": "Ponowne łączenie…",
         "inQueue": "W kolejce: {{count}} użytkownik(-ów) przed Tobą",
         "authenticating": "Uwierzytelnianie…",
-        "connected": "Połączono!"
+        "connected": "Połączono!",
+        "statusPage": "Strona ze statusem"
     },
     "dangerousLinkModal": {
         "title": "Link niestandardowy",

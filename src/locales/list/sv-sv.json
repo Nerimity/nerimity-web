@@ -24,7 +24,9 @@
             "avatar": "Profilbild",
             "banner": "Bakgrundsbild",
             "browse": "Bläddra",
-            "supportedFileTypes": "Stödjer: {{extensions}}, Max {{size}}"
+            "supportedFileTypes": "Stödjer: {{extensions}}, Max {{size}}",
+            "remove": "Ta bort",
+            "revert": "Återgå"
         }
     },
     "header": {
@@ -52,7 +54,8 @@
         "reconnecting": "Återansluter…",
         "inQueue": "I kön: {{count}} användare före dig",
         "authenticating": "Autentiserar…",
-        "connected": "Ansluten!"
+        "connected": "Ansluten!",
+        "statusPage": "Statussida"
     },
     "dangerousLinkModal": {
         "title": "Anpassad länk",
@@ -182,7 +185,16 @@
             "linkButton": "Länka nu",
             "cancelButton": "Länka inte"
         },
-        "emailNotice": "Bekräfta din e-postadress för att skicka meddelanden."
+        "emailNotice": "Bekräfta din e-postadress för att skicka meddelanden.",
+        "gifPicker": {
+            "noResults": "Ingen GIFs hittad",
+            "search": "Sök {{platform}}",
+            "favorites": {
+                "title": "Favoriter",
+                "search": "Sök Favoriter",
+                "noFavorites": "Inga favoriter ännu"
+            }
+        }
     },
     "inputFieldActions": {
         "copy": "Kopiera",
@@ -315,7 +327,8 @@
                 "name": "Webhook Namn",
                 "link": "Webhook URL",
                 "delete": "Ta bort Webhook",
-                "linkDescription": "Utför aktion genom denna länk"
+                "linkDescription": "Utför aktion genom denna länk",
+                "addButton": "Lägg till Webhook"
             },
             "general": {
                 "serverRenameNotice": "Du kommer att förlora alla förmåner som en verifierad server ger om du byter namn.",
@@ -384,7 +397,11 @@
                 "deleteThisChannel": "Radera kanalen",
                 "deleteChannelTitle": "Radera {{channelName}}",
                 "deleteChannelButton": "Radera kanal",
-                "removeNoticeButton": "Ta bort notis"
+                "removeNoticeButton": "Ta bort notis",
+                "slowMode": "Långsamt läge",
+                "channelNotice": "Kanalnotis",
+                "channelNoticeDescription": "Visas när användaren är på väg att chatta för första gången. Ändringarna tillämpas efter omladdning.",
+                "channelNoticeTooLong": "Kanalnotis får inte vara längre än 300 tecken."
             },
             "notifications": {
                 "notice": "Dessa inställningar ändras bara för dig.",
@@ -457,7 +474,17 @@
             },
             "externalEmbed": {
                 "noInvites": {
-                    "title": "Inga Inbjudningar Skapade"
+                    "title": "Inga Inbjudningar Skapade",
+                    "description": "Du måste skapa en inbjudan innan du kan skapa en extern inbäddningslänk.",
+                    "createButton": "Skapa inbjudan"
+                },
+                "title": "Skapa extern inbäddningslänk",
+                "description": "Skapa en extern IFrame-inbäddning för din webbplats.",
+                "dropdownPlaceholder": "Välj Inbjudan",
+                "options": {
+                    "hideHeader": "Dölj rubrik",
+                    "hideMembers": "Dölj medlemslista",
+                    "hideActivities": "Dölj aktivitetslista"
                 }
             }
         },
@@ -468,7 +495,10 @@
             "mentionEveryone": "Nämn Alla",
             "mentionEveryoneDescription": "Aktivera nämningen @everyone. Admin till servern kan fortfarande nämna alla användare.",
             "nicknameMember": "Ge smeknamn",
-            "nicknameMemberDescription": "Låt användare ändra sitt smeknamn i servern."
+            "nicknameMemberDescription": "Låt användare ändra sitt smeknamn i servern.",
+            "admin": "Admin",
+            "adminDescription": "Aktiverar alla behörigheter.",
+            "sendMessage": "Skicka meddelande"
         },
         "leaveModal": {
             "title": "Lämna servern?",
@@ -587,5 +617,16 @@
         "selectItem": "Markera Objekt",
         "selectItemMultiple": "Markera Objekt",
         "itemsSelected": "{{count}} objekt markerade"
+    },
+    "remindersModal": {
+        "title": "Påminnelser",
+        "showAllButton": "Visa alla påminnelser",
+        "viewButton": "Visa",
+        "dismissing": "Avvisar…",
+        "deleting": "Raderar…",
+        "snoozeFor5Minutes": "Snooza i 5 minuter",
+        "snoozeFor1Day": "Snooza i 1 dag",
+        "deletedItem": "Raderat inlägg eller meddelande.",
+        "closeNotice": "Du måste avvisa alla aktiva påminnelser."
     }
 }

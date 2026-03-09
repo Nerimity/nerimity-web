@@ -24,7 +24,8 @@
         "reconnecting": "Reconectando…",
         "inQueue": "En cola: {{count}} usuario(s) delante de ti",
         "authenticating": "Autenticando…",
-        "connected": "¡Conectado!"
+        "connected": "¡Conectado!",
+        "statusPage": "Página de estado"
     },
     "dangerousLinkModal": {
         "title": "Enlace personalizado",
@@ -251,7 +252,8 @@
                 "name": "Nombre de Webhook",
                 "link": "Enlace de Webhook",
                 "linkDescription": "Ejecuta acciones usando este enlace",
-                "delete": "Elimina webhook"
+                "delete": "Elimina webhook",
+                "addButton": "Añadir Webhook"
             },
             "general": {
                 "serverRenameNotice": "Perderás todas las ventajas de un servidor verificado si cambias el nombre.",
@@ -300,7 +302,11 @@
                 "removeNoticeButton": "Eliminar aviso",
                 "channelIcon": "Icono del canal",
                 "slowModeDescription": "Especifica cuánto tiempo debe esperar el usuario antes de que pueda enviar un mensaje.",
-                "deleteChannelTitle": "Eliminar {{channelName}}"
+                "deleteChannelTitle": "Eliminar {{channelName}}",
+                "slowMode": "Tiempo de espera entre mensajes",
+                "channelNotice": "Información del canal",
+                "channelNoticeDescription": "Se muestra cuando el usuario está a punto de chatear por primera vez. Los cambios se aplican después de recargar la página.",
+                "channelNoticeTooLong": "La información del canal no puede tener más de 300 caracteres."
             },
             "invites": {
                 "createInviteButton": "Crear invitación",
@@ -519,7 +525,10 @@
             "deleteCheckbox": "Eliminar mis publicaciones y mensajes",
             "usernameFont": "Tipografía del nombre de usuario",
             "default": "Predeterminado de la aplicación",
-            "confirmPasswordToContinue": "Confirma tu contraseña para continuar"
+            "confirmPasswordToContinue": "Confirma tu contraseña para continuar",
+            "userNotice": "Información antes de recibir mensajes",
+            "userNoticeDescription": "Se muestra cuando un usuario está a punto de enviarte un mensaje por primera vez. Los cambios se aplican después de recargar la página.",
+            "userNoticeTooLong": "La información hacía los usuarios no puede superar los 300 caracteres."
         },
         "privacy": {
             "lastOnline": {
