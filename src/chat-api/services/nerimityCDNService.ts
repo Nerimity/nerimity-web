@@ -12,6 +12,9 @@ const [tokens, setTokens] = useLocalStorage<
 >(StorageKeys.CDN_TOKEN, []);
 
 const generateToken = async (channelId?: string) => {
+  if (!Array.isArray(tokens())) {
+    setTokens([]);
+  }
   const existingToken = tokens().find((t) => t.channelId === channelId);
 
   if (existingToken) {
