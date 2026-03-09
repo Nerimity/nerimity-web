@@ -272,6 +272,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   if (shouldUploadToNerimityCdn && file) {
     const data = await uploadAttachment(channelId, {
       file,
+      channelId,
       onUploadProgress
     }).catch((err) => {
       channelProperties.updateContent(channelId, content || "");

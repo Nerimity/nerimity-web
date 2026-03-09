@@ -1,35 +1,55 @@
 import env from "@/common/env";
 import { request, xhrRequest } from "./Request";
 import { StorageKeys, useLocalStorage } from "@/common/localStorage";
+import ServiceEndpoints from "./ServiceEndpoints";
 
-const [token, setToken] = useLocalStorage<{
-  token: string;
-  createdAt: number;
-} | null>(StorageKeys.CDN_TOKEN, null);
+const [tokens, setTokens] = useLocalStorage<
+  {
+    token: string;
+    channelId?: string;
+    createdAt: number;
+  }[]
+>(StorageKeys.CDN_TOKEN, []);
 
-const generateToken = async () => {
-  if (token()) {
-    const expired = Date.now() - token()!.createdAt > 2 * 60 * 1000;
+const generateToken = async (channelId?: string) => {
+  const existingToken = tokens().find((t) => t.channelId === channelId);
+
+  if (existingToken) {
+    const expired = Date.now() - existingToken.createdAt > 2 * 60 * 1000;
     if (!expired) {
-      return token()!.token;
+      return existingToken.token;
     }
   }
 
   const res = await request<{ token: string }>({
     method: "POST",
-    url: env.SERVER_URL + "/api/cdn/token",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      (channelId ? ServiceEndpoints.channel(channelId) : "") +
+      "/cdn/token",
     useToken: true
   });
 
-  setToken({
+  const newToken = {
     token: res.token,
+    channelId,
     createdAt: Date.now()
-  });
+  };
+
+  setTokens([
+    newToken,
+    ...tokens()
+      .filter((t) => Date.now() - t.createdAt <= 2 * 60 * 1000)
+      .slice(0, 9)
+  ]);
+
   return res.token;
 };
 interface NerimityCDNRequestOpts {
   file: File;
   onUploadProgress?: (progress: number) => void;
+  channelId?: string;
 }
 
 export async function uploadBanner(
@@ -63,6 +83,7 @@ export async function uploadAttachment(
 
 async function nerimityCDNUploadRequest(opts: {
   type: "avatars" | "profile_banners" | "emojis" | "attachments";
+  channelId?: string;
   points?: number[];
   file: File;
   groupId?: string;
@@ -79,7 +100,7 @@ async function nerimityCDNUploadRequest(opts: {
       url: url.href,
       body: formData,
       params: opts.points ? { points: JSON.stringify(opts.points) } : undefined,
-      useToken: await generateToken()
+      useToken: await generateToken(opts.channelId)
     },
     opts.onUploadProgress
   );
