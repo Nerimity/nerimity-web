@@ -176,7 +176,7 @@ function ModerationItem(props: { size: number }) {
         <A href="/app/moderation" style={{ "text-decoration": "none" }}>
           <SidebarItemContainer selected={selected()}>
             <Show when={tickets.hasModerationTicketNotification()}>
-              <NotificationCountBadge count={"!"} top={5} right={10} />
+              <NotificationCountBadge count={tickets.hasModerationTicketNotification()} top={5} right={10} />
             </Show>
             <Icon name="security" size={props.size - props.size * 0.6308} />
           </SidebarItemContainer>

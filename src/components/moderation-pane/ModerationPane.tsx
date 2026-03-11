@@ -373,7 +373,7 @@ const TicketsPane = () => {
             left: 6px;
           `}
         >
-          <Icon name="error" color="var(--alert-color)" size={18} />
+          {tickets.hasModerationTicketNotification()}
         </div>
       </Show>
       <SettingsBlock

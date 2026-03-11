@@ -99,7 +99,7 @@ function ModerationItem() {
         selected={!!selected()}
         notify={
           tickets.hasModerationTicketNotification()
-            ? { top: 3, right: 16 }
+            ? { top: 3, right: 16, count: tickets.hasModerationTicketNotification() }
             : undefined
         }
       />

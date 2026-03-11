@@ -6,7 +6,7 @@ import { TicketStatus } from "../RawData";
 import { getTickets } from "../services/TicketService.ts";
 
 const [hasModerationTicketNotification, setHasModerationTicketNotification] =
-  createSignal(false);
+  createSignal(0);
 const [hasTicketNotification, setHasTicketNotification] = createSignal(false);
 
 const updateModerationTicketNotification = async () => {
@@ -17,10 +17,10 @@ const updateModerationTicketNotification = async () => {
   if (!hasModeratorPerm()) return;
 
   const tickets = await getModerationTickets({
-    limit: 1,
+    limit: 10,
     status: TicketStatus.WAITING_FOR_MODERATOR_RESPONSE
   });
-  setHasModerationTicketNotification(tickets.length > 0);
+  setHasModerationTicketNotification(tickets.length);
 };
 
 const updateTicketNotification = async () => {

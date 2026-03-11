@@ -86,7 +86,7 @@ function List() {
                 tickets.hasModerationTicketNotification()
               }
             >
-              <NotificationCircle />
+              <NotificationCircle count={tickets.hasModerationTicketNotification()}  />
             </Show>
           </Item>
         )}
@@ -95,7 +95,7 @@ function List() {
   );
 }
 
-function NotificationCircle() {
+function NotificationCircle(props: {count?: number}) {
   return (
     <div
       style={{
@@ -112,7 +112,7 @@ function NotificationCircle() {
         "margin-right": "8px"
       }}
     >
-      !
+      {props.count ||"!"}
     </div>
   );
 }
