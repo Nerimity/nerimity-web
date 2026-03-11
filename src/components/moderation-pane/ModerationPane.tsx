@@ -376,6 +376,9 @@ const TicketsPane = () => {
             width: 17px;
             font-size: .8em;
             height: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
           `}
         >
           {tickets.hasModerationTicketNotification()}
