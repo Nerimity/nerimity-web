@@ -371,6 +371,11 @@ const TicketsPane = () => {
             position: absolute;
             top: 10px;
             left: 6px;
+            background-color: var(--alert-color);
+            border-radius: 50%;
+            width: 17px;
+            font-size: .8em;
+            height: 17px;
           `}
         >
           {tickets.hasModerationTicketNotification()}
