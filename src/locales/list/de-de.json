@@ -24,7 +24,8 @@
         "reconnecting": "Erneut verbinden…",
         "inQueue": "In Warteschlange: {{count}} Nutzer(innen) vor dir",
         "authenticating": "Authentifizieren…",
-        "connected": "Verbunden!"
+        "connected": "Verbunden!",
+        "statusPage": "Statusseite"
     },
     "dangerousLinkModal": {
         "title": "Benutzerdefinierter Link",
@@ -251,7 +252,8 @@
                 "name": "Webhook-Name",
                 "link": "Webhook-URL",
                 "linkDescription": "Aktionen über diesen Link ausführen",
-                "delete": "Webhook löschen"
+                "delete": "Webhook löschen",
+                "addButton": "Webhook hinzufügen"
             },
             "general": {
                 "serverRenameNotice": "Wenn du deinen Server umbenennst, verlierst du alle Vorteile einer verifizierten Community.",
@@ -300,7 +302,11 @@
                 "removeNoticeButton": "Hinweis entfernen",
                 "channelIcon": "Kanal Icon",
                 "slowModeDescription": "Lege fest, wie lange ein Nutzer warten muss, bevor er eine Nachricht senden kann.",
-                "deleteChannelTitle": "{{channelName}} löschen"
+                "deleteChannelTitle": "{{channelName}} löschen",
+                "slowMode": "Slow-Modus",
+                "channelNotice": "Kanalnotiz",
+                "channelNoticeDescription": "Wird angezeigt, wenn der Nutzer kurz davor ist, seine erste Nachricht zu schreiben. Änderungen werden nach einem Reload angewendet.",
+                "channelNoticeTooLong": "Kanalnotiz kann nicht länger als 300 Zeichen sein."
             },
             "invites": {
                 "createInviteButton": "Einladung erstellen",
@@ -519,7 +525,10 @@
             "deleteCheckbox": "Meine Beiträge und Nachrichten löschen",
             "usernameFont": "Schriftart des Benutzernamens",
             "default": "App-Standard",
-            "confirmPasswordToContinue": "Bestätige dein Passwort um fortzufahren"
+            "confirmPasswordToContinue": "Bestätige dein Passwort um fortzufahren",
+            "userNotice": "Benutzerhinweis",
+            "userNoticeDescription": "Wird angezeigt, wenn der User kurz davor ist, dir zum ersten Mal zu schreiben. Änderungen werden nach einem Reload angewendet.",
+            "userNoticeTooLong": "Benutzerhinweis kann nicht länger als 300 Zeichen sein."
         },
         "privacy": {
             "lastOnline": {
