@@ -50,6 +50,7 @@ export interface UserBadge {
   credit?: () => string;
   type?: "earned";
   icon?: string;
+  removable?: boolean;
 }
 
 export const USER_BADGES = {
@@ -207,7 +208,8 @@ export const USER_BADGES = {
         platform: "Freepik"
       }),
     type: "earned",
-    icon: "crown"
+    icon: "crown",
+    removable: false,
   },
 
   ADMIN: {
@@ -223,7 +225,8 @@ export const USER_BADGES = {
         editor: "Supertiger"
       }),
     type: "earned",
-    icon: "verified_user"
+    icon: "verified_user",
+    removable: false,
   },
 
   MOD: {
@@ -237,7 +240,8 @@ export const USER_BADGES = {
         platform: "Freepik"
       }),
     type: "earned",
-    icon: "shield"
+    icon: "shield",
+    removable: false,
   },
 
   EMO_SUPPORTER: {
@@ -301,7 +305,8 @@ export const USER_BADGES = {
     bit: USER_BADGE_BITS.BOT,
     color: "var(--primary-color)",
     type: "earned",
-    icon: "robot_2"
+    icon: "robot_2",
+    removable: false,
   }
 } satisfies Record<string, UserBadge>;
 

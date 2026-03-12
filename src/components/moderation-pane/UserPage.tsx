@@ -1,10 +1,4 @@
-import {
-  Bitwise,
-  USER_BADGES_VALUES,
-  addBit,
-  hasBit,
-  removeBit
-} from "@/chat-api/Bitwise";
+import { Bitwise, USER_BADGES_VALUES } from "@/chat-api/Bitwise";
 import {
   ModerationUser,
   getUser,
@@ -14,7 +8,15 @@ import {
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { A, useParams } from "solid-navigator";
-import { For, Show, createEffect, createSignal, on, onMount } from "solid-js";
+import {
+  For,
+  Show,
+  batch,
+  createEffect,
+  createSignal,
+  on,
+  onMount
+} from "solid-js";
 import { css, styled } from "solid-styled-components";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { Banner } from "../ui/Banner";
@@ -91,6 +93,11 @@ const ChangePasswordButton = styled("button")`
   }
 `;
 
+interface AddInventoryItem {
+  itemType: string;
+  itemId: string;
+}
+
 export default function UserPage() {
   const params = useParams<{ userId: string }>();
   const { width } = useWindowProperties();
@@ -105,7 +112,8 @@ export default function UserPage() {
     email: user()?.account?.email || "",
     username: user()?.username || "",
     tag: user()?.tag || "",
-    badges: user()?.badges || 0,
+    addedInventoryItems: [] as AddInventoryItem[],
+    removedInventoryIds: [] as string[],
     emailConfirmed: user()?.account?.emailConfirmed || false,
     newPassword: "",
     password: ""
@@ -141,13 +149,71 @@ export default function UserPage() {
       .finally(() => setRequestSent(false));
   };
 
-  const onBadgeUpdate = (checked: boolean, bit: number) => {
-    if (checked) {
-      setInputValue("badges", addBit(inputValues().badges, bit));
-      return;
+  const hasBadge = (bit: number) => {
+    const item = user()?.inventory.find((i) => parseInt(i.itemId) === bit);
+
+    const addedNow = inputValues().addedInventoryItems.find(
+      (i) => parseInt(i.itemId) === bit
+    );
+    if (addedNow) {
+      return true;
     }
-    setInputValue("badges", removeBit(inputValues().badges, bit));
+    const removedNow = inputValues().removedInventoryIds.find(
+      (id) => id === item?.id
+    );
+    if (removedNow) {
+      return false;
+    }
+
+    if (item) {
+      return true;
+    }
+
+    return false;
   };
+
+  const onBadgeUpdate = (checked: boolean, bit: number) => {
+    batch(() => {
+      const inventoryItem = user()?.inventory.find((i) => parseInt(i.itemId) === bit);
+      const addedItem = inputValues().addedInventoryItems.find(
+          (i) => parseInt(i.itemId) === bit
+        );
+
+      const item =
+        inventoryItem ||
+        addedItem;
+      let removedIds = [...inputValues().removedInventoryIds];
+      let addedItems = [...inputValues().addedInventoryItems];
+
+      if (item) {
+        if ("id" in item) {
+          removedIds = removedIds.filter((id) => id !== item.id);
+        }
+        addedItems = addedItems.filter(
+          (addedItem) => addedItem.itemId !== String(bit)
+        );
+        setInputValue("removedInventoryIds", removedIds);
+        setInputValue("addedInventoryItems", addedItems);
+      }
+
+      if (checked) {
+        if (inventoryItem) return;
+
+        addedItems.push({ itemType: "badge", itemId: String(bit) });
+        setInputValue("addedInventoryItems", addedItems);
+        return;
+      }
+      if (item && "id" in item) {
+        if (!inventoryItem) {
+          return;
+        }
+        removedIds.push(item.id as string);
+        setInputValue("removedInventoryIds", removedIds);
+      }
+    });
+  };
+
+
 
   const onChangePasswordClick = () => {
     setInputValue("newPassword", "");
@@ -274,8 +340,8 @@ export default function UserPage() {
                 <BadgeItem
                   badge={badge}
                   user={user()!}
-                  badges={inputValues().badges}
                   onBadgeUpdate={onBadgeUpdate}
+                  hasBadge={hasBadge(badge.bit)}
                 />
               )}
             </For>
@@ -341,11 +407,12 @@ export default function UserPage() {
 
 const BadgeItem = (props: {
   badge: Bitwise;
-  user: RawUser;
-  badges: number;
+  user: ModerationUser;
   onBadgeUpdate: (checked: boolean, badgeBit: number) => void;
+  hasBadge: boolean;
 }) => {
   const [hovered, setHovered] = createSignal(false);
+
   return (
     <SettingsBlock
       onMouseOver={() => setHovered(true)}
@@ -361,13 +428,10 @@ const BadgeItem = (props: {
         />
       }
       onClick={() => {
-        props.onBadgeUpdate(
-          !hasBit(props.badges, props.badge.bit),
-          props.badge.bit
-        );
+        props.onBadgeUpdate(!props.hasBadge, props.badge.bit);
       }}
     >
-      <Checkbox checked={hasBit(props.badges, props.badge.bit)} />
+      <Checkbox checked={props.hasBadge} />
     </SettingsBlock>
   );
 };

@@ -4,6 +4,7 @@ import {
   RawChannel,
   RawChannelNotice,
   RawInboxWithoutChannel,
+  RawInventoryItem,
   RawMessage,
   RawPost,
   RawServer,
@@ -30,6 +31,14 @@ export async function registerFCM(token: string) {
     method: "POST",
     useToken: true,
     notJSON: true
+  });
+}
+
+export async function fetchInventory() {
+  return request<RawInventoryItem[]>({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("inventory"),
+    method: "GET",
+    useToken: true,
   });
 }
 

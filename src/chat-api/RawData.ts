@@ -21,6 +21,18 @@ export interface RawServer {
   };
 }
 
+
+export const InventoryItemType ={
+  Badge: "badge"
+} as const;
+export interface RawInventoryItem {
+  id: string;
+  itemType: typeof InventoryItemType[keyof typeof InventoryItemType];
+  userId: string;
+  itemId: string;
+  acquiredAt: number;
+}
+
 export interface RawWebhook {
   name: string;
   id: string;

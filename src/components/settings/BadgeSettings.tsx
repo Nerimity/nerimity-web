@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, Show } from "solid-js";
+import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 
 import useStore from "@/chat-api/store/useStore";
@@ -6,7 +6,13 @@ import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
 
-import { Bitwise, USER_BADGES, UserBadge } from "@/chat-api/Bitwise";
+import {
+  Bitwise,
+  hasBit,
+  USER_BADGES,
+  USER_BADGES_VALUES,
+  UserBadge
+} from "@/chat-api/Bitwise";
 
 import SettingsBlock, {
   SettingsGroup
@@ -17,6 +23,11 @@ import { Notice } from "../ui/Notice/Notice";
 
 import Icon from "../ui/icon/Icon";
 import Block from "../ui/settings-block/Block";
+import { RawInventoryItem } from "@/chat-api/RawData";
+import { fetchInventory, toggleBadge } from "@/chat-api/services/UserService";
+import { formatters } from "@/common/date";
+import Checkbox from "../ui/Checkbox";
+import { toast } from "../ui/custom-portal/CustomPortal";
 
 const Container = styled("div")`
   display: flex;
@@ -70,6 +81,8 @@ export default function BadgeSettings() {
         <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.badges")} />
       </Breadcrumb>
+
+      <OwnedBadges />
 
       <Notice
         description={t("settings.badges.notice")}
@@ -224,5 +237,94 @@ const SupportMethodBlock = () => {
         hrefBlank
       />
     </SettingsGroup>
+  );
+};
+
+const OwnedBadges = () => {
+  const store = useStore();
+  const [inventory, setInventory] = createSignal<RawInventoryItem[]>([]);
+
+  const user = () => store.account.user();
+
+  onMount(() => {
+    fetchInventory().then(setInventory);
+  });
+
+  const inventoryBadges = () => {
+    return inventory().filter((item) => item.itemType === "badge");
+  };
+
+  const ownedBadges = () => {
+    const badges = inventoryBadges().map((item) => {
+      const badge = USER_BADGES_VALUES.find(
+        (badge) => badge.bit === parseInt(item.itemId)
+      )!;
+      return {
+        ...badge,
+        acquiredAt: item.acquiredAt,
+        enabled: hasBit(user()?.badges || 0, badge!.bit)
+      };
+    });
+    const hasPalestine = badges.find((badge) => badge.name() === "Palestine");
+    if (!hasPalestine) {
+      badges.unshift({
+        ...USER_BADGES.PALESTINE,
+        acquiredAt: 0,
+        enabled: hasBit(user()?.badges || 0, USER_BADGES.PALESTINE.bit)
+      });
+    }
+    return badges;
+  };
+
+  const handleBadgeToggle = (badge: { bit: number; removable?: boolean }) => {
+    if (badge.removable === false) {
+      return toast(
+        "This badge is not removable.",
+        "Badge Not Removable",
+        "error"
+      );
+    }
+    toggleBadge(badge.bit).then((result) => {
+      store.account.setUser({ badges: result.badges });
+    });
+  };
+
+  return (
+    <div>
+      <Notice
+        type="info"
+        description="Badges are manually added by moderators. Please open a ticket stating the badge you would like, after donating."
+        style={{ "margin-bottom": "12px" }}
+      />
+      <SettingsGroup>
+        <SettingsBlock
+          label={`Owned Badges (${ownedBadges().length})`}
+          icon="badge"
+        />
+
+        <For each={ownedBadges()}>
+          {(item) => (
+            <SettingsBlock
+              onClick={() => handleBadgeToggle(item)}
+              label={item!.name?.()!}
+              description={
+                item!.acquiredAt
+                  ? `Acquired on ${formatters().datetime.mediumDate.format(item!.acquiredAt)}`
+                  : undefined
+              }
+              icon={
+                <Avatar user={{ ...user()!, badges: item!.bit }} size={40} />
+              }
+            >
+              <Checkbox
+                style={{ "pointer-events": "none" }}
+                checked={item!.enabled}
+                disabled={!item!.removable}
+              />
+            </SettingsBlock>
+          )}
+        </For>
+      </SettingsGroup>
+    </div>
   );
 };

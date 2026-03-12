@@ -2,6 +2,7 @@ import env from "../../common/env";
 import {
   RawApplication,
   RawChannel,
+  RawInventoryItem,
   RawMessage,
   RawServer,
   RawTicket,
@@ -494,6 +495,7 @@ export type ModerationUser = RawUser & {
     warnCount?: number;
     warnExpiresAt?: number;
   };
+  inventory: RawInventoryItem[];
   application?: RawApplication;
   suspension?: ModerationSuspension;
   shadowBan?: any;
