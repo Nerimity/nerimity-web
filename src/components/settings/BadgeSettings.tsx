@@ -279,8 +279,8 @@ const OwnedBadges = () => {
   const handleBadgeToggle = (badge: { bit: number; removable?: boolean }) => {
     if (badge.removable === false) {
       return toast(
-        "This badge is not removable.",
-        "Badge Not Removable",
+        t("settings.badges.unremovableError.title"),
+        t("settings.badges.unremovableError.body"),
         "error"
       );
     }
@@ -293,12 +293,12 @@ const OwnedBadges = () => {
     <div>
       <Notice
         type="info"
-        description="Badges are manually added by moderators. Please open a ticket stating the badge you would like, after donating."
+        description={t("settings.badges.acquisitionNotice")}
         style={{ "margin-bottom": "12px" }}
       />
       <SettingsGroup>
         <SettingsBlock
-          label={`Owned Badges (${ownedBadges().length})`}
+          label={t("settings.badges.inventory.ownedBadges", { count: ownedBadges().length })}
           icon="badge"
         />
 
@@ -309,7 +309,7 @@ const OwnedBadges = () => {
               label={item!.name?.()!}
               description={
                 item!.acquiredAt
-                  ? `Acquired on ${formatters().datetime.mediumDate.format(item!.acquiredAt)}`
+                  ? t("settings.badges.inventory.acquireDate", { date: formatters().datetime.mediumDate.format(item!.acquiredAt) })
                   : undefined
               }
               icon={
