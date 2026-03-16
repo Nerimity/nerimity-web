@@ -54,7 +54,8 @@
         "reconnecting": "Riconnessione…",
         "authenticating": "Autenticazione…",
         "connected": "Connesso!",
-        "inQueue": "In coda: {{count}} utente/i prima di te"
+        "inQueue": "In coda: {{count}} utente/i prima di te",
+        "statusPage": "Pagina dello stato"
     },
     "dangerousLinkModal": {
         "cancelButton": "Non visitare",
@@ -300,7 +301,10 @@
         "deletedItem": "Post o messaggio cancellato.",
         "viewButton": "Visualizza",
         "title": "Promemoria",
-        "showAllButton": "Mostra tutti i promemoria"
+        "showAllButton": "Mostra tutti i promemoria",
+        "closeNotice": "Devi prima chiudere tutti i promemoria attivi.",
+        "dismissing": "Chiusura…",
+        "deleting": "Cancellazione…"
     },
     "editFolderModal": {
         "title": "Modifica cartella",
@@ -338,14 +342,19 @@
                 "noReason": "Nessun motivo fornito",
                 "unknown": "Sconosciuto",
                 "unban": "Rimuovi ban",
-                "unbanning": "Rimozione del ban…"
+                "unbanning": "Rimozione del ban…",
+                "bannedAt": "Bannatə alle"
             },
             "general": {
                 "deleteThisServer": "Cancella questo server",
                 "deleteServerButton": "Cancella server",
                 "serverName": "Nome del server",
                 "defaultChannel": "Canale di default",
-                "defaultChannelDescription": "I nuovi membri verranno diretti su questo canale."
+                "defaultChannelDescription": "I nuovi membri verranno diretti su questo canale.",
+                "serverRenameNotice": "Perderai tutti i vantaggi della verifica del tuo server se lo rinomini.",
+                "systemMessages": "Messaggi di sistema",
+                "systemMessagesDescription": "I messaggi di sistema dovrebbero apparire qui.",
+                "none": "Nessuno"
             },
             "roles": {
                 "addNewRole": "Aggiungi un nuovo ruolo",
@@ -361,10 +370,13 @@
                 "applyOnJoinDescription": "Assegna questo ruolo ai membri quando si uniscono al server.",
                 "permissionsDescription": "Gestisci i permessi per questo ruolo.",
                 "deleteRoleTitle": "Cancella {{roleName}}",
-                "deleteRoleButton": "Cancella questo ruolo"
+                "deleteRoleButton": "Cancella questo ruolo",
+                "managedByBot": "Questo ruolo è gestito da {{botName}}. Non puoi rimuovere o aggiungere membri a questo ruolo. Rimuovi questo bot per eliminare questo ruolo.",
+                "applyOnJoin": "Assegna all'ingresso"
             },
             "header": {
-                "editServer": "Modifica server"
+                "editServer": "Modifica server",
+                "serverMemberCount": "{{count}} membri"
             },
             "welcomeScreen": {
                 "title": "Domande",
@@ -383,7 +395,8 @@
                         "placeholder": "Gatti",
                         "selectRoles": "Seleziona ruoli"
                     }
-                }
+                },
+                "description": "Imposta le domande. Lascia che gli utenti assegnino i ruoli."
             },
             "channels": {
                 "createButton": "Crea",
@@ -398,11 +411,203 @@
                 "slowModeDescription": "Specifica quanto deve aspettare un utente prima di poter mandare un messaggio.",
                 "deleteThisChannel": "Cancella questo canale",
                 "deleteChannelTitle": "Cancella {{channelName}}",
-                "deleteChannelButton": "Cancella canale"
+                "deleteChannelButton": "Cancella canale",
+                "slowMode": "Modalità lenta",
+                "channelNotice": "Avviso del canale",
+                "channelNoticeDescription": "Mostra quando l'utente sta per chattare per la prima volta. Le modifiche saranno applicate dopo aver ricaricato la pagina.",
+                "channelNoticeTooLong": "L'avviso del canale non può superare i 300 caratteri.",
+                "removeNoticeButton": "Rimuovi avviso"
             },
             "notifications": {
-                "notice": "Queste impostazioni cambieranno solo per te."
+                "notice": "Queste impostazioni cambieranno solo per te.",
+                "sound": "Suono delle notifiche",
+                "soundDescription": "Emette un suono quando ricevi una notifica.",
+                "channelsDescription": "Gestisci notifiche per canale.",
+                "ping": "Avviso di notifica",
+                "pingDescription": "Mostra un indicatore di notifica.",
+                "resetButton": "Reset impostazioni personalizzate ({{count}})"
+            },
+            "webhook": {
+                "title": "Webhook",
+                "addButton": "Aggiungi webhook",
+                "name": "Nome del webhook",
+                "link": "URL del webhook",
+                "linkDescription": "Esegui azioni usando questo link",
+                "delete": "Cancella webhook"
+            },
+            "emoji": {
+                "addButton": "Aggiungi emoji",
+                "title": "Emoji personalizzate",
+                "description": "Aggiungi le tue emoji."
+            },
+            "invites": {
+                "createInviteButton": "Crea invito",
+                "serverInvites": "Inviti al server",
+                "serverInvitesDescription": "Invita i tuoi amici in questo server.",
+                "customInviteVerifiedOnlyNotice": "I link di invito personalizzati sono disponibili solo per i server verificati.",
+                "customLink": "Link personalizzato",
+                "uses": "{{count}} utilizzo/i"
+            },
+            "publishServer": {
+                "publicDescription": "Rendi pubblico questo server.",
+                "publishNotice": "La pubblicazione del tuo server lo renderà disponibile nella pagina <1>explore</1>.",
+                "public": "Pubblico",
+                "bumpServer": "Bumpa server",
+                "bumpServerDescription": "Bumpa questo server per arrivare in cima.",
+                "bumpButton": "Bumpa ({{count}})",
+                "descriptionLabel": "Descrizione del server ({{current}}/{{max}})",
+                "publishServerButton": "Pubblica",
+                "unpublishServerButton": "Annulla pubblicazione",
+                "bumpCooldown": "Devi aspettare {{hours}} ore, {{minutes}} minuti e {{seconds}} secondi per bumpare questo server."
+            },
+            "verify": {
+                "alreadyVerified": "Il tuo server è già verificato!",
+                "insufficientMembers": "Hai bisogno di altri {{count}} membri per richiedere la verifica.",
+                "verifiable": "Pronto per la verifica",
+                "verifiableDescription": "Hai abbastanza membri per verificare il tuo server!",
+                "verifyButton": "Verifica",
+                "requirements": {
+                    "title": "Requisiti",
+                    "englishOnly": "Solo in inglese",
+                    "englishOnlyDescription": "I server che non sono in inglese sono più difficili da moderare.",
+                    "oneMonthOrSupporter": "Almeno 1 mese OPPURE supporter badge",
+                    "oneMonthOrSupporterDescription": "Il tuo server deve esistere da almeno 1 mese OPPURE il proprietario del server deve avere il supporter badge.",
+                    "members": "{{count}} o più membri",
+                    "membersDescription": "Il tuo server deve avere almeno {{count}} membri.",
+                    "profanityFree": "Niente turpiloquio",
+                    "profanityFreeDescription": "Il nome del server, l'avatar e il banner non devono contenere volgarità.",
+                    "avatarAndBanner": "Avatar e banner",
+                    "avatarAndBannerDescription": "Il server deve avere un avatar e un banner.",
+                    "rules": "Regole del server",
+                    "rulesDescription": "Il server deve avere un canale per le regole."
+                },
+                "perks": {
+                    "title": "Vantaggi",
+                    "badge": "Badge verificato",
+                    "badgeDescription": "Un badge che mostra che il tuo server è speciale.",
+                    "explore": "Metti in evidenza su Esplora",
+                    "exploreDescription": "Il tuo server verrà mostrato in una sezione separata della pagina Esplora.",
+                    "customInvite": "Link di invito personalizzato",
+                    "customInviteDescription": "Crea il tuo link di invito dalla pagina degli inviti.",
+                    "emojiSlots": "Più slot per le emoji",
+                    "emojiSlotsDescription": "200 slot per le emoji per il tuo server.",
+                    "hdScreenshare": "Condivisione schermo 1080p@60fps",
+                    "hdScreenshareDescription": "Condivisione dello schermo in 1080p a 60fps."
+                }
+            },
+            "externalEmbed": {
+                "noInvites": {
+                    "title": "Nessun invito creato",
+                    "description": "Devi creare un invito prima di poter creare un link di incorporamento esterno.",
+                    "createButton": "Crea invito"
+                },
+                "title": "Crea link di incorporamento esterno",
+                "description": "Crea un IFrame di incorporamento esterno per il tuo sito web.",
+                "dropdownPlaceholder": "Seleziona invito",
+                "options": {
+                    "hideHeader": "Nascondi header",
+                    "hideMembers": "Nascondi lista dei membri",
+                    "hideActivities": "Nascondi lista delle attività"
+                }
             }
+        },
+        "rolePermissions": {
+            "admin": "Amministratore",
+            "adminDescription": "Abilita tutti i permessi.",
+            "sendMessage": "Invia messaggio",
+            "sendMessageDescription": "Abilita l'invio di messaggi in questo server. Gli amministratori del server possono comunque inviare messaggi.",
+            "manageRoles": "Gestisci ruoli",
+            "manageRolesDescription": "Permesso per aggiornare o eliminare ruoli.",
+            "manageChannels": "Gestisci canali",
+            "manageChannelsDescription": "Permesso per aggiornare o eliminare canali.",
+            "kick": "Butta fuori",
+            "kickDescription": "Permesso di buttare fuori utenti.",
+            "ban": "Ban",
+            "banDescription": "Permesso per bannare utenti.",
+            "mentionEveryone": "Menziona tutti",
+            "mentionEveryoneDescription": "Permette di menzionare @tutti. Gli amministratori del server possono comunque menzionare tutti.",
+            "nicknameMember": "Nickname membro",
+            "nicknameMemberDescription": "Permette agli utenti di cambiare il loro nickname dentro il server."
+        },
+        "leaveModal": {
+            "title": "Abbandoni il server?",
+            "body": {
+                "part1": "Sei sicuro di voler abbandonare <1>{{serverName}}</1>?",
+                "part2": "Puoi rientrare in qualsiasi momento!"
+            },
+            "cancelButton": "Non abbandonare",
+            "confirmButton": "Abbandona"
+        },
+        "channelPermissions": {
+            "hiddenChannel": "Canale nascosto",
+            "publicChannel": "Canale pubblico",
+            "publicChannelDescription": "Permette l'accesso al canale. Gli amministratori del server possono accedere a qualsiasi canale.",
+            "sendMessage": "Invia messaggio",
+            "sendMessageDescription": "Permette l'invio di messaggi nel canale. Gli amministratori del server possono comunque mandare messaggi.",
+            "joinVoice": "Unisciti al canale vocale",
+            "joinVoiceDescription": "Permette di unirsi ai canali vocali nel canale. Gli amministratori del server possono comunque unirsi ai canali vocali."
+        }
+    },
+    "settings": {
+        "drawer": {
+            "title": "Impostazioni",
+            "account": "Account",
+            "interface": "Interfaccia",
+            "language": "Lingua",
+            "notifications": "Notifiche",
+            "developer": "Sviluppatore",
+            "applications": "Applicazioni",
+            "experiments": "Esperimenti",
+            "badges": "Badge",
+            "viewSource": "Vedi codice sorgente",
+            "changelog": "Changelog",
+            "window-settings": "Impostazioni della finestra",
+            "call-settings": "Impostazioni di chiamata",
+            "activity-status": "Stato dell'attività",
+            "tickets": "Ticket",
+            "privacy": "Privacy",
+            "connections": "Collegamenti",
+            "profile": "Profilo",
+            "source": "Codice sorgente",
+            "changes": "Modifiche"
+        },
+        "language": {
+            "reloadNotice": "Devi ricaricare l'app per applicare la nuova lingua.",
+            "reloadButton": "Ricarica",
+            "searchNotice": "Le traduzioni sono mantenute dalla community. Per favore segnala qualsiasi traduzione errata o inappropriata a Nerimity.",
+            "contributors": "Contributori"
+        },
+        "header": {
+            "servers": "server",
+            "friends": "amici",
+            "manageAccount": "Gestisci account"
+        },
+        "account": {
+            "tag": "Tag",
+            "botID": "ID bot",
+            "profile": "Profilo",
+            "profileDescription": "Modifica la tua bio o i colori",
+            "palestineBorder": "Aggiungi la cornice della Palestina al tuo avatar.",
+            "bio": "Bio",
+            "bioDescription": "Il testo multiriga e il markup sono supportati",
+            "gradientColor1": "Primo colore del gradiente",
+            "gradientColor2": "Secondo colore del gradiente",
+            "primaryColor": "Colore primario",
+            "usernameFont": "Font dello username",
+            "default": "Predefinito",
+            "preview": "Anteprima",
+            "changePassword": "Cambia password",
+            "forgotPassword": "Password dimenticata",
+            "newPassword": "Nuova password",
+            "newPasswordDescription": "Modificare la tua password ti disconnetterà da tutti gli altri dispositivi.",
+            "confirmNewPassword": "Conferma nuova password",
+            "confirmNewPasswordDescription": "Conferma la tua nuova password",
+            "confirmCurrentPassword": "Conferma password attuale",
+            "confirmPasswordToContinue": "Conferma la tua password per continuare",
+            "confirmEmail": "Conferma la tua email",
+            "enterCode": "Inserisci il codice a 5 cifre inviato alla tua email:",
+            "sendCodeButton": "Invia codice",
+            "resendIn": "Reinvia tra {{time}}"
         }
     }
 }
