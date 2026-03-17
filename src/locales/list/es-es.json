@@ -736,7 +736,16 @@
             "notice": "Apoya este proyecto donando dinero.",
             "palestineDescription": "Puede equiparse accediendo a la configuración del perfil",
             "price": "Insignias de {{price}}",
-            "supportMethods": "Métodos de donación"
+            "supportMethods": "Métodos de donación",
+            "acquisitionNotice": "Los moderadores añaden las insignias manualmente. Por favor, abre un ticket indicando la insignia que deseas después de realizar tu donación.",
+            "unremovableError": {
+                "title": "Insignia no extraíble",
+                "body": "Esta insignia no se puede quitar."
+            },
+            "inventory": {
+                "ownedBadges": "Posees {{count}} insignia(s)",
+                "acquireDate": "Adquirida el {{date}}"
+            }
         },
         "connections": {
             "thirdParty": {
