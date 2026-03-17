@@ -629,6 +629,15 @@
       "deleteCheckbox": "Delete my posts and messages"
     },
     "badges": {
+      "acquisitionNotice": "Badges are manually added by moderators. Please open a ticket stating the badge you would like, after donating.",
+      "unremovableError": {
+        "title": "Badge Not Removable",
+        "body": "This badge cannot be removed."
+      },
+      "inventory": {
+        "ownedBadges": "Owned Badges ({{count}})",
+        "acquireDate": "Acquired on {{date}}"
+      },
       "noticeTitle": "Donations",
       "notice": "Support this project by donating money.",
       "palestineDescription": "Can be equipped by going to profile settings",
