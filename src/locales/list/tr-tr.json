@@ -602,7 +602,10 @@
             "notice": "Bu projeyi para bağışlayarak destekleyin.",
             "palestineDescription": "Profil ayarlarına giderek donatılabilir",
             "price": "{{price}} Rozet",
-            "supportMethods": "Destek Yöntemleri"
+            "supportMethods": "Destek Yöntemleri",
+            "inventory": {
+                "ownedBadges": "Sahip Olunan Rozetler ({{count}})"
+            }
         },
         "connections": {
             "thirdParty": {
@@ -796,7 +799,7 @@
         "personal": {
             "editProfile": "Profili Düzenle",
             "customStatus": "Durum",
-            "presence": "Mevcudiyet"
+            "presence": "Görünürlük"
         },
         "badge": "{{badgeName}} Rozet",
         "fullProfile": "Tam Profil",
