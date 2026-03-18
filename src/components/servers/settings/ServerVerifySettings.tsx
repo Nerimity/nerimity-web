@@ -25,7 +25,7 @@ const ListContainer = styled(FlexColumn)`
 
 export default function ServerSettingsBans() {
   const params = useParams<{ serverId: string }>();
-  const { servers, serverMembers, header } = useStore();
+  const { servers, serverMembers, header, users } = useStore();
   const { createPortal } = useCustomPortal();
 
   createEffect(() => {
@@ -41,7 +41,10 @@ export default function ServerSettingsBans() {
   const TARGET_MEMBERS = 30;
   const server = () => servers.get(params.serverId);
   const isVerified = () => server()?.verified;
-  const memberCount = () => serverMembers.array(params.serverId).length;
+  const memberCount = () =>
+    serverMembers
+      .array(params.serverId)
+      .filter((m) => !users.get(m?.userId!)?.bot).length;
 
   const membersNeeded = () => TARGET_MEMBERS - memberCount();
 
