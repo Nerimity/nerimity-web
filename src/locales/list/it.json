@@ -607,7 +607,155 @@
             "confirmEmail": "Conferma la tua email",
             "enterCode": "Inserisci il codice a 5 cifre inviato alla tua email:",
             "sendCodeButton": "Invia codice",
-            "resendIn": "Reinvia tra {{time}}"
+            "resendIn": "Reinvia tra {{time}}",
+            "userNotice": "Avviso utente",
+            "userNoticeDescription": "Mostra quando l'utente sta per mandarti un messaggio per la prima volta. Le modifiche saranno applicate dopo aver ricaricato la pagina.",
+            "userNoticeTooLong": "L'avviso utente non può superare i 300 caratteri.",
+            "deleteAccount": "Elimina il mio account",
+            "deleteAccountDescription": "Questa operazione non può essere annullata!",
+            "deleteAccountNotice": "Devi abbandonare/eliminare tutti i server prima di poter eliminare il tuo account.",
+            "understoodButton": "Ho capito",
+            "deletionNotice": "Ci dispiace vederti andare via :( Se qualcosa non ti è piaciuto, per favore faccelo sapere nel server ufficiale di Nerimity.",
+            "deletedInfo": {
+                "title": "Cosa verrà eliminato",
+                "email": "• Email",
+                "username": "• Username",
+                "ip": "• Indirizzo IP",
+                "bio": "• Bio",
+                "messages": "• I tuoi messaggi",
+                "posts": "• I tuoi post"
+            },
+            "postsAndMessagesNotice": "Potrebbero volerci settimane per l'eliminazione dei tuoi post e dei tuoi messaggi.",
+            "deleteCheckbox": "Elimina i miei post e i miei messaggi"
+        },
+        "badges": {
+            "acquisitionNotice": "I badge sono aggiunti manualmente dai moderatori. Per favore apri un ticket indicando che badge vorresti, dopo aver effettuato la donazione.",
+            "unremovableError": {
+                "title": "Badge non rimovibile",
+                "body": "Questo badge non può essere rimosso."
+            },
+            "inventory": {
+                "ownedBadges": "Badge posseduti ({{count}})",
+                "acquireDate": "Acquisito il {{date}}"
+            },
+            "noticeTitle": "Donazioni",
+            "notice": "Supporta questo progetto facendo una donazione.",
+            "palestineDescription": "Può essere applicato andando nelle impostazioni profilo",
+            "price": "Badge a {{price}}",
+            "supportMethods": "Metodi di supporto"
+        },
+        "privacy": {
+            "lastOnline": {
+                "title": "Ultima volta online",
+                "description": "Imposta chi può vedere il tuo ultimo accesso online."
+            },
+            "directMessage": {
+                "title": "Messaggio diretto",
+                "description": "Imposta chi può inviarti messaggi diretti."
+            },
+            "friendRequest": {
+                "title": "Richiesta di amicizia",
+                "description": "Imposta chi può mandarti richieste di amicizia."
+            },
+            "options": {
+                "anybody": "Chiunque",
+                "friendsOnly": "Solo amici",
+                "serversOnly": "Solo server",
+                "friendsAndServers": "Amici e server",
+                "nobody": "Nessuno"
+            },
+            "profileOptions": {
+                "title": "Opzioni profilo",
+                "hideFollowers": "Nascondi follower",
+                "hideFollowersDescription": "Nascondi i tuoi follower dal tuo profilo.",
+                "hideFollowing": "Nascondi seguiti",
+                "hideFollowingDescription": "Nascondi gli utenti che segui dal tuo profilo."
+            }
+        },
+        "notifications": {
+            "desktopNotifications": "Notifiche desktop",
+            "testNotification": {
+                "title": "Ha funzionato!",
+                "body": "Notifiche desktop attivate."
+            },
+            "desktopNotificationsDescription": "Mostra le notifiche desktopanche quando l'app è ridotta a icona.",
+            "sounds": "Suoni",
+            "soundsDescription": "Se i suoni delle notifiche sono troppo irritanti, li puoi disattivare.",
+            "volume": "Volume",
+            "volumeDescription": "Cambia il volume dei suoni delle notifiche.",
+            "changeSoundsDescription": "Cambia i suoni delle notifiche con questi suoni royalty-free.",
+            "message": "Messaggio",
+            "messageDescription": "Suono quando ricevi un messaggio.",
+            "mention": "Menzione",
+            "mentionDescription": "Suono quando ricevi una menzione.",
+            "reminder": "Promemoria",
+            "reminderDescription": "Notifiche per i promemoria.",
+            "inAppPreview": "Anteprima in-app",
+            "inAppPreviewDescription": "Mostra le notifiche popup in-app."
+        },
+        "call": {
+            "nextCallNotice": "Le modifiche verranno applicate sulle tue prossime chiamate.",
+            "leaveCall": "Devi prima abbandonare la chiamata",
+            "inputDevices": "Dispositivi di ingresso",
+            "outputDevices": "Dispositivi di uscita",
+            "default": "Predefinito di sistema",
+            "inputConstraints": {
+                "echoCancelation": "Cancellazione dell'eco",
+                "echoCancelationDescription": "Impedisce al microfono di catturare suoni dagli altoparlanti.",
+                "noiseSuppression": "Cancellazione del rumore",
+                "noiseSuppressionDescription": "Rimuove i rumori di sottofondo (ventole, ronzii).",
+                "autoGainControl": "Controllo automatico del gain",
+                "autoGainControlDescription": "Aggiusta automaticamente i volumi per mantenere un segnale consistente."
+            },
+            "inputMode": "Modalità di input",
+            "openMic": "Microfono aperto",
+            "voiceActivity": "Attività vocale",
+            "pushToTalk": "Premi per parlare",
+            "bindButton": "Associa",
+            "stopButton": "Ferma",
+            "useTurn": "Usa i server Cloudflare TURN",
+            "useTurnDescription": "Usa i server TURN per una migliore connettività",
+            "downloadAppNotice": "Scarica l'app desktop di Nerimity per usare questa feature senza che la finestra sia attiva."
+        },
+        "connections": {
+            "thirdParty": {
+                "title": "Collegamenti di terze parti",
+                "connectionCount": "{{count}} collegamento/i",
+                "unauthorizeButton": "Rimuovi autorizzazione",
+                "unauthorizing": "Rimozione dell'autorizzazione…"
+            },
+            "googleDescription": "Collegare il tuo account Google ti permetterà di caricare file su Nerimity. I file saranno salvati sul tuo Google Drive.",
+            "linkButton": "Collega",
+            "unlinkButton": "Scollega"
+        },
+        "interface": {
+            "customCSS": "CSS personalizzato",
+            "customCSSWarning": "Non incollare codice da persone di cui non ti fidi.",
+            "saveAndApply": "Salva e applica",
+            "themesDescription": "Scegli un tema preimpostato o ripristina l'impostazione predefinita.",
+            "maintainers": "Contributori",
+            "apply": "Applica",
+            "enableEruda": "Abilita Eruda",
+            "enableErudaDescription": "Abilita Eruda per il debug. Non condividere nessun dettaglio con altre persone.",
+            "enableOnce": "Abilita una volta",
+            "blurEffect": "Effetto sfocato",
+            "blurEffectDescription": "Attiva/disattiva l'effetto sfocato sugli elementi dell'interfaccia. (Può ridurre le performance)",
+            "reduceAnimations": "Riduci le animazioni",
+            "reduceAnimationsDescription": "Impedisci la riproduzione delle GIF ed emoji animate finché non ci si passa sopra col mouse o non le si clicca.",
+            "disableAdvancedMarkupBar": "Disabilita la barra di markup avanzato",
+            "disableAdvancedMarkupBarDescription": "Impedisce la comparsa della barra di markup avanzato.",
+            "customizeColors": "Personalizza colori",
+            "customizeColorsDescription": "Modifica i colori del tema attuale.",
+            "exportButton": "Esporta",
+            "importButton": "Importa",
+            "exportModal": "Tema copiato nella clipboard.",
+            "importModal": "Incolla il tema qui:",
+            "timeTitle": "Imposta il formato dell'ora",
+            "12HourFormatDescription": "Mostra l'ora nel formato a 12 ore con AM/PM.",
+            "24HourFormatDescription": "Mostra l'ora nel formato a 24 ore."
+        },
+        "window": {
+            "downloadAppNotice": "Per modificare queste impostazioni, devi scaricare l'app desktop di Nerimity."
         }
     }
 }
