@@ -79,79 +79,81 @@ export function User(props: { user: any; class?: string }) {
     setSelectedUsers([...selectedUsers(), props.user]);
   };
 
-  const onLinkClick = (event: any) => {
-    if (event.target.closest(".checkbox")) event.preventDefault();
-  };
-
   return (
-    <A
+    <div
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
-      href={`/app/moderation/users/${props.user.id}`}
-      onclick={onLinkClick}
       class={classNames(itemStyles, props.class)}
     >
       <Checkbox checked={selected()} onChange={onCheckChanged} />
-      <CustomLink href={RouterEndpoints.PROFILE(props.user.id)}>
-        <Avatar
-          animate={hovered()}
-          user={props.user}
-          size={28}
-          class={css`
-            margin-top: 2px;
-          `}
-        />
-      </CustomLink>
-      <ItemDetailContainer class="details">
-        <FlexRow>
-          <Text size={14}>{props.user.username}</Text>
-          <Text size={14} opacity={0.6}>
-            :{props.user.tag}
-          </Text>
-        </FlexRow>
-        <FlexRow gap={3} itemsCenter>
-          <Text size={12} opacity={0.6}>
-            Registered:
-          </Text>
-          <Text size={12}>{joined}</Text>
-          <Show when={props.user.suspension}>
-            <Text
-              size={12}
-              style={{
-                background: "var(--alert-color)",
-                "border-radius": "4px",
-                padding: "3px"
-              }}
-            >
-              Banned
+      <A
+        href={`/app/moderation/users/${props.user.id}`}
+        class={css`
+          display: flex;
+          gap: 6px;
+        `}
+      >
+        <CustomLink href={RouterEndpoints.PROFILE(props.user.id)}>
+          <Avatar
+            animate={hovered()}
+            user={props.user}
+            size={28}
+            class={css`
+              margin-top: 2px;
+            `}
+          />
+        </CustomLink>
+        <ItemDetailContainer class="details">
+          <FlexRow>
+            <Text size={14}>{props.user.username}</Text>
+            <Text size={14} opacity={0.6}>
+              :{props.user.tag}
             </Text>
-          </Show>
-          <Show when={props.user.shadowBan}>
-            <Text
-              size={12}
-              style={{
-                background: "var(--warn-color)",
-                "border-radius": "4px",
-                padding: "3px"
-              }}
-            >
-              Shadow Banned
+          </FlexRow>
+          <FlexRow gap={3} itemsCenter>
+            <Text size={12} opacity={0.6}>
+              Registered:
             </Text>
-          </Show>
-          <Show when={props.user.bot}>
-            <Text
-              size={12}
-              style={{
-                background: "var(--primary-color)",
-                "border-radius": "4px",
-                padding: "3px"
-              }}
-            >
-              Bot
-            </Text>
-          </Show>
-        </FlexRow>
-      </ItemDetailContainer>
-    </A>
+            <Text size={12}>{joined}</Text>
+            <Show when={props.user.suspension}>
+              <Text
+                size={12}
+                style={{
+                  background: "var(--alert-color)",
+                  "border-radius": "4px",
+                  padding: "3px"
+                }}
+              >
+                Banned
+              </Text>
+            </Show>
+            <Show when={props.user.shadowBan}>
+              <Text
+                size={12}
+                style={{
+                  background: "var(--warn-color)",
+                  "border-radius": "4px",
+                  padding: "3px"
+                }}
+              >
+                Shadow Banned
+              </Text>
+            </Show>
+            <Show when={props.user.bot}>
+              <Text
+                size={12}
+                style={{
+                  background: "var(--primary-color)",
+                  "border-radius": "4px",
+                  padding: "3px"
+                }}
+              >
+                Bot
+              </Text>
+            </Show>
+          </FlexRow>
+        </ItemDetailContainer>
+      </A>
+    </div>
   );
 }

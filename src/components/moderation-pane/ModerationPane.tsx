@@ -374,7 +374,7 @@ const TicketsPane = () => {
             background-color: var(--alert-color);
             border-radius: 50%;
             width: 17px;
-            font-size: .8em;
+            font-size: 0.8em;
             height: 17px;
             display: flex;
             align-items: center;
@@ -875,15 +875,6 @@ export function Server(props: {
   const createdBy = props.server.createdBy;
   const [hovered, setHovered] = createSignal(false);
 
-  const onClick = (e: MouseEvent) => {
-    if (e.target instanceof Element) {
-      if (e.target.closest(".checkbox")) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    }
-  };
-
   const selected = createMemo(() => isServerSelected(props.server.id));
 
   const onCheckChanged = () => {
@@ -897,11 +888,9 @@ export function Server(props: {
   };
 
   return (
-    <A
-      onClick={onClick}
+    <div
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
-      href={`/app/moderation/servers/${props.server.id}`}
       class={itemStyles}
     >
       <Checkbox
@@ -913,74 +902,87 @@ export function Server(props: {
           margin-top: 6px;
         `}
       />
-      <Avatar
-        animate={hovered()}
-        class={avatarStyle}
-        server={props.server}
-        size={28}
-      />
-      <ItemDetailContainer class="details">
-        <Text>{props.server.name}</Text>
-        <FlexRow gap={3}>
-          <Text size={12} opacity={0.6}>
-            Created:
-          </Text>
-          <Text size={12}>{created}</Text>
-        </FlexRow>
-        <FlexRow gap={3}>
-          <Text size={12} opacity={0.6}>
-            Created By:
-          </Text>
-          <Text size={12}>
-            <A class={linkStyle} href={`/app/moderation/users/${createdBy.id}`}>
-              {createdBy.username}:{createdBy.tag}
-            </A>
-          </Text>
-        </FlexRow>
-        <Show when={props.server.messageCount}>
+      <A
+        class={css`
+          display: flex;
+          gap: 6px;
+        `}
+        href={`/app/moderation/servers/${props.server.id}`}
+      >
+        <Avatar
+          animate={hovered()}
+          class={avatarStyle}
+          server={props.server}
+          size={28}
+        />
+        <ItemDetailContainer class="details">
+          <Text>{props.server.name}</Text>
           <FlexRow gap={3}>
             <Text size={12} opacity={0.6}>
-              Messages:
+              Created:
             </Text>
-            <Text size={12}>{props.server.messageCount?.toLocaleString()}</Text>
+            <Text size={12}>{created}</Text>
+          </FlexRow>
+          <FlexRow gap={3}>
             <Text size={12} opacity={0.6}>
-              User Messages:
+              Created By:
             </Text>
             <Text size={12}>
-              {props.server.userMessageCount?.toLocaleString()}
+              <A
+                class={linkStyle}
+                href={`/app/moderation/users/${createdBy.id}`}
+              >
+                {createdBy.username}:{createdBy.tag}
+              </A>
             </Text>
           </FlexRow>
-        </Show>
-        <FlexRow gap={2} wrap>
-          <Show when={props.server.scheduledForDeletion}>
-            <div
-              style={{
-                background: "var(--alert-color)",
-                "border-radius": "4px",
-                padding: "2px 8px",
-                "margin-top": "4px",
-                display: "inline-block"
-              }}
-            >
-              <Text size={12}>Scheduled Deletion</Text>
-            </div>
+          <Show when={props.server.messageCount}>
+            <FlexRow gap={3}>
+              <Text size={12} opacity={0.6}>
+                Messages:
+              </Text>
+              <Text size={12}>
+                {props.server.messageCount?.toLocaleString()}
+              </Text>
+              <Text size={12} opacity={0.6}>
+                User Messages:
+              </Text>
+              <Text size={12}>
+                {props.server.userMessageCount?.toLocaleString()}
+              </Text>
+            </FlexRow>
           </Show>
-          <Show when={props.server.publicServer}>
-            <div
-              style={{
-                background: "var(--primary-color)",
-                "border-radius": "4px",
-                padding: "2px 8px",
-                "margin-top": "4px",
-                display: "inline-block"
-              }}
-            >
-              <Icon name="public" size={13} />
-            </div>
-          </Show>
-        </FlexRow>
-      </ItemDetailContainer>
-    </A>
+          <FlexRow gap={2} wrap>
+            <Show when={props.server.scheduledForDeletion}>
+              <div
+                style={{
+                  background: "var(--alert-color)",
+                  "border-radius": "4px",
+                  padding: "2px 8px",
+                  "margin-top": "4px",
+                  display: "inline-block"
+                }}
+              >
+                <Text size={12}>Scheduled Deletion</Text>
+              </div>
+            </Show>
+            <Show when={props.server.publicServer}>
+              <div
+                style={{
+                  background: "var(--primary-color)",
+                  "border-radius": "4px",
+                  padding: "2px 8px",
+                  "margin-top": "4px",
+                  display: "inline-block"
+                }}
+              >
+                <Icon name="public" size={13} />
+              </div>
+            </Show>
+          </FlexRow>
+        </ItemDetailContainer>
+      </A>
+    </div>
   );
 }
 
