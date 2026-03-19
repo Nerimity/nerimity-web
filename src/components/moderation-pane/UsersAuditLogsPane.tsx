@@ -229,6 +229,11 @@ const AuditLogItem = (props: {
           {serverName()}
         </Text>
       </Show>
+      <Show when={props.item.reason}>
+        <Text size={14} opacity={0.6}>
+          Reason: {props.item.reason}
+        </Text>
+      </Show>
       <Text size={14} opacity={0.6}>
         At {timestamp()}
       </Text>

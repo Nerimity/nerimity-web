@@ -553,6 +553,7 @@ export interface UserAuditLog {
   actionById: string;
   createdAt: number;
   serverId?: string;
+  reason?: string;
   data?: {
     serverName?: string;
     bannedUserId?: string;
