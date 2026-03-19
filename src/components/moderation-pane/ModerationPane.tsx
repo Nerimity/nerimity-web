@@ -326,11 +326,11 @@ function ModerationPage() {
         <Show when={!modOnlyBadge}>
           <AuditLogPane />
           <TicketsPane />
-          <UserColumn class="user-columns" gap={5}>
-            <UsersPane />
-            <OnlineUsersPane />
-          </UserColumn>
         </Show>
+        <UserColumn class="user-columns" gap={5}>
+          <UsersPane />
+          <OnlineUsersPane />
+        </UserColumn>
         <ServersPane />
         <ActiveServersPane />
         <PostsPane />
@@ -689,6 +689,8 @@ function SuggestedActionsPane() {
         return "Delete Server";
       case AuditLogType.postDelete:
         return "Delete Post";
+      case AuditLogType.userSuspend:
+        return "Suspend";
     }
   };
 
@@ -754,6 +756,14 @@ function SuggestedActionsPane() {
                     {suggest.server?.name}{" "}
                   </A>
                 </Text>
+                <Text size={14}>
+                  <A
+                    class={linkStyle}
+                    href={`/app/moderation/users/${suggest.user?.id}`}
+                  >
+                    {suggest.user?.username}{" "}
+                  </A>
+                </Text>
                 <Show when={suggest.actionType === AuditLogType.postDelete}>
                   <Text size={14}>
                     Made By
@@ -776,33 +786,63 @@ function SuggestedActionsPane() {
                 </div>
               </div>
               <FlexRow gap={4}>
-                <Show
-                  when={
-                    store.account.hasModeratorPerm() &&
-                    suggest.actionType === AuditLogType.serverDelete
-                  }
-                >
-                  <Button
-                    label="Delete Server"
-                    textSize={12}
-                    alert
-                    onClick={() => {
-                      createPortal((close) => (
-                        <DeleteServersModal
-                          close={close}
-                          servers={[{ id: suggest.server.id }]}
-                          done={() => {
-                            deleteSuggestActions(suggest.id).then(() => {
-                              setSuggestions(
-                                suggestions().filter((s) => s.id !== suggest.id)
-                              );
-                            });
-                          }}
-                        />
-                      ));
-                    }}
-                    margin={0}
-                  />
+                <Show when={store.account.hasModeratorPerm()}>
+                  <Show when={suggest.actionType === AuditLogType.serverDelete}>
+                    <Button
+                      label="Delete Server"
+                      textSize={12}
+                      alert
+                      onClick={() => {
+                        createPortal((close) => (
+                          <DeleteServersModal
+                            close={close}
+                            servers={[{ id: suggest.server.id }]}
+                            done={() => {
+                              deleteSuggestActions(suggest.id).then(() => {
+                                setSuggestions(
+                                  suggestions().filter(
+                                    (s) => s.id !== suggest.id
+                                  )
+                                );
+                              });
+                            }}
+                          />
+                        ));
+                      }}
+                      margin={0}
+                    />
+                  </Show>
+                  <Show when={suggest.actionType === AuditLogType.userSuspend}>
+                    <Button
+                      label="Suspend User"
+                      textSize={12}
+                      alert
+                      onClick={() => {
+                        createPortal((close) => (
+                          <SuspendUsersModal
+                            close={close}
+                            users={[
+                              {
+                                id: suggest.user.id,
+                                tag: suggest.user.tag,
+                                username: suggest.user.username
+                              }
+                            ]}
+                            done={() => {
+                              deleteSuggestActions(suggest.id).then(() => {
+                                setSuggestions(
+                                  suggestions().filter(
+                                    (s) => s.id !== suggest.id
+                                  )
+                                );
+                              });
+                            }}
+                          />
+                        ));
+                      }}
+                      margin={0}
+                    />
+                  </Show>
                 </Show>
                 <Show
                   when={
@@ -832,6 +872,7 @@ function SuggestedActionsPane() {
                     margin={0}
                   />
                 </Show>
+
                 <Show when={suggest.actionType === AuditLogType.postDelete}>
                   <Button
                     iconName="visibility"
@@ -1020,12 +1061,10 @@ function StatsArea() {
         title="Registered Users"
         description={stats()?.totalRegisteredUsers?.toLocaleString()}
       />
-      <Show when={!store.account.hasOnlyModBadge()}>
-        <StatCard
-          title="Online Users"
-          description={onlineUsersCount()?.toLocaleString()}
-        />
-      </Show>
+      <StatCard
+        title="Online Users"
+        description={onlineUsersCount()?.toLocaleString()}
+      />
       <StatCard
         title="Messages"
         description={stats()?.totalCreatedMessages?.toLocaleString()}
