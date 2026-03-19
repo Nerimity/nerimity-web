@@ -906,6 +906,7 @@ export function Server(props: {
         class={css`
           display: flex;
           gap: 6px;
+          flex: 1;
         `}
         href={`/app/moderation/servers/${props.server.id}`}
       >

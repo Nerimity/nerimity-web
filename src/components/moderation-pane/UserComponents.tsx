@@ -91,6 +91,7 @@ export function User(props: { user: any; class?: string }) {
         class={css`
           display: flex;
           gap: 6px;
+          flex: 1;
         `}
       >
         <CustomLink href={RouterEndpoints.PROFILE(props.user.id)}>
