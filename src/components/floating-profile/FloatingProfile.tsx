@@ -531,6 +531,7 @@ const DesktopProfileFlyout = (props: {
         ROLE_PERMISSIONS.MANAGE_ROLES
       );
       if (!hasPerm) return false;
+      return true;
     };
 
     return (
