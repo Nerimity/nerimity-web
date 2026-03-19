@@ -707,7 +707,7 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
             >
               <Text size={12} opacity={0.6}>
                 {"count"}
-              </Text>{" "}
+              </Text>
               vote(s)
             </Trans>
           </Text>
