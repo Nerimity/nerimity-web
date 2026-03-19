@@ -10,8 +10,8 @@
   flex: 1;
   flex-direction: column;
   width: 100%;
-  max-width: 700px;
-  margin: 30px;
+  max-width: 820px;
+  margin-top: 30px;
   border-radius: 8px;
   place-self: stretch;
   gap: 10px;
