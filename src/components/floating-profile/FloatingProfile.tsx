@@ -576,20 +576,20 @@ const DesktopProfileFlyout = (props: {
                   );
                 }}
               </For>
-            </div>
-            <Show
-              when={serverMembers.hasPermission(
-                accountMember()!,
-                ROLE_PERMISSIONS.MANAGE_ROLES
-              )}
-            >
-              <div
-                class={classNames(styles.roleContainer, styles.selectable)}
-                onClick={showRoleModal}
+              <Show
+                when={serverMembers.hasPermission(
+                  accountMember()!,
+                  ROLE_PERMISSIONS.MANAGE_ROLES
+                )}
               >
-                <Icon name="add" size={14} />
-              </div>
-            </Show>
+                <div
+                  class={classNames(styles.roleContainer, styles.selectable)}
+                  onClick={showRoleModal}
+                >
+                  <Icon name="add" size={14} />
+                </div>
+              </Show>
+            </div>
           </div>
         </Show>
 
