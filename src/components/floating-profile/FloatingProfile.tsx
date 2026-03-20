@@ -521,7 +521,7 @@ const DesktopProfileFlyout = (props: {
   };
 
   const ProfileArea = () => {
-    const memberRoles = serverMembers.roles(member()!, true) || [];
+    const memberRoles = () => serverMembers.roles(member()!, true) || [];
 
     return (
       <>
@@ -534,7 +534,7 @@ const DesktopProfileFlyout = (props: {
               title={t("servers.settings.drawer.roles")}
             />
             <div class={styles.rolesContainer}>
-              <For each={serverMembers.roles(member()!, true)}>
+              <For each={memberRoles()}>
                 {(role) => {
                   const [hovered, setHovered] = createSignal(false);
                   return (
