@@ -21,7 +21,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: node:20
+    container: node:24
     steps:
       - uses: actions/checkout@v2
 
