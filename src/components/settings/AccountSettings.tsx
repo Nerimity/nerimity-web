@@ -191,7 +191,8 @@ export function EditAccountPage(props: {
     if (avatar) {
       const res = await uploadAvatar(props.bot?.id || account.user()?.id!, {
         file: avatar,
-        points: avatarPoints!
+        points: avatarPoints!,
+        userToken: props.botToken
       }).catch((err) => {
         console.log("err", err);
         setError("Failed to update avatar. " + (err.message || err.error));
@@ -208,7 +209,8 @@ export function EditAccountPage(props: {
     if (banner) {
       const res = await uploadBanner(props.bot?.id || account.user()?.id!, {
         file: banner,
-        points: bannerPoints!
+        points: bannerPoints!,
+        userToken: props.botToken
       }).catch((err) => {
         setError("Failed to update banner. " + (err.message || err.error));
       });
