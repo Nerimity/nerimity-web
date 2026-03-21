@@ -86,6 +86,13 @@ export default function DeveloperSettings() {
         label={t("settings.developer.apiDocumentation")}
         children={<Icon name="open_in_new" style={{ "margin-right": "6px" }} />}
       />
+      <SettingsBlock
+        href="https://github.com/nerimity/nerimity.js"
+        hrefBlank
+        icon="code_blocks"
+        label="nerimity.js"
+        children={<Icon name="open_in_new" style={{ "margin-right": "6px" }} />}
+      />
     </Container>
   );
 }
