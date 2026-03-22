@@ -691,7 +691,14 @@
             "reminder": "Promemoria",
             "reminderDescription": "Notifiche per i promemoria.",
             "inAppPreview": "Anteprima in-app",
-            "inAppPreviewDescription": "Mostra le notifiche popup in-app."
+            "inAppPreviewDescription": "Mostra le notifiche popup in-app.",
+            "mute": "Silenzia",
+            "inAppPreviewModes": {
+                "off": "Disattivate",
+                "inheritFromPingSettings": "Eredita dalle impostazioni delle notifiche delle menzioni"
+            },
+            "callJoin": "Unirsi alla chiamata",
+            "callLeave": "Abbandonare la chiamata"
         },
         "call": {
             "nextCallNotice": "Le modifiche verranno applicate sulle tue prossime chiamate.",
@@ -752,10 +759,61 @@
             "importModal": "Incolla il tema qui:",
             "timeTitle": "Imposta il formato dell'ora",
             "12HourFormatDescription": "Mostra l'ora nel formato a 12 ore con AM/PM.",
-            "24HourFormatDescription": "Mostra l'ora nel formato a 24 ore."
+            "24HourFormatDescription": "Mostra l'ora nel formato a 24 ore.",
+            "rightDrawerMode": "Modalità Right Drawer",
+            "swipeToOpen": "Swipe per aprire",
+            "swipeToOpenDescription": "Apri il right drawer facendo swipe da destra. Questa opzione disattiverà lo swipe per rispondere.",
+            "headerTapToOpen": "Tap sull'header per aprire",
+            "headerTapToOpenDescription": "Apri il right drawer cliccando sull'header. Questa opzione attiverà lo swipe per rispondere.",
+            "chatBarOptions": "Opzioni della barra della chat",
+            "voiceMessage": "Messaggio vocale",
+            "gifPicker": "Picker delle GIF",
+            "emojiPicker": "Picker delle emoji",
+            "sendButton": "Invia messaggio"
         },
         "window": {
-            "downloadAppNotice": "Per modificare queste impostazioni, devi scaricare l'app desktop di Nerimity."
+            "downloadAppNotice": "Per modificare queste impostazioni, devi scaricare l'app desktop di Nerimity.",
+            "startupOptions": "Opzioni di avvio",
+            "openOnStartup": "Apri Nerimity all'avvio",
+            "startMinimized": "Avvia ridotto a icona",
+            "startMinimizedDescription": "Riduci Nerimity a icona automaticamente.",
+            "disableHardwareAcceleration": "Disabilita accelerazione hardware",
+            "disableCustomTitlebar": "Disabilita titlebar personalizzata",
+            "reopenAppNotice": "Devi riaprire l'app perché le modifiche abbiano effetto."
+        },
+        "activity": {
+            "extension": "Estensione browser",
+            "extensionDescription": "La nostra estensione RPC ti permette di condividere la tua attività di Spotify e YouTube con gli utenti su Nerimity!",
+            "visitButton": "Visita {{store}}",
+            "activityStatus": "Stato di attività",
+            "activityStatusDescription": "Condividi con tuttɜ cosa stai facendo",
+            "activityStatusModal": {
+                "title": "Modifica stato dell'attività",
+                "executable": "Eseguibile",
+                "action": "Azione",
+                "name": "Nome",
+                "emoji": "Emoji"
+            },
+            "discordActivity": "Attività su Discord",
+            "discordActivityDescription": "Condividi la tua attività su Discord con gli utenti su Nerimity",
+            "idPlaceholder": "User ID Discord",
+            "serverModal": {
+                "text": "Unisciti al server Discord per attivare la condivisione dell'attività.",
+                "doneButton": "Mi sono unitə"
+            },
+            "lastfmActivity": "Attività di Last.fm",
+            "lastfmActivityDescription": "Condividi cosa stai ascoltando tramite Last.fm",
+            "lastfmUsernamePlaceholder": "Username di Last.fm",
+            "lastfmApiKeyPlaceholder": "Chiave API di Last.fm"
+        },
+        "developer": {
+            "useLatestUrl": "Usa l'URL più recente",
+            "useLatestUrlDescription": "Carica latest.nerimity.com al prossimo riavvio dell'app. Riavvierà l'app.",
+            "useLatestUrlWarning": "Potrebbe essere instabile o avere dei bug.",
+            "applicationsDescription": "Crea bot di Nerimity.",
+            "apiDocumentation": "Documentazione API (incompleta)",
+            "addButton": "Aggiungi app",
+            "name": "Nome dell'applicazione"
         }
     }
 }
