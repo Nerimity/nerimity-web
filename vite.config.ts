@@ -55,7 +55,10 @@ export default defineConfig({
   },
   build: {
     target: "esnext",
-    sourcemap: true
+    sourcemap: true,
+    // lightning css seems to strip out -webkit-background-clip: text;
+    // which is needed for chrome 119
+    cssMinify: "esbuild"
   },
   server: {
     host: true,
