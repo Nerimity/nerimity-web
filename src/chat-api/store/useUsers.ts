@@ -26,7 +26,7 @@ export interface Presence {
   userId: string;
   custom?: string | null;
   status: UserStatus;
-  activity?: ActivityStatus;
+  activities?: ActivityStatus[];
 }
 
 export const avatarUrl = (item: { avatar?: string }): string | null =>
@@ -137,7 +137,7 @@ const setPresence = (userId: string, presence: Partial<Presence>) => {
     return;
   }
   if (presence.custom === null) presence.custom = undefined;
-  if (presence.activity === null) presence.activity = undefined;
+
   setUserPresences(userId, { ...presence, userId });
 };
 

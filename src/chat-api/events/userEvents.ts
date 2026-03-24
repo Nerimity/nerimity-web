@@ -20,7 +20,7 @@ export function onUserPresenceUpdate(payload: {
   userId: string;
   status?: UserStatus;
   custom?: string;
-  activity?: ActivityStatus;
+  activities?: ActivityStatus[];
 }) {
   const users = useUsers();
   const account = useAccount();
@@ -32,8 +32,8 @@ export function onUserPresenceUpdate(payload: {
   users.setPresence(payload.userId, {
     ...(payload.status !== undefined ? { status: payload.status } : undefined),
     ...(payload.custom !== undefined ? { custom: payload.custom } : undefined),
-    ...(payload.activity !== undefined
-      ? { activity: payload.activity }
+    ...(payload.activities !== undefined
+      ? { activities: payload.activities }
       : undefined)
   });
 }

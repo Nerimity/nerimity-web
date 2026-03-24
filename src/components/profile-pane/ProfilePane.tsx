@@ -12,7 +12,12 @@ import {
   Show,
   untrack
 } from "solid-js";
-import { FriendStatus, RawBotCommand, RawUser } from "@/chat-api/RawData";
+import {
+  ActivityStatus,
+  FriendStatus,
+  RawBotCommand,
+  RawUser
+} from "@/chat-api/RawData";
 import {
   blockUser,
   followUser,
@@ -853,7 +858,32 @@ const UserActivity = (props: {
 }) => {
   const { users } = useStore();
   const user = () => users.get(props.userId);
-  const activity = () => user()?.presence()?.activity;
+  const activities = () => user()?.presence()?.activities;
+
+  return (
+    <Show when={activities()?.length}>
+      <div>
+        <For each={activities()!}>
+          {(activity) => (
+            <UserActivityItem
+              activity={activity}
+              color={props.color}
+              paneBgColor={props.paneBgColor}
+            />
+          )}
+        </For>
+      </div>
+    </Show>
+  );
+};
+
+const UserActivityItem = (props: {
+  activity: ActivityStatus;
+  color?: string;
+  paneBgColor: string;
+}) => {
+  const activity = () => props.activity;
+
   const [playedFor, setPlayedFor] = createSignal("");
 
   const activityType = () => getActivityType(activity());

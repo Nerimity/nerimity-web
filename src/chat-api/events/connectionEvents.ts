@@ -114,15 +114,15 @@ electronWindowAPI()?.rpcChanged((data) => {
 });
 
 localRPC.onUpdateRPC = (data) => {
-  if (!data) {
-    emitActivityStatus(null);
-    const programs = getStorageObject<ProgramWithExtras[]>(
-      StorageKeys.PROGRAM_ACTIVITY_STATUS,
-      []
-    );
-    electronWindowAPI()?.restartActivityStatus(programs);
-  }
-  emitActivityStatus({ startedAt: Date.now(), ...data });
+  // if (!data) {
+  //   emitActivityStatus(null);
+  //   const programs = getStorageObject<ProgramWithExtras[]>(
+  //     StorageKeys.PROGRAM_ACTIVITY_STATUS,
+  //     []
+  //   );
+  //   electronWindowAPI()?.restartActivityStatus(programs);
+  // }
+  emitActivityStatus(data.map((data) => ({ startedAt: Date.now(), ...data })));
 };
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {

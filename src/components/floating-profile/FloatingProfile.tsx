@@ -523,9 +523,21 @@ const DesktopProfileFlyout = (props: {
   const ProfileArea = () => {
     const memberRoles = () => serverMembers.roles(member()!, true) || [];
 
+    const showRoles = () => {
+      if (!server()) return false;
+      if (
+        serverMembers.hasPermission(
+          accountMember()!,
+          ROLE_PERMISSIONS.MANAGE_ROLES
+        )
+      )
+        return true;
+      return memberRoles().length;
+    };
+
     return (
       <>
-        <Show when={server()}>
+        <Show when={showRoles()}>
           <div class={styles.section}>
             <FlyoutTitle
               primaryColor={colors()?.primary || undefined}
