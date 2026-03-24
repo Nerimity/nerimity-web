@@ -18,11 +18,7 @@ import { Channel } from "@/chat-api/store/useChannels";
 import ItemContainer from "@/components/ui/LegacyItem";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
-import {
-  ChannelType,
-  ServerNotificationPingMode,
-  ServerNotificationSoundMode
-} from "@/chat-api/RawData";
+import { ChannelType, ServerNotificationPingMode } from "@/chat-api/RawData";
 import Icon from "@/components/ui/icon/Icon";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
@@ -569,7 +565,6 @@ function JoinedThisSessionNotificationNotice() {
   const handleSetToMentionsOnly = () => {
     dismiss();
     store.account.updateUserNotificationSettings({
-      notificationSoundMode: ServerNotificationSoundMode.MENTIONS_ONLY,
       notificationPingMode: ServerNotificationPingMode.MENTIONS_ONLY,
       serverId: params.serverId
     });
