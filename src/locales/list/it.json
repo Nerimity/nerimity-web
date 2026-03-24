@@ -813,7 +813,13 @@
             "applicationsDescription": "Crea bot di Nerimity.",
             "apiDocumentation": "Documentazione API (incompleta)",
             "addButton": "Aggiungi app",
-            "name": "Nome dell'applicazione"
+            "name": "Nome dell'applicazione",
+            "appClientId": "ID app/client",
+            "botUser": "Utente bot",
+            "createBotUser": "Crea un nuovo utente bot",
+            "editBotUser": "Modifica bot",
+            "createBotUserButton": "Crea utente",
+            "refreshButton": "Aggiorna"
         }
     }
 }
