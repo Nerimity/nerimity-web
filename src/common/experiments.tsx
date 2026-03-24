@@ -11,12 +11,12 @@ export interface Experiment {
 }
 
 export const Experiments = [
-  {
-    id: "WEBSOCKET_PARTIAL_AUTH",
-    name: "WebSocket Partial Authentication",
-    description:
-      "VERY BROKEN. Don't send all auth data when authenticating. This will be used in the future to speed up authentication, hopefully."
-  },
+  // {
+  //   id: "WEBSOCKET_PARTIAL_AUTH",
+  //   name: "WebSocket Partial Authentication",
+  //   description:
+  //     "VERY BROKEN. Don't send all auth data when authenticating. This will be used in the future to speed up authentication, hopefully."
+  // },
   {
     id: "WEBSOCKET_ZSTD",
     name: "WebSocket Zstandard Compression",

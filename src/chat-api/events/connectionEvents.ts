@@ -23,7 +23,7 @@ import { isExperimentEnabled } from "@/common/experiments";
 import { decompressObject } from "@/common/zstd";
 import { log } from "@/common/logger";
 
-const partial = isExperimentEnabled("WEBSOCKET_PARTIAL_AUTH")();
+// const partial = isExperimentEnabled("WEBSOCKET_PARTIAL_AUTH")();
 const zstd = isExperimentEnabled("WEBSOCKET_ZSTD")();
 
 export const onConnect = (socket: Socket, token?: string) => {
@@ -35,7 +35,7 @@ export const onConnect = (socket: Socket, token?: string) => {
   });
   socket.emit(ClientEvents.AUTHENTICATE, {
     token,
-    ...(partial ? { partial: true } : {}),
+    // ...(partial ? { partial: true } : {}),
     ...(zstd ? { compression: "zstd" } : {})
   });
 };
