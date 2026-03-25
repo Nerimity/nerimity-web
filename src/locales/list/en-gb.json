@@ -940,6 +940,11 @@
     "transferOwnership": "Transfer Ownership",
     "callVolume": "Call Volume"
   },
+  "emojiModal": {
+    "title": "Emoji",
+    "defaultEmoji": "Default Emoji",
+    "customEmoji": "Custom Emoji"
+  },
   "nicknameChangeModal": {
     "title": "Update Server Profile",
     "description": "Everyone in this server will see this nickname.",

@@ -6,6 +6,7 @@ import Text from "../ui/Text";
 import { Show, createSignal } from "solid-js";
 import { ServerInviteEmbed } from "../message-pane/message-item/MessageItem";
 import { Modal } from "../ui/modal";
+import { t } from "@nerimity/i18lite";
 
 export function Emoji(props: {
   clickable?: boolean;
@@ -98,7 +99,7 @@ function EmojiDetailsModal(props: {
     <Modal.Root close={props.close}>
       <Modal.Header
         icon="face"
-        title={props.custom ? "Custom Emoji" : "Emoji"}
+        title={t("emojiModal.title")}
       />
       <EmojiDetailsContainer>
         <MainEmojiContainer>
@@ -126,7 +127,7 @@ function EmojiDetailsModal(props: {
               :
             </Text>
             <Text size={12} opacity={0.6}>
-              {props.custom ? "Custom Emoji" : "Emoji"}
+              {props.custom ? t("emojiModal.customEmoji") : t("emojiModal.defaultEmoji")}
             </Text>
           </EmojiNameContainer>
         </MainEmojiContainer>
