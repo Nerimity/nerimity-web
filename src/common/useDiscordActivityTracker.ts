@@ -19,6 +19,7 @@ interface FormattedPresence {
 }
 export interface FormattedActivity {
   name: string;
+  applicationId: string | null;
   createdTimestamp: number | null;
   details: string | null;
   state: string | null;
@@ -89,7 +90,7 @@ export const useDiscordActivityTracker = () => {
       handleActivity(data);
     };
     const handleActivity = debounce((data: FormattedPresence) => {
-      const activity = data.activities
+      const activities = data.activities
         .filter((a) => a.type !== ActivityType.CUSTOM)
         .sort((a, b) => {
           const isASpotify = !!a.assets?.largeImage?.startsWith("spotify:");
@@ -105,36 +106,40 @@ export const useDiscordActivityTracker = () => {
 
           // If neither or both are Spotify, maintain the original order (or add another sorting criteria)
           return 0;
-        })[0];
-      if (!activity) {
-        localRPC.updateRPC(NERIMITY_APP_ID);
-        return;
-      }
-      let url = undefined;
+        });
 
-      const isSpotify = !!activity.assets?.largeImage?.startsWith("spotify:");
+      let url: string | undefined = undefined;
 
-      if (isSpotify && activity.syncId) {
-        url = `https://open.spotify.com/track/${activity.syncId}`;
-      }
+      const mapped = activities.map((activity) => {
+        const isSpotify = !!activity.assets?.largeImage?.startsWith("spotify:");
 
-      console.log(`Activity Update: ${activity?.name || null}`);
-      localRPC.updateRPC(NERIMITY_APP_ID, {
-        startedAt: activity.timestamps?.start || undefined,
-        endsAt: activity.timestamps?.end || undefined,
-        imgSrc:
-          activity.assets?.largeImageUrl ||
-          activity.assets?.smallImageUrl ||
-          undefined,
-        title: activity.details || undefined,
-        subtitle: activity.state || undefined,
-        link: url || activity.url || undefined,
-        ...ActivityTypeToNameAndAction(activity)
+        if (isSpotify && activity.syncId) {
+          url = `https://open.spotify.com/track/${activity.syncId}`;
+        }
+
+        console.log(`Activity Update: ${activity?.name || null}`);
+        return {
+          id: activity.syncId || activity.applicationId || NERIMITY_APP_ID,
+          data: {
+            startedAt: activity.timestamps?.start || undefined,
+            endsAt: activity.timestamps?.end || undefined,
+            imgSrc:
+              activity.assets?.largeImageUrl ||
+              activity.assets?.smallImageUrl ||
+              undefined,
+            title: activity.details || undefined,
+            subtitle: activity.state || undefined,
+            link: url || activity.url || undefined,
+            ...ActivityTypeToNameAndAction(activity)
+          }
+        };
       });
+
+      localRPC.updateDiscordRPCs(mapped);
     }, 500);
 
     ws.onclose = () => {
-      localRPC.updateRPC(NERIMITY_APP_ID);
+      localRPC.updateDiscordRPCs([]);
       clearInterval(pingIntervalId);
       clearTimeout(restartDelayTimeoutId);
       restartDelayTimeoutId = setTimeout(() => {

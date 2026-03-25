@@ -4,6 +4,7 @@ export class LocalRPC {
   onUpdateRPC: (data: RPC[]) => void = () => {};
 
   RPCs: { data: RPC; id: string }[] = [];
+  discordRPCs: { data: RPC; id: string }[] = [];
   electronRPCs: { data: RPC; id: string }[] = [];
 
   constructor() {
@@ -25,11 +26,16 @@ export class LocalRPC {
   emitEvent() {
     const RPCs = this.RPCs.map((rpc) => rpc.data);
     const electronRPCs = this.electronRPCs.map((rpc) => rpc.data);
-    this.onUpdateRPC([...electronRPCs, ...RPCs]);
+    const discordRPCs = this.discordRPCs.map((rpc) => rpc.data);
+    this.onUpdateRPC([...electronRPCs, ...discordRPCs, ...RPCs]);
   }
 
   updateElectronRPCs(data: { id: string; data: RPC }[]) {
     this.electronRPCs = data;
+    this.emitEvent();
+  }
+  updateDiscordRPCs(data: { id: string; data: RPC }[]) {
+    this.discordRPCs = data;
     this.emitEvent();
   }
   updateRPC(id: string, data?: RPC) {
