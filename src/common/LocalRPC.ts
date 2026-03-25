@@ -4,6 +4,7 @@ export class LocalRPC {
   onUpdateRPC: (data: RPC[]) => void = () => {};
 
   RPCs: { data: RPC; id: string }[] = [];
+  electronRPCs: { data: RPC; id: string }[] = [];
 
   constructor() {
     window.addEventListener(
@@ -23,9 +24,14 @@ export class LocalRPC {
   }
   emitEvent() {
     const RPCs = this.RPCs.map((rpc) => rpc.data);
-    this.onUpdateRPC(RPCs);
+    const electronRPCs = this.electronRPCs.map((rpc) => rpc.data);
+    this.onUpdateRPC([...electronRPCs, ...RPCs]);
   }
 
+  updateElectronRPCs(data: { id: string; data: RPC }[]) {
+    this.electronRPCs = data;
+    this.emitEvent();
+  }
   updateRPC(id: string, data?: RPC) {
     if (!data) return this.removeRPC(id);
 

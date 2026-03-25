@@ -26,6 +26,7 @@ export interface RPC {
   endsAt?: number;
   speed?: number;
   updatedAt?: number;
+  emoji?: string;
 }
 
 export const [spellcheckSuggestions, setSpellcheckSuggestions] = createSignal<
@@ -72,7 +73,7 @@ interface WindowAPI {
   ): void;
 
   restartRPCServer(): void;
-  rpcChanged(callback: (data: RPC | false) => void): void;
+  rpcChanged(callback: (data: { id: string; data: RPC }[]) => void): void;
   relaunchApp(): void;
 
   onSpellcheck(callback: (suggestions: string[]) => void): void;
