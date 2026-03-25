@@ -165,7 +165,6 @@ function VoiceDeafenButton(props: { channelId: string }) {
 }
 
 function CallTime(props: { channelId: string }) {
-  const [t] = useTransContext();
   const { channels } = useStore();
   const channel = () => channels.get(props.channelId);
 
