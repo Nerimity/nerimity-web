@@ -16,7 +16,6 @@ import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
 import {
   getUserDetailsRequest,
-  toggleBadge,
   updateUser,
   UserDetails
 } from "@/chat-api/services/UserService";
@@ -33,8 +32,6 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { formatMessage } from "../message-pane/MessagePane";
 import { RawUser } from "@/chat-api/RawData";
-import Checkbox from "../ui/Checkbox";
-import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import DropDown from "../ui/drop-down/DropDown";
 import { Fonts } from "@/common/fonts";
 
@@ -64,34 +61,10 @@ export default function ProfileSettings() {
         <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.profile")} />
       </Breadcrumb>
-      <PalestineBorder />
       <EditProfilePage />
     </Container>
   );
 }
-
-const PalestineBorder = () => {
-  const store = useStore();
-  const user = () => store.account.user();
-  const hasBorder = () =>
-    hasBit(user()?.badges || 0, USER_BADGES.PALESTINE.bit);
-
-  const onToggle = () => {
-    toggleBadge(USER_BADGES.PALESTINE.bit).then((result) => {
-      store.account.setUser({ badges: result.badges });
-    });
-  };
-
-  return (
-    <SettingsBlock
-      icon="favorite"
-      label={t("settings.account.palestineBorder")}
-      onClick={onToggle}
-    >
-      <Checkbox checked={hasBorder()} />
-    </SettingsBlock>
-  );
-};
 
 const bioBlockStyles = css`
   && {

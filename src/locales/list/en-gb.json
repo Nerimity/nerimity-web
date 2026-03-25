@@ -587,7 +587,6 @@
       "botID": "Bot ID",
       "profile": "Profile",
       "profileDescription": "Edit your bio or colours",
-      "palestineBorder": "Add Palestine border to your avatar.",
       "bio": "Bio",
       "bioDescription": "Multiline and markup support",
       "gradientColor1": "Gradient Colour 1",
@@ -640,7 +639,7 @@
       },
       "noticeTitle": "Donations",
       "notice": "Support this project by donating money.",
-      "palestineDescription": "Can be equipped by going to profile settings",
+      "palestineDescription": "Free Palestine🇵🇸",
       "price": "{{price}} Badges",
       "supportMethods": "Support Methods"
     },
