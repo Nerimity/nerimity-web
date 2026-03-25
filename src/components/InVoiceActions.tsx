@@ -198,7 +198,7 @@ function CallTime(props: { channelId: string }) {
         }}
       >
         <Trans key="inVoiceActions.connectedFor" options={{ time: time() }}>
-          Connected for{" "}
+          Connected for
           <Text size={12} opacity={0.6}>
             {"time"}
           </Text>

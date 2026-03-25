@@ -111,7 +111,7 @@ const TabItem = (props: {
 }) => (
   <Item.Root
     selected={props.selected}
-    href={props.href}
+    href={props.selected ? undefined : props.href}
     handlePosition="bottom"
     gap={4}
   >

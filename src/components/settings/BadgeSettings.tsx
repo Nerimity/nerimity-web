@@ -265,7 +265,9 @@ const OwnedBadges = () => {
         enabled: hasBit(user()?.badges || 0, badge!.bit)
       };
     });
-    const hasPalestine = badges.find((badge) => badge.name() === "Palestine");
+    const hasPalestine = badges.find(
+      (badge) => badge.name() === USER_BADGES.PALESTINE.name()
+    );
     if (!hasPalestine) {
       badges.unshift({
         ...USER_BADGES.PALESTINE,
@@ -298,7 +300,9 @@ const OwnedBadges = () => {
       />
       <SettingsGroup>
         <SettingsBlock
-          label={t("settings.badges.inventory.ownedBadges", { count: ownedBadges().length })}
+          label={t("settings.badges.inventory.ownedBadges", {
+            count: ownedBadges().length
+          })}
           icon="badge"
         />
 
@@ -309,7 +313,11 @@ const OwnedBadges = () => {
               label={item!.name?.()!}
               description={
                 item!.acquiredAt
-                  ? t("settings.badges.inventory.acquireDate", { date: formatters().datetime.mediumDate.format(item!.acquiredAt) })
+                  ? t("settings.badges.inventory.acquireDate", {
+                      date: formatters().datetime.mediumDate.format(
+                        item!.acquiredAt
+                      )
+                    })
                   : undefined
               }
               icon={

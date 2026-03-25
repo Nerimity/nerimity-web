@@ -10,8 +10,8 @@
   flex: 1;
   flex-direction: column;
   width: 100%;
-  max-width: 700px;
-  margin: 30px;
+  max-width: 820px;
+  margin-top: 30px;
   border-radius: 8px;
   place-self: stretch;
   gap: 10px;
@@ -92,7 +92,6 @@
     max-width: 100px;
     height: 100%;
     border-radius: 6px;
-    background-color: black;
     object-fit: contain;
     aspect-ratio: 1/1;
 
@@ -103,6 +102,7 @@
     &[data-isWide="true"] {
       flex-shrink: 0;
       max-width: initial;
+      background-color: black;
       object-fit: contain;
       aspect-ratio: 16/9;
     }

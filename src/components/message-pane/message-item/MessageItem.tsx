@@ -1001,6 +1001,15 @@ const LocalCdnEmbeds = (props: {
   );
 };
 
+const safeDecodeURIComponent = (val: string) => {
+  try {
+    return decodeURIComponent(val);
+  } catch {
+    console.error("could not decode", val);
+    return "Decode Fail " + val;
+  }
+};
+
 const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
   const [t] = useTransContext();
   const isExpired = () => {
@@ -1010,7 +1019,7 @@ const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
     <VideoEmbed
       error={isExpired() ? t("fileEmbed.fileExpired") : undefined}
       file={{
-        name: decodeURIComponent(
+        name: safeDecodeURIComponent(
           props.attachment.path?.split("/").reverse()[0]!
         ),
         size: props.attachment.filesize!,
@@ -1031,7 +1040,7 @@ const LocalFileEmbed = (props: { attachment: RawAttachment }) => {
     <FileEmbed
       error={isExpired() ? t("fileEmbed.fileExpired") : undefined}
       file={{
-        name: decodeURIComponent(
+        name: safeDecodeURIComponent(
           props.attachment.path?.split("/").reverse()[0]!
         ),
         mime: props.attachment.mime!,

@@ -11,7 +11,7 @@ const [tokens, setTokens] = useLocalStorage<
   }[]
 >(StorageKeys.CDN_TOKEN, []);
 
-const generateToken = async (channelId?: string) => {
+const generateToken = async (channelId?: string, userToken?: string | null) => {
   if (!Array.isArray(tokens())) {
     setTokens([]);
   }
@@ -31,7 +31,8 @@ const generateToken = async (channelId?: string) => {
       "/api" +
       (channelId ? ServiceEndpoints.channel(channelId) : "") +
       "/cdn/token",
-    useToken: true
+    useToken: true,
+    token: userToken
   });
 
   const newToken = {
@@ -53,6 +54,7 @@ interface NerimityCDNRequestOpts {
   file: File;
   onUploadProgress?: (progress: number) => void;
   channelId?: string;
+  userToken?: string | null;
 }
 
 export async function uploadBanner(
@@ -90,6 +92,7 @@ async function nerimityCDNUploadRequest(opts: {
   points?: number[];
   file: File;
   groupId?: string;
+  userToken?: string | null;
   onUploadProgress?: (percent: number, speed?: string) => void;
 }) {
   const url = new URL(`${env.NERIMITY_CDN}${opts.type}/${opts.groupId || ""}`);
@@ -103,7 +106,7 @@ async function nerimityCDNUploadRequest(opts: {
       url: url.href,
       body: formData,
       params: opts.points ? { points: JSON.stringify(opts.points) } : undefined,
-      useToken: await generateToken(opts.channelId)
+      useToken: await generateToken(opts.channelId, opts.userToken)
     },
     opts.onUploadProgress
   );

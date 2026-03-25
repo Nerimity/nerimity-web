@@ -326,11 +326,11 @@ function ModerationPage() {
         <Show when={!modOnlyBadge}>
           <AuditLogPane />
           <TicketsPane />
-          <UserColumn class="user-columns" gap={5}>
-            <UsersPane />
-            <OnlineUsersPane />
-          </UserColumn>
         </Show>
+        <UserColumn class="user-columns" gap={5}>
+          <UsersPane />
+          <OnlineUsersPane />
+        </UserColumn>
         <ServersPane />
         <ActiveServersPane />
         <PostsPane />
@@ -374,7 +374,7 @@ const TicketsPane = () => {
             background-color: var(--alert-color);
             border-radius: 50%;
             width: 17px;
-            font-size: .8em;
+            font-size: 0.8em;
             height: 17px;
             display: flex;
             align-items: center;
@@ -689,6 +689,8 @@ function SuggestedActionsPane() {
         return "Delete Server";
       case AuditLogType.postDelete:
         return "Delete Post";
+      case AuditLogType.userSuspend:
+        return "Suspend";
     }
   };
 
@@ -754,6 +756,14 @@ function SuggestedActionsPane() {
                     {suggest.server?.name}{" "}
                   </A>
                 </Text>
+                <Text size={14}>
+                  <A
+                    class={linkStyle}
+                    href={`/app/moderation/users/${suggest.user?.id}`}
+                  >
+                    {suggest.user?.username}{" "}
+                  </A>
+                </Text>
                 <Show when={suggest.actionType === AuditLogType.postDelete}>
                   <Text size={14}>
                     Made By
@@ -776,33 +786,63 @@ function SuggestedActionsPane() {
                 </div>
               </div>
               <FlexRow gap={4}>
-                <Show
-                  when={
-                    store.account.hasModeratorPerm() &&
-                    suggest.actionType === AuditLogType.serverDelete
-                  }
-                >
-                  <Button
-                    label="Delete Server"
-                    textSize={12}
-                    alert
-                    onClick={() => {
-                      createPortal((close) => (
-                        <DeleteServersModal
-                          close={close}
-                          servers={[{ id: suggest.server.id }]}
-                          done={() => {
-                            deleteSuggestActions(suggest.id).then(() => {
-                              setSuggestions(
-                                suggestions().filter((s) => s.id !== suggest.id)
-                              );
-                            });
-                          }}
-                        />
-                      ));
-                    }}
-                    margin={0}
-                  />
+                <Show when={store.account.hasModeratorPerm()}>
+                  <Show when={suggest.actionType === AuditLogType.serverDelete}>
+                    <Button
+                      label="Delete Server"
+                      textSize={12}
+                      alert
+                      onClick={() => {
+                        createPortal((close) => (
+                          <DeleteServersModal
+                            close={close}
+                            servers={[{ id: suggest.server.id }]}
+                            done={() => {
+                              deleteSuggestActions(suggest.id).then(() => {
+                                setSuggestions(
+                                  suggestions().filter(
+                                    (s) => s.id !== suggest.id
+                                  )
+                                );
+                              });
+                            }}
+                          />
+                        ));
+                      }}
+                      margin={0}
+                    />
+                  </Show>
+                  <Show when={suggest.actionType === AuditLogType.userSuspend}>
+                    <Button
+                      label="Suspend User"
+                      textSize={12}
+                      alert
+                      onClick={() => {
+                        createPortal((close) => (
+                          <SuspendUsersModal
+                            close={close}
+                            users={[
+                              {
+                                id: suggest.user.id,
+                                tag: suggest.user.tag,
+                                username: suggest.user.username
+                              }
+                            ]}
+                            done={() => {
+                              deleteSuggestActions(suggest.id).then(() => {
+                                setSuggestions(
+                                  suggestions().filter(
+                                    (s) => s.id !== suggest.id
+                                  )
+                                );
+                              });
+                            }}
+                          />
+                        ));
+                      }}
+                      margin={0}
+                    />
+                  </Show>
                 </Show>
                 <Show
                   when={
@@ -832,6 +872,7 @@ function SuggestedActionsPane() {
                     margin={0}
                   />
                 </Show>
+
                 <Show when={suggest.actionType === AuditLogType.postDelete}>
                   <Button
                     iconName="visibility"
@@ -875,15 +916,6 @@ export function Server(props: {
   const createdBy = props.server.createdBy;
   const [hovered, setHovered] = createSignal(false);
 
-  const onClick = (e: MouseEvent) => {
-    if (e.target instanceof Element) {
-      if (e.target.closest(".checkbox")) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    }
-  };
-
   const selected = createMemo(() => isServerSelected(props.server.id));
 
   const onCheckChanged = () => {
@@ -897,11 +929,9 @@ export function Server(props: {
   };
 
   return (
-    <A
-      onClick={onClick}
+    <div
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
-      href={`/app/moderation/servers/${props.server.id}`}
       class={itemStyles}
     >
       <Checkbox
@@ -913,74 +943,88 @@ export function Server(props: {
           margin-top: 6px;
         `}
       />
-      <Avatar
-        animate={hovered()}
-        class={avatarStyle}
-        server={props.server}
-        size={28}
-      />
-      <ItemDetailContainer class="details">
-        <Text>{props.server.name}</Text>
-        <FlexRow gap={3}>
-          <Text size={12} opacity={0.6}>
-            Created:
-          </Text>
-          <Text size={12}>{created}</Text>
-        </FlexRow>
-        <FlexRow gap={3}>
-          <Text size={12} opacity={0.6}>
-            Created By:
-          </Text>
-          <Text size={12}>
-            <A class={linkStyle} href={`/app/moderation/users/${createdBy.id}`}>
-              {createdBy.username}:{createdBy.tag}
-            </A>
-          </Text>
-        </FlexRow>
-        <Show when={props.server.messageCount}>
+      <A
+        class={css`
+          display: flex;
+          gap: 6px;
+          flex: 1;
+        `}
+        href={`/app/moderation/servers/${props.server.id}`}
+      >
+        <Avatar
+          animate={hovered()}
+          class={avatarStyle}
+          server={props.server}
+          size={28}
+        />
+        <ItemDetailContainer class="details">
+          <Text>{props.server.name}</Text>
           <FlexRow gap={3}>
             <Text size={12} opacity={0.6}>
-              Messages:
+              Created:
             </Text>
-            <Text size={12}>{props.server.messageCount?.toLocaleString()}</Text>
+            <Text size={12}>{created}</Text>
+          </FlexRow>
+          <FlexRow gap={3}>
             <Text size={12} opacity={0.6}>
-              User Messages:
+              Created By:
             </Text>
             <Text size={12}>
-              {props.server.userMessageCount?.toLocaleString()}
+              <A
+                class={linkStyle}
+                href={`/app/moderation/users/${createdBy.id}`}
+              >
+                {createdBy.username}:{createdBy.tag}
+              </A>
             </Text>
           </FlexRow>
-        </Show>
-        <FlexRow gap={2} wrap>
-          <Show when={props.server.scheduledForDeletion}>
-            <div
-              style={{
-                background: "var(--alert-color)",
-                "border-radius": "4px",
-                padding: "2px 8px",
-                "margin-top": "4px",
-                display: "inline-block"
-              }}
-            >
-              <Text size={12}>Scheduled Deletion</Text>
-            </div>
+          <Show when={props.server.messageCount}>
+            <FlexRow gap={3}>
+              <Text size={12} opacity={0.6}>
+                Messages:
+              </Text>
+              <Text size={12}>
+                {props.server.messageCount?.toLocaleString()}
+              </Text>
+              <Text size={12} opacity={0.6}>
+                User Messages:
+              </Text>
+              <Text size={12}>
+                {props.server.userMessageCount?.toLocaleString()}
+              </Text>
+            </FlexRow>
           </Show>
-          <Show when={props.server.publicServer}>
-            <div
-              style={{
-                background: "var(--primary-color)",
-                "border-radius": "4px",
-                padding: "2px 8px",
-                "margin-top": "4px",
-                display: "inline-block"
-              }}
-            >
-              <Icon name="public" size={13} />
-            </div>
-          </Show>
-        </FlexRow>
-      </ItemDetailContainer>
-    </A>
+          <FlexRow gap={2} wrap>
+            <Show when={props.server.scheduledForDeletion}>
+              <div
+                style={{
+                  background: "var(--alert-color)",
+                  "border-radius": "4px",
+                  padding: "2px 8px",
+                  "margin-top": "4px",
+                  display: "inline-block"
+                }}
+              >
+                <Text size={12}>Scheduled Deletion</Text>
+              </div>
+            </Show>
+            <Show when={props.server.publicServer}>
+              <div
+                style={{
+                  background: "var(--primary-color)",
+                  "border-radius": "4px",
+                  padding: "2px 8px",
+                  "margin-top": "4px",
+                  display: "inline-block"
+                }}
+              >
+                <Icon name="public" size={13} />
+              </div>
+            </Show>
+          </FlexRow>
+        </ItemDetailContainer>
+      </A>
+    </div>
   );
 }
 
@@ -1017,12 +1061,10 @@ function StatsArea() {
         title="Registered Users"
         description={stats()?.totalRegisteredUsers?.toLocaleString()}
       />
-      <Show when={!store.account.hasOnlyModBadge()}>
-        <StatCard
-          title="Online Users"
-          description={onlineUsersCount()?.toLocaleString()}
-        />
-      </Show>
+      <StatCard
+        title="Online Users"
+        description={onlineUsersCount()?.toLocaleString()}
+      />
       <StatCard
         title="Messages"
         description={stats()?.totalCreatedMessages?.toLocaleString()}

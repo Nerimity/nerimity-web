@@ -180,7 +180,11 @@
                 "removeNoticeButton": "Supprimer l'avis",
                 "channelIcon": "Icône de chaîne",
                 "slowModeDescription": "Indiquez la durée d'attente obligatoire avant de pouvoir envoyer un message.",
-                "deleteChannelTitle": "Supprimer {{channelName}}"
+                "deleteChannelTitle": "Supprimer {{channelName}}",
+                "slowMode": "Mode lent",
+                "channelNotice": "Avis de la chaîne",
+                "channelNoticeDescription": "Est montré quand l'utilisateur s'apprête à entamer une conversation. Les modifications sont prises en compte après le rechargement de la page.",
+                "channelNoticeTooLong": "Le message diffusé sur le canal ne peut pas dépasser 300 caractères."
             },
             "invites": {
                 "createInviteButton": "Créer une Invitation",
@@ -220,7 +224,8 @@
                 "title": "Webhooks",
                 "link": "URL du webhook",
                 "linkDescription": "Exécutez des actions en utilisant ce lien",
-                "delete": "Supprimer le webhook"
+                "delete": "Supprimer le webhook",
+                "addButton": "Ajouter un webhook"
             },
             "verify": {
                 "insufficientMembers": "Vous avez besoin de {{count}} membre(s) supplémentaire(s) pour demander une vérification.",
@@ -419,7 +424,10 @@
             "deleteCheckbox": "Supprimez mes publications et messages",
             "usernameFont": "Police du Nom d'Utilisateur",
             "default": "Application par défaut",
-            "confirmPasswordToContinue": "Confirmez votre mot de passe pour continuer"
+            "confirmPasswordToContinue": "Confirmez votre mot de passe pour continuer",
+            "userNotice": "Avis aux utilisateurs",
+            "userNoticeDescription": "Est montré quand l'utilisateur est sur le point de vous envoyer un message pour la première fois. Les modifications sont prises en compte après le rechargement de la page.",
+            "userNoticeTooLong": "La notification à l'utilisateur ne peut pas dépasser 300 caractères."
         },
         "notifications": {
             "sounds": "Sons",
@@ -635,7 +643,10 @@
                 "andMore": "• Et plus encore",
                 "willNotGetDeletedDescription": "Vous pouvez les supprimer manuellement avant de supprimer votre application.",
                 "deleteAppButton": "Supprimer cette application"
-            }
+            },
+            "useLatestUrl": "Utiliser l'URL la plus récente",
+            "useLatestUrlDescription": "Chargez latest.nerimity.com au prochain redémarrage de l'application. L'application sera relancée.",
+            "useLatestUrlWarning": "Il peut être instable ou comporter des bugs."
         },
         "experiments": {
             "noExperiments": "Aucune expérience n'est actuellement disponible.",
@@ -749,7 +760,7 @@
         "title": "Poste",
         "viewCount": "Vues estimées",
         "voteButton": "Voter",
-        "voteCount": "{{count}} vote(s)",
+        "voteCount": "<1>{{count}}</1> vote(s)",
         "copyPostButton": "Copier le post",
         "sections": {
             "replies": "Réponses ({{count}})",
@@ -788,7 +799,8 @@
         "reconnecting": "Reconnexion en cours…",
         "inQueue": "En file d’attente : {{count}} utilisateur(s) devant vous",
         "authenticating": "Authentification en cours…",
-        "connected": "Connecté !"
+        "connected": "Connecté !",
+        "statusPage": "Page de statut"
     },
     "dangerousLinkModal": {
         "title": "Lien personnalisé",
@@ -1338,7 +1350,7 @@
     },
     "serverDrawer": {
         "joinedThisSessionNoticeSetToMentionsOnly": "Mentions uniquement",
-        "joinedThisSessionNotice": "Vous entendrez tous les sons de notifications de ce serveur."
+        "joinedThisSessionNotice": "Vous verrez toutes les notifications provenant de ce serveur."
     },
     "datetime": {
         "lessThanAMinuteAgo": "il y a quelques secondes",
@@ -1348,6 +1360,7 @@
         "relativeNow": "maintenant",
         "yesterdayTime": "Hier à {{time}}",
         "dateTime": "{{date}} à {{time}}",
-        "error": "erreur"
+        "error": "erreur",
+        "invalidTimezone": "fuseau horaire invalide"
     }
 }

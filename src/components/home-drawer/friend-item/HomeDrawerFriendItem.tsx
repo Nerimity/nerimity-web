@@ -120,6 +120,7 @@ export default function HomeDrawerFriendItem(props: {
               tooltipAnchor="right"
               userId={user().id}
               showOffline={false}
+              showActivityCount
               animate={hovered()}
               useTitle
               hideAction

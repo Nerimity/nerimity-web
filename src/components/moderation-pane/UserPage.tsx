@@ -1,9 +1,11 @@
 import { Bitwise, USER_BADGES_VALUES } from "@/chat-api/Bitwise";
 import {
+  AuditLogType,
   ModerationUser,
   getUser,
   getUsersWithSameIPAddress,
-  updateUser
+  updateUser,
+  upsertSuggestActions
 } from "@/chat-api/services/ModerationService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -32,7 +34,7 @@ import Checkbox from "../ui/Checkbox";
 import { formatTimestamp } from "@/common/date";
 import UnsuspendUsersModal from "./UnsuspendUsersModal";
 import SuspendUsersModal from "./SuspendUsersModal";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Button from "../ui/Button";
 
 import Text from "../ui/Text";
@@ -45,6 +47,9 @@ import WarnUserModal from "./WarnUserModal";
 import ShadowBanUserModal from "./ShadowBanUserModal";
 import UndoShadowBanUserModal from "./UndoShadowBanUserModal";
 import Block from "../ui/settings-block/Block";
+import { RadioBox } from "../ui/RadioBox";
+import { Modal } from "../ui/modal";
+import useStore from "@/chat-api/store/useStore";
 
 const UserPageContainer = styled(FlexColumn)`
   height: 100%;
@@ -99,6 +104,7 @@ interface AddInventoryItem {
 }
 
 export default function UserPage() {
+  const store = useStore();
   const params = useParams<{ userId: string }>();
   const { width } = useWindowProperties();
   const [requestSent, setRequestSent] = createSignal(false);
@@ -174,14 +180,14 @@ export default function UserPage() {
 
   const onBadgeUpdate = (checked: boolean, bit: number) => {
     batch(() => {
-      const inventoryItem = user()?.inventory.find((i) => parseInt(i.itemId) === bit);
+      const inventoryItem = user()?.inventory.find(
+        (i) => parseInt(i.itemId) === bit
+      );
       const addedItem = inputValues().addedInventoryItems.find(
-          (i) => parseInt(i.itemId) === bit
-        );
+        (i) => parseInt(i.itemId) === bit
+      );
 
-      const item =
-        inventoryItem ||
-        addedItem;
+      const item = inventoryItem || addedItem;
       let removedIds = [...inputValues().removedInventoryIds];
       let addedItems = [...inputValues().addedInventoryItems];
 
@@ -213,14 +219,14 @@ export default function UserPage() {
     });
   };
 
-
-
   const onChangePasswordClick = () => {
     setInputValue("newPassword", "");
     setShowChangePassword(!showChangePassword());
   };
 
   const botApplicationUser = () => user()?.application?.creatorAccount?.user;
+
+  const modOnlyBadge = store.account?.hasOnlyModBadge();
 
   return (
     <Show when={user()} keyed>
@@ -291,15 +297,18 @@ export default function UserPage() {
                 margin-bottom: 10px;
               `}
             >
-              <Show when={!user()?.shadowBan}>
-                <SuspendOrUnsuspendBlock user={user()!} setUser={setUser} />
-              </Show>
-              <Show when={user()?.account}>
+              <SuggestBlock userId={user()!.id} />
+              <Show when={!modOnlyBadge}>
                 <Show when={!user()?.shadowBan}>
-                  <WarnBlock user={user()!} setUser={setUser} />
+                  <SuspendOrUnsuspendBlock user={user()!} setUser={setUser} />
                 </Show>
-                <Show when={!user()?.suspension}>
-                  <ShadowBanBlock user={user()!} setUser={setUser} />
+                <Show when={user()?.account}>
+                  <Show when={!user()?.shadowBan}>
+                    <WarnBlock user={user()!} setUser={setUser} />
+                  </Show>
+                  <Show when={!user()?.suspension}>
+                    <ShadowBanBlock user={user()!} setUser={setUser} />
+                  </Show>
                 </Show>
               </Show>
             </FlexColumn>
@@ -732,3 +741,77 @@ function ShadowBanBlock(props: {
     </div>
   );
 }
+
+const SuggestBlock = (props: { userId: string }) => {
+  const { createPortal } = useCustomPortal();
+
+  const showSuspendModal = () => {
+    const [selectedOption, setSelectedOption] = createSignal("");
+    const [reason, setReason] = createSignal("");
+    const [requestSent, setRequestSent] = createSignal(false);
+    createPortal((close) => {
+      const onSuggestClick = async () => {
+        if (!selectedOption()) {
+          return toast("Please select a reason");
+        }
+        if (requestSent()) return;
+        setRequestSent(true);
+        await upsertSuggestActions({
+          actionType: AuditLogType.userSuspend,
+          userId: props.userId,
+          reason: selectedOption() === "Other" ? reason() : selectedOption()
+        })
+          .then(() => {
+            close();
+          })
+          .catch((err) => toast(err.message || err.error))
+          .finally(() => setRequestSent(false));
+      };
+      return (
+        <Modal.Root close={close} doNotCloseOnBackgroundClick>
+          <Modal.Header title="Suggest" />
+          <Modal.Body>
+            <FlexColumn gap={4}>
+              <RadioBox
+                items={[
+                  { id: "NSFW", label: "NSFW" },
+                  { id: "Racist", label: "Racist" },
+                  { id: "Inappropriate Name", label: "Inappropriate Name" },
+                  { id: "Other", label: "Other" }
+                ]}
+                initialId={selectedOption()}
+                onChange={(item) => setSelectedOption(item.id)}
+              />
+              <Show when={selectedOption() === "Other"}>
+                <Input
+                  placeholder="Reason"
+                  onText={setReason}
+                  value={reason()}
+                />
+              </Show>
+            </FlexColumn>
+          </Modal.Body>
+          <Modal.Footer>
+            <Modal.Button
+              label="Suggest"
+              iconName="check"
+              onClick={onSuggestClick}
+              primary
+            />
+          </Modal.Footer>
+        </Modal.Root>
+      );
+    });
+  };
+
+  return (
+    <SettingsBlock icon="info" label="Suggest Action">
+      <Button
+        onClick={showSuspendModal}
+        label="Suggest Action"
+        color="var(--alert-color)"
+        primary
+      />
+    </SettingsBlock>
+  );
+};

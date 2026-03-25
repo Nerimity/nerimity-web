@@ -163,7 +163,7 @@
     },
     "explore": {
         "drawer": {
-            "title": "Дасьледваць",
+            "title": "Дасьледаваньне",
             "servers": "Сэрвэры",
             "bots": "Боты",
             "themes": "Тэмы"
@@ -736,7 +736,16 @@
             "notice": "Падтрымайце гэты праект грашыма.",
             "palestineDescription": "Можна атрымаць у наладах профілю",
             "price": "Аблямоўкі за {{price}}",
-            "supportMethods": "Мэтады падтрымкі"
+            "supportMethods": "Мэтады падтрымкі",
+            "acquisitionNotice": "Значкі уласнаруч даюцца мадэратарамі. Пасьля ахвяраваньня стварыце квіток і скажыце, які значок вы хочаце.",
+            "unremovableError": {
+                "title": "Значок нездымаемы",
+                "body": "Гэты значок нельга зьняць."
+            },
+            "inventory": {
+                "ownedBadges": "Вашыя значкі ({{count}})",
+                "acquireDate": "Атрымана {{date}}"
+            }
         },
         "connections": {
             "thirdParty": {

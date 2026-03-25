@@ -49,6 +49,7 @@
     object-fit: contain;
     &.videoActivityImg {
       width: initial;
+      background-color: black;
       object-fit: cover;
       aspect-ratio: 16/9;
     }

@@ -222,7 +222,11 @@
                 "removeNoticeButton": "Hatırlatmayı Sil",
                 "channelIcon": "Kanal Simgesi",
                 "deleteChannelTitle": "{{channelName}} kanalını sil",
-                "slowModeDescription": "Bir kullanıcının mesaj atmadan önce ne kadar bekleyeceğini belirle."
+                "slowModeDescription": "Bir kullanıcının mesaj atmadan önce ne kadar bekleyeceğini belirle.",
+                "slowMode": "Yavaş Mod",
+                "channelNotice": "Kanal Duyurusu",
+                "channelNoticeDescription": "Kullanıcı ilk defa konuşacağı zaman gözükür. Değişiklikler yeniden yüklendiğinde kaydedilir.",
+                "channelNoticeTooLong": "Kanal duyurusu 300 karakterden uzun olamaz."
             },
             "invites": {
                 "createInviteButton": "Davet Oluştur",
@@ -262,7 +266,8 @@
                 "name": "Web Kancası İsmi",
                 "link": "Webhook URL'si",
                 "linkDescription": "Bu bağlantıyı kullanarak eylemleri gerçekleştir",
-                "delete": "Webhook'u Sil"
+                "delete": "Webhook'u Sil",
+                "addButton": "Webhook Ekle"
             },
             "verify": {
                 "alreadyVerified": "Sunucunuz zaten doğrulandı!",
@@ -455,7 +460,10 @@
             "bioDescription": "Çok satırlı ve biçimlendirme desteği",
             "usernameFont": "Kullanıcı adı yazı tipi",
             "default": "Uygulama varsayılanı",
-            "confirmPasswordToContinue": "Devam etmek için şifrenizi doğrulayın"
+            "confirmPasswordToContinue": "Devam etmek için şifrenizi doğrulayın",
+            "userNotice": "Kullanıcı Duyurusu",
+            "userNoticeDescription": "Kullanıcı size ilk defa mesaj atacağı zaman gözükür. Değişiklikler yeniden yüklendiğinde kaydedilir.",
+            "userNoticeTooLong": "Kullanıcı duyurusu 300 karakterden uzun olamaz."
         },
         "privacy": {
             "lastOnline": {
@@ -561,7 +569,7 @@
             "timeTitle": "Saat Biçimini Değiştir",
             "12HourFormatDescription": "Saati AM/PM ile 12 saatlik formatta göster.",
             "24HourFormatDescription": "Zamanı 24 saat biçiminde görüntüle.",
-            "swipeToOpen": "Açmak için kaydırın",
+            "swipeToOpen": "Açmak için Kaydırın",
             "exportButton": "Dışa Aktar",
             "importButton": "İçe Aktar",
             "exportModal": "Tema panoya kopyalandı.",
@@ -594,7 +602,10 @@
             "notice": "Bu projeyi para bağışlayarak destekleyin.",
             "palestineDescription": "Profil ayarlarına giderek donatılabilir",
             "price": "{{price}} Rozet",
-            "supportMethods": "Destek Yöntemleri"
+            "supportMethods": "Destek Yöntemleri",
+            "inventory": {
+                "ownedBadges": "Sahip Olunan Rozetler ({{count}})"
+            }
         },
         "connections": {
             "thirdParty": {
@@ -677,7 +688,9 @@
                 "deleteAppButton": "Bu uygulamayı sil",
                 "willNotGetDeleted": "Silinmeyecekler:"
             },
-            "appClientId": "Uygulama/İstemci Kimliği"
+            "appClientId": "Uygulama/İstemci Kimliği",
+            "useLatestUrl": "Güncel URL'yi Kullan",
+            "useLatestUrlWarning": "Dengesiz veya hatalı olabilir."
         },
         "experiments": {
             "noExperiments": "Şu anda mevcut deney yoktur.",
@@ -786,7 +799,7 @@
         "personal": {
             "editProfile": "Profili Düzenle",
             "customStatus": "Durum",
-            "presence": "Mevcudiyet"
+            "presence": "Görünürlük"
         },
         "badge": "{{badgeName}} Rozet",
         "fullProfile": "Tam Profil",
@@ -816,11 +829,12 @@
         "viewCount": "Tahmini Görüntülenme Sayısı",
         "pinned": "Sabitlenmiş",
         "voteButton": "Oyla",
-        "voteCount": "{{count}} Oy(lar)",
+        "voteCount": "<1>{{count}}}</1> Oy(lar)",
         "copyPostButton": "Gönderiyi Kopyala",
         "sections": {
             "replies": "Yanıtlar ({{count}})",
-            "likes": "Beğeniler ({{count}})"
+            "likes": "Beğeniler ({{count}})",
+            "reposts": "Yeniden paylaşımlar ({{count}})"
         },
         "editPostModalTitle": "Gönderiyi düzenle",
         "sort": {
@@ -841,7 +855,7 @@
         "info": "Bilgi",
         "files": "Dosyalar",
         "searchBarChannelPlaceholder": "{{channelName}} kanalında ara",
-        "searchBarPlaceholder": "",
+        "searchBarPlaceholder": "{{username}} ara",
         "sortLatest": "En Son",
         "sortOldest": "En Eski"
     },
@@ -872,7 +886,7 @@
     },
     "googleAccountLink": {
         "success": "Hesabın Google ile bağlandı! Bu pencereyi artık kapatabilirsin.",
-        "linking": "Google Hesabı bağlanıyor…"
+        "linking": "Hesabınız Google ile bağlanıyor…"
     },
     "invite": {
         "joinButton": "Katıl",
@@ -881,13 +895,14 @@
         "members": "üyeler",
         "visitButton": "Ziyaret Et",
         "loading": "Davet Yükleniyor…",
-        "invalid": "Geçersiz Davet Kodu"
+        "invalid": "Geçersiz Davet Kodu",
+        "privateEmoji": "Bu emoji özel bir sunucudan geliyor."
     },
     "fileEmbed": {
         "viewImage": "Fotoğrafı Görüntüle",
         "download": "Yükle",
-        "expires": "",
-        "expired": "",
+        "expires": "Süresi doluyor {{time}}",
+        "expired": "Süresi doldu {{time}}",
         "modifiedOrDeleted": "Bu dosya Google Drive'da yaratıcısı tarafından değiştirildi/silindi.",
         "fileExpired": "Dosyanın tarihi geçmiş.",
         "fileModified": "Bu dosya değiştirilmiş.",
@@ -895,7 +910,11 @@
         "videoEmbed": {
             "videoExpired": "Videonun süresi doldu.",
             "videoModified": "Video değiştirildi.",
-            "couldNotGetVideo": "Video alınamıyor."
+            "couldNotGetVideo": "Video alınamıyor.",
+            "googleDrivePolicy": "Google Drive'ın yeni politikaları nedeniyle, videoları sadece Nerimity Masaüstü Uygulamasından oynatabilirsiniz."
+        },
+        "audioEmbed": {
+            "googleDrivePolicy": "Google Drive'ın yeni politikaları nedeniyle, sesleri sadece Nerimity Masaüstü Uygulamasından oynatabilirsiniz."
         }
     },
     "message": {
@@ -941,7 +960,8 @@
         "connecting": "Bağlanılıyor…",
         "reconnecting": "Yeniden bağlanılıyor…",
         "inQueue": "Sırada: {{count}} Kullanıcı(lar) Önünüzde",
-        "authenticating": "Doğrulanıyor…"
+        "authenticating": "Doğrulanıyor…",
+        "statusPage": "Durum Sayfası"
     },
     "dangerousLinkModal": {
         "title": "Özel Bağlantı",
@@ -1135,7 +1155,7 @@
         },
         "dog": {
             "shibaDescription": "Shiba Inu Köpeği",
-            "dogDescription": "Köpek Kulakları Kahverengi",
+            "dogDescription": "İyi Yavru Köpek Kulakları",
             "name": "Köpek"
         },
         "bunny": {
@@ -1185,7 +1205,11 @@
         },
         "pins": {
             "noPins": "Sabitlenmiş Mesajlar yok"
-        }
+        },
+        "mentions": {
+            "noMentions": "Bahsedilmeler Yok"
+        },
+        "jump": "Atla"
     },
     "channelDrawer": {
         "customize": {

@@ -553,6 +553,7 @@ export interface UserAuditLog {
   actionById: string;
   createdAt: number;
   serverId?: string;
+  reason?: string;
   data?: {
     serverName?: string;
     bannedUserId?: string;
@@ -604,6 +605,7 @@ export const getSuggestionActions = async (opts: GetSuggestActionsOpts) => {
 interface UpsertSuggestActionsOpts {
   actionType: number;
   serverId?: string;
+  userId: string;
   reason: string;
   postId?: string;
 }

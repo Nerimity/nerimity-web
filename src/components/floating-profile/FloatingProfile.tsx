@@ -521,19 +521,23 @@ const DesktopProfileFlyout = (props: {
   };
 
   const ProfileArea = () => {
-    const memberRoles = serverMembers.roles(member()!, true) || [];
+    const memberRoles = () => serverMembers.roles(member()!, true) || [];
+
+    const showRoles = () => {
+      if (!server()) return false;
+      if (
+        serverMembers.hasPermission(
+          accountMember()!,
+          ROLE_PERMISSIONS.MANAGE_ROLES
+        )
+      )
+        return true;
+      return memberRoles().length;
+    };
 
     return (
       <>
-        <Show
-          when={
-            memberRoles.length > 0 ||
-            serverMembers.hasPermission(
-              accountMember()!,
-              ROLE_PERMISSIONS.MANAGE_ROLES
-            )
-          }
-        >
+        <Show when={showRoles()}>
           <div class={styles.section}>
             <FlyoutTitle
               primaryColor={colors()?.primary || undefined}
@@ -542,7 +546,7 @@ const DesktopProfileFlyout = (props: {
               title={t("servers.settings.drawer.roles")}
             />
             <div class={styles.rolesContainer}>
-              <For each={serverMembers.roles(member()!, true)}>
+              <For each={memberRoles()}>
                 {(role) => {
                   const [hovered, setHovered] = createSignal(false);
                   return (
@@ -573,20 +577,20 @@ const DesktopProfileFlyout = (props: {
                   );
                 }}
               </For>
-            </div>
-            <Show
-              when={serverMembers.hasPermission(
-                accountMember()!,
-                ROLE_PERMISSIONS.MANAGE_ROLES
-              )}
-            >
-              <div
-                class={classNames(styles.roleContainer, styles.selectable)}
-                onClick={showRoleModal}
+              <Show
+                when={serverMembers.hasPermission(
+                  accountMember()!,
+                  ROLE_PERMISSIONS.MANAGE_ROLES
+                )}
               >
-                <Icon name="add" size={14} />
-              </div>
-            </Show>
+                <div
+                  class={classNames(styles.roleContainer, styles.selectable)}
+                  onClick={showRoleModal}
+                >
+                  <Icon name="add" size={14} />
+                </div>
+              </Show>
+            </div>
           </div>
         </Show>
 
