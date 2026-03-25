@@ -19,6 +19,7 @@ export const RichProgressBar = (props: {
   endsAt: number;
   speed?: number;
   updatedAt?: number;
+  static?: boolean;
 }) => {
   const [playedFor, setPlayedFor] = createSignal("");
 
@@ -40,6 +41,7 @@ export const RichProgressBar = (props: {
 
   createEffect(() => {
     updatePlayedFor();
+    if (props.static) return;
     const intervalId = setInterval(() => {
       updatePlayedFor();
     }, 1000);

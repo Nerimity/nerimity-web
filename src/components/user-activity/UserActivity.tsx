@@ -10,6 +10,7 @@ import {
   createEffect,
   createMemo,
   createSignal,
+  For,
   on,
   onCleanup,
   Show
@@ -29,7 +30,38 @@ export const UserActivity = (props: {
 }) => {
   const { users, account } = useStore();
   const user = () => users.get(props.userId! || account.user()?.id!);
-  const activity = () => props.exampleActivity || user()?.presence()?.activity;
+  const activities = () => {
+    if (props.exampleActivity) {
+      return [props.exampleActivity];
+    }
+
+    return user()?.presence()?.activities;
+  };
+
+  return (
+    <Show when={activities()?.length}>
+      <div>
+        <For each={activities()!}>
+          {(activity) => (
+            <UserActivityItem
+              primaryColor={props.primaryColor}
+              activity={activity}
+              example={!!props.exampleActivity}
+            />
+          )}
+        </For>
+      </div>
+    </Show>
+  );
+};
+
+function UserActivityItem(props: {
+  primaryColor?: string;
+  activity: ActivityStatus;
+  example?: boolean;
+}) {
+  const activity = () => props.activity;
+
   const [playedFor, setPlayedFor] = createSignal("");
 
   const activityType = () => getActivityType(activity());
@@ -140,6 +172,7 @@ export const UserActivity = (props: {
                   speed={activity()?.speed}
                   startedAt={activity()?.startedAt!}
                   endsAt={activity()?.endsAt!}
+                  static={props.example}
                 />
               </Show>
             </div>
@@ -148,4 +181,4 @@ export const UserActivity = (props: {
       </div>
     </Show>
   );
-};
+}

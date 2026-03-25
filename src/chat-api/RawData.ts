@@ -21,13 +21,12 @@ export interface RawServer {
   };
 }
 
-
-export const InventoryItemType ={
+export const InventoryItemType = {
   Badge: "badge"
 } as const;
 export interface RawInventoryItem {
   id: string;
-  itemType: typeof InventoryItemType[keyof typeof InventoryItemType];
+  itemType: (typeof InventoryItemType)[keyof typeof InventoryItemType];
   userId: string;
   itemId: string;
   acquiredAt: number;
@@ -342,7 +341,7 @@ export interface RawPresence {
   userId: string;
   custom?: string;
   status: number;
-  activity?: ActivityStatus;
+  activities?: ActivityStatus[];
 }
 
 export interface RawExploreItem {

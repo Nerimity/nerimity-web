@@ -162,6 +162,7 @@ const MemberItem = (props: {
             class={styles.userPresence}
             tooltipAnchor="left"
             animate={hovering() || !!isProfileFlyoutOpened()}
+            showActivityCount
             userId={user().id}
             showOffline={false}
             hideAction

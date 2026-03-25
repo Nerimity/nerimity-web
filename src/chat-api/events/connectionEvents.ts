@@ -78,8 +78,9 @@ export const onReconnectAttempt = () => {
 };
 
 electronWindowAPI()?.activityStatusChanged((window) => {
+  const id = "electron-activity";
   if (!window) {
-    return emitActivityStatus(null);
+    return localRPC.updateRPC(id);
   }
   const programs = getStorageObject<ProgramWithExtras[]>(
     StorageKeys.PROGRAM_ACTIVITY_STATUS,
@@ -90,39 +91,23 @@ electronWindowAPI()?.activityStatusChanged((window) => {
   );
 
   if (!program) {
-    return emitActivityStatus(null);
+    localRPC.updateRPC(id);
   }
 
-  emitActivityStatus({
-    action: program.action || "Playing",
-    name: program.name,
-    startedAt: window.createdAt,
-    emoji: program.emoji
+  localRPC.updateRPC(id, {
+    action: program?.action || "Playing",
+    name: program?.name || "",
+    startedAt: window?.createdAt,
+    emoji: program?.emoji
   });
 });
 
 electronWindowAPI()?.rpcChanged((data) => {
-  if (!data) {
-    const programs = getStorageObject<ProgramWithExtras[]>(
-      StorageKeys.PROGRAM_ACTIVITY_STATUS,
-      []
-    );
-    electronWindowAPI()?.restartActivityStatus(programs);
-    return;
-  }
-  emitActivityStatus({ startedAt: Date.now(), ...data });
+  localRPC.updateElectronRPCs(data);
 });
 
 localRPC.onUpdateRPC = (data) => {
-  if (!data) {
-    emitActivityStatus(null);
-    const programs = getStorageObject<ProgramWithExtras[]>(
-      StorageKeys.PROGRAM_ACTIVITY_STATUS,
-      []
-    );
-    electronWindowAPI()?.restartActivityStatus(programs);
-  }
-  emitActivityStatus({ startedAt: Date.now(), ...data });
+  emitActivityStatus(data.map((data) => ({ startedAt: Date.now(), ...data })));
 };
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
@@ -258,10 +243,10 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     StorageKeys.PROGRAM_ACTIVITY_STATUS,
     []
   );
+  localRPC.start();
   electronWindowAPI()?.restartActivityStatus(programs);
 
   electronWindowAPI()?.restartRPCServer();
-  localRPC.start();
   useDiscordActivityTracker().restart();
   useLastFmActivityTracker().restart();
 
