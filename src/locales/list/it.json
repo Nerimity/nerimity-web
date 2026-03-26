@@ -819,7 +819,95 @@
             "createBotUser": "Crea un nuovo utente bot",
             "editBotUser": "Modifica bot",
             "createBotUserButton": "Crea utente",
-            "refreshButton": "Aggiorna"
+            "refreshButton": "Aggiorna",
+            "bot": {
+                "createInvite": "Crea link di invito",
+                "createLinkButton": "Crea link",
+                "token": "Token",
+                "tokenRefreshed": "Token aggiornato.",
+                "tokenCopied": "Token copiato nella clipboard.",
+                "permissionsDescription": "Gestisci permessi per questo link.",
+                "publishBot": "Pubblica bot",
+                "publishBotDescription": "Pubblica il tuo bot nella pagina Esplora in modo che gli altri utenti possano trovarlo.",
+                "publishNotice": "Pubblicare il tuo bot lo renderà disponibile nella pagina <1>explore</1>.",
+                "bumpBot": "Bumpa bot",
+                "bumpBotDescription": "Bumpa questo bot per farlo arrivare in cima",
+                "bumpBotCooldown": "Devi attendere {{hours}} ore, {{minutes}} minuti e {{seconds}} secondi per bumpare questo bot.",
+                "publicDescription": "Rendi pubblico questo bot.",
+                "botDescription": "Descrizione del bot ({{current}}/{{max}})"
+            },
+            "oauth2": {
+                "description": "Gestisci OAuth2",
+                "documentation": "Documentazione OAuth2",
+                "clientId": "ID client",
+                "clientSecret": "Client Secret",
+                "secretRefreshed": "Client Secret aggiornato.",
+                "secretCopied": "Client Secret copiato nella clipboard.",
+                "redirectUris": "Redirect degli URI",
+                "uri": "URI {{count}}",
+                "generateLink": "Genera link",
+                "redirectUri": "Redirect dell'URI"
+            },
+            "deleteApplication": {
+                "title": "Cancella applicazione",
+                "willNotGetDeleted": "Cosa non verrà cancellato:",
+                "andMore": "• E altro",
+                "willNotGetDeletedDescription": "Puoi cancellarli manualmente prima di cancellare la tua app.",
+                "deleteAppButton": "Cancella questa app"
+            }
+        },
+        "experiments": {
+            "noExperiments": "Al momento non ci sono esperimenti disponibili.",
+            "reloadRequired": {
+                "title": "Riavvio richiesto",
+                "body": "Nerimity deve essere riavviato affinché le modifiche abbiano effetto.",
+                "restartNow": "Riavvia ora",
+                "restartLater": "Riavvia più tardi"
+            }
         }
+    },
+    "activityNames": {
+        "playing": "Giocando a",
+        "watching": "Guardando",
+        "listening": "Ascoltando"
+    },
+    "logoutModal": {
+        "title": "Logout?",
+        "body": "Sei sicurə di voler uscire?",
+        "clearSettings": "Resetta impostazioni locali",
+        "cancelButton": "Non uscire"
+    },
+    "supportBlock": {
+        "support": "Supportami",
+        "supportDescription": "Fai una donazione per ottenere un badge supporter!"
+    },
+    "createServerModal": {
+        "title": "Crea server",
+        "notice": "Non sono consentiti contenuti vietati ai minori.",
+        "serverName": "Nome del server",
+        "placeholder": "Il mio fantastico server",
+        "createServerButton": "Crea server",
+        "creating": "Creazione…",
+        "tabLabel": "Crea"
+    },
+    "joinServerModal": {
+        "title": "Unisciti al server",
+        "notice": "Se vuoi esplorare i server, vai invece sulla tab Esplora.",
+        "exploreButton": "Esplora i server",
+        "inviteCode": "Codice di invito",
+        "continueButton": "Continua",
+        "missingInvite": "Per favore inserisci un codice di invito al server.",
+        "tabLabel": "Unisciti"
+    },
+    "serverContextMenu": {
+        "markAsRead": "Segna come Letto",
+        "leave": "Abbandona",
+        "channelSettings": "Impostazioni del canale"
+    },
+    "typing": {
+        "single": "<1>{{username}}</1> sta scrivendo…",
+        "multiple": "<1>{{username}}</1> e <2>{{username2}}</2> stanno scrivendo…",
+        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> e <3>{{username3}}</3> stanno scrivendo…",
+        "andOthers": "<1>{{count}}</1> utenti stanno scrivendo…"
     }
 }
