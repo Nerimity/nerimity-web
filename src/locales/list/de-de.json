@@ -736,7 +736,16 @@
             "notice": "Unterstütze dieses Projekt, indem du Geld spendest.",
             "palestineDescription": "Kann in den Profileinstellungen ausgewählt werden",
             "price": "{{price}} Abzeichen",
-            "supportMethods": "Unterstützungsmethoden"
+            "supportMethods": "Unterstützungsmethoden",
+            "acquisitionNotice": "Badges werden manuell von Moderatoren hinzugefügt. Bitte öffne nach deiner Spende ein Ticket und gib an, welche Badge du möchtest.",
+            "unremovableError": {
+                "title": "Badge Nicht Entfernbar",
+                "body": "Diese Badge kann nicht entfernt werden."
+            },
+            "inventory": {
+                "ownedBadges": "Deine Badges ({{count}})",
+                "acquireDate": "Erhalten am {{date}}"
+            }
         },
         "connections": {
             "thirdParty": {
@@ -1362,5 +1371,10 @@
         "dateTime": "{{date}} um {{time}}",
         "error": "Fehler",
         "invalidTimezone": "Invalide Zeitzone"
+    },
+    "emojiModal": {
+        "title": "Emoji",
+        "defaultEmoji": "Standard Emoji",
+        "customEmoji": "Benutzerdefiniertes Emoji"
     }
 }
