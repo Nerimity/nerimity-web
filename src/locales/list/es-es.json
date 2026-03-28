@@ -1371,5 +1371,10 @@
         "dateTime": "{{date}} a las {{time}}",
         "error": "error",
         "invalidTimezone": "zona horaria no válida"
+    },
+    "emojiModal": {
+        "title": "Emoji",
+        "defaultEmoji": "Emoji predeterminado",
+        "customEmoji": "Emoji personalizado"
     }
 }
