@@ -439,8 +439,7 @@ function PublicServerItem(props: {
         <FlexRow gap={5}>
           <Icon name="schedule" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            {t("explore.bumped")}{" "}
-            {timeSince(props.publicServer.bumpedAt, false)}
+            {t("explore.bumped", { time: timeSince(props.publicServer.bumpedAt, false) })}
           </Text>
         </FlexRow>
       </MemberContainer>

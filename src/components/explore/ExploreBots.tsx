@@ -375,7 +375,7 @@ function PublicItem(props: {
         <FlexRow gap={5}>
           <Icon name="schedule" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            {t("explore.bumped")} {timeSince(props.item.bumpedAt, false)}
+            {t("explore.bumped", { date: timeSince(props.item.bumpedAt, false) })}
           </Text>
         </FlexRow>
       </MemberContainer>

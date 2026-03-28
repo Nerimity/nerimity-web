@@ -297,7 +297,7 @@
     "sort": "Sort",
     "filter": "Filter",
     "by": "By",
-    "bumped": "Bumped"
+    "bumped": "Bumped {{time}}"
   },
   "remindersModal": {
     "title": "Reminders",
