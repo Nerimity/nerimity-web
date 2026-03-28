@@ -21,7 +21,7 @@
             "feature4": "Créez des publications sur votre profil",
             "feature5": "Trouvez votre propre communauté",
             "feature7": "Fonctionne grâce aux dons",
-            "feature8": "Code source complet sur GItHub"
+            "feature8": "Code source complet sur GitHub"
         }
     },
     "loginPage": {
@@ -199,7 +199,7 @@
                 "public": "Public",
                 "publicDescription": "Rendre ce serveur public.",
                 "bumpServer": "Bump le Serveur",
-                "bumpServerDescription": "Bump this server to get to the top.",
+                "bumpServerDescription": "Faites remonter ce serveur pour qu'il atteigne le sommet.",
                 "publishServerButton": "Publier",
                 "unpublishServerButton": "Annuler la publication",
                 "bumpButton": "Bump ({{count}})",
@@ -462,7 +462,16 @@
             "notice": "Soutenez ce projet en faisant un don.",
             "palestineDescription": "Peut être équipé en allant dans les paramètres de profil",
             "price": "{{price}} Badges",
-            "supportMethods": "Méthodes d'assistance"
+            "supportMethods": "Méthodes d'assistance",
+            "acquisitionNotice": "Les badges sont ajoutés manuellement par les modérateurs. Veuillez ouvrir un ticket en précisant le badge souhaité après avoir fait un don.",
+            "unremovableError": {
+                "title": "Insigne non retirable",
+                "body": "Ce badge ne peut pas être retiré."
+            },
+            "inventory": {
+                "ownedBadges": "Badges possédés ({{count}})",
+                "acquireDate": "Acquis le {{date}}"
+            }
         },
         "privacy": {
             "lastOnline": {
@@ -764,7 +773,7 @@
         "copyPostButton": "Copier le post",
         "sections": {
             "replies": "Réponses ({{count}})",
-            "likes": "Likes ({{count}})",
+            "likes": "({{count}}) likes",
             "reposts": "({{count}}) Républications"
         },
         "editPostModalTitle": "Modifier le post",
@@ -1362,5 +1371,10 @@
         "dateTime": "{{date}} à {{time}}",
         "error": "erreur",
         "invalidTimezone": "fuseau horaire invalide"
+    },
+    "emojiModal": {
+        "title": "Emoji",
+        "defaultEmoji": "Émoji par défaut",
+        "customEmoji": "Émojis personnalisés"
     }
 }
