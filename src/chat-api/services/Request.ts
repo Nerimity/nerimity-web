@@ -153,7 +153,7 @@ export function xhrRequest<T>(
 
       const file = [...opts.body.values()][0] as File;
       xhr.setRequestHeader("Content-Type", file.type);
-      xhr.setRequestHeader("File-Name", file.name);
+      xhr.setRequestHeader("File-Name", encodeURIComponent(file.name));
 
       xhr.send(file);
     });
