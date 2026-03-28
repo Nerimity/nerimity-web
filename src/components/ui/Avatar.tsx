@@ -33,12 +33,13 @@ interface Props {
   size: number;
   class?: string;
   animate?: boolean;
+  rawUrl?: string | null;
   user?: {
     username: string;
     avatar?: string;
     hexColor: string;
     badges?: number;
-    avatarUrl?: string | (() => string | null | undefined) | null;
+    avatarUrl?: string | null;
   };
   server?: {
     name: string;
@@ -76,6 +77,7 @@ export default function Avatar(props: Props) {
   const serverOrUser = () => (props.server || props.user) as ServerOrUserAvatar;
 
   const url = () => {
+    if (props.rawUrl) return props.rawUrl;
     if (typeof props.user?.avatarUrl === "string") return webhookAvatarUrl();
     const rawUrl = props.url || avatarUrl(serverOrUser());
     if (!rawUrl) return;

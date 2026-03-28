@@ -180,6 +180,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   if (!user) return;
 
   const localMessage: Message = {
+    buttons: [],
     id: tempMessageId,
     tempId: tempMessageId,
     silent: isSilent,
@@ -204,6 +205,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
         replyToMessage: { ...m }
       })) || [],
     createdBy: {
+      bot: false,
       profile: {
         font: user.profile?.font
       },
@@ -216,10 +218,11 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     }
   };
 
-  !properties?.moreBottomToLoad &&
+  if (!properties?.moreBottomToLoad) {
     setMessages({
       [channelId]: sliceBeginning([...messages[channelId]!, localMessage])
     });
+  }
 
   const onUploadProgress = (percent: number, speed?: string) => {
     const messageIndex = messages[channelId]!.findIndex(
@@ -231,9 +234,6 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       speed
     });
   };
-
-  const isImage = properties?.attachment?.file.type?.startsWith("image/");
-  const isMoreThan12MB = file && file.size > 12 * 1024 * 1024;
 
   const shouldUploadToGoogleDrive =
     properties?.attachment?.uploadTo === "google_drive";
@@ -340,33 +340,39 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   );
 
   if (!message) {
-    !properties?.moreBottomToLoad &&
+    if (!properties?.moreBottomToLoad) {
       setMessages(channelId, index!, "sentStatus", MessageSentStatus.FAILED);
+    }
     return;
   }
   message.tempId = tempMessageId;
 
-  !properties?.moreBottomToLoad &&
+  if (!properties?.moreBottomToLoad) {
     setMessages(channelId, index!, reconcile(message, { key: "tempId" }));
+  }
 };
 
 const pushMessage = (channelId: string, message: Message) => {
   if (!messages[channelId]) return;
   const channelProperties = useChannelProperties();
   const properties = channelProperties.get(channelId);
-  !properties?.moreBottomToLoad &&
+  if (!properties?.moreBottomToLoad) {
     setMessages({
       [channelId]: sliceBeginning([...messages[channelId]!, message])
     });
+  }
 };
 
 const pushFailedMessage = (channelId: string, content: string) => {
   pushMessage(channelId, {
     channelId: channelId,
     createdAt: Date.now(),
+    buttons: [],
+    replyMessages: [],
     createdBy: {
       username: "Nerimity",
       tag: "owo",
+      bot: true,
       badges: 0,
       hexColor: "0",
       id: "0"
