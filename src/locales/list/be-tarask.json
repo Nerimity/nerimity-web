@@ -1371,5 +1371,10 @@
         "dateTime": "{{date}} а {{time}}",
         "error": "памылка",
         "invalidTimezone": "несапраўдны часавы пояс"
+    },
+    "emojiModal": {
+        "title": "Эмодзі",
+        "defaultEmoji": "Стандартны эмодзі",
+        "customEmoji": "Карыстальніцкі эмодзі"
     }
 }
