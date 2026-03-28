@@ -1371,5 +1371,10 @@
         "dateTime": "{{date}} o {{time}}",
         "error": "błąd",
         "invalidTimezone": "nieprawidłowa strefa czasowa"
+    },
+    "emojiModal": {
+        "title": "Emoji",
+        "defaultEmoji": "Domyśne emoji",
+        "customEmoji": "Własne emoji"
     }
 }
