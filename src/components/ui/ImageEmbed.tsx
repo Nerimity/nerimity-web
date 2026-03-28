@@ -1,45 +1,14 @@
+import style from "./ImageEmbed.module.css";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { FlexRow } from "./Flexbox";
-import { styled } from "solid-styled-components";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { RawAttachment } from "@/chat-api/RawData";
 import { createSignal, lazy, Show } from "solid-js";
 import env from "@/common/env";
 import { transitionViewIfSupported } from "@/common/transitionViewIfSupported";
+import { Skeleton } from "./skeleton/Skeleton";
 
 const ImagePreviewModal = lazy(() => import("./ImagePreviewModal"));
-
-const ImageEmbedContainer = styled(FlexRow)`
-  user-select: none;
-  overflow: hidden;
-  position: relative;
-  align-self: flex-start;
-  cursor: pointer;
-
-  .image {
-    border-radius: 8px;
-  }
-
-  .klipy {
-    position: absolute;
-    bottom: 4px;
-    left: 4px;
-    height: 10px;
-    opacity: 0.8;
-  }
-
-  &.gif:after {
-    content: "GIF";
-    position: absolute;
-    border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.46);
-    backdrop-filter: blur(34px);
-    padding: 5px;
-    top: 10px;
-    left: 10px;
-  }
-`;
 
 interface ImageEmbedProps {
   attachment: RawAttachment & { origSrc?: string };
@@ -56,6 +25,7 @@ export function ImageEmbed(props: ImageEmbedProps) {
   const { createPortal } = useCustomPortal();
   const [previewModalOpened, setPreviewModalOpened] = createSignal(false);
   const [hovered, setHovered] = createSignal(false);
+  const [loaded, setLoaded] = createSignal(false);
 
   const isGif = () =>
     props.attachment.path?.endsWith(".gif") ||
@@ -79,7 +49,7 @@ export function ImageEmbed(props: ImageEmbedProps) {
     return props.attachment.origSrc || url(true);
   };
 
-  const style = () => {
+  const styles = () => {
     const maxWidth = clamp(
       (props.customWidth || paneWidth()!) + (props.widthOffset || 0),
       props.maxWidth || 600
@@ -126,27 +96,33 @@ export function ImageEmbed(props: ImageEmbedProps) {
   };
 
   return (
-    <ImageEmbedContainer
-      onclick={onClicked}
+    <div
+      onClick={onClicked}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       class={classNames(
+        style.imageEmbedContainer,
         "imageEmbedContainer",
-        conditionalClass(isGif() && !shouldAnimate(hovered()), "gif")
+        conditionalClass(loaded(), style.loaded),
+        conditionalClass(isGif() && !shouldAnimate(hovered()), style.gif)
       )}
     >
+      <Show when={!loaded()}>
+        <Skeleton.Item class={style.skeleton} style={styles()} />
+      </Show>
       <img
         data-contextmenu-src={contextMenuSrc()}
         loading="lazy"
-        class="image"
+        class={style.image}
+        onLoad={() => setLoaded(true)}
         src={url()}
-        style={style()}
+        style={styles()}
         alt=""
       />
       <Show when={isKlipy()}>
-        <img class="klipy" src="/assets/klipy-light.png" />
+        <img class={style.klipy} src="/assets/klipy-light.png" />
       </Show>
-    </ImageEmbedContainer>
+    </div>
   );
 }
 

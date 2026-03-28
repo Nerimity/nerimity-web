@@ -37,6 +37,7 @@ import { emojiToUrl } from "@/common/emojiToUrl";
 import { useLocalStorage } from "@/common/localStorage";
 import { getActivityType } from "@/common/activityType";
 import { PostItem } from "./post-area/PostItem";
+import { reconcile } from "solid-js/store";
 
 export default function DashboardPane() {
   const { header, account } = useStore();
@@ -82,7 +83,7 @@ const Announcements = () => {
       }
     });
 
-    setPosts(posts);
+    setPosts(reconcile([...posts]));
   });
   return (
     <Show when={posts().length}>
@@ -98,6 +99,7 @@ const Announcements = () => {
               </Show>
             )}
           </For>
+          <div>{posts()[0]?.createdBy.username}</div>
         </FlexColumn>
       </FlexColumn>
     </Show>

@@ -1,0 +1,42 @@
+.imageEmbedContainer {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  align-self: flex-start;
+
+  cursor: pointer;
+  user-select: none;
+  &.gif:after {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.46);
+    content: "GIF";
+    backdrop-filter: blur(34px);
+  }
+  &.loaded {
+    .image {
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+  }
+  .skeleton {
+    position: absolute;
+    z-index: -1;
+  }
+
+  .image {
+    border-radius: 8px;
+    opacity: 0;
+  }
+
+  .klipy {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    height: 10px;
+    opacity: 0.8;
+  }
+}
