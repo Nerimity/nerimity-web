@@ -549,17 +549,17 @@ export function ServerBumpModal(props: {
         label={t("general.backButton")}
       />
       <Show when={verifyToken()}>
-        <Button iconName="arrow_upward" label="Bump" onClick={bumpServer} />
+        <Button iconName="arrow_upward" label={t("explore.bumpModal.bumpButton")} onClick={bumpServer} />
       </Show>
     </FlexRow>
   );
 
   return (
     <LegacyModal
-      title={`Bump ${
-        props.publicServer.server?.name ||
-        props.publicServer.botApplication?.botUser.username
-      }`}
+    title={t("explore.bumpModal.title", { name: `${
+      props.publicServer.server?.name ||
+      props.publicServer.botApplication?.botUser.username
+    }` })}
       close={props.close}
       actionButtons={ActionButtons}
     >
