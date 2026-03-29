@@ -48,7 +48,7 @@ export const languages: Record<string, Language> = {
     name: "Brazilian Portuguese",
     nativeName: "Português (Brasil)",
     emoji: "🇧🇷",
-    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Cirnos"]
+    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Cirnos", "https://github.com/Mediixou"]
   },
   "zh-hans": {
     name: "Chinese (Simplified)",
