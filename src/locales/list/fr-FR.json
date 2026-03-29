@@ -1067,7 +1067,7 @@
             "detailedEmbed": "Intégration détaillée"
         },
         "reactions": {
-            "more": "{{count}} plus"
+            "more": "et {{count}} autre(s)"
         },
         "deletedMessage": "Message a été supprimer.",
         "badge": {
