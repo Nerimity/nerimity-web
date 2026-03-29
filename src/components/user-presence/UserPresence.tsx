@@ -8,7 +8,7 @@ import Icon from "../ui/icon/Icon";
 import { getActivityIconName } from "@/components/activity/Activity";
 import { Tooltip } from "../ui/Tooltip";
 import { formatTimestamp } from "@/common/date";
-
+import { t } from "@nerimity/i18lite";
 import { getActivityType } from "@/common/activityType";
 
 // show full will disable overflow eclipses
@@ -79,7 +79,7 @@ const UserPresence = (props: {
       <Switch fallback={statusDetails()?.name()}>
         <Match when={lastOnlineAt() && !user()?.presence()?.status}>
           <div class={styles.lastOnline}>
-            Last online {formatTimestamp(lastOnlineAt()!)}
+            {t("status.lastOnline", { time: formatTimestamp(lastOnlineAt()!) })}
           </div>
         </Match>
         <Match when={activity()}>
