@@ -774,7 +774,7 @@
         "sections": {
             "replies": "Réponses ({{count}})",
             "likes": "({{count}}) likes",
-            "reposts": "({{count}}) Républications"
+            "reposts": "({{count}}) Republications"
         },
         "editPostModalTitle": "Modifier le post",
         "sort": {
@@ -784,8 +784,8 @@
             "mostLikedAllTime": "Les plus appréciés (de tous les temps)"
         },
         "postWarning": "Les contenus faisant l'apologie de l'automutilation sont interdits, des mesures seront prises à l'encontre du compte.",
-        "reposted": "Républié",
-        "repostedBy": "Républié par",
+        "reposted": "Republié",
+        "repostedBy": "Republié par",
         "replying": "Répondant à <1>{{username}}</1>",
         "pinned": "Épinglé"
     },
@@ -847,7 +847,8 @@
         "dnd": "Ne Pas Déranger",
         "offline": "Hors Ligne",
         "appearAsOffline": "Apparaître Hors Ligne",
-        "afk": "Loin du clavier (AFK)"
+        "afk": "Loin du clavier (AFK)",
+        "lastOnline": "En ligne pour la dernière fois {{time}}"
     },
     "sidePane": {
         "addServer": "Ajouter Un Serveur",
@@ -1014,7 +1015,7 @@
     "addFriendModal": {
         "title": "Ajouter Un Ami",
         "sendRequest": "Envoyer Une Demande",
-        "sending": "Envoie…",
+        "sending": "Envoi…",
         "requestSent": "Demande envoyée!",
         "description": "Saisissez le nom d'utilisateur et le nom d'utilisateur de votre ami pour l'ajouter.",
         "placeholder": "Nom d'utilisateur:ABC1",
