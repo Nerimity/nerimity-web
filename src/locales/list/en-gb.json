@@ -156,7 +156,8 @@
     "afk": "Away From Keyboard",
     "dnd": "Do Not Disturb",
     "offline": "Offline",
-    "appearAsOffline": "Appear As Offline"
+    "appearAsOffline": "Appear As Offline",
+    "lastOnline": "Last online {{time}}"
   },
   "sidePane": {
     "home": "Home",
