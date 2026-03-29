@@ -1157,7 +1157,8 @@
         "afk": "Ausente",
         "dnd": "No molestar",
         "offline": "Fuera de línea",
-        "appearAsOffline": "Aparecer fuera de línea"
+        "appearAsOffline": "Aparecer fuera de línea",
+        "lastOnline": "Última vez en línea: {{time}}"
     },
     "connectionErrorModal": {
         "title": "Error de conexión",
