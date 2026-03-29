@@ -1100,11 +1100,11 @@
         "undoButton": "Rückgängig",
         "deleteButton": "Löschen",
         "cannotBeUndone": "Kann nicht rückgängig gemacht werden!",
-        "confirmButton": "Bestätigen",
+        "confirmButton": "Bestätige",
         "doneButton": "Fertig",
         "saveButton": "Speichern",
         "saveChangesButton": "Änderungen speichern",
-        "saving": "Speichert…",
+        "saving": "Speichern…",
         "copyLink": "Link kopieren",
         "copyID": "ID kopieren",
         "accountData": {
@@ -1127,7 +1127,8 @@
         "afk": "Abwesend",
         "dnd": "Bitte nicht stören",
         "offline": "Offline",
-        "appearAsOffline": "Unsichtbar"
+        "appearAsOffline": "Unsichtbar",
+        "lastOnline": "Zuletzt online vor {{time}}"
     },
     "inputFieldActions": {
         "copy": "Kopieren",
