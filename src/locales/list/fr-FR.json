@@ -494,7 +494,7 @@
                 "hideFollowingDescription": "Masquez les utilisateurs que vous suivez depuis votre profil."
             },
             "options": {
-                "anybody": "Personne",
+                "anybody": "Tout le monde",
                 "friendsOnly": "Amis seulement",
                 "serversOnly": "Serveurs uniquement",
                 "friendsAndServers": "Amis et serveurs",
