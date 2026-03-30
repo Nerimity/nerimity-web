@@ -635,7 +635,16 @@
             "notice": "Wesprzyj projekt przekazując darowiznę pieniężną.",
             "palestineDescription": "Można ją założyć w ustawieniach profilu",
             "price": "Odznaki za {{price}}",
-            "supportMethods": "Metody wsparcia"
+            "supportMethods": "Metody wsparcia",
+            "acquisitionNotice": "Odznaki są dodawane ręcznie przez moderatorów. Po dokonaniu darowizny prosimy o zgłoszenie, w którym należy podać nazwę odznaki, którą chcesz otrzymać.",
+            "unremovableError": {
+                "title": "Odznaka niezdejmowalna",
+                "body": "Tej ozdnaki nie można zdjąć."
+            },
+            "inventory": {
+                "ownedBadges": "Posiadane odznaki ({{count}})",
+                "acquireDate": "Zdobyto {{date}}"
+            }
         },
         "connections": {
             "thirdParty": {
@@ -1162,7 +1171,8 @@
         "afk": "Zaraz wracam",
         "dnd": "Nie przeszkadzać",
         "offline": "Nieaktywny",
-        "appearAsOffline": "Wyświetlaj jako nieaktywny"
+        "appearAsOffline": "Wyświetlaj jako nieaktywny",
+        "lastOnline": "Ostatnia aktywność online {{time}}"
     },
     "markup": {
         "bold": "Pogrubienie",
@@ -1256,7 +1266,7 @@
         "searchPlaceholder": "Wyszukaj",
         "backButton": "Wstecz",
         "cancelButton": "Anuluj",
-        "deleteButton": "Wykasuj",
+        "deleteButton": "Usuń",
         "confirmButton": "Potwierdź",
         "doneButton": "Gotowe",
         "saveButton": "Zapisz",
@@ -1362,5 +1372,10 @@
         "dateTime": "{{date}} o {{time}}",
         "error": "błąd",
         "invalidTimezone": "nieprawidłowa strefa czasowa"
+    },
+    "emojiModal": {
+        "title": "Emoji",
+        "defaultEmoji": "Domyśne emoji",
+        "customEmoji": "Własne emoji"
     }
 }

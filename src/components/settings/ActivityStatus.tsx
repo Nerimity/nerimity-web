@@ -235,11 +235,15 @@ function ProgramOptions() {
   const { createPortal } = useCustomPortal();
 
   const getPrograms = () => {
-    electronWindowAPI()?.getRunningPrograms(addedPrograms()).then(setPrograms);
+    electronWindowAPI()
+      ?.getRunningPrograms(JSON.parse(JSON.stringify(addedPrograms())))
+      .then(setPrograms);
   };
 
   const restartActivityStatus = () => {
-    electronWindowAPI()?.restartActivityStatus(addedPrograms());
+    electronWindowAPI()?.restartActivityStatus(
+      JSON.parse(JSON.stringify(addedPrograms()))
+    );
   };
 
   const updateProgram = (index: number, program: ProgramWithExtras) => {

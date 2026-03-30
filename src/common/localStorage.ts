@@ -1,4 +1,5 @@
-import { createSignal } from "solid-js";
+import { Signal } from "solid-js";
+import { createStore } from "solid-js/store";
 
 export const StorageKeys = {
   USER_TOKEN: "userToken",
@@ -105,20 +106,22 @@ export function useLocalStorage<T>(
   defaultValue: T,
   stringMode = false
 ) {
-  const [value, setValue] = createSignal<T>(defaultValue);
+  const [value, setValue] = createStore<{ v: T }>({ v: defaultValue });
 
   const storedValue = stringMode
     ? getStorageString(key, defaultValue)
     : getStorageObject<T>(key, defaultValue);
-  setValue(() => storedValue as T);
+  setValue({ v: storedValue as T });
 
-  const setCustomValue = (value: T) => {
-    setValue(() => value);
-    if (stringMode) return setStorageString(key, value as string);
-    setStorageString(key, JSON.stringify(value));
+  const setCustomValue = (newValue: T) => {
+    setValue("v", newValue);
+    if (stringMode) return setStorageString(key, value.v as string);
+    setStorageString(key, JSON.stringify(value.v));
   };
 
-  return [value, setCustomValue] as const;
+  const getVal = () => value.v;
+
+  return [getVal, setCustomValue] as Signal<T>;
 }
 
 type VoiceInputMode = "OPEN" | "VOICE_ACTIVITY" | "PTT";

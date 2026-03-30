@@ -620,6 +620,9 @@ const MessageItem = (props: MessageItemProps) => {
                     <Avatar
                       animate={hovered()}
                       user={props.message.createdBy}
+                      rawUrl={
+                        props.message.local ? "/assets/logo.png" : undefined
+                      }
                       size={40}
                       resize={96}
                     />

@@ -616,7 +616,8 @@
             "avatar": "الصورة الرمزية",
             "banner": "الغلاف",
             "browse": "تصفح",
-            "supportedFileTypes": "يدعم: {{extensions}}، حد أقصى {{size}}"
+            "supportedFileTypes": "يدعم: {{extensions}}، حد أقصى {{size}}",
+            "revert": "إلغاء"
         },
         "closeButton": "إغلاق",
         "editButton": "تعديل",

@@ -1157,7 +1157,8 @@
         "afk": "Ausente",
         "dnd": "No molestar",
         "offline": "Fuera de línea",
-        "appearAsOffline": "Aparecer fuera de línea"
+        "appearAsOffline": "Aparecer fuera de línea",
+        "lastOnline": "Última vez en línea: {{time}}"
     },
     "connectionErrorModal": {
         "title": "Error de conexión",
@@ -1371,5 +1372,10 @@
         "dateTime": "{{date}} a las {{time}}",
         "error": "error",
         "invalidTimezone": "zona horaria no válida"
+    },
+    "emojiModal": {
+        "title": "Emoji",
+        "defaultEmoji": "Emoji predeterminado",
+        "customEmoji": "Emoji personalizado"
     }
 }

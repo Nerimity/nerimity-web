@@ -121,7 +121,10 @@ export const useDiscordActivityTracker = () => {
         return {
           id: activity.syncId || activity.applicationId || NERIMITY_APP_ID,
           data: {
-            startedAt: activity.timestamps?.start || undefined,
+            startedAt:
+              activity.timestamps?.start ||
+              activity.createdTimestamp ||
+              undefined,
             endsAt: activity.timestamps?.end || undefined,
             imgSrc:
               activity.assets?.largeImageUrl ||
