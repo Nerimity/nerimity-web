@@ -114,12 +114,7 @@ export default function Avatar(props: Props) {
 
       proxyUrl.searchParams.set("size", props.resize?.toString() || "500");
 
-      if (
-        !proxyUrl.pathname.endsWith(".gif") &&
-        !proxyUrl.pathname.endsWith("#a") &&
-        !animated
-      )
-        return proxyUrl.href;
+      if (!animated) return proxyUrl.href;
 
       if (!shouldAnimate(hovered()) || !props.animate) {
         proxyUrl.searchParams.set("type", "webp");
