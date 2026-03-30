@@ -101,20 +101,23 @@ export default function Avatar(props: Props) {
     if (!props.user?.avatarUrl) return null;
 
     try {
-      const baseUrl = new URL(props.user.avatarUrl);
-      const ext = baseUrl.pathname.split(".").pop();
+      const animated = props.user.avatarUrl.startsWith("a");
+      const baseUrl = new URL(
+        animated ? props.user.avatarUrl.slice(1) : props.user.avatarUrl
+      );
 
       const proxyUrl = new URL(
         `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
           baseUrl.href
-        )}/avatar.${ext}`
+        )}/avatar.webp`
       );
 
       proxyUrl.searchParams.set("size", props.resize?.toString() || "500");
 
       if (
         !proxyUrl.pathname.endsWith(".gif") &&
-        !proxyUrl.pathname.endsWith("#a")
+        !proxyUrl.pathname.endsWith("#a") &&
+        !animated
       )
         return proxyUrl.href;
 
