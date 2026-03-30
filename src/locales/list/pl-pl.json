@@ -112,7 +112,11 @@
         "sort": "Sortowanie",
         "filter": "Filtrowanie",
         "by": "Od",
-        "bumped": "Podbito"
+        "bumped": "Podbito",
+        "bumpModal": {
+            "title": "Podbij {{name}}",
+            "bumpButton": "Podbij"
+        }
     },
     "servers": {
         "settings": {
