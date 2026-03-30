@@ -1058,7 +1058,8 @@
         "dnd": "Não perturbe",
         "offline": "Inativo(a)",
         "appearAsOffline": "Aparecer como inativo(a)",
-        "ltp": "Querendo jogar"
+        "ltp": "Querendo jogar",
+        "lastOnline": "Última vez que esteve online: {{time}}"
     },
     "sidePane": {
         "home": "Início",

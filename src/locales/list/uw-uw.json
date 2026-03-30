@@ -387,7 +387,7 @@
     "kickServerMemberModal": {
         "title": "Yeet {{username}}!!",
         "kickButton": "Yeet",
-        "kicking": "Yeeting...",
+        "kicking": "Yeeting…",
         "message": "Suwe u wanna yeet <1>{{username}}</1>??"
     },
     "editServerRolesModal": {
@@ -398,7 +398,7 @@
         "message": "Suwe u wanna banish <1>{{username}}</1>??",
         "deletePastMessagesCheckbox": "Dewete talkys wast 7 houws",
         "banButton": "Banish",
-        "banning": "Banishing..."
+        "banning": "Banishing…"
     },
     "messageContextMenu": {
         "editMessage": "Edit Talky",
@@ -443,8 +443,8 @@
         "someoneLikedYourPost": "<1>{{username}}</1> wiked youw post!",
         "someoneFollowedYou": "<1>{{username}}</1> went staw-staw eyes on u!",
         "someoneRepliedToPost": "<1>{{username}}</1> wepwied to postie!",
-        "createAPostInputPlaceholder": "Cweate a post...",
-        "replyInputPlaceholder": "Wepwy...",
+        "createAPostInputPlaceholder": "Cweate a post…",
+        "replyInputPlaceholder": "Wepwy…",
         "replyButton": "Wepwy",
         "createButton": "Cweate",
         "someoneRepostedYourPost": "<1>{{username}}</1> wemixed youw postie!",
@@ -456,10 +456,10 @@
         "resetSuccessful": "Secwet Code weset success nya~",
         "passwordsDoNotMatch": "Secwet Code Confirm = Nyo Match",
         "resetPasswordButton": "Weset Secwet Code",
-        "resetting": "Wesetting...",
+        "resetting": "Wesetting…",
         "email": "Emaiw",
         "sendEmailButton": "Send Emaiw",
-        "sending": "Sending Emaiw...",
+        "sending": "Sending Emaiw…",
         "passwordTooLong": "Secwet Code must be wess than 72 chawactews~! >w<"
     },
     "dashboard": {
@@ -481,7 +481,7 @@
         "notice": "No NSFW Awwowed!!",
         "serverName": "Sewvew Nyame",
         "placeholder": "My AWESOME Sewvew",
-        "creating": "Cweating...",
+        "creating": "Cweating…",
         "createServerButton": "Cweate Sewvew",
         "tabLabel": "Cweate"
     },
@@ -555,10 +555,10 @@
     },
     "statusHeader": {
         "authenticationError": "Authwentication ewwow >.<",
-        "connecting": "Spinning up...",
-        "reconnecting": "LEMME INNNN!!...",
+        "connecting": "Spinning up…",
+        "reconnecting": "LEMME INNNN!!…",
         "inQueue": "In Qwueue: {{count}} Hoomans Aheawd Of U…",
-        "authenticating": "Authwenticating...",
+        "authenticating": "Authwenticating…",
         "connected": "Wew’we in"
     },
     "dangerousLinkModal": {
@@ -659,5 +659,19 @@
             "supportedFileTypes": "Suppowted: {{extensions}}~ Max {{size}}",
             "browse": "Snoop"
         }
+    },
+    "connectionErrorModal": {
+        "title": "Connecktion ewwow (╯°□°）╯",
+        "ok": "Oki Doki !! ✨",
+        "noToken": "No toky-woky found... (｡•́︿•̀｡)",
+        "suspended": "U are suspended... sowwy (っ´ω｀)",
+        "reason": "Wison",
+        "defaultReason": "U bwoke da sacred rules!! (TOS Violation)",
+        "until": "untiww",
+        "never": "Newew-ewew !! (｡>﹏<)",
+        "by": "Bye",
+        "deletionNotice": "Ur accwount and dat-ta wiww be deweeted in 15 days... (｡•́︿•̀｡)",
+        "ipBanned": "Ur IP got yeeted!! (Banned >.<)",
+        "ipBanNotice": "Uh oh! Somewone ewise on ur IP got in twouble and got suspended fwom Newimity... (｡•́︿•̀｡) But don't p-panic!! Ur accwount is stiww safe and sound"
     }
 }

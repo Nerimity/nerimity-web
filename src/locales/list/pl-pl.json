@@ -1171,7 +1171,8 @@
         "afk": "Zaraz wracam",
         "dnd": "Nie przeszkadzać",
         "offline": "Nieaktywny",
-        "appearAsOffline": "Wyświetlaj jako nieaktywny"
+        "appearAsOffline": "Wyświetlaj jako nieaktywny",
+        "lastOnline": "Ostatnia aktywność online {{time}}"
     },
     "markup": {
         "bold": "Pogrubienie",
