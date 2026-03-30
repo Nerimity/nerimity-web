@@ -291,6 +291,10 @@
       "joinServerButton": "Join",
       "bumpButton": "Bump ({{count}})"
     },
+    "bumpModal": {
+      "title": "Bump {{name}}",
+      "bumpButton": "Bump"
+    },
     "sort": "Sort",
     "filter": "Filter",
     "by": "By",
