@@ -99,7 +99,6 @@ const Announcements = () => {
               </Show>
             )}
           </For>
-          <div>{posts()[0]?.createdBy.username}</div>
         </FlexColumn>
       </FlexColumn>
     </Show>
