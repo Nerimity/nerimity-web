@@ -29,7 +29,7 @@ import env from "@/common/env";
 import style from "./InterfaceSettings.module.css";
 import { useNavigate } from "solid-navigator";
 import { timeFormat, setTimeFormat } from "@/common/date";
-import { toast } from "../ui/custom-portal/CustomPortal";
+import { prompt, toast } from "../ui/custom-portal/CustomPortal";
 import { RadioBoxItem } from "../ui/RadioBox";
 import ThemeCard from "../explore/ThemeCard";
 import cardStyle from "../explore/ThemeCard.module.css";
@@ -299,11 +299,15 @@ function CustomizeColors() {
   };
 
   const importTheme = () => {
-    const theme = JSON.parse(
-      prompt(t("settings.interface.importModal"))! as string
-    ) as Theme;
-    setCustomColors(theme);
-    updateTheme();
+    prompt(t("settings.interface.importModal"), "", "palette", (value) => {
+      try {
+        const theme = JSON.parse(value);
+        setCustomColors(theme);
+        updateTheme();
+      } catch {
+        toast("Invalid theme.");
+      }
+    });
   };
 
   return (

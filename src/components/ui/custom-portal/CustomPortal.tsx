@@ -79,6 +79,30 @@ export const toast = (body: string, title?: string, icon?: string) => {
   ]);
 };
 
+export const prompt = (
+  body: string,
+  title?: string,
+  icon?: string,
+  onSubmit?: (value: string) => void
+) => {
+  setElements((e) => [
+    ...e,
+    {
+      element: (close) => (
+        <ToastModal
+          icon={icon}
+          close={close}
+          body={body}
+          title={title || "Alert"}
+          onSubmit={onSubmit}
+          prompt
+        />
+      ),
+      id: "prompt-" + Math.random()
+    }
+  ]);
+};
+
 export function CustomPortalProvider(props: CustomPortalProps) {
   function createRegisteredPortal<T extends keyof RegisteredPortal>(
     component: T,
