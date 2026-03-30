@@ -180,7 +180,9 @@ function canViewChannel(member: ServerMember | undefined, channelId: string) {
 function roles(member: ServerMember | undefined, sorted = false) {
   const serverRoles = useServerRoles();
   const roles =
-    member?.roleIds.map((id) => serverRoles.get(member.serverId, id)!) || [];
+    member?.roleIds
+      .map((id) => serverRoles.get(member.serverId, id)!)
+      .filter((r) => r) || [];
   if (!sorted) return roles;
   return roles.sort((a, b) => b?.order! - a?.order!);
 }
