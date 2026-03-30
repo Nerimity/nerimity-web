@@ -1,3 +1,4 @@
+import { reconcile } from "solid-js/store";
 import { StorageKeys, useLocalStorage, setStorageString } from "./localStorage";
 
 export const ThemeCategory = {
@@ -247,7 +248,7 @@ export const setThemeColor = (key: ThemeKey, value?: string) => {
   if (value === undefined) {
     const temp = { ...customColors() };
     delete temp[key];
-    setCustomColors(temp);
+    setCustomColors(reconcile(temp));
   } else {
     setCustomColors({ ...customColors(), [key]: value });
   }
