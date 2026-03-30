@@ -206,7 +206,11 @@
         "sort": "Сартаваньне",
         "filter": "Фільтр",
         "by": "Ад",
-        "bumped": "Усхвалены"
+        "bumped": "Усхвалены",
+        "bumpModal": {
+            "title": "Усхваліць {{name}}",
+            "bumpButton": "Усхваліць"
+        }
     },
     "editFolderModal": {
         "title": "Рэдагаваньне тэчкі",
