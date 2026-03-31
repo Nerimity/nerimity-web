@@ -12,6 +12,7 @@ import { styled } from "solid-styled-components";
 import Button from "@/components/ui/Button";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { CreateTicketModal } from "@/components/CreateTicketModal";
+import { formatTimestampRelative } from "@/common/date";
 
 const Container = styled("div")`
   display: flex;
@@ -27,6 +28,7 @@ export default function ServerSettingsBans() {
   const params = useParams<{ serverId: string }>();
   const { servers, serverMembers, header, users } = useStore();
   const { createPortal } = useCustomPortal();
+  const server = () => servers.get(params.serverId);
 
   createEffect(() => {
     header.updateHeader({
@@ -39,7 +41,21 @@ export default function ServerSettingsBans() {
     });
   });
   const TARGET_MEMBERS = 30;
-  const server = () => servers.get(params.serverId);
+  const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+
+  const daysLeft = () => {
+    const createdAt = server()?.createdAt;
+    if (!createdAt) return "Unknown";
+
+    const targetDate = createdAt + THIRTY_DAYS_MS;
+    const now = Date.now();
+    const remainingMillis = targetDate - now;
+
+    return remainingMillis > 0
+      ? formatTimestampRelative(targetDate, "duration")
+      : "Expired";
+  };
+
   const isVerified = () => server()?.verified;
   const memberCount = () =>
     serverMembers
@@ -75,12 +91,19 @@ export default function ServerSettingsBans() {
             description={t("servers.settings.verify.alreadyVerified")}
           />
         </Match>
-        <Match when={membersNeeded() > 0}>
+        <Match when={membersNeeded() > 0 || daysLeft() !== "Expired"}>
           <Notice
             type="warn"
-            description={t("servers.settings.verify.insufficientMembers", {
-              count: `${membersNeeded()}`
-            })}
+            description={[
+              !membersNeeded()
+                ? undefined
+                : t("servers.settings.verify.insufficientMembers", {
+                    count: `${membersNeeded()}`
+                  }),
+              daysLeft() === "Expired"
+                ? undefined
+                : `Wait ${daysLeft()} more to apply for server verification.`
+            ]}
             // description={`You need ${membersNeeded()} more member(s) to apply for a verification.`}
           />
         </Match>

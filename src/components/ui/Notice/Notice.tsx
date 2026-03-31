@@ -39,7 +39,7 @@ const noticeType = {
 
 interface NoticeProps {
   class?: string;
-  description?: string | string[];
+  description?: string | (string | undefined)[];
   type: keyof typeof noticeType;
   children?: JSX.Element;
   style?: JSX.CSSProperties;
@@ -72,7 +72,9 @@ export function Notice(props: NoticeProps) {
         <Switch>
           <Match when={Array.isArray(props.description)}>
             <ul class={styles.noticeList}>
-              <For each={props.description as string[]}>
+              <For
+                each={(props.description as string[]).filter((item) => item)}
+              >
                 {(item) => <li>{item}</li>}
               </For>
             </ul>
