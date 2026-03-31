@@ -206,7 +206,11 @@
         "sort": "Ordenar por",
         "filter": "Filtrar por",
         "by": "Por",
-        "bumped": "Destacado"
+        "bumped": "Destacado",
+        "bumpModal": {
+            "title": "Destaca {{name}}",
+            "bumpButton": "Destacar"
+        }
     },
     "editFolderModal": {
         "title": "Editar carpeta",

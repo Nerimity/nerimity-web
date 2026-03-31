@@ -156,7 +156,8 @@
         "offline": "Offline",
         "appearAsOffline": "Appari come offline",
         "afk": "Inattivo",
-        "ltp": "Ho voglia di giocare"
+        "ltp": "Ho voglia di giocare",
+        "lastOnline": "Ultimo accesso online {{time}}"
     },
     "sidePane": {
         "addServer": "Aggiungi server",
@@ -902,12 +903,142 @@
     "serverContextMenu": {
         "markAsRead": "Segna come Letto",
         "leave": "Abbandona",
-        "channelSettings": "Impostazioni del canale"
+        "channelSettings": "Impostazioni del canale",
+        "notificationOptions": {
+            "sections": {
+                "ping": "Menzione",
+                "sound": "Suono"
+            },
+            "initial": "Iniziale",
+            "everything": "Tutto",
+            "mentionsOnly": "Solo menzioni",
+            "mute": "Silenzia"
+        }
     },
     "typing": {
         "single": "<1>{{username}}</1> sta scrivendo…",
         "multiple": "<1>{{username}}</1> e <2>{{username2}}</2> stanno scrivendo…",
         "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> e <3>{{username3}}</3> stanno scrivendo…",
         "andOthers": "<1>{{count}}</1> utenti stanno scrivendo…"
+    },
+    "messageView": {
+        "noMessages": "Nessun messaggio",
+        "noMessagesDescription": "Non ci sono messaggi in questo canale.",
+        "newMessages": "Nuovi messaggi",
+        "slowMode": "Modalità Lenta",
+        "flaggedServer": {
+            "title": "Elimina programmazione",
+            "description": "Questo server non rispetta i nostri Termini di Servizio e verrà eliminato presto.",
+            "deleteButton": "Elimina ora",
+            "leaveButton": "Abbandona server"
+        }
+    },
+    "userContextMenu": {
+        "viewProfile": "Visualizza profilo",
+        "sendMessage": "Invia messaggio",
+        "editRoles": "Modifica ruoli",
+        "changeNickname": "Cambia nickname",
+        "transferOwnership": "Trasferisci proprietà",
+        "callVolume": "Volume della chiamata"
+    },
+    "emojiModal": {
+        "title": "Emoji",
+        "defaultEmoji": "Emoji predefinite",
+        "customEmoji": "Emoji personalizzate"
+    },
+    "nicknameChangeModal": {
+        "title": "Aggiorna profilo del server",
+        "description": "Chiunque in questo server vedrà questo nickname.",
+        "inputLabel": "Nickname"
+    },
+    "transferOwnershipModal": {
+        "title": "Trasferisci proprietà",
+        "description": "Questa opzione trasferirà la proprietà a unə nuovə proprietariə.",
+        "ifVerified": "La verifica di questo server sarà rimossa.",
+        "server": "Server:",
+        "newOwner": "Nuovə proprietariə:",
+        "cancelButton": "Non trasferire",
+        "transferButton": "Trasferisci",
+        "transferring": "Trasferimento…"
+    },
+    "kickServerMemberModal": {
+        "title": "Rimuovi {{username}}",
+        "kickButton": "Rimuovi",
+        "kicking": "Rimozione…",
+        "message": "Sei sicurə di voler rimuovere <1>{{username}}</1>?"
+    },
+    "editServerRolesModal": {
+        "title": "Modifica ruoli"
+    },
+    "banModal": {
+        "title": "Bannare {{username}}?",
+        "message": "Sei sicurə di voler bannare <1>{{username}}</1>?",
+        "deletePastMessagesCheckbox": "Elimina i messaggi inviati nelle ultime 7 ore.",
+        "banButton": "Banna",
+        "banning": "Ban…",
+        "reasonLabel": "Motivo (facoltativo)",
+        "reasonPlaceholder": "Inserisci un motivo…"
+    },
+    "muteModal": {
+        "title": "Silenziare {{username}}?",
+        "message": "<1>{{username}}</1> non potrà parlare in questo server per: <2>{{duration}}</2>",
+        "banButton": "Silenzia",
+        "banning": "Silenziamento…",
+        "reasonLabel": "Motivo (facoltativo)",
+        "reasonPlaceholder": "Inserisci un motivo…",
+        "muteButton": "Silenzia",
+        "unmuteButton": "Rimuovi silenzio",
+        "cancelMute": "Non silenziare"
+    },
+    "messageContextMenu": {
+        "editMessage": "Modifica messaggio",
+        "deleteMessage": "Elimina messaggio",
+        "translateMessage": "Traduci",
+        "copyMessage": "Copia messaggio",
+        "copyHTML": "Copia HTML",
+        "viewReactions": "Visualizza reazioni",
+        "quoteMessage": "Cita messaggio",
+        "reportMessage": "Segnala messaggio",
+        "reply": "Rispondi",
+        "markUnread": "Segna come non letto",
+        "pinMessage": "Fissa",
+        "unpinMessage": "Rimuovi",
+        "copyMessageLink": "Copia link del messaggio"
+    },
+    "profile": {
+        "followerCount": "{{count}} follower",
+        "followingCount": "{{count}} seguiti",
+        "fullProfile": "Profilo completo",
+        "followsYou": "Ti segue",
+        "badge": "Badge {{badgeName}}",
+        "followButton": "Segui",
+        "unfollowButton": "Smetti di seguire",
+        "removeFriendButton": "Rimuovi amico",
+        "addFriendButton": "Aggiungi amico",
+        "pendingRequest": "Richiesta in corso",
+        "acceptRequestButton": "Accetta richiesta",
+        "messageButton": "Messaggio",
+        "blockButton": "Blocca",
+        "unblockButton": "Sblocca",
+        "reportButton": "Segnala",
+        "mutualFriends": "Amici in comune ({{count}})",
+        "mutualServers": "Server in comune ({{count}})",
+        "latestPost": "Ultimo post",
+        "postsTab": "Post",
+        "postsAndRepliesTab": "Post e risposte ({{count}})",
+        "likedPostsTab": "Post piaciuti ({{count}})",
+        "followersTab": "Follower",
+        "followingTab": "Seguiti",
+        "availableCommands": "Comandi disponibili",
+        "botCreator": "Creatore bot",
+        "suspended": "Questo utente è sospeso",
+        "expires": "Scade {{time}}.",
+        "expiresNever": "Non scade mai.",
+        "blocked": "Sei statə bloccatə",
+        "blockedDescription": "Questo utente ti ha bloccatə.",
+        "privateList": "Solo tu puoi vedere questa lista.",
+        "personal": {
+            "editProfile": "Modifica profilo"
+        }
     }
 }
