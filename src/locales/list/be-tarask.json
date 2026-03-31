@@ -758,9 +758,10 @@
                 "unauthorizeButton": "Дэаўтарызаваць",
                 "unauthorizing": "Дэаўтарызуем…"
             },
-            "googleDescription": "Калі далучыце свой уліковы запіс Google, вы зможаце запампоўваць файлы ў Nerimity. Файлы будуць захоўвацца на вашым Google Drive.",
+            "googleDescription": "Далучэньне вашага ўліковага запісу Google дазволіць вам хутка й лёгка ўваходзіць у свой уліковы запіс праз Google.",
             "linkButton": "Далучыць",
-            "unlinkButton": "Адлучыць"
+            "unlinkButton": "Адлучыць",
+            "googleDriveDescription": "Калі далучыце свой уліковы запіс Google, вы зможаце запампоўваць файлы ў Nerimity. Файлы будуць захоўвацца на вашым Google Drive."
         },
         "experiments": {
             "noExperiments": "Зараз няма экспэрымэнтаў.",
@@ -1381,5 +1382,9 @@
         "title": "Эмодзі",
         "defaultEmoji": "Стандартны эмодзі",
         "customEmoji": "Карыстальніцкі эмодзі"
+    },
+    "googleDriveAccountLink": {
+        "linking": "Злучаем ваш уліковы запіс з Google Drive…",
+        "success": "Уліковы запіс далучаны! Цяпер вы можаце закрыць гэтае акно."
     }
 }
