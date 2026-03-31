@@ -15,6 +15,7 @@ interface GetTicketsOpts {
   limit: number;
   afterId?: string;
   status?: TicketStatus;
+  includeIgnored?: boolean;
 }
 
 export const getModerationTickets = async (opts: GetTicketsOpts) => {
@@ -23,6 +24,7 @@ export const getModerationTickets = async (opts: GetTicketsOpts) => {
     params: {
       ...(opts.afterId ? { after: opts.afterId } : undefined),
       ...(opts.status !== undefined ? { status: opts.status } : undefined),
+      ...(opts.includeIgnored ? { includeIgnored: true } : undefined),
       limit: opts.limit
     },
     url: env.SERVER_URL + "/api/moderation/tickets",
@@ -47,6 +49,15 @@ export const updateModerationTicket = async (
     method: "POST",
     url: env.SERVER_URL + `/api/moderation/tickets/${id}`,
     body: { status },
+    useToken: true
+  });
+  return data;
+};
+
+export const muteTicket = async (id: string) => {
+  const data = await request<RawTicket>({
+    method: "POST",
+    url: env.SERVER_URL + `/api/moderation/tickets/${id}/mute`,
     useToken: true
   });
   return data;

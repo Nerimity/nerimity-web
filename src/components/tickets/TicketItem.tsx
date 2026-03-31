@@ -8,6 +8,11 @@ import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
+import Button from "../ui/Button";
+import { muteTicket } from "@/chat-api/services/ModerationService";
+import { toast } from "../ui/custom-portal/CustomPortal";
+import useTicket from "@/chat-api/store/UseTicket";
+import useAccount from "@/chat-api/store/useAccount";
 
 function NotificationCircle() {
   return (
@@ -61,9 +66,37 @@ export const TicketItem = (props: {
   ticket: RawTicket;
   disableClick?: boolean;
   as: "mod" | "user";
+  updateTicket: (ticket: RawTicket) => void;
 }) => {
+  const account = useAccount();
   const ticketStatus = () => TicketStatusToName(props.as)[props.ticket.status];
+  const { updateModerationTicketNotification } = useTicket();
 
+  let muteRequestSent = false;
+
+  const handleMuteClick = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (muteRequestSent) return;
+    muteRequestSent = true;
+    muteTicket(props.ticket.id)
+      .then(() => {
+        updateModerationTicketNotification();
+        props.updateTicket({
+          ...props.ticket,
+          ignoredByUsers: [
+            ...(props.ticket.ignoredByUsers || []),
+            { userId: account.user()!.id }
+          ]
+        });
+      })
+      .catch((err) => {
+        toast(err.message);
+      })
+      .finally(() => {
+        muteRequestSent = false;
+      });
+  };
   return (
     <Dynamic
       component={!props.disableClick ? CustomLink : "div"}
@@ -85,6 +118,31 @@ export const TicketItem = (props: {
           <StatusText bgColor={ticketStatus()?.color!}>
             {ticketStatus()?.text}
           </StatusText>
+          <Show
+            when={
+              props.as === "mod" &&
+              !props.ticket.ignoredByUsers?.find(
+                (i) => i.userId === account.user()!.id
+              )
+            }
+          >
+            <Button
+              label="Mute"
+              iconName="volume_off"
+              alert
+              padding={2}
+              iconSize={18}
+              onClick={handleMuteClick}
+              primary
+            />
+          </Show>{" "}
+          <Show
+            when={props.as === "mod" && props.ticket.ignoredByUsers?.length}
+          >
+            <Text size={12} opacity={0.4}>
+              Muted by {props.ticket.ignoredByUsers?.length} mod(s)
+            </Text>
+          </Show>
         </FlexRow>
         <FlexRow
           class={css`

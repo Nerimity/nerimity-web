@@ -287,6 +287,7 @@ export default function TicketPage() {
           <TicketItem
             as={isModeration() ? "mod" : "user"}
             ticket={ticket()!}
+            updateTicket={setTicket}
             disableClick={true}
           />
         </div>

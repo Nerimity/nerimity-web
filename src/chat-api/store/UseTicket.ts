@@ -18,7 +18,8 @@ const updateModerationTicketNotification = async () => {
 
   const tickets = await getModerationTickets({
     limit: 10,
-    status: TicketStatus.WAITING_FOR_MODERATOR_RESPONSE
+    status: TicketStatus.WAITING_FOR_MODERATOR_RESPONSE,
+    includeIgnored: false
   });
   setHasModerationTicketNotification(tickets.length);
 };

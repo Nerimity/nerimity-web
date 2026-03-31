@@ -38,7 +38,8 @@ const TicketsPage = () => {
         isModeration() ? getModerationTickets : getTickets
       )({
         limit: 30,
-        status: ticketSortStatus()
+        status: ticketSortStatus(),
+        includeIgnored: true
       });
       setTickets(tickets);
     })
@@ -96,7 +97,13 @@ const TicketsPage = () => {
       <FlexColumn gap={8}>
         <For each={tickets()}>
           {(ticket) => (
-            <TicketItem as={isModeration() ? "mod" : "user"} ticket={ticket} />
+            <TicketItem
+              updateTicket={(t) => {
+                setTickets((prev) => prev.map((x) => (x.id === t.id ? t : x)));
+              }}
+              as={isModeration() ? "mod" : "user"}
+              ticket={ticket}
+            />
           )}
         </For>
       </FlexColumn>

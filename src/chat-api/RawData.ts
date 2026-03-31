@@ -245,6 +245,7 @@ export interface RawTicket {
   openedBy?: RawUser;
   openedAt: Date;
   seen?: boolean;
+  ignoredByUsers?: { userId: string }[];
 }
 
 export interface RawChannel {
