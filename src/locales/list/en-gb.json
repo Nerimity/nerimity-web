@@ -736,7 +736,8 @@
         "unauthorizeButton": "Unauthorise",
         "unauthorizing": "Un-authorising…"
       },
-      "googleDescription": "Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive.",
+      "googleDriveDescription": "Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive.",
+      "googleDescription": "Linking your Google account will allow you to login using Google quickly and easily.",
       "linkButton": "Link",
       "unlinkButton": "Unlink"
     },
@@ -1167,8 +1168,12 @@
     "addButton": "Add bot",
     "permissions": "Bot Permissions"
   },
+  "googleDriveAccountLink": {
+    "linking": "Linking your account with Google Drive…",
+    "success": "Account linked! You may now close this window."
+  },
   "googleAccountLink": {
-    "linking": "Linking your account with Google…",
+    "linking": "Linking your account with Google",
     "success": "Account linked! You may now close this window."
   },
   "invite": {

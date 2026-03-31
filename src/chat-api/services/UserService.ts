@@ -15,12 +15,49 @@ import { Presence } from "../store/useUsers";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 
-export async function createGoogleAccountLink(): Promise<string> {
+export async function createGoogleDriveAccountLink() {
   return request({
-    url: env.SERVER_URL + "/api/google/create-link",
+    url: env.SERVER_URL + "/api/connections/google-drive/create-link",
     method: "GET",
     notJSON: true,
     useToken: true
+  });
+}
+
+export async function createGoogleAccountLink(
+  login?: boolean
+): Promise<string> {
+  return request({
+    url: env.SERVER_URL + "/api/connections/google/create-link",
+    params: login ? { login } : undefined,
+    method: "GET",
+    notJSON: true,
+    useToken: true
+  });
+}
+
+export async function unlinkAccountWithGoogle(): Promise<{
+  status: boolean;
+}> {
+  return request({
+    url: env.SERVER_URL + "/api/connections/google/unlink-account",
+    method: "POST",
+    useToken: true
+  });
+}
+
+export async function linkAccountWithGoogle(
+  code: string,
+  nerimityUserToken: string
+): Promise<{ connection: RawUserConnection }> {
+  return request({
+    url: env.SERVER_URL + "/api/connections/google/link-account",
+    method: "POST",
+    body: {
+      code,
+      nerimityToken: nerimityUserToken
+    },
+    useToken: false
   });
 }
 
@@ -38,16 +75,16 @@ export async function fetchInventory() {
   return request<RawInventoryItem[]>({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("inventory"),
     method: "GET",
-    useToken: true,
+    useToken: true
   });
 }
 
-export async function linkAccountWithGoogle(
+export async function linkAccountWithGoogleDrive(
   code: string,
   nerimityUserToken: string
 ): Promise<{ connection: RawUserConnection }> {
   return request({
-    url: env.SERVER_URL + "/api/google/link-account",
+    url: env.SERVER_URL + "/api/connections/google-drive/link-account",
     method: "POST",
     body: {
       code,
@@ -56,17 +93,21 @@ export async function linkAccountWithGoogle(
     useToken: false
   });
 }
-export async function unlinkAccountWithGoogle(): Promise<{ status: boolean }> {
+export async function unlinkAccountWithGoogleDrive(): Promise<{
+  status: boolean;
+}> {
   return request({
-    url: env.SERVER_URL + "/api/google/unlink-account",
+    url: env.SERVER_URL + "/api/connections/google-drive/unlink-account",
     method: "POST",
     useToken: true
   });
 }
 
-export async function getGoogleAccessToken(): Promise<{ accessToken: string }> {
+export async function getGoogleDriveAccessToken(): Promise<{
+  accessToken: string;
+}> {
   return request({
-    url: env.SERVER_URL + "/api/google/access-token",
+    url: env.SERVER_URL + "/api/connections/google-drive/access-token",
     method: "GET",
     useToken: true
   });
@@ -124,7 +165,8 @@ export async function verifyEmailConfirmCode(
 // error returns {path?, message}
 export async function loginRequest(
   email: string,
-  password: string
+  password: string,
+  googleCode?: string
 ): Promise<{ token: string }> {
   const isUsernameAndTag = email.includes(":");
   return request({
@@ -132,7 +174,8 @@ export async function loginRequest(
     method: "POST",
     body: {
       ...(isUsernameAndTag ? { usernameAndTag: email } : { email }),
-      password
+      password,
+      ...(googleCode ? { googleCode } : {})
     }
   });
 }

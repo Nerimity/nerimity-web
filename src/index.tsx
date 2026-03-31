@@ -146,8 +146,11 @@ const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const TermsAndConditionsPage = lazy(
   () => import("./pages/TermsAndConditionsPage")
 );
-const GoogleRedirectLinkAccount = lazy(
+const GoogleRedirectLinkAccountPage = lazy(
   () => import("./pages/GoogleRedirectLinkAccountPage")
+);
+const GoogleDriveRedirectLinkAccountPage = lazy(
+  () => import("./pages/GoogleDriveRedirectLinkAccountPage")
 );
 
 const TicketsPage = lazy(() => import("./components/tickets/TicketsPage"));
@@ -401,8 +404,12 @@ render(
             component={TermsAndConditionsPage}
           />
           <Route
-            path="/google-redirect"
-            component={GoogleRedirectLinkAccount}
+            path="/connections/google-drive-redirect"
+            component={GoogleDriveRedirectLinkAccountPage}
+          />
+          <Route
+            path="/connections/google-redirect"
+            component={GoogleRedirectLinkAccountPage}
           />
           <Route path="/i/:inviteId" component={InviteRedirect} />
           <Route path="/p/:postId" component={PostRedirect} />

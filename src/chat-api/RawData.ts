@@ -186,7 +186,7 @@ export interface RawUser {
 
 export interface RawUserConnection {
   id: string;
-  provider: "GOOGLE";
+  provider: "GOOGLE" | "GOOGLE_DRIVE";
   connectedAt: number;
 }
 

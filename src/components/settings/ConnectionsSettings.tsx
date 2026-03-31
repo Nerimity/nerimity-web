@@ -10,7 +10,9 @@ import SettingsBlock, {
 import Button from "../ui/Button";
 import {
   createGoogleAccountLink,
-  unlinkAccountWithGoogle
+  createGoogleDriveAccountLink,
+  unlinkAccountWithGoogle,
+  unlinkAccountWithGoogleDrive
 } from "@/chat-api/services/UserService";
 import {
   OAuth2AuthorizedApplication,
@@ -54,6 +56,7 @@ export default function ConnectionsSettings() {
 function Connections() {
   return (
     <>
+      <GoogleDriveLink />
       <GoogleLink />
     </>
   );
@@ -146,9 +149,54 @@ const ThirdPartyConnectionItem = (props: {
   );
 };
 
+function GoogleDriveLink() {
+  const { account } = useStore();
+  const isGoogleDriveConnected = () =>
+    account.user()?.connections?.find((c) => c.provider === "GOOGLE_DRIVE");
+
+  const linkGoogle = () => {
+    createGoogleDriveAccountLink()
+      .then((url) => {
+        window.open(url, "_blank");
+      })
+      .catch((err) => {
+        toast(err.message);
+      });
+  };
+  const unlinkGoogle = async () => {
+    await unlinkAccountWithGoogleDrive().catch((err) => {
+      toast(err.message);
+    });
+  };
+
+  return (
+    <SettingsBlock
+      iconSrc="/assets/Google.svg"
+      label="Google Drive"
+      description={t("settings.connections.googleDriveDescription")}
+    >
+      <Show when={!isGoogleDriveConnected()}>
+        <Button
+          label={t("settings.connections.linkButton")}
+          iconName="link"
+          onClick={linkGoogle}
+        />
+      </Show>
+      <Show when={isGoogleDriveConnected()}>
+        <Button
+          label={t("settings.connections.unlinkButton")}
+          color="var(--alert-color)"
+          iconName="link_off"
+          onClick={unlinkGoogle}
+        />
+      </Show>
+    </SettingsBlock>
+  );
+}
+
 function GoogleLink() {
   const { account } = useStore();
-  const isConnected = () =>
+  const isGoogleConnected = () =>
     account.user()?.connections?.find((c) => c.provider === "GOOGLE");
 
   const linkGoogle = () => {
@@ -172,14 +220,14 @@ function GoogleLink() {
       label="Google"
       description={t("settings.connections.googleDescription")}
     >
-      <Show when={!isConnected()}>
+      <Show when={!isGoogleConnected()}>
         <Button
           label={t("settings.connections.linkButton")}
           iconName="link"
           onClick={linkGoogle}
         />
       </Show>
-      <Show when={isConnected()}>
+      <Show when={isGoogleConnected()}>
         <Button
           label={t("settings.connections.unlinkButton")}
           color="var(--alert-color)"

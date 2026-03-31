@@ -4,7 +4,7 @@ import { FlexColumn } from "@/components/ui/Flexbox";
 import PageFooter from "@/components/PageFooter";
 import { useSearchParams } from "solid-navigator";
 import { Show, createSignal, onMount } from "solid-js";
-import { linkAccountWithGoogle } from "@/chat-api/services/UserService";
+import { linkAccountWithGoogleDrive } from "@/chat-api/services/UserService";
 import Text from "@/components/ui/Text";
 
 import { useTransContext } from "@nerimity/solid-i18lite";
@@ -36,7 +36,7 @@ const CenterContainer = styled(FlexColumn)`
   text-align: center;
 `;
 
-export default function GoogleRedirectLinkAccountPage() {
+export default function GoogleDriveRedirectLinkAccountPage() {
   const [t] = useTransContext();
   const [searchParams] = useSearchParams<{ state: string; code: string }>();
   const [error, setError] = createSignal("");
@@ -46,9 +46,11 @@ export default function GoogleRedirectLinkAccountPage() {
     const code = searchParams.code;
     const userToken = searchParams.state;
 
-    const res = await linkAccountWithGoogle(code!, userToken!).catch((err) => {
-      setError(err.message);
-    });
+    const res = await linkAccountWithGoogleDrive(code!, userToken!).catch(
+      (err) => {
+        setError(err.message);
+      }
+    );
 
     if (!res) return;
     if (res.connection) {
@@ -61,7 +63,7 @@ export default function GoogleRedirectLinkAccountPage() {
       <PageHeader hideAccountInfo />
       <Content class="content">
         <CenterContainer>
-          {t("googleAccountLink.linking")}
+          {t("googleDriveAccountLink.linking")}
           <Show when={error()}>
             <Text color="var(--alert-color)">{error()}</Text>
           </Show>

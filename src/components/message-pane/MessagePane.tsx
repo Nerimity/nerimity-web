@@ -403,7 +403,7 @@ function MessageArea(props: {
       const shouldUploadToGoogleDrive = attachment.uploadTo === "google_drive";
       if (
         shouldUploadToGoogleDrive &&
-        !account.user()?.connections.find((c) => c.provider === "GOOGLE")
+        !account.user()?.connections.find((c) => c.provider === "GOOGLE_DRIVE")
       ) {
         createPortal((close) => <GoogleDriveLinkModal close={close} />);
         return;

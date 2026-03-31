@@ -10,7 +10,7 @@ import socketClient from "../socketClient";
 import useAccount from "./useAccount";
 import useChannelProperties from "./useChannelProperties";
 import useChannels from "./useChannels";
-import { getGoogleAccessToken } from "../services/UserService";
+import { getGoogleDriveAccessToken } from "../services/UserService";
 import { uploadFileGoogleDrive } from "@/common/driveAPI";
 import { batch } from "solid-js";
 import { uploadAttachment } from "../services/nerimityCDNService";
@@ -243,7 +243,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   let googleDriveFileId: string | undefined;
   if (file && shouldUploadToGoogleDrive) {
     try {
-      const accessToken = await getGoogleAccessToken();
+      const accessToken = await getGoogleDriveAccessToken();
       const res = await uploadFileGoogleDrive(
         file,
         accessToken.accessToken,

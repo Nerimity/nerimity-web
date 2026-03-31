@@ -1,12 +1,15 @@
 import Input from "@/components/ui/input/Input";
-import { loginRequest } from "../chat-api/services/UserService";
+import {
+  createGoogleAccountLink,
+  loginRequest
+} from "../chat-api/services/UserService";
 import Button from "@/components/ui/Button";
 import {
   getStorageString,
   setStorageString,
   StorageKeys
 } from "../common/localStorage";
-import { A, useNavigate, useLocation } from "solid-navigator";
+import { A, useNavigate, useLocation, useSearchParams } from "solid-navigator";
 import { createSignal, onMount, Show } from "solid-js";
 import PageHeader from "../components/PageHeader";
 import { css, styled } from "solid-styled-components";
@@ -53,6 +56,8 @@ const linkStyle = css`
 `;
 
 export default function LoginPage() {
+  const [searchParams] = useSearchParams<{ state: string; code: string }>();
+
   const [t] = useTransContext();
   const location = useLocation();
   const navigate = useNavigate();
@@ -65,9 +70,15 @@ export default function LoginPage() {
     if (getStorageString(StorageKeys.USER_TOKEN, null)) {
       navigate("/app", { replace: true });
     }
+    if (searchParams.code) {
+      loginClicked(undefined, searchParams.code);
+    }
   });
 
-  const loginClicked = async (event?: SubmitEvent | MouseEvent) => {
+  const loginClicked = async (
+    event?: SubmitEvent | MouseEvent,
+    googleCode?: string
+  ) => {
     event?.preventDefault();
     const redirectTo = location.query.redirect || "/app";
     if (requestSent()) return;
@@ -75,7 +86,8 @@ export default function LoginPage() {
     setError({ message: "", path: "" });
     const response = await loginRequest(
       email().trim(),
-      password().trim()
+      password().trim(),
+      googleCode
     ).catch((err) => {
       setError({ message: err.message, path: err.path || "unk" });
     });
@@ -83,6 +95,12 @@ export default function LoginPage() {
     if (!response) return;
     setStorageString(StorageKeys.USER_TOKEN, response.token);
     navigate(redirectTo);
+  };
+
+  const handleLoginWithGoogle = async () => {
+    createGoogleAccountLink(true).then((link) => {
+      window.location.href = link;
+    });
   };
 
   return (
@@ -130,6 +148,19 @@ export default function LoginPage() {
               onClick={loginClicked}
             />
           </form>
+          <Button
+            customChildrenLeft={
+              <img
+                src="/assets/Google.svg"
+                width="20px"
+                style={{ "margin-right": "10px" }}
+              />
+            }
+            onclick={handleLoginWithGoogle}
+            label="Login with Google"
+            margin={[10, 0, 0, 0]}
+            padding={8}
+          />
           <A class={linkStyle} href="/reset-password">
             {t("resetPassword.resetPasswordButton")}
           </A>
