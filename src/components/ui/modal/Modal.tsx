@@ -67,6 +67,7 @@ const Root = (props: RootProps) => {
   const onBackgroundClick = (event: MouseEvent) => {
     if (props.doNotCloseOnBackgroundClick) return;
     if (event.target !== event.currentTarget) return;
+    event.stopImmediatePropagation();
 
     const xDistance = Math.abs(startClick.x - event.clientX);
     const yDistance = Math.abs(startClick.y - event.clientY);
