@@ -60,7 +60,9 @@ body .customStatusInput {
     border-radius: 50%;
     color: white;
     background-color: rgba(53, 53, 53, 0.6);
-    transition: 0.2s;
+    transition:
+      opacity 0.2s,
+      background-color 0.2s;
     corner-shape: squircle;
     &.selected {
       background-color: var(--primary-color);

@@ -125,7 +125,13 @@ function HomeItem(props: { size: number }) {
         >
           <NotificationCountBadge count={count()} top={10} right={10} />
 
-          <div class={cn(style.homeLogo, isSelected() && style.selected)}>
+          <div
+            style={{
+              height: props.size - props.size * 0.378 + "px",
+              width: props.size - props.size * 0.378 + "px"
+            }}
+            class={cn(style.homeLogo, isSelected() && style.selected)}
+          >
             <LogoMono />
           </div>
 
