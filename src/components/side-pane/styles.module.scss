@@ -47,6 +47,32 @@ body .customStatusInput {
   }
 }
 
+.homeItem {
+  &:hover {
+    .homeLogo {
+      opacity: 0.8;
+      background-color: var(--primary-color);
+    }
+  }
+  .homeLogo {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: white;
+    background-color: rgba(53, 53, 53, 0.6);
+    transition:
+      opacity 0.2s,
+      background-color 0.2s;
+    corner-shape: squircle;
+    &.selected {
+      background-color: var(--primary-color);
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
 .scrollable::-webkit-scrollbar {
   display: none;
 }

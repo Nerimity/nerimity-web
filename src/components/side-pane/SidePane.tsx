@@ -33,6 +33,8 @@ import { userDetailsPreloader } from "@/common/createPreloader";
 import { useDrawer } from "../ui/drawer/Drawer";
 import { InboxList } from "./InboxList";
 import { useTransContext } from "@nerimity/solid-i18lite";
+import { LogoMono } from "../../LogoMono";
+import { SideBarHomeContextMenu, sideHomeIcon } from "./SideBarHomeContextMenu";
 
 export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;
@@ -98,6 +100,7 @@ export default function SidePane(props: { class?: string }) {
 function HomeItem(props: { size: number }) {
   const { friends } = useStore();
   const [t] = useTransContext();
+  const [contextPos, setContextPos] = createSignal<{ x: number; y: number }>();
 
   const location = useLocation();
   const isSelected = () => {
@@ -115,14 +118,45 @@ function HomeItem(props: { size: number }) {
   const count = () => friendRequestCount();
 
   return (
-    <Tooltip tooltip={t("sidePane.home")}>
-      <A href="/app" style={{ "text-decoration": "none" }}>
-        <SidebarItemContainer selected={isSelected()} alert={count()}>
-          <NotificationCountBadge count={count()} top={10} right={10} />
-          <Icon name="home" size={props.size - props.size * 0.6308} />
-        </SidebarItemContainer>
-      </A>
-    </Tooltip>
+    <>
+      <Tooltip tooltip={t("sidePane.home")}>
+        <A href="/app" style={{ "text-decoration": "none" }}>
+          <SidebarItemContainer
+            class={style.homeItem}
+            selected={isSelected()}
+            alert={count()}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              setContextPos({ x: e.clientX, y: e.clientY });
+            }}
+          >
+            <NotificationCountBadge count={count()} top={10} right={10} />
+
+            <Show when={sideHomeIcon() === "default"}>
+              <div
+                style={{
+                  height: props.size - props.size * 0.378 + "px",
+                  width: props.size - props.size * 0.378 + "px"
+                }}
+                class={cn(style.homeLogo, isSelected() && style.selected)}
+              >
+                <LogoMono />
+              </div>
+            </Show>
+
+            <Show when={sideHomeIcon() == "legacy"}>
+              <Icon name="home" size={props.size - props.size * 0.6308} />
+            </Show>
+          </SidebarItemContainer>
+        </A>
+      </Tooltip>
+      <Show when={contextPos()}>
+        <SideBarHomeContextMenu
+          position={contextPos()}
+          onClose={() => setContextPos(undefined)}
+        />
+      </Show>
+    </>
   );
 }
 
@@ -176,7 +210,11 @@ function ModerationItem(props: { size: number }) {
         <A href="/app/moderation" style={{ "text-decoration": "none" }}>
           <SidebarItemContainer selected={selected()}>
             <Show when={tickets.hasModerationTicketNotification()}>
-              <NotificationCountBadge count={tickets.hasModerationTicketNotification()} top={5} right={10} />
+              <NotificationCountBadge
+                count={tickets.hasModerationTicketNotification()}
+                top={5}
+                right={10}
+              />
             </Show>
             <Icon name="security" size={props.size - props.size * 0.6308} />
           </SidebarItemContainer>
