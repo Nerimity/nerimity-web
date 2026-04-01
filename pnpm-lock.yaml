@@ -34,6 +34,9 @@ importers:
       '@fontsource/dancing-script':
         specifier: ^5.2.8
         version: 5.2.8
+      '@fontsource/finger-paint':
+        specifier: ^5.2.8
+        version: 5.2.8
       '@fontsource/grandstander':
         specifier: ^5.2.7
         version: 5.2.7
@@ -617,6 +620,9 @@ packages:
 
   '@fontsource/dancing-script@5.2.8':
     resolution: {integrity: sha512-zHVVgIQ5/rAIM0VVp1QMsqvJm9INHO5/C82E9rHT6NlabjaPTFYn8wl9lT4vPWizfB0TublGQM1999kfdA+XFA==}
+
+  '@fontsource/finger-paint@5.2.8':
+    resolution: {integrity: sha512-RUN6NFBR3HJsBRDK0+E3SdcvQMxK4N5mIsm5TzD6thVmnuaPx3MuVOHRBooqT/aEYovBErpdiBG2JzI8bl+OKA==}
 
   '@fontsource/grandstander@5.2.7':
     resolution: {integrity: sha512-SBO1jNrp3dBswtIy5LDg4nd8yC9oS1Thq9IvbigYxcWv411UdhiNtWRG44awoPuH9g9hs8KuCQKZ/ZBjEPIWUw==}
@@ -2779,6 +2785,8 @@ snapshots:
       levn: 0.4.1
 
   '@fontsource/dancing-script@5.2.8': {}
+
+  '@fontsource/finger-paint@5.2.8': {}
 
   '@fontsource/grandstander@5.2.7': {}
 

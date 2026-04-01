@@ -72,6 +72,13 @@ export const Fonts: Font[] = [
     class: "font-roboto-slab",
     import: () => import("@fontsource/roboto-slab/latin-400.css"),
     scale: 0.9
+  },
+  {
+    id: 9,
+    name: "Finger Paint",
+    class: "font-finger-paint",
+    import: () => import("@fontsource/finger-paint/latin-400.css"),
+    scale: 1
   }
 ];
 
