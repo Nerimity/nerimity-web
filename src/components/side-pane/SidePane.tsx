@@ -33,6 +33,7 @@ import { userDetailsPreloader } from "@/common/createPreloader";
 import { useDrawer } from "../ui/drawer/Drawer";
 import { InboxList } from "./InboxList";
 import { useTransContext } from "@nerimity/solid-i18lite";
+import { LogoMono } from "../../LogoMono";
 
 export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;
@@ -117,9 +118,18 @@ function HomeItem(props: { size: number }) {
   return (
     <Tooltip tooltip={t("sidePane.home")}>
       <A href="/app" style={{ "text-decoration": "none" }}>
-        <SidebarItemContainer selected={isSelected()} alert={count()}>
+        <SidebarItemContainer
+          class={style.homeItem}
+          selected={isSelected()}
+          alert={count()}
+        >
           <NotificationCountBadge count={count()} top={10} right={10} />
-          <Icon name="home" size={props.size - props.size * 0.6308} />
+
+          <div class={cn(style.homeLogo, isSelected() && style.selected)}>
+            <LogoMono />
+          </div>
+
+          {/* <Icon name="home" size={props.size - props.size * 0.6308} /> */}
         </SidebarItemContainer>
       </A>
     </Tooltip>
@@ -176,7 +186,11 @@ function ModerationItem(props: { size: number }) {
         <A href="/app/moderation" style={{ "text-decoration": "none" }}>
           <SidebarItemContainer selected={selected()}>
             <Show when={tickets.hasModerationTicketNotification()}>
-              <NotificationCountBadge count={tickets.hasModerationTicketNotification()} top={5} right={10} />
+              <NotificationCountBadge
+                count={tickets.hasModerationTicketNotification()}
+                top={5}
+                right={10}
+              />
             </Show>
             <Icon name="security" size={props.size - props.size * 0.6308} />
           </SidebarItemContainer>

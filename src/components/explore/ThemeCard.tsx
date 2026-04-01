@@ -48,6 +48,7 @@ export default function ThemeCard(props: {
         </For>
       </div>
       <Button
+        color={theme().colors["primary-color"]}
         label={t("settings.interface.apply")}
         onClick={() => applyTheme(props.name, props.themeObj)}
       />
