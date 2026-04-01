@@ -294,7 +294,11 @@
         "sort": "Ordina",
         "filter": "Filtra",
         "by": "Da",
-        "bumped": "Bumpati"
+        "bumped": "Bumpati",
+        "bumpModal": {
+            "title": "Bumpa {{name}}",
+            "bumpButton": "Bumpa"
+        }
     },
     "remindersModal": {
         "snoozeFor5Minutes": "Sospendi per 5 minuti",
@@ -732,9 +736,10 @@
                 "unauthorizeButton": "Rimuovi autorizzazione",
                 "unauthorizing": "Rimozione dell'autorizzazione…"
             },
-            "googleDescription": "Collegare il tuo account Google ti permetterà di caricare file su Nerimity. I file saranno salvati sul tuo Google Drive.",
+            "googleDescription": "Collegare il tuo account Google ti permetterà di accedere velocemente e facilmente usando Google.",
             "linkButton": "Collega",
-            "unlinkButton": "Scollega"
+            "unlinkButton": "Scollega",
+            "googleDriveDescription": "Collegare il tuo account Google ti permetterà di caricare file su Nerimity. I file saranno salvati sul tuo Google Drive."
         },
         "interface": {
             "customCSS": "CSS personalizzato",
