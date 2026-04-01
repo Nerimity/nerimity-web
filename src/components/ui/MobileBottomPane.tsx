@@ -1,5 +1,5 @@
 import style from "./MobileBottomPane.module.scss";
-import { Show } from "solid-js";
+import { createSignal, JSX, Show } from "solid-js";
 import { useDrawer } from "./drawer/Drawer";
 import Icon from "./icon/Icon";
 import ItemContainer from "./LegacyItem";
@@ -16,6 +16,11 @@ import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorM
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 
 import { useTransContext } from "@nerimity/solid-i18lite";
+import { LogoMono } from "../../LogoMono";
+import {
+  SideBarHomeContextMenu,
+  sideHomeIcon
+} from "../side-pane/SideBarHomeContextMenu";
 
 export default function MobileBottomPane() {
   const drawer = useDrawer();
@@ -42,6 +47,7 @@ export default function MobileBottomPane() {
 function HomeItem() {
   const { friends } = useStore();
   const [t] = useTransContext();
+  const [contextPos, setContextPos] = createSignal<{ x: number; y: number }>();
 
   const location = useLocation();
   const isSelected = () => {
@@ -58,13 +64,34 @@ function HomeItem() {
   const count = () => friendRequestCount();
 
   return (
-    <AnchorItem
-      selected={isSelected()}
-      title={t("sidePane.homeShort")}
-      icon="home"
-      href="/app"
-      notify={count() ? { count: count(), top: 3, right: 16 } : undefined}
-    />
+    <>
+      <AnchorItem
+        class={style.homeItem}
+        selected={isSelected()}
+        title={t("sidePane.homeShort")}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setContextPos({ x: e.clientX, y: e.clientY });
+        }}
+        icon={
+          sideHomeIcon() === "default" ? (
+            <div class={cn(style.homeLogo, isSelected() && style.selected)}>
+              <LogoMono />
+            </div>
+          ) : (
+            "home"
+          )
+        }
+        href="/app"
+        notify={count() ? { count: count(), top: 3, right: 16 } : undefined}
+      />
+      <Show when={contextPos()}>
+        <SideBarHomeContextMenu
+          position={contextPos()}
+          onClose={() => setContextPos(undefined)}
+        />
+      </Show>
+    </>
   );
 }
 function SettingsItem() {
@@ -99,7 +126,11 @@ function ModerationItem() {
         selected={!!selected()}
         notify={
           tickets.hasModerationTicketNotification()
-            ? { top: 3, right: 16, count: tickets.hasModerationTicketNotification() }
+            ? {
+                top: 3,
+                right: 16,
+                count: tickets.hasModerationTicketNotification()
+              }
             : undefined
         }
       />
@@ -109,7 +140,7 @@ function ModerationItem() {
 
 interface ItemProps {
   title?: string;
-  icon?: string;
+  icon?: string | JSX.Element;
   selected?: boolean;
   notify?: {
     count?: number | string;
@@ -127,16 +158,31 @@ function Item(props: ItemProps) {
       selected={props.selected}
     >
       <Notify notify={props.notify} />
-      <Icon name={props.icon} size={22} />
+      <Show when={typeof props.icon === "string"}>
+        <Icon name={props.icon as string} size={22} />
+      </Show>
+      <Show when={typeof props.icon === "object" && props.icon !== null}>
+        {props.icon}
+      </Show>
       {props.title}
     </ItemContainer>
   );
 }
 
-function AnchorItem(props: ItemProps & { href: string }) {
+function AnchorItem(
+  props: ItemProps & {
+    href: string;
+    class?: string;
+    onContextMenu?: (e: MouseEvent) => void;
+  }
+) {
   const selected = useMatch(() => props.href);
   return (
-    <CustomLink href={props.href} class={style.anchor}>
+    <CustomLink
+      onContextMenu={props.onContextMenu}
+      href={props.href}
+      class={cn(style.anchor, props.class)}
+    >
       <Item selected={!!selected()} {...props} />
     </CustomLink>
   );
