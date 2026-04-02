@@ -112,7 +112,10 @@
         "by": "Par",
         "bumped": "Bump",
         "sort": "Trier",
-        "filter": "Filtrer"
+        "filter": "Filtrer",
+        "bumpModal": {
+            "bumpButton": "Bump"
+        }
     },
     "servers": {
         "settings": {
@@ -534,7 +537,8 @@
             },
             "googleDescription": "Lier votre compte Google vous permettra de télécharger des fichiers dans Nerimity. Ces fichiers seront stockés sur votre Google Drive.",
             "linkButton": "Lien",
-            "unlinkButton": "Dissocier"
+            "unlinkButton": "Dissocier",
+            "googleDriveDescription": "Lier votre compte Google vous permettra de télécharger des fichiers sur Nerimity. Les fichiers seront stockés dans votre Google Drive."
         },
         "interface": {
             "customCSS": "CSS personnalisé",
@@ -1228,7 +1232,7 @@
         "sortOldest": "Le plus ancien"
     },
     "googleAccountLink": {
-        "linking": "Association de votre compte à Google…",
+        "linking": "Lier votre compte à Google",
         "success": "Compte lié ! Vous pouvez maintenant fermer cette fenêtre."
     },
     "deleteMessageModal": {
@@ -1377,5 +1381,9 @@
         "title": "Emoji",
         "defaultEmoji": "Émoji par défaut",
         "customEmoji": "Émojis personnalisés"
+    },
+    "googleDriveAccountLink": {
+        "linking": "Associer votre compte à Google Drive…",
+        "success": "Compte lié ! Vous pouvez maintenant fermer cette fenêtre."
     }
 }
