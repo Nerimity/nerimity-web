@@ -13,6 +13,7 @@ import { appLogoUrl } from "@/common/worldEvents";
 import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
 import { Emoji } from "./markup/Emoji";
 import { JSXElement } from "solid-js";
+import { LogoMono } from "../LogoMono";
 
 const FooterContainer = styled(FlexRow)`
   gap: 10px;
@@ -36,6 +37,17 @@ const SocialIcon = styled("img")`
     filter: grayscale(15%);
     opacity: 100%;
   }
+`;
+const NerimityIcon = styled("svg")`
+width: 28px;
+height: 28px;
+filter: grayscale(100%);
+opacity: 65%;
+transition: 0.2s;
+&:hover {
+  filter: grayscale(15%);
+  opacity: 100%;
+}
 `;
 
 const socialLinkStyle = css`
@@ -64,11 +76,13 @@ export default function PageFooter() {
         <SocialLinks>
           <CustomLink
             class={socialLinkStyle}
-            href="/i/nerimity"
+            href="https://nerimity.com/i/nerimity"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <SocialIcon src={appLogoUrl()} alt="nerimity" />
+            <NerimityIcon>
+              <LogoMono />
+            </NerimityIcon>
           </CustomLink>
           <CustomLink
             class={socialLinkStyle}
@@ -88,11 +102,59 @@ export default function PageFooter() {
           </CustomLink>
           <CustomLink
             class={socialLinkStyle}
-            href="https://ko-fi.com/supertiger"
+            href="https://bsky.app/profile/nerimity.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <SocialIcon src={"/assets/kofi.svg"} alt="ko-fi" />
+            <SocialIcon src={"/assets/bluesky.svg"} alt="bluesky" />
+          </CustomLink>
+          <CustomLink
+            class={socialLinkStyle}
+            href="https://mastodon.social/@nerimity"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <SocialIcon src={"/assets/mastodon.svg"} alt="mastodon" />
+          </CustomLink>
+          <CustomLink
+            class={socialLinkStyle}
+            href="https://www.reddit.com/r/nerimitychat"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <SocialIcon src={"/assets/reddit.svg"} alt="reddit" />
+          </CustomLink>
+          <CustomLink
+            class={socialLinkStyle}
+            href="https://www.threads.com/@nerimity"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <SocialIcon src={"/assets/threads.svg"} alt="threads" />
+          </CustomLink>
+          <CustomLink
+            class={socialLinkStyle}
+            href="https://www.youtube.com/@Nerimity"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <SocialIcon src={"/assets/youtube.svg"} alt="youtube" />
+          </CustomLink>
+          <CustomLink
+            class={socialLinkStyle}
+            href="https://www.producthunt.com/posts/nerimity"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <SocialIcon src={"/assets/producthunt.svg"} alt="product hunt" />
+          </CustomLink>
+          <CustomLink
+            class={socialLinkStyle}
+            href="https://supertigerdev.itch.io/nerimity"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <SocialIcon src={"/assets/itchio.svg"} alt="itchio" />
           </CustomLink>
         </SocialLinks>
       </FlexRow>
