@@ -70,11 +70,16 @@ import {
   onVoiceUserJoined,
   onVoiceUserLeft
 } from "./events/voiceEvents";
+import { reactNativeAPI, ReactSocketIO } from "@/common/ReactNative";
+import { isExperimentEnabled } from "@/common/experiments";
 
-const socket = io(env.WS_URL || env.SERVER_URL, {
-  transports: ["websocket"],
-  autoConnect: false
-});
+const socket =
+  reactNativeAPI()?.isReactNative && isExperimentEnabled("RN_NATIVE_WS")()
+    ? new ReactSocketIO(env.WS_URL || env.SERVER_URL)
+    : io(env.WS_URL || env.SERVER_URL, {
+        transports: ["websocket"],
+        autoConnect: false
+      });
 
 let token: undefined | string;
 

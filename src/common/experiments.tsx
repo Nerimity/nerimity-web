@@ -6,6 +6,7 @@ export interface Experiment {
   name: string;
   description?: string;
   electron?: boolean;
+  reactNative?: boolean;
   reloadRequired?: boolean;
   onToggle?: () => void;
 }
@@ -22,6 +23,13 @@ export const Experiments = [
     name: "WebSocket Zstandard Compression",
     description:
       "Compress some events with Zstandard compression. This can reduce bandwidth usage."
+  },
+  {
+    id: "RN_NATIVE_WS",
+    name: "React Native Native WebSocket",
+    reactNative: true,
+    description:
+      "Use the socket.io in react native instead of webview. Will be needed for native WebRTC for stable video calls on the mobile app."
   }
 ] as const;
 

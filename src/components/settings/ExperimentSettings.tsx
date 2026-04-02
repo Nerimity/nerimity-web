@@ -13,6 +13,7 @@ import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 
 import { useTransContext } from "@nerimity/solid-i18lite";
+import { reactNativeAPI } from "@/common/ReactNative";
 
 const Container = styled("div")`
   display: flex;
@@ -63,6 +64,9 @@ const ExperimentItem = (props: { experiment: Experiment }) => {
   );
   const disabled = () => {
     if (props.experiment.electron && !electronWindowAPI()?.isElectron) {
+      return true;
+    }
+    if (props.experiment.reactNative && !reactNativeAPI()?.isReactNative) {
       return true;
     }
     return false;
