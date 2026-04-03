@@ -1169,10 +1169,10 @@ const GoogleDriveVideoEmbed = (props: { attachment: RawAttachment }) => {
 
   createEffect(async () => {
     if (!googleApiInitialized()) return;
-    const file = await getFile(props.attachment.fileId!, "*").catch((e) =>
-      console.log(e)
-    );
-    console.log(file);
+    const file = await getFile(
+      props.attachment.fileId!,
+      "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata"
+    ).catch((e) => console.log(e));
 
     if (!file) return setError(t("fileEmbed.videoEmbed.couldNotGetVideo"));
     if (file.mimeType !== props.attachment.mime)
