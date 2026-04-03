@@ -122,7 +122,11 @@
         "sort": "Classificar",
         "filter": "Filtrar",
         "by": "Por",
-        "bumped": "Impulsionado"
+        "bumped": "Impulsionado",
+        "bumpModal": {
+            "title": "Impulsionar ({{name}})",
+            "bumpButton": "Impulsionar"
+        }
     },
     "servers": {
         "settings": {
@@ -641,7 +645,7 @@
             }
         },
         "connections": {
-            "googleDescription": "Conectar a sua conta Google irá lhe permitir que envie arquivos no Nerimity. Arquivos serão armazenados em seu Google Drive.",
+            "googleDescription": "Ao vincular sua conta do Google, você poderá fazer login usando o Google de forma rápida e fácil.",
             "thirdParty": {
                 "unauthorizeButton": "Desautorizar",
                 "unauthorizing": "Desautorizando…",
@@ -649,7 +653,8 @@
                 "title": "Conexões de terceiros"
             },
             "linkButton": "Conectar",
-            "unlinkButton": "Desconenctar"
+            "unlinkButton": "Desconenctar",
+            "googleDriveDescription": "Ao vincular sua conta do Google, você poderá enviar arquivos no Nerimity. Os arquivos serão armazenados no seu Google Drive."
         },
         "badges": {
             "noticeTitle": "Doações",
@@ -925,7 +930,7 @@
     },
     "googleAccountLink": {
         "success": "Conta vinculada! Agora você pode fechar esta janela.",
-        "linking": "Vinculando sua conta com a Google…"
+        "linking": "Vinculando sua conta com a Google"
     },
     "botInvite": {
         "permissions": "Permissões do robô",
@@ -1377,5 +1382,9 @@
         "dateTime": "{{date}} às {{time}}",
         "error": "erro",
         "invalidTimezone": "fuso horário inválido"
+    },
+    "googleDriveAccountLink": {
+        "linking": "Vinculando sua conta ao Google Drive…",
+        "success": "Conta vinculada! Agora você pode fechar esta janela."
     }
 }
