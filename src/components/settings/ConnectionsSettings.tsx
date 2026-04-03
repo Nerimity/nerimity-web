@@ -22,6 +22,7 @@ import {
 import Avatar from "../ui/Avatar";
 import Text from "../ui/Text";
 import { toast } from "../ui/custom-portal/CustomPortal";
+import { Notice } from "../ui/Notice/Notice";
 
 const Container = styled("div")`
   display: flex;
@@ -170,27 +171,46 @@ function GoogleDriveLink() {
   };
 
   return (
-    <SettingsBlock
-      iconSrc="/assets/Google.svg"
-      label="Google Drive"
-      description={t("settings.connections.googleDriveDescription")}
-    >
-      <Show when={!isGoogleDriveConnected()}>
-        <Button
-          label={t("settings.connections.linkButton")}
-          iconName="link"
-          onClick={linkGoogle}
-        />
-      </Show>
-      <Show when={isGoogleDriveConnected()}>
-        <Button
-          label={t("settings.connections.unlinkButton")}
-          color="var(--alert-color)"
-          iconName="link_off"
-          onClick={unlinkGoogle}
-        />
-      </Show>
-    </SettingsBlock>
+    <>
+      <Notice type="caution">
+        <div>
+          <b>
+            Using your primary Google account to share or host attachments is
+            not recommended.
+          </b>
+          <br />
+          <br />
+          Due to the way the Google Drive API handles file metadata, your full
+          name and Google email address are often visible in the background data
+          of any file you share. This can lead to your identity being exposed to
+          other users.
+          <br />
+          <br />
+          Use a throwaway account if you choose to continue using Google Drive.
+        </div>
+      </Notice>
+      <SettingsBlock
+        iconSrc="/assets/Google.svg"
+        label="Google Drive"
+        description={t("settings.connections.googleDriveDescription")}
+      >
+        <Show when={!isGoogleDriveConnected()}>
+          <Button
+            label={t("settings.connections.linkButton")}
+            iconName="link"
+            onClick={linkGoogle}
+          />
+        </Show>
+        <Show when={isGoogleDriveConnected()}>
+          <Button
+            label={t("settings.connections.unlinkButton")}
+            color="var(--alert-color)"
+            iconName="link_off"
+            onClick={unlinkGoogle}
+          />
+        </Show>
+      </SettingsBlock>
+    </>
   );
 }
 
