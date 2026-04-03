@@ -95,7 +95,7 @@ export default function PageFooter() {
       </FlexRow>
       <FlexRow class="language-and-socials" itemsCenter gap={10} justifyCenter>
         <LanguageDropdown />
-        <SocialLinks class="social-links">
+        <SocialLinks gap={10} class="social-links">
           <CustomLink
             class={socialLinkStyle}
             href="https://nerimity.com/i/nerimity"
