@@ -1022,6 +1022,8 @@ const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
     <VideoEmbed
       error={isExpired() ? t("fileEmbed.fileExpired") : undefined}
       file={{
+        thumbnailLink:
+          env.NERIMITY_CDN + props.attachment.path! + "/thumb.webp",
         name: safeDecodeURIComponent(
           props.attachment.path?.split("/").reverse()[0]!
         ),
