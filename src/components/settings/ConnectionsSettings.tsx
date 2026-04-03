@@ -180,10 +180,9 @@ function GoogleDriveLink() {
           </b>
           <br />
           <br />
-          Due to the way the Google Drive API handles file metadata, your full
-          name and Google email address are often visible in the background data
-          of any file you share. This can lead to your identity being exposed to
-          other users.
+          Due to the way the Google Drive API handles file metadata, your
+          display name and Google email address are often visible in the
+          background data of any file you share.
           <br />
           <br />
           Use a throwaway account if you choose to continue using Google Drive.
