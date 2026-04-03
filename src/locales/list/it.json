@@ -1141,6 +1141,108 @@
             }
         },
         "verified": "Questo server è verificato.",
-        "addChannel": "Aggiungi canale"
+        "addChannel": "Aggiungi canale",
+        "inVoice": "In voce"
+    },
+    "inVoiceActions": {
+        "connectedFor": "Connesso da <1>{{time}}</1>"
+    },
+    "informationDrawer": {
+        "info": "Info",
+        "files": "File",
+        "searchBarPlaceholder": "Cerca {{username}}",
+        "searchBarChannelPlaceholder": "Cerca in {{channelName}}",
+        "sortLatest": "Più recenti",
+        "sortOldest": "Più vecchi",
+        "channelNotice": "Avviso del canale",
+        "attachments": "Allegati",
+        "members": "Membri",
+        "creator": "Creatore",
+        "admin": "Admin"
+    },
+    "botInvite": {
+        "title": "Invita bot",
+        "serverSelect": "Per favore seleziona un server!",
+        "creator": "Creato da ",
+        "selectButton": "Seleziona server",
+        "addButton": "Aggiungi bot",
+        "permissions": "Permessi del bot"
+    },
+    "googleDriveAccountLink": {
+        "linking": "Collegamento del tuo account a Google Drive…",
+        "success": "Account collegato! Ora puoi chiudere questa finestra."
+    },
+    "googleAccountLink": {
+        "linking": "Collegamento del tuo account a Google",
+        "success": "Account collegato! Ora puoi chiudere questa finestra."
+    },
+    "invite": {
+        "loading": "Caricamento dell'invito…",
+        "invalid": "Codice invito non valido",
+        "privateEmoji": "Questa emoji viene da un server privato.",
+        "joinButton": "Unisciti",
+        "joiningButton": "Ingresso…",
+        "visitButton": "Visita",
+        "member": "membro",
+        "members": "membri"
+    },
+    "fileEmbed": {
+        "viewImage": "Visualizza immagine",
+        "download": "Scarica",
+        "expires": "Scade il {{time}}",
+        "expired": "Scaduto il {{time}}",
+        "fileExpired": "File scaduto.",
+        "fileModified": "Il file è stato modificato.",
+        "couldNotGetFile": "Impossibile ottenere il file.",
+        "modifiedOrDeleted": "Questo file è stato modificato/eliminato da chi lo ha creato nel suo Google Drive.",
+        "videoEmbed": {
+            "videoExpired": "Video scaduto.",
+            "videoModified": "Il video è stato modificato.",
+            "couldNotGetVideo": "Impossibile ottenere il video.",
+            "modifiedOrDeleted": "Questo video è stato modificato/eliminato da chi lo ha creato nel suo Google Drive.",
+            "googleDrivePolicy": "A causa delle nuove policy di Google Drive, puoi riprodurre i video solo dall'app desktop di Nerimity."
+        },
+        "audioEmbed": {
+            "googleDrivePolicy": "A causa delle nuove policy di Google Drive, puoi riprodurre gli audio solo dall'app desktop di Nerimity."
+        }
+    },
+    "addFriendModal": {
+        "title": "Aggiungi amico",
+        "description": "Inserisci lo username e il tag deə tuə amicə per aggiungerlə.",
+        "placeholder": "Username:ABC1",
+        "requestSent": "Richiesta inviata!",
+        "sendRequest": "Invia richiesta",
+        "sending": "Invio…",
+        "errors": {
+            "missingTag": "Per favore inserisci uno username:tag.",
+            "colonInUsername": "Lo username non deve contenere i due punti."
+        }
+    },
+    "removeFriendModal": {
+        "title": "Rimuovi {{username}} dagli amici",
+        "body": "Sei sicurə di voler rimuovere questo utente dagli amici?",
+        "removing": "Rimozione…"
+    },
+    "deleteMessageModal": {
+        "title": "Eliminare messaggio?",
+        "body": "Vuoi eliminare questo messaggio?",
+        "cancelButton": "Non eliminare"
+    },
+    "message": {
+        "badge": {
+            "bot": "Bot",
+            "webhook": "Webhook",
+            "owner": "Proprietariə"
+        },
+        "reactions": {
+            "more": "altri {{count}}"
+        },
+        "viewMessages": "Visualizza messaggi",
+        "imageMessage": "Messaggio immagine",
+        "quote": {
+            "invalid": "Citazione eliminata o non valida.",
+            "nested": "Citazione annidata"
+        },
+        "deletedMessage": "Il messaggio è stato eliminato."
     }
 }
