@@ -61,8 +61,8 @@ const SocialIcon = styled("img")`
   }
 `;
 const NerimityIcon = styled("svg")`
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   filter: grayscale(100%);
   opacity: 65%;
   transition: 0.2s;
