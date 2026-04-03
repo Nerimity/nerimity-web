@@ -9,7 +9,6 @@ import {
   setCurrentLanguage
 } from "@/locales/languages";
 import { useTransContext } from "@nerimity/solid-i18lite";
-import { appLogoUrl } from "@/common/worldEvents";
 import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
 import { Emoji } from "./markup/Emoji";
 import { JSXElement } from "solid-js";
@@ -23,13 +22,36 @@ const FooterContainer = styled(FlexRow)`
   border-top: solid 1px rgba(255, 255, 255, 0.2);
   padding: 18px;
 
-  @media (max-width: 760px) {
+  .language-and-socials {
+  }
+
+  @media (max-width: 318px) {
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+    .social-links {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 549px) {
+    .language-and-socials {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 920px) {
     flex-direction: column-reverse;
   }
 `;
 const SocialIcon = styled("img")`
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   filter: grayscale(100%);
   opacity: 65%;
   transition: 0.2s;
@@ -39,15 +61,15 @@ const SocialIcon = styled("img")`
   }
 `;
 const NerimityIcon = styled("svg")`
-width: 28px;
-height: 28px;
-filter: grayscale(100%);
-opacity: 65%;
-transition: 0.2s;
-&:hover {
-  filter: grayscale(15%);
-  opacity: 100%;
-}
+  width: 28px;
+  height: 28px;
+  filter: grayscale(100%);
+  opacity: 65%;
+  transition: 0.2s;
+  &:hover {
+    filter: grayscale(15%);
+    opacity: 100%;
+  }
 `;
 
 const socialLinkStyle = css`
@@ -63,7 +85,7 @@ const SocialLinks = styled(FlexRow)`
 export default function PageFooter() {
   return (
     <FooterContainer>
-      <FlexRow gap={10}>
+      <FlexRow gap={10} class="footer-links">
         <CustomLink decoration href="/privacy">
           Privacy Policy
         </CustomLink>
@@ -71,9 +93,9 @@ export default function PageFooter() {
           Terms And Conditions
         </CustomLink>
       </FlexRow>
-      <FlexRow itemsCenter gap={10} justifyCenter>
+      <FlexRow class="language-and-socials" itemsCenter gap={10} justifyCenter>
         <LanguageDropdown />
-        <SocialLinks>
+        <SocialLinks class="social-links">
           <CustomLink
             class={socialLinkStyle}
             href="https://nerimity.com/i/nerimity"
