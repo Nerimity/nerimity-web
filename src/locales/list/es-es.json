@@ -758,9 +758,10 @@
                 "unauthorizeButton": "Unautorizar",
                 "unauthorizing": "Desautorizando…"
             },
-            "googleDescription": "Vincular tu cuenta de Google te permitirá subir archivos a Nerimity. Los archivos se almacenarán en tu Google Drive.",
+            "googleDescription": "Vincular tu cuenta de Google te permitirá iniciar sesión con Google de forma rápida i sencilla.",
             "linkButton": "Vincular",
-            "unlinkButton": "Desvincular"
+            "unlinkButton": "Desvincular",
+            "googleDriveDescription": "Vincular tu cuenta de Google te permitirá subir archivos a Nerimity. Los archivos se almacenarán en tu Google Drive."
         },
         "experiments": {
             "noExperiments": "No hay experimentos disponibles actualmente.",
@@ -972,7 +973,7 @@
         "title": "Invitar bot"
     },
     "googleAccountLink": {
-        "linking": "Vinculando tu cuenta con Google…",
+        "linking": "Vinculando tu cuenta con Google",
         "success": "¡Cuenta vinculada! Ahora puedes cerrar esta ventana."
     },
     "invite": {
@@ -1381,5 +1382,9 @@
         "title": "Emoji",
         "defaultEmoji": "Emoji predeterminado",
         "customEmoji": "Emoji personalizado"
+    },
+    "googleDriveAccountLink": {
+        "linking": "Vinculando tu cuenta con Google Drive…",
+        "success": "¡Cuenta vinculada! Ya puedes cerrar esta ventana."
     }
 }
