@@ -697,7 +697,225 @@
             "reminderDescription": "Notificaciones de recordatorio.",
             "inAppPreview": "Vista previa en la app",
             "inAppPreviewDescription": "Mostrar popups notificación en la app.",
-            "mute": "Silenciar"
+            "mute": "Silenciar",
+            "inAppPreviewModes": {
+                "off": "Desactivado",
+                "inheritFromPingSettings": "Heredar ajustes Ping"
+            },
+            "callJoin": "Llamar Unirse",
+            "callLeave": "Salir llamada"
+        },
+        "call": {
+            "nextCallNotice": "Cambios aplicados en próximas llamadas.",
+            "leaveCall": "Tienes que colgar primero",
+            "inputDevices": "Dispositivos entrada",
+            "outputDevices": "Dispositivos de salida",
+            "default": "Ajustes sistema",
+            "inputConstraints": {
+                "echoCancelation": "Cancelación eco",
+                "echoCancelationDescription": "Evita que el micrófono capte el sonido de los altavoces.",
+                "noiseSuppression": "Supresión ruido",
+                "noiseSuppressionDescription": "Elimina ruido fondo constante (ventiladores, zumbidos).",
+                "autoGainControl": "Control automático ganancia",
+                "autoGainControlDescription": "Ajusta automáticamente los niveles de volumen para mantener una señal constante."
+            },
+            "inputMode": "Modo entrada",
+            "openMic": "Micrófono abierto",
+            "voiceActivity": "Actividad voz",
+            "pushToTalk": "Pulsar para Hablar",
+            "bindButton": "Asignar",
+            "stopButton": "Detener",
+            "useTurn": "Usar servidores TURN Cloudflare",
+            "useTurnDescription": "Utiliza los servidores TURN para mejorar la conectividad",
+            "downloadAppNotice": "Descarga la aplicación de escritorio de Nerimity para utilizar esta función sin necesidad de tener la pestaña de la ventana activa."
+        },
+        "connections": {
+            "thirdParty": {
+                "title": "Conexiones terceros",
+                "connectionCount": "{{count}} conexión(es)",
+                "unauthorizeButton": "Denegado",
+                "unauthorizing": "Desvinculando…"
+            },
+            "googleDriveDescription": "Si vinculas tu cuenta de Google, podrás subir archivos a Nerimity. Los archivos se guardarán en tu Google Drive.",
+            "googleDescription": "Si vinculas tu cuenta de Google, podrás iniciar sesión con Google de forma rápida y sencilla.",
+            "linkButton": "Vincular",
+            "unlinkButton": "Desvincular"
+        },
+        "interface": {
+            "customCSS": "CSS personalizado",
+            "customCSSWarning": "No pegues código de personas en las que no confías.",
+            "saveAndApply": "Guardar y aplicar",
+            "themesDescription": "Elige un tema predefinido o restablece los valores predeterminados.",
+            "maintainers": "Colaboradores",
+            "apply": "Aplicar",
+            "enableEruda": "Activar Eruda",
+            "enableErudaDescription": "Eruda para la depuración. No compartas ningún dato con otras personas.",
+            "enableOnce": "Activar una vez",
+            "blurEffect": "Efecto desenfoque",
+            "blurEffectDescription": "Activar o desactivar el efecto de desenfoque en los elementos de la interfaz. (Puede reducir el rendimiento)",
+            "reduceAnimations": "Reducir animaciones",
+            "reduceAnimationsDescription": "Reproduce GIFs y emojis solo al interactuar.",
+            "disableAdvancedMarkupBar": "Desactivar la barra de marcado avanzado",
+            "disableAdvancedMarkupBarDescription": "Evita que se muestre la barra de formato avanzado.",
+            "rightDrawerMode": "Modo Panel Derecho",
+            "swipeToOpen": "Desliza para abrir",
+            "swipeToOpenDescription": "Abre el panel derecho deslizando desde el borde. Esto desactivará la respuesta mediante deslizamiento.",
+            "headerTapToOpen": "Encabezado Toca para abrir",
+            "headerTapToOpenDescription": "Abre el panel derecho tocando el encabezado. Esto activará la respuesta mediante deslizamiento.",
+            "customizeColors": "Personalizar colores",
+            "customizeColorsDescription": "Edita los colores del tema actual.",
+            "exportButton": "Exportar",
+            "importButton": "Importar",
+            "exportModal": "Se ha copiado el tema al portapapeles.",
+            "importModal": "Pega el tema aquí:",
+            "chatBarOptions": "Opciones de la barra de chat",
+            "voiceMessage": "Mensaje voz",
+            "gifPicker": "Buscador de GIFs",
+            "emojiPicker": "Buscador de Emojis",
+            "sendButton": "Enviar mensaje",
+            "timeTitle": "Cambiar formato hora",
+            "12HourFormatDescription": "Mostrar la hora en formato de 12 horas con AM/PM.",
+            "24HourFormatDescription": "Mostrar la hora en formato de 24 horas."
+        },
+        "window": {
+            "downloadAppNotice": "Para modificar estos ajustes, debes descargar la aplicación escritorio Nerimity.",
+            "startupOptions": "Opciones inicio",
+            "openOnStartup": "Abrir Nerimity al inicio",
+            "startMinimized": "Iniciar minimizado",
+            "startMinimizedDescription": "Minimizar Nerimity a bandeja automáticamente.",
+            "disableHardwareAcceleration": "Desactivar la aceleración por hardware",
+            "disableCustomTitlebar": "Desactivar barra título personalizada",
+            "reopenAppNotice": "Debes volver a abrir la aplicación para que el cambio surta efecto."
+        },
+        "activity": {
+            "extension": "Extensión navegador",
+            "extensionDescription": "¡Nuestra extensión RPC te permite compartir tu actividad de Spotify y YouTube con los usuarios de Nerimity!",
+            "visitButton": "Visita {{store}}",
+            "activityStatus": "Estado actividad",
+            "activityStatusDescription": "Comparte con todos lo que estás haciendo",
+            "activityStatusModal": {
+                "title": "Editar estado actividad",
+                "executable": "Ejecutable",
+                "action": "Acción",
+                "name": "Nombre",
+                "emoji": "Emoji"
+            },
+            "discordActivity": "Actividad Discord",
+            "discordActivityDescription": "Comparte tu actividad en Discord con los usuarios de Nerimity",
+            "idPlaceholder": "ID usuario Discord",
+            "serverModal": {
+                "text": "Únete al servidor de Discord para habilitar el uso compartido de actividades.",
+                "doneButton": "Me he unido"
+            },
+            "lastfmActivity": "Actividad Last.fm",
+            "lastfmActivityDescription": "Compartir estado escucha vía Last.fm",
+            "lastfmUsernamePlaceholder": "Nombre usuario Last.fm",
+            "lastfmApiKeyPlaceholder": "Clave API Last.fm"
+        },
+        "developer": {
+            "useLatestUrl": "Usar última URL",
+            "useLatestUrlDescription": "Cargar latest.nerimity.com próximo inicio. Reiniciará aplicación.",
+            "useLatestUrlWarning": "Posible inestabilidad o errores.",
+            "applicationsDescription": "Crea bots Nerimity.",
+            "apiDocumentation": "Documentación API \"incompleta)",
+            "addButton": "Añadir aplicación",
+            "name": "Nombre aplicación",
+            "appClientId": "ID aplicación/cliente",
+            "botUser": "Usuario Bot",
+            "createBotUser": "Crear un nuevo usuario bot",
+            "editBotUser": "Bot edición",
+            "createBotUserButton": "Crear usuario",
+            "refreshButton": "Actualizar",
+            "bot": {
+                "createInvite": "Crear enlace invitación",
+                "createLinkButton": "Crear enlace",
+                "token": "Token",
+                "tokenRefreshed": "Token actualizado.",
+                "tokenCopied": "Se ha copiado el token al portapapeles.",
+                "permissionsDescription": "Gestionar los permisos de este enlace.",
+                "publishBot": "Publicar Bot",
+                "publishBotDescription": "Publicar bot en explorar permitir búsqueda otros usuarios.",
+                "publishNotice": "Al publicar tu bot, este estará disponible en la página <1>explorar</1>.",
+                "bumpBot": "Posicionar bot",
+                "bumpBotDescription": "Posicionar bot subir a lista",
+                "bumpBotCooldown": "Espera {{hours}} horas, {{minutes}} minutos, {{seconds}} segundos reposicionar bot.",
+                "publicDescription": "Hacer bot público.",
+                "botDescription": "Descripción Bot ({{current}}/{{max}})"
+            },
+            "oauth2": {
+                "description": "Gestionar OAuth2",
+                "documentation": "Documentación OAuth2",
+                "clientId": "ID cliente",
+                "clientSecret": "Secret client",
+                "secretRefreshed": "Secret client actualizado.",
+                "secretCopied": "Se ha copiado el secreto de cliente al portapapeles.",
+                "redirectUris": "URIs redireccionamiento",
+                "uri": "URI {{count}}",
+                "generateLink": "Generar enlace",
+                "redirectUri": "URI redireccionamiento"
+            },
+            "deleteApplication": {
+                "title": "Eliminar aplicación",
+                "willNotGetDeleted": "Lo que no se eliminará:",
+                "andMore": "• Y más",
+                "willNotGetDeletedDescription": "Eliminar manualmente borrar bot después.",
+                "deleteAppButton": "Eliminar esta aplicación"
+            }
+        },
+        "experiments": {
+            "noExperiments": "Actualmente no hay experimentos disponibles.",
+            "reloadRequired": {
+                "title": "Reiniciar aplicación",
+                "body": "Reiniciar Nerimity. Aplicar cambios.",
+                "restartNow": "Reiniciar ahora",
+                "restartLater": "Reiniciar más tarde"
+            }
+        }
+    },
+    "activityNames": {
+        "playing": "Jugando",
+        "watching": "Viendo",
+        "listening": "Escuchando"
+    },
+    "logoutModal": {
+        "title": "¿Cerrar sesión?",
+        "body": "¿Estás seguro de que quieres cerrar sesión?",
+        "clearSettings": "Borrar la configuración local",
+        "cancelButton": "Mantener sesión"
+    },
+    "supportBlock": {
+        "support": "Apóyame",
+        "supportDescription": "Donar obtener emblema supporter!"
+    },
+    "createServerModal": {
+        "title": "Crear servidor",
+        "notice": "No se permite contenido NSFW.",
+        "serverName": "Nombre Servidor",
+        "placeholder": "Mi Servidor Increíble",
+        "createServerButton": "Crear servidor",
+        "creating": "Creando…",
+        "tabLabel": "Crear"
+    },
+    "joinServerModal": {
+        "title": "Entrar Servidor",
+        "notice": "Si quieres explorar servidores, ve a la pestaña de explorar.",
+        "exploreButton": "Explorar servidores",
+        "inviteCode": "Código invitación",
+        "continueButton": "Continuar",
+        "missingInvite": "Ingresa un código de invitación.",
+        "tabLabel": "Unirse"
+    },
+    "serverContextMenu": {
+        "markAsRead": "Marcar como leído",
+        "leave": "Salir",
+        "channelSettings": "Configuración canal",
+        "notificationOptions": {
+            "sections": {
+                "ping": "Ping",
+                "sound": "Sonido"
+            },
+            "initial": "Inicial",
+            "everything": "Todo"
         }
     }
 }
