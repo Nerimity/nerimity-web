@@ -29,6 +29,7 @@ const Container = styled("div")`
   flex-direction: column;
   gap: 5px;
   padding: 10px;
+  white-space: pre-line;
 `;
 
 export default function ConnectionsSettings() {
@@ -175,21 +176,15 @@ function GoogleDriveLink() {
       <Notice type="caution">
         <div>
           <b>
-            Using your primary Google account to share or host attachments is
-            not recommended.
+            {t("settings.connections.driveWarning.title")}
           </b>
           <br />
           <br />
-          Due to the way the Google Drive API handles file metadata, your
-          display name and Google email address are often visible in the
-          background data of any file you share.
-          <br />
-          <br />
-          Use a throwaway account if you choose to continue using Google Drive.
+          {t("settings.connections.driveWarning.message")}
         </div>
       </Notice>
       <SettingsBlock
-        iconSrc="/assets/Google.svg"
+        iconSrc="/assets/Drive.svg"
         label="Google Drive"
         description={t("settings.connections.googleDriveDescription")}
       >
