@@ -853,7 +853,7 @@
         "offline": "Hors Ligne",
         "appearAsOffline": "Apparaître Hors Ligne",
         "afk": "Loin du clavier (AFK)",
-        "lastOnline": "En ligne pour la dernière fois {{time}}"
+        "lastOnline": "Dernière connexion à {{time}}"
     },
     "sidePane": {
         "addServer": "Ajouter Un Serveur",
