@@ -1168,14 +1168,6 @@
         "addButton": "Aggiungi bot",
         "permissions": "Permessi del bot"
     },
-    "googleDriveAccountLink": {
-        "linking": "Collegamento del tuo account a Google Drive…",
-        "success": "Account collegato! Ora puoi chiudere questa finestra."
-    },
-    "googleAccountLink": {
-        "linking": "Collegamento del tuo account a Google",
-        "success": "Account collegato! Ora puoi chiudere questa finestra."
-    },
     "invite": {
         "loading": "Caricamento dell'invito…",
         "invalid": "Codice invito non valido",

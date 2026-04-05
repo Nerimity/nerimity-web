@@ -884,10 +884,6 @@
         "creator": "Oluşturan: ",
         "title": "Botu Davet Et"
     },
-    "googleAccountLink": {
-        "success": "Hesabın Google ile bağlandı! Bu pencereyi artık kapatabilirsin.",
-        "linking": "Hesabınız Google ile bağlanıyor…"
-    },
     "invite": {
         "joinButton": "Katıl",
         "joiningButton": "Katılınıyor…",

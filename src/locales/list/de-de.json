@@ -967,10 +967,6 @@
         "permissions": "Bot-Berechtigungen",
         "title": "Bot einladen"
     },
-    "googleAccountLink": {
-        "linking": "Google-Konto wird verknüpft…",
-        "success": "Konto verknüpft! Du kannst dieses Fenster jetzt schließen."
-    },
     "invite": {
         "loading": "Einladung wird geladen…",
         "invalid": "Ungültiger Einladungscode",

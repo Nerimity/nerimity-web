@@ -506,10 +506,6 @@
         "addButton": "Add botty",
         "permissions": "Bot Pewmissions"
     },
-    "googleAccountLink": {
-        "linking": "Winkie to Google~",
-        "success": "Wink compwete! U can cwose dis now"
-    },
     "invite": {
         "loading": "Woading Invite…",
         "invalid": "Invawid Invite Code >.<",

@@ -892,10 +892,6 @@
         "permissions": "Uprawnienia bota",
         "title": "Zaproś bota"
     },
-    "googleAccountLink": {
-        "linking": "Trwa łączenie Twojego konta z usługą Google",
-        "success": "Konto zostało połączone! Możesz teraz zamknąć to okno."
-    },
     "invite": {
         "loading": "Trwa ładowanie zaproszenia…",
         "invalid": "Niepoprawny kod zaproszeniowy",
@@ -1382,9 +1378,5 @@
         "title": "Emoji",
         "defaultEmoji": "Domyśne emoji",
         "customEmoji": "Własne emoji"
-    },
-    "googleDriveAccountLink": {
-        "linking": "Łączenie konta z Dyskiem Google…",
-        "success": "Konto zostało połączone! Możesz już zamknąć to okno."
     }
 }

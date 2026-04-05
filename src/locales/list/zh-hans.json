@@ -412,10 +412,6 @@
         "addButton": "添加机器人",
         "permissions": "机器人权限"
     },
-    "googleAccountLink": {
-        "linking": "将您的账号与 Google 绑定...",
-        "success": "账号绑定成功！您现在可以关闭该窗口。"
-    },
     "general": {
         "backButton": "返回",
         "cancelButton": "取消",
