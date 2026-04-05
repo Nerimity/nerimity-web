@@ -539,7 +539,11 @@
             "googleDescription": "Lier votre compte Google vous permettra de télécharger des fichiers dans Nerimity. Ces fichiers seront stockés sur votre Google Drive.",
             "linkButton": "Lien",
             "unlinkButton": "Dissocier",
-            "googleDriveDescription": "Lier votre compte Google vous permettra de télécharger des fichiers sur Nerimity. Les fichiers seront stockés dans votre Google Drive."
+            "googleDriveDescription": "Lier votre compte Google vous permettra de télécharger des fichiers sur Nerimity. Les fichiers seront stockés dans votre Google Drive.",
+            "driveWarning": {
+                "title": "Il n'est pas recommandé d'utiliser votre compte Google principal pour partager ou héberger des pièces jointes.",
+                "message": "En raison de la manière dont l'API Google Drive gère les métadonnées des fichiers, votre nom d'affichage et votre adresse e-mail Google apparaissent souvent dans les informations de fond de tout fichier que vous partagez.\n\nUtilisez un compte temporaire si vous décidez de continuer à utiliser Google Drive."
+            }
         },
         "interface": {
             "customCSS": "CSS personnalisé",
@@ -1378,5 +1382,9 @@
         "title": "Emoji",
         "defaultEmoji": "Émoji par défaut",
         "customEmoji": "Émojis personnalisés"
+    },
+    "accountLink": {
+        "linking": "Connexion de votre compte avec {{service}}…",
+        "success": "Compte associé ! Vous pouvez maintenant fermer cette fenêtre."
     }
 }
