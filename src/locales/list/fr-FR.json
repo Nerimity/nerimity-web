@@ -114,7 +114,8 @@
         "sort": "Trier",
         "filter": "Filtrer",
         "bumpModal": {
-            "bumpButton": "Bump"
+            "bumpButton": "Bump",
+            "title": "Bump {{name}}"
         }
     },
     "servers": {
