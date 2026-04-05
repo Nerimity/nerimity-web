@@ -206,7 +206,11 @@
         "sort": "Sortieren",
         "filter": "Filtern",
         "by": "Von",
-        "bumped": "Gebumpt"
+        "bumped": "Gebumpt",
+        "bumpModal": {
+            "title": "{{name}} nach oben schieben",
+            "bumpButton": "Nach oben schieben"
+        }
     },
     "editFolderModal": {
         "title": "Ordner bearbeiten",
@@ -754,9 +758,14 @@
                 "unauthorizeButton": "Deauthorisieren",
                 "unauthorizing": "Deauthorisieren…"
             },
-            "googleDescription": "Durch das Verknüpfen deines Google-Kontos kannst du Dateien in Nerimity hochladen. Die Dateien werden in deinem Google Drive gespeichert.",
+            "googleDescription": "Wenn Sie Ihr Google-Konto verknüpfen, können Sie sich schnell und einfach über Google anmelden.",
             "linkButton": "Verknüpfen",
-            "unlinkButton": "Entknüpfen"
+            "unlinkButton": "Entknüpfen",
+            "driveWarning": {
+                "title": "Es wird nicht empfohlen, Ihr primäres Google-Konto zum Teilen oder Hosten von Anhängen zu verwenden.",
+                "message": "Aufgrund der Art und Weise, wie die Google Drive-API mit Dateimetadaten umgeht, sind Ihr Anzeigename und Ihre Google-E-Mail-Adresse oft in den Hintergrunddaten jeder Datei sichtbar, die Sie freigeben.\n\nVerwenden Sie ein Wegwerfkonto, wenn Sie Google Drive weiterhin nutzen möchten."
+            },
+            "googleDriveDescription": "Wenn Sie Ihr Google-Konto verknüpfen, können Sie Dateien in Nerimity hochladen. Die Dateien werden in Ihrem Google Drive gespeichert."
         },
         "experiments": {
             "noExperiments": "Derzeit sind keine Experimente verfügbar.",
@@ -1373,5 +1382,9 @@
         "title": "Emoji",
         "defaultEmoji": "Standard Emoji",
         "customEmoji": "Benutzerdefiniertes Emoji"
+    },
+    "accountLink": {
+        "linking": "Ihr Konto wird gerade mit {{service}} verknüpft…",
+        "success": "Konto verknüpft! Sie können dieses Fenster nun schließen."
     }
 }
