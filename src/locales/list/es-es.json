@@ -761,7 +761,11 @@
             "googleDescription": "Vincular tu cuenta de Google te permitirá iniciar sesión con Google de forma rápida i sencilla.",
             "linkButton": "Vincular",
             "unlinkButton": "Desvincular",
-            "googleDriveDescription": "Vincular tu cuenta de Google te permitirá subir archivos a Nerimity. Los archivos se almacenarán en tu Google Drive."
+            "googleDriveDescription": "Vincular tu cuenta de Google te permitirá subir archivos a Nerimity. Los archivos se almacenarán en tu Google Drive.",
+            "driveWarning": {
+                "title": "No se recomienda utilizar tu cuenta principal de Google para compartir o alojar archivos adjuntos.",
+                "message": "Debido a la forma en que la API de Google Drive gestiona los metadatos de los archivos, tu nombre de usuario y tu dirección de correo electrónico de Google suelen aparecer en los datos de fondo de cualquier archivo que compartas.\n\nUtiliza una cuenta temporal o secundaria si decides seguir usando Google Drive."
+            }
         },
         "experiments": {
             "noExperiments": "No hay experimentos disponibles actualmente.",
@@ -1378,5 +1382,9 @@
         "title": "Emoji",
         "defaultEmoji": "Emoji predeterminado",
         "customEmoji": "Emoji personalizado"
+    },
+    "accountLink": {
+        "linking": "Vinculando tu cuenta con {{service}}…",
+        "success": "¡Cuenta vinculada! Ya puedes cerrar esta ventana."
     }
 }
