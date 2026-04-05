@@ -928,10 +928,6 @@
         "visitButton": "Visitar",
         "privateEmoji": "Este emoji vem de um servidor privado."
     },
-    "googleAccountLink": {
-        "success": "Conta vinculada! Agora você pode fechar esta janela.",
-        "linking": "Vinculando sua conta com a Google"
-    },
     "botInvite": {
         "permissions": "Permissões do robô",
         "addButton": "Adicionar robô",
@@ -1382,9 +1378,5 @@
         "dateTime": "{{date}} às {{time}}",
         "error": "erro",
         "invalidTimezone": "fuso horário inválido"
-    },
-    "googleDriveAccountLink": {
-        "linking": "Vinculando sua conta ao Google Drive…",
-        "success": "Conta vinculada! Agora você pode fechar esta janela."
     }
 }

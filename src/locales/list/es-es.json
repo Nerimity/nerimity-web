@@ -972,10 +972,6 @@
         "permissions": "Permisos del bot",
         "title": "Invitar bot"
     },
-    "googleAccountLink": {
-        "linking": "Vinculando tu cuenta con Google",
-        "success": "¡Cuenta vinculada! Ahora puedes cerrar esta ventana."
-    },
     "invite": {
         "loading": "Generando invitación…",
         "invalid": "Código de invitación inválido",
@@ -1382,9 +1378,5 @@
         "title": "Emoji",
         "defaultEmoji": "Emoji predeterminado",
         "customEmoji": "Emoji personalizado"
-    },
-    "googleDriveAccountLink": {
-        "linking": "Vinculando tu cuenta con Google Drive…",
-        "success": "¡Cuenta vinculada! Ya puedes cerrar esta ventana."
     }
 }

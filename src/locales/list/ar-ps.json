@@ -548,10 +548,6 @@
         "addButton": "إضافة بوت",
         "permissions": "صلاحيات البوت"
     },
-    "googleAccountLink": {
-        "linking": "‫جارٍ ربط حسابك مع Google...‬",
-        "success": "تم ربط الحساب! يمكنك الآن إغلاق هذه النافذة."
-    },
     "invite": {
         "loading": "جارٍ تحميل الدعوة...",
         "invalid": "رمز دعوة غير صالح",

@@ -1232,10 +1232,6 @@
         "sortLatest": "Dernier",
         "sortOldest": "Le plus ancien"
     },
-    "googleAccountLink": {
-        "linking": "Lier votre compte à Google",
-        "success": "Compte lié ! Vous pouvez maintenant fermer cette fenêtre."
-    },
     "deleteMessageModal": {
         "title": "Supprimer le message ?",
         "body": "Souhaitez-vous supprimer ce message ?",
@@ -1382,9 +1378,5 @@
         "title": "Emoji",
         "defaultEmoji": "Émoji par défaut",
         "customEmoji": "Émojis personnalisés"
-    },
-    "googleDriveAccountLink": {
-        "linking": "Associer votre compte à Google Drive…",
-        "success": "Compte lié ! Vous pouvez maintenant fermer cette fenêtre."
     }
 }
