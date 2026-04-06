@@ -1272,7 +1272,7 @@
         "backButton": "Retour",
         "cancelButton": "Annuler",
         "deleteButton": "Supprimer",
-        "cannotBeUndone": "C'est irréversible !",
+        "cannotBeUndone": "Cette opération est irréversible !",
         "confirmButton": "Confirmer",
         "doneButton": "Fait",
         "saveButton": "Sauvegarder",
@@ -1293,7 +1293,7 @@
             "remove": "Retirer",
             "revert": "Annuler"
         },
-        "undoButton": "Défaire",
+        "undoButton": "Annuler",
         "closeButton": "Fermer",
         "editButton": "Modifier"
     },
