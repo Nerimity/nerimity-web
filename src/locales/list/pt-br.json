@@ -654,7 +654,11 @@
             },
             "linkButton": "Conectar",
             "unlinkButton": "Desconenctar",
-            "googleDriveDescription": "Ao vincular sua conta do Google, você poderá enviar arquivos no Nerimity. Os arquivos serão armazenados no seu Google Drive."
+            "googleDriveDescription": "Ao vincular sua conta do Google, você poderá enviar arquivos no Nerimity. Os arquivos serão armazenados no seu Google Drive.",
+            "driveWarning": {
+                "title": "Não é recomendável usar sua conta principal do Google para compartilhar ou hospedar anexos.",
+                "message": "Devido à forma como a API do Google Drive lida com os metadados dos arquivos, seu nome de exibição e endereço de e-mail do Google costumam ficar visíveis nos dados de fundo de qualquer arquivo que você compartilhar. Use uma conta descartável se decidir continuar usando o Google Drive."
+            }
         },
         "badges": {
             "noticeTitle": "Doações",
@@ -1378,5 +1382,9 @@
         "dateTime": "{{date}} às {{time}}",
         "error": "erro",
         "invalidTimezone": "fuso horário inválido"
+    },
+    "accountLink": {
+        "linking": "Vinculando sua conta ao {{service}}…",
+        "success": "Conta vinculada! Agora você pode fechar esta janela."
     }
 }
