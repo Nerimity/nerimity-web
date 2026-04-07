@@ -25,6 +25,7 @@ interface WindowAPI {
   authenticated(userId: string): string;
   logout(): void;
   post(event: string, payload: any): void;
+  joinCall(channelId: string): void;
 
   on<K extends keyof CustomEventMap>(
     event: K,

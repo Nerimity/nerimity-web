@@ -30,6 +30,13 @@ export const Experiments = [
     reactNative: true,
     description:
       "Use the socket.io in react native instead of webview. Will be needed for native WebRTC for stable video calls on the mobile app."
+  },
+  {
+    id: "RN_NATIVE_WEBRTC",
+    name: "React Native Native WebRTC",
+    reactNative: true,
+    description:
+      "Use native WebRTC instead of webview. IMPORTANT: Need to enable react native native websocket first."
   }
 ] as const;
 

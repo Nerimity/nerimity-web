@@ -33,6 +33,8 @@ import useServers from "./useServers";
 import { loadSimplePeer } from "@/components/LazySimplePeer";
 import { getCustomSound, playSound } from "@/common/Sound";
 import { getStorageBoolean, StorageKeys } from "@/common/localStorage";
+import { isExperimentEnabled } from "@/common/experiments";
+import { reactNativeAPI } from "@/common/ReactNative";
 
 export type Channel = Omit<RawChannel, "recipient"> & {
   updateLastSeen(this: Channel, timestamp?: number): void;
@@ -225,6 +227,10 @@ function recipient(this: Channel) {
 }
 
 async function joinCall(this: Channel, reconnect = false) {
+  if (isExperimentEnabled("RN_NATIVE_WEBRTC")() && reactNativeAPI()?.joinCall) {
+    reactNativeAPI()?.joinCall(this.id);
+    return;
+  }
   const { setCurrentChannelId } = useVoiceUsers();
   await loadSimplePeer();
   if (getStorageBoolean(StorageKeys.voiceUseTurnServers, true)) {
