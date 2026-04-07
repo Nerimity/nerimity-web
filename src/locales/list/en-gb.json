@@ -736,6 +736,10 @@
         "unauthorizeButton": "Unauthorise",
         "unauthorizing": "Un-authorising…"
       },
+      "driveWarning": {
+        "title": "Using your primary Google account to share or host attachments is not recommended.",
+        "message": "Due to the way the Google Drive API handles file metadata, your display name and Google email address are often visible in the background data of any file you share. \n\nUse a throwaway account if you choose to continue using Google Drive."
+      },
       "googleDriveDescription": "Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive.",
       "googleDescription": "Linking your Google account will allow you to login using Google quickly and easily.",
       "linkButton": "Link",
@@ -1168,12 +1172,8 @@
     "addButton": "Add bot",
     "permissions": "Bot Permissions"
   },
-  "googleDriveAccountLink": {
-    "linking": "Linking your account with Google Drive…",
-    "success": "Account linked! You may now close this window."
-  },
-  "googleAccountLink": {
-    "linking": "Linking your account with Google",
+  "accountLink": {
+    "linking": "Linking your account with {{service}}…",
     "success": "Account linked! You may now close this window."
   },
   "invite": {

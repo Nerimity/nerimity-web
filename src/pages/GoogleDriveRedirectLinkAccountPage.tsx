@@ -63,13 +63,13 @@ export default function GoogleDriveRedirectLinkAccountPage() {
       <PageHeader hideAccountInfo />
       <Content class="content">
         <CenterContainer>
-          {t("googleDriveAccountLink.linking")}
+          {t("accountLink.linking", { service: "Google Drive" })}
           <Show when={error()}>
             <Text color="var(--alert-color)">{error()}</Text>
           </Show>
           <Show when={success()}>
             <Text color="var(--success-color)">
-              {t("googleDriveAccountLink.success")}
+              {t("accountLink.success")}
             </Text>
           </Show>
         </CenterContainer>
