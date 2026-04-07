@@ -20,7 +20,7 @@
             "feature5": "Создайте собственное сообщество",
             "feature6": "Найдите новые сообщества",
             "feature7": "Работает на пожертвованиях",
-            "feature8": "Полный исходный код на GitHub",
+            "feature8": "Открытый исходный код на GitHub",
             "feature9": "Выражайте себя с помощью значков"
         }
     },
@@ -526,7 +526,7 @@
                 "unauthorizing": "Деавторизация…"
             },
             "googleDescription": "Приязка аккаунта Google позволит вам загружать файлы на Nerimity. Файлы будут храниться на вашим Google Drive.",
-            "linkButton": "Связать",
+            "linkButton": "Привязать",
             "unlinkButton": "Отвязать"
         },
         "interface": {
@@ -672,7 +672,7 @@
         "notificationOptions": {
             "everything": "Всё",
             "mentionsOnly": "Только упоминания",
-            "mute": "Ничего",
+            "mute": "Заглушить",
             "sections": {
                 "ping": "Пометка",
                 "sound": "Звук"
