@@ -122,7 +122,11 @@
         "sort": "Сортировка",
         "filter": "Фильтр",
         "by": "От",
-        "bumped": "Продвинут"
+        "bumped": "Продвинут",
+        "bumpModal": {
+            "title": "Продвинуть {{name}}",
+            "bumpButton": "Продвинуть"
+        }
     },
     "servers": {
         "settings": {
@@ -190,7 +194,11 @@
                 "removeNoticeButton": "Удалить примечание",
                 "channelIcon": "Иконка канала",
                 "slowModeDescription": "Укажите, сколько участник должен подождать, чтобы отправить сообщение.",
-                "deleteChannelTitle": "Удалить {{channelName}}"
+                "deleteChannelTitle": "Удалить {{channelName}}",
+                "slowMode": "Медленный режим",
+                "channelNotice": "Примечание канала",
+                "channelNoticeDescription": "Отображается, когда кто-либо впервые собирается общаться в чате. Изменения вступят в силу после перезагрузки страницы.",
+                "channelNoticeTooLong": "Примечание канала не должно превышать 300 символов."
             },
             "invites": {
                 "createInviteButton": "Создать приглашение",
@@ -230,7 +238,8 @@
                 "name": "Название вебхука",
                 "link": "URL вебхука",
                 "linkDescription": "Выполнять действия через эту ссылку",
-                "delete": "Удалить вебхук"
+                "delete": "Удалить вебхук",
+                "addButton": "Добавить вебхук"
             },
             "verify": {
                 "alreadyVerified": "Ваш сервер уже верифицирован!",
@@ -423,7 +432,10 @@
             "deleteCheckbox": "Удалить мои посты и сообщения",
             "usernameFont": "Шрифт имени пользователя",
             "default": "Стандартный",
-            "confirmPasswordToContinue": "Подтвердите ваш пароль, чтобы продолжить"
+            "confirmPasswordToContinue": "Подтвердите ваш пароль, чтобы продолжить",
+            "userNoticeDescription": "Отображается, когда кто-либо впервые собирается написать вам. Изменения вступят в силу после перезагрузки страницы.",
+            "userNotice": "Примечание в моём ЛС",
+            "userNoticeTooLong": "Примечание в ЛС не должно превышать 300 символов."
         },
         "privacy": {
             "lastOnline": {
@@ -464,7 +476,16 @@
             "notice": "Поддержите проект финансово.",
             "palestineDescription": "Можно надеть на странице настроек профиля",
             "price": "Значки за {{price}}",
-            "supportMethods": "Способы поддержки"
+            "supportMethods": "Способы поддержки",
+            "acquisitionNotice": "Значки добавляются модераторами вручную. После пожертвования создайте пожалуйста тикет с указанием желаемого значка.",
+            "unremovableError": {
+                "title": "Значок неснимаемый",
+                "body": "Этот значок снять нельзя."
+            },
+            "inventory": {
+                "ownedBadges": "Полученные значки ({{count}})",
+                "acquireDate": "Имеется с {{date}}"
+            }
         },
         "notifications": {
             "desktopNotifications": "Уведомления на рабочем столе",
@@ -525,9 +546,14 @@
                 "unauthorizeButton": "Деавторизировать",
                 "unauthorizing": "Деавторизация…"
             },
-            "googleDescription": "Приязка аккаунта Google позволит вам загружать файлы на Nerimity. Файлы будут храниться на вашим Google Drive.",
+            "googleDescription": "Приязка аккаунта Google позволит вам быстро и легко входить в Nerimity с помощью Google.",
             "linkButton": "Привязать",
-            "unlinkButton": "Отвязать"
+            "unlinkButton": "Отвязать",
+            "driveWarning": {
+                "title": "Не рекомендуется использовать основную учетную запись Google для обмена вложениями или их хранения.",
+                "message": "Из-за особенностей обработки метаданных файлов в Google Drive API ваше отображаемое имя и адрес электронной почты Google часто отображаются в фоновых данных любого файла, которым вы делитесь. \n\nЕсли вы решите продолжить использовать Google Drive, лучше используйте временную, одноразовую, анонимную учетную запись."
+            },
+            "googleDriveDescription": "Приязка аккаунта Google позволит вам загружать файлы на Nerimity. Файлы будут храниться на вашем Google Drive."
         },
         "interface": {
             "customCSS": "Пользовательский CSS",
@@ -594,7 +620,11 @@
             "serverModal": {
                 "text": "Присоединитесь к нашему серверу Discord, чтобы включить показ активности.",
                 "doneButton": "Я присоединился"
-            }
+            },
+            "lastfmActivity": "Активность Last.fm",
+            "lastfmActivityDescription": "Делитесь тем, что случаете на Last.fm",
+            "lastfmUsernamePlaceholder": "Имя пользователя Last.fm",
+            "lastfmApiKeyPlaceholder": "API ключ от Last.fm"
         },
         "developer": {
             "oauth2": {
@@ -641,7 +671,10 @@
                 "bumpBotCooldown": "Вы должны подождать {{hours}} часов, {{minutes}} минут и {{seconds}} секунд перед тем, как продвинуть этого бота.",
                 "publicDescription": "Сделать этого бота публичным.",
                 "botDescription": "Описание бота ({{current}}/{{max}})"
-            }
+            },
+            "useLatestUrl": "Использовать последний URL",
+            "useLatestUrlDescription": "Загружайте latest.nerimity.com после ближайшего перезапуска приложения. Приложение перезапустится.",
+            "useLatestUrlWarning": "Приложение может быть нестабильно или содержать ошибки."
         },
         "experiments": {
             "noExperiments": "Сейчас нет экспериментов.",
@@ -672,7 +705,7 @@
         "notificationOptions": {
             "everything": "Всё",
             "mentionsOnly": "Только упоминания",
-            "mute": "Заглушить",
+            "mute": "Ничего",
             "sections": {
                 "ping": "Пометка",
                 "sound": "Звук"
@@ -831,7 +864,8 @@
         "reconnecting": "Переподключение…",
         "inQueue": "В очереди: {{count}} пользователь(я/ей) перед вами",
         "authenticating": "Аутентификация…",
-        "connected": "Подключено!"
+        "connected": "Подключено!",
+        "statusPage": "Страница статуса"
     },
     "dangerousLinkModal": {
         "title": "Пользовательская ссылка",
@@ -870,7 +904,8 @@
         "afk": "Не на месте",
         "dnd": "Не беспокоить",
         "offline": "Не в сети",
-        "appearAsOffline": "Отображаться как не в сети"
+        "appearAsOffline": "Отображаться как не в сети",
+        "lastOnline": "Был(а) в сети {{time}}"
     },
     "sidePane": {
         "home": "Домашняя страница",
@@ -1037,7 +1072,7 @@
         "verified": "Этот сервер верифицирован."
     },
     "inVoiceActions": {
-        "connectedFor": "Звонок идёт"
+        "connectedFor": "Звонок идёт <1>{{time}}</1>"
     },
     "botInvite": {
         "title": "Пригласить бота",
@@ -1330,6 +1365,6 @@
     },
     "serverDrawer": {
         "joinedThisSessionNoticeSetToMentionsOnly": "Слышать только упоминания",
-        "joinedThisSessionNotice": "Отображать все звуковые уведомления данного сервера"
+        "joinedThisSessionNotice": "Отображать все уведомления данного сервера."
     }
 }
