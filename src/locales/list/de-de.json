@@ -208,8 +208,8 @@
         "by": "Von",
         "bumped": "Gebumpt",
         "bumpModal": {
-            "title": "{{name}} nach oben schieben",
-            "bumpButton": "Nach oben schieben"
+            "title": "Bumpe {{name}}",
+            "bumpButton": "Bump"
         }
     },
     "editFolderModal": {
