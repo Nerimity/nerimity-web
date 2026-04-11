@@ -272,7 +272,7 @@
                 "questions": {
                     "addButton": "Ajouter question",
                     "question": "Question",
-                    "questionPlaceholder": "Chats ou chiens?",
+                    "questionPlaceholder": "Chats ou chiens ?",
                     "multiselect": "Sélection multiple"
                 },
                 "answers": {
@@ -579,7 +579,7 @@
             "headerTapToOpen": "Appuyez sur l'en-tête pour ouvrir",
             "headerTapToOpenDescription": "Ouvrez le tiroir de droite en cliquant sur l'en-tête. Cela vous permettra de balayer pour répondre.",
             "reduceAnimations": "Réduire les animations",
-            "reduceAnimationsDescription": "Empêcher les GIFs et émojis animés de jouer avant d’être survolé ou tapoté"
+            "reduceAnimationsDescription": "Empêcher les GIFs et émojis animés de jouer avant d’être survolé ou tapoté."
         },
         "window": {
             "downloadAppNotice": "Pour modifier ces paramètres, vous devez télécharger l'application de bureau Nerimity.",
@@ -692,14 +692,14 @@
         "title": "Exclure {{username}}",
         "kickButton": "Exclure",
         "kicking": "Exclusion…",
-        "message": "Êtes-vous sûr de vouloir exclure <1>{{username}}</1>?"
+        "message": "Êtes-vous sûr de vouloir exclure <1>{{username}}</1> ?"
     },
     "editServerRolesModal": {
         "title": "Modifier les Rôles"
     },
     "banModal": {
-        "title": "Bannir {{username}}?",
-        "message": "Êtes-vous sûr de vouloir bannir <1>{{username}}</1>?",
+        "title": "Bannir {{username}} ?",
+        "message": "Êtes-vous sûr de vouloir bannir <1>{{username}}</1> ?",
         "deletePastMessagesCheckbox": "Supprimer les messages envoyés au cours des 7 dernières heures.",
         "banButton": "Bannir",
         "banning": "Bannissement…",
@@ -761,13 +761,13 @@
     },
     "posts": {
         "deletePostModal": {
-            "message": "Êtes-vous sûr de vouloir supprimer cette publication?",
-            "title": "Supprimer le post?"
+            "message": "Êtes-vous sûr de vouloir supprimer cette publication ?",
+            "title": "Supprimer le post ?"
         },
-        "postWasDeleted": "Cette publication a été supprimé!",
-        "someoneLikedYourPost": "<1>{{username}}</1> a aimé votre publication!",
-        "someoneFollowedYou": "<1>{{username}}</1> vous suit!",
-        "someoneRepliedToPost": "<1>{{username}}</1> a répondu à votre publication!",
+        "postWasDeleted": "Cette publication a été supprimé !",
+        "someoneLikedYourPost": "<1>{{username}}</1> a aimé votre publication !",
+        "someoneFollowedYou": "<1>{{username}}</1> vous suit !",
+        "someoneRepliedToPost": "<1>{{username}}</1> a répondu à votre publication !",
         "createAPostInputPlaceholder": "Créer une publication…",
         "replyInputPlaceholder": "Répondre…",
         "replyButton": "Répondre",
@@ -852,7 +852,7 @@
     },
     "status": {
         "online": "En ligne",
-        "ltp": "Cherche À Jouer",
+        "ltp": "Cherche à jouer",
         "dnd": "Ne Pas Déranger",
         "offline": "Hors Ligne",
         "appearAsOffline": "Apparaître Hors Ligne",
@@ -1025,7 +1025,7 @@
         "title": "Ajouter Un Ami",
         "sendRequest": "Envoyer Une Demande",
         "sending": "Envoi…",
-        "requestSent": "Demande envoyée!",
+        "requestSent": "Demande envoyée !",
         "description": "Saisissez le nom d'utilisateur et le nom d'utilisateur de votre ami pour l'ajouter.",
         "placeholder": "Nom d'utilisateur:ABC1",
         "errors": {
@@ -1036,7 +1036,7 @@
     "activityNames": {
         "playing": "Joue à",
         "listening": "Écoute",
-        "watching": "Régarde à"
+        "watching": "Regarde"
     },
     "channelDrawer": {
         "customize": {
@@ -1142,7 +1142,7 @@
         "joinButton": "Rejoindre",
         "joiningButton": "en train de rejoindre…",
         "visitButton": "Visiter",
-        "privateEmoji": "Cet émoji provient d'un serveur privé"
+        "privateEmoji": "Cet émoji provient d'un serveur privé."
     },
     "fileEmbed": {
         "expired": "Éxpiré {{time}}",
@@ -1221,7 +1221,7 @@
         }
     },
     "inVoiceActions": {
-        "connectedFor": "Connecté pour <1>{{time}}</1>"
+        "connectedFor": "Connecté depuis <1>{{time}}</1>"
     },
     "informationDrawer": {
         "info": "Info",
