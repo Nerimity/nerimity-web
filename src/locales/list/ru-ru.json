@@ -1366,5 +1366,25 @@
     "serverDrawer": {
         "joinedThisSessionNoticeSetToMentionsOnly": "Слышать только упоминания",
         "joinedThisSessionNotice": "Отображать все уведомления данного сервера."
+    },
+    "emojiModal": {
+        "title": "Эмодзи",
+        "defaultEmoji": "Стандартные смайлики",
+        "customEmoji": "Пользовательские смайлики"
+    },
+    "accountLink": {
+        "linking": "Связываем вашу учетную запись с {{service}}…",
+        "success": "Аккаунт подключен! Теперь вы можете закрыть это окно."
+    },
+    "datetime": {
+        "lessThanAMinuteAgo": "несколько секунд назад",
+        "duration": "в течение {{duration}}",
+        "relativeFuture": "в течение {{duration}}",
+        "relativePast": "{{duration}} назад",
+        "relativeNow": "сейчас",
+        "yesterdayTime": "Вчера в {{time}}",
+        "dateTime": "{{date}} в {{time}}",
+        "error": "ошибка",
+        "invalidTimezone": "неверный часовой пояс"
     }
 }
