@@ -14,6 +14,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { FriendStatus, RawUser } from "@/chat-api/RawData";
 import { settingsHeaderPreview } from "./settingsHeaderPreview";
 import { t } from "@nerimity/i18lite";
+import { ClanTag } from "../clan-tag/ClanTag";
 
 const HeaderContainer = styled("div")`
   position: relative;
@@ -217,6 +218,9 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
                 <Text opacity={0.7}>
                   :{settingsHeaderPreview.tag || props.bot?.tag || user()!.tag}
                 </Text>
+              </Show>
+              <Show when={user()?.profile?.clan}>
+                <ClanTag clan={user()?.profile?.clan!} />
               </Show>
             </UsernameTagContainer>
             <Show when={!props.bot}>
