@@ -48,6 +48,7 @@ export function EmojiPicker(props: {
   showGifPicker?: boolean;
   heightOffset?: number;
   close: () => void;
+  serverId?: string;
   onClick: (shortcode: string, shiftDown?: boolean) => void;
   tab?: "EMOJI" | "GIF";
 }) {
@@ -102,6 +103,7 @@ export function EmojiPicker(props: {
   const customEmojis = () => {
     return servers
       .emojisUpdatedDupName()
+      .filter((e) => (props.serverId ? e.serverId === props.serverId : true))
       .map((e) => {
         const server = servers.get(e.serverId!)!;
         const url = server.avatarUrl();
@@ -632,6 +634,7 @@ const GifCategoryItem = (props: {
 export const FloatingEmojiPicker = (props: {
   x: number;
   y: number;
+  serverId?: string;
   close: () => void;
   onClick: (shortcode: string) => void;
 }) => {
@@ -642,7 +645,11 @@ export const FloatingEmojiPicker = (props: {
 
   return (
     <FloatingInScreen close={props.close} x={props.x} y={props.y}>
-      <EmojiPicker onClick={onPick} close={props.close} />
+      <EmojiPicker
+        serverId={props.serverId}
+        onClick={onPick}
+        close={props.close}
+      />
     </FloatingInScreen>
   );
 };

@@ -67,6 +67,8 @@ export const ServerEvents = {
   SERVER_SCHEDULE_DELETE: "server:schedule_delete",
   SERVER_REMOVE_SCHEDULE_DELETE: "server:remove_schedule_delete",
 
+  SERVER_CLAN_UPDATED: "server:clan_updated",
+
   CHANNEL_TYPING: "channel:typing",
   MESSAGE_CREATED: "message:created",
   MESSAGE_UPDATED: "message:updated",

@@ -4,6 +4,7 @@ export interface RawServer {
   hexColor: string;
   defaultChannelId: string;
   systemChannelId?: string;
+  clan?: RawServerClan;
   avatar?: string;
   banner?: string;
   defaultRoleId: string;
@@ -19,6 +20,11 @@ export interface RawServer {
   scheduledForDeletion?: {
     scheduledAt: number;
   };
+}
+export interface RawServerClan {
+  serverId?: string;
+  tag: string;
+  icon: string;
 }
 
 export const InventoryItemType = {
@@ -75,6 +81,7 @@ export interface RawMessage {
     avatarUrl?: string;
     profile?: {
       font?: number;
+      clan?: RawServerClan;
     };
   };
   type: MessageType;
@@ -181,6 +188,7 @@ export interface RawUser {
   lastOnlineAt?: number;
   profile?: {
     font?: number;
+    clan?: RawServerClan;
   };
 }
 

@@ -12,7 +12,8 @@ import {
   RawVoice,
   RawNotice,
   RawReminder,
-  RawServerFolder
+  RawServerFolder,
+  RawServerClan
 } from "../RawData";
 
 export interface AuthenticatedPayload {
@@ -78,5 +79,6 @@ export interface SelfUser {
   reminders: RawReminder[];
   profile?: {
     font?: number;
+    clan?: RawServerClan;
   };
 }

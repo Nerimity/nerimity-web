@@ -1,0 +1,9 @@
+.clanTag {
+  display: flex;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  gap: 4px;
+}

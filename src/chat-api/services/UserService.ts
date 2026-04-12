@@ -8,6 +8,7 @@ import {
   RawMessage,
   RawPost,
   RawServer,
+  RawServerClan,
   RawUser,
   RawUserConnection
 } from "../RawData";
@@ -241,6 +242,7 @@ export interface UserProfile {
   bgColorTwo?: string;
   primaryColor?: string;
   font?: number;
+  clan?: RawServerClan;
 }
 
 export async function getUserDetailsRequest(

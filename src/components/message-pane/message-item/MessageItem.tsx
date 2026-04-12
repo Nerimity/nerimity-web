@@ -103,6 +103,7 @@ import useAccount from "@/chat-api/store/useAccount";
 import { Entity } from "@nerimity/nevula";
 import { useSwipeActions } from "./useSwipeActions";
 import { MessageReactions } from "./Reactions";
+import { ClanTag } from "@/components/clan-tag/ClanTag";
 const ImagePreviewModal = lazy(
   () => import("@/components/ui/ImagePreviewModal")
 );
@@ -290,6 +291,9 @@ const Details = (props: DetailsProps) => {
       >
         {props.serverMember?.nickname || props.message.createdBy.username}
       </CustomLink>
+      <Show when={props.message.createdBy.profile?.clan}>
+        <ClanTag clan={props.message.createdBy.profile?.clan!} />
+      </Show>
       <Show
         when={
           props.serverMember &&

@@ -15,6 +15,27 @@ import {
 import env from "../../common/env";
 import { uploadEmoji } from "./nerimityCDNService";
 
+export async function deleteClan(serverId: string): Promise<any> {
+  return request({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/clans",
+    useToken: true
+  });
+}
+
+export async function updateClan(
+  serverId: string,
+  tag: string,
+  icon: string
+): Promise<any> {
+  return request({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/clans",
+    body: { tag, icon },
+    useToken: true
+  });
+}
+
 export async function getInvites(serverId: string): Promise<any> {
   return request({
     method: "GET",

@@ -168,6 +168,16 @@ const serverSettings: ServerSetting[] = [
     )
   },
   {
+    path: "clans",
+    routePath: "/clans",
+    name: () => t("servers.settings.drawer.clanTag"),
+    icon: "label",
+    requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
+    element: lazy(
+      () => import("@/components/servers/settings/ServerClanTagSettings")
+    )
+  },
+  {
     path: "verify",
     routePath: "/verify",
     name: () => t("servers.settings.drawer.verify"),

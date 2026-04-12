@@ -207,7 +207,8 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     createdBy: {
       bot: false,
       profile: {
-        font: user.profile?.font
+        font: user.profile?.font,
+        clan: user.profile?.clan
       },
       id: user.id,
       username: user.username,

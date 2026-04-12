@@ -5,6 +5,7 @@ import {
   RawCustomEmoji,
   RawPresence,
   RawServer,
+  RawServerClan,
   RawServerFolder,
   RawServerMember,
   RawServerRole,
@@ -415,4 +416,13 @@ export const onServerChannelOrderUpdated = (
       });
     }
   });
+};
+
+export const onServerClanUpdated = (payload: {
+  clan: RawServerClan;
+  serverId: string;
+}) => {
+  const servers = useServers();
+  const server = servers.get(payload.serverId);
+  server?.update({ clan: payload.clan });
 };

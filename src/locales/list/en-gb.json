@@ -335,7 +335,8 @@
         "permissions": "Permissions",
         "emoji": "Emoji",
         "notifications": "Notifications",
-        "external-embed": "External Embed"
+        "external-embed": "External Embed",
+        "clanTag": "Clan Tag"
       },
       "bans": {
         "sort": {
@@ -514,6 +515,12 @@
           "hideMembers": "Hide Members List",
           "hideActivities": "Hide Activity List"
         }
+      },
+      "clans": {
+        "tag": "Tag",
+        "icon": "Icon",
+        "enableClanTag": "Enable Clan Tag",
+        "verifiedServerOnly": "Clan Tag is only available for verified servers."
       }
     },
     "rolePermissions": {

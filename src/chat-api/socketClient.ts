@@ -30,6 +30,7 @@ import {
   onServerChannelOrderUpdated,
   onServerChannelPermissionsUpdated,
   onServerChannelUpdated,
+  onServerClanUpdated,
   onServerEmojiAdd,
   onServerEmojiRemove,
   onServerEmojiUpdate,
@@ -186,6 +187,8 @@ socket.on(
 socket.on(ServerEvents.SERVER_CHANNEL_CREATED, onServerChannelCreated);
 socket.on(ServerEvents.SERVER_CHANNEL_UPDATED, onServerChannelUpdated);
 socket.on(ServerEvents.SERVER_CHANNEL_DELETED, onServerChannelDeleted);
+socket.on(ServerEvents.SERVER_CLAN_UPDATED, onServerClanUpdated);
+
 socket.on(ServerEvents.MESSAGE_REACTION_ADDED, onMessageReactionAdded);
 socket.on(ServerEvents.MESSAGE_REACTION_REMOVED, onMessageReactionRemoved);
 socket.on(ServerEvents.VOICE_USER_JOINED, onVoiceUserJoined);

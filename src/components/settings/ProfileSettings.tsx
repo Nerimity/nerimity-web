@@ -37,6 +37,9 @@ import Checkbox from "../ui/Checkbox";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import DropDown from "../ui/drop-down/DropDown";
 import { Fonts } from "@/common/fonts";
+import Avatar from "../ui/Avatar";
+import { ClanTag } from "../clan-tag/ClanTag";
+import { Server } from "@/chat-api/store/useServers";
 
 const Container = styled("div")`
   display: flex;
@@ -119,7 +122,7 @@ export function EditProfilePage(props: {
   bot?: RawUser | null;
   botToken?: string | null;
 }) {
-  const { account } = useStore();
+  const { account, servers } = useStore();
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
   const [error, setError] = createSignal<null | string>(null);
   const [requestSent, setRequestSent] = createSignal(false);
@@ -129,7 +132,8 @@ export function EditProfilePage(props: {
     bgColorOne: userDetails()?.profile?.bgColorOne,
     bgColorTwo: userDetails()?.profile?.bgColorTwo,
     primaryColor: userDetails()?.profile?.primaryColor,
-    font: userDetails()?.profile?.font ?? null
+    font: userDetails()?.profile?.font ?? null,
+    clanServerId: userDetails()?.profile?.clan?.serverId
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -160,6 +164,9 @@ export function EditProfilePage(props: {
 
     await updateUser(
       {
+        ...(values.clanServerId !== undefined && values.clanServerId === "none"
+          ? { clanServerId: null }
+          : { clanServerId: values.clanServerId }),
         ...(values.bio !== undefined && values.bio.trim() === ""
           ? { bio: null }
           : { bio: formattedBio }),
@@ -190,8 +197,45 @@ export function EditProfilePage(props: {
       .finally(() => setRequestSent(false));
   };
 
+  const clanServers = () =>
+    servers
+      .orderedArray()
+      .filter((s) => s.type === "server" && s.clan) as Server[];
+
+  createEffect(() => {
+    console.log(clanServers);
+  });
+
   return (
     <>
+      <SettingsBlock label="Clan Tags" icon="sell">
+        <DropDown
+          selectedId={inputValues().clanServerId || "none"}
+          onChange={(s) => setInputValue("clanServerId", s.id)}
+          items={[
+            {
+              id: "none",
+              label: "None"
+            },
+            ...clanServers().map((s) => ({
+              id: s.id,
+              label: (
+                <div
+                  class={css`
+                    display: flex;
+                    gap: 8px;
+                  `}
+                >
+                  <Avatar server={s} size={20} />
+                  <div>{s.name}</div>
+                  <ClanTag clan={s.clan!} />
+                </div>
+              )
+            }))
+          ]}
+        />
+      </SettingsBlock>
+
       <EditBioBlock
         bio={inputValues().bio}
         setBio={(v) => setInputValue("bio", v)}
