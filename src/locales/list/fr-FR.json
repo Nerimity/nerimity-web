@@ -135,7 +135,8 @@
                 "welcome-screen": "Écran de bienvenue",
                 "external-embed": "Intégration externe",
                 "permissions": "Autorisations",
-                "emoji": "Émoji"
+                "emoji": "Émoji",
+                "clanTag": "Tag de clan"
             },
             "general": {
                 "serverRenameNotice": "Vous perdrez tous les avantages de faire vérifier votre serveur si vous le renommez.",
@@ -314,6 +315,12 @@
                     "hideMembers": "Masquer la liste des membres",
                     "hideActivities": "Masquer la liste d'activités"
                 }
+            },
+            "clans": {
+                "tag": "Tag",
+                "icon": "Icone",
+                "enableClanTag": "Activer le tag du clan",
+                "verifiedServerOnly": "Le tag de clan est seulement pour les serveurs vérifiés."
             }
         },
         "rolePermissions": {
