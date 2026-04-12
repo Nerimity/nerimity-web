@@ -292,7 +292,10 @@ const Details = (props: DetailsProps) => {
         {props.serverMember?.nickname || props.message.createdBy.username}
       </CustomLink>
       <Show when={props.message.createdBy.profile?.clan}>
-        <ClanTag clan={props.message.createdBy.profile?.clan!} />
+        <ClanTag
+          clan={props.message.createdBy.profile?.clan!}
+          hovered={props.hovered}
+        />
       </Show>
       <Show
         when={
