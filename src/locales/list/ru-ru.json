@@ -812,7 +812,7 @@
         "title": "Пост",
         "viewCount": "Приблизительные просмотры",
         "voteButton": "Голосовать",
-        "voteCount": "{{count}} голос(а/ов)",
+        "voteCount": "<1>{{count}}</1> голос(а/ов)",
         "copyPostButton": "Скопировать содержимое",
         "sections": {
             "replies": "Ответы {{count}}",
@@ -1366,5 +1366,25 @@
     "serverDrawer": {
         "joinedThisSessionNoticeSetToMentionsOnly": "Слышать только упоминания",
         "joinedThisSessionNotice": "Отображать все уведомления данного сервера."
+    },
+    "emojiModal": {
+        "title": "Эмодзи",
+        "defaultEmoji": "Стандартный эмодзи",
+        "customEmoji": "Пользовательский эмодзи"
+    },
+    "accountLink": {
+        "linking": "Связываем вашу учетную запись с {{service}}…",
+        "success": "Аккаунт подключен! Теперь вы можете закрыть это окно."
+    },
+    "datetime": {
+        "lessThanAMinuteAgo": "несколько секунд назад",
+        "duration": "в течение {{duration}}",
+        "relativeFuture": "в течение {{duration}}",
+        "relativePast": "{{duration}} назад",
+        "relativeNow": "сейчас",
+        "yesterdayTime": "Вчера в {{time}}",
+        "dateTime": "{{date}} в {{time}}",
+        "error": "ошибка",
+        "invalidTimezone": "неверный часовой пояс"
     }
 }

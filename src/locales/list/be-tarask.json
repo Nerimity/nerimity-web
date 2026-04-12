@@ -236,7 +236,8 @@
                 "notifications": "Абвесткі",
                 "external-embed": "Вонкавы эмбэд",
                 "permissions": "Дазволы",
-                "emoji": "Эмодзі"
+                "emoji": "Эмодзі",
+                "clanTag": "Тэґ сэрвэра"
             },
             "bans": {
                 "sort": {
@@ -415,6 +416,12 @@
                     "hideMembers": "Схаваць сьпіс удзельнікаў",
                     "hideActivities": "Схаваць сьпіс актыўнасьцяў"
                 }
+            },
+            "clans": {
+                "tag": "Тэґ",
+                "icon": "Значок",
+                "enableClanTag": "Уключыць тэґ сэрвэра",
+                "verifiedServerOnly": "Тэґ сэрвэра даступны толькі на вэрыфікаваных сэрвэрах."
             }
         },
         "rolePermissions": {

@@ -739,7 +739,11 @@
             "googleDescription": "Collegare il tuo account Google ti permetterà di accedere velocemente e facilmente usando Google.",
             "linkButton": "Collega",
             "unlinkButton": "Scollega",
-            "googleDriveDescription": "Collegare il tuo account Google ti permetterà di caricare file su Nerimity. I file saranno salvati sul tuo Google Drive."
+            "googleDriveDescription": "Collegare il tuo account Google ti permetterà di caricare file su Nerimity. I file saranno salvati sul tuo Google Drive.",
+            "driveWarning": {
+                "title": "Non è consigliato usare il tuo account Google principale per condividere o salvare allegati.",
+                "message": "A causa del modo in cui l'API di Google Drive gestisce i metadati dei file, il tuo nome visualizzato e il tuo indirizzo email di Google sono spesso visibili nei dati in background di qualsiasi file che condividi. \n\nUtilizza un account secondario se scegli di continuare a utilizzare Google Drive."
+            }
         },
         "interface": {
             "customCSS": "CSS personalizzato",
@@ -1235,6 +1239,53 @@
             "invalid": "Citazione eliminata o non valida.",
             "nested": "Citazione annidata"
         },
-        "deletedMessage": "Il messaggio è stato eliminato."
+        "deletedMessage": "Il messaggio è stato eliminato.",
+        "dismissButton": "Scarta",
+        "editedAt": "Modificato alle {{time}}",
+        "codeBlock": {
+            "text": "Testo semplice",
+            "toggleWrapButton": "Abilita / disabilita wrap"
+        },
+        "twitterEmbed": {
+            "modalTitle": "Incorporamento dettagliato di Twitter",
+            "modalDescription": "Quando utilizzi l'incorporamento ufficiale di Twitter, i tuoi dati saranno raccolti da Elmo Musk.",
+            "doNotShowAgain": "Non mostrare più.",
+            "closeButton": "Non mostrare",
+            "showButton": "Mostra",
+            "basicEmbed": "Incorporamento base",
+            "detailedEmbed": "Incorporamento dettagliato"
+        },
+        "blocked": "Hai bloccato questo utente. Clicca per mostrare.",
+        "translationError": "Impossibile tradurre questo messaggio.",
+        "translation": {
+            "title": "Traduzione",
+            "error": "Traduzione fallita"
+        }
+    },
+    "accountLink": {
+        "linking": "Collegamento del tuo account a {{service}}…",
+        "success": "Account collegato! Ora puoi chiudere questa finestra."
+    },
+    "addReminderModal": {
+        "title": "Promemoria",
+        "message": "Imposta un promemoria per",
+        "setReminderButton": "Imposta promemoria",
+        "adding": "Aggiunta…"
+    },
+    "botButtonModal": {
+        "title": "Risposta da {{botName}}",
+        "dataReceiver": "Dati inviati a {{botName}}",
+        "notice": "Non condividere mai informazioni sensibili"
+    },
+    "colorPickerModal": {
+        "title": "Selettore del colore",
+        "solid": "Solido",
+        "gradient": "Gradiente"
+    },
+    "photoEditor": {
+        "title": "Editor delle foto",
+        "brush": "Pennello",
+        "erase": "Cancella",
+        "strokeWidth": "Larghezza del bordo: {{width}}"
     }
 }

@@ -971,7 +971,7 @@
         "reposted": "Репостнуті",
         "repostedBy": "Ким репостнутий",
         "voteButton": "Проголосувати",
-        "voteCount": "{{count}} голос(-ів)",
+        "voteCount": "<1>{{count}}</1> голос(-ів)",
         "copyPostButton": "Скопіювати пост",
         "sections": {
             "replies": "Відповіді ({{count}})",
@@ -1045,7 +1045,7 @@
         "inVoice": "В голосовому чаті"
     },
     "inVoiceActions": {
-        "connectedFor": "В войсі вже"
+        "connectedFor": "В войсі вже <1>{{time}}</1>"
     },
     "informationDrawer": {
         "info": "Інфо",
