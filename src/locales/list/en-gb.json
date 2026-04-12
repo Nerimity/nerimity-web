@@ -289,7 +289,8 @@
       "lifetimeBumpCount": "{{count}} lifetime bumps",
       "visitServerButton": "Visit",
       "joinServerButton": "Join",
-      "bumpButton": "Bump ({{count}})"
+      "bumpButton": "Bump ({{count}})",
+      "filterClans": "Clans"
     },
     "bumpModal": {
       "title": "Bump {{name}}",
