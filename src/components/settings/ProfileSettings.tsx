@@ -224,9 +224,10 @@ export function EditProfilePage(props: {
                   class={css`
                     display: flex;
                     gap: 8px;
+                    padding: 2px;
                   `}
                 >
-                  <Avatar server={s} size={20} />
+                  <Avatar server={{ ...s, verified: false }} size={18} />
                   <div>{s.name}</div>
                   <ClanTag clan={s.clan!} />
                 </div>
