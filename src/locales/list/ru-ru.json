@@ -812,7 +812,7 @@
         "title": "Пост",
         "viewCount": "Приблизительные просмотры",
         "voteButton": "Голосовать",
-        "voteCount": "{{count}} голос(а/ов)",
+        "voteCount": "<1>{{count}}</1> голос(а/ов)",
         "copyPostButton": "Скопировать содержимое",
         "sections": {
             "replies": "Ответы {{count}}",
@@ -1369,8 +1369,8 @@
     },
     "emojiModal": {
         "title": "Эмодзи",
-        "defaultEmoji": "Стандартные смайлики",
-        "customEmoji": "Пользовательские смайлики"
+        "defaultEmoji": "Стандартный эмодзи",
+        "customEmoji": "Пользовательский эмодзи"
     },
     "accountLink": {
         "linking": "Связываем вашу учетную запись с {{service}}…",
