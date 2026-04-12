@@ -50,6 +50,7 @@ import { toast } from "../ui/custom-portal/CustomPortal";
 import { CreateTicketModal } from "@/components/CreateTicketModal";
 import { getFont } from "@/common/fonts";
 import { Trans } from "@nerimity/solid-i18lite";
+import { ClanTag } from "../clan-tag/ClanTag";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -269,6 +270,12 @@ const Details = (props: {
       >
         {props.post.createdBy?.username}
       </CustomLink>
+      <Show when={props.post.createdBy.profile?.clan}>
+        <ClanTag
+          clan={props.post.createdBy.profile?.clan!}
+          hovered={props.hovered}
+        />
+      </Show>
       <Show when={props.post.createdBy.bot}>
         <div class={style.botTag}>Bot</div>
       </Show>

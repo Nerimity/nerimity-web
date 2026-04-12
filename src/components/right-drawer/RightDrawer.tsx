@@ -60,6 +60,7 @@ import { getFont } from "@/common/fonts";
 import { Channel } from "@/chat-api/store/useChannels";
 import { matchSorter } from "match-sorter";
 import { ServerRole } from "@/chat-api/store/useServerRoles";
+import { ClanTag } from "../clan-tag/ClanTag";
 
 const MemberItem = (props: {
   member: ServerMember;
@@ -148,16 +149,21 @@ const MemberItem = (props: {
           user={user()}
         />
         <div class={styles.memberInfo}>
-          <div
-            class={cn(styles.username, font()?.class)}
-            style={{
-              "--gradient":
-                topRoleWithColor()?.gradient || topRoleWithColor()?.hexColor,
-              "--color": topRoleWithColor()?.hexColor!
-            }}
-          >
-            {props.member.nickname || user().username}
-          </div>
+          <span class={styles.memberName}>
+            <span
+              class={cn(styles.username, font()?.class)}
+              style={{
+                "--gradient":
+                  topRoleWithColor()?.gradient || topRoleWithColor()?.hexColor,
+                "--color": topRoleWithColor()?.hexColor!
+              }}
+            >
+              {props.member.nickname || user().username}
+            </span>
+            <Show when={user().profile?.clan}>
+              <ClanTag clan={user().profile?.clan!} hovered={hovering()} />
+            </Show>
+          </span>
           <UserPresence
             class={styles.userPresence}
             tooltipAnchor="left"

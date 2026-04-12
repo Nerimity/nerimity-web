@@ -53,6 +53,7 @@ import { userDetailsPreloader } from "@/common/createPreloader";
 import { UserActivity } from "../user-activity/UserActivity";
 import { Fonts } from "@/common/fonts";
 import { LogoutModal } from "../settings/LogoutModal";
+import { ClanTag } from "../clan-tag/ClanTag";
 
 interface Props {
   dmPane?: boolean;
@@ -412,7 +413,11 @@ const DesktopProfileFlyout = (props: {
             <div class={styles.usernameDetails}>
               <CustomLink
                 decoration
-                style={{ color: "white", "line-height": "1" }}
+                style={{
+                  color: "white",
+                  "line-height": "1",
+                  "margin-right": "6px"
+                }}
                 href={RouterEndpoints.PROFILE(props.userId)}
               >
                 <Text
@@ -423,6 +428,9 @@ const DesktopProfileFlyout = (props: {
                 </Text>
                 <Text color="rgba(255,255,255,0.6)">:{user()!.tag}</Text>
               </CustomLink>
+              <Show when={details()?.profile?.clan}>
+                <ClanTag clan={details()?.profile?.clan!} hovered />
+              </Show>
               <Show when={details()?.followsYou}>
                 <div class={styles.followsYou}>{t("profile.followsYou")}</div>
               </Show>

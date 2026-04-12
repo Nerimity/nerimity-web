@@ -226,11 +226,15 @@
       max-width: 100%;
     }
   }
+
+  .memberName {
+  }
   .username {
     overflow: hidden;
     line-height: 1.2;
 
     line-height: var(--lh);
+    margin-right: 4px;
 
     background: var(--gradient, var(--color, var(--primary-color)));
     -webkit-background-clip: text;

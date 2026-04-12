@@ -82,6 +82,7 @@ import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 import { getActivityType } from "@/common/activityType";
 import { getFont } from "@/common/fonts";
 import { Modal } from "../ui/modal";
+import { ClanTag } from "../clan-tag/ClanTag";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -283,6 +284,9 @@ export default function ProfilePane() {
                         </span>
                         <span class={styles.tag}>{`:${user()!.tag}`}</span>
                       </div>
+                      <Show when={userDetails()?.profile?.clan}>
+                        <ClanTag clan={userDetails()?.profile?.clan!} hovered />
+                      </Show>
                       <Show when={userDetails()?.followsYou}>
                         <div class={styles.followsYou}>
                           {t("profile.followsYou")}
