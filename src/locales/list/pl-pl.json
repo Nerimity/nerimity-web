@@ -91,7 +91,8 @@
             "moderationNotice": "Serwery nie są moderowane przez Nerimity. Prosimy zgłaszać serwery, które łamią Warunki Użytkowania.",
             "sortMostActive": "Najbardziej aktywne (beta)",
             "pinnedServers": "Przypięte serwery",
-            "recentlyBumped": "Ostatnio podbite serwery"
+            "recentlyBumped": "Ostatnio podbite serwery",
+            "filterClans": "Klany"
         },
         "bots": {
             "title": "Odkrywaj - Boty",
@@ -135,7 +136,8 @@
                 "audit-logs": "Dziennik zdarzeń",
                 "external-embed": "Zewnętrzne osadzenie",
                 "permissions": "Uprawnienia",
-                "emoji": "Emoji"
+                "emoji": "Emoji",
+                "clanTag": "Tag klanu"
             },
             "general": {
                 "serverRenameNotice": "Jeśli zmienisz nazwę serwera, stracisz jego weryfikację oraz wszystkie korzyści, które z niej płyną.",
@@ -314,6 +316,12 @@
                     "hideMembers": "Ukryj listę członków",
                     "hideActivities": "Ukryj listę aktywności"
                 }
+            },
+            "clans": {
+                "tag": "Tag",
+                "icon": "Ikona",
+                "enableClanTag": "Włącz tag klanu",
+                "verifiedServerOnly": "Tagi klanów są dostępne tylko dla zweryfikowanych serwerów."
             }
         },
         "rolePermissions": {
