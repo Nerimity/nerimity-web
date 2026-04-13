@@ -358,7 +358,7 @@ function CustomizeColors() {
               <ColorPicker
                 alpha
                 tabs={
-                  "allowGradient" in token ? ["gradient", "solid"] : ["solid"]
+                  "allowGradient" in token ? ["solid", "gradient"] : ["solid"]
                 }
                 color={currentTheme()[token.key]}
                 onChange={(v) => setThemeColor(token.key, v)}

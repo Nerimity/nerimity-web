@@ -179,6 +179,9 @@ export const ColorPickerModal = (props: {
     props.done?.(color!, [color]);
   };
 
+  createEffect(() => {
+    console.log(props.tabs);
+  });
   return (
     <Modal.Root
       close={props.close}
@@ -196,20 +199,24 @@ export const ColorPickerModal = (props: {
         >
           <Show when={props.tabs?.length}>
             <div class={styles.tabs}>
-              <Item.Root
-                handlePosition="bottom"
-                selected={currentTab() === "solid"}
-                onClick={() => setCurrentTab("solid")}
-              >
-                <Item.Label>{t("colorPickerModal.solid")}</Item.Label>
-              </Item.Root>
-              <Item.Root
-                handlePosition="bottom"
-                selected={currentTab() === "gradient"}
-                onClick={() => setCurrentTab("gradient")}
-              >
-                <Item.Label>{t("colorPickerModal.gradient")}</Item.Label>
-              </Item.Root>
+              <Show when={props.tabs?.includes("solid")}>
+                <Item.Root
+                  handlePosition="bottom"
+                  selected={currentTab() === "solid"}
+                  onClick={() => setCurrentTab("solid")}
+                >
+                  <Item.Label>{t("colorPickerModal.solid")}</Item.Label>
+                </Item.Root>
+              </Show>
+              <Show when={props.tabs?.includes("gradient")}>
+                <Item.Root
+                  handlePosition="bottom"
+                  selected={currentTab() === "gradient"}
+                  onClick={() => setCurrentTab("gradient")}
+                >
+                  <Item.Label>{t("colorPickerModal.gradient")}</Item.Label>
+                </Item.Root>
+              </Show>
             </div>
           </Show>
           <Show when={props.tabs?.length && currentTab() === "gradient"}>
