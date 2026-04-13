@@ -400,7 +400,7 @@ function PublicServerItem(props: {
             {server.name}
           </Text>
           <Show when={server.clan}>
-            <ClanTag clan={server.clan!} />
+            <ClanTag clan={server.clan!} hovered />
           </Show>
           <Show when={server.verified}>
             <ServerVerifiedIcon />
