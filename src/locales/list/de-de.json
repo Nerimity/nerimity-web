@@ -201,7 +201,8 @@
             "lifetimeBumpCount": "{{count}} Bumps insgesamt",
             "visitServerButton": "Besuchen",
             "joinServerButton": "Beitreten",
-            "bumpButton": "Bump ({{count}})"
+            "bumpButton": "Bump ({{count}})",
+            "filterClans": "Clans"
         },
         "sort": "Sortieren",
         "filter": "Filtern",
@@ -236,7 +237,8 @@
                 "notifications": "Benachrichtigungen",
                 "external-embed": "Externe Einbettung",
                 "permissions": "Berechtigungen",
-                "emoji": "Emoji"
+                "emoji": "Emoji",
+                "clanTag": "Clan-Tag"
             },
             "bans": {
                 "sort": {
@@ -415,6 +417,12 @@
                     "hideMembers": "Mitgliederliste ausblenden",
                     "hideActivities": "Aktivitätenliste ausblenden"
                 }
+            },
+            "clans": {
+                "tag": "Tag",
+                "icon": "Symbol",
+                "enableClanTag": "Clan-Tag aktivieren",
+                "verifiedServerOnly": "Clan-Tags sind nur für verifizierte Server verfügbar."
             }
         },
         "rolePermissions": {
