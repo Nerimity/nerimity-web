@@ -89,7 +89,7 @@
             "joinServerButton": "Rejoindre",
             "bumpButton": "Bump ({{count}})",
             "moderationNotice": "Les serveurs ne sont pas modérés par Nerimity. Veuillez signaler les serveurs qui enfreignent les conditions d'utilisation.",
-            "sortMostActive": "Les plus actifs (Bêta)",
+            "sortMostActive": "Les plus actifs",
             "pinnedServers": "Serveurs épinglés",
             "recentlyBumped": "Serveurs récemment mis à jour"
         },
