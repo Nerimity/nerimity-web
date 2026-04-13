@@ -230,7 +230,7 @@ export function EditProfilePage(props: {
                 >
                   <Avatar server={{ ...s, verified: false }} size={18} />
                   <div>{s.name}</div>
-                  <ClanTag clan={s.clan!} />
+                  <ClanTag clan={s.clan!} hovered />
                 </div>
               )
             }))
