@@ -20,6 +20,7 @@ export const ClanTag = (props: { clan: RawServerClan; hovered?: boolean }) => {
   return (
     <div class={style.clanTag} onClick={openModal}>
       <Emoji
+        resize={26}
         size={14}
         icon={props.clan.icon}
         defaultPaused={true}
