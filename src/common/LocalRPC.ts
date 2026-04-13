@@ -89,7 +89,8 @@ const sanitizedData = (data: any) => {
       startedAt: data.startedAt,
       endsAt: data.endsAt,
       speed: data.speed,
-      updatedAt: data.updatedAt
+      updatedAt: data.updatedAt,
+      emoji: data.emoji
     })
   );
 };
