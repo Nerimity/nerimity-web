@@ -1,7 +1,7 @@
 import { classNames } from "@/common/classNames";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import { styled } from "solid-styled-components";
+import { css, styled } from "solid-styled-components";
 import Text from "../ui/Text";
 import { Show, createSignal } from "solid-js";
 import { ServerInviteEmbed } from "../message-pane/message-item/MessageItem";
@@ -70,14 +70,14 @@ const MainEmojiContainer = styled.div`
   align-items: center;
   gap: 10px;
   background-color: rgba(255, 255, 255, 0.02);
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
   padding: 6px;
   padding-left: 8px;
   padding-right: 8px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.2);
 
   word-break: break-word;
   white-space: pre-wrap;
+  padding-bottom: 8px;
 `;
 
 const EmojiNameContainer = styled.div`
@@ -97,10 +97,7 @@ function EmojiDetailsModal(props: {
 
   return (
     <Modal.Root close={props.close}>
-      <Modal.Header
-        icon="face"
-        title={t("emojiModal.title")}
-      />
+      <Modal.Header icon="face" title={t("emojiModal.title")} />
       <EmojiDetailsContainer>
         <MainEmojiContainer>
           <img
@@ -127,13 +124,22 @@ function EmojiDetailsModal(props: {
               :
             </Text>
             <Text size={12} opacity={0.6}>
-              {props.custom ? t("emojiModal.customEmoji") : t("emojiModal.defaultEmoji")}
+              {props.custom
+                ? t("emojiModal.customEmoji")
+                : t("emojiModal.defaultEmoji")}
             </Text>
           </EmojiNameContainer>
         </MainEmojiContainer>
 
         <Show when={props.custom && props.id}>
-          <ServerInviteEmbed emojiId={props.id} />
+          <ServerInviteEmbed
+            class={css`
+              border: none;
+              padding-top: 0;
+              justify-content: center;
+            `}
+            emojiId={props.id}
+          />
         </Show>
       </EmojiDetailsContainer>
     </Modal.Root>

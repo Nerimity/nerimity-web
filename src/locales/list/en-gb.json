@@ -1187,12 +1187,12 @@
   "invite": {
     "loading": "Loading Invite…",
     "invalid": "Invalid Invite Code",
-    "privateEmoji": "This emoji is from a private server.",
     "joinButton": "Join",
     "joiningButton": "Joining…",
     "visitButton": "Visit",
     "member": "member",
-    "members": "members"
+    "members": "members",
+    "private": "This is from a private server"
   },
   "fileEmbed": {
     "viewImage": "View Image",
@@ -1394,5 +1394,8 @@
     "dateTime": "{{date}} at {{time}}",
     "error": "error",
     "invalidTimezone": "invalid time zone"
+  },
+  "clanModal": {
+    "title": "Clan"
   }
 }

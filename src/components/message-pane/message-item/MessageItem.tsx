@@ -1497,7 +1497,12 @@ const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
 
 const inviteCache = new Map<string, ServerWithMemberCount | false>();
 
-export function ServerInviteEmbed(props: { code?: string; emojiId?: string }) {
+export function ServerInviteEmbed(props: {
+  code?: string;
+  emojiId?: string;
+  clan?: boolean;
+  class?: string;
+}) {
   const navigate = useNavigate();
   const { servers, serverMembers } = useStore();
   const [t] = useTransContext();
@@ -1553,6 +1558,11 @@ export function ServerInviteEmbed(props: { code?: string; emojiId?: string }) {
   });
 
   const cachedServer = () => {
+    if (props.clan) {
+      const s = servers.get(props.code!);
+      if (s) return s;
+    }
+
     const _invite = invite();
     if (!_invite) return;
     return servers.get(_invite.id);
@@ -1575,20 +1585,28 @@ export function ServerInviteEmbed(props: { code?: string; emojiId?: string }) {
     }
   };
 
+  const memberCount = createMemo(() => {
+    const i = invite();
+    if (i) {
+      return i.memberCount;
+    }
+    return serverMembers.array(cachedServer()?.id!)?.length;
+  });
+
   return (
     <div
-      class={styles.serverInviteEmbed}
+      class={cn(styles.serverInviteEmbed, props.class)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <Show
-        when={invite()}
+        when={invite() || cachedServer()}
         fallback={
           <div class={styles.serverInviteLoading}>
             <Switch fallback={t("invite.loading")}>
-              <Match when={invite() === false && props.emojiId}>
+              <Match when={invite() === false && (props.emojiId || props.clan)}>
                 <span class={styles.serverInvitePrivate}>
-                  {t("invite.privateEmoji")}
+                  {t("invite.private")}
                 </span>
               </Match>
               <Match when={invite() === false}>
@@ -1617,13 +1635,13 @@ export function ServerInviteEmbed(props: { code?: string; emojiId?: string }) {
 
               <div class={styles.serverMemberCount}>
                 <Icon name="group" size={14} color="var(--primary-color)" />
-                {invite().memberCount}{" "}
-                {invite().memberCount === 1
-                  ? t("invite.member")
-                  : t("invite.members")}
+                {memberCount()}{" "}
+                {memberCount() === 1 ? t("invite.member") : t("invite.members")}
               </div>
             </div>
             <Button
+              iconSize={20}
+              textSize={14}
               label={
                 joining()
                   ? t("invite.joiningButton")

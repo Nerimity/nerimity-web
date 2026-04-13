@@ -225,6 +225,7 @@ export function EditProfilePage(props: {
                     display: flex;
                     gap: 8px;
                     padding: 2px;
+                    pointer-events: none;
                   `}
                 >
                   <Avatar server={{ ...s, verified: false }} size={18} />

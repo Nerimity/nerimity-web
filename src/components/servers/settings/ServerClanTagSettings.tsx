@@ -147,7 +147,8 @@ export default function ClanTagServerSettings() {
       <div
         class={css`
           margin-top: 10px;
-          margin-bottom: 10px;
+          margin-bottom: 18px;
+          pointer-events: none;
         `}
       >
         <MessageItem
