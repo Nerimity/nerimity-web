@@ -93,6 +93,9 @@ export default {
   },
   updateToken(newToken: string) {
     token = newToken;
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
   },
   id: () => socket.id,
   socket,
