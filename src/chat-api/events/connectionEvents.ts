@@ -23,6 +23,7 @@ import { type DisconnectDescription } from "socket.io-client/build/esm/socket";
 import { isExperimentEnabled } from "@/common/experiments";
 import { decompressObject } from "@/common/zstd";
 import { log } from "@/common/logger";
+import socketClient from "../socketClient";
 
 // const partial = isExperimentEnabled("WEBSOCKET_PARTIAL_AUTH")();
 const zstd = isExperimentEnabled("WEBSOCKET_ZSTD")();
@@ -114,9 +115,8 @@ localRPC.onUpdateRPC = (data) => {
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
   if (payload.newToken) {
     setStorageString(StorageKeys.USER_TOKEN, payload.newToken);
+    socketClient.updateToken(payload.newToken);
     log("WebSocket", "Updated token.");
-    location.reload();
-    return;
   }
   if (payload instanceof ArrayBuffer) {
     const t = performance.now();
