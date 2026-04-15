@@ -463,3 +463,11 @@ export async function userNoticeDismiss(id: string) {
     useToken: true
   });
 }
+
+export async function userLogout() {
+  return request<any>({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("logout"),
+    method: "DELETE",
+    useToken: true
+  });
+}
