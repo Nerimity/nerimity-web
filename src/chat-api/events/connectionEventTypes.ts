@@ -29,6 +29,7 @@ export interface AuthenticatedPayload {
   inbox: RawInboxWithoutChannel[];
   lastSeenServerChannelIds: Record<string, number>; // { [channelId]: timestamp }
   voiceChannelUsers: RawVoice[];
+  newToken?: string;
 }
 
 interface MessageMention {

@@ -9,6 +9,7 @@ import useVoiceUsers from "../store/useVoiceUsers";
 import {
   StorageKeys,
   getStorageObject,
+  setStorageString,
   useCollapsedServerCategories
 } from "@/common/localStorage";
 import { ProgramWithExtras, electronWindowAPI } from "@/common/Electron";
@@ -111,6 +112,12 @@ localRPC.onUpdateRPC = (data) => {
 };
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
+  if (payload.newToken) {
+    setStorageString(StorageKeys.USER_TOKEN, payload.newToken);
+    log("WebSocket", "Updated token.");
+    location.reload();
+    return;
+  }
   if (payload instanceof ArrayBuffer) {
     const t = performance.now();
     payload = decompressObject<AuthenticatedPayload>(new Uint8Array(payload));
