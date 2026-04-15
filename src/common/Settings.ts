@@ -39,6 +39,13 @@ const settings: Setting[] = [
     element: lazy(() => import("@/components/settings/ProfileSettings"))
   },
   {
+    path: "sessions",
+    routePath: "/sessions",
+    name: () => t("settings.drawer.sessions"),
+    icon: "data_loss_prevention",
+    element: lazy(() => import("@/components/settings/SessionSettings"))
+  },
+  {
     path: "badges",
     routePath: "/badges",
     name: () => t("settings.drawer.badges"),

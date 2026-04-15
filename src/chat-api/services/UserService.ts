@@ -471,3 +471,16 @@ export async function userLogout() {
     useToken: true
   });
 }
+
+export interface UserSession {
+  lastSeenAt: number;
+  location: string;
+  sessionId: string;
+}
+export async function fetchUserSessions() {
+  return request<UserSession[]>({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("sessions"),
+    method: "GET",
+    useToken: true
+  });
+}

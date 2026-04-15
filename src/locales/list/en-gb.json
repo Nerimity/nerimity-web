@@ -582,7 +582,8 @@
       "connections": "Connections",
       "profile": "Profile",
       "source": "Source",
-      "changes": "Changes"
+      "changes": "Changes",
+      "sessions": "Sessions"
     },
     "language": {
       "reloadNotice": "You must reload the app to fully apply the new language.",
