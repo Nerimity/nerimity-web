@@ -65,7 +65,7 @@ import {
   onUserUpdated,
   onUserUpdatedSelf
 } from "./events/userEvents";
-import { onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup, onMount } from "solid-js";
 import {
   onVoiceSignalReceived,
   onVoiceUserJoined,
@@ -83,6 +83,7 @@ const socket =
       });
 
 let token: undefined | string;
+const [sessionId, setSessionId] = createSignal<string | null>(null);
 
 type ValueOf<T> = T[keyof T];
 
@@ -91,6 +92,8 @@ export default {
     token = newToken;
     socket.connect();
   },
+  setSessionId,
+  sessionId,
   updateToken(newToken: string) {
     token = newToken;
     setTimeout(() => {

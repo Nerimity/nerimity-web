@@ -493,3 +493,15 @@ export async function fetchUserSessions() {
     useToken: true
   });
 }
+
+export async function destroySession(password: string, sessionId?: string) {
+  return request<UserSession[]>({
+    url:
+      env.SERVER_URL +
+      "/api" +
+      ServiceEndpoints.user("sessions/" + (sessionId || "")),
+    body: { password },
+    method: "DELETE",
+    useToken: true
+  });
+}

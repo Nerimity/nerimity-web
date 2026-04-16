@@ -30,6 +30,7 @@ export interface AuthenticatedPayload {
   lastSeenServerChannelIds: Record<string, number>; // { [channelId]: timestamp }
   voiceChannelUsers: RawVoice[];
   newToken?: string;
+  sessionId: string;
 }
 
 interface MessageMention {

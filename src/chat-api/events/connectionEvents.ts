@@ -118,6 +118,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     payload = decompressObject<AuthenticatedPayload>(new Uint8Array(payload));
     log("WebSocket", "Decompression took", performance.now() - t, "ms");
   }
+  socketClient.setSessionId(payload.sessionId);
   if (payload.newToken) {
     setStorageString(StorageKeys.USER_TOKEN, payload.newToken);
     socketClient.updateToken(payload.newToken);
