@@ -113,17 +113,16 @@ localRPC.onUpdateRPC = (data) => {
 };
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
-  if (payload.newToken) {
-    setStorageString(StorageKeys.USER_TOKEN, payload.newToken);
-    socketClient.updateToken(payload.newToken);
-    log("WebSocket", "Updated token.");
-  }
   if (payload instanceof ArrayBuffer) {
     const t = performance.now();
     payload = decompressObject<AuthenticatedPayload>(new Uint8Array(payload));
     log("WebSocket", "Decompression took", performance.now() - t, "ms");
   }
-
+  if (payload.newToken) {
+    setStorageString(StorageKeys.USER_TOKEN, payload.newToken);
+    socketClient.updateToken(payload.newToken);
+    log("WebSocket", "Updated token.");
+  }
   const {
     account,
     servers,
