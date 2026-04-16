@@ -6,6 +6,8 @@ import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
 import {
+  DeviceType,
+  DeviceTypeId,
   fetchUserSessions,
   UserSession
 } from "@/chat-api/services/UserService";
@@ -13,6 +15,7 @@ import SettingsBlock, {
   SettingsGroup
 } from "../ui/settings-block/SettingsBlock";
 import { formatTimestamp } from "@/common/date";
+import Button from "../ui/Button";
 
 const Container = styled("div")`
   display: flex;
@@ -58,22 +61,44 @@ export default function SessionSettings() {
     return grouped;
   };
 
+  const deviceTypeToIcon = (deviceType: DeviceTypeId) => {
+    switch (deviceType) {
+      case DeviceType.Mobile:
+        return "mobile";
+      case DeviceType.Desktop:
+        return "computer";
+      default:
+        return "globe";
+    }
+  };
+
   return (
     <Container>
       <Breadcrumb>
         <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.sessions")} />
       </Breadcrumb>
-
-      {sessions().length}
+      {sessions().length} Sessions
       <For each={Object.keys(groupedSessions())}>
         {(sessionId) => (
           <SettingsGroup>
-            <SettingsBlock label={sessionId} />
+            <SettingsBlock
+              label="Session"
+              icon="key"
+              description="A new session should be created every time you log in."
+            >
+              <Button
+                label="Destroy Session"
+                alert
+                iconName="key_off"
+                primary
+              />
+            </SettingsBlock>
             <For each={groupedSessions()[sessionId]}>
               {(session) => (
                 <SettingsBlock
-                  label={session.location}
+                  label={session.location || "Unknown"}
+                  icon={deviceTypeToIcon(session.deviceType)}
                   description={`Last seen at ${formatTimestamp(session.lastSeenAt)}`}
                 />
               )}

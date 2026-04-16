@@ -472,10 +472,19 @@ export async function userLogout() {
   });
 }
 
+export const DeviceType = {
+  Browser: 0,
+  Desktop: 1,
+  Mobile: 2
+} as const;
+
+export type DeviceTypeId = (typeof DeviceType)[keyof typeof DeviceType];
+
 export interface UserSession {
   lastSeenAt: number;
   location: string;
   sessionId: string;
+  deviceType: DeviceTypeId;
 }
 export async function fetchUserSessions() {
   return request<UserSession[]>({
