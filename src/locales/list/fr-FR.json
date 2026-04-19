@@ -63,16 +63,118 @@
       "blockedUsersButton": "Bloqué",
       "inboxTitle": "Boîte de réception"
     },
-    "blockedUsersModal": {
-      "title": "Utilisateurs bloqués"
-    }
-  },
-  "explore": {
-    "drawer": {
-      "title": "Explorer",
-      "servers": "Serveurs",
-      "bots": "Bots",
-      "themes": "Thèmes"
+    "homePage": {
+        "slogan": "Une application de chat moderne et épuré.",
+        "viewGitHubButton": "Voir sur GitHub",
+        "subslogan": "Nerimity offre une expérience élégante et riche en fonctionnalités qui le distingue des autres.",
+        "getStarted": "Commencer",
+        "availableOn": "Disponible sur",
+        "browser": "Navigateur",
+        "featureList": {
+            "feature9": "Exprimez-vous avec des bordures",
+            "feature1": "Avatars animés et emojis gratuits",
+            "feature6": "Trouvez de nouvelles communautés",
+            "feature2": "Design élégant",
+            "feature3": "Changez gratuitement votre balise",
+            "feature4": "Créez des publications sur votre profil",
+            "feature5": "Trouvez votre propre communauté",
+            "feature7": "Fonctionne grâce aux dons",
+            "feature8": "Code source complet sur GitHub"
+        }
+    },
+    "loginPage": {
+        "title": "Se connecter pour continuer",
+        "emailOrUsernameAndTag": "Email / nom d'utilisateur:balise",
+        "password": "Mot de passe",
+        "login": "Connexion",
+        "createAccountInstead": "Créez un compte",
+        "loggingIn": "Connexion en cours…"
+    },
+    "registerPage": {
+        "title": "Bienvenu sur {{appName}}",
+        "email": "Email",
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "confirmPassword": "Confirmer le mot de passe",
+        "registerButton": "S'inscrire",
+        "registering": "Inscription en cours…",
+        "loginInstead": "Se connecter",
+        "header": "Enregistrer",
+        "agreement": "En créant votre compte, vous acceptez les Conditions et la Politique de Confidentialité.",
+        "notices": {
+            "nsfw": "Pas de contenu NSFW.",
+            "toxic": "Ne soyez pas toxique.",
+            "age": "Vous devez avoir au moins 14 ans.",
+            "title": "Notes"
+        }
+    },
+    "inbox": {
+        "drawer": {
+            "addFriendButton": "Ajouter un ami",
+            "friendsButton": "Amis",
+            "searchBarPlaceholder": "Rechercher",
+            "onlineFriends": "{{count}} Amis En Ligne",
+            "viewAll": "Afficher tout",
+            "friendRequests": "{{count}} Demandes d'amis",
+            "offlineFriends": "{{count}} Amis hors ligne",
+            "notes": "Notes",
+            "blockedUsersButton": "Bloqué",
+            "inboxTitle": "Boîte de réception"
+        },
+        "blockedUsersModal": {
+            "title": "Utilisateurs bloqués"
+        }
+    },
+    "explore": {
+        "drawer": {
+            "title": "Explorer",
+            "servers": "Serveurs",
+            "bots": "Bots",
+            "themes": "Thèmes"
+        },
+        "servers": {
+            "title": "Explorer les serveurs",
+            "noticeMessage": "Un serveur peut être bump une fois toutes les {{hours}} heures. Les bumps sont réinitialisés tous les {{date}}.",
+            "sortMostBumps": "Plus de bumps",
+            "sortMostMembers": "Plus de membres",
+            "sortRecentlyAdded": "Récemment ajouté",
+            "sortRecentlyBumped": "Récemment bump",
+            "filterAll": "Tous",
+            "filterVerified": "Vérifié",
+            "memberCount": "{{count}} membres",
+            "lifetimeBumpCount": "{{count}} bumps totaux",
+            "visitServerButton": "Visiter",
+            "joinServerButton": "Rejoindre",
+            "bumpButton": "Bump ({{count}})",
+            "moderationNotice": "Les serveurs ne sont pas modérés par Nerimity. Veuillez signaler les serveurs qui enfreignent les conditions d'utilisation.",
+            "sortMostActive": "Les plus actifs",
+            "pinnedServers": "Serveurs épinglés",
+            "recentlyBumped": "Serveurs récemment mis à jour"
+        },
+        "bots": {
+            "inviteButton": "Inviter",
+            "title": "Explorer - Bots",
+            "noticeMessage": "Un bot peut être bump toutes les {{hours}} heures. Tous les bumps sont réinitialisées chaque {{date}}.",
+            "moderationNotice": "Les bots ne sont pas modérés par Nerimity. Veuillez signaler les bots malveillants ou qui enfreignent les conditions d'utilisation.",
+            "serverCount": "Dans {{count}} serveurs"
+        },
+        "themes": {
+            "title": "Explorer - Thèmes",
+            "themesHeaderDescription": "Personnalisez Nerimity avec un thème personnalisé.",
+            "officialThemes": "Thèmes officiels",
+            "communityThemes": "Thèmes de la communauté",
+            "noCommunityThemes": "Aucun thème communautaire trouvé.",
+            "fetchThemesError": "Impossible de récupérer les thèmes. Veuillez réessayer plus tard.",
+            "unlockDescription": "Cliquez pour explorer tous les thèmes de la communauté"
+        },
+        "by": "Par",
+        "bumped": "Bump",
+        "sort": "Trier",
+        "filter": "Filtrer",
+        "bumpModal": {
+            "bumpButton": "Bump",
+            "title": "Bump {{name}}"
+        }
     },
     "servers": {
       "title": "Explorer les serveurs",

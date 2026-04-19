@@ -175,33 +175,378 @@
       "inviteButton": "Einladen",
       "serverCount": "In {{count}} Servern"
     },
-    "themes": {
-      "title": "Erkunden – Designs",
-      "themesHeaderDescription": "Personalisiere Nerimity mit einem benutzerdefinierten Design.",
-      "officialThemes": "Offizielle Designs",
-      "communityThemes": "Community-Designs",
-      "noCommunityThemes": "Keine Community-Designs gefunden.",
-      "fetchThemesError": "Designs konnten nicht geladen werden. Bitte später erneut versuchen.",
-      "unlockDescription": "Klicke, um alle Community-Designs zu entdecken"
+    "dashboard": {
+        "title": "Übersicht",
+        "activeUsers": "Aktive Nutzer",
+        "noActiveUsers": "Keine aktiven Nutzer",
+        "servers": "Server",
+        "posts": "Beiträge",
+        "feed": "Startseite",
+        "discover": "Entdecken",
+        "notifications": "Benachrichtigungen"
+    },
+    "sidePane": {
+        "home": "Start",
+        "moderation": "Moderationsbereich",
+        "addServer": "Server hinzufügen",
+        "homeShort": "Start",
+        "moderationShort": "Mod"
+    },
+    "updateModal": {
+        "title": "Update verfügbar",
+        "updateButton": "Jetzt aktualisieren",
+        "laterButton": "Später",
+        "releasedAt": "Veröffentlicht am"
+    },
+    "messageArea": {
+        "messageBoxPlaceholder": "Nachricht an {{username}}",
+        "messageBoxChannelPlaceholder": "Nachricht in {{channelName}}",
+        "replying": "Antwort auf {{count}} Nachricht(en)",
+        "mention": "Erwähnen",
+        "dropFile": "Datei ablegen",
+        "uploadTo": "Hochladen nach",
+        "channelNotice": {
+            "title": "Bevor du chattest…",
+            "understoodButton": "Verstanden"
+        },
+        "specialMentions": {
+            "everyone": "Erwähnt alle",
+            "someone": "Erwähnt einen zufälligen Nutzer",
+            "silent": "Stille Nachricht"
+        },
+        "linkToGoogleDrive": {
+            "body": "Du musst dein Konto mit Google Drive verknüpfen, um große Bilder, Videos oder Dateien hochzuladen",
+            "linkButton": "Jetzt verknüpfen",
+            "cancelButton": "Nicht verknüpfen"
+        },
+        "emailNotice": "Bestätige deine E-Mail, um Nachrichten zu senden.",
+        "gifPicker": {
+            "search": "Suche auf {{platform}}",
+            "noResults": "Keine GIFs gefunden",
+            "favorites": {
+                "title": "Favoriten",
+                "search": "Favoriten suchen",
+                "noFavorites": "Noch keine Favoriten"
+            }
+        }
+    },
+    "inbox": {
+        "blockedUsersModal": {
+            "title": "Blockierte Nutzer"
+        },
+        "drawer": {
+            "searchBarPlaceholder": "Suchen",
+            "friendRequests": "{{count}} Freundschaftsanfrage(n)",
+            "onlineFriends": "{{count}} Freund(e) online",
+            "offlineFriends": "{{count}} Freund(e) offline",
+            "notes": "Notizen",
+            "addFriendButton": "Freund hinzufügen",
+            "blockedUsersButton": "Blockiert",
+            "inboxTitle": "Posteingang",
+            "friendsButton": "Freunde",
+            "viewAll": "Alle anzeigen"
+        }
+    },
+    "explore": {
+        "drawer": {
+            "title": "Erkunden",
+            "servers": "Server",
+            "bots": "Bots",
+            "themes": "Designs"
+        },
+        "bots": {
+            "title": "Erkunden – Bots",
+            "noticeMessage": "Ein Bot kann nur alle {{hours}} Stunden gebumpt werden. Alle Bumps werden jeweils am {{date}} zurückgesetzt.",
+            "moderationNotice": "Bots werden nicht von Nerimity moderiert. Bitte melde Bots, die bösartig sind oder gegen die Nutzungsbedingungen verstoßen.",
+            "inviteButton": "Einladen",
+            "serverCount": "In {{count}} Servern"
+        },
+        "themes": {
+            "title": "Erkunden – Designs",
+            "themesHeaderDescription": "Personalisiere Nerimity mit einem benutzerdefinierten Design.",
+            "officialThemes": "Offizielle Designs",
+            "communityThemes": "Community-Designs",
+            "noCommunityThemes": "Keine Community-Designs gefunden.",
+            "fetchThemesError": "Designs konnten nicht geladen werden. Bitte später erneut versuchen.",
+            "unlockDescription": "Klicke, um alle Community-Designs zu entdecken"
+        },
+        "servers": {
+            "title": "Erkunden – Server",
+            "noticeMessage": "Ein Server kann nur alle {{hours}} Stunden gebumpt werden. Alle Bumps werden jeweils am {{date}} zurückgesetzt.",
+            "moderationNotice": "Server werden nicht von Nerimity moderiert. Bitte melde Server, die gegen die Nutzungsbedingungen verstoßen.",
+            "sortMostBumps": "Meiste Bumps",
+            "sortMostMembers": "Meiste Mitglieder",
+            "sortRecentlyAdded": "Kürzlich hinzugefügt",
+            "sortRecentlyBumped": "Kürzlich gebumpt",
+            "sortMostActive": "Am aktivsten (Beta)",
+            "filterAll": "Alle",
+            "filterVerified": "Verifiziert",
+            "pinnedServers": "Angepinnte Server",
+            "recentlyBumped": "Kürzlich gebumpte Server",
+            "memberCount": "{{count}} Mitglieder",
+            "lifetimeBumpCount": "{{count}} Bumps insgesamt",
+            "visitServerButton": "Besuchen",
+            "joinServerButton": "Beitreten",
+            "bumpButton": "Bump ({{count}})",
+            "filterClans": "Clans"
+        },
+        "sort": "Sortieren",
+        "filter": "Filtern",
+        "by": "Von",
+        "bumped": "Gebumpt",
+        "bumpModal": {
+            "title": "Bumpe {{name}}",
+            "bumpButton": "Bump"
+        }
+    },
+    "editFolderModal": {
+        "title": "Ordner bearbeiten",
+        "placeholder": "Ordnername",
+        "errors": {
+            "emptyName": "Bitte gib einen Ordnernamen ein."
+        }
     },
     "servers": {
-      "title": "Erkunden – Server",
-      "noticeMessage": "Ein Server kann nur alle {{hours}} Stunden gebumpt werden. Alle Bumps werden jeweils am {{date}} zurückgesetzt.",
-      "moderationNotice": "Server werden nicht von Nerimity moderiert. Bitte melde Server, die gegen die Nutzungsbedingungen verstoßen.",
-      "sortMostBumps": "Meiste Bumps",
-      "sortMostMembers": "Meiste Mitglieder",
-      "sortRecentlyAdded": "Kürzlich hinzugefügt",
-      "sortRecentlyBumped": "Kürzlich gebumpt",
-      "sortMostActive": "Am aktivsten (Beta)",
-      "filterAll": "Alle",
-      "filterVerified": "Verifiziert",
-      "pinnedServers": "Angepinnte Server",
-      "recentlyBumped": "Kürzlich gebumpte Server",
-      "memberCount": "{{count}} Mitglieder",
-      "lifetimeBumpCount": "{{count}} Bumps insgesamt",
-      "visitServerButton": "Besuchen",
-      "joinServerButton": "Beitreten",
-      "bumpButton": "Bump ({{count}})"
+        "settings": {
+            "drawer": {
+                "general": "Allgemein",
+                "audit-logs": "Audit-Logs",
+                "roles": "Rollen",
+                "channels": "Kanäle",
+                "bans": "Sperren",
+                "invites": "Einladungen",
+                "publishServer": "Server veröffentlichen",
+                "verify": "Verifizieren",
+                "role": "Rolle",
+                "welcome-screen": "Willkommensbildschirm",
+                "channel": "Kanal",
+                "notifications": "Benachrichtigungen",
+                "external-embed": "Externe Einbettung",
+                "permissions": "Berechtigungen",
+                "emoji": "Emoji",
+                "clanTag": "Clan-Tag"
+            },
+            "bans": {
+                "sort": {
+                    "unsorted": "Unsortiert",
+                    "alphabetical": "Alphabetisch"
+                },
+                "noResults": "Keine Ergebnisse gefunden.",
+                "reason": "Grund",
+                "noReason": "Kein Grund angegeben",
+                "bannedAt": "Gesperrt am",
+                "unknown": "Unbekannt",
+                "unban": "Entsperren",
+                "unbanning": "Wird entbannt…"
+            },
+            "webhook": {
+                "title": "Webhooks",
+                "name": "Webhook-Name",
+                "link": "Webhook-URL",
+                "linkDescription": "Aktionen über diesen Link ausführen",
+                "delete": "Webhook löschen",
+                "addButton": "Webhook hinzufügen"
+            },
+            "general": {
+                "serverRenameNotice": "Wenn du deinen Server umbenennst, verlierst du alle Vorteile einer verifizierten Community.",
+                "serverName": "Servername",
+                "defaultChannel": "Standardkanal",
+                "defaultChannelDescription": "Neue Mitglieder werden zu diesem Kanal weitergeleitet.",
+                "systemMessages": "Systemnachrichten",
+                "systemMessagesDescription": "Wo Systemnachrichten erscheinen sollen.",
+                "deleteThisServer": "Diesen Server löschen",
+                "deleteServerButton": "Server löschen",
+                "none": "Keine"
+            },
+            "roles": {
+                "addNewRole": "Neue Rolle hinzufügen",
+                "addRoleButton": "Rolle hinzufügen"
+            },
+            "role": {
+                "roleName": "Rollenname",
+                "roleColor": "Rollenfarbe",
+                "hideRole": "Rolle ausblenden",
+                "hideRoleDescription": "Mitglieder mit dieser Rolle zusammen mit allen Standardmitgliedern anzeigen",
+                "permissionsDescription": "Berechtigungen für diese Rolle verwalten.",
+                "deleteRoleButton": "Diese Rolle löschen",
+                "clear": "Zurücksetzen",
+                "roleIcon": "Rollen-Icon",
+                "managedByBot": "Diese Rolle wird von {{botName}} verwaltet. Du kannst sie nicht löschen oder anderen Mitgliedern zuweisen. Kicke den Bot um die Rolle zu löschen.",
+                "applyOnJoin": "Beitrittsanfrage",
+                "applyOnJoinDescription": "Weise diese Rolle Mitgliedern hinzu, wenn sie dem Server beitreten.",
+                "deleteRoleTitle": "Lösche {{roleName}}"
+            },
+            "header": {
+                "editServer": "Server bearbeiten",
+                "serverMemberCount": "{{count}} Mitglieder"
+            },
+            "channels": {
+                "createButton": "Erstellen",
+                "createNewDescription": "Neuen Kanal oder neue Kategorie erstellen",
+                "textChannel": "Textkanal",
+                "category": "Kategorie"
+            },
+            "channel": {
+                "channelName": "Kanalname",
+                "permissionsDescription": "Berechtigungen für diesen Kanal verwalten.",
+                "deleteThisChannel": "Diesen Kanal löschen",
+                "deleteChannelButton": "Kanal löschen",
+                "removeNoticeButton": "Hinweis entfernen",
+                "channelIcon": "Kanal Icon",
+                "slowModeDescription": "Lege fest, wie lange ein Nutzer warten muss, bevor er eine Nachricht senden kann.",
+                "deleteChannelTitle": "{{channelName}} löschen",
+                "slowMode": "Slow-Modus",
+                "channelNotice": "Kanalnotiz",
+                "channelNoticeDescription": "Wird angezeigt, wenn der Nutzer kurz davor ist, seine erste Nachricht zu schreiben. Änderungen werden nach einem Reload angewendet.",
+                "channelNoticeTooLong": "Kanalnotiz kann nicht länger als 300 Zeichen sein."
+            },
+            "invites": {
+                "createInviteButton": "Einladung erstellen",
+                "serverInvites": "Server-Einladungen",
+                "serverInvitesDescription": "Lade deine Freunde auf diesen Server ein.",
+                "customInviteVerifiedOnlyNotice": "Benutzerdefinierte Einladungslinks sind nur für verifizierte Server verfügbar.",
+                "customLink": "Benutzerdefinierter Link",
+                "uses": "{{count}} Nutzung(en)"
+            },
+            "publishServer": {
+                "publishNotice": "Wenn du deinen Server veröffentlichst, wird er auf der <1>Erkunden</1>-Seite verfügbar.",
+                "public": "Öffentlich",
+                "publicDescription": "Diesen Server öffentlich machen.",
+                "bumpServer": "Server bumpen",
+                "bumpServerDescription": "Bumpe diesen Server, um ganz nach oben zu kommen.",
+                "bumpButton": "Bump ({{count}})",
+                "descriptionLabel": "Serverbeschreibung ({{current}}/{{max}})",
+                "publishServerButton": "Veröffentlichen",
+                "unpublishServerButton": "Veröffentlichung aufheben",
+                "bumpCooldown": "Du musst {{hours}} Stunde(n), {{minutes}} Minute(n) und {{seconds}} Sekunde(n) warten, um den Server erneut zu bumpen."
+            },
+            "verify": {
+                "alreadyVerified": "Dein Server ist bereits verifiziert!",
+                "insufficientMembers": "Dir fehlen noch {{count}} Mitglied(er), um die Verifizierung zu beantragen.",
+                "verifiable": "Bereit zur Verifizierung",
+                "verifiableDescription": "Du hast genug Mitglieder, um deinen Server zu verifizieren!",
+                "verifyButton": "Verifizieren",
+                "requirements": {
+                    "title": "Voraussetzungen",
+                    "englishOnly": "Nur Englisch",
+                    "englishOnlyDescription": "Nicht-englische Server sind schwerer zu moderieren.",
+                    "oneMonthOrSupporter": "Mindestens 1 Monat ODER Supporter-Badge",
+                    "oneMonthOrSupporterDescription": "Dein Server muss mindestens 1 Monat alt sein ODER der Serverbesitzer muss das Supporter-Badge haben.",
+                    "members": "{{count}} oder mehr Mitglieder",
+                    "membersDescription": "Dein Server muss mindestens {{count}} Mitglieder haben.",
+                    "profanityFree": "Ohne Schimpfwörter",
+                    "profanityFreeDescription": "Servername, Avatar und Banner dürfen keine Schimpfwörter enthalten.",
+                    "avatarAndBanner": "Avatar & Banner",
+                    "avatarAndBannerDescription": "Der Server muss einen Avatar und ein Banner haben.",
+                    "rules": "Serverregeln",
+                    "rulesDescription": "Der Server muss einen Regel-Kanal haben."
+                },
+                "perks": {
+                    "title": "Vorteile",
+                    "badge": "Verifiziert-Badge",
+                    "badgeDescription": "Ein Badge, das zeigt, dass dein Server besonders ist.",
+                    "explore": "Hervorhebung in Erkunden",
+                    "exploreDescription": "Dein Server wird in einem separaten Bereich auf der Erkunden-Seite angezeigt.",
+                    "customInvite": "Benutzerdefinierter Einladungslink",
+                    "customInviteDescription": "Erstelle deinen eigenen Einladungslink auf der Einladungs-Seite.",
+                    "emojiSlots": "Mehr Emoji-Slots",
+                    "emojiSlotsDescription": "200 Emoji-Slots für deinen Server.",
+                    "hdScreenshare": "1080p@60fps Bildschirmfreigabe",
+                    "hdScreenshareDescription": "Bildschirmfreigabe in 1080p bei 60fps."
+                }
+            },
+            "welcomeScreen": {
+                "title": "Fragen",
+                "description": "Richte Fragen ein, mit denen Nutzer Rollen zuweisen können.",
+                "questions": {
+                    "addButton": "Frage hinzufügen",
+                    "question": "Frage",
+                    "questionPlaceholder": "Katzen oder Hunde?",
+                    "multiselect": "Mehrfachauswahl"
+                },
+                "answers": {
+                    "title": "Antworten",
+                    "addButton": "Antwort hinzufügen",
+                    "editModal": {
+                        "title": "Antwort bearbeiten",
+                        "answer": "Antwort",
+                        "placeholder": "Katzen",
+                        "selectRoles": "Rollen auswählen"
+                    }
+                }
+            },
+            "notifications": {
+                "notice": "Diese Einstellungen gelten nur für dich.",
+                "ping": "Benachrichtigungston",
+                "pingDescription": "Zeige einen Benachrichtigungsindikator an.",
+                "sound": "Benachrichtigungston",
+                "soundDescription": "Spiele einen Ton ab, wenn du eine Benachrichtigung erhältst.",
+                "channelsDescription": "Verwalte Benachrichtigungen pro Kanal.",
+                "resetButton": "Überschreibungen zurücksetzen ({{count}})"
+            },
+            "emoji": {
+                "title": "Personalisierte Emojis",
+                "description": "Füge deinen eigenen Emoji hinzu.",
+                "addButton": "Emoji hinzufügen"
+            },
+            "externalEmbed": {
+                "noInvites": {
+                    "title": "Noch keine Einladung",
+                    "description": "Du musst zuerst eine Einladung erstellen, bevor du einen externen Embed-Link erstellen kannst.",
+                    "createButton": "Einladung erstellen"
+                },
+                "title": "Externen Embed-Link erstellen",
+                "description": "Erstelle ein externes IFrame-Embed für deine Website.",
+                "dropdownPlaceholder": "Einladung auswählen",
+                "options": {
+                    "hideHeader": "Header ausblenden",
+                    "hideMembers": "Mitgliederliste ausblenden",
+                    "hideActivities": "Aktivitätenliste ausblenden"
+                }
+            },
+            "clans": {
+                "tag": "Tag",
+                "icon": "Symbol",
+                "enableClanTag": "Clan-Tag aktivieren",
+                "verifiedServerOnly": "Clan-Tags sind nur für verifizierte Server verfügbar."
+            }
+        },
+        "rolePermissions": {
+            "admin": "Admin",
+            "adminDescription": "Aktiviert alle Berechtigungen.",
+            "sendMessage": "Nachrichten senden",
+            "sendMessageDescription": "Erlaubt das Senden von Nachrichten auf diesem Server. Server-Admins können weiterhin Nachrichten senden.",
+            "manageRoles": "Rollen verwalten",
+            "manageRolesDescription": "Berechtigung zum Aktualisieren oder Löschen von Rollen.",
+            "manageChannels": "Kanäle verwalten",
+            "manageChannelsDescription": "Berechtigung zum Aktualisieren oder Löschen von Kanälen.",
+            "kick": "Kicken",
+            "kickDescription": "Berechtigung, Nutzer zu kicken.",
+            "ban": "Bannen",
+            "banDescription": "Berechtigung, Nutzer zu bannen.",
+            "mentionEveryone": "@everyone erwähnen",
+            "mentionEveryoneDescription": "Erlaubt das Erwähnen von @everyone. Server-Admins können weiterhin @everyone erwähnen.",
+            "nicknameMember": "Spitznamen ändern",
+            "nicknameMemberDescription": "Erlaubt Nutzern, ihren Spitznamen auf dem Server zu ändern."
+        },
+        "leaveModal": {
+            "title": "Server verlassen?",
+            "body": {
+                "part1": "Möchtest du <1>{{serverName}}</1> wirklich verlassen?",
+                "part2": "Du kannst jederzeit wieder beitreten!"
+            },
+            "cancelButton": "Nicht verlassen",
+            "confirmButton": "Verlassen"
+        },
+        "channelPermissions": {
+            "publicChannel": "Öffentlicher Kanal",
+            "publicChannelDescription": "Erlaubt Zugriff auf den Kanal. Server-Admins können auf jeden Kanal zugreifen.",
+            "sendMessage": "Nachrichten senden",
+            "sendMessageDescription": "Erlaubt das Senden von Nachrichten im Kanal. Server-Admins können weiterhin Nachrichten senden.",
+            "joinVoice": "Voice beitreten",
+            "joinVoiceDescription": "Erlaubt das Beitreten zu Voice-Kanälen. Server-Admins können weiterhin Voice-Kanälen beitreten.",
+            "hiddenChannel": "Ausgeblendeter Kanal"
+        }
     },
     "sort": "Sortieren",
     "filter": "Filtern",
