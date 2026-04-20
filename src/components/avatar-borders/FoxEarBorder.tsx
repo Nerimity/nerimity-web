@@ -16,7 +16,7 @@ export function FoxEarsBorder(props: {
         "margin-top": (props.offset || 0) * props.size + "px",
         "z-index": "1111"
       }}
-      src={`/borders/fox-ears-${props.color}.png`}
+      src={`/borders/fox-ears-${props.color}.webp`}
     />
   );
 }

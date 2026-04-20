@@ -28,16 +28,16 @@ export function FounderAdminSupporterBorder(props: {
     >
       <Show when={props.type !== "palestine"}>
         <img
-          src={`/borders/${props.type}-left-wing.png`}
+          src={`/borders/${props.type}-left-wing.webp`}
           class={classNames(styles.wing, styles.leftWing)}
         />
       </Show>
-      <img src={`/borders/${props.type}.png`} class={styles.border} />
+      <img src={`/borders/${props.type}.webp`} class={styles.border} />
       <RawAvatar {...props} />
       {props.overlay}
       <Show when={props.type !== "palestine"}>
         <img
-          src={`/borders/${props.type}-right-wing.png`}
+          src={`/borders/${props.type}-right-wing.webp`}
           class={classNames(styles.wing, styles.rightWing)}
         />
       </Show>

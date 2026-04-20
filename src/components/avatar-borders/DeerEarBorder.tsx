@@ -19,7 +19,7 @@ export function DeerEarsBorder(props: {
         "margin-top": (props.offset || 0) * props.size + "px",
         "z-index": "1111"
       }}
-      src={`/borders/deer-ears-${props.color}.png`}
+      src={`/borders/deer-ears-${props.color}.webp`}
     />
   );
 }
