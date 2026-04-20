@@ -62,6 +62,9 @@
             "notes": "Notes",
             "blockedUsersButton": "Bloqué",
             "inboxTitle": "Boîte de réception"
+        },
+        "blockedUsersModal": {
+            "title": "Utilisateurs bloqués"
         }
     },
     "servers": {
@@ -327,7 +330,8 @@
             "connections": "Relations",
             "profile": "Profil",
             "source": "Source",
-            "changes": "Changements"
+            "changes": "Changements",
+            "sessions": "Sessions"
         },
         "header": {
             "servers": "serveurs",
@@ -1094,7 +1098,8 @@
         "invalid": "Code d'invitation invalide",
         "joinButton": "Rejoindre",
         "joiningButton": "en train de rejoindre…",
-        "visitButton": "Visiter"
+        "visitButton": "Visiter",
+        "private": "Cela provient d'un serveur privé"
     },
     "fileEmbed": {
         "expired": "Éxpiré {{time}}",
@@ -1338,5 +1343,60 @@
     "accountLink": {
         "linking": "Connexion de votre compte avec {{service}}…",
         "success": "Compte associé ! Vous pouvez maintenant fermer cette fenêtre."
+    },
+    "explore": {
+        "drawer": {
+            "title": "Explorer",
+            "servers": "Serveurs",
+            "bots": "Bots",
+            "themes": "Thèmes"
+        },
+        "bots": {
+            "title": "Explorer - Bots",
+            "noticeMessage": "Un bot peut être bump toutes les {{hours}} heures. Tous les bumps sont réinitialisées chaque {{date}}.",
+            "moderationNotice": "Les bots ne sont pas modérés par Nerimity. Veuillez signaler les bots malveillants ou qui enfreignent les conditions d'utilisation.",
+            "inviteButton": "Inviter",
+            "serverCount": "Dans {{count}} serveurs"
+        },
+        "themes": {
+            "title": "Explorer - Thèmes",
+            "themesHeaderDescription": "Personnalisez Nerimity avec un thème personnalisé.",
+            "officialThemes": "Thèmes officiels",
+            "communityThemes": "Thèmes de la communauté",
+            "noCommunityThemes": "Aucun thème communautaire trouvé.",
+            "fetchThemesError": "Impossible de récupérer les thèmes. Veuillez réessayer plus tard.",
+            "unlockDescription": "Cliquez pour explorer tous les thèmes de la communauté"
+        },
+        "servers": {
+            "title": "Explorer les serveurs",
+            "noticeMessage": "Un serveur peut être bump une fois toutes les {{hours}} heures. Les bumps sont réinitialisés tous les {{date}}.",
+            "moderationNotice": "Les serveurs ne sont pas modérés par Nerimity. Veuillez signaler les serveurs qui enfreignent les conditions d'utilisation.",
+            "sortMostBumps": "Plus de bumps",
+            "sortMostMembers": "Plus de membres",
+            "sortRecentlyAdded": "Récemment ajouté",
+            "sortRecentlyBumped": "Récemment bump",
+            "sortMostActive": "Les plus actifs",
+            "filterAll": "Tous",
+            "filterVerified": "Vérifié",
+            "pinnedServers": "Serveurs épinglés",
+            "recentlyBumped": "Serveurs récemment bump",
+            "memberCount": "{{count}} membres",
+            "lifetimeBumpCount": "{{count}} bumps totaux",
+            "visitServerButton": "Visiter",
+            "joinServerButton": "Rejoindre",
+            "bumpButton": "Bump ({{count}})",
+            "filterClans": "Clans"
+        },
+        "bumpModal": {
+            "title": "Bump {{name}}",
+            "bumpButton": "Bump"
+        },
+        "sort": "Trier",
+        "filter": "Filtrer",
+        "by": "Par",
+        "bumped": "Bump"
+    },
+    "clanModal": {
+        "title": "Clan"
     }
 }
