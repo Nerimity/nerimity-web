@@ -62,6 +62,9 @@
             "blockedUsersButton": "Zablokowani",
             "inboxTitle": "Skrzynka",
             "viewAll": "Pokaż wszystko"
+        },
+        "blockedUsersModal": {
+            "title": "Zablokowani użytkownicy"
         }
     },
     "servers": {
@@ -81,7 +84,8 @@
                 "audit-logs": "Dziennik zdarzeń",
                 "external-embed": "Zewnętrzne osadzenie",
                 "permissions": "Uprawnienia",
-                "emoji": "Emoji"
+                "emoji": "Emoji",
+                "clanTag": "Tag klanu"
             },
             "general": {
                 "serverRenameNotice": "Jeśli zmienisz nazwę serwera, stracisz jego weryfikację oraz wszystkie korzyści, które z niej płyną.",
@@ -260,6 +264,12 @@
                     "hideMembers": "Ukryj listę członków",
                     "hideActivities": "Ukryj listę aktywności"
                 }
+            },
+            "clans": {
+                "tag": "Tag",
+                "icon": "Ikona",
+                "enableClanTag": "Włącz tag klanu",
+                "verifiedServerOnly": "Tagi klanów są dostępne tylko dla zweryfikowanych serwerów."
             }
         },
         "rolePermissions": {
@@ -320,7 +330,8 @@
             "call-settings": "Ustawienia połączeń",
             "profile": "Profil",
             "source": "Źródło",
-            "changes": "Zmiany"
+            "changes": "Zmiany",
+            "sessions": "Sesje"
         },
         "header": {
             "servers": "serwery",
@@ -849,7 +860,8 @@
         "joiningButton": "Trwa dołączanie…",
         "visitButton": "Odwiedź",
         "member": "członek",
-        "members": "członkowie"
+        "members": "członkowie",
+        "private": "Ten tag należy do prywatnego serwera"
     },
     "fileEmbed": {
         "expired": "Wygasł {{time}}",
@@ -1331,5 +1343,60 @@
     "accountLink": {
         "linking": "Trwa łączenie Twojego konta z usługą {{service}}…",
         "success": "Konto połączone! Możesz już zamknąć to okno."
+    },
+    "explore": {
+        "drawer": {
+            "title": "Odkrywaj",
+            "servers": "Serwery",
+            "bots": "Boty",
+            "themes": "Motywy"
+        },
+        "bots": {
+            "title": "Odkrywaj - Boty",
+            "noticeMessage": "Bot może zostać podbity co {{hours}} godziny. Wszystkie podbicia resetują się co {{date}}.",
+            "moderationNotice": "Boty nie są moderowane przez Nerimity. Prosimy zgłaszać boty, które są złośliwe lub łamią Warunki Użytkowania.",
+            "inviteButton": "Zaproś",
+            "serverCount": "Serwery: {{count}}"
+        },
+        "themes": {
+            "title": "Odkrywaj - Motywy",
+            "themesHeaderDescription": "Dostosuj Nerimity niestandardowym motywem.",
+            "officialThemes": "Oficjalne motywy",
+            "communityThemes": "Motywy od Społeczności",
+            "noCommunityThemes": "Nie ma jeszcze motywów od społeczności.",
+            "fetchThemesError": "Nie udało się wczytać motywów. Spróbuj ponownie później.",
+            "unlockDescription": "Kliknij, aby odkrywać wszystkie motywy od społeczności"
+        },
+        "servers": {
+            "title": "Odkrywaj - Serwery",
+            "noticeMessage": "Serwer może zostać podbity co {{hours}} godziny. Wszystkie podbicia resetują się co {{date}}.",
+            "moderationNotice": "Serwery nie są moderowane przez Nerimity. Prosimy zgłaszać serwery, które łamią Warunki Użytkowania.",
+            "sortMostBumps": "Najwięcej podbić",
+            "sortMostMembers": "Najwięcej członków",
+            "sortRecentlyAdded": "Ostatnio dodane",
+            "sortRecentlyBumped": "Ostatnio podbite",
+            "sortMostActive": "Najbardziej aktywne (beta)",
+            "filterAll": "Wszystkie",
+            "filterVerified": "Zweryfikowane",
+            "pinnedServers": "Przypięte serwery",
+            "recentlyBumped": "Ostatnio podbite serwery",
+            "memberCount": "{{count}} członków",
+            "lifetimeBumpCount": "{{count}} wszystkich podbić",
+            "visitServerButton": "Odwiedź",
+            "joinServerButton": "Dołącz",
+            "bumpButton": "Podbij ({{count}})",
+            "filterClans": "Klany"
+        },
+        "bumpModal": {
+            "title": "Podbij {{name}}",
+            "bumpButton": "Podbij"
+        },
+        "sort": "Sortowanie",
+        "filter": "Filtrowanie",
+        "by": "Od",
+        "bumped": "Podbito"
+    },
+    "clanModal": {
+        "title": "Klan"
     }
 }
