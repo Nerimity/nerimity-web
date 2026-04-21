@@ -1,59 +1,72 @@
-import styles from "./styles.module.scss";
-import RouterEndpoints from "@/common/RouterEndpoints";
-import Header from "./header/ServerDrawerHeader";
-import { A, useMatch, useNavigate, useParams } from "solid-navigator";
-import useStore from "@/chat-api/store/useStore";
 import {
-  For,
-  Match,
   Show,
+  For,
   Switch,
-  createEffect,
+  Match,
+  createSignal,
   createMemo,
+  createEffect,
   on,
-  onCleanup,
-  onMount
+  onCleanup
 } from "solid-js";
-import { Channel } from "@/chat-api/store/useChannels";
-import ItemContainer from "@/components/ui/LegacyItem";
-import { styled } from "solid-styled-components";
-import Text from "@/components/ui/Text";
-import { ChannelType, ServerNotificationPingMode } from "@/chat-api/RawData";
-import Icon from "@/components/ui/icon/Icon";
-import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
-
-import { createSignal } from "solid-js";
-import Avatar from "@/components/ui/Avatar";
-import { timeSinceDigital } from "@/common/date";
-import InVoiceActions from "@/components/InVoiceActions";
+import style from "./style.module.scss";
+import ServerDrawerHeader from "./header/ServerDrawerHeader";
+import {
+  CategoryControllerProvider,
+  ServerDrawerControllerProvider,
+  useCategoryController,
+  useServerDrawerController
+} from "./ServerDrawerController";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
-import { emitDrawerGoToMain } from "@/common/GlobalEvents";
-import ContextMenuServerChannel from "../context-menu/ContextMenuServerChannel";
-import Button from "@/components/ui/Button";
-import { ChannelIcon } from "@/components/ChannelIcon";
-
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import { CreateChannelModal } from "../modals/CreateChannelModal";
-
-import { useWindowProperties } from "@/common/useWindowProperties";
+import useStore from "@/chat-api/store/useStore";
+import { ChannelType, ServerNotificationPingMode } from "@/chat-api/RawData";
+import { Channel } from "@/chat-api/store/useChannels";
 import { cn } from "@/common/classNames";
 import { Tooltip } from "@/components/ui/Tooltip";
-import { useCollapsedServerCategories } from "@/common/localStorage";
-import { messagesPreloader } from "@/common/createPreloader";
+import Button from "@/components/ui/Button";
+import Icon from "@/components/ui/icon/Icon";
+import { ChannelIcon } from "@/components/ChannelIcon";
 import { t } from "@nerimity/i18lite";
+import { messagesPreloader } from "@/common/createPreloader";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import { Item } from "@/components/ui/Item";
+import { emitDrawerGoToMain } from "@/common/GlobalEvents";
+import { styled } from "solid-styled-components";
+import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
+import Text from "@/components/ui/Text";
+import { timeSinceDigital } from "@/common/date";
+import Avatar from "@/components/ui/Avatar";
+import InVoiceActions from "@/components/InVoiceActions";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import { useMatch, useParams } from "solid-navigator";
+import ContextMenuServerChannel from "../context-menu/ContextMenuServerChannel";
 
 const ServerDrawer = () => {
+  return (
+    <ServerDrawerControllerProvider>
+      <ServerDrawerContent />
+    </ServerDrawerControllerProvider>
+  );
+};
+
+const ServerDrawerContent = () => {
   const params = useParams<{ serverId: string }>();
   const store = useStore();
   const { isMobileWidth } = useWindowProperties();
+  const controller = useServerDrawerController();
 
   const server = () => store.servers.get(params.serverId);
   return (
     <>
-      <Header />
-      <div class={styles.serverDrawer}>
-        <div class={styles.serverDrawerInner}>
+      <Show when={controller?.contextMenuDetails()}>
+        <ContextMenuServerChannel
+          {...controller?.contextMenuDetails()}
+          onClose={() => controller?.setContextMenuDetails(undefined)}
+        />
+      </Show>
+      <ServerDrawerHeader />
+      <div class={style.serverDrawer}>
+        <div class={style.serverDrawerInner}>
           <Show when={server()?.joinedThisSession}>
             <JoinedThisSessionNotificationNotice />
           </Show>
@@ -81,16 +94,15 @@ const CustomizeItem = () => {
     RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome")
   );
   return (
-    <div class={styles.welcomeItemContainer}>
-      <A
-        style={{ "text-decoration": "none" }}
+    <div class={style.welcomeItemContainer}>
+      <Item.Root
         href={RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome")}
+        onClick={() => emitDrawerGoToMain()}
+        selected={!!match()}
       >
-        <ChannelContainer selected={match()}>
-          <Icon name="tune" size={16} />
-          <div class="label">{t("channelDrawer.customize.title")}</div>
-        </ChannelContainer>
-      </A>
+        <Item.Icon>tune</Item.Icon>
+        <Item.Label>{t("channelDrawer.customize.title")}</Item.Label>
+      </Item.Root>
     </div>
   );
 };
@@ -100,128 +112,46 @@ const MembersItem = () => {
     RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members")
   );
   return (
-    <div class={styles.membersItemContainer}>
-      <A
-        style={{ "text-decoration": "none" }}
+    <div class={style.membersItemContainer}>
+      <Item.Root
         href={RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members")}
+        onClick={() => emitDrawerGoToMain()}
+        selected={!!match()}
       >
-        <ChannelContainer selected={match()}>
-          <Icon name="group" size={16} />
-          <div class="label">{t("informationDrawer.members")}</div>
-        </ChannelContainer>
-      </A>
+        <Item.Icon>group</Item.Icon>
+        <Item.Label>{t("informationDrawer.members")}</Item.Label>
+      </Item.Root>
     </div>
   );
 };
 
 const ChannelList = () => {
-  const params = useParams();
-  const { channels, account } = useStore();
-  const navigate = useNavigate();
-
-  const [contextMenuDetails, setContextMenuDetails] = createSignal<
-    | {
-        position: { x: number; y: number };
-        serverId: string;
-        channelId: string;
-      }
-    | undefined
-  >();
-
-  const sortedChannels = () =>
-    channels.getSortedChannelsByServerId(params.serverId, true, true);
-  const sortedRootChannels = () =>
-    sortedChannels().filter((channel) => !channel?.categoryId);
-  const channelsWithoutCategory = () =>
-    sortedChannels().filter(
-      (channel) => channel?.type !== ChannelType.CATEGORY
-    );
-  const selectedChannelIndex = () =>
-    channelsWithoutCategory().findIndex(
-      (channel) => channel?.id === params.channelId
-    );
-
-  const onKeyDown = (event: KeyboardEvent) => {
-    if (!event.altKey) return;
-
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
-      let newIndex = selectedChannelIndex();
-
-      if (selectedChannelIndex() < channelsWithoutCategory().length - 1) {
-        newIndex = selectedChannelIndex() + 1;
-      } else {
-        newIndex = 0;
-      }
-      navigate(
-        `/app/servers/${params.serverId}/${
-          channelsWithoutCategory()[newIndex]?.id
-        }`
-      );
-    }
-
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      let newIndex = selectedChannelIndex();
-
-      if (selectedChannelIndex() > 0) {
-        newIndex = selectedChannelIndex() - 1;
-      } else {
-        newIndex = channelsWithoutCategory().length - 1;
-      }
-      navigate(
-        `/app/servers/${params.serverId}/${
-          channelsWithoutCategory()[newIndex]?.id
-        }`
-      );
-    }
-  };
-
-  onMount(() => {
-    document.addEventListener("keydown", onKeyDown);
-    onCleanup(() => {
-      document.removeEventListener("keydown", onKeyDown);
-    });
-  });
-
-  const onChannelContextMenu = (event: MouseEvent, channelId: string) => {
-    event.preventDefault();
-    setContextMenuDetails({
-      position: { x: event.clientX, y: event.clientY },
-      serverId: params.serverId!,
-      channelId
-    });
-  };
+  const store = useStore();
+  const controller = useServerDrawerController();
 
   return (
-    <div class={styles.channelList}>
-      <ContextMenuServerChannel
-        {...contextMenuDetails()}
-        onClose={() => setContextMenuDetails(undefined)}
-      />
-
+    <div class={style.channelList}>
       <Show
-        when={account.lastAuthenticatedAt()}
+        when={store.account.lastAuthenticatedAt()}
         fallback={<ChannelListSkeleton />}
       >
-        <For each={sortedRootChannels()}>
+        <For each={controller?.sortedRootChannels()}>
           {(channel) => (
             <Switch
               fallback={
                 <ChannelItem
-                  expanded
-                  onContextMenu={(e) => onChannelContextMenu(e, channel!.id)}
                   channel={channel!}
-                  selected={params.channelId === channel!.id}
+                  selected={controller?.params().channelId === channel!.id}
                 />
               }
             >
               <Match when={channel!.type === ChannelType.CATEGORY}>
-                <CategoryItem
-                  onChannelContextMenu={onChannelContextMenu}
-                  channel={channel!}
-                  selected={params.channelId === channel!.id}
-                />
+                <CategoryControllerProvider channel={channel}>
+                  <CategoryItem
+                    channel={channel!}
+                    selected={controller?.params().channelId === channel!.id}
+                  />
+                </CategoryControllerProvider>
               </Match>
             </Switch>
           )}
@@ -239,137 +169,62 @@ const ChannelListSkeleton = () => {
   );
 };
 
-const ChannelContainer = styled(ItemContainer)`
-  height: 32px;
-  padding-left: 10px;
-  gap: 8px;
-
-  .label {
-    opacity: ${(props) => (props.selected ? 1 : 0.6)};
-    transition: 0.2s;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 14px;
-    color: var(--text-color);
-    flex: 1;
-  }
-  &:hover .label {
-    opacity: 1;
-  }
-
-  .channelDefaultIcon {
-    opacity: 0.4;
-  }
-`;
-
-function CategoryItem(props: {
-  channel: Channel;
-  selected: boolean;
-  onChannelContextMenu: (event: MouseEvent, channelId: string) => void;
-}) {
-  const params = useParams();
-  const { channels, account, serverMembers } = useStore();
+function CategoryItem(props: { channel: Channel; selected: boolean }) {
+  const controller = useServerDrawerController();
+  const categoryController = useCategoryController();
   const [hovered, setHovered] = createSignal(false);
-  const { createPortal } = useCustomPortal();
 
-  const [collapsedServerCategories, setCollapsedServerCategories] =
-    useCollapsedServerCategories();
+  const sortedServerChannels = () =>
+    categoryController!.sortedCategoryChannels();
 
-  const member = () => serverMembers.get(params.serverId, account.user()?.id!);
-  const hasModeratorPermission = () =>
-    serverMembers.hasPermission(member()!, ROLE_PERMISSIONS.MANAGE_CHANNELS);
+  const isPrivateCategory = () =>
+    controller?.privateChannelIds().includes(props.channel.id);
 
-  const sortedServerChannels = createMemo(() =>
-    channels
-      .getSortedChannelsByServerId(params.serverId, true)
-      .filter((channel) => channel?.categoryId === props.channel.id)
+  const expanded = createMemo(
+    () => controller?.expanded(props.channel) ?? false
   );
-
-  const isPrivateCategory = () => {
-    const user = member();
-    if (serverMembers.hasPermission(user!, ROLE_PERMISSIONS.MANAGE_CHANNELS)) {
-      return false;
-    }
-
-    const noViewableChannels = sortedServerChannels().every(
-      (channel) =>
-        !channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true)
-    );
-
-    return (
-      !props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true) ||
-      noViewableChannels
-    );
-  };
-
-  const expanded = () => {
-    return !collapsedServerCategories().includes(props.channel.id);
-  };
-
-  const setExpanded = (value: boolean) => {
-    const newCollapsedCategories = [...collapsedServerCategories()];
-    if (value) {
-      const index = newCollapsedCategories.indexOf(props.channel.id);
-      if (index > -1) {
-        newCollapsedCategories.splice(index, 1);
-      }
-    } else {
-      newCollapsedCategories.push(props.channel.id);
-    }
-    setCollapsedServerCategories(newCollapsedCategories);
-  };
-
-  const onAddChannelClick = (event: MouseEvent) => {
-    event.stopPropagation();
-    createPortal?.((close) => (
-      <CreateChannelModal
-        close={close}
-        serverId={params.serverId!}
-        categoryId={props.channel.id}
-      />
-    ));
-  };
 
   return (
     <Show when={!isPrivateCategory() || sortedServerChannels().length}>
       <div
-        class={styles.categoryContainer}
+        class={style.categoryContainer}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
         <div
-          class={styles.categoryItemContainer}
-          onClick={() => setExpanded(!expanded())}
-          classList={{ [styles.hide!]: !expanded() }}
+          class={style.categoryItemContainer}
+          onClick={() => controller?.toggleExpanded(props.channel)}
+          classList={{ [style.hide!]: !expanded() }}
         >
           <Icon
             size={14}
             name="keyboard_arrow_down"
-            class={cn(expanded() && styles.expanded, styles.expandIcon)}
+            class={cn(expanded() && style.expanded, style.expandIcon)}
           />
 
           <ChannelIcon
             icon={props.channel.icon}
             type={props.channel.type}
             hovered={hovered()}
-            class={styles.categoryItemChannelIcon}
+            class={style.categoryItemChannelIcon}
           />
           <Show when={isPrivateCategory()}>
             <Icon name="lock" size={14} style={{ opacity: 0.3 }} />
           </Show>
-          <div class={styles.label}>{props.channel.name}</div>
+          <div class={style.label}>{props.channel.name}</div>
 
-          <div class={styles.categoryButtons}>
-            <Show when={hasModeratorPermission()}>
+          <div class={style.categoryButtons}>
+            <Show when={controller!.hasModeratorPermission()}>
               <Tooltip tooltip={t("channelDrawer.addChannel")}>
                 <Button
-                  class={styles.addChannelButton}
+                  class={style.addChannelButton}
                   padding={4}
                   margin={0}
                   iconName="add"
                   iconSize={16}
-                  onClick={onAddChannelClick}
+                  onClick={(e) =>
+                    controller!.onAddChannelClick(e, props.channel.id)
+                  }
                 />
               </Tooltip>
             </Show>
@@ -377,17 +232,15 @@ function CategoryItem(props: {
         </div>
 
         <Show when={sortedServerChannels().length}>
-          <div class={styles.categoryChannelList}>
+          <div class={style.categoryChannelList}>
             <For each={sortedServerChannels()}>
               {(channel) => (
-                <ChannelItem
-                  expanded={expanded()}
-                  onContextMenu={(e) =>
-                    props.onChannelContextMenu(e, channel!.id!)
-                  }
-                  channel={channel!}
-                  selected={params.channelId === channel!.id}
-                />
+                <Show when={expanded()}>
+                  <ChannelItem
+                    channel={channel!}
+                    selected={controller?.params().channelId === channel!.id}
+                  />
+                </Show>
               )}
             </For>
           </div>
@@ -397,77 +250,62 @@ function CategoryItem(props: {
   );
 }
 
-const MentionCountContainer = styled(FlexRow)`
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  color: white;
-  background-color: var(--alert-color);
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  font-size: 12px;
-  margin-left: auto;
-  margin-right: 5px;
-`;
-
-function ChannelItem(props: {
-  expanded: boolean;
-  channel: Channel;
-  selected: boolean;
-  onContextMenu: (event: MouseEvent) => void;
-}) {
-  const { channel } = props;
+function ChannelItem(props: { channel: Channel; selected: boolean }) {
+  const controller = useServerDrawerController();
   const [hovered, setHovered] = createSignal(false);
 
-  const hasNotifications = () => channel.hasNotifications();
+  const onMouseEnter = () => {
+    setHovered(true);
+    messagesPreloader.preload(props.channel.id);
+  };
+
+  const hasNotifications = () => props.channel.hasNotifications();
 
   const isPrivateChannel = () =>
-    !channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
+    controller?.privateChannelIds().includes(props.channel.id);
+
+  const expanded = () => {
+    return controller?.expanded(props.channel);
+  };
 
   return (
-    <Show when={props.expanded || props.selected || hasNotifications()}>
-      <A
-        onMouseEnter={() => {
-          messagesPreloader.preload(channel.id);
-        }}
+    <Show when={expanded || props.selected || hasNotifications()}>
+      <Item.Root
+        onContextMenu={(e) =>
+          controller?.onChannelContextMenu(e, props.channel)
+        }
+        href={RouterEndpoints.SERVER_MESSAGES(
+          props.channel.serverId!,
+          props.channel.id
+        )}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={() => setHovered(false)}
+        selected={props.selected}
+        alert={!!hasNotifications()}
         onClick={() => emitDrawerGoToMain()}
-        onContextMenu={props.onContextMenu}
-        href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
-        style={{ "text-decoration": "none" }}
+        class={style.channelItem}
       >
-        <ChannelContainer
-          onMouseEnter={() => setHovered(true)}
-          onmouseleave={() => setHovered(false)}
-          selected={props.selected}
-          alert={hasNotifications()}
-        >
-          <ChannelIcon
-            icon={props.channel.icon}
-            type={props.channel.type}
-            hovered={hovered()}
+        <ChannelIcon
+          icon={props.channel.icon}
+          type={props.channel.type}
+          hovered={hovered()}
+        />
+        <Item.Label>{props.channel.name}</Item.Label>
+        <Show when={isPrivateChannel()}>
+          <Icon
+            name="lock"
+            size={14}
+            style={{ opacity: 0.3, "margin-right": "5px" }}
           />
-          <div class="label">{channel.name}</div>
-          <Show when={isPrivateChannel()}>
-            <Icon
-              name="lock"
-              size={14}
-              style={{ opacity: 0.3, "margin-right": "5px" }}
-            />
-          </Show>
-          <Show when={props.channel.mentionCount()}>
-            <MentionCountContainer>
-              {props.channel.mentionCount()}
-            </MentionCountContainer>
-          </Show>
-        </ChannelContainer>
-        <ChannelItemVoiceUsers channelId={props.channel.id} />
-      </A>
+        </Show>
+        <Show when={props.channel.mentionCount()}>
+          <div class={style.mentionCount}>{props.channel.mentionCount()}</div>
+        </Show>
+      </Item.Root>
+      <ChannelItemVoiceUsers channelId={props.channel.id} />
     </Show>
   );
 }
-
 const ChannelVoiceUsersContainer = styled(FlexColumn)`
   gap: 3px;
   padding: 5px;
@@ -511,7 +349,6 @@ function ChannelItemVoiceUsers(props: { channelId: string }) {
     </Show>
   );
 }
-
 function CallTime(props: { channelId: string }) {
   const { channels } = useStore();
   const channel = () => channels.get(props.channelId);
@@ -531,7 +368,9 @@ function CallTime(props: { channelId: string }) {
           );
         }
         onCleanup(() => {
-          interval && clearInterval(interval);
+          if (interval) {
+            clearInterval(interval);
+          }
         });
       }
     )
@@ -571,16 +410,16 @@ function JoinedThisSessionNotificationNotice() {
   };
 
   return (
-    <div class={styles.joinedThisSessionNotice}>
+    <div class={style.joinedThisSessionNotice}>
       <Button
         iconName="close"
         iconSize={14}
-        class={styles.closeIcon}
+        class={style.closeIcon}
         onclick={dismiss}
       />
       <Icon name="notifications" size={30} />
-      <div class={styles.details}>
-        <div class={styles.text}>
+      <div class={style.details}>
+        <div class={style.text}>
           {t("serverDrawer.joinedThisSessionNotice")}
         </div>
         <Button

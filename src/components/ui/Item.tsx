@@ -13,6 +13,7 @@ interface RootProps {
   onClick?: (e?: MouseEvent) => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
+  onContextMenu?: (e: MouseEvent) => void;
   href?: string;
   handleColor?: string;
   alertColor?: string;
@@ -33,6 +34,7 @@ const Root = (props: RootProps) => (
     onClick={props.onClick}
     data-handle-position={props.handlePosition || "left"}
     onMouseEnter={props.onMouseEnter}
+    onContextMenu={props.onContextMenu}
     onMouseLeave={props.onMouseLeave}
   >
     <div

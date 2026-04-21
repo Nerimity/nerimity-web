@@ -88,9 +88,9 @@ export function ServerFolderItem(props: {
     return props.folder.serverIds.includes(params.serverId);
   };
 
-  const hasNotifications = () => {
+  const hasNotifications = createMemo(() => {
     return !!folderServers().find((s) => s.hasNotifications());
-  };
+  });
   const mentionCount = createMemo(() => {
     return folderServers()
       .map((s) => s.mentionCount())
@@ -266,7 +266,7 @@ function ServerItem(props: {
   size: number;
 }) {
   const { id, defaultChannelId } = props.server;
-  const hasNotifications = () => props.server.hasNotifications();
+  const hasNotifications = createMemo(() => props.server.hasNotifications());
   const selected = useMatch(() => RouterEndpoints.SERVER(id) + "/*");
   const [hovered, setHovered] = createSignal(false);
 
@@ -414,6 +414,8 @@ export const ServerList = (props: { size: number }) => {
     if (!draggedOverEl()) {
       return;
     }
+    if (!draggingId()) return;
+
     const rect = draggedOverEl()?.getBoundingClientRect()!;
 
     const itemTriggerHeight = 48 / 4;

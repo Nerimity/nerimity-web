@@ -45,8 +45,8 @@
   }
 
   &[data-selected="true"] {
-    background-color: hsl(216deg 7% 28% / 60%);
     --handle-length: 16px;
+    background-color: hsl(216deg 7% 28% / 60%);
     &:after {
       background-color: var(--handle-color);
     }
@@ -64,6 +64,7 @@
 }
 
 .label {
+  flex: 1;
   opacity: 0.6;
   transition: 0.2s;
   font-size: 14px;
@@ -77,6 +78,7 @@
 .itemContent {
   display: flex;
   align-items: center;
+  flex: 1;
   padding: 6px;
   padding-left: 10px;
   gap: 4px;
