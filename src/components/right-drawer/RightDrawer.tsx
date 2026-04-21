@@ -23,7 +23,7 @@ import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 import { DrawerHeader } from "@/components/drawer-header/DrawerHeader";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { css } from "solid-styled-components";
-import useUsers, { bannerUrl, User } from "@/chat-api/store/useUsers";
+import useUsers, { User } from "@/chat-api/store/useUsers";
 import Text from "@/components/ui/Text";
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
@@ -61,6 +61,7 @@ import { Channel } from "@/chat-api/store/useChannels";
 import { matchSorter } from "match-sorter";
 import { ServerRole } from "@/chat-api/store/useServerRoles";
 import { ClanTag } from "../clan-tag/ClanTag";
+import { generateUrl } from "@/common/image";
 
 const MemberItem = (props: {
   member: ServerMember;
@@ -515,7 +516,7 @@ const BannerItem = (props: { hovered: boolean }) => {
         brightness={100}
         animate={props.hovered}
         hexColor={bannerData()?.hexColor}
-        url={bannerUrl(bannerData()!)}
+        url={generateUrl(bannerData()!, "banner")}
       />
     </Show>
   );

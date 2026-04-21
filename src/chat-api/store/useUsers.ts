@@ -9,7 +9,6 @@ import useChannels from "./useChannels";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import { useNavigate } from "solid-navigator";
 import { runWithContext } from "@/common/runWithContext";
-import env from "@/common/env";
 import useAccount from "./useAccount";
 import { LastOnlineStatus } from "../events/connectionEventTypes";
 import useFriends from "./useFriends";
@@ -29,12 +28,6 @@ export interface Presence {
   activities?: ActivityStatus[];
 }
 
-export const avatarUrl = (item: { avatar?: string }): string | null =>
-  item?.avatar ? env.NERIMITY_CDN + item?.avatar : null;
-
-export const bannerUrl = (item: { banner?: string }): string | null =>
-  item?.banner ? env.NERIMITY_CDN + item?.banner : null;
-
 export type User = {
   presence: () => Presence | undefined;
   inboxChannelId?: string;
@@ -43,7 +36,6 @@ export type User = {
   setVoiceChannelId: (this: User, channelId: string | undefined) => void;
   openDM: (this: User) => Promise<void>;
   closeDM: (this: User) => Promise<void>;
-  avatarUrl(this: User): string | null;
   update(this: User, update: Partial<RawUser>): void;
 } & RawUser;
 
@@ -61,9 +53,7 @@ const set = (user: RawUser) =>
       setVoiceChannelId,
       openDM: openDMScoped,
       closeDM,
-      avatarUrl: function () {
-        return avatarUrl(this);
-      },
+
       update
     };
 

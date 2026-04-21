@@ -1,4 +1,3 @@
-import env from "@/common/env";
 import { createStore } from "solid-js/store";
 import { SelfUser } from "../events/connectionEventTypes";
 import {
@@ -93,9 +92,6 @@ const authenticationError = () => account.authenticationError;
 
 const lastAuthenticatedAt = () => account.lastAuthenticatedAt;
 
-const avatarUrl = () =>
-  user()?.avatar ? env.NERIMITY_CDN + user()?.avatar : null;
-
 const hasModeratorPerm = (includeModBadges = false) =>
   hasBit(user()?.badges || 0, USER_BADGES.FOUNDER.bit) ||
   hasBit(user()?.badges || 0, USER_BADGES.ADMIN.bit) ||
@@ -184,7 +180,6 @@ const removeReminder = (reminderId: string) => {
 export default function useAccount() {
   return {
     user,
-    avatarUrl,
     reminders,
     updateReminder,
     addReminder,

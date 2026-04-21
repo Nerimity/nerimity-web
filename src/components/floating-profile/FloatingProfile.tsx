@@ -27,7 +27,6 @@ import { CustomLink } from "../ui/CustomLink";
 import Avatar from "../ui/Avatar";
 import UserPresence from "../user-presence/UserPresence";
 import { Markup } from "../Markup";
-import { bannerUrl } from "@/chat-api/store/useUsers";
 import { ServerMemberRoleModal } from "../member-context-menu/MemberContextMenu";
 import { electronWindowAPI } from "@/common/Electron";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
@@ -54,6 +53,7 @@ import { UserActivity } from "../user-activity/UserActivity";
 import { Fonts } from "@/common/fonts";
 import { LogoutModal } from "../settings/LogoutModal";
 import { ClanTag } from "../clan-tag/ClanTag";
+import { generateUrl } from "@/common/image";
 
 interface Props {
   dmPane?: boolean;
@@ -375,7 +375,7 @@ const DesktopProfileFlyout = (props: {
           margin={props.dmPane ? 6 : 0}
           animate={!props.dmPane ? true : hover()}
           hexColor={user()?.hexColor}
-          url={bannerUrl(user()!)}
+          url={generateUrl(user()!, "banner")}
         >
           <Show when={isMe() && !props.showProfileSettings}>
             <Button

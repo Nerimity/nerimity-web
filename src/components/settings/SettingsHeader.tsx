@@ -8,13 +8,13 @@ import Avatar, {
 import { css, styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import { bannerUrl } from "@/chat-api/store/useUsers";
 import { Banner } from "../ui/Banner";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { FriendStatus, RawUser } from "@/chat-api/RawData";
 import { settingsHeaderPreview } from "./settingsHeaderPreview";
 import { t } from "@nerimity/i18lite";
 import { ClanTag } from "../clan-tag/ClanTag";
+import { generateUrl } from "@/common/image";
 
 const HeaderContainer = styled("div")`
   position: relative;
@@ -165,7 +165,8 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
           settingsHeaderPreview.bannerPoints ||
           settingsHeaderPreview.banner === null
             ? undefined
-            : settingsHeaderPreview.banner || bannerUrl(props.bot || user()!)
+            : settingsHeaderPreview.banner ||
+              generateUrl(props.bot || user()!, "banner")
         }
       >
         <Show

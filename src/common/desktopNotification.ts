@@ -8,11 +8,12 @@ import {
   ServerNotificationPingMode
 } from "@/chat-api/RawData";
 
-import { avatarUrl, UserStatus } from "@/chat-api/store/useUsers";
+import { UserStatus } from "@/chat-api/store/useUsers";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { getSystemMessage } from "./SystemMessage";
 
 import { t } from "@nerimity/i18lite";
+import { generateUrl } from "./image";
 
 export function createDesktopNotification(message: Message) {
   const enabled = getStorageBoolean(
@@ -104,7 +105,7 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
     tag: channel.id,
     renotify: true,
 
-    icon: server?.avatarUrl() || undefined
+    icon: generateUrl(server, "avatar") || undefined
   });
 }
 function createDMDesktopNotification(message: Message) {
@@ -127,7 +128,7 @@ function createDMDesktopNotification(message: Message) {
     silent: true,
     tag: message.channelId,
     renotify: true,
-    icon: avatarUrl(message.createdBy) || undefined
+    icon: generateUrl(message.createdBy, "avatar") || undefined
   });
 }
 

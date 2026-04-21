@@ -24,7 +24,6 @@ import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { Banner } from "../ui/Banner";
 import Avatar from "../ui/Avatar";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { bannerUrl } from "@/chat-api/store/useUsers";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import SettingsBlock, {
   SettingsGroup
@@ -50,6 +49,7 @@ import Block from "../ui/settings-block/Block";
 import { RadioBox } from "../ui/RadioBox";
 import { Modal } from "../ui/modal";
 import useStore from "@/chat-api/store/useStore";
+import { generateUrl } from "@/common/image";
 
 const UserPageContainer = styled(FlexColumn)`
   height: 100%;
@@ -239,7 +239,7 @@ export default function UserPage() {
             margin={0}
             maxHeight={250}
             animate
-            url={bannerUrl(user()!)}
+            url={generateUrl(user()!, "banner")}
             hexColor={user()!.hexColor}
           >
             <UserBannerContainer>

@@ -1,6 +1,5 @@
 import { RawExploreItem } from "@/chat-api/RawData";
 
-import { bannerUrl } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useTransContext } from "@nerimity/solid-i18lite";
@@ -37,6 +36,7 @@ import {
 
 import { ExplorePageContainer, ExploreSearch } from "./ExplorePane";
 import { ClanTag } from "../clan-tag/ClanTag";
+import { generateUrl } from "@/common/image";
 
 const GridLayout = styled("div")`
   display: grid;
@@ -382,7 +382,7 @@ function PublicServerItem(props: {
           `,
           "banner"
         )}
-        url={bannerUrl(props.publicServer.server!)}
+        url={generateUrl(props.publicServer.server!, "banner")}
         hexColor={props.publicServer.server?.hexColor}
       />
       <Avatar

@@ -1,4 +1,3 @@
-import env from "@/common/env";
 import { createStore } from "solid-js/store";
 import {
   RawBotCommand,
@@ -20,17 +19,11 @@ export type Server = RawServer & {
   update: (this: Server, update: Partial<RawServer>) => void;
   leave: () => Promise<RawServer>;
   mentionCount: () => number;
-  avatarUrl(this: Server): string | null;
   botCommands?: RawBotCommand[];
 };
 const [servers, setServers] = createStore<Record<string, Server | undefined>>(
   {}
 );
-
-export const avatarUrl = (item: { avatar?: string }): string | null =>
-  item?.avatar ? env.NERIMITY_CDN + item?.avatar : null;
-export const bannerUrl = (item: { banner?: string }): string | null =>
-  item?.banner ? env.NERIMITY_CDN + item?.banner : null;
 
 const set = (server: RawServer) => {
   const newServer: Server = {
@@ -39,10 +32,7 @@ const set = (server: RawServer) => {
     update,
     leave,
     hasNotifications,
-    mentionCount,
-    avatarUrl: function () {
-      return avatarUrl(this);
-    }
+    mentionCount
   };
 
   setServers(server.id, newServer);

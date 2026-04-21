@@ -22,7 +22,6 @@ import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { Banner } from "../ui/Banner";
 import Avatar from "../ui/Avatar";
 import { css, styled } from "solid-styled-components";
-import { bannerUrl } from "@/chat-api/store/useServers";
 
 import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
@@ -37,6 +36,7 @@ import useStore from "@/chat-api/store/useStore";
 import { useJoinServer } from "@/chat-api/useJoinServer";
 import { Modal } from "../ui/modal";
 import { RadioBox } from "../ui/RadioBox";
+import { generateUrl } from "@/common/image";
 
 export default function ServerPage() {
   const store = useStore();
@@ -102,7 +102,7 @@ export default function ServerPage() {
             margin={0}
             maxHeight={250}
             animate
-            url={bannerUrl(server()!)}
+            url={generateUrl(server()!, "banner")}
             hexColor={server()!.hexColor}
           >
             <ServerBannerContainer>

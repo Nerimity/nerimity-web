@@ -40,6 +40,7 @@ import { t } from "@nerimity/i18lite";
 
 import { favoritesStore } from "@/common/favoritesStore";
 import Icon from "../icon/Icon";
+import { generateUrl } from "@/common/image";
 
 const [gifPickerSearch, setGifPickerSearch] = createSignal("");
 
@@ -106,7 +107,7 @@ export function EmojiPicker(props: {
       .filter((e) => (props.serverId ? e.serverId === props.serverId : true))
       .map((e) => {
         const server = servers.get(e.serverId!)!;
-        const url = server.avatarUrl();
+        const url = generateUrl(server, "avatar");
 
         return {
           id: e.id,

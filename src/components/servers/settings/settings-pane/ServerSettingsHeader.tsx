@@ -11,10 +11,10 @@ import Text from "@/components/ui/Text";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import { ServerVerifiedIcon } from "../../ServerVerifiedIcon";
 import { useTransContext } from "@nerimity/solid-i18lite";
-import { avatarUrl, bannerUrl } from "@/chat-api/store/useServers";
 import { Banner } from "@/components/ui/Banner";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { serverSettingsHeaderPreview } from "./serverSettingsHeaderPreview";
+import { generateUrl } from "@/common/image";
 
 const HeaderContainer = styled("div")`
   position: relative;
@@ -144,7 +144,7 @@ const ServerSettingsHeader = () => {
           serverSettingsHeaderPreview.banner ||
           serverSettingsHeaderPreview.banner === null
             ? undefined
-            : bannerUrl(server()!)
+            : generateUrl(server()!, "banner")
         }
         hexColor={server()?.hexColor}
       >
@@ -163,7 +163,7 @@ const ServerSettingsHeader = () => {
             url={
               serverSettingsHeaderPreview.avatar
                 ? undefined
-                : avatarUrl(server()!)
+                : generateUrl(server()!, "avatar")
             }
             server={server()}
             size={avatarSize()}

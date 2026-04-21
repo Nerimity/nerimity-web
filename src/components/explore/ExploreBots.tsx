@@ -1,6 +1,5 @@
 import { RawExploreItem } from "@/chat-api/RawData";
 
-import { bannerUrl } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useTransContext } from "@nerimity/solid-i18lite";
@@ -29,6 +28,7 @@ import {
 import { ServerBumpModal } from "./ExploreServers";
 import { openInviteBotModal } from "../ui/openInviteBotModal";
 import { ExplorePageContainer, ExploreSearch } from "./ExplorePane";
+import { generateUrl } from "@/common/image";
 
 const GridLayout = styled("div")`
   display: grid;
@@ -320,7 +320,7 @@ function PublicItem(props: {
           `,
           "banner"
         )}
-        url={bannerUrl(props.item.botApplication?.botUser!)}
+        url={generateUrl(props.item.botApplication?.botUser!, "banner")}
         hexColor={bot.hexColor}
       />
       <Avatar class={avatarStyles} animate={hovered()} user={bot} size={60} />

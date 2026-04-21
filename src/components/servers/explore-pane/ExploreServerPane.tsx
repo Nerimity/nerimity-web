@@ -13,11 +13,11 @@ import { A, useNavigate, useParams } from "solid-navigator";
 import { createEffect, createSignal, Match, onMount, Switch } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
-import { bannerUrl } from "@/chat-api/store/useServers";
 import { Banner } from "@/components/ui/Banner";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { MetaTitle } from "@/common/MetaTitle";
 import { useJoinServer } from "@/chat-api/useJoinServer";
+import { generateUrl } from "@/common/image";
 
 export default function ExploreServerPane() {
   const params = useParams();
@@ -96,7 +96,7 @@ const ServerPage = (props: {
       <Banner
         maxHeight={250}
         animate
-        url={bannerUrl(server)}
+        url={generateUrl(server, "banner")}
         hexColor={server.hexColor}
       >
         <div class={styles.bannerItems}>

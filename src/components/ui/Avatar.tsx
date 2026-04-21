@@ -1,4 +1,3 @@
-import { avatarUrl } from "@/chat-api/store/useUsers";
 import { classNames, cn } from "@/common/classNames";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import {
@@ -27,6 +26,7 @@ import { DogTailBorder } from "../avatar-borders/DogTailBorder";
 import { WolfEarsBorder } from "../avatar-borders/WolfEarBorder";
 import { GoatEarsBorder } from "../avatar-borders/GoatEarBorder";
 import { DeerEarsBorder } from "../avatar-borders/DeerEarBorder";
+import { generateUrl } from "@/common/image";
 
 interface Props {
   url?: string | null;
@@ -79,7 +79,7 @@ export default function Avatar(props: Props) {
   const url = () => {
     if (props.rawUrl) return props.rawUrl;
     if (typeof props.user?.avatarUrl === "string") return webhookAvatarUrl();
-    const rawUrl = props.url || avatarUrl(serverOrUser());
+    const rawUrl = props.url || generateUrl(serverOrUser(), "avatar");
     if (!rawUrl) return;
     const url = new URL(rawUrl);
 

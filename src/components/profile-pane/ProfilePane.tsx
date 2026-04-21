@@ -29,7 +29,7 @@ import {
   UserDetails
 } from "@/chat-api/services/UserService";
 import useStore from "@/chat-api/store/useStore";
-import { bannerUrl, User } from "@/chat-api/store/useUsers";
+import { User } from "@/chat-api/store/useUsers";
 import {
   calculateTimeElapsedForActivityStatus,
   formatTimestamp,
@@ -83,6 +83,7 @@ import { getActivityType } from "@/common/activityType";
 import { getFont } from "@/common/fonts";
 import { Modal } from "../ui/modal";
 import { ClanTag } from "../clan-tag/ClanTag";
+import { generateUrl } from "@/common/image";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -237,7 +238,7 @@ export default function ProfilePane() {
                   animate
                   margin={0}
                   hexColor={user()?.hexColor}
-                  url={bannerUrl(user()!)}
+                  url={generateUrl(user()!, "banner")}
                   class={css`
                     z-index: 111;
                   `}
