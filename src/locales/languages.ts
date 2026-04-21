@@ -208,6 +208,10 @@ const detectDefaultLanguage = (): string => {
       return "zh-hant";
     }
 
+    if (lang === "es-mx" || lang === "es-ar" || lang.startsWith("es-419")) {
+      return "es-latam";
+    }
+
     if (languages[lang]) {
       return lang;
     }
