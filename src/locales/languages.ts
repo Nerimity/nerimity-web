@@ -42,13 +42,23 @@ export const languages: Record<string, Language> = {
     name: "Belarusian (Traditional)",
     nativeName: "Беларуская (тарашкевіца)",
     emoji: "🇧🇾",
-    contributors: ["https://github.com/Dzi-Mieha", "https://github.com/1enify"]
+    contributors: ["https://github.com/1enify", "https://github.com/Dzi-Mieha"]
   },
   "pt-br": {
     name: "Brazilian Portuguese",
     nativeName: "Português (Brasil)",
     emoji: "🇧🇷",
-    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Cirnos", "https://github.com/Mediixou"]
+    contributors: [
+      "https://gitlab.com/Cirnos",
+      "https://github.com/Jerkycat",
+      "https://github.com/Mediixou"
+    ]
+  },
+  "ca-ca": {
+    name: "Catalan",
+    nativeName: "Català",
+    emoji: "🇦🇩",
+    contributors: ["https://github.com/World170"]
   },
   "zh-hans": {
     name: "Chinese (Simplified)",
@@ -66,7 +76,7 @@ export const languages: Record<string, Language> = {
     name: "Dutch",
     nativeName: "Nederlands",
     emoji: "🇳🇱",
-    contributors: ["https://github.com/captainqdev", "Smoonium"]
+    contributors: ["Smoonium", "https://github.com/captainqdev"]
   },
   "fr-FR": {
     name: "French",
@@ -83,6 +93,12 @@ export const languages: Record<string, Language> = {
       "https://github.com/Deutscher775",
       "https://github.com/mathiiiiiis"
     ]
+  },
+  "it-it": {
+    name: "Italian",
+    nativeName: "Italiano",
+    emoji: "🇮🇹",
+    contributors: ["jerid616"]
   },
   "hu-hu": {
     name: "Hungarian",
@@ -129,17 +145,17 @@ export const languages: Record<string, Language> = {
     emoji: "🇪🇸",
     contributors: ["https://github.com/World170", "Linterna001"]
   },
+  "es-latam": {
+    name: "Spanish (Latin American)",
+    nativeName: "Español (Latinoamérica)",
+    emoji: "🇲🇽",
+    contributors: ["https://github.com/lolyyyyu667890"]
+  },
   "sv-sv": {
     name: "Swedish",
     nativeName: "Svenska",
     emoji: "🇸🇪",
     contributors: ["Hyruled", "reks"]
-  },
-  uk: {
-    name: "Ukrainian",
-    nativeName: "Українська",
-    emoji: "🇺🇦",
-    contributors: ["https://github.com/1enify", "Shiroi karasu", "rkxd"]
   },
   "th-th": {
     name: "Thai",
@@ -152,10 +168,20 @@ export const languages: Record<string, Language> = {
     nativeName: "Türkçe",
     emoji: "🇹🇷",
     contributors: [
-      "https://github.com/M0nsterKitty",
       "https://github.com/balitorius",
+      "https://github.com/M0nsterKitty",
       "https://github.com/lexerotk",
       "https://github.com/slideglide"
+    ]
+  },
+  uk: {
+    name: "Ukrainian",
+    nativeName: "Українська",
+    emoji: "🇺🇦",
+    contributors: [
+      "rkxd",
+      "https://github.com/1enify",
+      "Shiroi karasu"
     ]
   },
   "uw-uw": {
