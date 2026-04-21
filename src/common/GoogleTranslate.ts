@@ -19,7 +19,7 @@ const GOOGLE_LANGUAGE_MAP: Record<string, string> = {
   "es-es": "es",
   "es-latam": "es",
   "fil-ph": "tl",
-  "fr-FR": "fr",
+  "fr-fr": "fr",
   "hu-hu": "hu",
   "it-it": "it",
   "ja-jp": "ja",
@@ -31,7 +31,7 @@ const GOOGLE_LANGUAGE_MAP: Record<string, string> = {
   "sv-sv": "sv",
   "th-th": "th",
   "tr-tr": "tr",
-  uk: "uk",
+  "uk-ua": "uk",
   "uw-uw": "en",
   "zh-hans": "zh-CN",
   "zh-hant": "zh-TW"

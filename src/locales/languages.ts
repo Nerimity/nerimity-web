@@ -78,7 +78,7 @@ export const languages: Record<string, Language> = {
     emoji: "🇳🇱",
     contributors: ["Smoonium", "https://github.com/captainqdev"]
   },
-  "fr-FR": {
+  "fr-fr": {
     name: "French",
     nativeName: "Français",
     emoji: "🇫🇷",
@@ -174,7 +174,7 @@ export const languages: Record<string, Language> = {
       "https://github.com/slideglide"
     ]
   },
-  uk: {
+  "uk-ua": {
     name: "Ukrainian",
     nativeName: "Українська",
     emoji: "🇺🇦",
