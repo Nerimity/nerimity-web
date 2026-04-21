@@ -1,5 +1,5 @@
 import { runWithContext } from "@/common/runWithContext";
-import { batch } from "solid-js";
+import { batch, createMemo } from "solid-js";
 import { createStore, reconcile } from "solid-js/store";
 import { useWindowProperties } from "../../common/useWindowProperties";
 import { dismissChannelNotification } from "../emits/userEmits";
@@ -330,7 +330,9 @@ const get = (channelId?: string) => {
   return channels[channelId];
 };
 
-const array = () => Object.values(channels) as Channel[];
+const array = createMemo(() => {
+  return Object.values(channels) as Channel[];
+});
 
 const serverChannelsWithPerm = () => {
   const serverMembers = useServerMembers();

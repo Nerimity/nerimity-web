@@ -602,7 +602,7 @@ const ServerDrawer = () => {
   );
 
   return (
-    <Show when={params.channelId} keyed={true}>
+    <Show when={params.channelId}>
       <Delay ms={10}>
         <div
           style={{ "margin-left": "8px", "margin-top": "8px", display: "flex" }}
