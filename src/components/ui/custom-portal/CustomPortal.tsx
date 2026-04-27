@@ -149,17 +149,9 @@ export function CustomPortalProvider(props: CustomPortalProps) {
     if (element?.closing) return;
     setElements(index, "closing", true);
     await element?.customCloseHandler?.();
-    setElements(produce((elements) => elements.splice(index, 1)));
-  };
-  const closePortalById = async (id: string) => {
-    const element = elements.find((e) => e.id === id);
-    if (!element) return;
-    if (element?.closing) return;
-    const index = elements.findIndex((e) => e.id === id);
-    setElements(index, "closing", true);
-    await element?.customCloseHandler?.();
     setElements(elements.filter((e) => e.id !== id));
   };
+  const closePortalById = closePortal;
 
   const isPortalOpened = (id: string) =>
     elements.find((e) => e.id === id) !== undefined;
