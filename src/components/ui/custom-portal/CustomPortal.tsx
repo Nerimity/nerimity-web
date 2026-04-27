@@ -30,7 +30,7 @@ interface PortalBaseValue {
     element: (close: () => void) => JSX.Element,
     id?: string,
     toggle?: boolean
-  ) => number | undefined;
+  ) => string | undefined;
   closePortal: (id: string) => void;
   closePortalById: (id: string) => void;
   isPortalOpened: (id: string) => boolean;
