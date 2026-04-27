@@ -31,7 +31,7 @@ interface PortalBaseValue {
     id?: string,
     toggle?: boolean
   ) => number | undefined;
-  closePortal: (index: number) => void;
+  closePortal: (id: string) => void;
   closePortalById: (id: string) => void;
   isPortalOpened: (id: string) => boolean;
   openedPortals: () => {
@@ -63,6 +63,7 @@ interface Item {
 const [elements, setElements] = createStore<Item[]>([]);
 
 export const toast = (body: string, title?: string, icon?: string) => {
+  const id = "toast-" + Math.random();
   setElements((e) => [
     ...e,
     {
@@ -74,7 +75,7 @@ export const toast = (body: string, title?: string, icon?: string) => {
           title={title || "Alert"}
         />
       ),
-      id: "toast-" + Math.random()
+      id: id
     }
   ]);
 };
@@ -85,6 +86,7 @@ export const prompt = (
   icon?: string,
   onSubmit?: (value: string) => void
 ) => {
+  const id = "prompt-" + Math.random();
   setElements((e) => [
     ...e,
     {
@@ -98,7 +100,7 @@ export const prompt = (
           prompt
         />
       ),
-      id: "prompt-" + Math.random()
+      id: id
     }
   ]);
 };
@@ -128,6 +130,7 @@ export function CustomPortalProvider(props: CustomPortalProps) {
     id?: string,
     toggle?: boolean
   ) => {
+    const portalId = id || "portal-" + Math.random();
     if (id && toggle) {
       if (isPortalOpened(id)) {
         closePortalById(id);
@@ -135,11 +138,12 @@ export function CustomPortalProvider(props: CustomPortalProps) {
       }
     }
     if (id && isPortalOpened(id)) return;
-    setElements([...elements, { element, id }]);
-    return elements.length - 1;
+    setElements([...elements, { element, id: portalId }]);
+    return portalId;
   };
 
-  const closePortal = async (index: number) => {
+  const closePortal = async (id: string) => {
+    const index = elements.findIndex((e) => e.id === id);
     const element = elements[index];
     if (!element) return;
     if (element?.closing) return;
@@ -183,10 +187,9 @@ export function CustomPortalProvider(props: CustomPortalProps) {
         {props.children}
       </div>
       <For each={elements}>
-        {(item, i) => (
+        {(item) => (
           <PortalItem
             item={item}
-            i={i()}
             closePortal={closePortal}
             setElements={setElements}
           />
@@ -198,16 +201,20 @@ export function CustomPortalProvider(props: CustomPortalProps) {
 
 const PortalItem = (props: {
   item: Item;
-  i: number;
-  closePortal: (index: number) => void;
+  closePortal: (id: string) => void;
   setElements: SetStoreFunction<Item[]>;
 }) => {
   const close = () => {
-    props.closePortal(props.i);
+    if (props.item.id) {
+      props.closePortal(props.item.id);
+    }
   };
 
   const setCustomCloseHandler = (customCloseHandler: () => void) => {
-    props.setElements(props.i, "customCloseHandler", () => customCloseHandler);
+    const index = elements.findIndex((e) => e.id === props.item.id);
+    if (index !== -1) {
+      props.setElements(index, "customCloseHandler", () => customCloseHandler);
+    }
   };
 
   return (
