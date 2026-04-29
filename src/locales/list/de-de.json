@@ -182,6 +182,35 @@
         "bumpModal": {
             "title": "Bumpe {{name}}",
             "bumpButton": "Bump"
+        },
+        "themes": {
+            "title": "Erkunde - Themes",
+            "themesHeaderDescription": "Personalisiere Nerimity mit einem custom Theme.",
+            "officialThemes": "Offizielle Themes",
+            "communityThemes": "Community Themes",
+            "noCommunityThemes": "Es wurden keine Community Themes gefunden.",
+            "fetchThemesError": "Themes konnten nicht abgerufen werden. Bitte versuche es späte erneut.",
+            "unlockDescription": "Klicke um alle community Themes zu erkunden"
+        },
+        "servers": {
+            "title": "Erkunde - Server",
+            "noticeMessage": "Ein Server kann alle {{hours}} einmal gebumpt werden. Alle bumps werden am {{date}} zurückgesetzt.",
+            "moderationNotice": "Server werden nicht von Nerimity moderiert. Bitte melde Server die nicht den TOS folgen.",
+            "sortMostBumps": "Meiste Bumps",
+            "sortMostMembers": "Meiste Mitglieder",
+            "sortRecentlyAdded": "Neu hinzugefügt",
+            "sortRecentlyBumped": "Kürzlich gebumpt",
+            "sortMostActive": "Meiste Aktivität (Beta)",
+            "filterAll": "Alle",
+            "filterVerified": "Verifiziert",
+            "pinnedServers": "Gepinnte Server",
+            "recentlyBumped": "Kürzlich gebumpte Server",
+            "memberCount": "{{count}} Mitglieder",
+            "lifetimeBumpCount": "{{count}} insgesamte bumps",
+            "visitServerButton": "Besuchen",
+            "joinServerButton": "Beitreten",
+            "bumpButton": "Bump ({{count}})",
+            "filterClans": "Clans"
         }
     },
     "editFolderModal": {
@@ -208,7 +237,8 @@
                 "notifications": "Benachrichtigungen",
                 "external-embed": "Externe Einbettung",
                 "permissions": "Berechtigungen",
-                "emoji": "Emoji"
+                "emoji": "Emoji",
+                "clanTag": "Clan Tag"
             },
             "bans": {
                 "sort": {
@@ -387,6 +417,12 @@
                     "hideMembers": "Mitgliederliste ausblenden",
                     "hideActivities": "Aktivitätenliste ausblenden"
                 }
+            },
+            "clans": {
+                "tag": "Tag",
+                "icon": "Icon",
+                "enableClanTag": "Aktiviere den Clan Tag",
+                "verifiedServerOnly": "Clan Tags sind nur für verifizierte Server verfügbar."
             }
         },
         "rolePermissions": {
@@ -447,7 +483,8 @@
             "connections": "Verbindungen",
             "profile": "Profil",
             "source": "Code",
-            "changes": "Neu"
+            "changes": "Neu",
+            "sessions": "Sessions"
         },
         "language": {
             "reloadNotice": "Du musst die App neu laden, damit die neue Sprache vollständig angewendet wird.",
@@ -955,7 +992,8 @@
         "joiningButton": "Beitritt läuft…",
         "visitButton": "Besuchen",
         "member": "Mitglied",
-        "members": "Mitglieder"
+        "members": "Mitglieder",
+        "private": "Dies ist von einem privaten Server"
     },
     "fileEmbed": {
         "expired": "Abgelaufen {{time}}",
@@ -1357,5 +1395,8 @@
     "accountLink": {
         "linking": "Ihr Konto wird gerade mit {{service}} verknüpft…",
         "success": "Konto verknüpft! Sie können dieses Fenster nun schließen."
+    },
+    "clanModal": {
+        "title": "Clan"
     }
 }
