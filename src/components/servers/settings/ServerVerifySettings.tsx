@@ -128,13 +128,7 @@ export default function ServerSettingsBans() {
         <Text size={24} style={{ "margin-bottom": "10px" }}>
           {t("servers.settings.verify.requirements.title")}
         </Text>
-        <SettingsBlock
-          icon="translate"
-          label={t("servers.settings.verify.requirements.englishOnly")}
-          description={t(
-            "servers.settings.verify.requirements.englishOnlyDescription"
-          )}
-        />
+
         <SettingsBlock
           icon="calendar_month"
           label={t("servers.settings.verify.requirements.oneMonthOrSupporter")}
