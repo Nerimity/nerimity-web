@@ -13,6 +13,20 @@ body .yearInput {
   width: 60px;
 }
 
+.presetsLabel {
+  margin-top: 6px;
+  opacity: 0.6;
+  font-size: 16px;
+}
+.presets {
+  display: flex;
+  margin-bottom: 12px;
+  gap: 6px;
+  button {
+    flex: 1;
+  }
+}
+
 .timeContainer {
   display: flex;
   > div {

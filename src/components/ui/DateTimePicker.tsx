@@ -1,7 +1,8 @@
+import Button from "./Button";
 import style from "./DateTimePicker.module.css";
 import DropDown from "./drop-down/DropDown";
 import Input from "./input/Input";
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, For, untrack } from "solid-js";
 
 const MonthNames = [
   "Jan",
@@ -18,6 +19,33 @@ const MonthNames = [
   "Dec"
 ];
 
+const Presets = [
+  {
+    label: "15m",
+    value: 15 * 60
+  },
+  {
+    label: "30m",
+    value: 30 * 60
+  },
+  {
+    label: "1h",
+    value: 60 * 60
+  },
+  {
+    label: "6h",
+    value: 6 * 60 * 60
+  },
+  {
+    label: "12h",
+    value: 12 * 60 * 60
+  },
+  {
+    label: "1d",
+    value: 24 * 60 * 60
+  }
+];
+
 const hours = Array.from({ length: 24 }, (_, index) => index);
 const minutes = Array.from({ length: 60 }, (_, index) => index);
 
@@ -25,29 +53,33 @@ export const DateTimePicker = (props: {
   value: Date;
   onChange: (date: Date) => void;
 }) => {
-  const [selectedDay, setSelectedDay] = createSignal(props.value.getDate());
+  const [selectedDay, setSelectedDay] = createSignal(
+    untrack(() => props.value.getDate())
+  );
   const [selectedMonth, setSelectedMonth] = createSignal(
-    props.value.getMonth()
+    untrack(() => props.value.getMonth())
   );
   const [selectedYear, setSelectedYear] = createSignal(
-    props.value.getFullYear()
+    untrack(() => props.value.getFullYear())
   );
-  const [selectedHour, setSelectedHour] = createSignal(props.value.getHours());
+  const [selectedHour, setSelectedHour] = createSignal(
+    untrack(() => props.value.getHours())
+  );
   const [selectedMinute, setSelectedMinute] = createSignal(
-    props.value.getMinutes()
+    untrack(() => props.value.getMinutes())
   );
 
   const dayNamesInMonth = () => {
-    const totalDays = getDaysInMonth(selectedYear(), selectedMonth());
+    const year = selectedYear();
+    const month = selectedMonth();
+    const totalDays = getDaysInMonth(year, month);
 
-    return Array.from({ length: totalDays }, (_, index) => ({
-      day: index + 1,
-      dayName: getShortDayNameForDate(
-        selectedYear(),
-        selectedMonth(),
-        index + 1
-      )
-    }));
+    return Array.from({ length: totalDays }, (_, index) => {
+      return {
+        day: index + 1,
+        dayName: getShortDayNameForDate(year, month, index + 1)
+      };
+    });
   };
 
   createEffect(() => {
@@ -56,20 +88,51 @@ export const DateTimePicker = (props: {
     }
   });
 
-  createEffect(() => {
-    const date = new Date(
+  const date = () => {
+    return new Date(
       selectedYear(),
       selectedMonth(),
       selectedDay(),
       selectedHour(),
       selectedMinute()
     );
-    props.onChange(date);
+  };
+
+  createEffect(() => {
+    props.onChange(date());
   });
 
   return (
     <div class={style.container}>
+      <span class={style.presetsLabel}>Presets</span>
+      <div class={style.presets}>
+        <For each={Presets}>
+          {(preset) => (
+            <Button
+              margin={0}
+              padding={8}
+              class={style.presetButton}
+              primary={
+                Math.abs(
+                  props.value.getTime() - (Date.now() + preset.value * 1000)
+                ) < 60_000
+              }
+              onClick={() => {
+                const date = new Date(Date.now() + preset.value * 1000);
+                setSelectedDay(date.getDate());
+                setSelectedMonth(date.getMonth());
+                setSelectedYear(date.getFullYear());
+                setSelectedHour(date.getHours());
+                setSelectedMinute(date.getMinutes());
+                props.onChange(date);
+              }}
+              label={preset.label}
+            />
+          )}
+        </For>
+      </div>
       <div class={style.dayAndMonthContainer}>
+        {/* Presets */}
         {/* Year */}
         <Input
           type="number"
@@ -119,30 +182,14 @@ export const DateTimePicker = (props: {
   );
 };
 
-/**
- * Gets the short day name (e.g., "Mon", "Tue") for a given date.
- *
- * @param {number} year The full year (e.g., 2025).
- * @param {number} month The month (0-indexed: 0 for January, 11 for December).
- * @param {number} day The day of the month (1-31).
- * @param {string} [locale='en-US'] The BCP 47 language tag (e.g., 'en-US', 'en-GB', 'es-ES').
- * Defaults to 'en-US'.
- * @returns {string} The short day name.
- */
 function getShortDayNameForDate(
   year: number,
   month: number, // 0-indexed month
   day: number,
   locale: string = "en-US"
 ): string {
-  // Create a Date object from the provided year, month, and day.
-  // JavaScript's Date constructor handles valid ranges (e.g., day 0 means last day of prev month)
-  // and will automatically roll over if an invalid day/month is provided (e.g., Feb 30th).
   const date = new Date(year, month, day);
 
-  // Optional: Basic validation to warn if the date inputs resulted in a "rolled-over" date.
-  // This checks if the constructed date's year, month, and day still match the inputs.
-  // This is a simple check; for robust date validation, consider a dedicated library.
   if (
     date.getFullYear() !== year ||
     date.getMonth() !== month ||
@@ -153,41 +200,25 @@ function getShortDayNameForDate(
         month + 1
       }-${day} resulted in a different date object: ${date.toDateString()}. Check your inputs.`
     );
-    // Depending on your requirements, you might throw an error here,
-    // or simply return the day name for the "adjusted" date.
-    // For this example, we'll proceed with the adjusted date.
   }
 
-  // Use toLocaleDateString to get the formatted day name.
-  // The `weekday: 'short'` option ensures we get the abbreviated form.
   return date.toLocaleDateString(locale, { weekday: "short" });
 }
 
 function getDaysInMonth(year: number, month: number) {
-  // Month is 0-indexed in JavaScript (0 for January, 11 for December)
-  // So, to get the last day of the 'month' passed in, we create a date
-  // for the 0th day of the 'month + 1'.
-  // The 0th day of a month is the last day of the *previous* month.
   return new Date(year, month + 1, 0).getDate();
 }
 
 function addOrdinalSuffix(n: number): string {
-  // Ensure the input is a valid number
-  // In TypeScript, 'n: number' already ensures 'n' is a number at compile time.
-  // The runtime check 'typeof n !== 'number' ' is technically redundant if you trust your TypeScript compilation.
-  // However, '!Number.isInteger(n)' is still a valuable runtime check for integer validity.
   if (!Number.isInteger(n)) {
     throw new Error("Input must be an integer.");
   }
 
-  // Handle numbers ending in 11, 12, or 13, which all take 'th'
-  // regardless of their last digit.
   const lastTwoDigits: number = n % 100;
   if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
     return n + "th";
   }
 
-  // For all other numbers, determine the suffix based on the last digit
   const lastDigit: number = n % 10;
   switch (lastDigit) {
     case 1:

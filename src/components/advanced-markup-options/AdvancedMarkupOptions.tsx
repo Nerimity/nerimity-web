@@ -389,7 +389,7 @@ const DateTimePickerModal = (props: {
     <Modal.Root
       class={styles.datePickerOuterModal}
       close={props.close}
-      desktopMaxWidth={270}
+      desktopMaxWidth={284}
     >
       <Modal.Header title={t("markup.timestampModal.title")} />
       <Modal.Body class={styles.datePickerModal}>

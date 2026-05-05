@@ -1021,7 +1021,8 @@
     "markUnread": "Mark Unread",
     "pinMessage": "Pin",
     "unpinMessage": "Unpin",
-    "copyMessageLink": "Copy Message Link"
+    "copyMessageLink": "Copy Message Link",
+    "setReminder": "Set Reminder"
   },
   "profile": {
     "followerCount": "{{count}} Followers",
