@@ -676,7 +676,8 @@
         "pinMessage": "Przypnij",
         "unpinMessage": "Odepnij",
         "copyHTML": "Kopiuj HTML",
-        "copyMessageLink": "Kopiuj link wiadomości"
+        "copyMessageLink": "Kopiuj link wiadomości",
+        "setReminder": "Ustaw przypomnienie"
     },
     "profile": {
         "followButton": "Obserwuj",
