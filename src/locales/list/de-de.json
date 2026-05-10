@@ -885,7 +885,8 @@
         "pinMessage": "Anpinnen",
         "unpinMessage": "Loslösen",
         "copyHTML": "HTML kopieren",
-        "copyMessageLink": "Link zur Nachricht kopieren"
+        "copyMessageLink": "Link zur Nachricht kopieren",
+        "setReminder": "Erinnerung setzen"
     },
     "profile": {
         "followButton": "Folgen",
