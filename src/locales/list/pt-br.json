@@ -738,7 +738,8 @@
         "viewReactions": "Ver reações",
         "translateMessage": "Traduzir",
         "copyHTML": "Copiar HTML",
-        "copyMessageLink": "Copiar link da mensagem"
+        "copyMessageLink": "Copiar link da mensagem",
+        "setReminder": "Estabelecer Alarme"
     },
     "profile": {
         "followButton": "Seguir",
