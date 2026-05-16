@@ -885,7 +885,8 @@
         "pinMessage": "Anpinnen",
         "unpinMessage": "Loslösen",
         "copyHTML": "HTML kopieren",
-        "copyMessageLink": "Link zur Nachricht kopieren"
+        "copyMessageLink": "Link zur Nachricht kopieren",
+        "setReminder": "Erinnerung setzen"
     },
     "profile": {
         "followButton": "Folgen",
@@ -1114,7 +1115,7 @@
         "undoButton": "Rückgängig",
         "deleteButton": "Löschen",
         "cannotBeUndone": "Kann nicht rückgängig gemacht werden!",
-        "confirmButton": "Bestätige",
+        "confirmButton": "Bestätigen",
         "doneButton": "Fertig",
         "saveButton": "Speichern",
         "saveChangesButton": "Änderungen speichern",
@@ -1122,7 +1123,7 @@
         "copyLink": "Link kopieren",
         "copyID": "ID kopieren",
         "accountData": {
-            "email": "Email",
+            "email": "E-mail",
             "username": "Benutzername",
             "password": "Passwort"
         },
