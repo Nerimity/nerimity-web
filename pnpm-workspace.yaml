@@ -1,2 +1,4 @@
+allowBuilds:
+  node-datachannel: true
 patchedDependencies:
   sortablejs: patches/sortablejs.patch
