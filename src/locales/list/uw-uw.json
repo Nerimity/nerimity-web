@@ -474,7 +474,35 @@
     },
     "messageArea": {
         "messageBoxPlaceholder": "Talky {{username}}",
-        "messageBoxChannelPlaceholder": "Talky In {{channelName}}"
+        "messageBoxChannelPlaceholder": "Talky In {{channelName}}",
+        "gifPicker": {
+            "search": "Seawch {{platform}}",
+            "noResults": "No GIFs found UwU",
+            "favorites": {
+                "title": "Fawouwites",
+                "search": "Seawch fawouwites",
+                "noFavorites": "No fawouwites yet UwU"
+            }
+        },
+        "replying": "Wepwying to {{count}} mewssage(s) UwU",
+        "mention": "Mewntion",
+        "dropFile": "Dwop Fiwe",
+        "uploadTo": "Upwoad To",
+        "channelNotice": {
+            "title": "Befowe you chat…",
+            "understoodButton": "Undewstood UwU"
+        },
+        "specialMentions": {
+            "everyone": "Mewntions evewyone UwU",
+            "someone": "Mewntions a wandom usew",
+            "silent": "Siwent mewssage"
+        },
+        "linkToGoogleDrive": {
+            "body": "You must wink youw accwount to Googwe Dwive to upwoad wawge images, videos, ow fiwes",
+            "linkButton": "Wink now",
+            "cancelButton": "Don't wink"
+        },
+        "emailNotice": "Confiwm youw emaiw to send mewssages."
     },
     "createServerModal": {
         "title": "Cweate Sewvew",
@@ -504,7 +532,8 @@
         "creator": "Cweated by",
         "selectButton": "Sewect Sewvew",
         "addButton": "Add botty",
-        "permissions": "Bot Pewmissions"
+        "permissions": "Bot Pewmissions",
+        "title": "Inwite Clanker UwU"
     },
     "invite": {
         "loading": "Woading Invite…",
@@ -555,7 +584,8 @@
         "reconnecting": "LEMME INNNN!!…",
         "inQueue": "In Qwueue: {{count}} Hoomans Aheawd Of U…",
         "authenticating": "Authwenticating…",
-        "connected": "Wew’we in"
+        "connected": "Wew’we in",
+        "statusPage": "Stwatus Pwage"
     },
     "dangerousLinkModal": {
         "title": "Cwustom Winkies",
@@ -630,7 +660,10 @@
     },
     "sidePane": {
         "home": "Homy",
-        "moderation": "Secwet Stuffs"
+        "moderation": "Secwet Stuffs",
+        "homeShort": "Homy",
+        "moderationShort": "Mwod",
+        "addServer": "Add Sewvew"
     },
     "general": {
         "searchPlaceholder": "Seawchies",
@@ -638,10 +671,10 @@
         "cancelButton": "RUN AWAYYY",
         "deleteButton": "Dewete",
         "confirmButton": "Confywm",
-        "doneButton": "YEP",
+        "doneButton": "Dewne!",
         "saveButton": "WETS DO DIS",
         "saveChangesButton": "Save Changies",
-        "saving": "Casting Spawells…",
+        "saving": "Casting Spewells…",
         "copyLink": "Copy Wink",
         "copyID": "Copy Magik Numbews",
         "accountData": {
@@ -653,8 +686,14 @@
             "avatar": "Ava-taw",
             "banner": "Big Piccy",
             "supportedFileTypes": "Suppowted: {{extensions}}~ Max {{size}}",
-            "browse": "Snoop"
-        }
+            "browse": "Snoop",
+            "revert": "Wetwete",
+            "remove": "Dewete!"
+        },
+        "closeButton": "Backie",
+        "editButton": "Edwit",
+        "undoButton": "Undwo",
+        "cannotBeUndone": "This cannot be undwonye!"
     },
     "connectionErrorModal": {
         "title": "Connecktion ewwow (╯°□°）╯",
@@ -669,5 +708,59 @@
         "deletionNotice": "Ur accwount and dat-ta wiww be deweeted in 15 days... (｡•́︿•̀｡)",
         "ipBanned": "Ur IP got yeeted!! (Banned >.<)",
         "ipBanNotice": "Uh oh! Somewone ewise on ur IP got in twouble and got suspended fwom Newimity... (｡•́︿•̀｡) But don't p-panic!! Ur accwount is stiww safe and sound"
+    },
+    "accountLink": {
+        "linking": "Winking youw accwount with {{service}}…",
+        "success": "Accwount winked! You may now cwose this window."
+    },
+    "welcomePopup": {
+        "joinServer": "Join the officiaw Newimity sewvew",
+        "subtitle": "Thaynks fow twying out Newimity!",
+        "editProfile": "Edwit my pwofiwe",
+        "support": "Suppowt me on {{platform}}",
+        "contribute": "Contwibute to Newimity on GitHub"
+    },
+    "status": {
+        "online": "Onwine",
+        "ltp": "Wooking To Pway",
+        "afk": "Away Fwom Keyboawd",
+        "dnd": "Do Not Distuwb",
+        "offline": "Offwine",
+        "appearAsOffline": "Appeaw As Offwine",
+        "lastOnline": "Wast onwine {{time}}"
+    },
+    "updateModal": {
+        "title": "Updwate Avaiwabwe",
+        "updateButton": "Updwate Now",
+        "laterButton": "Watew",
+        "releasedAt": "Weweased at"
+    },
+    "inputFieldActions": {
+        "copy": "Cwopy",
+        "cut": "Cwt",
+        "paste": "Pwast"
+    },
+    "dropDown": {
+        "selectItem": "Sewect Item",
+        "selectItemMultiple": "Sewect Item(s)",
+        "itemsSelected": "{{count}} item(s) sewected"
+    },
+    "markup": {
+        "bold": "Bwowd",
+        "italic": "Itawic",
+        "strikethrough": "Stwikethwough",
+        "header": "Headew",
+        "namedLink": "Nyamed Wink",
+        "spoiler": "Spwoiwew",
+        "timestamp": "Timestwamp",
+        "color": "Cowouw",
+        "html": "HTMW Mwode",
+        "emojiPicker": "Emoji Pickew",
+        "timestampModal": {
+            "title": "Time Mwawkup",
+            "relative": "Wewative",
+            "offset": "Offswet"
+        },
+        "checkbox": "Checcbox"
     }
 }
