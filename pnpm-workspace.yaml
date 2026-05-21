@@ -1,4 +1,7 @@
 allowBuilds:
   node-datachannel: true
+minimumReleaseAgeExclude:
+  - idb-keyval@6.2.4
+  - vite@8.0.14
 patchedDependencies:
   sortablejs: patches/sortablejs.patch
