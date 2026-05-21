@@ -140,6 +140,7 @@ const ChannelList = () => {
             <Switch
               fallback={
                 <ChannelItem
+                  expanded={true}
                   channel={channel!}
                   selected={controller?.params().channelId === channel!.id}
                 />
@@ -235,12 +236,11 @@ function CategoryItem(props: { channel: Channel; selected: boolean }) {
           <div class={style.categoryChannelList}>
             <For each={sortedServerChannels()}>
               {(channel) => (
-                <Show when={expanded()}>
-                  <ChannelItem
-                    channel={channel!}
-                    selected={controller?.params().channelId === channel!.id}
-                  />
-                </Show>
+                <ChannelItem
+                  expanded={expanded()}
+                  channel={channel!}
+                  selected={controller?.params().channelId === channel!.id}
+                />
               )}
             </For>
           </div>
@@ -250,7 +250,11 @@ function CategoryItem(props: { channel: Channel; selected: boolean }) {
   );
 }
 
-function ChannelItem(props: { channel: Channel; selected: boolean }) {
+function ChannelItem(props: {
+  channel: Channel;
+  selected: boolean;
+  expanded: boolean;
+}) {
   const controller = useServerDrawerController();
   const [hovered, setHovered] = createSignal(false);
 
@@ -264,12 +268,8 @@ function ChannelItem(props: { channel: Channel; selected: boolean }) {
   const isPrivateChannel = () =>
     controller?.privateChannelIds().includes(props.channel.id);
 
-  const expanded = () => {
-    return controller?.expanded(props.channel);
-  };
-
   return (
-    <Show when={expanded || props.selected || hasNotifications()}>
+    <Show when={props.expanded || props.selected || hasNotifications()}>
       <Item.Root
         onContextMenu={(e) =>
           controller?.onChannelContextMenu(e, props.channel)
