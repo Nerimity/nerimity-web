@@ -885,7 +885,8 @@
         "pinMessage": "Замацаваць",
         "unpinMessage": "Адмацаваць",
         "copyHTML": "Скапіяваць як HTML",
-        "copyMessageLink": "Скапіяваць спасылку на паведамленьне"
+        "copyMessageLink": "Скапіяваць спасылку на паведамленьне",
+        "setReminder": "Дадаць нагаду"
     },
     "profile": {
         "followButton": "Падпісацца",
