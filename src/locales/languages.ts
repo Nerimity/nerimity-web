@@ -42,13 +42,19 @@ export const languages: Record<string, Language> = {
     name: "Belarusian (Traditional)",
     nativeName: "Беларуская (тарашкевіца)",
     emoji: "🇧🇾",
-    contributors: ["https://github.com/Dzi-Mieha", "https://github.com/1enify"]
+    contributors: ["https://github.com/1enify", "https://github.com/Dzi-Mieha"]
   },
   "pt-br": {
     name: "Brazilian Portuguese",
     nativeName: "Português (Brasil)",
     emoji: "🇧🇷",
-    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Cirnos", "https://github.com/Mediixou"]
+    contributors: ["https://gitlab.com/Cirnos", "https://github.com/Jerkycat", "https://github.com/Mediixou"]
+  },
+  ca: {
+    name: "Catalan",
+    nativeName: "Català",
+    emoji: "🇦🇩",
+    contributors: ["https://github.com/World170"]
   },
   "zh-hans": {
     name: "Chinese (Simplified)",
@@ -66,7 +72,7 @@ export const languages: Record<string, Language> = {
     name: "Dutch",
     nativeName: "Nederlands",
     emoji: "🇳🇱",
-    contributors: ["https://github.com/captainqdev", "Smoonium"]
+    contributors: ["Smoonium" ,"https://github.com/captainqdev"]
   },
   "fr-FR": {
     name: "French",
@@ -89,6 +95,12 @@ export const languages: Record<string, Language> = {
     nativeName: "Magyar",
     emoji: "🇭🇺",
     contributors: ["https://github.com/andrasdaradici"]
+  },
+  it: {
+    name: "Italian",
+    nativeName: "Italiano",
+    emoji: "🇮🇹",
+    contributors: ["jerid616" ,"https://github.com/stunpersonale"]
   },
   "ja-jp": {
     name: "Japanese",
@@ -118,9 +130,9 @@ export const languages: Record<string, Language> = {
     nativeName: "Русский",
     emoji: "🇷🇺",
     contributors: [
-      "FAYSi223",
+      "https://github.com/Effently",
       "https://github.com/eshkq",
-      "https://github.com/Effently"
+      "FAYSi223"
     ]
   },
   "es-es": {
@@ -129,17 +141,17 @@ export const languages: Record<string, Language> = {
     emoji: "🇪🇸",
     contributors: ["https://github.com/World170", "Linterna001"]
   },
+  "es-latam": {
+    name: "Spanish (Latin American)",
+    nativeName: "Español (Latinoaméricana)",
+    emoji: "🇲🇽",
+    contributors: ["https://github.com/lolyyyyu667890"]
+  },
   "sv-sv": {
     name: "Swedish",
     nativeName: "Svenska",
     emoji: "🇸🇪",
     contributors: ["Hyruled", "reks"]
-  },
-  uk: {
-    name: "Ukrainian",
-    nativeName: "Українська",
-    emoji: "🇺🇦",
-    contributors: ["https://github.com/1enify", "Shiroi karasu", "rkxd"]
   },
   "th-th": {
     name: "Thai",
@@ -157,6 +169,12 @@ export const languages: Record<string, Language> = {
       "https://github.com/lexerotk",
       "https://github.com/slideglide"
     ]
+  },
+  uk: {
+    name: "Ukrainian",
+    nativeName: "Українська",
+    emoji: "🇺🇦",
+    contributors: ["rkxd", "https://github.com/1enify", "Shiroi karasu"]
   },
   "uw-uw": {
     name: "UwU",
@@ -180,6 +198,10 @@ const detectDefaultLanguage = (): string => {
 
     if (lang === "zh-tw" || lang === "zh-hk" || lang.startsWith("zh-hant")) {
       return "zh-hant";
+    }
+
+    if (lang === "es-mx" || lang === "es-ar" || lang.startsWith("es-419")) {
+      return "es-latam";
     }
 
     if (languages[lang]) {
