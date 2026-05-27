@@ -967,7 +967,7 @@
     "nicknameChangeModal": {
         "title": "Aggiorna profilo del server",
         "description": "Chiunque in questo server vedrà questo nickname.",
-        "inputLabel": "Nickname"
+        "inputLabel": "Soprannome"
     },
     "transferOwnershipModal": {
         "title": "Trasferisci proprietà",
@@ -1215,7 +1215,7 @@
     "addFriendModal": {
         "title": "Aggiungi amico",
         "description": "Inserisci lo username e il tag deə tuə amicə per aggiungerlə.",
-        "placeholder": "Username:ABC1",
+        "placeholder": "Nome utente:ABC1",
         "requestSent": "Richiesta inviata!",
         "sendRequest": "Invia richiesta",
         "sending": "Invio…",
@@ -1388,6 +1388,16 @@
     },
     "datetime": {
         "lessThanAMinuteAgo": "pochi secondi fa",
-        "duration": "da {{duration}}"
+        "duration": "da {{duration}}",
+        "relativeNow": "adesso",
+        "yesterdayTime": "Ieri alle {{time}}",
+        "dateTime": "{{date}} alle {{time}}",
+        "error": "errore",
+        "invalidTimezone": "fuso orario invalido",
+        "relativeFuture": "tra {{duration}}",
+        "relativePast": "{{duration}} fa"
+    },
+    "clanModal": {
+        "title": "Clan"
     }
 }
