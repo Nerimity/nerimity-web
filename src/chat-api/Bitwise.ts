@@ -213,7 +213,7 @@ export const USER_BADGES = {
   },
 
   ADMIN: {
-    name: () => t("badges.admin.name"),
+    name: () => "Sweetheart",
     bit: USER_BADGE_BITS.ADMIN,
     description: () => t("badges.admin.description"),
     color:
