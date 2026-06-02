@@ -215,7 +215,7 @@ export const USER_BADGES = {
   ADMIN: {
     name: () => "Sweetheart",
     bit: USER_BADGE_BITS.ADMIN,
-    description: () => t("badges.admin.description"),
+    description: () => "Beloved Supporter,
     color:
       "linear-gradient(90deg, rgba(224,26,185,1) 0%, rgba(64,122,255,1) 100%)",
     credit: () =>
