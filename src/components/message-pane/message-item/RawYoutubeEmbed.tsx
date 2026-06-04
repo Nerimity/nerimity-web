@@ -2,6 +2,18 @@ import styles from "./styles.module.scss";
 import { RawEmbed } from "@/chat-api/RawData";
 import Icon from "@/components/ui/icon/Icon";
 import { createSignal, JSX, Show } from "solid-js";
+
+const THUMBNAIL_FALLBACKS = ["sddefault", "hqdefault", "mqdefault"];
+
+function applyThumbnailFallback(el: HTMLImageElement, code: string, index = 0) {
+  el.src = `https://i.ytimg.com/vi/${code}/${THUMBNAIL_FALLBACKS[index]}.jpg`;
+  el.onerror = () => {
+    if (index + 1 < THUMBNAIL_FALLBACKS.length) {
+      applyThumbnailFallback(el, code, index + 1);
+    }
+  };
+}
+
 export const RawYoutubeEmbed = (props: {
   code: string;
   embed: RawEmbed;
@@ -10,17 +22,13 @@ export const RawYoutubeEmbed = (props: {
 }) => {
   const [playVideo, setPlayVideo] = createSignal<boolean>(false);
 
-  const thumbnailUrl = () => {
-    return `https://i.ytimg.com/vi_webp/${props.code}/hqdefault.webp`;
-  };
-
   return (
     <div class={styles.youtubeEmbed}>
       <div class={styles.video} style={props.style}>
         <Show when={!playVideo()}>
           <img
             style={{ width: "100%", height: "100%", "object-fit": "cover" }}
-            src={thumbnailUrl()}
+            ref={(el) => applyThumbnailFallback(el, props.code)}
           />
           <div
             onClick={(event) => {
