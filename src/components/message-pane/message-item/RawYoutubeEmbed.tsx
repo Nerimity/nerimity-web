@@ -6,12 +6,12 @@ import { createSignal, JSX, Show } from "solid-js";
 const THUMBNAIL_FALLBACKS = ["sddefault", "hqdefault", "mqdefault"];
 
 function applyThumbnailFallback(el: HTMLImageElement, code: string, index = 0) {
-  el.src = `https://i.ytimg.com/vi/${code}/${THUMBNAIL_FALLBACKS[index]}.jpg`;
-  el.onerror = () => {
-    if (index + 1 < THUMBNAIL_FALLBACKS.length) {
+  el.onload = () => {
+    if (el.naturalWidth === 120 && el.naturalHeight === 90) {
       applyThumbnailFallback(el, code, index + 1);
     }
   };
+  el.src = `https://i.ytimg.com/vi/${code}/${THUMBNAIL_FALLBACKS[index]}.jpg`;
 }
 
 export const RawYoutubeEmbed = (props: {
