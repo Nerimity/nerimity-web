@@ -36,7 +36,7 @@
         "header": "التسجيل",
         "notices": {
             "title": "ملاحظات",
-            "toxic": "لا تكن توكسيك.",
+            "toxic": "لا تكن وقح.",
             "nsfw": "ممنوع المحتوى الإباحي.",
             "age": "يجب أن يكون عمرك 14 سنة أو أكثر."
         },
@@ -92,7 +92,14 @@
             "linkButton": "اربط الآن",
             "cancelButton": "لا تربط"
         },
-        "emailNotice": "قم بتأكيد بريدك الإلكتروني لإرسال الرسائل."
+        "emailNotice": "قم بتأكيد بريدك الإلكتروني لإرسال الرسائل.",
+        "gifPicker": {
+            "favorites": {
+                "title": "المفضلة",
+                "search": "ابحث عن المفضلة",
+                "noFavorites": "لا يوجد مفضلة"
+            }
+        }
     },
     "inbox": {
         "blockedUsersModal": {
@@ -212,14 +219,23 @@
             },
             "channels": {
                 "createButton": "إنشاء",
-                "createNewDescription": "إنشاء قناة أو فئة جديدة"
+                "createNewDescription": "إنشاء قناة أو فئة جديدة",
+                "textChannel": "قناة نصية",
+                "category": "فئة"
             },
             "channel": {
                 "channelName": "اسم القناة",
                 "permissionsDescription": "إدارة صلاحيات هذه القناة.",
                 "deleteThisChannel": "حذف هذه القناة",
                 "deleteChannelButton": "حذف القناة",
-                "removeNoticeButton": "إزالة الإشعار"
+                "removeNoticeButton": "إزالة النتبيهات",
+                "slowMode": "الوضع البطيء",
+                "slowModeDescription": "حدد المدة التي يجب على المستخدم انتظارها قبل أن يتمكن من إرسال رسالة.",
+                "deleteChannelTitle": "حذف {{channelName}}",
+                "channelNotice": "تنبيهات القناة",
+                "channelNoticeDescription": "يظهر هذا التنبيه عندما يكون المستخدم على وشك بدء محادثة لأول مرة. وتُطبّق التغييرات بعد إعادة تحميل الصفحة.",
+                "channelNoticeTooLong": "لا يجوز أن يتجاوز طول تنبيهات القناة 300 حرف.",
+                "channelIcon": "أيقونة القناة"
             },
             "invites": {
                 "createInviteButton": "إنشاء دعوة",
@@ -259,8 +275,32 @@
                 "questions": {
                     "addButton": "إضافة سؤال",
                     "question": "سؤال",
-                    "questionPlaceholder": "القطط أم الكلاب؟"
+                    "questionPlaceholder": "القطط أم الكلاب؟",
+                    "multiselect": "خيارات متعددة"
+                },
+                "answers": {
+                    "title": "الإجابات",
+                    "addButton": "أضافة أجابة",
+                    "editModal": {
+                        "title": "تعديل ألاجابة",
+                        "answer": "ألاجابة",
+                        "placeholder": "قطط",
+                        "selectRoles": "أختار الدور"
+                    }
                 }
+            },
+            "notifications": {
+                "notice": "سوف تتغير هاذه ألاعدادت لديك فقط.",
+                "ping": "تنبيه",
+                "pingDescription": "اعرض مؤشر الإشعارات.",
+                "sound": "صوت الإشعارات",
+                "soundDescription": "أصدر صوتًا عند تلقي إشعار.",
+                "channelsDescription": "إدارة الإشعارات لكل قناة."
+            },
+            "emoji": {
+                "title": "رموز تعبيرية مخصصة",
+                "description": "أضف الرموز التعبيرية الخاصة بك.",
+                "addButton": "أضف رموزًا تعبيرية"
             }
         },
         "rolePermissions": {
@@ -624,7 +664,10 @@
         "joinServer": {
             "bot": "</2> تمت إضافته إلى السيرفر. <2><User/>",
             "user": "<2/> انضم إلى السيرفر.<2></User>"
-        }
+        },
+        "leaveServer": "<User/><2> غادر الخادم.</2>",
+        "kickUser": "<2>تم طرد <User/>. </2>",
+        "banUser": "<2>تم حضر <User/>. </2>"
     },
     "statusHeader": {
         "authenticationError": "خطأ في المصادقة",
@@ -650,7 +693,8 @@
         "by": "من طرف",
         "deletionNotice": "حسابك ومعلوماتك سيتم خذفها خلال 15 يوما",
         "ipBanned": "تم حظر IP الخاص بك.",
-        "ipBanNotice": "تم توقبف شخص بنفس IP من Nerimity. حسابك لم يتأثر."
+        "ipBanNotice": "تم توقبف شخص بنفس IP من Nerimity. حسابك لم يتأثر.",
+        "defaultReason": "انتهاك شروط الخدمة"
     },
     "welcomePopup": {
         "subtitle": "نشكرك على تجربة Nerimity!",
@@ -665,10 +709,11 @@
         "afk": "بعيد عن لوحة المفاتيح",
         "dnd": "عدم الإزعاج",
         "offline": "غير متصل",
-        "appearAsOffline": "ظهور كغير متصل"
+        "appearAsOffline": "ظهور كغير متصل",
+        "lastOnline": "آخر ظهور على الإنترنت {{time}}"
     },
     "sidePane": {
-        "home": "الرئيسبة",
+        "home": "الرئيسية",
         "homeShort": "الرئيسية",
         "moderation": "قسم الإشراف",
         "moderationShort": "المشرف",
@@ -712,5 +757,10 @@
         "errors": {
             "emptyName": "المرجوا ادخال اسم المجلد."
         }
+    },
+    "remindersModal": {
+        "title": "تذكيرات",
+        "showAllButton": "عرض كل التذكيرات",
+        "viewButton": ""
     }
 }
