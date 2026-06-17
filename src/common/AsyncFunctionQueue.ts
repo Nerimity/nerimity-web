@@ -34,7 +34,10 @@ export class AsyncFunctionQueue {
    * @param {() => Promise<T>} asyncFunc - An async function to be added to the queue. It must be a function that returns a Promise.
    * @returns {Promise<T>} A promise that resolves or rejects when the added function is executed.
    */
-  public add<T>(asyncFunc: () => Promise<T>): Promise<T> {
+  public add<T>(asyncFunc: () => Promise<T>, skipQueue = false): Promise<T> {
+    if (skipQueue) {
+      return asyncFunc();
+    }
     return new Promise<T>((resolve, reject) => {
       // Push the function along with its resolve/reject handlers to the queue.
       // We cast here to satisfy TypeScript's strict checks on function parameter contravariance.

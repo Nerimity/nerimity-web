@@ -26,6 +26,7 @@ interface RequestOpts {
   paramsArrayMode?: "keys" | "spaces";
   token?: string | null;
   abortSignal?: AbortSignal;
+  skipQueue?: boolean;
 }
 
 const queue = new AsyncFunctionQueue();
@@ -84,7 +85,7 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
       }
       throw { message: text };
     }
-  });
+  }, opts.skipQueue);
 }
 
 interface XHROpts {
