@@ -384,7 +384,8 @@
             "profile": "Профиль",
             "badges": "Значки",
             "source": "Код",
-            "changes": "Изменения"
+            "changes": "Изменения",
+            "sessions": "Сеансы"
         },
         "header": {
             "servers": "сервера(ов)",
