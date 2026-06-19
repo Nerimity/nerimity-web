@@ -11,7 +11,7 @@
         "saveButton": "Salva",
         "accountData": {
             "email": "Email",
-            "username": "Username",
+            "username": "Nome utente",
             "password": "Password"
         },
         "avatarAndBanner": {
@@ -113,7 +113,7 @@
             "toxic": "Non essere tossicə."
         },
         "email": "Email",
-        "username": "Username",
+        "username": "Nome utente",
         "password": "Password",
         "confirmPassword": "Conferma password",
         "agreement": "Con la creazione di un account, accetti i Termini e Condizioni e la Privacy Policy.",
@@ -221,10 +221,10 @@
         "color": "Colore",
         "html": "Modalità HTML",
         "strikethrough": "Barrato",
-        "header": "Header",
+        "header": "Titolo",
         "namedLink": "Link con nome",
         "timestamp": "Data e ora",
-        "emojiPicker": "Emoji Picker",
+        "emojiPicker": "Selettore emoji",
         "checkbox": "Checkbox",
         "timestampModal": {
             "title": "Fissa la data",
@@ -573,7 +573,7 @@
             "experiments": "Esperimenti",
             "badges": "Badge",
             "viewSource": "Vedi codice sorgente",
-            "changelog": "Changelog",
+            "changelog": "Registro modifiche",
             "window-settings": "Impostazioni della finestra",
             "call-settings": "Impostazioni di chiamata",
             "activity-status": "Stato dell'attività",
@@ -633,7 +633,7 @@
             "deletedInfo": {
                 "title": "Cosa verrà eliminato",
                 "email": "• Email",
-                "username": "• Username",
+                "username": "• Nome utente",
                 "ip": "• Indirizzo IP",
                 "bio": "• Bio",
                 "messages": "• I tuoi messaggi",
@@ -787,7 +787,7 @@
             "chatBarOptions": "Opzioni della barra della chat",
             "voiceMessage": "Messaggio vocale",
             "gifPicker": "Picker delle GIF",
-            "emojiPicker": "Picker delle emoji",
+            "emojiPicker": "Selettore emoji",
             "sendButton": "Invia messaggio"
         },
         "window": {
@@ -871,7 +871,7 @@
                 "title": "Cancella applicazione",
                 "willNotGetDeleted": "Cosa non verrà cancellato:",
                 "andMore": "• E altro",
-                "willNotGetDeletedDescription": "Puoi cancellarli manualmente prima di cancellare la tua app.",
+                "willNotGetDeletedDescription": "Puoi rimuoverli manualmente prima di cancellare la tua app.",
                 "deleteAppButton": "Cancella questa app"
             }
         },
@@ -891,8 +891,8 @@
         "listening": "Ascoltando"
     },
     "logoutModal": {
-        "title": "Logout?",
-        "body": "Sei sicurə di voler uscire?",
+        "title": "Disconnessione?",
+        "body": "Sei sicurə di voler disconnetterti?",
         "clearSettings": "Resetta impostazioni locali",
         "cancelButton": "Non uscire"
     },
