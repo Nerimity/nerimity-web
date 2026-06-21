@@ -54,7 +54,8 @@
         "reconnecting": "Reconnectant…",
         "inQueue": "A la cua: {{count}} usuari(s) davant teu",
         "authenticating": "Autenticant…",
-        "connected": "Connectat!"
+        "connected": "Connectat!",
+        "statusPage": "Pàgina d'estat"
     },
     "dangerousLinkModal": {
         "title": "Enllaç personalitzat",
@@ -75,5 +76,68 @@
         "deletionNotice": "El teu compte i les teves dades s'eliminaran d'aquí a 15 dies",
         "ipBanned": "La teva IP està banejada.",
         "ipBanNotice": "Algú amb la mateixa IP ha estat suspès de Nerimity. El teu compte no s’ha vist afectat."
+    },
+    "homePage": {
+        "slogan": "Una aplicació de xat moderna i elegant.",
+        "subslogan": "Nerimity ofereix una experiència elegant i rica en funcions que la fa destacar.",
+        "viewGitHubButton": "Veure a GitHub",
+        "getStarted": "Endinsar-se",
+        "availableOn": "Disponible a",
+        "browser": "Navegador",
+        "featureList": {
+            "feature1": "Avatar i emojis animats gratuïts",
+            "feature2": "Disseny elegant",
+            "feature3": "Canvia la teva etiqueta de franc",
+            "feature4": "Crea publicacions al teu perfil",
+            "feature5": "Crea la teva pròpia comunitat",
+            "feature6": "Troba noves comunitats",
+            "feature7": "Finançat per donacions",
+            "feature8": "Codi font complet a GitHub",
+            "feature9": "Expressa't amb marcs en el teu perfil"
+        }
+    },
+    "loginPage": {
+        "title": "Inicia la sessió per continuar",
+        "emailOrUsernameAndTag": "Correu electrònic / Nom d'usuari:tag",
+        "password": "Contrasenya",
+        "login": "Iniciar la sessió",
+        "createAccountInstead": "Crea un compte en lloc d'això",
+        "loggingIn": "Iniciant la sessió…"
+    },
+    "registerPage": {
+        "header": "Registrar-se",
+        "notices": {
+            "title": "Avísos",
+            "toxic": "No siguis tòxic.",
+            "nsfw": "Res de contingut NSFW.",
+            "age": "Has de tenir 14 anys o més."
+        },
+        "title": "Benvingut a {{appName}}",
+        "email": "Correu",
+        "username": "Nom d'usuari",
+        "password": "Contrasenya",
+        "confirmPassword": "Confirmar Contrasenya",
+        "agreement": "En crear un compte, accepteu els Termes i condicions i la Política de privacitat.",
+        "registerButton": "Registrar-se",
+        "registering": "Registrant-se…",
+        "loginInstead": "Iniciar sessió en lloc d'això"
+    },
+    "resetPassword": {
+        "title": "Restablir la contrasenya",
+        "resetSuccessful": "Restabliment de contrasenya reeixit.",
+        "passwordsDoNotMatch": "La contrasneya de confirmació no coincideix.",
+        "passwordTooLong": "La contrasenya ha de tenir menys de 72 caràcters.",
+        "resetPasswordButton": "Restableix la contrasenya",
+        "resetting": "Restablint…",
+        "email": "Correu",
+        "sendEmailButton": "Enviar correu",
+        "sending": "Enviant correu…"
+    },
+    "welcomePopup": {
+        "subtitle": "Gràcies per provar Nerimity!",
+        "joinServer": "Uneix-te al servidor oficial de Nerimity",
+        "editProfile": "Edita el meu perfil",
+        "support": "Dóna'm suport a {{platform}}",
+        "contribute": "Col·labora amb Nerimity a GitHub"
     }
 }
