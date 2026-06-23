@@ -1143,7 +1143,7 @@
         "dnd": "Bitte nicht stören",
         "offline": "Offline",
         "appearAsOffline": "Unsichtbar",
-        "lastOnline": "Zuletzt online vor {{time}}"
+        "lastOnline": "Zuletzt online um {{time}}"
     },
     "inputFieldActions": {
         "copy": "Kopieren",
