@@ -92,7 +92,7 @@ export interface RawMessage {
   attachments?: Array<RawAttachment>;
   quotedMessages: Partial<RawMessage>[];
   reactions: RawMessageReaction[];
-  htmlEmbed?: string;
+  htmlEmbed?: any;
   embed?: RawEmbed | null;
   mentionReplies?: boolean;
   replyMessages: {

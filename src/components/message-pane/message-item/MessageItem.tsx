@@ -70,7 +70,6 @@ import useServerMembers, {
 import { Dynamic, Portal } from "solid-js/web";
 import { Emoji as RoleEmoji } from "@/components/ui/Emoji";
 import { prettyBytes } from "@/common/prettyBytes";
-import { unzipJson } from "@/common/zip";
 import { emitScrollToMessage } from "@/common/GlobalEvents";
 import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
@@ -1909,7 +1908,7 @@ const htmlEmbedContainerStyles: JSX.CSSProperties = {
 function HTMLEmbed(props: { message: RawMessage }) {
   const id = createUniqueId();
   const embed = createMemo<HtmlEmbedItem | HtmlEmbedItem[]>(() =>
-    unzipJson(props.message.htmlEmbed!)
+    props.message.htmlEmbed!
   );
   const { shouldAnimate } = useWindowProperties();
   const [hovered, setHovered] = createSignal(false);

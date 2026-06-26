@@ -19,7 +19,6 @@ import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import { t } from "@nerimity/i18lite";
 import { copyToClipboard } from "@/common/clipboard";
 import env from "@/common/env";
-import { unzipJson } from "@/common/zip";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { formatTimestamp } from "@/common/date";
 import Avatar from "@/components/ui/Avatar";
@@ -370,9 +369,7 @@ export function MessageContextMenu(props: MessageContextMenuProps) {
                 icon: "content_copy",
                 label: t("messageContextMenu.copyHTML"),
                 onClick: () =>
-                  copyToClipboard(
-                    renderHtml(unzipJson(props.message.htmlEmbed!))
-                  )
+                  copyToClipboard(renderHtml(props.message.htmlEmbed!))
               }
             ]
           : []),
