@@ -885,7 +885,8 @@
         "pinMessage": "Fijar",
         "unpinMessage": "Desfijar",
         "copyHTML": "Copiar HTML",
-        "copyMessageLink": "Copiar enlance del mensaje"
+        "copyMessageLink": "Copiar enlance del mensaje",
+        "setReminder": "Establecer Recordatorio"
     },
     "profile": {
         "followButton": "Seguir",
