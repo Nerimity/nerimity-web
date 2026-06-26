@@ -859,7 +859,7 @@
                 "description": "Gestisci OAuth2",
                 "documentation": "Documentazione OAuth2",
                 "clientId": "ID client",
-                "clientSecret": "Client Secret",
+                "clientSecret": "Secret Client",
                 "secretRefreshed": "Client Secret aggiornato.",
                 "secretCopied": "Client Secret copiato nella clipboard.",
                 "redirectUris": "Redirect degli URI",
