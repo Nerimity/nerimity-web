@@ -15,6 +15,8 @@
 
 Chat App made using SolidJS.
 
+### ⚠️ This project has ceased development in favor of [the Vanilla client](https://github.com/nerimity/nerimity-web-vanilla). It will still be supported, but will no longer receive any major updates.
+
 ## 🗂️ Repos
 
 - Nerimity Web - Frontend (You Are Here)
@@ -68,7 +70,6 @@ Chat App made using SolidJS.
 - [x] Update Server Channels
 - [x] Delete Server Channels
 - [x] Delete Server
-
 
 ### Explore:
 
