@@ -516,6 +516,7 @@ function MessageArea(props: {
     );
     setMessage(textAreaEl()!.value);
     setShowEmojiPicker(false);
+    setShowGifPicker(false);
   };
 
   const htmlEnabled = () => channelProperty()?.htmlEnabled ?? false;
