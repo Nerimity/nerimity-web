@@ -101,6 +101,7 @@ export interface RawMessage {
 
   buttons: RawMessageButton[];
   roleMentions: RawServerRole[];
+  creatorOverrideId?: string | null;
   webhookId?: string;
 }
 
