@@ -514,6 +514,12 @@
                     "hideMembers": "Ocultar la lista de miembros",
                     "hideActivities": "Ocultar la lista de actividades"
                 }
+            },
+            "clans": {
+                "tag": "Etiqueta",
+                "icon": "Ícono",
+                "enableClanTag": "Habilitar etiqueta del clan",
+                "verifiedServerOnly": "La etiqueta del clan solo está disponible en servidores verificados."
             }
         },
         "rolePermissions": {
@@ -574,7 +580,8 @@
             "connections": "Conexiones",
             "profile": "Perfil",
             "source": "Fuente",
-            "changes": "Cambios"
+            "changes": "Cambios",
+            "sessions": "Sesiones"
         },
         "language": {
             "reloadNotice": "Debes reiniciar la aplicación para que el nuevo idioma se aplique por completo.",
@@ -739,7 +746,11 @@
             "googleDriveDescription": "Si vinculas tu cuenta de Google, podrás subir archivos a Nerimity. Los archivos se guardarán en tu Google Drive.",
             "googleDescription": "Si vinculas tu cuenta de Google, podrás iniciar sesión con Google de forma rápida y sencilla.",
             "linkButton": "Vincular",
-            "unlinkButton": "Desvincular"
+            "unlinkButton": "Desvincular",
+            "driveWarning": {
+                "title": "El uso de tu cuenta de Google primaria para compartir o alojar archivos no está recomendado.",
+                "message": "Dada la forma de la API de Google Drive para manejar los archivos de metadatos, tu nombre visible y tu Gmail son visibles en los datos internos de cualquier archivo que compartas. \n\nUsa una cuenta no personal si escoges usar Google Drive."
+            }
         },
         "interface": {
             "customCSS": "CSS personalizado",
@@ -915,7 +926,117 @@
                 "sound": "Sonido"
             },
             "initial": "Inicial",
-            "everything": "Todo"
+            "everything": "Todo",
+            "mentionsOnly": "Solo Menciones",
+            "mute": "Silencio"
         }
+    },
+    "datetime": {
+        "relativeFuture": "en {{duration}}",
+        "relativePast": "{{duration}} atrás",
+        "relativeNow": "ahora",
+        "yesterdayTime": "Ayer a la(s) {{time}}",
+        "invalidTimezone": "zona horaria inválida"
+    },
+    "messageView": {
+        "noMessages": "Sin mensajes",
+        "noMessagesDescription": "No existen mensajes en este canal.",
+        "newMessages": "Nuevos mensajes",
+        "slowMode": "Modo lento",
+        "flaggedServer": {
+            "description": "Este server no cumple con nuestros Términos de Servicio, por lo tanto, será borrado pronto.",
+            "deleteButton": "Borrar ahora",
+            "leaveButton": "Abandonar servidor"
+        }
+    },
+    "typing": {
+        "single": "<1>{{username}}</1> está escribiendo…",
+        "multiple": "<1>{{username}}</1> y <2>{{username2}}</2> están escribiendo…",
+        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> y <3>{{username3}}</3> están escribiendo…",
+        "andOthers": "<1>{{count}}</1> usuarios están escribiendo…"
+    },
+    "userContextMenu": {
+        "viewProfile": "Mirar perfil",
+        "sendMessage": "Enviar Mensaje",
+        "editRoles": "Editar roles",
+        "changeNickname": "Cambiar nombre de usuario",
+        "transferOwnership": "Transferir propiedad",
+        "callVolume": "Volumen de llamada"
+    },
+    "emojiModal": {
+        "customEmoji": "Emoji personalizado"
+    },
+    "nicknameChangeModal": {
+        "title": "Actualizar perfil de servidor",
+        "description": "Todos en este servidor verán este apodo.",
+        "inputLabel": "Apodo"
+    },
+    "transferOwnershipModal": {
+        "title": "Transferir Propiedad",
+        "description": "Al hacer esto transferirás la propiedad de este servidor a otra persona.",
+        "ifVerified": "Este servidor no está verificado.",
+        "server": "Servidor:",
+        "newOwner": "Nuevo Dueño:",
+        "cancelButton": "Cancelar Transferencia",
+        "transferButton": "Transferir",
+        "transferring": "Transfiriendo…"
+    },
+    "kickServerMemberModal": {
+        "title": "Expulsar {{username}}",
+        "kickButton": "Expulsar",
+        "kicking": "Expulsando…",
+        "message": "¿De verdad quieres expulsar a <1>{{username}}</1>?"
+    },
+    "editServerRolesModal": {
+        "title": "Editar roles"
+    },
+    "banModal": {
+        "title": "¿Banear a {{username}}?",
+        "message": "¿De verdad quieres banear a <1>{{username}}</1>?",
+        "deletePastMessagesCheckbox": "Borrar todos los mensajes enviados en estas 7 horas.",
+        "banButton": "Banear",
+        "banning": "Baneando…",
+        "reasonLabel": "Razón (opcional)",
+        "reasonPlaceholder": "Ingresa una razón…"
+    },
+    "muteModal": {
+        "title": "¿Silenciar a {{username}}?",
+        "message": "<1>{{username}}</1> no podrá hablar en el servidor porr: <2>{{duration}}</2>",
+        "banButton": "Silenciar",
+        "banning": "Silenciando…",
+        "reasonLabel": "Razón (opcional)",
+        "reasonPlaceholder": "Ingresa una razón…",
+        "muteButton": "Silenciar",
+        "unmuteButton": "Desactivar silencio",
+        "cancelMute": "No silenciar"
+    },
+    "messageContextMenu": {
+        "editMessage": "Editar mensaje",
+        "deleteMessage": "Borrar mensaje",
+        "translateMessage": "Traducir",
+        "copyMessage": "Copiar mensaje",
+        "copyHTML": "Copiar HTML",
+        "viewReactions": "Mirar Reacciones",
+        "quoteMessage": "Citar Mensaje",
+        "reportMessage": "Reportar Mensaje",
+        "reply": "Responder",
+        "markUnread": "Marcar como No Leído",
+        "pinMessage": "Fijar",
+        "unpinMessage": "Quitar Fijado",
+        "copyMessageLink": "Copiar Link del Mensaje",
+        "setReminder": "Establecer Recordatorio"
+    },
+    "profile": {
+        "followerCount": "{{count}} Seguidores",
+        "followingCount": "{{count}} Seguidos",
+        "followsYou": "Te Sigue",
+        "badge": "{{badgeName}} Emblema",
+        "followButton": "Seguir",
+        "unfollowButton": "Dejar de Seguir",
+        "removeFriendButton": "Eliminar Amigo",
+        "addFriendButton": "Añadir Amigo",
+        "pendingRequest": "Solicitud Pendiente",
+        "acceptRequestButton": "Aceptar Solicitud",
+        "messageButton": "Mensaje"
     }
 }

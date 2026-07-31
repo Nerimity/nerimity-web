@@ -60,7 +60,7 @@
             "friendRequests": "{{count}} Demandes d'amis",
             "offlineFriends": "{{count}} Amis hors ligne",
             "notes": "Notes",
-            "blockedUsersButton": "Bloqué",
+            "blockedUsersButton": "Personnes bloquées",
             "inboxTitle": "Boîte de réception"
         },
         "blockedUsersModal": {
@@ -811,11 +811,11 @@
     "status": {
         "online": "En ligne",
         "ltp": "Cherche à jouer",
-        "dnd": "Ne Pas Déranger",
+        "dnd": "Ne pas déranger",
         "offline": "Hors Ligne",
         "appearAsOffline": "Apparaître Hors Ligne",
         "afk": "Loin du clavier (AFK)",
-        "lastOnline": "Dernière connexion à {{time}}"
+        "lastOnline": "Dernière connexion le {{time}}"
     },
     "sidePane": {
         "addServer": "Ajouter Un Serveur",
@@ -1186,7 +1186,7 @@
         "files": "Fichiers",
         "searchBarPlaceholder": "Rechercher {{username}}",
         "searchBarChannelPlaceholder": "Rechercher dans {{channelName}}",
-        "channelNotice": "Avis de chaîne",
+        "channelNotice": "Avis de discussion",
         "attachments": "Pièces jointes",
         "members": "Membres",
         "creator": "Créateur",
@@ -1235,7 +1235,7 @@
         "doneButton": "Fait",
         "saveButton": "Sauvegarder",
         "saveChangesButton": "Enregistrer les modifications",
-        "saving": "Sauvegarde…",
+        "saving": "Sauvegarde en cours…",
         "copyLink": "Copier le lien",
         "copyID": "Copier l'ID",
         "accountData": {
