@@ -25,7 +25,7 @@ export default function FileBrowser(props: Props) {
   let inputRef: undefined | HTMLInputElement;
   const accept =
     props.accept === "images"
-      ? "image/gif, image/webp, image/png, image/jpeg"
+      ? "image/gif, image/webp, image/png, image/jpeg, image/avif"
       : "";
 
   onMount(() => {
