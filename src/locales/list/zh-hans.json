@@ -58,7 +58,8 @@
         "resetting": "正在重置密码...",
         "email": "电子邮箱",
         "sendEmailButton": "发送确认邮件",
-        "sending": "正在发送确认邮件..."
+        "sending": "正在发送确认邮件...",
+        "passwordTooLong": "密码须短于72个字符。"
     },
     "dashboard": {
         "title": "仪表板",
@@ -94,7 +95,9 @@
     "explore": {
         "drawer": {
             "title": "发现",
-            "servers": "服务器"
+            "servers": "服务器",
+            "bots": "机器人",
+            "themes": "主题"
         },
         "servers": {
             "title": "发现 - 服务器",
@@ -110,6 +113,9 @@
             "visitServerButton": "查看服务器",
             "joinServerButton": "加入服务器",
             "bumpButton": "顶 ({{count}})"
+        },
+        "bots": {
+            "title": "探索 - 机器人"
         }
     },
     "servers": {
@@ -229,7 +235,8 @@
             "tickets": "发送反馈",
             "privacy": "隐私",
             "connections": "连接",
-            "profile": "个人资料"
+            "profile": "个人资料",
+            "source": "源代码"
         },
         "header": {
             "servers": "个服务器",
@@ -250,7 +257,8 @@
             "deleteAccount": "删除我的账号",
             "deleteAccountDescription": "该操作将不能被撤销！",
             "deleteAccountNotice": "在您删除您的账号前，您必须要离开或删除所有服务器。",
-            "understoodButton": "确认"
+            "understoodButton": "确认",
+            "confirmEmail": "确认您的电子邮箱"
         },
         "privacy": {
             "lastOnline": {
@@ -421,6 +429,77 @@
             "email": "邮箱",
             "username": "用户名",
             "password": "密码"
+        },
+        "searchPlaceholder": "搜索",
+        "closeButton": "关闭",
+        "editButton": "编辑",
+        "undoButton": "撤销",
+        "cannotBeUndone": "此操作无法撤销！",
+        "doneButton": "完成",
+        "saveButton": "保存",
+        "saveChangesButton": "保存更改",
+        "saving": "保存中…",
+        "copyLink": "复制链接",
+        "copyID": "复制ID",
+        "avatarAndBanner": {
+            "avatar": "头像",
+            "banner": "横幅",
+            "browse": "浏览",
+            "remove": "移除"
         }
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<User/><2> 加入了服务器。</2>",
+            "user": "<User/><2> 已经加入了服务器。</2>"
+        },
+        "leaveServer": "<User/><2> 离开了服务器。</2>",
+        "kickUser": "<User/><2> 已被踢出。</2>",
+        "banUser": "<User/><2> 已被禁言。</2>",
+        "unsupported": "<User/><2> 不支持的消息。</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "认证错误",
+        "connecting": "连接中…",
+        "authenticating": "正在认证...…",
+        "connected": "已连接！",
+        "inQueue": "排队中：{{count}}个用户在您前面"
+    },
+    "dangerousLinkModal": {
+        "message": "此链接将带您至",
+        "cancelButton": "不访问",
+        "visitButton": "访问"
+    },
+    "connectionErrorModal": {
+        "ok": "确认",
+        "defaultReason": "违反服务条款",
+        "until": "直到",
+        "never": "从不",
+        "deletionNotice": "您的账号和数据将在15天内删除",
+        "ipBanned": "您的IP已被屏蔽。",
+        "reason": "理由",
+        "noToken": "未提供Token。",
+        "title": "连接出现错误"
+    },
+    "welcomePopup": {
+        "subtitle": "感谢您试用Nermity!",
+        "editProfile": "编辑个人信息"
+    },
+    "invite": {
+        "members": "用户"
+    },
+    "photoEditor": {
+        "brush": "笔刷",
+        "erase": "橡皮",
+        "title": "图片编辑器",
+        "desktopMove": "Space +拖拽以移动"
+    },
+    "badges": {
+        "founder": {
+            "name": "建立者"
+        }
+    },
+    "colorPickerModal": {
+        "title": "颜色选择器"
     }
 }
