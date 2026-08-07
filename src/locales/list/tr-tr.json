@@ -869,8 +869,8 @@
             "mostLiked30Days": "En Çok Beğenilen (30 gün)",
             "mostLikedAllTime": "En Çok Beğenilen (Tüm Zamanlar)"
         },
-        "replying": "<1>{{username}}<1>  kullanıcısna yanıt veriliyor.",
-        "reposted": "Tekrardan paylaşıldı.",
+        "replying": "<1>{{username}}<1> kullanıcısna yanıt veriliyor",
+        "reposted": "Tekrardan paylaşıldı",
         "repostedBy": "Yeniden paylaşan",
         "postWarning": "Kendi kendine zarar verme içeriğine izin verilmez; hesabınız hakkında işlem yapılacaktır."
     },
