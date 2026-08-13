@@ -549,7 +549,7 @@ function MessageArea(props: {
         </Show>
         <FloatingSuggestions textArea={textAreaEl()} />
         <Show when={channelProperty()?.attachment}>
-          <FloatingAttachment />
+          <FloatingAttachment textArea={textAreaEl()} />
         </Show>
         <Show when={editMessageId()}>
           <EditIndicator messageId={editMessageId()!} />
@@ -1311,7 +1311,9 @@ function EditIndicator(props: { messageId: string }) {
   );
 }
 
-function FloatingAttachment(props: {}) {
+function FloatingAttachment(props: {
+  textArea?: HTMLElement,
+}) {
   const params = useParams<{ channelId: string }>();
   const { createPortal } = useCustomPortal();
   const { channelProperties } = useStore();
@@ -1354,6 +1356,11 @@ function FloatingAttachment(props: {}) {
   };
 
   const isMobileWidth = () => (paneWidth() || 0) <= 400;
+
+  const cancelAttachment = () => {
+    channelProperties.setAttachment(params.channelId, undefined);
+    props.textArea?.focus();
+  };
 
   return (
     <Floating
@@ -1399,6 +1406,16 @@ function FloatingAttachment(props: {}) {
             }
             items={uploadToOptions()}
             selectedId={getAttachmentFile()?.uploadTo}
+          />
+        </div>
+        <div class={styles.attachmentClose}>
+          <Button
+            iconName="close"
+            margin={0}
+            padding={0}
+            iconSize={24}
+            color="var(--alert-color)"
+            onClick={cancelAttachment}
           />
         </div>
       </div>
