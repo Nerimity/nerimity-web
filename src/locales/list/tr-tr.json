@@ -637,7 +637,8 @@
             "linkButton": "Link",
             "unlinkButton": "Bağlantıyı Kaldır",
             "driveWarning": {
-                "title": "Ekleri paylaşmak veya barındırmak için birincil Google hesabınızı kullanmanız önerilmez."
+                "title": "Ekleri paylaşmak veya barındırmak için birincil Google hesabınızı kullanmanız önerilmez.",
+                "message": "Google Drive API'sinin dosya meta verilerini işleme biçimi nedeniyle; paylaştığınız herhangi bir dosyanın arka plan verilerinde, görünen adınız ve Google e-posta adresiniz sıklıkla görüntülenebilir.\n\nGoogle Drive'ı kullanmaya devam etmeyi seçerseniz geçici (yedek) bir hesap kullanın."
             },
             "googleDriveDescription": "Google hesabınızı bağlamak, Nerimity'ye dosya yüklemenize olanak tanır. Dosyalar Google Drive'ınızda saklanacaktır."
         },
@@ -702,7 +703,7 @@
                 "bumpBotCooldown": "Bu botu öne çıkartmak için {{hours}} saat, {{minutes}} dakika ve {{seconds}} saniye beklemeniz gerekiyor.",
                 "publicDescription": "Bu botu herkese açık yap.",
                 "botDescription": "Bot Açıklaması ({{current}}/{{max}})",
-                "bumpBotDescription": "Bu botu en üste çıkarmak için onu öne çıkartın"
+                "bumpBotDescription": "Bu botu en üste çıkarmak için onu öne çıkartıBu botu en üste taşımak için öne çıkarın (bump'layın).n"
             },
             "deleteApplication": {
                 "title": "Uygulamayı Sil",
@@ -713,7 +714,8 @@
             },
             "appClientId": "Uygulama/İstemci Kimliği",
             "useLatestUrl": "Güncel URL'yi Kullan",
-            "useLatestUrlWarning": "Dengesiz veya hatalı olabilir."
+            "useLatestUrlWarning": "Dengesiz veya hatalı olabilir.",
+            "useLatestUrlDescription": "Sonraki uygulama yeniden başlatmasında latest.nerimity.com yüklenecek. Uygulama yeniden başlatılacak."
         },
         "experiments": {
             "noExperiments": "Şu anda mevcut deney yoktur.",
@@ -749,7 +751,7 @@
                 "ping": "Ping",
                 "sound": "Ses"
             },
-            "initial": ""
+            "initial": "Varsayılan"
         },
         "channelSettings": "Kanal Ayarları"
     },
@@ -792,7 +794,8 @@
         "pinMessage": "Sabitle",
         "unpinMessage": "Sabitlemeyi Kaldır",
         "copyHTML": "HTML Kopyala",
-        "copyMessageLink": "Mesaj Bağlantısını Kopyala"
+        "copyMessageLink": "Mesaj Bağlantısını Kopyala",
+        "setReminder": "Hatırlatıcı Oluştur"
     },
     "profile": {
         "followButton": "Takip Et",
@@ -866,9 +869,10 @@
             "mostLiked30Days": "En Çok Beğenilen (30 gün)",
             "mostLikedAllTime": "En Çok Beğenilen (Tüm Zamanlar)"
         },
-        "replying": "<1>{{username}}<1>  kullanıcısna yanıt veriliyor.",
-        "reposted": "Tekrardan paylaşıldı.",
-        "repostedBy": "Yeniden paylaşan"
+        "replying": "<1>{{username}}<1> kullanıcısna yanıt veriliyor",
+        "reposted": "Tekrardan paylaşıldı",
+        "repostedBy": "Yeniden paylaşan",
+        "postWarning": "Kendi kendine zarar verme içeriğine izin verilmez; hesabınız hakkında işlem yapılacaktır."
     },
     "informationDrawer": {
         "channelNotice": "Kanal Hatırlatması",
@@ -931,7 +935,8 @@
             "videoExpired": "Videonun süresi doldu.",
             "videoModified": "Video değiştirildi.",
             "couldNotGetVideo": "Video alınamıyor.",
-            "googleDrivePolicy": "Google Drive'ın yeni politikaları nedeniyle, videoları sadece Nerimity Masaüstü Uygulamasından oynatabilirsiniz."
+            "googleDrivePolicy": "Google Drive'ın yeni politikaları nedeniyle, videoları sadece Nerimity Masaüstü Uygulamasından oynatabilirsiniz.",
+            "modifiedOrDeleted": "Bu video, sahibi tarafından Google Drive üzerinden değiştirildi veya silindi."
         },
         "audioEmbed": {
             "googleDrivePolicy": "Google Drive'ın yeni politikaları nedeniyle, sesleri sadece Nerimity Masaüstü Uygulamasından oynatabilirsiniz."
@@ -971,7 +976,8 @@
             "nested": "İç içe yuvalanmış alıntı"
         },
         "codeBlock": {
-            "text": "Düz Metin"
+            "text": "Düz Metin",
+            "toggleWrapButton": "Satır Kaydırmayı Aç/Kapat"
         }
     },
     "statusHeader": {
@@ -1119,7 +1125,8 @@
             "name": "Kedi",
             "blueDescription": "Arktik Kedi Kulakları",
             "whiteDescription": "Calico Kedi Kulakları",
-            "maidDescription": "Hizmetçi Kedi Kulakları"
+            "maidDescription": "Hizmetçi Kedi Kulakları",
+            "purpleDescription": "Cheshire Kedi Kulakları"
         },
         "foxy": {
             "name": "Tilki",
@@ -1173,7 +1180,8 @@
             "name": "Keçi"
         },
         "wolf": {
-            "wolfDescription": "Kurt Kulakları"
+            "wolfDescription": "Kurt Kulağı",
+            "name": "Kurtçuk"
         },
         "dog": {
             "shibaDescription": "Shiba Inu Köpeği",
@@ -1236,7 +1244,8 @@
     "channelDrawer": {
         "customize": {
             "title": "Kişiselleştir",
-            "subtitle": "Bu soruları tamamla:"
+            "subtitle": "Bu soruları tamamla:",
+            "continueButton": "{{channel}} kanalına geç"
         },
         "members": {
             "filter": {
@@ -1324,7 +1333,9 @@
         "cancelButton": "Çıkış Yapma"
     },
     "botButtonModal": {
-        "notice": "Hassas bilgilerinizi asla paylaşmayın"
+        "notice": "Hassas bilgilerinizi asla paylaşmayın",
+        "title": "{{botName}} tarafından gelen yanıt",
+        "dataReceiver": "Veriler {{botName}} botuna gönderiliyor"
     },
     "dropDown": {
         "selectItem": "Öğeyi Seç",
@@ -1343,7 +1354,7 @@
         "closeNotice": "Önce tüm aktif hatırlatıcıları kapatmalısınız."
     },
     "muteModal": {
-        "title": "",
+        "title": "{{username}} kişisini sessize al?",
         "message": "<1>{{username}}</1> bu sunucuda şu süreyle konuşamayacak: <2>{{duration}}</2>",
         "banButton": "Sessize al",
         "banning": "Sessize alınıyor…",
@@ -1356,7 +1367,8 @@
     "addReminderModal": {
         "title": "Hatırlatıcı",
         "setReminderButton": "Hatırlatıcıyı Kur",
-        "adding": "Ekleniyor…"
+        "adding": "Ekleniyor…",
+        "message": "Şu zaman için hatırlatıcı ayarla"
     },
     "emojiModal": {
         "title": "Emoji",
@@ -1376,9 +1388,16 @@
         "relativePast": "{{duration}} önce",
         "relativeNow": "şimdi",
         "error": "hata",
-        "invalidTimezone": "geçersiz zaman dilimi"
+        "invalidTimezone": "geçersiz zaman dilimi",
+        "duration": "{{duration}} boyunca",
+        "relativeFuture": "{{duration}} içinde",
+        "yesterdayTime": "Dün {{time}}",
+        "dateTime": "{{date}} {{time}}"
     },
     "clanModal": {
         "title": "Klan"
+    },
+    "inVoiceActions": {
+        "connectedFor": "<1>{{time}}</1> süredir bağlı"
     }
 }
