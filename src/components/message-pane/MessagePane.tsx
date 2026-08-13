@@ -2259,7 +2259,7 @@ function EmojiSuggestionItem(props: {
   const url = () => {
     if ((props.emoji as RawCustomEmoji).id) {
       const emoji = props.emoji as RawCustomEmoji;
-      const extName = emoji.gif ? ".gif" : ".webp";
+      const extName = (emoji.gif && !emoji.webp) ? ".gif" : ".webp";
       return `${env.NERIMITY_CDN}emojis/${emoji.id}${extName}`;
     }
     return unicodeToTwemojiUrl((props.emoji as Emoji).emoji);
