@@ -30,7 +30,7 @@
         "password": "密码",
         "login": "登录",
         "createAccountInstead": "没有账号？创建一个",
-        "loggingIn": "正在登录..."
+        "loggingIn": "正在登录…"
     },
     "registerPage": {
         "header": "注册",
@@ -55,7 +55,7 @@
         "resetSuccessful": "重置密码成功。",
         "passwordsDoNotMatch": "密码确认不匹配。",
         "resetPasswordButton": "重置密码",
-        "resetting": "正在重置密码...",
+        "resetting": "正在重置密码…",
         "email": "电子邮箱",
         "sendEmailButton": "发送确认邮件",
         "sending": "正在发送确认邮件...",
@@ -479,11 +479,13 @@
         "ipBanned": "您的IP已被屏蔽。",
         "reason": "理由",
         "noToken": "未提供Token。",
-        "title": "连接出现错误"
+        "title": "连接出现错误",
+        "ipBanNotice": "有个拥有相同IP的账户被Nerimity暂停了。你的账户没有受到影响。"
     },
     "welcomePopup": {
         "subtitle": "感谢您试用Nerimity!",
-        "editProfile": "编辑个人信息"
+        "editProfile": "编辑个人信息",
+        "support": "在{{platform}}上支持我"
     },
     "invite": {
         "members": "用户"
