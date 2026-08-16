@@ -35,11 +35,14 @@ const OptionTitle = styled(Text)`
 let audioGenerator: any | null = null;
 let writer: any | null = null;
 
+const isWindows = navigator?.userAgentData?.platform === "Windows";
+
 // reference: https://github.com/WerdoxDev/Huginn/blob/215c00f3a8c18b82c2cc95df8f695a077a998c73/packages/huginn-app/src/lib/voice/voice-bridge.ts#L236
 if (electronWindowAPI()?.isElectron) {
   const { sampleRate, numChannels } = { sampleRate: 48000, numChannels: 2 };
 
   electronWindowAPI()?.appLoopbackData?.(async (d) => {
+    console.log(d)
     const float32 = new Float32Array(d.length / 2);
     const view = new DataView(d.buffer);
     for (let i = 0; i < float32.length; i++) {
@@ -94,6 +97,7 @@ export function ScreenShareModal(props: { close: () => void }) {
     createSignal<(typeof FramerateOptions)[number]>("30fps");
 
   const [shareSystemAudio, setShareSystemAudio] = createSignal(false);
+  const [preventEcho, setPreventEcho] = createSignal(true);
 
   const [electronSourceId, setElectronSourceId] = createSignal<string>();
 
@@ -101,7 +105,7 @@ export function ScreenShareModal(props: { close: () => void }) {
     const constraints = await constructConstraints(
       selectedQuality(),
       selectedFramerate(),
-      shareSystemAudio()
+      (electronWindowAPI()?.isElectron && isWindows) ? false :  shareSystemAudio()
     );
 
     let appTrack: MediaStreamTrack | undefined = undefined;
@@ -111,11 +115,15 @@ export function ScreenShareModal(props: { close: () => void }) {
       await electronWindowAPI()?.setDesktopCaptureSourceId(sourceId);
 
       if (
-        navigator?.userAgentData?.platform === "Windows" &&
-        shareSystemAudio() &&
-        sourceId.includes("window")
+        isWindows &&
+        shareSystemAudio() 
       ) {
-        electronWindowAPI()?.appLoopbackStart?.(sourceId);
+
+        if (sourceId.includes("window")) {
+          electronWindowAPI()?.appLoopbackStartV2?.({type: "CaptureApp", chromeMediaSourceId: sourceId});
+        } else {
+          electronWindowAPI()?.appLoopbackStartV2?.({type: "CaptureSystem", excludeSelf: preventEcho()});
+        }
 
         /* @ts-expect-error MediaStreamTrackGenerator is not available in standard TypeScript DOM lib */
         audioGenerator = new MediaStreamTrackGenerator({ kind: "audio" });
@@ -198,16 +206,30 @@ export function ScreenShareModal(props: { close: () => void }) {
           )}
         </For>
       </OptionContainer>
-      <Show when={electronWindowAPI()?.isElectron}>
+      <Show when={electronWindowAPI()?.isElectron && electronSourceId()}>
         <Checkbox
           label={
-            navigator?.userAgentData?.platform !== "Windows" ||
+            isWindows||
             electronSourceId()?.includes("screen")
               ? t("mainPaneHeader.voice.screenShareModal.shareSystemAudio")
               : t("mainPaneHeader.voice.screenShareModal.shareAppAudio")
           }
           checked={shareSystemAudio()}
           onChange={setShareSystemAudio}
+          class={css`
+            margin-left: 6px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+          `}
+        />
+      </Show>
+      <Show when={shareSystemAudio() && electronSourceId() && electronWindowAPI()?.isElectron &&  electronSourceId()?.includes("screen") && isWindows}>
+        <Checkbox
+          label={
+            "Prevent Application Echo"
+          }
+          checked={preventEcho()}
+          onChange={setPreventEcho}
           class={css`
             margin-left: 6px;
             margin-top: 10px;

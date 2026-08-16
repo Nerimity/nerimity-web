@@ -44,6 +44,16 @@ interface GlobalKeyEvent {
   down: Record<string, boolean>;
 }
 
+
+type LoopbackOpts = {
+  type: "CaptureApp",
+  chromeMediaSourceId: string;
+} |
+{
+  type: "CaptureSystem",
+  excludeSelf: boolean
+}
+
 interface WindowAPI {
   isElectron: boolean;
   minimize(): void;
@@ -88,6 +98,8 @@ interface WindowAPI {
   onGlobalKey: (callback: (event: GlobalKeyEvent) => void) => void;
 
   appLoopbackStart: (captureSourceId: string) => void;
+  appLoopbackStartV2: (opts: LoopbackOpts) => void;
+
   appLoopbackReset: () => void;
   appLoopbackData: (callback: (data: Uint8Array) => void) => void;
   getAppVersion: () => Promise<string>;
