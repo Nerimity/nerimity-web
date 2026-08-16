@@ -42,7 +42,6 @@ if (electronWindowAPI()?.isElectron) {
   const { sampleRate, numChannels } = { sampleRate: 48000, numChannels: 2 };
 
   electronWindowAPI()?.appLoopbackData?.(async (d) => {
-    console.log(d)
     const float32 = new Float32Array(d.length / 2);
     const view = new DataView(d.buffer);
     for (let i = 0; i < float32.length; i++) {
