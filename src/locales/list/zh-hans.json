@@ -38,7 +38,7 @@
             "title": "注意",
             "toxic": "请不要发表令人不适的言论。",
             "nsfw": "严禁发布 NSFW 内容。",
-            "age": "你的年龄必须要在14周岁以上。"
+            "age": "您必须年满 14 周岁。"
         },
         "title": "欢迎来到 {{appName}}",
         "email": "电子邮箱",
@@ -47,7 +47,7 @@
         "confirmPassword": "确认密码",
         "agreement": "只要您创建了账号，您就会被自动视为同意用户条款与隐私政策。",
         "registerButton": "注册",
-        "registering": "正在注册...",
+        "registering": "正在注册…",
         "loginInstead": "已有账号？登录"
     },
     "resetPassword": {
@@ -58,7 +58,7 @@
         "resetting": "正在重置密码…",
         "email": "电子邮箱",
         "sendEmailButton": "发送确认邮件",
-        "sending": "正在发送确认邮件...",
+        "sending": "正在发送确认邮件…",
         "passwordTooLong": "密码须短于72个字符。"
     },
     "dashboard": {
@@ -73,7 +73,35 @@
     },
     "messageArea": {
         "messageBoxPlaceholder": "向 {{username}} 发送消息...",
-        "messageBoxChannelPlaceholder": "在 {{channelName}} 发送消息..."
+        "messageBoxChannelPlaceholder": "在 {{channelName}} 发送消息...",
+        "gifPicker": {
+            "search": "搜索 {{platform}}",
+            "noResults": "未找到 GIF",
+            "favorites": {
+                "title": "收藏",
+                "search": "搜索收藏",
+                "noFavorites": "暂无收藏"
+            }
+        },
+        "replying": "正在回复 {{count}} 条消息",
+        "mention": "提及",
+        "dropFile": "拖放文件",
+        "uploadTo": "上传至",
+        "channelNotice": {
+            "title": "开聊之前…",
+            "understoodButton": "知道了"
+        },
+        "specialMentions": {
+            "everyone": "提及所有人",
+            "someone": "随机提及一位用户",
+            "silent": "免打扰消息"
+        },
+        "linkToGoogleDrive": {
+            "body": "需绑定 Google Drive 账号方可上传大文件、视频或图片。",
+            "linkButton": "立即绑定",
+            "cancelButton": "暂不绑定"
+        },
+        "emailNotice": "确认邮箱后即可发送消息。"
     },
     "inbox": {
         "blockedUsersModal": {
@@ -445,7 +473,9 @@
             "avatar": "头像",
             "banner": "横幅",
             "browse": "浏览",
-            "remove": "移除"
+            "remove": "移除",
+            "supportedFileTypes": "支持的格式：{{extensions}}，文件大小不超过 {{size}}",
+            "revert": "还原"
         }
     },
     "systemMessages": {
@@ -456,19 +486,25 @@
         "leaveServer": "<User/><2> 离开了服务器。</2>",
         "kickUser": "<User/><2> 已被踢出。</2>",
         "banUser": "<User/><2> 已被禁言。</2>",
-        "unsupported": "<User/><2> 不支持的消息。</2>"
+        "unsupported": "<User/><2> 不支持的消息。</2>",
+        "callStarted": "<2> 发起了通话。</2>",
+        "bumpServer": "<User/><2> 顶了一下服务器。</2>",
+        "pinnedMessage": "<User/><2> 置顶了一条消息。</2>"
     },
     "statusHeader": {
         "authenticationError": "认证错误",
         "connecting": "连接中…",
         "authenticating": "正在认证...…",
         "connected": "已连接！",
-        "inQueue": "排队中：{{count}}个用户在您前面"
+        "inQueue": "排队中：{{count}}个用户在您前面",
+        "reconnecting": "正在重新连接…",
+        "statusPage": "服务状态"
     },
     "dangerousLinkModal": {
         "message": "此链接将带您至",
         "cancelButton": "不访问",
-        "visitButton": "访问"
+        "visitButton": "访问",
+        "title": "自定义链接"
     },
     "connectionErrorModal": {
         "ok": "确认",
@@ -476,16 +512,19 @@
         "until": "直到",
         "never": "从不",
         "deletionNotice": "您的账号和数据将在15天内删除",
-        "ipBanned": "您的IP已被屏蔽。",
+        "ipBanned": "您的IP已被封禁。",
         "reason": "理由",
         "noToken": "未提供Token。",
         "title": "连接出现错误",
-        "ipBanNotice": "有个拥有相同IP的账户被Nerimity暂停了。你的账户没有受到影响。"
+        "ipBanNotice": "同一 IP 下的其他用户已被 Nerimity 封禁。您的账号未受影响。",
+        "suspended": "您已被封禁。"
     },
     "welcomePopup": {
         "subtitle": "感谢您试用Nerimity!",
         "editProfile": "编辑个人信息",
-        "support": "在{{platform}}上支持我"
+        "support": "在{{platform}}上支持我",
+        "joinServer": "加入 Nerimity 官方服务器",
+        "contribute": "在 GitHub 上为 Nerimity 做贡献"
     },
     "invite": {
         "members": "用户"
@@ -503,5 +542,45 @@
     },
     "colorPickerModal": {
         "title": "颜色选择器"
+    },
+    "status": {
+        "online": "在线",
+        "ltp": "寻找玩伴",
+        "afk": "离开",
+        "dnd": "请勿打扰",
+        "offline": "离线",
+        "appearAsOffline": "隐身",
+        "lastOnline": "上次在线 {{time}}"
+    },
+    "sidePane": {
+        "home": "首页",
+        "homeShort": "首页",
+        "moderation": "内容管理面板",
+        "moderationShort": "版主",
+        "addServer": "添加服务器"
+    },
+    "updateModal": {
+        "title": "发现新版本",
+        "updateButton": "立即更新",
+        "laterButton": "以后再说",
+        "releasedAt": "发布于"
+    },
+    "inputFieldActions": {
+        "copy": "复制",
+        "cut": "剪切",
+        "paste": "黏贴"
+    },
+    "dropDown": {
+        "selectItem": "单选",
+        "selectItemMultiple": "多选",
+        "itemsSelected": "已选择 {{count}} 个项"
+    },
+    "markup": {
+        "bold": "粗体",
+        "italic": "斜体",
+        "strikethrough": "删除线",
+        "header": "标题",
+        "namedLink": "自定义链接文字",
+        "spoiler": "剧透"
     }
 }
