@@ -63,6 +63,7 @@ export default function HomePage() {
           </div>
           <PlatformDownloadLinks />
         </div>
+        <ScreenshotView />
         <FeatureList />
       </div>
       <PageFooter />
@@ -263,6 +264,81 @@ const PlatformDownloadLinks = () => {
     </div>
   );
 };
+
+function ScreenshotView() {
+  const [t] = useTransContext();
+
+  return (
+    <div class={style.screenshotContainer}>
+      <div class={style.screenshotCenter}>
+        <picture>
+          <source
+            type="image/jxl"
+            srcset="/assets/screenshots/center-600w.jxl 600w, /assets/screenshots/center-1200w.jxl 1200w, /assets/screenshots/center-2400w.jxl 2400w"
+            sizes="(max-width: 500px) 85vw, 60vw"
+          />
+          <source
+            type="image/webp"
+            srcset="/assets/screenshots/center-600w.webp 600w, /assets/screenshots/center-1200w.webp 1200w, /assets/screenshots/center-2400w.webp 2400w"
+            sizes="(max-width: 500px) 85vw, 60vw"
+          />
+          <img
+            loading="lazy"
+            style={{"background-color": "#222629"}}
+            width="600"
+            height="384"
+            alt={t("homePage.screenshots.centerAlt")}
+            src="/assets/screenshots/center-1200w-fallback.jpg"
+          />
+        </picture>
+      </div>
+      <div class={style.screenshotRight}>
+        <picture>
+          <source
+            type="image/jxl"
+            srcset="/assets/screenshots/right-293w.jxl 293w, /assets/screenshots/right-585w.jxl 585w, /assets/screenshots/right-1170w.jxl 1170w"
+            sizes="(max-width: 500px) 45vw, 20vw"
+          />
+          <source
+            type="image/webp"
+            srcset="/assets/screenshots/right-293w.webp 293w, /assets/screenshots/right-585w.webp 585w, /assets/screenshots/right-1170w.webp 1170w"
+            sizes="(max-width: 500px) 45vw, 20vw"
+          />
+          <img
+            loading="lazy"
+            style={{"background-color": "#000"}}
+            width="585"
+            height="1266"
+            alt={t("homePage.screenshots.rightAlt")}
+            src="/assets/screenshots/right-585w-fallback.jpg"
+          />
+        </picture>
+      </div>
+      <div class={style.screenshotLeft}>
+        <picture>
+          <source
+            type="image/jxl"
+            srcset="/assets/screenshots/left-430w.jxl 430w, /assets/screenshots/left-860w.jxl 860w, /assets/screenshots/left-1720w.jxl 1720w"
+            sizes="(max-width: 500px) 85vw, 40vw"
+          />
+          <source
+            type="image/webp"
+            srcset="/assets/screenshots/left-430w.webp 430w, /assets/screenshots/left-860w.webp 860w, /assets/screenshots/left-1720w.webp 1720w"
+            sizes="(max-width: 500px) 85vw, 40vw"
+          />
+          <img
+            loading="lazy"
+            style={{"background-color": "#34282e"}}
+            width="860"
+            height="630"
+            alt={t("homePage.screenshots.leftAlt")}
+            src="/assets/screenshots/left-860w-fallback.jpg"
+          />
+        </picture>
+      </div>
+    </div>
+  );
+}
 
 function FeatureList() {
   const [t] = useTransContext();
