@@ -1,36 +1,69 @@
 .homePageContainer {
   z-index: 1111;
+  position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
   width: 100%;
+  overflow: hidden;
+  &::before,
   &::after {
     position: absolute;
     z-index: -1;
-    top: 0;
-    align-self: center;
-    width: 50%;
-    max-width: 400px;
+    top: 120px;
+    left: 12%;
+    width: 520px;
+    height: 520px;
     border-radius: 9999px;
-    opacity: 0.6;
+    opacity: 0.45;
     background-color: var(--primary-color);
     content: "";
-    filter: blur(200px);
-    aspect-ratio: 1/1;
+    filter: blur(220px);
+    animation: floatOrb 14s ease-in-out infinite;
+  }
+  &::after {
+    left: auto;
+    right: 12%;
+    top: 300px;
+    background-color: #6a5dff;
+    animation-delay: -7s;
+  }
+}
+
+@keyframes floatOrb {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-40px) scale(1.08);
   }
 }
 
 .versionAnchor {
-  padding: 6px;
-  padding-right: 12px;
-  padding-left: 12px;
-  margin-bottom: 26px;
-  border: 1px solid var(--primary-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(76, 147, 255, 0.35);
   border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.04);
-  font-size: 14px;
+  background-color: rgba(76, 147, 255, 0.1);
+  color: #9cc0ff;
+  font-size: 13px;
+  font-weight: 400;
   text-decoration: none;
+  transition:
+    0.2s background-color,
+    0.2s border-color,
+    0.2s color;
+  &:hover {
+    border-color: rgba(76, 147, 255, 0.7);
+    background-color: rgba(76, 147, 255, 0.2);
+    color: #fff;
+  }
 }
+
 .content {
   position: relative;
   display: flex;
@@ -49,35 +82,62 @@
   flex-shrink: 0;
   justify-content: center;
 
-  margin-top: 100px;
+  margin-top: 90px;
   text-align: center;
+
+  animation: fadeUp 0.7s ease both;
+
   .slogan {
     background: #4c93ff;
     background: linear-gradient(to right, #4c93ff 0%, #6a5dff 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
   .subslogan {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .buttonsContainer {
   display: flex;
-  margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 14px;
   margin-left: -5px;
 
   a {
     text-decoration: none;
     div {
-      width: 130px;
+      width: 150px;
     }
   }
   .getStartedButton {
     background: #4c93ff;
     background: linear-gradient(to right, #4c93ff 0%, #6a5dff 100%);
+    border: none;
+    box-shadow:
+      0 8px 30px rgba(76, 147, 255, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    &:hover {
+      opacity: 0.85;
+      box-shadow: 0 10px 36px rgba(76, 147, 255, 0.5);
+    }
   }
 }
 
@@ -99,15 +159,35 @@
 .featureContainer {
   display: flex;
   align-items: center;
-  padding: 6px;
-  padding-right: 14px;
-  border: solid 1px rgba(255, 255, 255, 0.1);
+  padding: 12px 14px;
+  border: solid 1px rgba(255, 255, 255, 0.08);
   border-radius: 16px;
-  gap: 10px;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
   .icon {
     padding: 10px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.06);
+    background: linear-gradient(135deg, rgba(76, 147, 255, 0.2), rgba(106, 93, 255, 0.2));
+    color: #9cc0ff;
+    transition:
+      transform 0.25s ease,
+      color 0.25s ease;
+  }
+  &:hover {
+    border-color: rgba(76, 147, 255, 0.4);
+    background: rgba(76, 147, 255, 0.06);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(76, 147, 255, 0.15);
+    .icon {
+      color: #fff;
+      transform: scale(1.08);
+    }
   }
 }
 
@@ -115,13 +195,19 @@
   z-index: 1111;
   display: grid;
   align-self: center;
+  width: 100%;
   max-width: 800px;
   padding: 10px;
   margin: 10px;
-  margin-top: 100px;
+  margin-top: 110px;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
   column-gap: 20px;
+
+  > * {
+    animation: fadeUp 0.7s ease both;
+    animation-delay: calc(var(--feature-index, 0) * 40ms + 200ms);
+  }
 }
 
 .platformDownloadContainer {
@@ -129,6 +215,9 @@
   flex-direction: column;
   margin-top: 10px;
   gap: 10px;
+
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 150ms;
 }
 
 .platformDownloadButtons {
