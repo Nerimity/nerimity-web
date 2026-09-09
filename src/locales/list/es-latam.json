@@ -146,7 +146,7 @@
         "noActiveUsers": "No hay usuarios activos",
         "servers": "Servidores",
         "posts": "Publicaciones",
-        "feed": "Feed",
+        "feed": "Flujo",
         "discover": "Explorar",
         "notifications": "Notificaciones"
     },
@@ -600,7 +600,7 @@
             "profile": "Perfil",
             "profileDescription": "Edita tu bio o colores",
             "palestineBorder": "Añade la frontera de Palestina a tu avatar.",
-            "bio": "Bio",
+            "bio": "Biografía",
             "bioDescription": "Soporte para múltiples líneas y Markdown",
             "gradientColor1": "Degradado de color 1",
             "gradientColor2": "Color degradado 2",
@@ -633,7 +633,7 @@
                 "email": "• Correo electrónico",
                 "username": "• Nombre de usuario",
                 "ip": "• Dirección IP",
-                "bio": "• Bio",
+                "bio": "• Biografía",
                 "messages": "• Tus mensajes",
                 "posts": "• Tus publicaciones"
             },
