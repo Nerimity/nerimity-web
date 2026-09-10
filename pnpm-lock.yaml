@@ -80,9 +80,6 @@ importers:
       '@nerimity/solid-i18lite':
         specifier: ^1.8.1
         version: 1.8.1(@nerimity/i18lite@1.2.0(html-parse-string@0.0.9)(solid-js@1.9.14))(html-parse-string@0.0.9)(solid-js@1.9.14)
-      '@nerimity/solid-opus-media-recorder':
-        specifier: ^1.0.1
-        version: 1.0.1(solid-js@1.9.14)
       '@nerimity/solid-turnstile':
         specifier: ^1.1.0
         version: 1.1.0(solid-js@1.9.14)
@@ -551,12 +548,6 @@ packages:
     peerDependenciesMeta:
       html-parse-string:
         optional: true
-
-  '@nerimity/solid-opus-media-recorder@1.0.1':
-    resolution: {integrity: sha512-bcf3KtT2FmYIm5JEFGovlFGp3t7rYwkI4Mm04t9/QkdAjDyLDkxE1bd/84cXvZedGrNXKN3tVzZ3iXNRWbeauQ==}
-    engines: {node: '>=18', pnpm: '>=8.6.0'}
-    peerDependencies:
-      solid-js: ^1.6.0
 
   '@nerimity/solid-turnstile@1.1.0':
     resolution: {integrity: sha512-YetH2H65ZajytiecDIYMwyv/RgA2Jtzv2M+thuN81yUjzbQJH3CvEBdxVZ7/6wIAMuucuPhY8s23BTM7wpV85Q==}
@@ -1227,9 +1218,6 @@ packages:
   deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
 
-  detect-browser@4.8.0:
-    resolution: {integrity: sha512-f4h2dFgzHUIpjpBLjhnDIteXv8VQiUm8XzAuzQtYUqECX/eKh67ykuiVoyb7Db7a0PUSmJa3OGXStG0CbQFUVw==}
-
   detect-libc@2.1.2:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
     engines: {node: '>=8'}
@@ -1324,10 +1312,6 @@ packages:
   esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
-
-  event-target-shim@3.0.2:
-    resolution: {integrity: sha512-HK5GhnEAkm7fLy249GtF7DIuYmjLm85Ft6ssj7DhVl8Tx/z9+v0W6aiIVUdT4AXWGYy5Fc+s6gqBI49Bf0LejQ==}
-    engines: {node: '>=4'}
 
   eventemitter3@5.0.4:
     resolution: {integrity: sha512-mlsTRyGaPBjPedk6Bvw+aqbsXDtoAyAzm5MO7JgU+yVRyMQ5O8bD4Kcci7BS85f93veegeCPkL8R4GLClnjLFw==}
@@ -1702,9 +1686,6 @@ packages:
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
-
-  opus-media-recorder@0.8.0:
-    resolution: {integrity: sha512-AIvJMpnJqZ18dFAU7Amtt5cZZp8oPzDoAOtobdTcLzwVNm/j815+GJmBupBzBZGBa4L940TEulm7Uu4tGOYDGQ==}
 
   p-limit@3.1.0:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
@@ -2583,11 +2564,6 @@ snapshots:
     optionalDependencies:
       html-parse-string: 0.0.9
 
-  '@nerimity/solid-opus-media-recorder@1.0.1(solid-js@1.9.14)':
-    dependencies:
-      opus-media-recorder: 0.8.0
-      solid-js: 1.9.14
-
   '@nerimity/solid-turnstile@1.1.0(solid-js@1.9.14)':
     dependencies:
       solid-js: 1.9.14
@@ -3143,8 +3119,6 @@ snapshots:
 
   deep-is@0.1.4: {}
 
-  detect-browser@4.8.0: {}
-
   detect-libc@2.1.2: {}
 
   dom-walk@0.1.2: {}
@@ -3261,8 +3235,6 @@ snapshots:
   estraverse@5.3.0: {}
 
   esutils@2.0.3: {}
-
-  event-target-shim@3.0.2: {}
 
   eventemitter3@5.0.4: {}
 
@@ -3559,11 +3531,6 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
       word-wrap: 1.2.5
-
-  opus-media-recorder@0.8.0:
-    dependencies:
-      detect-browser: 4.8.0
-      event-target-shim: 3.0.2
 
   p-limit@3.1.0:
     dependencies:

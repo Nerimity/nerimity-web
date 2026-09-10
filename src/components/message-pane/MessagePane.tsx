@@ -72,7 +72,6 @@ import {
 import { randomKaomoji } from "@/common/kaomoji";
 import { MessageLogArea } from "./message-log-area/MessageLogArea";
 import { TenorImage } from "@/chat-api/services/TenorService";
-import { useMicRecorder } from "@nerimity/solid-opus-media-recorder";
 import { useNotice } from "@/common/useChannelNotice";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { prettyBytes } from "@/common/prettyBytes";
@@ -576,14 +575,14 @@ function MessageArea(props: {
         placeholder={
           channel()?.name
             ? t("messageArea.messageBoxChannelPlaceholder", {
-                channelName: channel()!.name,
-                interpolation: { escapeValue: false }
-              })
+              channelName: channel()!.name,
+              interpolation: { escapeValue: false }
+            })
             : channel()?.recipient()?.username
               ? t("messageArea.messageBoxPlaceholder", {
-                  username: channel()?.recipient()?.username,
-                  interpolation: { escapeValue: false }
-                })
+                username: channel()?.recipient()?.username,
+                interpolation: { escapeValue: false }
+              })
               : ""
         }
         onkeydown={onKeyDown}
@@ -770,7 +769,17 @@ function CustomTextArea(props: CustomTextAreaProps) {
         >
           <MicButton
             onBlob={(blob) => {
-              const file = new File([blob], "voice.ogg", { type: "audio/ogg" });
+              const mimeType = blob.type || "audio/webm";
+              const extension = mimeType.includes("ogg")
+                ? "ogg"
+                : mimeType.includes("webm")
+                  ? "webm"
+                  : mimeType.includes("mp4")
+                    ? "m4a"
+                    : "webm";
+              const file = new File([blob], `voice.${extension}`, {
+                type: mimeType
+              });
               channelProperties.setAttachment(params.channelId, file);
             }}
           />
@@ -833,6 +842,82 @@ function CustomTextArea(props: CustomTextAreaProps) {
   );
 }
 
+function getPreferredAudioMimeType(): string {
+  const candidates = [
+    "audio/webm;codecs=opus",
+    "audio/ogg;codecs=opus",
+    "audio/webm",
+    "audio/ogg"
+  ];
+
+  return (
+    candidates.find((mimeType) => MediaRecorder.isTypeSupported(mimeType)) || ""
+  );
+}
+
+function useMediaRecorder() {
+  let mediaRecorder: MediaRecorder | undefined;
+  let stream: MediaStream | undefined;
+  let chunks: BlobPart[] = [];
+
+  const stopStream = () => {
+    stream?.getTracks().forEach((track) => track.stop());
+    stream = undefined;
+  };
+
+  const record = async () => {
+    if (typeof MediaRecorder === "undefined") {
+      console.error("MediaRecorder is not supported in this browser.");
+      return;
+    }
+
+    const preferredMimeType = getPreferredAudioMimeType();
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    mediaRecorder = new MediaRecorder(
+      stream,
+      preferredMimeType ? { mimeType: preferredMimeType } : undefined
+    );
+
+    chunks = [];
+
+    return await new Promise<Blob>((resolve, reject) => {
+      mediaRecorder!.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          chunks.push(event.data);
+        }
+      };
+
+      mediaRecorder!.onerror = (event) => {
+        reject(event.error || new Error("Unable to record audio."));
+      };
+
+      mediaRecorder!.onstop = () => {
+        const blob = new Blob(chunks, {
+          type:
+            mediaRecorder?.mimeType ||
+            preferredMimeType ||
+            "audio/webm"
+        });
+        stopStream();
+        resolve(blob);
+      };
+
+      mediaRecorder!.start();
+    }).catch((error) => {
+      stopStream();
+      console.error("Recording failed:", error);
+      throw error;
+    });
+  };
+
+  const stop = () => {
+    mediaRecorder?.stop();
+  };
+
+  return { record, stop };
+}
+
 const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
   const { isMobileAgent } = useWindowProperties();
   let timer: number | null = null;
@@ -840,7 +925,7 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
   let recordEndAt = 0;
 
   const [isRecording, setRecording] = createSignal(false);
-  const { record, stop } = useMicRecorder();
+  const { record, stop } = useMediaRecorder();
   const [currentDuration, setDuration] = createSignal("0:00");
   const [cancelRecording, setCancelRecording] = createSignal(false);
 
@@ -1483,9 +1568,8 @@ export function formatMessage(
 
     const customEmoji = servers.customEmojiNamesToEmoji()[emojiName];
     if (customEmoji)
-      return `[${customEmoji.gif ? (customEmoji.webp ? "wace" : "ace") : "ce"}:${
-        customEmoji.id
-      }:${emojiName}]`;
+      return `[${customEmoji.gif ? (customEmoji.webp ? "wace" : "ace") : "ce"}:${customEmoji.id
+        }:${emojiName}]`;
 
     return val;
   });
@@ -1515,8 +1599,7 @@ export function formatMessage(
       finalString = finalString.replaceAll(
         "@someone",
         () =>
-          `[@:s] **${randomKaomoji()} (${
-            dmUsers[randomIndex(dmUsers.length)]?.username
+          `[@:s] **${randomKaomoji()} (${dmUsers[randomIndex(dmUsers.length)]?.username
           })**`
       );
     }
@@ -1627,7 +1710,7 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   const onClick = (e: any) => {
     setIsFocus(
       e.target.closest("." + styles.textArea) ||
-        e.target.closest(".clickableCommandSuggestionItem")
+      e.target.closest(".clickableCommandSuggestionItem")
     );
   };
 
@@ -1832,14 +1915,14 @@ function FloatingUserSuggestions(props: {
         ...(hasPermissionToMentionRoles() ? roles() : []),
         ...(hasPermissionToMentionEveryone()
           ? [
-              {
-                user: () => ({
-                  special: true,
-                  id: "e",
-                  username: "everyone"
-                })
-              }
-            ]
+            {
+              user: () => ({
+                special: true,
+                id: "e",
+                username: "everyone"
+              })
+            }
+          ]
           : []),
         {
           user: () => ({
@@ -2186,8 +2269,8 @@ function FloatingCommandSuggestions(props: {
         <Floating class={styles.floatingSuggestion}>
           <CommandSuggestionItem
             selected={false}
-            onHover={() => {}}
-            onclick={() => {}}
+            onHover={() => { }}
+            onclick={() => { }}
             cmd={selectedBotCommand()!}
           />
         </Floating>

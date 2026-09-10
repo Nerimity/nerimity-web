@@ -62,7 +62,6 @@
     "@nerimity/nevula": "^0.15.1",
     "@nerimity/solid-emoji-picker": "^0.4.9",
     "@nerimity/solid-i18lite": "^1.8.1",
-    "@nerimity/solid-opus-media-recorder": "^1.0.1",
     "@nerimity/solid-turnstile": "^1.1.0",
     "@sentry/solid": "^10.69.0",
     "@solid-primitives/context": "^0.3.2",
