@@ -3,16 +3,16 @@
         "searchPlaceholder": "Buscar",
         "backButton": "Atrás",
         "cancelButton": "Cancelar",
-        "closeButton": "Cerca",
+        "closeButton": "Cerrar",
         "editButton": "Editar",
         "undoButton": "Deshacer",
         "deleteButton": "Borrar",
         "cannotBeUndone": "¡Esto no se puede deshacer!",
         "confirmButton": "Confirmar",
         "doneButton": "Hecho",
-        "saveButton": "Ahorrar",
+        "saveButton": "Guardar",
         "saveChangesButton": "Guardar cambios",
-        "saving": "Ahorro…",
+        "saving": "Guardando…",
         "copyLink": "Copiar enlace",
         "copyID": "Copiar ID",
         "accountData": {
@@ -44,7 +44,7 @@
         "kickUser": "<User/><2> ha sido expulsado.</2>",
         "banUser": "El usuario <User/><2> ha sido baneado.</2>",
         "callStarted": "<User/><2> inició una llamada.</2>",
-        "bumpServer": "<User/><2> actualizó el servidor.</2>",
+        "bumpServer": "<User/><2> impulso el servidor.</2>",
         "pinnedMessage": "<Usuario/><2> ha fijado un mensaje.</2>",
         "unsupported": "<User/><2> Mensaje no compatible.</2>"
     },
@@ -54,14 +54,14 @@
         "reconnecting": "Volviendo a conectar…",
         "inQueue": "En la fila: {{count}} usuarios delante de ti",
         "authenticating": "Autenticando…",
-        "connected": "¡Conectados!",
+        "connected": "¡Conectado!",
         "statusPage": "Página de estado"
     },
     "dangerousLinkModal": {
         "title": "Enlace personalizado",
         "message": "Este enlace te llevará a",
-        "cancelButton": "No visites",
-        "visitButton": "Visita"
+        "cancelButton": "No visitar",
+        "visitButton": "Visitar"
     },
     "connectionErrorModal": {
         "title": "Error de conexión",
@@ -193,14 +193,14 @@
             "understoodButton": "Entendido"
         },
         "specialMentions": {
-            "everyone": "Menciona a todos",
-            "someone": "Menciona a un usuario al azar",
+            "everyone": "Mencionar a todos",
+            "someone": "Mencionar a un usuario al azar",
             "silent": "Mensaje silencioso"
         },
         "linkToGoogleDrive": {
             "body": "Debes vincular tu cuenta a Google Drive para subir imágenes, vídeos o archivos de gran tamaño",
-            "linkButton": "Enlace ahora",
-            "cancelButton": "No incluyas enlaces"
+            "linkButton": "Vincular ahora",
+            "cancelButton": "No vincular"
         },
         "emailNotice": "Confirma tu correo electrónico para poder enviar mensajes."
     },
@@ -811,7 +811,7 @@
                 "name": "Nombre",
                 "emoji": "Emoji"
             },
-            "discordActivity": "Actividad Discord",
+            "discordActivity": "Actividad de Discord",
             "discordActivityDescription": "Comparte tu actividad en Discord con los usuarios de Nerimity",
             "idPlaceholder": "ID usuario Discord",
             "serverModal": {
@@ -834,7 +834,7 @@
             "appClientId": "ID aplicación/cliente",
             "botUser": "Usuario Bot",
             "createBotUser": "Crear un nuevo usuario bot",
-            "editBotUser": "Bot edición",
+            "editBotUser": "Editar bot",
             "createBotUserButton": "Crear usuario",
             "refreshButton": "Actualizar",
             "bot": {
@@ -845,13 +845,13 @@
                 "tokenCopied": "Se ha copiado el token al portapapeles.",
                 "permissionsDescription": "Gestionar los permisos de este enlace.",
                 "publishBot": "Publicar Bot",
-                "publishBotDescription": "Publicar bot en explorar permitir búsqueda otros usuarios.",
+                "publishBotDescription": "Publicar bot en explorar permitira la búsqueda por otros usuarios.",
                 "publishNotice": "Al publicar tu bot, este estará disponible en la página <1>explorar</1>.",
                 "bumpBot": "Posicionar bot",
                 "bumpBotDescription": "Posicionar bot subir a lista",
                 "bumpBotCooldown": "Espera {{hours}} horas, {{minutes}} minutos, {{seconds}} segundos reposicionar bot.",
                 "publicDescription": "Hacer bot público.",
-                "botDescription": "Descripción Bot ({{current}}/{{max}})"
+                "botDescription": "Descripción del Bot ({{current}}/{{max}})"
             },
             "oauth2": {
                 "description": "Gestionar OAuth2",
@@ -896,7 +896,7 @@
     },
     "supportBlock": {
         "support": "Apóyame",
-        "supportDescription": "Donar obtener emblema supporter!"
+        "supportDescription": "¡Donar para obtener el emblema Supporter!"
     },
     "createServerModal": {
         "title": "Crear servidor",
@@ -961,7 +961,7 @@
         "editRoles": "Editar roles",
         "changeNickname": "Cambiar nombre de usuario",
         "transferOwnership": "Transferir propiedad",
-        "callVolume": "Volumen de llamada"
+        "callVolume": "Volumen de la llamada"
     },
     "emojiModal": {
         "customEmoji": "Emoji personalizado"
