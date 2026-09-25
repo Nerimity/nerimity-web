@@ -94,6 +94,11 @@
       "feature7": "Runs from donations",
       "feature8": "Full source code on GitHub",
       "feature9": "Express yourself with borders"
+    },
+    "screenshots": {
+      "leftAlt": "a view of the dashboard pane in Nerimity's web app, showing an announcement post",
+      "centerAlt": "the main view of Nerimity desktop, showing a conversation in a server's general channel",
+      "rightAlt": "a conversation displayed in Nerimity's mobile app"
     }
   },
   "loginPage": {
