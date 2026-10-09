@@ -573,12 +573,17 @@ const DiscordServerJoinedConfirmModal = (props: {
 
 const DiscordRpcBridge = () => {
   const [enabled, setEnabled] = createSignal(false);
+  let locallyChanged = false;
 
   onMount(() => {
-    electronWindowAPI()?.getDiscordRpcEnabled().then(setEnabled);
+    electronWindowAPI()?.getDiscordRpcEnabled().then((value) => {
+      if (locallyChanged) return;
+      setEnabled(value);
+    });
   });
 
   const onChange = (checked: boolean) => {
+    locallyChanged = true;
     electronWindowAPI()?.setDiscordRpcEnabled(checked);
     setEnabled(checked);
   };
@@ -589,7 +594,9 @@ const DiscordRpcBridge = () => {
       label={t("settings.activity.discordRpcBridge")}
       description={t("settings.activity.discordRpcBridgeDescription")}
     >
-      <Checkbox checked={enabled()} onChange={onChange} />
+      <div onClick={(event) => event.stopPropagation()}>
+        <Checkbox checked={enabled()} onChange={onChange} />
+      </div>
     </SettingsBlock>
   );
 };
