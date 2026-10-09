@@ -25,6 +25,7 @@ import {
 import Button from "../ui/Button";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import Block from "../ui/settings-block/Block";
+import Checkbox from "../ui/Checkbox";
 import {
   getStorageObject,
   getStorageString,
@@ -207,6 +208,9 @@ export default function WindowSettings() {
         </FlexRow>
       </RPCAdContainer>
       <DiscordActivity />
+      <Show when={isElectron}>
+        <DiscordRpcBridge />
+      </Show>
       <LastFmActivity />
 
       <Show when={!isElectron}>
@@ -564,6 +568,29 @@ const DiscordServerJoinedConfirmModal = (props: {
         />
       </Modal.Footer>
     </Modal.Root>
+  );
+};
+
+const DiscordRpcBridge = () => {
+  const [enabled, setEnabled] = createSignal(false);
+
+  onMount(() => {
+    electronWindowAPI()?.getDiscordRpcEnabled().then(setEnabled);
+  });
+
+  const onChange = (checked: boolean) => {
+    electronWindowAPI()?.setDiscordRpcEnabled(checked);
+    setEnabled(checked);
+  };
+
+  return (
+    <SettingsBlock
+      onClick={() => onChange(!enabled())}
+      label={t("settings.activity.discordRpcBridge")}
+      description={t("settings.activity.discordRpcBridgeDescription")}
+    >
+      <Checkbox checked={enabled()} onChange={onChange} />
+    </SettingsBlock>
   );
 };
 
