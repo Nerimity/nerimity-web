@@ -4,7 +4,7 @@ import path from "path";
 import dns from "dns";
 import autoprefixer from "autoprefixer";
 import postcssNested from "postcss-nested";
-import { minifyi18nPlugin } from "./src/minifyi18nPlugin";
+import { minifyi18nPlugin } from "./src/minifyi18nPlugin.ts";
 import MagicString from "magic-string";
 
 // https://vitejs.dev/config/server-options.html#server-host
@@ -37,7 +37,7 @@ const excludeTextPage = (): Plugin => {
 export default defineConfig({
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src")
+      "@": path.resolve(import.meta.dirname, "./src")
     }
   },
   optimizeDeps: {
