@@ -59,7 +59,7 @@
     "@jridgewell/trace-mapping": "^0.3.31",
     "@melloware/coloris": "^0.25.0",
     "@nerimity/i18lite": "^1.2.0",
-    "@nerimity/nevula": "^0.15.4",
+    "@nerimity/nevula": "^0.15.8",
     "@nerimity/solid-emoji-picker": "^0.4.9",
     "@nerimity/solid-i18lite": "^1.8.1",
     "@nerimity/solid-turnstile": "^1.1.0",
