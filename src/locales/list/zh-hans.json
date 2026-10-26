@@ -144,6 +144,9 @@
         },
         "bots": {
             "title": "探索 - 机器人"
+        },
+        "themes": {
+            "title": "探索-主题"
         }
     },
     "servers": {
@@ -581,6 +584,15 @@
         "strikethrough": "删除线",
         "header": "标题",
         "namedLink": "自定义链接文字",
-        "spoiler": "剧透"
+        "spoiler": "剧透",
+        "timestamp": "时间戳",
+        "color": "颜色",
+        "html": "HTML模式",
+        "emojiPicker": "表情包选取器",
+        "timestampModal": {
+            "relative": "相对值",
+            "offset": "偏移"
+        },
+        "checkbox": "复选框"
     }
 }
