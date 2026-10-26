@@ -207,7 +207,7 @@ function NewPostArea(props: {
   const gifPicked = (gif: TenorImage) => {
     textAreaEl()!.focus();
     textAreaEl()!.setRangeText(
-      `${gif.gifUrl} `,
+      `${gif.url} `,
       textAreaEl()!.selectionStart,
       textAreaEl()!.selectionEnd,
       "end"
@@ -380,7 +380,7 @@ function Suggestions(props: {
   const onClick = (e: any) => {
     setIsFocus(
       e.target.closest(".newPostInput") ===
-        props.textArea?.parentElement?.parentElement
+      props.textArea?.parentElement?.parentElement
     );
   };
 

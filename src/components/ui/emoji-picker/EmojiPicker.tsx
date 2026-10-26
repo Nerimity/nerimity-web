@@ -38,7 +38,7 @@ import { Rerun } from "@solid-primitives/keyed";
 import Input from "../input/Input";
 import { t } from "@nerimity/i18lite";
 
-import { favoritesStore } from "@/common/favoritesStore";
+import { FavoriteGif, favoritesStore } from "@/common/favoritesStore";
 import Icon from "../icon/Icon";
 import { generateUrl } from "@/common/image";
 
@@ -338,12 +338,13 @@ const GifFavorites = (props: {
           {(gif, index) => (
             <GifPickerImageItem
               index={index()}
-              url={gif.url}
+              url={gif.previewUrl}
               onClick={() => props.gifPicked?.(gif)}
               dimensions={{
                 width: gif.previewWidth,
                 height: gif.previewHeight
               }}
+              favorite={gif}
               isFavorite={true}
             />
           )}
@@ -415,7 +416,21 @@ const GifPickerImages = (props: {
                 ? { width: gif.previewWidth, height: gif.previewHeight }
                 : undefined
             }
-            isFavorite={favoritesStore.isFavorite(gif.previewUrl)}
+            favorite={{
+              url: gif.url,
+              gifUrl: gif.gifUrl,
+              previewUrl: gif.previewUrl,
+              previewHeight: gif.previewHeight,
+              previewWidth: gif.previewWidth,
+              tags: props.query.trim() ? [props.query.trim()] : []
+            }}
+            favoriteKey={
+              favoritesStore.isFavorite(gif.url) ? gif.url : gif.previewUrl
+            }
+            isFavorite={
+              favoritesStore.isFavorite(gif.url) ||
+              favoritesStore.isFavorite(gif.previewUrl)
+            }
           />
         )}
       </For>
@@ -436,6 +451,8 @@ const GifPickerImageItem = (props: {
   url: string;
   onClick?: () => void;
   dimensions?: { width: number; height: number };
+  favorite?: FavoriteGif;
+  favoriteKey?: string;
   index?: number;
   style?: JSX.CSSProperties;
   isFavorite?: boolean;
@@ -488,17 +505,23 @@ const GifPickerImageItem = (props: {
         class={cn(styles.starOverlay)}
         onClick={(e) => {
           e.stopPropagation();
-          if (favoritesStore.isFavorite(props.url)) {
-            favoritesStore.remove(props.url);
+          const favoriteKey =
+            props.favoriteKey ?? props.favorite?.url ?? props.url;
+          if (favoritesStore.isFavorite(favoriteKey)) {
+            favoritesStore.remove(favoriteKey);
           } else {
-            favoritesStore.add({
-              url: props.url,
-              gifUrl: props.url,
-              previewUrl: props.url,
-              previewWidth: props.dimensions?.width || 0,
-              previewHeight: props.dimensions?.height || 0,
-              tags: gifPickerSearch().trim() ? [gifPickerSearch().trim()] : []
-            });
+            favoritesStore.add(
+              props.favorite ?? {
+                url: props.url,
+                gifUrl: props.url,
+                previewUrl: props.url,
+                previewWidth: props.dimensions?.width || 0,
+                previewHeight: props.dimensions?.height || 0,
+                tags: gifPickerSearch().trim()
+                  ? [gifPickerSearch().trim()]
+                  : []
+              }
+            );
           }
         }}
       >

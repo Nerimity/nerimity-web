@@ -508,7 +508,7 @@ function MessageArea(props: {
     if (!textAreaEl()) return;
     textAreaEl()!.focus();
     textAreaEl()!.setRangeText(
-      `${gif.gifUrl} `,
+      `${gif.url} `,
       textAreaEl()!.selectionStart,
       textAreaEl()!.selectionEnd,
       "end"

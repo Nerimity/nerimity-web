@@ -174,6 +174,18 @@ export const AdvancedMarkupOptions = (props: {
       opened = null;
     }
   };
+  const onGifPicked = (url: string) => {
+    props.inputElement!.focus();
+    props.inputElement!.setRangeText(
+      `${url} `,
+      props.inputElement!.selectionStart!,
+      props.inputElement!.selectionEnd!,
+      "end"
+    );
+    props.updateText(props.inputElement.value);
+    opened?.();
+    opened = null;
+  };
 
   const showEmojiPicker = (event: MouseEvent) => {
     event.preventDefault();
@@ -217,7 +229,7 @@ export const AdvancedMarkupOptions = (props: {
         >
           <EmojiPicker
             showGifPicker={props.showGifPicker}
-            gifPicked={(e) => onEmojiPicked(e.gifUrl)}
+            gifPicked={(gif) => onGifPicked(gif.url)}
             onClick={onEmojiPicked}
             close={() => {
               opened = null;

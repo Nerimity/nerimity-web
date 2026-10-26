@@ -22,6 +22,7 @@ export interface TenorImage {
   previewUrl: string;
   previewHeight: number;
   previewWidth: number;
+  url: string;
 }
 
 export interface GetTenorImageResponse {
