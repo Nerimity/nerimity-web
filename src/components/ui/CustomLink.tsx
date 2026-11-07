@@ -44,7 +44,7 @@ export function CustomLink(props: CustomLinkProps) {
 
   const onLinkClick = (e: MouseEvent) => {
     const href = props.href || "";
-    const isNerimity = href.includes("nerimity.com");
+    const isNerimity = href.startsWith("https://nerimity.com")
 
     if (props.isDangerous && !isNerimity) {
       e.preventDefault();
