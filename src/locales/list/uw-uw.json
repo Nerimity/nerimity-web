@@ -71,7 +71,8 @@
         "drawer": {
             "title": "Expwowe",
             "servers": "Sewvews",
-            "bots": "Senpais"
+            "bots": "Senpais",
+            "themes": "Thweems"
         },
         "servers": {
             "title": "Expwowe - Sewvews",
@@ -86,11 +87,32 @@
             "lifetimeBumpCount": "{{count}} wifetime bumps",
             "visitServerButton": "Peek In~",
             "bumpButton": "Bump ({{count}}) 🚀",
-            "joinServerButton": "LEMME INN!!!"
+            "joinServerButton": "LEMME INN!!!",
+            "moderationNotice": "Sewvers aren't modewated by Nerimity. Pls report sewvers that break the ToS.",
+            "sortMostActive": "Most Activvies (Beta)",
+            "pinnedServers": "Pinnied sewvers",
+            "recentlyBumped": "Wecently bumpsied servers",
+            "filterClans": "Cwans"
         },
         "bots": {
             "title": "Expwowe - Senpais",
-            "noticeMessage": "A senpai can be bumped once evewy {{hours}} houws. Aww bumps weset evewy {{date}}. nya~"
+            "noticeMessage": "A senpai can be bumped once evewy {{hours}} houws. Aww bumps weset evewy {{date}}. nya~",
+            "moderationNotice": "Clankers arent modewated by Nerimity. Please weport and snitchy snatch on bots that are evil or break the ToS.",
+            "inviteButton": "Invwite",
+            "serverCount": "in {{count}} servews"
+        },
+        "themes": {
+            "title": "Explwowe - Thwemes",
+            "themesHeaderDescription": "Personawize Nerimity with a Supa Kool Custm theme!!!",
+            "officialThemes": "Oficwial Thwemes",
+            "communityThemes": "Comoonity themes",
+            "noCommunityThemes": "Oh noes no comwunity theemz were foundz wahh.",
+            "fetchThemesError": "Oopsies failed to fetch da theemz. Pls try again laterzzz.",
+            "unlockDescription": "Clicky here 4 all da communitee theemz"
+        },
+        "bumpModal": {
+            "title": "Bumpsied {{name}}",
+            "bumpButton": "Bumpsies"
         }
     },
     "servers": {

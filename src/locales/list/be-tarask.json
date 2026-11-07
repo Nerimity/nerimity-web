@@ -262,8 +262,8 @@
                 "addButton": "Дадаць вэбхук"
             },
             "general": {
-                "serverRenameNotice": "Вы страціце ўсе йльготы верыфікаванага сэрвэру, калі пераназавяце яго.",
-                "serverName": "Назва сэрвэру",
+                "serverRenameNotice": "Вы страціце ўсе йльготы вэрыфікаванага сэрвэру, калі пераназавяце яго.",
+                "serverName": "Назва сэрвэра",
                 "defaultChannel": "Перадвызначаны канал",
                 "defaultChannelDescription": "Новыя ўдзельнікі будуць накіраваныя ў гэты канал.",
                 "systemMessages": "Сыстэмныя паведамленьні",
@@ -301,7 +301,7 @@
                 "category": "Катэґорыя"
             },
             "channel": {
-                "channelName": "Назва каналу",
+                "channelName": "Назва канала",
                 "permissionsDescription": "Кіраваньне дазволамі гэтага канала.",
                 "deleteThisChannel": "Выдаліць гэты канал",
                 "deleteChannelButton": "Выдаліць канал",
@@ -316,7 +316,7 @@
             },
             "invites": {
                 "createInviteButton": "Стварыць запрашэньне",
-                "serverInvites": "Запрашэньні сэрвэру",
+                "serverInvites": "Запрашэньні сэрвэра",
                 "serverInvitesDescription": "Запрасіце свайіх сяброў на гэты сэрвэр.",
                 "customInviteVerifiedOnlyNotice": "Карыстальніцкія запрашэньні даступныя толькі на вэрыфікаваных сэрвэрох.",
                 "customLink": "Карыстальніцкая спасылка",
@@ -422,7 +422,7 @@
                 "tag": "Тэґ",
                 "icon": "Значок",
                 "enableClanTag": "Уключыць тэґ сэрвэра",
-                "verifiedServerOnly": "Тэґ сэрвэра даступны толькі на вэрыфікаваных сэрвэрах."
+                "verifiedServerOnly": "Тэґ сэрвэра даступны толькі на вэрыфікаваных сэрвэрох."
             }
         },
         "rolePermissions": {
@@ -454,7 +454,7 @@
         },
         "channelPermissions": {
             "publicChannel": "Публічны канал",
-            "publicChannelDescription": "Уключыць доступ да каналу. Адміны сэрвэру могуць праглядаць усе каналы.",
+            "publicChannelDescription": "Уключыць доступ да каналу. Адміны сэрвэра могуць праглядаць усе каналы.",
             "sendMessage": "Дасылаць паведамленьні",
             "sendMessageDescription": "Дазваляе дасылаць паведамленьні ў гэтым канале. Адміны могуць дасылаць паведамленьні незалежна ад гэтага дазволу.",
             "joinVoice": "Далучацца да выкліку",
@@ -966,7 +966,7 @@
         "repostedBy": "Пашырана карыстачом(амі)"
     },
     "informationDrawer": {
-        "channelNotice": "Папярэджаньне каналу",
+        "channelNotice": "Папярэджаньне канала",
         "attachments": "Далучаныя файлы",
         "members": "Удзельнікі",
         "creator": "Стваральнік",
