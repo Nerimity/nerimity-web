@@ -31,6 +31,16 @@ const PROFILE_LINK_REGEX = /^https?:\/\/nerimity\.com\/app\/profile\/(\d+)$/i;
 const BOT_INVITE_REGEX = /nerimity\.com\/bot\/(\d+)(?:\?perms=(\d+))?/i;
 const MSG_LINKS = /^https?:\/\/nerimity\.com(\/app\/servers\/\d+\/\d+.*)$/i;
 
+
+const safeUrlParse = (href: string) => {
+  try {
+    return new URL(href);
+  } catch {
+
+  }
+}
+
+
 export function CustomLink(props: CustomLinkProps) {
   const { createPortal } = useCustomPortal();
   const navigate = useNavigate();
@@ -44,7 +54,7 @@ export function CustomLink(props: CustomLinkProps) {
 
   const onLinkClick = (e: MouseEvent) => {
     const href = props.href || "";
-    const isNerimity = href.startsWith("https://nerimity.com")
+    const isNerimity = safeUrlParse(href)?.origin === ("https://nerimity.com")
 
     if (props.isDangerous && !isNerimity) {
       e.preventDefault();
