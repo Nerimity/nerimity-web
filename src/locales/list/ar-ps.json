@@ -653,7 +653,8 @@
             "banner": "الغلاف",
             "browse": "تصفح",
             "supportedFileTypes": "يدعم: {{extensions}}، حد أقصى {{size}}",
-            "revert": "إلغاء"
+            "revert": "إلغاء",
+            "remove": "حذف"
         },
         "closeButton": "إغلاق",
         "editButton": "تعديل",
@@ -665,16 +666,22 @@
             "bot": "</2> تمت إضافته إلى السيرفر. <2><User/>",
             "user": "<2/> انضم إلى السيرفر.<2></User>"
         },
-        "leaveServer": "<User/><2> غادر الخادم.</2>",
+        "leaveServer": "<User/><2> غادر السيرفر.</2>",
         "kickUser": "<2>تم طرد <User/>. </2>",
-        "banUser": "<2>تم حضر <User/>. </2>"
+        "banUser": "<2>تم حظر <User/>. </2>",
+        "pinnedMessage": "<User/><2> ثبت الرسالة .</2>",
+        "callStarted": "<User/><2> بدأ مكالمة.</2>",
+        "unsupported": "<User/><2> رسالة غير مدعومة من</2>",
+        "bumpServer": "<User/><2> قام بنشر السيرفر</2>"
     },
     "statusHeader": {
         "authenticationError": "خطأ في المصادقة",
         "connecting": "جارٍ الإتصال…",
         "reconnecting": "إعادة الإتصال…",
         "authenticating": "يتم المصادقة…",
-        "connected": "تم الإتصال!"
+        "connected": "تم الإتصال!",
+        "statusPage": "صفحة الحالة",
+        "inQueue": "في قائمة الانتظار: {{count}} مستخدم أمامك"
     },
     "dangerousLinkModal": {
         "title": "رابط مخصص",
