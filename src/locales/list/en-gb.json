@@ -815,6 +815,8 @@
       },
       "discordActivity": "Discord Activity",
       "discordActivityDescription": "Share your Discord activity with users on Nerimity",
+      "discordRpcBridge": "Discord Rich Presence (no Discord needed)",
+      "discordRpcBridgeDescription": "Show what you are playing or listening to by capturing rich presence from apps on this computer. Works without Discord, and steps aside while the Discord app is running.",
       "idPlaceholder": "Discord User ID",
       "serverModal": {
         "text": "Please join the Discord server to enable Activity Sharing.",
