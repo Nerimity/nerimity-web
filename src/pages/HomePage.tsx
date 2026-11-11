@@ -268,18 +268,20 @@ function FeatureList() {
   const [t] = useTransContext();
   return (
     <div class={style.featureListContainer}>
-      <Feature icon="gif" label={t("homePage.featureList.feature1")} />
-      <Feature icon="preview" label={t("homePage.featureList.feature2")} />
-      <Feature icon="sell" label={t("homePage.featureList.feature3")} />
-      <Feature icon="add" label={t("homePage.featureList.feature4")} />
-      <Feature icon="dns" label={t("homePage.featureList.feature5")} />
-      <Feature icon="explore" label={t("homePage.featureList.feature6")} />
+      <Feature index={0} icon="gif" label={t("homePage.featureList.feature1")} />
+      <Feature index={1} icon="preview" label={t("homePage.featureList.feature2")} />
+      <Feature index={2} icon="sell" label={t("homePage.featureList.feature3")} />
+      <Feature index={3} icon="add" label={t("homePage.featureList.feature4")} />
+      <Feature index={4} icon="dns" label={t("homePage.featureList.feature5")} />
+      <Feature index={5} icon="explore" label={t("homePage.featureList.feature6")} />
       <Feature
+        index={6}
         icon="volunteer_activism"
         label={t("homePage.featureList.feature7")}
       />
-      <Feature icon="code" label={t("homePage.featureList.feature8")} />
+      <Feature index={7} icon="code" label={t("homePage.featureList.feature8")} />
       <Feature
+        index={8}
         icon="account_circle"
         label={t("homePage.featureList.feature9")}
       />
@@ -287,9 +289,12 @@ function FeatureList() {
   );
 }
 
-function Feature(props: { icon: string; label: string }) {
+function Feature(props: { icon: string; label: string; index?: number }) {
   return (
-    <div class={style.featureContainer}>
+    <div
+      class={style.featureContainer}
+      style={{ "--feature-index": props.index ?? 0 } as any}
+    >
       <Icon class={style.icon} name={props.icon} size={26} />
       <Text size={14} opacity={0.7}>
         {props.label}
