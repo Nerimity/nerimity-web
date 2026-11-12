@@ -270,7 +270,6 @@ export interface RawChannel {
   order?: number;
   slowModeSeconds?: number;
 
-  _count?: { attachments: number };
 }
 
 interface ServerChannelPermissions {
@@ -417,12 +416,12 @@ export interface RawPostPoll {
   _count: { votedUsers: number };
   choices: RawPostChoice[];
   votedUsers:
-    | [
-        {
-          pollChoiceId: string;
-        }
-      ]
-    | [];
+  | [
+    {
+      pollChoiceId: string;
+    }
+  ]
+  | [];
 }
 export interface RawPostChoice {
   id: string;

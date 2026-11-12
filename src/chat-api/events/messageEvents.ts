@@ -29,18 +29,7 @@ export function onMessageCreated(payload: {
   const channels = useChannels();
   const channel = channels.get(payload.message.channelId);
 
-  batch(() => {
-    if (payload.message.attachments?.length) {
-      const attachmentCreatedCount = payload.message.attachments.length;
-      const channelAttachments = channel?._count?.attachments;
-      const attachmentCount = channelAttachments || 0;
-      channel?.update({
-        _count: {
-          attachments: attachmentCount + attachmentCreatedCount
-        }
-      });
-    }
-  });
+
   if (socketClient.id() === payload.socketId) return;
   const header = useHeader();
   const messages = useMessages();
@@ -60,24 +49,24 @@ export function onMessageCreated(payload: {
   const server = servers.get(payload.serverId!);
   const member = payload.member
     ? {
-        isServerCreator: () => {
-          return server?.createdById === payload.message.createdBy.id;
-        },
-        hasPermission: (bitwise: { bit: number }) => {
-          const member = payload.member!;
-          const message = payload.message;
-          const isCreator = server?.createdById === message.createdBy.id;
-          if (isCreator) return true;
+      isServerCreator: () => {
+        return server?.createdById === payload.message.createdBy.id;
+      },
+      hasPermission: (bitwise: { bit: number }) => {
+        const member = payload.member!;
+        const message = payload.message;
+        const isCreator = server?.createdById === message.createdBy.id;
+        if (isCreator) return true;
 
-          const isAdmin = hasBit(
-            member.permissions || 0,
-            ROLE_PERMISSIONS.ADMIN.bit
-          );
+        const isAdmin = hasBit(
+          member.permissions || 0,
+          ROLE_PERMISSIONS.ADMIN.bit
+        );
 
-          if (isAdmin) return true;
-          return hasBit(member.permissions || 0, bitwise.bit);
-        }
+        if (isAdmin) return true;
+        return hasBit(member.permissions || 0, bitwise.bit);
       }
+    }
     : null;
 
   const selfMember = members.get(channel?.serverId!, accountUser?.id!);
@@ -186,23 +175,11 @@ export function onMessageUpdated(payload: {
 export function onMessageDeleted(payload: {
   channelId: string;
   messageId: string;
-  deletedAttachmentCount: number;
 }) {
   const messages = useMessages();
   messages.locallyRemoveMessage(payload.channelId, payload.messageId);
 
-  if (payload.deletedAttachmentCount) {
-    const channels = useChannels();
-    const channel = channels.get(payload.channelId);
-    const attachmentDeletedCount = payload.deletedAttachmentCount;
-    const channelAttachments = channel?._count?.attachments;
-    const attachmentCount = channelAttachments || attachmentDeletedCount;
-    channel?.update({
-      _count: {
-        attachments: attachmentCount - attachmentDeletedCount
-      }
-    });
-  }
+
 }
 
 export function onMessageMarkUnread(payload: {

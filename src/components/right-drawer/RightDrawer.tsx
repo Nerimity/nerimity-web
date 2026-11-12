@@ -316,20 +316,8 @@ const AttachmentDrawer = () => {
   const [attachments, setAttachments] = createSignal<RawAttachment[] | null>(
     null
   );
-  const channel = () => channels.get(params.channelId);
 
-  const incrAttachments = (channelId: string) => {
-    const channel = channels.get(channelId);
 
-    const count = channel?._count?.attachments || 0;
-    channel?.update({ _count: { attachments: count + 1 } });
-  };
-  const decrAttachments = (channelId: string) => {
-    const channel = channels.get(channelId);
-
-    const count = channel?._count?.attachments || 1;
-    channel?.update({ _count: { attachments: count - 1 } });
-  };
 
   onMount(async () => {
     const newAttachments = await fetchChannelAttachments(params.channelId!);
@@ -345,7 +333,6 @@ const AttachmentDrawer = () => {
       { ...attachment, messageId: payload.message.id },
       ...attachments()!
     ]);
-    incrAttachments(params.channelId);
   };
   socketClient.useSocketOn(ServerEvents.MESSAGE_CREATED, onMessage);
 
@@ -357,7 +344,6 @@ const AttachmentDrawer = () => {
         (attachment) => attachment.messageId !== payload.messageId
       )
     );
-    decrAttachments(params.channelId);
   };
   socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete);
 
@@ -371,9 +357,7 @@ const AttachmentDrawer = () => {
         }}
       >
         <Text size={14}>{t("informationDrawer.attachments")}</Text>
-        <div class={styles.memberCount}>
-          {channel()?._count?.attachments?.toLocaleString?.() ?? "..."}
-        </div>
+
       </div>
       <div class={styles.attachmentList}>
         <Show when={!attachments()}>
@@ -462,30 +446,7 @@ const MainDrawer = (props: {
           userId={channel()?.recipientId!}
         />
       </Show>
-      {/* <Show when={channel()}>
-        <Button
-          label={t("informationDrawer.attachments")}
-          customChildren={
-            <>
-              <div class={styles.attachmentCount}>
-                {channel()?._count?.attachments?.toLocaleString?.() ?? "..."}
-              </div>
-              <Icon
-                size={16}
-                color="var(--primary-color)"
-                name="keyboard_arrow_right"
-              />
-            </>
-          }
-          iconName="attach_file"
-          iconSize={16}
-          onClick={props.onShowAttachmentClick}
-          class={css`
-            justify-content: start;
-          `}
-          padding={5}
-        />
-      </Show> */}
+
       <Show when={params.serverId}>
         <ServerDrawer />
       </Show>
@@ -804,14 +765,14 @@ const SearchInputBox = (props: {
         placeholder={
           props.channel?.name
             ? t("informationDrawer.searchBarChannelPlaceholder", {
-                channelName: props.channel!.name,
-                interpolation: { escapeValue: false }
-              })
+              channelName: props.channel!.name,
+              interpolation: { escapeValue: false }
+            })
             : props.channel?.recipient()?.username
               ? t("informationDrawer.searchBarPlaceholder", {
-                  username: props.channel?.recipient()?.username,
-                  interpolation: { escapeValue: false }
-                })
+                username: props.channel?.recipient()?.username,
+                interpolation: { escapeValue: false }
+              })
               : ""
         }
         onText={props.setQuery}
@@ -970,14 +931,14 @@ const SearchMessageItem = (props: {
     if (params.serverId) {
       navigate(
         RouterEndpoints.SERVER_MESSAGES(params.serverId, channelId) +
-          "?messageId=" +
-          props.message.id
+        "?messageId=" +
+        props.message.id
       );
     } else {
       navigate(
         RouterEndpoints.INBOX_MESSAGES(channelId) +
-          "?messageId=" +
-          props.message.id
+        "?messageId=" +
+        props.message.id
       );
     }
   };

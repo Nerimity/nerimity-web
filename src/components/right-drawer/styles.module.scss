@@ -6,6 +6,7 @@
   padding-left: 3px;
   gap: 5px;
 }
+
 :global body.disableBlur {
   :local {
     .roleTitle {
@@ -14,7 +15,7 @@
     }
   }
 }
-.attachmentCount,
+
 .memberCount {
   flex-shrink: 0;
   min-width: 10px;
@@ -29,6 +30,7 @@
   text-align: center;
   font-size: 10px;
 }
+
 .memberCount {
   margin-right: 8px;
 }
@@ -49,10 +51,12 @@
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.03);
+
     .roleName {
       opacity: 1;
     }
   }
+
   .roleName {
     display: flex;
     overflow: hidden;
@@ -65,11 +69,13 @@
     font-size: 14px;
     gap: 4px;
   }
+
   .roleExpandButton {
     margin: 0;
     margin-left: 4px;
     border-radius: 4px;
   }
+
   .roleCount {
     flex-shrink: 0;
     min-width: 10px;
@@ -90,6 +96,7 @@
   flex-direction: column;
   gap: 1px;
 }
+
 .roleItem {
   position: relative;
   display: flex;
@@ -116,7 +123,7 @@
     }
   }
 
-  &:has(+ .roleItem) ~ .roleItem {
+  &:has(+ .roleItem)~.roleItem {
     &:last-child {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
@@ -126,6 +133,7 @@
   .memberItem {
     height: 37px;
   }
+
   .memberItem:empty {
     display: none;
   }
@@ -144,6 +152,7 @@
     object-fit: cover;
     aspect-ratio: 1/1;
   }
+
   .attachmentImageContainer {
     position: relative;
     display: flex;
@@ -181,6 +190,7 @@
       transition: 0.1s;
       inset: 0;
     }
+
     .fileAttachment {
       display: flex;
       align-items: center;
@@ -205,12 +215,15 @@
   cursor: pointer;
   user-select: none;
   transition: 0.2s;
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.05);
   }
+
   a {
     pointer-events: none;
   }
+
   .memberInfo {
     display: flex;
     overflow: hidden;
@@ -221,14 +234,15 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     gap: 2px;
-    & > div {
+
+    &>div {
       min-width: 0;
       max-width: 100%;
     }
   }
 
-  .memberName {
-  }
+  .memberName {}
+
   .username {
     overflow: hidden;
     line-height: 1.2;
@@ -248,10 +262,12 @@
     -webkit-text-fill-color: transparent;
   }
 }
+
 .userPresence {
   align-items: center;
   height: 19px;
 }
+
 .channelNotice {
   display: flex;
   flex-direction: column;
@@ -261,12 +277,14 @@
   border-radius: 6px;
   background-color: rgba(255, 255, 255, 0.05);
 }
+
 .channelNoticeHeader {
   display: flex;
   align-items: center;
   font-weight: bold;
   gap: 4px;
 }
+
 .channelNoticeContent {
   color: rgba(255, 255, 255, 0.7);
   word-break: break-word;
@@ -281,6 +299,7 @@
   width: 24px;
   height: 24px;
   margin-left: auto;
+
   img {
     width: 20px;
     height: 20px;
@@ -293,6 +312,7 @@
   margin-top: 6px;
   user-select: none;
   gap: 6px;
+
   .searchSelectedUser {
     display: flex;
     align-items: center;
@@ -302,17 +322,21 @@
     cursor: pointer;
     transition: 0.2s;
     gap: 6px;
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.2);
+
       .removeSelectedUser {
         color: var(--alert-color);
       }
     }
+
     .removeSelectedUser {
       transition: 0.2s;
     }
   }
 }
+
 .searchUserSuggestions {
   position: absolute;
   z-index: 111111111;
@@ -326,6 +350,7 @@
   background: var(--message-floating-options-background-color);
   user-select: none;
   gap: 2px;
+
   .searchUserSuggestionItem {
     display: flex;
     overflow: hidden;
@@ -333,6 +358,7 @@
     border-radius: 6px;
     cursor: pointer;
     gap: 8px;
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.05);
     }
@@ -349,6 +375,7 @@
   flex-direction: column;
   gap: 6px;
 }
+
 .searchMessageItem {
   position: relative;
 
