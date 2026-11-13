@@ -1902,7 +1902,8 @@ const htmlEmbedContainerStyles: JSX.CSSProperties = {
   display: "flex",
   overflow: "auto",
   "align-self": "normal",
-  "max-height": "500px"
+  "max-height": "500px",
+  contain: "layout"
 };
 
 function HTMLEmbed(props: { message: RawMessage }) {
