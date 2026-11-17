@@ -122,7 +122,11 @@ export default function UserPage() {
     removedInventoryIds: [] as string[],
     emailConfirmed: user()?.account?.emailConfirmed || false,
     newPassword: "",
-    password: ""
+    password: "",
+
+    avatar: undefined as undefined | null,
+    banner: undefined as undefined | null
+
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -340,6 +344,18 @@ export default function UserPage() {
             <Input
               value={inputValues().tag}
               onText={(v) => setInputValue("tag", v)}
+            />
+          </SettingsBlock>
+          <SettingsBlock label="Remove Avatar" >
+            <Checkbox
+              checked={inputValues().avatar === undefined ? false : true}
+              onChange={(v) => setInputValue("avatar", v ? null : undefined)}
+            />
+          </SettingsBlock>
+          <SettingsBlock label="Remove Banner" >
+            <Checkbox
+              checked={inputValues().banner === undefined ? false : true}
+              onChange={(v) => setInputValue("banner", v ? null : undefined)}
             />
           </SettingsBlock>
           <SettingsGroup>

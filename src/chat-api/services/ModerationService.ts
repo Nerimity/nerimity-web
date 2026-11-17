@@ -552,7 +552,7 @@ export interface ModerationSuspension {
 
 export const updateUser = async (
   userId: string,
-  update: { email?: string; username?: string; tag?: string }
+  update: { email?: string; username?: string; tag?: string, avatar?: null, banner?: null }
 ) => {
   const data = await request<any[]>({
     method: "POST",
