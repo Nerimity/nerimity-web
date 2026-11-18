@@ -336,6 +336,9 @@ const Details = (props: DetailsProps) => {
             : t("message.badge.bot")}
         </div>
       </Show>
+      <Show when={!props.message.webhookId && props.message.creatorOverrideId}>
+        <div class={styles.ownerBadge}>masq</div>
+      </Show>
       <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
       <Show when={props.message.silent}>
         <Tooltip tooltip="Silent" anchor="left">

@@ -392,6 +392,12 @@ export const ROLE_PERMISSIONS = {
     bit: 256,
     description: () => "Allow users to mention roles",
     icon: "alternate_email"
+  },
+  MASQUERADE: {
+    name: () => "Masquerade",
+    bit: 512,
+    description: () => "Allow members to change name and avatar per-message",
+    //icon: "alternate_email" // We dont need curently a icon for that because a "normal" user cant use it
   }
 };
 
