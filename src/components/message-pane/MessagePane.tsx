@@ -859,6 +859,7 @@ function useMediaRecorder() {
   let mediaRecorder: MediaRecorder | undefined;
   let stream: MediaStream | undefined;
   let chunks: BlobPart[] = [];
+  let stopRequested = false;
 
   const stopStream = () => {
     stream?.getTracks().forEach((track) => track.stop());
@@ -880,6 +881,7 @@ function useMediaRecorder() {
     );
 
     chunks = [];
+    stopRequested = false;
 
     return await new Promise<Blob>((resolve, reject) => {
       mediaRecorder!.ondataavailable = (event) => {
@@ -904,6 +906,11 @@ function useMediaRecorder() {
       };
 
       mediaRecorder!.start();
+
+      // The stop click may happen before the recorder is ready.
+      if (stopRequested) {
+        mediaRecorder!.stop();
+      }
     }).catch((error) => {
       stopStream();
       console.error("Recording failed:", error);
@@ -912,11 +919,137 @@ function useMediaRecorder() {
   };
 
   const stop = () => {
+    stopRequested = true;
     mediaRecorder?.stop();
   };
 
   return { record, stop };
 }
+
+const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
+  const { isMobileAgent } = useWindowProperties();
+  let timer: number | null = null;
+  let recordStartAt = 0;
+  let recordEndAt = 0;
+  let starting = false;
+
+  const [isRecording, setRecording] = createSignal(false);
+  const { record, stop } = useMediaRecorder();
+  const [currentDuration, setDuration] = createSignal("0:00");
+  const [cancelRecording, setCancelRecording] = createSignal(false);
+
+  const onTouchMove = (event: TouchEvent) => {
+    if (!isMobileAgent()) return;
+    const myLocation = event.changedTouches[0];
+    const realTarget = document.elementFromPoint(
+      myLocation.clientX,
+      myLocation.clientY
+    );
+    setCancelRecording(!realTarget?.closest(".voice-recorder-button"));
+  };
+
+  const stopRecording = () => {
+    recordEndAt = Date.now();
+    stop();
+  };
+
+  const onMicClick = async () => {
+    if (isRecording()) {
+      stopRecording();
+      return;
+    }
+    if (starting) return;
+
+    starting = true;
+    try {
+      const micPerms = await navigator.permissions.query({
+        name: "microphone" as PermissionName
+      });
+      if (micPerms.state === "denied") {
+        toast("Unable to record audio.");
+        return;
+      }
+
+      recordStartAt = Date.now();
+      setRecording(true);
+      starting = false;
+
+      const blob = await record();
+      if (!blob) return;
+
+      const durationMs = recordEndAt - recordStartAt;
+      if (durationMs < 400) return;
+      if (cancelRecording()) return;
+
+      props.onBlob?.(blob);
+    } catch (error) {
+      console.error(error);
+      toast("Unable to record audio.");
+    } finally {
+      starting = false;
+      setRecording(false);
+      setCancelRecording(false);
+    }
+  };
+
+  createEffect(
+    on(isRecording, () => {
+      if (isRecording()) {
+        timer = window.setInterval(() => {
+          const durationMs = Date.now() - recordStartAt;
+          setDuration(msToTime(durationMs));
+        }, 1000);
+        return;
+      }
+
+      if (timer) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+      setDuration("0:00");
+    })
+  );
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        "align-items": "center",
+        gap: "4px",
+        "align-self": "end"
+      }}
+    >
+      <Show when={isRecording()}>
+        <div style={{ "font-size": "12px" }}>{currentDuration()}</div>
+      </Show>
+      <Button
+        type="hover_border"
+        style={{ "touch-action": "none", "user-select": "none" }}
+        class={classNames(styles.inputButtons, "voice-recorder-button")}
+        onClick={onMicClick}
+        onTouchMove={onTouchMove}
+        onContextMenu={(e) => e.preventDefault()}
+        onPointerEnter={() => !isMobileAgent() && setCancelRecording(false)}
+        onPointerLeave={() => !isMobileAgent() && setCancelRecording(true)}
+        iconName={
+          cancelRecording() && isRecording()
+            ? "delete"
+            : isRecording()
+            ? "send"
+            : "mic"
+        }
+        padding={[8, 8, 8, 8]}
+        margin={0}
+        iconSize={18}
+        primary={isRecording()}
+        color={
+          cancelRecording() && isRecording() ? "var(--alert-color)" : undefined
+        }
+      />
+    </div>
+  );
+};
+
 
 const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
   const { isMobileAgent } = useWindowProperties();
