@@ -140,14 +140,36 @@
             "lifetimeBumpCount": "{{count}} 个永久提升（顶）",
             "visitServerButton": "查看服务器",
             "joinServerButton": "加入服务器",
-            "bumpButton": "顶 ({{count}})"
+            "bumpButton": "顶 ({{count}})",
+            "moderationNotice": "Nerimity 官方不对服务器进行审核/管理。请举报违反服务条款（TOS）的服务器。",
+            "sortMostActive": "最活跃 (Beta)",
+            "pinnedServers": "置顶服务器",
+            "recentlyBumped": "最近顶起的服务器",
+            "filterClans": "团队"
         },
         "bots": {
-            "title": "探索 - 机器人"
+            "title": "探索 - 机器人",
+            "noticeMessage": "每个 Bot 每 {{hours}} 小时可被顶一次。所有顶帖次数将在每 {{date}} 重置。",
+            "moderationNotice": "Nerimity 官方不对机器人进行审核/管理。请举报存在恶意行为或违反服务条款（TOS）的机器人。",
+            "inviteButton": "邀请",
+            "serverCount": "在 {{count}} 个服务器中"
         },
         "themes": {
-            "title": "探索-主题"
-        }
+            "title": "探索-主题",
+            "themesHeaderDescription": "使用自定义主题，打造专属的 Nerimity。",
+            "officialThemes": "官方主题",
+            "communityThemes": "社区主题",
+            "noCommunityThemes": "暂无社区主题。",
+            "fetchThemesError": "获取主题失败，请稍后再试。",
+            "unlockDescription": "点击浏览全部社区主题"
+        },
+        "bumpModal": {
+            "title": "顶起 {{name}}",
+            "bumpButton": "顶起"
+        },
+        "sort": "排序方式",
+        "filter": "筛选",
+        "bumped": "最近顶起"
     },
     "servers": {
         "settings": {
@@ -591,8 +613,24 @@
         "emojiPicker": "表情包选取器",
         "timestampModal": {
             "relative": "相对值",
-            "offset": "偏移"
+            "offset": "偏移",
+            "title": "时间设置"
         },
         "checkbox": "复选框"
+    },
+    "remindersModal": {
+        "title": "提醒",
+        "showAllButton": "查看全部提醒",
+        "viewButton": "查看",
+        "dismissing": "关闭中…",
+        "deleting": "删除中…",
+        "snoozeFor5Minutes": "推迟 5 分钟",
+        "snoozeFor1Day": "推迟 1 天",
+        "deletedItem": "该帖子或消息已删除。",
+        "closeNotice": "请先关闭所有进行中的提醒。"
+    },
+    "editFolderModal": {
+        "title": "编辑文件夹",
+        "placeholder": "文件夹名称"
     }
 }
