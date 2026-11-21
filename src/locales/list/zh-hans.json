@@ -128,26 +128,49 @@
             "themes": "主题"
         },
         "servers": {
-            "title": "发现 - 服务器",
-            "noticeMessage": "一个服务器每 {{hours}} 小时可以被“顶”一次. 所有的“顶”将在 {{date}} 被重置。",
-            "sortMostBumps": "最多顶",
-            "sortMostMembers": "最多用户",
+            "title": "探索 - 服务器",
+            "noticeMessage": "每个服务器每 {{hours}} 小时可被顶起一次。所有顶起次数将在每 {{date}} 重置。",
+            "sortMostBumps": "最多顶起",
+            "sortMostMembers": "最多成员",
             "sortRecentlyAdded": "最近添加",
-            "sortRecentlyBumped": "最近",
+            "sortRecentlyBumped": "最近顶起",
             "filterAll": "全部",
             "filterVerified": "已认证",
             "memberCount": "{{count}} 位成员",
-            "lifetimeBumpCount": "{{count}} 个永久提升（顶）",
-            "visitServerButton": "查看服务器",
-            "joinServerButton": "加入服务器",
-            "bumpButton": "顶 ({{count}})"
+            "lifetimeBumpCount": "{{count}} 次累计顶起",
+            "visitServerButton": "查看",
+            "joinServerButton": "加入",
+            "bumpButton": "顶起次数 {{count}}",
+            "moderationNotice": "Nerimity 官方不对服务器进行审核/管理。请举报存在恶意行为或违反服务条款（TOS）的服务器。",
+            "sortMostActive": "最活跃 (Beta)",
+            "pinnedServers": "置顶服务器",
+            "recentlyBumped": "最近顶起的服务器",
+            "filterClans": "公会"
         },
         "bots": {
-            "title": "探索 - 机器人"
+            "title": "探索 - 机器人",
+            "noticeMessage": "每个 Bot 每 {{hours}} 小时可被顶起一次。所有顶起次数将在每 {{date}} 重置。",
+            "moderationNotice": "Nerimity 官方不对机器人进行审核/管理。请举报存在恶意行为或违反服务条款（TOS）的机器人。",
+            "inviteButton": "邀请",
+            "serverCount": "在 {{count}} 个服务器中"
         },
         "themes": {
-            "title": "探索-主题"
-        }
+            "title": "探索 - 主题",
+            "themesHeaderDescription": "使用自定义主题，打造专属的 Nerimity。",
+            "officialThemes": "官方主题",
+            "communityThemes": "社区主题",
+            "noCommunityThemes": "暂无社区主题。",
+            "fetchThemesError": "获取主题失败，请稍后再试。",
+            "unlockDescription": "点击浏览全部社区主题"
+        },
+        "bumpModal": {
+            "title": "顶起 {{name}}",
+            "bumpButton": "顶起"
+        },
+        "sort": "排序方式",
+        "filter": "筛选",
+        "bumped": "最近顶起",
+        "by": "按"
     },
     "servers": {
         "settings": {
@@ -164,7 +187,10 @@
                 "welcome-screen": "欢迎页面",
                 "channel": "频道",
                 "notifications": "通知",
-                "external-embed": "外嵌链接"
+                "external-embed": "外嵌链接",
+                "permissions": "权限",
+                "emoji": "表情",
+                "clanTag": "公会标签"
             },
             "general": {
                 "serverRenameNotice": "如果重命名服务器，您将失去验证服务器的所有特权。",
@@ -174,7 +200,8 @@
                 "systemMessages": "系统通知",
                 "systemMessagesDescription": "系统通知出现的频道",
                 "deleteThisServer": "删除服务器",
-                "deleteServerButton": "删除服务器"
+                "deleteServerButton": "删除服务器",
+                "none": "无"
             },
             "roles": {
                 "addNewRole": "新建角色",
@@ -186,7 +213,13 @@
                 "hideRole": "隐藏角色",
                 "hideRoleDescription": "将拥有该角色的成员与所有默认成员一并展示",
                 "permissionsDescription": "为此角色分配权限。",
-                "deleteRoleButton": "删除角色"
+                "deleteRoleButton": "删除角色",
+                "clear": "清除",
+                "roleIcon": "角色图标",
+                "managedByBot": "此角色由 {{botName}} 管理。您无法添加或移除该角色的成员。请踢出此机器人以删除该角色。",
+                "applyOnJoin": "加入时应用",
+                "applyOnJoinDescription": "在用户加入服务器时自动授予此角色。",
+                "deleteRoleTitle": "删除 {{roleName}}"
             },
             "header": {
                 "editServer": "编辑服务器",
@@ -194,30 +227,154 @@
             },
             "channels": {
                 "createButton": "新建",
-                "createNewDescription": "新建频道或分类"
+                "createNewDescription": "新建频道或分类",
+                "textChannel": "文字频道",
+                "category": "分类"
             },
             "channel": {
                 "channelName": "频道名称",
                 "permissionsDescription": "为该频道设置权限。",
                 "deleteThisChannel": "删除该频道",
                 "deleteChannelButton": "删除频道",
-                "removeNoticeButton": "清除通知"
+                "removeNoticeButton": "清除通知",
+                "channelIcon": "频道图标",
+                "slowMode": "消息发送间隔时间",
+                "slowModeDescription": "指定用户在发送消息前必须等待的时间。",
+                "deleteChannelTitle": "删除 {{channelName}}",
+                "channelNotice": "频道信息",
+                "channelNoticeDescription": "当用户首次准备聊天时显示。更改将在页面重新加载后生效。",
+                "channelNoticeTooLong": "频道信息不能超过 300 个字符。"
             },
             "invites": {
                 "createInviteButton": "创建邀请",
                 "serverInvites": "服务器邀请",
                 "serverInvitesDescription": "邀请您的朋友到服务器。",
                 "customInviteVerifiedOnlyNotice": "自定义邀请链接仅对已认证服务器可用。",
-                "customLink": "自定义链接"
+                "customLink": "自定义链接",
+                "uses": "已使用 {{count}} 次"
             },
             "publishServer": {
                 "publishNotice": "发布服务器将会使您的服务器在 <1>发现页</1> 中可见。",
                 "public": "公开",
                 "publicDescription": "使该服务器公开。",
-                "bumpServer": "提升服务器",
-                "bumpServerDescription": "将你的服务器提升到顶部。",
-                "publishServerButton": "公开服务器",
-                "unpublishServerButton": "取消公开服务器"
+                "bumpServer": "顶起服务器",
+                "bumpServerDescription": "顶起此服务器，使其在发现页中排在前面。",
+                "publishServerButton": "发布",
+                "unpublishServerButton": "设为私有",
+                "bumpButton": "顶起次数 — {{count}}",
+                "descriptionLabel": "服务器描述 {{current}}/{{max}}",
+                "bumpCooldown": "您必须等待 {{hours}} 小时 {{minutes}} 分 {{seconds}} 秒才能再次顶起此服务器。"
+            },
+            "bans": {
+                "sort": {
+                    "alphabetical": "按字母顺序",
+                    "unsorted": "未排序"
+                },
+                "noResults": "未找到结果。",
+                "reason": "原因",
+                "noReason": "未提供原因",
+                "bannedAt": "封禁于",
+                "unknown": "未知",
+                "unban": "解除封禁",
+                "unbanning": "正在解除封禁…"
+            },
+            "webhook": {
+                "title": "Webhooks",
+                "addButton": "添加 Webhook",
+                "name": "Webhook 名称",
+                "link": "Webhook 链接",
+                "linkDescription": "使用此链接执行操作",
+                "delete": "删除 Webhook"
+            },
+            "welcomeScreen": {
+                "title": "问题",
+                "description": "准备问题。让用户自行分配角色。",
+                "questions": {
+                    "addButton": "添加问题",
+                    "question": "问题",
+                    "questionPlaceholder": "猫还是狗？",
+                    "multiselect": "多选"
+                },
+                "answers": {
+                    "title": "答案",
+                    "addButton": "添加答案",
+                    "editModal": {
+                        "title": "编辑答案",
+                        "answer": "答案",
+                        "placeholder": "猫",
+                        "selectRoles": "选择角色"
+                    }
+                }
+            },
+            "notifications": {
+                "notice": "这些设置仅对您生效。",
+                "ping": "通知提示",
+                "pingDescription": "显示通知指示器。",
+                "sound": "通知声音",
+                "soundDescription": "收到通知时播放声音。",
+                "channelsDescription": "管理每个频道的通知设置。",
+                "resetButton": "重置自定义设置 ({{count}})"
+            },
+            "emoji": {
+                "title": "自定义表情",
+                "description": "添加您自己的表情。",
+                "addButton": "添加表情"
+            },
+            "verify": {
+                "alreadyVerified": "您的服务器已通过认证！",
+                "insufficientMembers": "您还需要 {{count}} 名成员才能申请认证。",
+                "verifiable": "已具备认证资格",
+                "verifiableDescription": "您的服务器成员数量已达标，可以申请认证！",
+                "verifyButton": "认证",
+                "requirements": {
+                    "title": "认证要求",
+                    "englishOnly": "仅限英语",
+                    "englishOnlyDescription": "使用非英语的服务器在内容审核方面存在较大困难。",
+                    "oneMonthOrSupporter": "至少一个月或拥有捐赠者徽章",
+                    "oneMonthOrSupporterDescription": "您的服务器必须已创建至少 1 个月，或者服务器所有者必须拥有捐赠者徽章。",
+                    "members": "{{count}} 名或更多成员",
+                    "membersDescription": "您的服务器必须至少有 {{count}} 名成员。",
+                    "profanityFree": "无脏话内容",
+                    "profanityFreeDescription": "服务器名称、头像和横幅不能包含脏话。",
+                    "avatarAndBanner": "头像和横幅",
+                    "avatarAndBannerDescription": "服务器必须设置头像和横幅。",
+                    "rules": "服务器规则",
+                    "rulesDescription": "服务器必须拥有一个规则频道。"
+                },
+                "perks": {
+                    "title": "认证特权",
+                    "badge": "认证徽章",
+                    "badgeDescription": "用于彰显您服务器独特性的徽章。",
+                    "explore": "在发现页中突出显示",
+                    "exploreDescription": "服务器将出现在发现页的专属区域中。",
+                    "customInvite": "自定义邀请链接",
+                    "customInviteDescription": "在邀请页面创建您自己的自定义邀请链接。",
+                    "emojiSlots": "更多表情槽位",
+                    "emojiSlotsDescription": "为您的服务器提供 200 个表情槽位。",
+                    "hdScreenshare": "1080p@60fps 屏幕共享",
+                    "hdScreenshareDescription": "以 1080p 60fps 共享屏幕。"
+                }
+            },
+            "externalEmbed": {
+                "noInvites": {
+                    "title": "未创建邀请",
+                    "description": "您必须先创建一个邀请，然后才能创建外部嵌入链接。",
+                    "createButton": "创建邀请"
+                },
+                "title": "创建外部嵌入链接",
+                "description": "为您网页创建外部嵌入的 IFrame。",
+                "dropdownPlaceholder": "选择邀请",
+                "options": {
+                    "hideHeader": "隐藏头部",
+                    "hideMembers": "隐藏成员列表",
+                    "hideActivities": "隐藏活动列表"
+                }
+            },
+            "clans": {
+                "tag": "标签",
+                "icon": "图标",
+                "enableClanTag": "启用公会标签",
+                "verifiedServerOnly": "公会标签仅对已认证服务器可用。"
             }
         },
         "rolePermissions": {
@@ -244,7 +401,17 @@
             "sendMessage": "发送消息",
             "sendMessageDescription": "允许成员在频道中发送消息。服务器管理员仍可以发送消息。",
             "joinVoice": "加入语音",
-            "joinVoiceDescription": "允许成员在频道中加入语音频道。服务器管理员仍可以加入语音频道。"
+            "joinVoiceDescription": "允许成员在频道中加入语音频道。服务器管理员仍可以加入语音频道。",
+            "hiddenChannel": "隐藏频道"
+        },
+        "leaveModal": {
+            "title": "要离开此服务器吗？",
+            "body": {
+                "part1": "您确定要离开 <1>{{serverName}}</1> 吗？",
+                "part2": "您随时可以重新加入！"
+            },
+            "cancelButton": "留在服务器",
+            "confirmButton": "离开"
         }
     },
     "settings": {
@@ -267,7 +434,9 @@
             "privacy": "隐私",
             "connections": "连接",
             "profile": "个人资料",
-            "source": "源代码"
+            "source": "源代码",
+            "changes": "变更",
+            "sessions": "会话"
         },
         "header": {
             "servers": "个服务器",
@@ -289,7 +458,36 @@
             "deleteAccountDescription": "该操作将不能被撤销！",
             "deleteAccountNotice": "在您删除您的账号前，您必须要离开或删除所有服务器。",
             "understoodButton": "确认",
-            "confirmEmail": "确认您的电子邮箱"
+            "confirmEmail": "确认您的电子邮箱",
+            "botID": "机器人 ID",
+            "palestineBorder": "为您的头像添加巴勒斯坦国旗。",
+            "bio": "个人简介",
+            "bioDescription": "支持 Markup 和多行",
+            "gradientColor1": "渐变色 1",
+            "gradientColor2": "渐变色 2",
+            "primaryColor": "主色调",
+            "usernameFont": "用户名字体",
+            "default": "应用默认",
+            "preview": "预览",
+            "confirmPasswordToContinue": "确认密码以继续",
+            "enterCode": "输入发送到您邮箱的 5 位数验证码：",
+            "sendCodeButton": "发送验证码",
+            "resendIn": "在 {{time}} 后重新发送",
+            "userNotice": "接收消息前的提示",
+            "userNoticeDescription": "当用户首次向您发送消息时显示。更改将在页面重新加载后生效。",
+            "userNoticeTooLong": "面向用户的提示不能超过 300 个字符。",
+            "deletionNotice": "我们很遗憾看到您离开 :( 如果有什么让您不满意，请在 Nerimity 官方服务器告诉我们。",
+            "deletedInfo": {
+                "title": "将被删除的内容：",
+                "email": "• 电子邮箱",
+                "username": "• 用户名",
+                "ip": "• IP 地址",
+                "bio": "• 个人简介",
+                "messages": "• 您的消息",
+                "posts": "• 您的帖子"
+            },
+            "postsAndMessagesNotice": "您的帖子和消息可能需要数周时间才会被完全删除。",
+            "deleteCheckbox": "删除我的帖子和消息"
         },
         "privacy": {
             "lastOnline": {
@@ -310,6 +508,13 @@
                 "hideFollowersDescription": "从您的个人资料中隐藏关注者。",
                 "hideFollowing": "隐藏关注的人",
                 "hideFollowingDescription": "从您的个人资料中隐藏您正在关注的用户。"
+            },
+            "options": {
+                "anybody": "任何人",
+                "friendsOnly": "仅限好友",
+                "serversOnly": "仅限服务器",
+                "friendsAndServers": "服务器和好友",
+                "nobody": "无人"
             }
         },
         "notifications": {
@@ -321,7 +526,7 @@
             "volumeDescription": "更改通知声音的音量。",
             "changeSoundsDescription": "用这些免费版权的音效改变通知的声音。",
             "message": "消息",
-            "messageDescription": "当收到消息时播放音效。",
+            "messageDescription": "收到消息时播放音效。",
             "mention": "提及",
             "mentionDescription": "当被提及时播放音效。",
             "inAppPreview": "应用内预览消息或通知",
@@ -329,7 +534,16 @@
             "inAppPreviewModes": {
                 "off": "关闭",
                 "inheritFromPingSettings": "沿用提及（@）设置"
-            }
+            },
+            "testNotification": {
+                "title": "成功！",
+                "body": "桌面通知已启用。"
+            },
+            "reminder": "提醒",
+            "reminderDescription": "提醒通知。",
+            "mute": "静音",
+            "callJoin": "加入通话",
+            "callLeave": "离开通话"
         },
         "call": {
             "nextCallNotice": "从您下一次加入语音时，设置将被应用。",
@@ -337,20 +551,191 @@
             "outputDevices": "输出设备",
             "default": "默认",
             "inputMode": "输入模式选择",
-            "openMic": "打开麦克风",
+            "openMic": "麦克风常开",
             "voiceActivity": "语音激活",
-            "pushToTalk": "按键激活",
+            "pushToTalk": "按键说话",
             "bindButton": "绑定",
             "stopButton": "停止",
-            "downloadAppNotice": "下载 Nerimity 桌面应用来使用此功能并忽视窗口标签激活状态。"
+            "downloadAppNotice": "下载 Nerimity 桌面应用来使用此功能并忽略窗口标签激活状态。",
+            "leaveCall": "您必须先离开当前通话",
+            "inputConstraints": {
+                "echoCancelation": "回声消除",
+                "echoCancelationDescription": "防止麦克风捕捉扬声器声音。",
+                "noiseSuppression": "噪音抑制",
+                "noiseSuppressionDescription": "过滤持续的背景噪音（风扇声、嗡嗡声）。",
+                "autoGainControl": "自动增益控制",
+                "autoGainControlDescription": "自动调整音量水平以保持信号稳定。"
+            },
+            "useTurn": "使用 Cloudflare TURN 服务器",
+            "useTurnDescription": "使用 TURN 服务器以改善连接性"
         },
         "interface": {
             "blurEffect": "模糊效果",
-            "blurEffectDescription": "启用透明模糊效果。在移动设备上自动禁用。可能造成显示问题。",
+            "blurEffectDescription": "启用界面元素的模糊效果。（可能会降低性能）",
             "disableAdvancedMarkupBar": "禁用高级文字标记栏",
             "disableAdvancedMarkupBarDescription": "在文字频道中禁用聊天框上的高级文字标记栏。",
             "customizeColors": "自定义颜色",
-            "customizeColorsDescription": "自定义界面颜色。"
+            "customizeColorsDescription": "编辑当前主题的颜色。",
+            "customCSS": "自定义 CSS",
+            "customCSSWarning": "请勿复制您不认识的人的代码。",
+            "saveAndApply": "保存并应用",
+            "themesDescription": "选择一个预设主题或恢复为默认主题。",
+            "maintainers": "维护者",
+            "apply": "应用",
+            "enableEruda": "启用 Eruda",
+            "enableErudaDescription": "启用 Eruda 进行调试。请勿向他人分享任何详细信息。",
+            "enableOnce": "启用一次",
+            "reduceAnimations": "减少动画",
+            "reduceAnimationsDescription": "防止动画 GIF 和表情在悬停或点击之前播放。",
+            "rightDrawerMode": "右侧面板模式",
+            "swipeToOpen": "滑动打开",
+            "swipeToOpenDescription": "从右侧边缘滑动以打开右侧面板。这将禁用滑动回复功能。",
+            "headerTapToOpen": "点击头部打开",
+            "headerTapToOpenDescription": "通过点击头部打开右侧面板。这将启用滑动回复功能。",
+            "exportButton": "导出",
+            "importButton": "导入",
+            "exportModal": "主题已复制到剪贴板。",
+            "importModal": "在此处粘贴主题：",
+            "chatBarOptions": "聊天栏选项",
+            "voiceMessage": "语音消息",
+            "gifPicker": "GIF 选择器",
+            "emojiPicker": "表情选择器",
+            "sendButton": "发送消息",
+            "timeTitle": "更改时间格式",
+            "12HourFormatDescription": "以 12 小时制（AM/PM）显示时间。",
+            "24HourFormatDescription": "以 24 小时制显示时间。"
+        },
+        "language": {
+            "reloadNotice": "您必须重新加载应用才能完全应用新语言。",
+            "reloadButton": "重新加载",
+            "searchNotice": "翻译由社区管理。如发现任何不正确或不适当的翻译，请通知 Nerimity。",
+            "contributors": "贡献者"
+        },
+        "badges": {
+            "acquisitionNotice": "徽章由管理员手动添加。捐款后，请提交工单说明您想要的徽章。",
+            "unremovableError": {
+                "title": "无法移除徽章",
+                "body": "此徽章无法移除。"
+            },
+            "inventory": {
+                "ownedBadges": "您拥有 {{count}} 个徽章",
+                "acquireDate": "获得于 {{date}}"
+            },
+            "noticeTitle": "捐赠",
+            "notice": "通过捐款支持此项目。",
+            "palestineDescription": "可通过个人资料设置佩戴",
+            "price": "{{price}} 徽章",
+            "supportMethods": "捐赠方式"
+        },
+        "connections": {
+            "thirdParty": {
+                "title": "第三方连接",
+                "connectionCount": "{{count}} 个连接",
+                "unauthorizeButton": "取消授权",
+                "unauthorizing": "取消授权中…"
+            },
+            "driveWarning": {
+                "title": "不建议使用您的主要 Google 账号来分享或托管附件。",
+                "message": "由于 Google Drive API 处理文件元数据的方式，您的 Google 用户名和电子邮件地址通常会出现在您分享的任何文件的背景数据中。\n\n如果您决定继续使用 Google Drive，请使用临时或备用账号。"
+            },
+            "googleDriveDescription": "绑定 Google 账号可让您将文件上传到 Nerimity。文件将存储在您的 Google Drive 中。",
+            "googleDescription": "绑定 Google 账号可让您快速、轻松地使用 Google 登录。",
+            "linkButton": "绑定",
+            "unlinkButton": "解绑"
+        },
+        "window": {
+            "downloadAppNotice": "要修改这些设置，您必须下载 Nerimity 桌面应用。",
+            "startupOptions": "启动选项",
+            "openOnStartup": "开机时打开 Nerimity",
+            "startMinimized": "启动时最小化",
+            "startMinimizedDescription": "自动将 Nerimity 最小化到系统托盘。",
+            "disableHardwareAcceleration": "禁用硬件加速",
+            "disableCustomTitlebar": "禁用自定义标题栏",
+            "reopenAppNotice": "您必须重新打开应用才能生效。"
+        },
+        "activity": {
+            "extension": "浏览器扩展",
+            "extensionDescription": "我们的 RPC 扩展允许您与 Nerimity 用户分享 Spotify 和 YouTube 活动！",
+            "visitButton": "访问 {{store}}",
+            "activityStatus": "活动状态",
+            "activityStatusDescription": "与所有人分享您正在做的事情",
+            "activityStatusModal": {
+                "title": "编辑您的活动状态",
+                "executable": "可执行文件",
+                "action": "操作",
+                "name": "名称",
+                "emoji": "表情"
+            },
+            "discordActivity": "Discord 活动",
+            "discordActivityDescription": "与 Nerimity 用户分享您的 Discord 活动",
+            "idPlaceholder": "Discord 用户 ID",
+            "serverModal": {
+                "text": "请加入 Discord 服务器以启用活动分享。",
+                "doneButton": "已加入"
+            },
+            "lastfmActivity": "Last.fm 活动",
+            "lastfmActivityDescription": "通过 Last.fm 分享您正在听的内容",
+            "lastfmUsernamePlaceholder": "Last.fm 用户名",
+            "lastfmApiKeyPlaceholder": "Last.fm API 密钥"
+        },
+        "developer": {
+            "useLatestUrl": "使用最新 URL",
+            "useLatestUrlDescription": "下次重启应用时加载 latest.nerimity.com。应用将会重启。",
+            "useLatestUrlWarning": "可能不稳定或存在错误。",
+            "applicationsDescription": "为 Nerimity 创建机器人。",
+            "apiDocumentation": "API 文档 (不完整)",
+            "addButton": "添加应用",
+            "name": "应用名称",
+            "appClientId": "应用 / 客户端 ID",
+            "botUser": "机器人用户",
+            "createBotUser": "创建新的机器人用户",
+            "editBotUser": "编辑机器人",
+            "createBotUserButton": "创建用户",
+            "refreshButton": "刷新",
+            "bot": {
+                "createInvite": "创建邀请链接",
+                "createLinkButton": "创建链接",
+                "token": "Token",
+                "tokenRefreshed": "Token 已刷新。",
+                "tokenCopied": "Token 已复制到剪贴板。",
+                "permissionsDescription": "管理此链接的权限。",
+                "publishBot": "发布机器人",
+                "publishBotDescription": "将机器人发布到探索页面，以便其他用户可以找到它。",
+                "publishNotice": "发布您的机器人后，它将出现在 <1>探索</1> 页面。",
+                "bumpBot": "顶起机器人",
+                "bumpBotDescription": "顶起此机器人并将其置于顶部",
+                "bumpBotCooldown": "需要等待 {{hours}} 小时 {{minutes}} 分 {{seconds}} 秒才能再次顶起此机器人。",
+                "publicDescription": "将此机器人设为公开。",
+                "botDescription": "机器人描述 ({{current}}/{{max}})"
+            },
+            "oauth2": {
+                "description": "管理 OAuth2",
+                "documentation": "OAuth2 文档",
+                "clientId": "客户端 ID",
+                "clientSecret": "客户端密钥",
+                "secretRefreshed": "客户端密钥已刷新。",
+                "secretCopied": "客户端密钥已复制到剪贴板。",
+                "redirectUris": "重定向 URL",
+                "uri": "URL {{count}}",
+                "generateLink": "生成链接",
+                "redirectUri": "重定向 URI"
+            },
+            "deleteApplication": {
+                "title": "删除应用",
+                "willNotGetDeleted": "不会被删除的项目：",
+                "andMore": "• 以及其他",
+                "willNotGetDeletedDescription": "您可以在删除应用之前手动删除它们。",
+                "deleteAppButton": "删除此应用"
+            }
+        },
+        "experiments": {
+            "noExperiments": "当前没有可用的实验性功能。",
+            "reloadRequired": {
+                "title": "需要重新加载",
+                "body": "Nerimity 需要重新加载才能使更改生效。",
+                "restartNow": "立即重新加载",
+                "restartLater": "稍后重新加载"
+            }
         }
     },
     "supportBlock": {
@@ -362,8 +747,9 @@
         "notice": "不允许 NSFW 内容。",
         "serverName": "服务器名称",
         "placeholder": "我的绝妙的服务器",
-        "creating": "正在创建...",
-        "createServerButton": "创建服务器"
+        "creating": "正在创建…",
+        "createServerButton": "创建服务器",
+        "tabLabel": "创建"
     },
     "serverContextMenu": {
         "markAsRead": "标记为已读",
@@ -371,8 +757,14 @@
         "notificationOptions": {
             "everything": "所有通知",
             "mentionsOnly": "仅提及",
-            "mute": "静音"
-        }
+            "mute": "静音",
+            "sections": {
+                "ping": "提及",
+                "sound": "声音"
+            },
+            "initial": "初始"
+        },
+        "channelSettings": "频道设置"
     },
     "userContextMenu": {
         "viewProfile": "查看个人资料",
@@ -385,7 +777,7 @@
     "kickServerMemberModal": {
         "title": "踢出 {{username}}",
         "kickButton": "踢出用户",
-        "kicking": "正在踢出该用户...",
+        "kicking": "正在踢出该用户…",
         "message": "您确定要踢出 <1>{{username}}</1> 吗？"
     },
     "editServerRolesModal": {
@@ -396,7 +788,9 @@
         "message": "您确定要封禁 <1>{{username}}</1> 吗？",
         "deletePastMessagesCheckbox": "删除该用户在过去 7 小时内发送的消息。",
         "banButton": "封禁用户",
-        "banning": "正在封禁用户..."
+        "banning": "正在封禁用户…",
+        "reasonLabel": "原因 (可选)",
+        "reasonPlaceholder": "输入原因…"
     },
     "messageContextMenu": {
         "editMessage": "编辑消息",
@@ -405,7 +799,14 @@
         "viewReactions": "查看反应",
         "quoteMessage": "引用消息",
         "reportMessage": "举报消息",
-        "reply": "回复"
+        "reply": "回复",
+        "translateMessage": "翻译",
+        "copyHTML": "复制 HTML",
+        "markUnread": "标记为未读",
+        "pinMessage": "置顶",
+        "unpinMessage": "取消置顶",
+        "copyMessageLink": "复制消息链接",
+        "setReminder": "设置提醒"
     },
     "profile": {
         "followButton": "关注",
@@ -421,35 +822,89 @@
         "followersTab": "关注者",
         "followingTab": "关注的人",
         "postsAndRepliesTab": "{{count}} 条帖子与回复",
-        "likedPostsTab": "{{count}} 条点赞的帖子"
+        "likedPostsTab": "{{count}} 条点赞的帖子",
+        "followerCount": "{{count}} 位关注者",
+        "followingCount": "{{count}} 关注",
+        "fullProfile": "查看完整个人资料",
+        "followsYou": "关注了你",
+        "badge": "{{badgeName}} 徽章",
+        "blockButton": "屏蔽",
+        "unblockButton": "取消屏蔽",
+        "reportButton": "举报",
+        "latestPost": "最新帖子",
+        "availableCommands": "可用命令",
+        "botCreator": "机器人创作者",
+        "suspended": "该用户已被封禁",
+        "expires": "于 {{time}} 过期。",
+        "expiresNever": "永不过期。",
+        "blocked": "您已被屏蔽",
+        "blockedDescription": "该用户已屏蔽您。",
+        "privateList": "仅您可见此列表。",
+        "personal": {
+            "editProfile": "编辑个人资料",
+            "presence": "在线状态",
+            "customStatus": "设置状态"
+        }
     },
     "posts": {
         "deletePostModal": {
-            "message": "你确定要删除这条帖子吗？"
+            "message": "你确定要删除这条帖子吗？",
+            "title": "删除帖子？"
         },
         "postWasDeleted": "该条帖子已删除！",
         "someoneLikedYourPost": "<1>{{username}}</1> 为你的帖子点了赞！",
-        "someoneRepostedYourPost": "<1>{{username}}</1>  转发了你的帖子！",
+        "someoneRepostedYourPost": "<1>{{username}}</1> 转发了你的帖子！",
         "someoneFollowedYou": "<1>{{username}}</1> 关注了你！",
         "someoneRepliedToPost": "<1>{{username}}</1> 回复了你的帖子！",
-        "createAPostInputPlaceholder": "创建新帖子...",
-        "replyInputPlaceholder": "回复...",
+        "createAPostInputPlaceholder": "创建新帖子…",
+        "replyInputPlaceholder": "回复…",
         "replyButton": "回复",
         "createButton": "创建",
         "pollOptions": "投票选项",
-        "optionNumberPlaceholder": "选项 {{number}}"
+        "optionNumberPlaceholder": "选项 {{number}}",
+        "title": "帖子",
+        "viewCount": "浏览量估算",
+        "replying": "回复 <1>{{username}}</1>",
+        "pinned": "已置顶",
+        "reposted": "已转发",
+        "repostedBy": "转发自",
+        "voteButton": "投票",
+        "voteCount": "<1>{{count}}</1> 票",
+        "copyPostButton": "复制帖子",
+        "sections": {
+            "replies": "回复 ({{count}})",
+            "likes": "点赞 ({{count}})",
+            "reposts": "转发 ({{count}})"
+        },
+        "editPostModalTitle": "编辑帖子",
+        "sort": {
+            "latest": "最新",
+            "mostLiked7Days": "最多点赞 (7 天)",
+            "mostLiked30Days": "最多点赞 (30 天)",
+            "mostLikedAllTime": "最多点赞 (历史)"
+        },
+        "postWarning": "严禁发布与自残相关的内容。违反此规定可能会导致账号受到处罚。"
     },
     "informationDrawer": {
         "channelNotice": "频道通知",
         "attachments": "附件",
-        "members": "成员"
+        "members": "成员",
+        "info": "信息",
+        "files": "文件",
+        "searchBarPlaceholder": "搜索 {{username}}",
+        "searchBarChannelPlaceholder": "在 {{channelName}} 搜索",
+        "sortLatest": "最新",
+        "sortOldest": "最旧",
+        "creator": "创建者",
+        "admin": "管理员"
     },
     "botInvite": {
         "serverSelect": "请选择服务器！",
-        "creator": "创建者：",
+        "creator": "创建者· ",
         "selectButton": "选择服务器",
         "addButton": "添加机器人",
-        "permissions": "机器人权限"
+        "permissions": "机器人权限",
+        "title": "邀请机器人"
     },
     "general": {
         "backButton": "返回",
@@ -483,28 +938,28 @@
     },
     "systemMessages": {
         "joinServer": {
-            "bot": "<User/><2> 加入了服务器。</2>",
-            "user": "<User/><2> 已经加入了服务器。</2>"
+            "bot": "<User/><2> 机器人已被邀请至服务器。</2>",
+            "user": "<User/><2> 已加入服务器。</2>"
         },
         "leaveServer": "<User/><2> 离开了服务器。</2>",
         "kickUser": "<User/><2> 已被踢出。</2>",
-        "banUser": "<User/><2> 已被禁言。</2>",
+        "banUser": "<User/><2> 已被封禁。</2>",
         "unsupported": "<User/><2> 不支持的消息。</2>",
-        "callStarted": "<2> 发起了通话。</2>",
-        "bumpServer": "<User/><2> 顶了一下服务器。</2>",
+        "callStarted": "<User/><2> 发起了通话。</2>",
+        "bumpServer": "<User/><2> 顶起了服务器。</2>",
         "pinnedMessage": "<User/><2> 置顶了一条消息。</2>"
     },
     "statusHeader": {
         "authenticationError": "认证错误",
         "connecting": "连接中…",
-        "authenticating": "正在认证...…",
+        "authenticating": "正在认证…",
         "connected": "已连接！",
-        "inQueue": "排队中：{{count}}个用户在您前面",
-        "reconnecting": "正在重新连接…",
-        "statusPage": "服务状态"
+        "inQueue": "排队中：前面还有 {{count}} 位用户",
+        "reconnecting": "重新连接中…",
+        "statusPage": "状态页面"
     },
     "dangerousLinkModal": {
-        "message": "此链接将带您至",
+        "message": "此链接将带您前往",
         "cancelButton": "不访问",
         "visitButton": "访问",
         "title": "自定义链接"
@@ -520,7 +975,8 @@
         "noToken": "未提供Token。",
         "title": "连接出现错误",
         "ipBanNotice": "同一 IP 下的其他用户已被 Nerimity 封禁。您的账号未受影响。",
-        "suspended": "您已被封禁。"
+        "suspended": "您已被封禁。",
+        "by": "由"
     },
     "welcomePopup": {
         "subtitle": "感谢您试用Nerimity!",
@@ -530,21 +986,102 @@
         "contribute": "在 GitHub 上为 Nerimity 做贡献"
     },
     "invite": {
-        "members": "用户"
+        "members": "用户",
+        "loading": "生成邀请中…",
+        "invalid": "无效的邀请码",
+        "joinButton": "加入",
+        "joiningButton": "正在加入…",
+        "visitButton": "访问",
+        "member": "成员",
+        "private": "来自私有服务器"
     },
     "photoEditor": {
         "brush": "笔刷",
         "erase": "橡皮",
         "title": "图片编辑器",
-        "desktopMove": "Space +拖拽以移动"
+        "desktopMove": "Space +拖拽以移动",
+        "strokeWidth": "笔画宽度: {{width}}",
+        "mobileNotice": "双指捏合以拖动/缩放",
+        "desktopZoom": "滚动鼠标滚轮以缩放"
     },
     "badges": {
         "founder": {
-            "name": "建立者"
+            "name": "建立者",
+            "description": "Nerimity 的创造者"
+        },
+        "kitty": {
+            "name": "猫",
+            "blueDescription": "北极猫耳",
+            "whiteDescription": "三花猫耳",
+            "maidDescription": "猫耳女仆",
+            "purpleDescription": "柴郡猫耳"
+        },
+        "foxy": {
+            "name": "狐狸",
+            "foxyGoldDescription": "金色狐狸耳",
+            "foxyBrownDescription": "棕色狐狸耳"
+        },
+        "admin": {
+            "name": "管理员",
+            "description": "Nerimity 管理员"
+        },
+        "mod": {
+            "name": "版主",
+            "description": "Nerimity 版主"
+        },
+        "supporter": {
+            "name": "捐赠者",
+            "description": "通过捐款支持了本项目"
+        },
+        "emoSupporter": {
+            "name": "Emo 捐赠者",
+            "description": "通过捐款支持了本项目"
+        },
+        "contributor": {
+            "name": "贡献者",
+            "description": "以某种方式为本项目做出了贡献"
+        },
+        "palestine": {
+            "name": "巴勒斯坦"
+        },
+        "bot": {
+            "name": "机器人用户",
+            "description": "此用户是机器人"
+        },
+        "credit": {
+            "avatarBorder": "头像框由 {{author}} 制作于 {{platform}}",
+            "avatarBorderEdited": "头像框由 {{author}} 制作于 {{platform}}，由 {{editor}} 修改"
+        },
+        "bunny": {
+            "name": "兔子",
+            "bunnyDescription": "垂耳兔",
+            "maidDescription": "女仆兔耳"
+        },
+        "dog": {
+            "name": "狗",
+            "dogDescription": "乖乖狗耳",
+            "shibaDescription": "柴犬"
+        },
+        "wolf": {
+            "name": "狼",
+            "wolfDescription": "狼耳"
+        },
+        "goat": {
+            "name": "山羊",
+            "goatDescription": "可爱山羊耳",
+            "goatHornDescription": "山羊角"
+        },
+        "deer": {
+            "name": "鹿",
+            "deerDescription": "可爱的鹿角",
+            "deerDarkDescription": "Emo 鹿角",
+            "deerWhiteDescription": "可爱粉色小鹿"
         }
     },
     "colorPickerModal": {
-        "title": "颜色选择器"
+        "title": "颜色选择器",
+        "solid": "纯色",
+        "gradient": "渐变"
     },
     "status": {
         "online": "在线",
@@ -591,8 +1128,276 @@
         "emojiPicker": "表情包选取器",
         "timestampModal": {
             "relative": "相对值",
-            "offset": "偏移"
+            "offset": "偏移",
+            "title": "时间设置"
         },
         "checkbox": "复选框"
+    },
+    "remindersModal": {
+        "title": "提醒",
+        "showAllButton": "查看全部提醒",
+        "viewButton": "查看",
+        "dismissing": "关闭中…",
+        "deleting": "删除中…",
+        "snoozeFor5Minutes": "推迟 5 分钟",
+        "snoozeFor1Day": "推迟 1 天",
+        "deletedItem": "该帖子或消息已删除。",
+        "closeNotice": "请先关闭所有进行中的提醒。"
+    },
+    "editFolderModal": {
+        "title": "编辑文件夹",
+        "placeholder": "文件夹名称",
+        "errors": {
+            "emptyName": "请输入文件夹名称。"
+        }
+    },
+    "activityNames": {
+        "playing": "玩",
+        "watching": "看",
+        "listening": "听"
+    },
+    "logoutModal": {
+        "title": "退出登录？",
+        "body": "您确定要退出登录吗？",
+        "clearSettings": "清除本地设置",
+        "cancelButton": "不退出"
+    },
+    "joinServerModal": {
+        "title": "加入服务器",
+        "notice": "如果您想探索服务器，请前往探索标签页。",
+        "exploreButton": "探索服务器",
+        "inviteCode": "邀请码",
+        "continueButton": "继续",
+        "missingInvite": "请输入服务器邀请码。",
+        "tabLabel": "加入"
+    },
+    "messageView": {
+        "noMessages": "暂无消息",
+        "noMessagesDescription": "此频道内没有消息。",
+        "newMessages": "新消息",
+        "slowMode": "慢速模式",
+        "flaggedServer": {
+            "title": "删除计划",
+            "description": "此服务器未遵守我们的服务条款，将很快被删除。",
+            "deleteButton": "立即删除",
+            "leaveButton": "离开服务器"
+        }
+    },
+    "typing": {
+        "single": "<1>{{username}}</1> 正在输入…",
+        "multiple": "<1>{{username}}</1> 和 <2>{{username2}}</2> 正在输入…",
+        "tripple": "<1>{{username}}</1>、<2>{{username2}}</2> 和 <3>{{username3}}</3> 正在输入…",
+        "andOthers": "<1>{{count}}</1> 位用户正在输入…"
+    },
+    "emojiModal": {
+        "title": "表情",
+        "defaultEmoji": "默认表情",
+        "customEmoji": "自定义表情"
+    },
+    "nicknameChangeModal": {
+        "title": "编辑服务器资料",
+        "description": "此服务器内的所有人都能看到您的昵称。",
+        "inputLabel": "昵称"
+    },
+    "transferOwnershipModal": {
+        "title": "转移所有权",
+        "description": "此服务器的所有权将转移给新的所有者。",
+        "ifVerified": "此服务器将被取消认证。",
+        "server": "服务器：",
+        "newOwner": "新所有者：",
+        "cancelButton": "不转移",
+        "transferButton": "转移",
+        "transferring": "正在转移…"
+    },
+    "muteModal": {
+        "title": "禁言 {{username}}？",
+        "message": "<1>{{username}}</1> 将在此服务器内被禁言，持续：<2>{{duration}}</2>",
+        "banButton": "禁言",
+        "banning": "禁言中…",
+        "reasonLabel": "原因 (可选)",
+        "reasonPlaceholder": "输入原因…",
+        "muteButton": "禁言",
+        "unmuteButton": "解除禁言",
+        "cancelMute": "不禁言"
+    },
+    "mainPaneHeader": {
+        "mentions": {
+            "noMentions": "无提及"
+        },
+        "pins": {
+            "noPins": "无置顶消息"
+        },
+        "jump": "查看",
+        "voice": {
+            "join": "加入",
+            "leave": "离开",
+            "muted": "已静音",
+            "deafened": "已闭麦",
+            "fullscreen": "全屏",
+            "webcamModal": {
+                "title": "共享摄像头",
+                "error": "无法共享摄像头",
+                "shareCameraButton": "共享摄像头"
+            },
+            "screenShareModal": {
+                "title": "共享屏幕",
+                "quality": "画质",
+                "framerate": "帧率",
+                "shareSystemAudio": "共享系统音频",
+                "shareAppAudio": "共享应用音频",
+                "chooseWindowButton": "选择窗口"
+            }
+        }
+    },
+    "channelDrawer": {
+        "customize": {
+            "title": "自定义",
+            "subtitle": "回答这些问题：",
+            "continueButton": "继续前往 {{channel}}"
+        },
+        "members": {
+            "filter": {
+                "header": "筛选",
+                "24hours": "24小时",
+                "muted": "已静音"
+            },
+            "sort": {
+                "header": "排序",
+                "member": "成员",
+                "joined": "加入时间",
+                "joinedNerimity": "加入 Nerimity 时间"
+            },
+            "order": {
+                "header": "分类",
+                "ascending": "升序",
+                "descending": "降序"
+            }
+        },
+        "verified": "此服务器已认证。",
+        "addChannel": "添加频道",
+        "inVoice": "在语音中"
+    },
+    "inVoiceActions": {
+        "connectedFor": "已连接 <1>{{time}}</1>"
+    },
+    "accountLink": {
+        "linking": "正在将您的账号与 {{service}} 绑定…",
+        "success": "账号已绑定！您可以关闭此窗口了。"
+    },
+    "fileEmbed": {
+        "viewImage": "查看图片",
+        "download": "下载",
+        "expires": "于 {{time}} 过期",
+        "expired": "已于 {{time}} 过期",
+        "fileExpired": "文件已过期。",
+        "fileModified": "文件已被修改。",
+        "couldNotGetFile": "无法获取文件。",
+        "modifiedOrDeleted": "此文件已被创建者在其 Google Drive 中修改/删除。",
+        "videoEmbed": {
+            "videoExpired": "视频已过期。",
+            "videoModified": "视频已被修改。",
+            "couldNotGetVideo": "无法获取视频。",
+            "modifiedOrDeleted": "此视频已被创建者在其 Google Drive 中修改或删除。",
+            "googleDrivePolicy": "由于 Google Drive 的新政策，只能在 Nerimity 桌面应用中播放视频。"
+        },
+        "audioEmbed": {
+            "googleDrivePolicy": "由于 Google Drive 的新政策，只能在 Nerimity 桌面应用中播放音频。"
+        }
+    },
+    "addFriendModal": {
+        "title": "添加好友",
+        "description": "输入好友的用户名和标识以添加。",
+        "placeholder": "用户名:ABC1",
+        "requestSent": "请求已发送！",
+        "sendRequest": "发送请求",
+        "sending": "发送中…",
+        "errors": {
+            "missingTag": "请输入 用户名:标识。",
+            "colonInUsername": "用户名不能包含冒号 (: )。"
+        }
+    },
+    "removeFriendModal": {
+        "title": "将 {{username}} 从好友列表中移除",
+        "body": "您确定要解除此用户的好友关系吗？",
+        "removing": "正在移除…"
+    },
+    "deleteMessageModal": {
+        "title": "删除消息？",
+        "body": "您确定要删除此消息吗？",
+        "cancelButton": "不删除"
+    },
+    "message": {
+        "badge": {
+            "bot": "机器人",
+            "webhook": "Webhook",
+            "owner": "所有者"
+        },
+        "reactions": {
+            "more": "还有 {{count}} 个"
+        },
+        "viewMessages": "查看消息",
+        "imageMessage": "图片消息",
+        "quote": {
+            "invalid": "引用已删除或无效。",
+            "nested": "嵌套引用"
+        },
+        "deletedMessage": "消息已删除。",
+        "dismissButton": "忽略",
+        "editedAt": "编辑于 {{time}}",
+        "codeBlock": {
+            "text": "纯文本",
+            "toggleWrapButton": "切换自动换行"
+        },
+        "twitterEmbed": {
+            "modalTitle": "Twitter 详细嵌入",
+            "modalDescription": "使用 Twitter 官方嵌入时，您的数据将被埃隆·马斯克收集。",
+            "doNotShowAgain": "不再显示此内容。",
+            "closeButton": "不显示",
+            "showButton": "显示",
+            "basicEmbed": "基础嵌入",
+            "detailedEmbed": "详细嵌入"
+        },
+        "blocked": "您已屏蔽此用户。点击显示。",
+        "translationError": "无法翻译此消息。",
+        "translation": {
+            "title": "翻译",
+            "error": "翻译失败"
+        }
+    },
+    "addReminderModal": {
+        "title": "提醒",
+        "message": "设置提醒时间：",
+        "setReminderButton": "设置提醒",
+        "adding": "添加中…"
+    },
+    "botButtonModal": {
+        "title": "{{botName}} 的回复",
+        "dataReceiver": "数据将发送给 {{botName}}",
+        "notice": "切勿分享敏感信息"
+    },
+    "imageCropModal": {
+        "title": "裁剪图片"
+    },
+    "oauth2": {
+        "AuthorizeButton": "授权",
+        "permissions": "权限"
+    },
+    "serverDrawer": {
+        "joinedThisSessionNotice": "您将收到此服务器的所有通知。",
+        "joinedThisSessionNoticeSetToMentionsOnly": "设置为仅提及"
+    },
+    "datetime": {
+        "lessThanAMinuteAgo": "几秒前",
+        "duration": "持续 {{duration}}",
+        "relativeFuture": "在 {{duration}} 后",
+        "relativePast": "{{duration}} 前",
+        "relativeNow": "刚刚",
+        "yesterdayTime": "昨天 {{time}}",
+        "dateTime": "{{date}} {{time}}",
+        "error": "错误",
+        "invalidTimezone": "无效的时区"
+    },
+    "clanModal": {
+        "title": "公会"
     }
 }
