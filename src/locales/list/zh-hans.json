@@ -73,7 +73,7 @@
     },
     "messageArea": {
         "messageBoxPlaceholder": "向 {{username}} 发送消息...",
-        "messageBoxChannelPlaceholder": "在 {{channelName}} 发送消息...",
+        "messageBoxChannelPlaceholder": "在 {{channelName}} 发送消息",
         "gifPicker": {
             "search": "搜索 {{platform}}",
             "noResults": "未找到 GIF",
@@ -97,7 +97,7 @@
             "silent": "免打扰消息"
         },
         "linkToGoogleDrive": {
-            "body": "需绑定 Google Drive 账号方可上传大文件、视频或图片。",
+            "body": "需绑定 Google Drive 账号方可上传大文件、视频或图片",
             "linkButton": "立即绑定",
             "cancelButton": "暂不绑定"
         },
@@ -198,7 +198,7 @@
                 "defaultChannel": "默认频道",
                 "defaultChannelDescription": "新用户将被直接引入该频道。",
                 "systemMessages": "系统通知",
-                "systemMessagesDescription": "系统通知出现的频道",
+                "systemMessagesDescription": "系统通知出现的频道.",
                 "deleteThisServer": "删除服务器",
                 "deleteServerButton": "删除服务器",
                 "none": "无"
@@ -519,7 +519,7 @@
         },
         "notifications": {
             "desktopNotifications": "桌面通知",
-            "desktopNotificationsDescription": "显示桌面通知（即使应用被最小化）",
+            "desktopNotificationsDescription": "显示桌面通知(即使应用被最小化).",
             "sounds": "声音",
             "soundsDescription": "如果您觉得通知声音令人厌烦，您可以禁用它。",
             "volume": "音量",
