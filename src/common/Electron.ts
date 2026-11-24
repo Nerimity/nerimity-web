@@ -72,6 +72,9 @@ interface WindowAPI {
   getAutostartMinimized(): Promise<boolean>;
   setAutostartMinimized(value: boolean): void;
 
+  getDiscordRpcEnabled(): Promise<boolean>;
+  setDiscordRpcEnabled(value: boolean): void;
+
   setNotification(value: boolean, count?: number): void;
   getDesktopCaptureSources(): Promise<ElectronCaptureSource[]>;
   setDesktopCaptureSourceId(sourceId: string): Promise<true>;
